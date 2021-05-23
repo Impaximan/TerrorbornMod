@@ -29,7 +29,7 @@ namespace TerrorbornMod.Items.PrototypeI
             item.UseSound = SoundID.Item13;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("PlasmaSpray");
-            item.shootSpeed = 55f;
+            item.shootSpeed = 55f / 5f;
             item.mana = 3;
             item.magic = true;
         }
@@ -56,16 +56,27 @@ namespace TerrorbornMod.Items.PrototypeI
             projectile.magic = true;
             projectile.ignoreWater = true;
             projectile.hide = true;
-            projectile.timeLeft = 100;
+            projectile.timeLeft = 100 * 5;
+            projectile.extraUpdates = 4;
         }
+
+        int dustWait = 0;
         public override void AI()
         {
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 74, Scale: 1.35f);
-            Main.dust[dust].noGravity = true;
-            Main.dust[dust].velocity = projectile.velocity / 4;
+            if (dustWait > 0)
+            {
+                dustWait--;
+            }
+            else
+            {
+                dustWait = 5;
+                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 74, Scale: 1.35f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity = projectile.velocity;
+            }
 
-            projectile.velocity.Y += 1.5f;
-            projectile.velocity.X *= 0.98f;
+            projectile.velocity.Y += 0.15f;
+            //projectile.velocity.X *= 0.999f;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
