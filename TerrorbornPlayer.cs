@@ -99,6 +99,13 @@ namespace TerrorbornMod
             }
         }
 
+        public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
+        {
+            Item compass = new Item();
+            compass.SetDefaults(ModContent.ItemType<Items.MysteriousCompass>());
+            items.Add(compass);
+        }
+
         public override void ResetEffects()
         {
             TidalShellArmorBonus = false;
