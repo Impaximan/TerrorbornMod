@@ -64,8 +64,15 @@ namespace TerrorbornMod.Items
 
         public override void AI()
         {
+            projectile.timeLeft = 500;
+
             Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            if (player.HeldItem.type != ModContent.ItemType<MysteriousCompass>())
+            {
+                projectile.active = false;
+            }
 
             projectile.position = player.Center + new Vector2(0, -100);
             projectile.position -= new Vector2(projectile.width / 2, projectile.height / 2);
