@@ -152,7 +152,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * 6E-05); k++)
                 {
                     int x = WorldGen.genRand.Next(0, Main.maxTilesX);
-                    int y = WorldGen.genRand.Next((int)WorldGen.rockLayerHigh, Main.maxTilesY);
+                    int y = WorldGen.genRand.Next((int)(Main.maxTilesY * 0.3f), Main.maxTilesY);
                     if (Main.tile[x, y].type == TileID.Dirt || Main.tile[x, y].type == TileID.Stone || Main.tile[x, y].type == TileID.Mud || Main.tile[x, y].type == TileID.SnowBlock || Main.tile[x, y].type == TileID.IceBlock)
                     {
                         WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(3, 6), mod.TileType("Azurite"), false, 0f, 0f, false, true);
