@@ -1,0 +1,9 @@
+author = Penumbral
+version = 0.0.8
+displayName = [c/8A9B98:Terrorborn]
+hideCode = true
+hideResources = true
+includeSource = false
+homepage = https://forums.terraria.org/index.php?threads/terrorborn-mod.85634/
+modReferences = StructureHelper
+sortAfter = StructureHelper

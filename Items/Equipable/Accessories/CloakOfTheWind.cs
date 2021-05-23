@@ -1,0 +1,185 @@
+﻿using Terraria;
+using Terraria.ModLoader;
+using Terraria.ID;
+using System;
+using Microsoft.Xna.Framework;
+
+
+namespace TerrorbornMod.Items.Equipable.Accessories
+{
+    class CloakOfTheWind : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Double tap left or right to dash" +
+                "\nDashing right as a projectile or enemy is near you increases your weapon" +
+                "\nuse speed by 10% for 3 seconds");
+        }
+
+        public override void SetDefaults()
+        {
+            item.accessory = true;
+            item.rare = 3;
+            item.value = Item.sellPrice(0, 2, 0, 0);
+            item.defense = 5;
+        }
+
+        bool heldRight = false;
+        bool heldLeft = false;
+
+        int cancleCounter = 0;
+        int rightTaps = 0;
+        int leftTaps = 0;
+
+        int dashDelay = 0;
+        int dustTime = 0;
+
+        public void OnCloseCall(Player player)
+        {
+            DustExplosion(player.Center, 0, 10, 25, DustID.GoldFlame, NoGravity: true);
+            player.AddBuff(ModContent.BuffType<Windspeed>(), 60 * 3);
+            CombatText.NewText(player.getRect(), Color.LightYellow, "Close dodge!", true, false);
+        }
+
+        public void Dash(int direction, Player player)
+        {
+            player.velocity.X = 11.5f * direction;
+            Main.PlaySound(SoundID.DD2_FlameburstTowerShot, player.Center);
+
+            Rectangle closeRectangle = player.getRect();
+            int extraWidth = 240;
+            int extraHeight = 240;
+            closeRectangle.Width += extraWidth;
+            closeRectangle.Height += extraHeight;
+            closeRectangle.X -= extraWidth / 2;
+            closeRectangle.Y -= extraHeight / 2;
+
+            bool intersects = false;
+            for (int i = 0; i < 200; i++)
+            {
+                NPC npc = Main.npc[i];
+                if (!npc.friendly && npc.damage > 0 && npc.getRect().Intersects(closeRectangle) && npc.active)
+                {
+                    intersects = true;
+                }
+            }
+            for (int i = 0; i < Main.projectile.GetUpperBound(0); i++)
+            {
+                Projectile projectile = Main.projectile[i];
+                if (projectile.hostile && projectile.getRect().Intersects(closeRectangle) && projectile.active && projectile.damage > 0)
+                {
+                    intersects = true;
+                }
+            }
+
+            if (intersects)
+            {
+                OnCloseCall(player);
+            }
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+
+            if (player.dash > 0)
+            {
+                return;
+            }
+
+            if (dashDelay > 0)
+            {
+                dashDelay--;
+            }
+
+            if (dustTime > 0)
+            {
+                dustTime--;
+                int dust = Dust.NewDust(player.position, player.width, player.height, DustID.GoldFlame, Scale: 1f);
+                Main.dust[dust].velocity = player.velocity;
+                Main.dust[dust].noGravity = true;
+            }
+
+            if (player.controlRight)
+            {
+                heldRight = true;
+            }
+            if (!player.controlRight & heldRight & dashDelay <= 0)
+            {
+                heldRight = false;
+                cancleCounter = 15;
+                rightTaps++;
+                if (rightTaps >= 2)
+                {
+                    Dash(1, player);
+                    dashDelay = 60;
+                    dustTime = 30;
+                }
+            }
+
+            if (player.controlLeft)
+            {
+                heldLeft = true;
+            }
+            if (!player.controlLeft & heldLeft & dashDelay <= 0)
+            {
+                heldLeft = false;
+                cancleCounter = 15;
+                leftTaps++;
+                if (leftTaps >= 2)
+                {
+                    Dash(-1, player);
+                    dashDelay = 60;
+                    dustTime = 30;
+                }
+            }
+
+            if (cancleCounter > 0)
+            {
+                cancleCounter--;
+            }
+            if (cancleCounter <= 0)
+            {
+                rightTaps = 0;
+                leftTaps = 0;
+            }
+        }
+        public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
+        {
+            float currentAngle = Main.rand.Next(360);
+
+            //if(Main.netMode!=1){
+            for (int i = 0; i < Streams; ++i)
+            {
+
+                Vector2 direction = Vector2.Normalize(new Vector2(1, 1)).RotatedBy(MathHelper.ToRadians(((360 / Streams) * i) + currentAngle));
+                direction.X *= DustSpeed;
+                direction.Y *= DustSpeed;
+
+                Dust dust = Dust.NewDustPerfect(position + (new Vector2(Main.rand.Next(RectWidth), Main.rand.Next(RectWidth))), DustType, direction, 0, default(Color), DustScale);
+                if (NoGravity)
+                {
+                    dust.noGravity = true;
+                }
+            }
+        }
+    }
+
+    public class Windspeed : ModBuff
+    {
+        public override void SetDefaults()
+        {
+            DisplayName.SetDefault("Windspeed");
+            Description.SetDefault("10% increased weapon use speed");
+            Main.debuff[Type] = false;
+            Main.pvpBuff[Type] = false;
+            Main.buffNoSave[Type] = false;
+            longerExpertDebuff = false;
+        }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            TerrorbornPlayer mPlayer = TerrorbornPlayer.modPlayer(player);
+            mPlayer.allUseSpeed *= 1.10f;
+        }
+    }
+}

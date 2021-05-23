@@ -1,0 +1,25 @@
+Terrorborn is a WIP content mod for Terraria which adds in many pieces of lore to the game, as well as a WIP storyline that will grow as the mod gains content. As a terror incarnate, shriek and abuse the fear of your victims as you fight for a greater good and fight your way through many new challenging bosses and environments.
+
+The mod’s initial release will add:
+ • 4 new challenging bosses each with a purpose at their point in progression and a storyline reason for existing
+ • 1 new mechanic: Terror
+ • At least 7 new terrifying abilities for you to master and utilize in exploring and combat
+ • A WIP storyline that will grow as the mod gains more content
+ • 2 new NPCs with unique and useful functions
+ • Over 100 new items, each with a unique purpose or effect
+ • The lore of the mod will be findable in-game and expand as the mod updates. That's right- no having to look at the wiki to find the lore
+
+Dev team:
+Spriters:
+ • Jellybru
+ • CR1MS4NE
+ • LightningShox
+ • Mollusk
+
+Composers:
+ • LightningShox
+ • CR1MS4NE
+
+Coders:
+ • Just me (Penumbral) and Seraph
+

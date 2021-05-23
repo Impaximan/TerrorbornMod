@@ -1,0 +1,73 @@
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace TerrorbornMod.Items.Weapons.Ranged
+{
+    class WoodenBlowpipe : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Uses darts as ammo");
+        }
+        public override void SetDefaults()
+        {
+            item.damage = 6;
+            item.ranged = true;
+            item.noMelee = true;
+            item.width = 36;
+            item.height = 12;
+            item.useTime = 30;
+            item.useAnimation = 30;
+            item.useStyle = 101;
+            item.knockBack = 0.6f;
+            item.value = 0;
+            item.shoot = 10;
+            item.rare = 0;
+            item.UseSound = SoundID.Item63;
+            item.autoReuse = true;
+            item.shootSpeed = 11.25f;
+            item.useAmmo = AmmoID.Dart;
+        }
+        Vector2 offset = new Vector2(0, 0);
+        public override bool UseItemFrame(Player player)
+        {
+            player.bodyFrame.Y = 2 * player.bodyFrame.Height;
+            player.itemLocation = player.Center + offset;
+            return true;
+        }
+        public override bool CanUseItem(Player player)
+        {
+            return base.CanUseItem(player);
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();
+            if (player.direction == -1)
+            {
+                player.itemRotation += MathHelper.ToRadians(180);
+            }
+            position = player.Center + offset;
+            position.Y -= 3;
+            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+        }
+
+        public override bool UseItem(Player player)
+        {
+            player.bodyFrame.Y = 56 * 2;
+            player.itemAnimation = 2;
+            return true;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddRecipeGroup("Wood", 15);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}
