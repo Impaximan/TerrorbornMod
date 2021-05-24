@@ -59,6 +59,10 @@ namespace TerrorbornMod.NPCs.Bosses
                     Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Armor.TenebrisMask>());
                     Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>());
                 }
+                if (Main.rand.Next(7) == 0)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Vanity.BossMasks.ShadowcrawlerMask>());
+                }
             }
         }
 

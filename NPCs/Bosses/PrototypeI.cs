@@ -20,18 +20,29 @@ namespace TerrorbornMod.NPCs.Bosses
         public override void NPCLoot()
         {
             TerrorbornWorld.downedPrototypeI = true;
-            int choice = Main.rand.Next(3);
-            if (choice == 0)
+            if (Main.expertMode)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.PrototypeI.PlasmaScepter>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PI_TreasureBag"));
             }
-            if (choice == 1)
+            else
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.PrototypeI.PlasmoditeShotgun>());
-            }
-            if (choice == 2)
-            {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.PrototypeI.PlasmaticVortex>());
+                int choice = Main.rand.Next(3);
+                if (choice == 0)
+                {
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.PrototypeI.PlasmaScepter>());
+                }
+                if (choice == 1)
+                {
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.PrototypeI.PlasmoditeShotgun>());
+                }
+                if (choice == 2)
+                {
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.PrototypeI.PlasmaticVortex>());
+                }
+                if (Main.rand.Next(7) == 0)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Vanity.BossMasks.PrototypeIMask>());
+                }
             }
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.TreasureBags
 {
-    class TT_TreasureBag : ModItem
+    class PI_TreasureBag : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -29,25 +29,27 @@ namespace TerrorbornMod.Items.TreasureBags
         {
             if (Main.rand.Next(7) == 0)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.TidalTitanMask>());
+                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.PrototypeIMask>());
             }
-            player.QuickSpawnItem(mod.ItemType("CrackedShell"), Main.rand.Next(8, 12));
+            player.QuickSpawnItem(ModContent.ItemType<Equipable.Accessories.MidnightPlasmaGlobe>());
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {
-                player.QuickSpawnItem(mod.ItemType("BubbleBow"));
+                player.QuickSpawnItem(ModContent.ItemType<Items.PrototypeI.PlasmaScepter>());
             }
-            else if (choice == 1)
+            if (choice == 1)
             {
-                player.QuickSpawnItem(mod.ItemType("TidalClaw"), 750);
+                player.QuickSpawnItem(ModContent.ItemType<Items.PrototypeI.PlasmoditeShotgun>());
             }
-            else if (choice == 2)
+            if (choice == 2)
             {
-                player.QuickSpawnItem(mod.ItemType("SightForSoreEyes"));
+                player.QuickSpawnItem(ModContent.ItemType<Items.PrototypeI.PlasmaticVortex>());
             }
         }
 
-        public override int BossBagNPC => mod.NPCType("TidalTitan");
+        public override int BossBagNPC => mod.NPCType("PrototypeI");
     }
 }
+
+
 

@@ -14,6 +14,25 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 {
     class IncendiusStaff : ModItem
     {
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 25);
+            recipe.AddIngredient(ItemID.CobaltBar, 15);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            ModRecipe recipe2 = new ModRecipe(mod);
+            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 25);
+            recipe2.AddIngredient(ItemID.PalladiumBar, 15);
+            recipe2.AddTile(TileID.MythrilAnvil);
+            recipe2.SetResult(this);
+            recipe2.AddRecipe();
+        }
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Summons an incendiary demon that surrounds you and fire predictive fireballs at nearby enemies");
+        }
         public override void SetDefaults()
         {
             item.mana = 10;

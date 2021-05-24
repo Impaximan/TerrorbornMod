@@ -14,6 +14,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 {
     class FrigidStaff : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Summons a frigid soul to fight for you");
+        }
         public override void SetDefaults()
         {
             item.mana = 5;

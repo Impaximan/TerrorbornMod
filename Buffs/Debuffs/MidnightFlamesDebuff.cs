@@ -18,7 +18,9 @@ namespace TerrorbornMod.Buffs.Debuffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.statDefense -= 45;
-            Dust.NewDust(player.position, player.width, player.height, 74, Scale: 1.5f);
+            int dust = Dust.NewDust(player.position, player.width, player.height, 74, Scale: 1.25f);
+            Main.dust[dust].velocity = player.velocity;
+            Main.dust[dust].noGravity = true;
         }
     }
 }

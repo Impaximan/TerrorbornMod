@@ -54,16 +54,5 @@ namespace TerrorbornMod.Tiles
             g = 0;
             b = 0.1f;
         }
-
-        public override void ChangeWaterfallStyle(ref int style)
-        {
-            //style = mod.GetWaterfallStyleSlot("ExampleWaterfallStyle");
-        }
-
-        //public override int SaplingGrowthType(ref int style)
-        //{
-        //    //style = 0;
-        //    //return mod.TileType("ExampleSapling");
-        //}
     }
 }

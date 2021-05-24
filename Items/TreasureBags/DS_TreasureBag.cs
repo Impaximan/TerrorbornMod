@@ -30,6 +30,10 @@ namespace TerrorbornMod.Items.TreasureBags
         }
         public override void OpenBossBag(Player player)
         {
+            if (Main.rand.Next(7) == 0)
+            {
+                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.DunestockMask>());
+            }
             int choice = Main.rand.Next(2);
             if (choice == 0)
             {

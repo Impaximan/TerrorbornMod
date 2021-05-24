@@ -19,8 +19,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.damage = 18;
             item.ranged = true;
             item.noMelee = true;
-            item.width = 56;
-            item.height = 10;
+            item.width = 38;
+            item.height = 12;
             item.useTime = 35;
             item.useAnimation = 35;
             item.useStyle = 101;
@@ -33,7 +33,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.shootSpeed = 11.25f;
             item.useAmmo = AmmoID.Dart;
         }
-        Vector2 offset = new Vector2(0, -3);
+        Vector2 offset = new Vector2(0, 1);
         public override bool UseItemFrame(Player player)
         {
             player.bodyFrame.Y = 2 * player.bodyFrame.Height;

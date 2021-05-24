@@ -27,6 +27,11 @@ namespace TerrorbornMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
+            if (Main.rand.Next(7) == 0)
+            {
+                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.ShadowcrawlerMask>());
+            }
+            player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Accessories.DarkAbdomen>());
             player.QuickSpawnItem(ModContent.ItemType<Items.Materials.SoulOfPlight>(), Main.rand.Next(25, 41));
             int choice = Main.rand.Next(3);
             if (choice == 0)

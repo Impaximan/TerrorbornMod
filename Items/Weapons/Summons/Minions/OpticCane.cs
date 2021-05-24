@@ -14,6 +14,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 {
     class OpticCane : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Summons an optic demons that swarms enemies and spews blood");
+        }
         public override void SetDefaults()
         {
             item.mana = 5;
