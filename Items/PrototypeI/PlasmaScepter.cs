@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.PrototypeI
         {
             Item.staff[item.type] = true;
             DisplayName.SetDefault("Scepter of Contamination");
-            Tooltip.SetDefault("Fires a stream of breached plasmodite");
+            Tooltip.SetDefault("Fires a stream of dark plasma");
         }
         public override void SetDefaults()
         {

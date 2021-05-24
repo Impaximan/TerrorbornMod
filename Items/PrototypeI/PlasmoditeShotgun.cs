@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.PrototypeI
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Rapidly fires bursts of plasma crystals." +
+            Tooltip.SetDefault("Rapidly fires bursts of plasma crystals" +
                 "\nPartially ignores defense");
         }
         public override void SetDefaults()

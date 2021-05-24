@@ -359,6 +359,10 @@ namespace TerrorbornMod
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.EyeOfTheMenace>());
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Minions.OpticCane>());
             }
+            if (npc.type == NPCID.Mothron && Main.rand.NextFloat() <= 0.33f)
+            {
+                Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Other.Armagrenade>());
+            }
             if (npc.type == NPCID.MartianSaucerCore)
             {
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Equipable.Accessories.Wings.MartianBoosters>());
