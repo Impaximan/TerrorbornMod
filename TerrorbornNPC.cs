@@ -359,6 +359,10 @@ namespace TerrorbornMod
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.EyeOfTheMenace>());
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Minions.OpticCane>());
             }
+            if (npc.type == NPCID.WallofFlesh)
+            {
+                Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.DemonicLense>());
+            }
             if (npc.type == NPCID.Mothron && Main.rand.NextFloat() <= 0.33f)
             {
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Other.Armagrenade>());

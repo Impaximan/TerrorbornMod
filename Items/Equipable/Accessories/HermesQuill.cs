@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.ShriekSpeed -= 0.35f;
+            modPlayer.ShriekSpeed *= 0.65f;
             modPlayer.ShriekOfHorrorMovement += 0.5f;
             modPlayer.ShriekOfHorrorExtraDamageMultiplier *= 1.25f;
         }

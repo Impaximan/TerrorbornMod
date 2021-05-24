@@ -74,6 +74,7 @@ namespace TerrorbornMod
         public bool GoldenTooth = false;
         public bool CoreOfFear = false;
         public bool AnekronianApple = false;
+        public bool DemonicLense = false;
 
         //Terror ability fields
         public int VoidBlinkTime = 0;
@@ -123,6 +124,10 @@ namespace TerrorbornMod
                 ShriekOfHorrorMovement += 0.2f;
             }
             ShriekSpeed = 1;
+            if (DemonicLense)
+            {
+                ShriekSpeed = 0.5f;
+            }
             ShriekKnockback = 1;
             ShriekOfHorrorExtraDamageMultiplier = 2f;
             ShriekTerrorMultiplier = 1f;
@@ -695,6 +700,7 @@ namespace TerrorbornMod
                 {"GoldenTooth", GoldenTooth},
                 {"CoreOfFear", CoreOfFear},
                 {"AnekronianApple", AnekronianApple},
+                {"DemonicLense", DemonicLense},
                 {"PrimaryAbility", primaryAbilityInt},
                 {"SecondaryAbility", secondaryAbilityInt},
                 {"unlockedAbilities", unlockedAbilities}
@@ -707,6 +713,7 @@ namespace TerrorbornMod
             EyeOfTheMenace = tag.GetBool("EyeOfTheMenace");
             GoldenTooth = tag.GetBool("GoldenTooth");
             CoreOfFear = tag.GetBool("CoreOfFear");
+            DemonicLense = tag.GetBool("DemonicLense");
             AnekronianApple = tag.GetBool("AnekronianApple");
             primaryAbilityInt = tag.GetInt("PrimaryAbility");
             secondaryAbilityInt = tag.GetInt("SecondaryAbility");
