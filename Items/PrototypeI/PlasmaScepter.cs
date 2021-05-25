@@ -15,7 +15,7 @@ namespace TerrorbornMod.Items.PrototypeI
         }
         public override void SetDefaults()
         {
-            item.damage = 56;
+            item.damage = 69;
             item.noMelee = true;
             item.width = 64;
             item.height = 64;
