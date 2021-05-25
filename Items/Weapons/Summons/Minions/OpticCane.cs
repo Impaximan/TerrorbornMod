@@ -89,7 +89,6 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             projectile.width = 60;
             projectile.height = 42;
             projectile.tileCollide = false;
-            projectile.friendly = true;
             projectile.hostile = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 360;

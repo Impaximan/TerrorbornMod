@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using System.Collections.Generic;
 using System;
 
 namespace TerrorbornMod
@@ -156,6 +157,18 @@ namespace TerrorbornMod
             Main.PlaySound(SoundID.Item88, npc.Center);
         }
 
+        void SpawnAzuriteShard(int originalDamage, NPC npc, Player player)
+        {
+            if (Main.rand.NextFloat() > 0.25f)
+            {
+                return;
+            }
+            Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
+            float speed = Main.rand.Next(15, 25);
+            Projectile.NewProjectile(npc.Center, direction * speed, ModContent.ProjectileType<Projectiles.AzuriteShard>(), originalDamage / 2, 0f, player.whoAmI);
+            Main.PlaySound(SoundID.Item118, npc.Center);
+        }
+
         public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
         {
             if (soulSplitTime > 0)
@@ -174,6 +187,11 @@ namespace TerrorbornMod
             if (item.melee && modPlayer.TidalShellArmorBonus)
             {
                 SpawnGeyser(damage, npc, player);
+            }
+
+            if (modPlayer.AzuriteBrooch)
+            {
+                SpawnAzuriteShard(damage, npc, player);
             }
 
             if (NPC.AnyNPCs(ModContent.NPCType<NPCs.TownNPCs.SkeletonSheriff>()))
@@ -252,6 +270,11 @@ namespace TerrorbornMod
             if (projectile.melee && modPlayer.TidalShellArmorBonus)
             {
                 SpawnGeyser(damage, npc, player);
+            }
+
+            if (modPlayer.AzuriteBrooch)
+            {
+                SpawnAzuriteShard(damage, npc, player);
             }
 
             if (soulSplitTime > 0)
@@ -344,6 +367,30 @@ namespace TerrorbornMod
         {
             Player player = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
 
+            List<int> extraDarkEnergyIDs = new List<int>();
+            extraDarkEnergyIDs.Add(NPCID.SkeletronHand);
+            extraDarkEnergyIDs.Add(NPCID.GolemFistLeft);
+            extraDarkEnergyIDs.Add(NPCID.GolemFistRight);
+            extraDarkEnergyIDs.Add(NPCID.Paladin);
+            extraDarkEnergyIDs.Add(NPCID.PirateCaptain);
+            extraDarkEnergyIDs.Add(NPCID.MourningWood);
+            extraDarkEnergyIDs.Add(NPCID.Pumpking);
+            extraDarkEnergyIDs.Add(NPCID.Everscream);
+            extraDarkEnergyIDs.Add(NPCID.SantaNK1);
+            extraDarkEnergyIDs.Add(NPCID.IceQueen);
+            extraDarkEnergyIDs.Add(NPCID.DD2DarkMageT1);
+            extraDarkEnergyIDs.Add(NPCID.DD2DarkMageT3);
+            extraDarkEnergyIDs.Add(NPCID.DD2OgreT2);
+            extraDarkEnergyIDs.Add(NPCID.DD2OgreT3);
+            extraDarkEnergyIDs.Add(NPCID.DD2Betsy);
+            extraDarkEnergyIDs.Add(NPCID.BigMimicCorruption);
+            extraDarkEnergyIDs.Add(NPCID.BigMimicCrimson);
+            extraDarkEnergyIDs.Add(NPCID.BigMimicHallow);
+            extraDarkEnergyIDs.Add(NPCID.GoblinSummoner);
+            extraDarkEnergyIDs.Add(NPCID.IceGolem);
+            extraDarkEnergyIDs.Add(ModContent.NPCType<NPCs.Bosses.Sangrune>());
+            extraDarkEnergyIDs.Add(ModContent.NPCType<NPCs.UndyingSpirit>());
+
             if (NPCID.Sets.ProjectileNPC[npc.type])
             {
                 return;
@@ -358,6 +405,13 @@ namespace TerrorbornMod
             {
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.EyeOfTheMenace>());
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Minions.OpticCane>());
+            }
+            if (extraDarkEnergyIDs.Contains(npc.type) || npc.boss)
+            {
+                for (int i = 0; i < Main.rand.Next(3, 5); i++)
+                {
+                    Item.NewItem(npc.Center, ModContent.ItemType<Items.DarkEnergy>());
+                }
             }
             if (npc.type == NPCID.WallofFlesh)
             {

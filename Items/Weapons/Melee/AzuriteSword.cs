@@ -15,14 +15,14 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            item.damage = 26;
+            item.damage = 27;
             item.melee = true;
             item.width = 36;
             item.height = 48;
             item.useTime = 18;
             item.useAnimation = 18;
             item.useStyle = 1;
-            item.knockBack = 5;
+            item.knockBack = 9f;
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 2;
             item.UseSound = SoundID.Item1;

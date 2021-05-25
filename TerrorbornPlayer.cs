@@ -55,6 +55,7 @@ namespace TerrorbornMod
 
         //Accessory/equipment fields
         public bool IncendiaryShield = false;
+        public bool AzuriteBrooch = false;
         public bool cloakOfTheWind = false;
         public bool PlasmaArmorBonus = false;
         public bool VampiricPendant = false;
@@ -67,6 +68,7 @@ namespace TerrorbornMod
         public bool LiesOfNourishment = false;
         public bool IntimidationAura = false;
         public bool AntlionShell = false;
+        public bool TideSpirit = false;
         public bool TidalShellArmorBonus = false;
 
         //Permanent Upgrades
@@ -109,10 +111,12 @@ namespace TerrorbornMod
 
         public override void ResetEffects()
         {
+            TideSpirit = false;
             TidalShellArmorBonus = false;
             IntimidationAura = false;
             SanguineSetBonus = false;
             AntlionShell = false;
+            AzuriteBrooch = false;
             graniteSpark = false;
             ShriekOfHorrorMovement = 0f;
             if (CoreOfFear)

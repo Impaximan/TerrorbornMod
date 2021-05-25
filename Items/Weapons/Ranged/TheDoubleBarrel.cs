@@ -26,7 +26,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.useStyle = 5;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 2;
+            item.rare = 4;
             item.autoReuse = true;
             item.shootSpeed = 16f;
             item.useAmmo = AmmoID.Bullet;

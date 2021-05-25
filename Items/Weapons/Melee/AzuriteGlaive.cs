@@ -29,7 +29,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 			item.useStyle = 5;
             item.width = 48;
             item.height = 50;
-            item.damage = 31;
+            item.damage = 28;
             item.melee = true;
             item.noMelee = true;
             item.useTime = 24;
@@ -136,7 +136,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             projectile.melee = true;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 1000;
-            projectile.penetrate = 5;
+            projectile.penetrate = 2;
             projectile.hide = true;
         }
         public override void AI()

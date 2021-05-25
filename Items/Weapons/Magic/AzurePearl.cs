@@ -16,6 +16,10 @@ namespace TerrorbornMod.Items.Weapons.Magic
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Fires an azure beam that explodes into smaller bouncing projectiles");
+        }
         public override void SetDefaults()
         {
             item.damage = 20;

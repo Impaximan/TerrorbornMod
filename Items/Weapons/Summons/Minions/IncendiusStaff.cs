@@ -31,7 +31,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons an incendiary demon that surrounds you and fire predictive fireballs at nearby enemies");
+            Tooltip.SetDefault("Summons an incendiary demon that surrounds you and fires predictive fireballs at nearby enemies");
         }
         public override void SetDefaults()
         {
@@ -43,7 +43,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 0;
-            item.rare = 2;
+            item.rare = 4;
             item.UseSound = SoundID.Item44;
             item.shoot = mod.ProjectileType("IncendiaryDemon");
             item.shootSpeed = 10f;
