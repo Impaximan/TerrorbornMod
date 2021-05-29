@@ -1,6 +1,6 @@
 The Terrorborn mod by Penumbral is a WIP content mod for Terraria which aims to add a well made storyline to the game that is well integrated through the mod's features. The story will be quite small upon releasing the mod but it's all planned out and we will be revealing more about it as time goes on.
 
-The mod’s initial release will add:
+The mod currently adds:
  • 4 new challenging bosses, made to challenge players more than vanilla
  • 1 new mechanic: Terror
  • 6 terrifying abilities that make use of the terror mechanic

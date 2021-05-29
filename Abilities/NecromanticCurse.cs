@@ -54,8 +54,14 @@ namespace TerrorbornMod.Abilities
         {
             float speed = 20;
             Vector2 velocity = player.DirectionTo(Main.MouseWorld) * speed;
-            Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<DungeonSpirit>(), 1, 5, player.whoAmI);
+            int proj = Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<DungeonSpirit>(), 1, 5, player.whoAmI);
             Main.PlaySound(SoundID.NPCDeath52, player.Center);
+
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            if (modPlayer.SanguineSetBonus)
+            {
+                Main.projectile[proj].penetrate = 4;
+            }
         }
     }
 
@@ -73,14 +79,41 @@ namespace TerrorbornMod.Abilities
             projectile.hostile = false;
             projectile.hide = true;
             projectile.timeLeft = 300;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
         }
         public override void AI()
         {
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 132);
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.player[projectile.owner]);
+            int type = 132;
+            if (modPlayer.SanguineSetBonus) type = 130;
+            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, type);
             Main.dust[dust].velocity = projectile.velocity / 4;
+            if (modPlayer.SanguineSetBonus) Main.dust[dust].velocity = projectile.velocity / 10;
             Main.dust[dust].scale = 1.5f;
             Main.dust[dust].noGravity = true;
             Main.dust[dust].color = Color.White;
+
+            if (modPlayer.SanguineSetBonus)
+            {
+                NPC targetNPC = Main.npc[0];
+                float Distance = 1000; //max distance away
+                bool Targeted = false;
+                for (int i = 0; i < 200; i++)
+                {
+                    if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy() && projectile.localNPCImmunity[i] == 0)
+                    {
+                        targetNPC = Main.npc[i];
+                        Distance = Main.npc[i].Distance(projectile.Center);
+                        Targeted = true;
+                    }
+                }
+                if (Targeted)
+                {
+                    //HOME IN
+                    projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(5f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
+                }
+            }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

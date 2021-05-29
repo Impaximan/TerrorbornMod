@@ -675,6 +675,8 @@ namespace TerrorbornMod
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " couldn't handle their power.");
                 }
             }
+
+            TerrorPercent = 0f;
             return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
         }
 
@@ -707,7 +709,8 @@ namespace TerrorbornMod
                 {"DemonicLense", DemonicLense},
                 {"PrimaryAbility", primaryAbilityInt},
                 {"SecondaryAbility", secondaryAbilityInt},
-                {"unlockedAbilities", unlockedAbilities}
+                {"unlockedAbilities", unlockedAbilities},
+                {"TerrorPercent", TerrorPercent}
             };
         }
 
@@ -722,6 +725,7 @@ namespace TerrorbornMod
             primaryAbilityInt = tag.GetInt("PrimaryAbility");
             secondaryAbilityInt = tag.GetInt("SecondaryAbility");
             unlockedAbilities = tag.GetList<int>("unlockedAbilities");
+            TerrorPercent = tag.GetFloat("TerrorPercent");
 
             primaryAbility = TerrorbornUtils.intToAbility(primaryAbilityInt);
             secondaryAbility = TerrorbornUtils.intToAbility(secondaryAbilityInt);

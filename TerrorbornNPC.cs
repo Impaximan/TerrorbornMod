@@ -501,15 +501,21 @@ namespace TerrorbornMod
         int DirectionCounter = 5;
         public override void AI()
         {
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 132);
+            Player player = Main.player[projectile.owner];
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            int type = 132;
+            if (modPlayer.SanguineSetBonus) type = 130;
+            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, type);
             Main.dust[dust].velocity = projectile.velocity;
             Main.dust[dust].scale = 1f;
             Main.dust[dust].alpha = 255 / 2;
             Main.dust[dust].noGravity = true;
             Main.dust[dust].color = Color.White;
 
-            Player player = Main.player[projectile.owner];
+
             int speed = 8;
+            if (modPlayer.SanguineSetBonus) speed = 25;
             projectile.velocity = projectile.DirectionTo(player.Center) * speed;
             if (projectile.Distance(player.Center) <= speed)
             {

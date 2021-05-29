@@ -155,10 +155,6 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (Targeted)
             {
                 //HOME IN
-                float speed = .35f;
-                Vector2 move = targetNPC.Center - projectile.Center;
-                float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
-                move *= speed / magnitude;
                 projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(2.5f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
             }
         }

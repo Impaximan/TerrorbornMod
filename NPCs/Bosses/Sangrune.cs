@@ -27,9 +27,9 @@ namespace TerrorbornMod.NPCs.Bosses
             npc.noTileCollide = true;
             npc.width = 162;
             npc.height = 132;
-            npc.damage = 50;
+            npc.damage = 25;
             npc.defense = 7;
-            npc.lifeMax = 2000;
+            npc.lifeMax = 1500;
             npc.HitSound = SoundID.NPCHit18;
             npc.DeathSound = SoundID.NPCDeath32;
             npc.value = 250;
@@ -38,7 +38,7 @@ namespace TerrorbornMod.NPCs.Bosses
             if (Main.hardMode)
             {
                 npc.lifeMax = 5000;
-                npc.damage = 80;
+                npc.damage = 40;
                 npc.defense = 17;
             }
         }
@@ -60,7 +60,7 @@ namespace TerrorbornMod.NPCs.Bosses
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = 3000;
+            npc.lifeMax = 2000;
             if (Main.hardMode)
             {
                 npc.lifeMax = 7500;
@@ -94,36 +94,40 @@ namespace TerrorbornMod.NPCs.Bosses
                         AttackCounter = 120;
                         AIPhase = 1;
                     }
+
+                    float acceleration = 0.1f;
+                    float deceleration = 0.05f;
+
                     if (targetPosition.X < npc.Center.X && npc.velocity.X > -8)
                     {
-                        trueMovementX -= 0.1f; // accelerate to the left
+                        trueMovementX -= acceleration; // accelerate to the left
                         if (trueMovementX > 0)
                         {
-                            trueMovementX -= 0.1f;
+                            trueMovementX -= deceleration;
                         }
                     }
                     if (targetPosition.X > npc.Center.X && npc.velocity.X < 8)
                     {
-                        trueMovementX += 0.1f; // accelerate to the right
+                        trueMovementX += acceleration; // accelerate to the right
                         if (trueMovementX < 0)
                         {
-                            trueMovementX += 0.1f;
+                            trueMovementX += deceleration;
                         }
                     }
                     if (targetPosition.Y < npc.Center.Y && npc.velocity.Y > -8)
                     {
-                        npc.velocity.Y -= 0.1f; // accelerate up
+                        npc.velocity.Y -= acceleration; // accelerate up
                         if (npc.velocity.Y > 0)
                         {
-                            npc.velocity.Y -= 0.1f;
+                            npc.velocity.Y -= deceleration;
                         }
                     }
                     if (targetPosition.Y > npc.Center.Y && npc.velocity.Y < 8)
                     {
-                        npc.velocity.Y += 0.1f; // accelerate down
+                        npc.velocity.Y += acceleration; // accelerate down
                         if (npc.velocity.Y < 0)
                         {
-                            npc.velocity.Y += 0.1f;
+                            npc.velocity.Y += deceleration;
                         }
                     }
                 }
@@ -145,28 +149,31 @@ namespace TerrorbornMod.NPCs.Bosses
                         DustExplosion(npc.Center, 0, 40, 25, 60, DustScale: 1.5f, NoGravity: true);
                         for (int i = 0; i < 200; i++)
                         {
-                            if (Main.hardMode)
+                            if (!Main.npc[i].friendly)
                             {
-                                Main.npc[i].life += 100;
-                                if (Main.npc[i].active)
+                                if (Main.hardMode)
                                 {
-                                    Main.npc[i].HealEffect(100);
+                                    Main.npc[i].life += 100;
+                                    if (Main.npc[i].active)
+                                    {
+                                        Main.npc[i].HealEffect(100);
+                                    }
+                                    if (Main.npc[i].life > Main.npc[i].lifeMax)
+                                    {
+                                        Main.npc[i].life = Main.npc[i].lifeMax;
+                                    }
                                 }
-                                if (Main.npc[i].life > Main.npc[i].lifeMax)
+                                else
                                 {
-                                    Main.npc[i].life = Main.npc[i].lifeMax;
-                                }
-                            }
-                            else
-                            {
-                                Main.npc[i].life += 30;
-                                if (Main.npc[i].active)
-                                {
-                                    Main.npc[i].HealEffect(30);
-                                }
-                                if (Main.npc[i].life > Main.npc[i].lifeMax)
-                                {
-                                    Main.npc[i].life = Main.npc[i].lifeMax;
+                                    Main.npc[i].life += 20;
+                                    if (Main.npc[i].active)
+                                    {
+                                        Main.npc[i].HealEffect(20);
+                                    }
+                                    if (Main.npc[i].life > Main.npc[i].lifeMax)
+                                    {
+                                        Main.npc[i].life = Main.npc[i].lifeMax;
+                                    }
                                 }
                             }
                         }

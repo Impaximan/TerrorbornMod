@@ -103,8 +103,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        bool WasInAir = false;
-        int TilInAir = 20;
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Increases summon damage by 3%");

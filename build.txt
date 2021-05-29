@@ -1,5 +1,5 @@
 author = Penumbral
-version = 0.1.5.1
+version = 0.1.5.2
 displayName = [c/8A9B98:Terrorborn]
 hideCode = true
 hideResources = false

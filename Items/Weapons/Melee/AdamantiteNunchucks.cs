@@ -30,6 +30,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.rare = 4;
             item.shoot = mod.ProjectileType("AdamantiteNunchucksProjectile");
             item.noUseGraphic = true;
+            item.noMelee = true;
         }
 
 

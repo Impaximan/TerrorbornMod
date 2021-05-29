@@ -199,6 +199,20 @@ namespace TerrorbornMod
                         }
                     }
                 }
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 2 * 36)
+                {
+                    if (Main.rand.Next(101) <= 20)
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            if (chest.item[inventoryIndex].type == ItemID.None)
+                            {
+                                chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.DualpipeDartgun>());
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
 

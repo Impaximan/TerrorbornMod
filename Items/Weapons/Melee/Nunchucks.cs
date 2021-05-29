@@ -30,7 +30,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.rare = 3;
             item.shoot = mod.ProjectileType("NunchucksProjectile");
             item.noUseGraphic = true;
-            
+            item.noMelee = true;
         }
 
         public override void AddRecipes()

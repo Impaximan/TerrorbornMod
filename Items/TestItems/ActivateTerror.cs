@@ -44,7 +44,7 @@ namespace TerrorbornMod.Items.TestItems
                 TerrorbornWorld.obtainedShriekOfHorror = true;
 
                 TerrorbornPlayer target = TerrorbornPlayer.modPlayer(player);
-                target.TriggerAbilityAnimation("Shriek of Horror", "Hold the 'Shriek of Horror' mod hotkey to unleash a scream and collect the terror of enemies.", "Doing so will slowly take away your health.", 0, "Special abilities and items will consume terror.");
+                target.TriggerAbilityAnimation("Shriek of Horror", "Hold the 'Shriek of Horror' mod hotkey to unleash a scream that generates terror while close to enemies.", "Doing so will slowly take away your health.", 0, "Special abilities and items will consume terror.");
             }
             else
             {

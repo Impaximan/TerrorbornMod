@@ -26,7 +26,7 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("A high speed bullet that has a 20% chance to rain water on hit foes\nThe bullet's speed is unaffected by water");
+            Tooltip.SetDefault("A high speed bullet that has a 20% chance to rain azurite shards on hit foes\nThe bullet's speed is unaffected by water");
         }
         //public override bool HoldItemFrame(Player player)
         //{
@@ -70,16 +70,12 @@ namespace TerrorbornMod.Items.Ammo
         {
             if (Main.rand.Next(101) <= 20)
             {
-                Vector2 ComeFrom = new Vector2(target.position.X + Main.rand.Next(-200, 200), target.position.Y - Main.rand.Next(600, 800));
-                float shootToX = target.position.X + Main.rand.Next(target.width) - ComeFrom.X;
-                float shootToY = target.position.Y - ComeFrom.Y;
-                float distance = (float)System.Math.Sqrt((double)(shootToX * shootToX + shootToY * shootToY));
-                distance = 3f / distance;
+                Vector2 position = new Vector2(target.position.X + Main.rand.Next(-200, 200), target.position.Y - Main.rand.Next(600, 800));
+                float speed = 5f;
+                Vector2 velocity = target.DirectionFrom(position) * speed;
 
-                shootToX *= distance * 2;
-                shootToY *= distance * 2;
-                Vector2 shootTo = new Vector2(shootToX, shootToY).RotatedByRandom(MathHelper.ToRadians(10)) * 3;
-                Projectile.NewProjectile(ComeFrom.X, ComeFrom.Y, shootTo.X, shootTo.Y, mod.ProjectileType("AzuriteRain"), projectile.damage, 0, Main.myPlayer, 0f, 0f);
+                int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.AzuriteShard>(), projectile.damage / 2, 0, Main.myPlayer, 0f, 0f);
+                Main.projectile[proj].ranged = true;
             }
         }
 

@@ -351,7 +351,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         {
                             Main.PlaySound(SoundID.Item20, npc.Center);
                             ExpertUntilWalkFire = Main.rand.Next(20, 60);
-                            Projectile.NewProjectile(new Vector2(npc.position.X + Main.rand.Next(0, npc.width), npc.position.Y), new Vector2(0, -Main.rand.Next(7, 13)), mod.ProjectileType("TideFire"), 17, 15);
+                            Projectile.NewProjectile(new Vector2(npc.position.X + Main.rand.Next(0, npc.width), npc.position.Y), new Vector2(0, -Main.rand.Next(7, 13)), mod.ProjectileType("TideFire"), 50 / 2, 15);
                             //if (npc.life <= npc.lifeMax / 3 && Main.rand.Next(101) <= 5 || Main.rand.Next(101) <= 10 && npc.life <= npc.lifeMax / 6)
                             //{
                             //    Projectile.NewProjectile(new Vector2(npc.Center.X, npc.position.Y), new Vector2(10, 0), mod.ProjectileType("SlamOut"), 17, 15);
@@ -415,11 +415,11 @@ namespace TerrorbornMod.NPCs.Bosses
                         }
                         if (npc.Center.X <= targetPosition.X)
                         {
-                            Projectile.NewProjectile(new Vector2(npc.Center.X, npc.position.Y), new Vector2(12.5f, 0), mod.ProjectileType("SlamOut"), 20, 15);
+                            Projectile.NewProjectile(new Vector2(npc.Center.X, npc.position.Y), new Vector2(12.5f, 0), mod.ProjectileType("SlamOut"), 50 / 4, 15);
                         }
                         else
                         {
-                            Projectile.NewProjectile(new Vector2(npc.Center.X, npc.position.Y), new Vector2(-12.5f, 0), mod.ProjectileType("SlamOut"), 20, 15);
+                            Projectile.NewProjectile(new Vector2(npc.Center.X, npc.position.Y), new Vector2(-12.5f, 0), mod.ProjectileType("SlamOut"), 50 / 4, 15);
                         }
 
                     }
@@ -515,8 +515,8 @@ namespace TerrorbornMod.NPCs.Bosses
                             Main.PlaySound(SoundID.Roar, npc.Center);
                         }
                         int SlamSpeed = Main.rand.Next(5, 8);
-                        Projectile.NewProjectile(new Vector2(npc.Center.X + npc.width / 4, npc.position.Y), new Vector2(SlamSpeed, 0), mod.ProjectileType("SlamOut"), 30, 15);
-                        Projectile.NewProjectile(new Vector2(npc.position.X + npc.width / 4, npc.position.Y), new Vector2(-SlamSpeed, 0), mod.ProjectileType("SlamOut"), 30, 15);
+                        Projectile.NewProjectile(new Vector2(npc.Center.X + npc.width / 4, npc.position.Y), new Vector2(SlamSpeed, 0), mod.ProjectileType("SlamOut"), 60 / 4, 15);
+                        Projectile.NewProjectile(new Vector2(npc.position.X + npc.width / 4, npc.position.Y), new Vector2(-SlamSpeed, 0), mod.ProjectileType("SlamOut"), 60 / 4, 15);
                     }
                     if (frame >= 11)
                     {
@@ -801,7 +801,7 @@ namespace TerrorbornMod.NPCs.Bosses
             npc.DeathSound = SoundID.Item54;
             npc.frame.Width = 388;
             npc.frame.Height = 254;
-            npc.lifeMax = 20;
+            npc.lifeMax = 12;
             npc.knockBackResist = 0;
         }
         int frame = 0;

@@ -20,6 +20,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         }
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Tenebris Helmet");
             Tooltip.SetDefault("11% increased damage" +
                 "\nIncreased item use speed by 15%" +
                 "\n6% increased critical strike chance" +
@@ -134,6 +135,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         }
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Tenebris Greaves");
             Tooltip.SetDefault("9% increased damage" +
                 "\nIncreased agility" +
                 "\n5% increased critical strike chance" +
