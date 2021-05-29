@@ -46,7 +46,7 @@ namespace TerrorbornMod.Items.TestItems
             ShriekOfHorrorPosition.Y += 285 * sizeMultiplier;
             ShriekOfHorrorPosition.X -= 15;
 
-            StructureHelper.StructureHelper.GenerateStructure("Structures/ShriekOfHorrorShrine", new Point16((int)ShriekOfHorrorPosition.X, (int)ShriekOfHorrorPosition.Y), mod);
+            StructureHelper.Generator.GenerateStructure("Structures/ShriekOfHorrorShrine", new Point16((int)ShriekOfHorrorPosition.X, (int)ShriekOfHorrorPosition.Y), mod);
 
             int DungeonDirection = 1;
             if (Main.dungeonX < Main.maxTilesX / 2)
@@ -54,13 +54,13 @@ namespace TerrorbornMod.Items.TestItems
                 DungeonDirection = -1;
             }
             Vector2 HorrificAdaptationPosition = new Vector2(Main.spawnTileX + (Main.maxTilesX / 4) * -DungeonDirection, Main.maxTilesY / 2);
-            StructureHelper.StructureHelper.GenerateStructure("Structures/HorrificAdaptationShrine", new Point16((int)HorrificAdaptationPosition.X, (int)HorrificAdaptationPosition.Y), mod);
+            StructureHelper.Generator.GenerateStructure("Structures/HorrificAdaptationShrine", new Point16((int)HorrificAdaptationPosition.X, (int)HorrificAdaptationPosition.Y), mod);
 
             TerrorbornWorld.VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f);
-            StructureHelper.StructureHelper.GenerateStructure("Structures/VoidBlinkShrine", new Point16((int)TerrorbornWorld.VoidBlink.X, (int)TerrorbornWorld.VoidBlink.Y), mod);
+            StructureHelper.Generator.GenerateStructure("Structures/VoidBlinkShrine", new Point16((int)TerrorbornWorld.VoidBlink.X, (int)TerrorbornWorld.VoidBlink.Y), mod);
 
             TerrorbornWorld.TerrorWarp = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.66f);
-            StructureHelper.StructureHelper.GenerateStructure("Structures/TerrorWarpShrine", new Point16((int)TerrorbornWorld.TerrorWarp.X, (int)TerrorbornWorld.TerrorWarp.Y), mod);
+            StructureHelper.Generator.GenerateStructure("Structures/TerrorWarpShrine", new Point16((int)TerrorbornWorld.TerrorWarp.X, (int)TerrorbornWorld.TerrorWarp.Y), mod);
             return base.CanUseItem(player);
         }
     }

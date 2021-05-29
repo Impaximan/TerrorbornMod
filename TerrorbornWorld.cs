@@ -231,7 +231,7 @@ namespace TerrorbornMod
             ShriekOfHorrorPosition.Y += 285 * sizeMultiplier;
             ShriekOfHorrorPosition.X -= 15;
 
-            StructureHelper.StructureHelper.GenerateStructure("Structures/ShriekOfHorrorShrine", new Point16((int)ShriekOfHorrorPosition.X, (int)ShriekOfHorrorPosition.Y), mod);
+            StructureHelper.Generator.GenerateStructure("Structures/ShriekOfHorrorShrine", new Point16((int)ShriekOfHorrorPosition.X, (int)ShriekOfHorrorPosition.Y), mod);
 
             int DungeonDirection = 1;
             if (Main.dungeonX < Main.spawnTileX)
@@ -239,13 +239,13 @@ namespace TerrorbornMod
                 DungeonDirection = -1;
             }
             Vector2 HorrificAdaptationPosition = new Vector2(Main.spawnTileX + (Main.maxTilesX / 4) * -DungeonDirection, Main.maxTilesY / 2);
-            StructureHelper.StructureHelper.GenerateStructure("Structures/HorrificAdaptationShrine", new Point16((int)HorrificAdaptationPosition.X, (int)HorrificAdaptationPosition.Y), mod);
+            StructureHelper.Generator.GenerateStructure("Structures/HorrificAdaptationShrine", new Point16((int)HorrificAdaptationPosition.X, (int)HorrificAdaptationPosition.Y), mod);
 
             VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f);
-            StructureHelper.StructureHelper.GenerateStructure("Structures/VoidBlinkShrine", new Point16((int)VoidBlink.X, (int)VoidBlink.Y), mod);
+            StructureHelper.Generator.GenerateStructure("Structures/VoidBlinkShrine", new Point16((int)VoidBlink.X, (int)VoidBlink.Y), mod);
 
             TerrorWarp = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.66f);
-            StructureHelper.StructureHelper.GenerateStructure("Structures/TerrorWarpShrine", new Point16((int)TerrorWarp.X, (int)TerrorWarp.Y), mod);
+            StructureHelper.Generator.GenerateStructure("Structures/TerrorWarpShrine", new Point16((int)TerrorWarp.X, (int)TerrorWarp.Y), mod);
         }
 
         public void SelectBountyBiome()
