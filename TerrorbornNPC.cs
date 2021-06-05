@@ -449,6 +449,11 @@ namespace TerrorbornMod
                 }
             }
 
+            if (player.ZoneBeach && Main.rand.NextFloat() <= 0.02f)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.LunarRitual>());
+            }
+
             if (npc.type == NPCID.KingSlime)
             {
                 bool spawnGA = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(6);
