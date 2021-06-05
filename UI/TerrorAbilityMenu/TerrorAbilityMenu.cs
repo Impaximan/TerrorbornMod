@@ -183,7 +183,7 @@ namespace TerrorbornMod.UI.TerrorMeter
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!TerrorbornWorld.obtainedShriekOfHorror || !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).ShowTerrorAbilityMenue)
+            if (!TerrorbornWorld.obtainedShriekOfHorror || !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).ShowTerrorAbilityMenu)
             {
                 showingAbilityDescription = false;
                 return;

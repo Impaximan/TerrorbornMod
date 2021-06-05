@@ -22,11 +22,6 @@ namespace TerrorbornMod.Items
             item.useStyle = 4;
             item.consumable = false;
         }
-        public override bool ConsumeItem(Player player)
-        {
-            return player.ZoneDesert && !NPC.AnyNPCs(mod.NPCType("Dunestock"));
-            //return player.ZoneDesert && NPC.downedBoss3 && !NPC.AnyNPCs(mod.NPCType("Dunestock"));
-        }
         public override bool CanUseItem(Player player)
         {
             return player.ZoneDesert && !NPC.AnyNPCs(mod.NPCType("Dunestock"));

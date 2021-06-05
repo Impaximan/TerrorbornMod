@@ -13,9 +13,4 @@
   <ItemGroup>
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="StructureHelper">
-      <HintPath>..\..\Mod Reader\StructureHelper\StructureHelper.XNA.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>

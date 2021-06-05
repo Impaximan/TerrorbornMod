@@ -31,7 +31,7 @@ namespace TerrorbornMod
         public float ShriekTerrorMultiplier = 1f;
         public float ShriekPain = 1f;
         public float ShriekRangeMultiplier = 1f;
-        public bool ShowTerrorAbilityMenue = false;
+        public bool ShowTerrorAbilityMenu = false;
         public int primaryAbilityInt = 0;
         public int secondaryAbilityInt = 0;
         public AbilityInfo primaryAbility = new None();
@@ -55,6 +55,7 @@ namespace TerrorbornMod
 
         //Accessory/equipment fields
         public bool IncendiaryShield = false;
+        public bool MysteriousCompass = false;
         public bool AzuriteBrooch = false;
         public bool cloakOfTheWind = false;
         public bool PlasmaArmorBonus = false;
@@ -87,7 +88,7 @@ namespace TerrorbornMod
         //Misc stuff
         public int terrorDrainCounter = 0;
 
-        public void TriggerAbilityAnimation(string name, string description1, string description2, int animationType, string description3 = "You can equip terror abilities near NPCs by using the 'Open/Close Terror Abilities Menue' hotkey.", int visibilityTime = 600)
+        public void TriggerAbilityAnimation(string name, string description1, string description2, int animationType, string description3 = "You can equip terror abilities near NPCs by using the 'Open/Close Terror Abilities Menu' hotkey.", int visibilityTime = 600)
         {
             UI.TerrorAbilityUnlock.UnlockUI.abilityUILifetimeCounter = visibilityTime;
             UI.TerrorAbilityUnlock.UnlockUI.abilityUnlockName = name;
@@ -113,6 +114,7 @@ namespace TerrorbornMod
         {
             TideSpirit = false;
             TidalShellArmorBonus = false;
+            MysteriousCompass = false;
             IntimidationAura = false;
             SanguineSetBonus = false;
             AntlionShell = false;
@@ -162,7 +164,7 @@ namespace TerrorbornMod
             Vector2 screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.UIScale;
             Rectangle mainRect = new Rectangle((int)screenCenter.X - 400, (int)screenCenter.Y - 400, 800, 300);
             Rectangle mouseRectangle = new Rectangle((int)Main.mouseX, (int)Main.mouseY, 1, 1);
-            if (mainRect.Intersects(mouseRectangle) && ShowTerrorAbilityMenue)
+            if (mainRect.Intersects(mouseRectangle) && ShowTerrorAbilityMenu)
             {
                 canUseItems = false;
             }
@@ -385,17 +387,17 @@ namespace TerrorbornMod
 
         public override void UpdateAutopause()
         {
-            if (TerrorbornMod.OpenTerrorAbilityMenue.JustPressed)
+            if (TerrorbornMod.OpenTerrorAbilityMenu.JustPressed)
             {
-                if (ShowTerrorAbilityMenue)
+                if (ShowTerrorAbilityMenu)
                 {
                     Main.PlaySound(SoundID.MenuClose);
-                    ShowTerrorAbilityMenue = false;
+                    ShowTerrorAbilityMenu = false;
                 }
                 else
                 {
                     Main.PlaySound(SoundID.MenuOpen);
-                    ShowTerrorAbilityMenue = true;
+                    ShowTerrorAbilityMenu = true;
                 }
             }
         }
@@ -433,17 +435,17 @@ namespace TerrorbornMod
                 player.immuneAlpha = 255 / 2;
             }
 
-            if (TerrorbornMod.OpenTerrorAbilityMenue.JustPressed)
+            if (TerrorbornMod.OpenTerrorAbilityMenu.JustPressed)
             {
-                if (ShowTerrorAbilityMenue)
+                if (ShowTerrorAbilityMenu)
                 {
                     Main.PlaySound(SoundID.MenuClose);
-                    ShowTerrorAbilityMenue = false;
+                    ShowTerrorAbilityMenu = false;
                 }
                 else
                 {
                     Main.PlaySound(SoundID.MenuOpen);
-                    ShowTerrorAbilityMenue = true;
+                    ShowTerrorAbilityMenu = true;
                 }
             }
 

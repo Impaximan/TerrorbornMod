@@ -11,7 +11,6 @@ using Terraria.GameContent.Generation;
 using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
-using StructureHelper;
 
 namespace TerrorbornMod
 {
@@ -231,7 +230,7 @@ namespace TerrorbornMod
             ShriekOfHorrorPosition.Y += 285 * sizeMultiplier;
             ShriekOfHorrorPosition.X -= 15;
 
-            StructureHelper.Generator.GenerateStructure("Structures/ShriekOfHorrorShrine", new Point16((int)ShriekOfHorrorPosition.X, (int)ShriekOfHorrorPosition.Y), mod);
+            Structures.StructureGenerator.GenerateSOHShrine(mod, new Point((int)ShriekOfHorrorPosition.X, (int)ShriekOfHorrorPosition.Y));
 
             int DungeonDirection = 1;
             if (Main.dungeonX < Main.spawnTileX)
@@ -239,13 +238,13 @@ namespace TerrorbornMod
                 DungeonDirection = -1;
             }
             Vector2 HorrificAdaptationPosition = new Vector2(Main.spawnTileX + (Main.maxTilesX / 4) * -DungeonDirection, Main.maxTilesY / 2);
-            StructureHelper.Generator.GenerateStructure("Structures/HorrificAdaptationShrine", new Point16((int)HorrificAdaptationPosition.X, (int)HorrificAdaptationPosition.Y), mod);
+            Structures.StructureGenerator.GenerateHAShrine(mod, new Point((int)HorrificAdaptationPosition.X, (int)HorrificAdaptationPosition.Y));
 
             VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f);
-            StructureHelper.Generator.GenerateStructure("Structures/VoidBlinkShrine", new Point16((int)VoidBlink.X, (int)VoidBlink.Y), mod);
+            Structures.StructureGenerator.GenerateVBShrine(mod, new Point((int)VoidBlink.X, (int)VoidBlink.Y));
 
             TerrorWarp = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.66f);
-            StructureHelper.Generator.GenerateStructure("Structures/TerrorWarpShrine", new Point16((int)TerrorWarp.X, (int)TerrorWarp.Y), mod);
+            Structures.StructureGenerator.GenerateTWShrine(mod, new Point((int)TerrorWarp.X, (int)TerrorWarp.Y));
         }
 
         public void SelectBountyBiome()

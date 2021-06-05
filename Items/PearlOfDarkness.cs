@@ -59,6 +59,15 @@ namespace TerrorbornMod.Items
             projectile.tileCollide = false;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            Vector2 position = projectile.Center - Main.screenPosition;
+            position.Y += 4;
+            Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, projectile.width, projectile.height), new Rectangle(0, 0, projectile.width, projectile.height), Color.White, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), SpriteEffects.None, 0);
+            return false;
+        }
+
         Vector2 targetPosition()
         {
             Vector2 positionOfProjectile = Vector2.Zero;
@@ -123,7 +132,7 @@ namespace TerrorbornMod.Items
             Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            projectile.position = player.Center + new Vector2(0, -100);
+            projectile.position = player.Center + new Vector2(0, -50);
             projectile.position -= new Vector2(projectile.width / 2, projectile.height / 2);
 
             if (targetPosition() == Vector2.Zero)

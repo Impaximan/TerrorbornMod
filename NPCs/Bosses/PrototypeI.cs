@@ -71,6 +71,8 @@ namespace TerrorbornMod.NPCs.Bosses
             npc.DeathSound = SoundID.NPCDeath14;
             npc.value = 0f;
             npc.knockBackResist = 0.00f;
+            npc.buffImmune[BuffID.Ichor] = true;
+            npc.buffImmune[BuffID.CursedInferno] = true;
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

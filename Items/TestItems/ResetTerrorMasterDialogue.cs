@@ -12,7 +12,6 @@ using Terraria.GameContent.Generation;
 using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
-using StructureHelper;
 
 namespace TerrorbornMod.Items.TestItems
 {

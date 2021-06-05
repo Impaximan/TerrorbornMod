@@ -22,10 +22,33 @@ namespace TerrorbornMod.Items
         public override void SetDefaults()
         {
             item.rare = -11;
+            item.accessory = true;
         }
 
         public override void HoldItem(Player player)
         {
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            modPlayer.MysteriousCompass = true;
+            bool arrowExists = false;
+            for (int i = 0; i < 1000; i++)
+            {
+                Projectile projectile = Main.projectile[i];
+                if (projectile.type == ModContent.ProjectileType<CompassPointer>() && projectile.active)
+                {
+                    arrowExists = true;
+                    break;
+                }
+            }
+            if (!arrowExists)
+            {
+                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CompassPointer>(), 0, 0, player.whoAmI);
+            }
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            modPlayer.MysteriousCompass = true;
             bool arrowExists = false;
             for (int i = 0; i < 1000; i++)
             {
@@ -53,7 +76,15 @@ namespace TerrorbornMod.Items
             projectile.hostile = false;
             projectile.timeLeft = 500;
             projectile.tileCollide = false;
-            projectile.light = 0.5f;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            Vector2 position = projectile.Center - Main.screenPosition;
+            position.Y += 4;
+            Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, projectile.width, projectile.height), new Rectangle(0, 0, projectile.width, projectile.height), Color.White, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), SpriteEffects.None, 0);
+            return false;
         }
 
         Vector2 targetPosition()
@@ -69,12 +100,12 @@ namespace TerrorbornMod.Items
             Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            if (player.HeldItem.type != ModContent.ItemType<MysteriousCompass>())
+            if (!modPlayer.MysteriousCompass)
             {
                 projectile.active = false;
             }
 
-            projectile.position = player.Center + new Vector2(0, -100);
+            projectile.position = player.Center + new Vector2(0, -65);
             projectile.position -= new Vector2(projectile.width / 2, projectile.height / 2);
 
             if (targetPosition() == Vector2.Zero)

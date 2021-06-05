@@ -30,15 +30,15 @@ namespace TerrorbornMod
         internal UserInterface unlockInterface;
         internal UnlockUI unlockUI;
 
-        internal UserInterface terrorMenueInterface;
-        internal TerrorAbilityMenu terrorAbilityMenue;
+        internal UserInterface terrorMenuInterface;
+        internal TerrorAbilityMenu terrorAbilityMenu;
 
         public static ModHotKey ArmorAbility;
         public static ModHotKey quickVirus;
         public static ModHotKey ShriekOfHorror;
         public static ModHotKey PrimaryTerrorAbility;
         public static ModHotKey SecondaryTerrorAbility;
-        public static ModHotKey OpenTerrorAbilityMenue;
+        public static ModHotKey OpenTerrorAbilityMenu;
 
         public static int CombatTokenCustomCurrencyId;
 
@@ -99,7 +99,7 @@ namespace TerrorbornMod
             PrimaryTerrorAbility = RegisterHotKey("Primary Terror Ability", "F");
             SecondaryTerrorAbility = RegisterHotKey("Secondary Terror Ability", "F");
             quickVirus = RegisterHotKey("Quick Virus", "z");
-            OpenTerrorAbilityMenue = RegisterHotKey("Open/Close Terror Ability Menue", "z");
+            OpenTerrorAbilityMenu = RegisterHotKey("Open/Close Terror Ability Menu", "z");
             CombatTokenCustomCurrencyId = CustomCurrencyManager.RegisterCurrency(new CombatTokenCurrency(ItemType("CombatToken"), 999L));
 
             if (Main.netMode != NetmodeID.Server)
@@ -112,7 +112,7 @@ namespace TerrorbornMod
             {
                 terrorMeterInterface = new UserInterface();
                 unlockInterface = new UserInterface();
-                terrorMenueInterface = new UserInterface();
+                terrorMenuInterface = new UserInterface();
 
                 terrorMeterUI = new TerrorMeterUI();
                 terrorMeterUI.Activate();
@@ -120,8 +120,8 @@ namespace TerrorbornMod
                 unlockUI = new UnlockUI();
                 unlockUI.Activate();
 
-                terrorAbilityMenue = new TerrorAbilityMenu();
-                terrorAbilityMenue.Activate();
+                terrorAbilityMenu = new TerrorAbilityMenu();
+                terrorAbilityMenu.Activate();
             }
         }
         private GameTime _lastUpdateUiGameTime;
@@ -136,9 +136,9 @@ namespace TerrorbornMod
             {
                 unlockInterface.Update(gameTime);
             }
-            if (terrorMenueInterface?.CurrentState != null)
+            if (terrorMenuInterface?.CurrentState != null)
             {
-                terrorMenueInterface.Update(gameTime);
+                terrorMenuInterface.Update(gameTime);
             }
         }
 
@@ -172,12 +172,12 @@ namespace TerrorbornMod
                        InterfaceScaleType.UI));
 
                 layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-                    "TerrorbornMod: terrorMenueInterface",
+                    "TerrorbornMod: terrorMenuInterface",
                     delegate
                     {
-                        if (_lastUpdateUiGameTime != null && terrorMenueInterface?.CurrentState != null)
+                        if (_lastUpdateUiGameTime != null && terrorMenuInterface?.CurrentState != null)
                         {
-                            terrorMenueInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                            terrorMenuInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
                         }
                         return true;
                     },
@@ -200,14 +200,14 @@ namespace TerrorbornMod
         internal void ShowUI()
         {
             unlockInterface?.SetState(unlockUI);
-            terrorMenueInterface?.SetState(terrorAbilityMenue);
+            terrorMenuInterface?.SetState(terrorAbilityMenu);
             terrorMeterInterface?.SetState(terrorMeterUI);
         }
 
         internal void HideUI()
         {
             unlockInterface?.SetState(null);
-            terrorMenueInterface?.SetState(null);
+            terrorMenuInterface?.SetState(null);
             terrorMeterInterface?.SetState(null);
         }
 

@@ -366,6 +366,7 @@ namespace TerrorbornMod
         public override void NPCLoot(NPC npc)
         {
             Player player = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             List<int> extraDarkEnergyIDs = new List<int>();
             extraDarkEnergyIDs.Add(NPCID.SkeletronHand);
@@ -405,6 +406,10 @@ namespace TerrorbornMod
             {
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.EyeOfTheMenace>());
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Minions.OpticCane>());
+            }
+            if (npc.type == NPCID.MoonLordCore)
+            {
+                modPlayer.TerrorPercent = 0f;
             }
             if (extraDarkEnergyIDs.Contains(npc.type) || npc.boss)
             {
@@ -462,7 +467,6 @@ namespace TerrorbornMod
                 }
             }
 
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.LiesOfNourishment && Main.rand.Next(5) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
