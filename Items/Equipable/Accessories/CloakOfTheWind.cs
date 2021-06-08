@@ -111,7 +111,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 if (rightTaps >= 2)
                 {
                     Dash(1, player);
-                    dashDelay = 60;
+                    dashDelay = 45;
                     dustTime = 30;
                 }
             }
@@ -128,7 +128,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 if (leftTaps >= 2)
                 {
                     Dash(-1, player);
-                    dashDelay = 60;
+                    dashDelay = 45;
                     dustTime = 30;
                 }
             }

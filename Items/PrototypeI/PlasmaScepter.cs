@@ -17,8 +17,8 @@ namespace TerrorbornMod.Items.PrototypeI
         {
             item.damage = 69;
             item.noMelee = true;
-            item.width = 64;
-            item.height = 64;
+            item.width = 54;
+            item.height = 54;
             item.useTime = 4;
             item.useAnimation = 4;
             item.shoot = 10;
@@ -33,9 +33,13 @@ namespace TerrorbornMod.Items.PrototypeI
             item.mana = 3;
             item.magic = true;
         }
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-20, 0);
+        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            position = player.Center + (player.DirectionTo(Main.MouseWorld) * 64);
+            position = player.Center + (player.DirectionTo(Main.MouseWorld) * 74);
             return true;
         }
     }

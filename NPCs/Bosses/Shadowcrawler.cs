@@ -1032,7 +1032,8 @@ namespace TerrorbornMod.NPCs.Bosses
             {
                 positionOnScreen += velocity;
                 npc.velocity = Vector2.Zero;
-                npc.position = Main.screenPosition + positionOnScreen + player.velocity;
+                Vector2 relativeToPlayer = centerOfScreen - Main.screenPosition;
+                npc.position = player.Center - centerOfScreen + positionOnScreen;
             }
             else
             {

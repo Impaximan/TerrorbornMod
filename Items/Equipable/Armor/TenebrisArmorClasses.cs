@@ -40,6 +40,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             return body.type == mod.ItemType("TenebrisChestplate") && legs.type == mod.ItemType("TenebrisLeggings");
         }
+
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Press the <ArmorAbility> hotkey to dash towards the cursor.\n" +

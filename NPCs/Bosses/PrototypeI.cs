@@ -211,6 +211,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 teleportToPortal();
                 if (overallPhase == 3)
                 {
+                    laserCounter = 60;
                     int choice = Main.rand.Next(4);
                     if (choice == 0)
                     {
