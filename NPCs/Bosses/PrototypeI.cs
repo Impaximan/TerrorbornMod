@@ -17,6 +17,7 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             potionType = ItemID.SuperHealingPotion;
         }
+
         public override void NPCLoot()
         {
             TerrorbornWorld.downedPrototypeI = true;
@@ -45,16 +46,27 @@ namespace TerrorbornMod.NPCs.Bosses
                 }
             }
         }
+
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             return npc.Distance(target.Center) <= 240;
         }
+
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (projectile.type == ProjectileID.HallowStar)
+            {
+                damage /= 4;
+            }
+        }
+
         bool showPortal = false;
         Vector2 portalPos = Vector2.Zero;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prototype I");
         }
+
         public override void SetDefaults()
         {
             npc.noGravity = true;
@@ -63,7 +75,7 @@ namespace TerrorbornMod.NPCs.Bosses
             npc.height = 240;
             npc.boss = true;
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DarkMatter");
-            npc.damage = 45;
+            npc.damage = 75;
             npc.defense = 48;
             npc.takenDamageMultiplier = 0.85f;
             npc.lifeMax = 45000;
@@ -74,11 +86,13 @@ namespace TerrorbornMod.NPCs.Bosses
             npc.buffImmune[BuffID.Ichor] = true;
             npc.buffImmune[BuffID.CursedInferno] = true;
         }
+
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = 60000;
             npc.defense = 60;
         }
+
         int coreFrame = 0;
         int coreFrameCounter = 0;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -157,6 +171,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, npc.width, npc.height), new Rectangle(0, 0, npc.width, npc.height), color, npc.rotation, new Vector2(npc.width / 2, npc.height / 2), effect, 0); texture = Main.npcTexture[npc.type];
             }
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 6);
@@ -165,6 +180,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 phase0MaxSpeed = -10;
             }
         }
+
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
         {
             if (AIPhase == 0)
@@ -205,6 +221,8 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             if (phase == 0)
             {
+                //Main.PlaySound(SoundID.Item71, target.Center);
+                Main.PlaySound(SoundID.Roar, (int)target.Center.X, (int)target.Center.Y, 0, pitchOffset: 0.5f);
                 phase0MaxSpeed = 0;
                 phaseCounter = 300;
                 attackCounter1 = 90;
@@ -406,6 +424,7 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             if (phase == 4)
             {
+                //Main.PlaySound(SoundID.Roar, (int)target.Center.X, (int)target.Center.Y, 0, pitchOffset: -0.5f);
                 teleportToPortal();
                 attackCounter1 = 0;
                 phaseCounter = 4;
@@ -864,7 +883,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             }
                             if (phaseCounter == 3)
                             {
-                                int damage = 70;
+                                int damage = 100;
                                 damage = Main.expertMode ? (damage / 4) : (damage / 2);
                                 Vector2 projVelocity = npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity));
                                 float offset = 50;
@@ -876,7 +895,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             }
                             if (phaseCounter == 2)
                             {
-                                int damage = 70;
+                                int damage = 100;
                                 damage = Main.expertMode ? (damage / 4) : (damage / 2);
                                 Vector2 projVelocity = npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity));
                                 float shockwaveCount = 11;
@@ -900,7 +919,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             attackCounter2--;
                             if (attackCounter2 == (int)(attackCounter2 / 12) * 12 && phaseCounter == 1)
                             {
-                                int damage = 70;
+                                int damage = 100;
                                 damage = Main.expertMode ? (damage / 4) : (damage / 2);
                                 Vector2 projVelocity = npc.velocity.ToRotation().ToRotationVector2() * 5;
                                 Projectile.NewProjectile(npc.Center, projVelocity.RotatedBy(MathHelper.ToRadians(90)), ModContent.ProjectileType<NightmareShockwave>(), damage, 0);
@@ -959,7 +978,7 @@ namespace TerrorbornMod.NPCs.Bosses
                                 attackCounter2 = 5;
                                 Vector2 rotation = npc.DirectionTo(Main.player[npc.target].Center);
                                 float speed = 26;
-                                int laserDamage = 95;
+                                int laserDamage = 120;
                                 laserDamage = Main.expertMode ? (laserDamage / 4) : (laserDamage / 2);
                                 Vector2 velocity = rotation * speed;
                                 Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<Projectiles.CursedBeam>(), laserDamage, 0);
@@ -982,7 +1001,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             attackCounter2--;
                             if (attackCounter2 <= 0)
                             {
-                                int damage = 80;
+                                int damage = 135;
                                 damage = Main.expertMode ? (damage / 4) : (damage / 2);
                                 attackCounter2 = 5;
                                 Vector2 offset = new Vector2(Main.rand.Next(0, npc.width), Main.rand.Next(0, npc.height));
@@ -1037,7 +1056,7 @@ namespace TerrorbornMod.NPCs.Bosses
                                 attackCounter1 = 6;
                                 Vector2 rotation = npc.DirectionTo(Main.player[npc.target].Center);
                                 float speed = 6;
-                                int laserDamage = 76;
+                                int laserDamage = 120;
                                 laserDamage = Main.expertMode ? (laserDamage / 4) : (laserDamage / 2);
                                 Vector2 velocity = rotation * speed;
                                 int projID = Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<Projectiles.CursedBeam>(), laserDamage, 0);
@@ -1080,7 +1099,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             if (bulletHellAttackChoice == 0)
                             {
                                 float rotation = MathHelper.ToRadians(Main.rand.Next(360));
-                                int laserDamage = 100;
+                                int laserDamage = 120;
                                 laserDamage = Main.expertMode ? (laserDamage / 4) : (laserDamage / 2);
                                 int laserCount = 16;
                                 float speed = 5;
@@ -1101,7 +1120,7 @@ namespace TerrorbornMod.NPCs.Bosses
                                 }
                                 float Speed2 = 14f;
                                 Vector2 vector82 = new Vector2(npc.position.X + (npc.width / 2), npc.position.Y + (npc.height / 2));
-                                int damage2 = 90;
+                                int damage2 = 130;
 
                                 damage2 = Main.expertMode ? (damage2 / 4) : (damage2 / 2);
                                 int type2 = ModContent.ProjectileType<LargeNightmareFlame>();
@@ -1128,7 +1147,7 @@ namespace TerrorbornMod.NPCs.Bosses
                                 float speed = 26;
                                 Vector2 initialVelocity = speed * direction;
                                 int type = ModContent.ProjectileType<HomingPlasma>();
-                                int damage = 85;
+                                int damage = 110;
                                 damage = Main.expertMode ? (damage / 4) : (damage / 2);
 
                                 for (int i = 0; i < Main.rand.Next(5, 8); i++)

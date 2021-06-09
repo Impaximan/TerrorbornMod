@@ -1,4 +1,4 @@
-NOTE: this mod does not support multiplayer
+WARNING: This mod does not support multiplayer and likely never will!
 The Terrorborn mod by Penumbral is a WIP content mod for Terraria which aims to add a well made storyline to the game that is well integrated through the mod's features. The story will be quite small upon releasing the mod but it's all planned out and we will be revealing more about it as time goes on.
 
 The mod currently adds:
@@ -9,6 +9,8 @@ The mod currently adds:
  • 2 new NPCs with unique and useful functions
  • About 150 new items, most of which have unique effects that make them useful
  • The lore of the mod will be findable in-game and expand as the mod updates. That's right- no having to look at the wiki to find the lore.
+
+To YouTubers who might want to do a playthrough of this mod: I'd recommend waiting until the 0.2.5.0 update, as it will overall improve the experience and make the playthrough flow a bit better (it'll also add some worldgen). You can find our discord server on the forums page if you want updates on when that will release.
 
 Dev team:
 Spriters:

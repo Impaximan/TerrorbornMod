@@ -367,10 +367,6 @@ namespace TerrorbornMod.NPCs.Bosses
                         }
                         AIPhase = NextAttacks[0];
                         NextAttacks.RemoveAt(0);
-                        if (npc.life <= npc.lifeMax * 0.65f)
-                        {
-                            AIPhase = Main.rand.Next(1, 5);
-                        }
                         if (AIPhase == 1)
                         {
                             BurstWait = 32 + (npc.life / 700);
@@ -455,7 +451,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     ProjectileWait--;
                     if (ProjectileWait <= 0)
                     {
-                        ProjectileWait = Main.rand.Next(3, 7);
+                        ProjectileWait = 8;
                         ProjectilesLeft--;
                         if (ProjectilesLeft <= 0)
                         {
@@ -464,15 +460,22 @@ namespace TerrorbornMod.NPCs.Bosses
                         }
                         Main.PlaySound(SoundID.Item42, npc.Center);
                         NeedleSpeed++;
+                        float realProjSpeed = NeedleSpeed;
                         NoGravNeedles--;
                         int damage = 20;
                         int type = ModContent.ProjectileType<TumblerNeedle>();
                         float rotation = npc.DirectionTo(Main.player[npc.target].Center).ToRotation();
+
                         if (NoGravNeedles <= 0)
                         {
-                            rotation = npc.DirectionTo(Main.player[npc.target].Center + (npc.Distance(Main.player[npc.target].Center) / NeedleSpeed) * Main.player[npc.target].velocity * predictMultiplier).ToRotation();
+                            rotation = npc.DirectionTo(Main.player[npc.target].Center + (npc.Distance(Main.player[npc.target].Center) / realProjSpeed) * Main.player[npc.target].velocity * predictMultiplier).ToRotation();
                         }
-                        Vector2 speed = (rotation.ToRotationVector2() * NeedleSpeed).RotatedByRandom(MathHelper.ToRadians(10));
+                        else
+                        {
+                            realProjSpeed /= 2;
+                        }
+                        Vector2 speed = (rotation.ToRotationVector2() * realProjSpeed).RotatedByRandom(MathHelper.ToRadians(10));
+
                         if (NoGravNeedles <= 0)
                         {
                             NoGravNeedles = 3;

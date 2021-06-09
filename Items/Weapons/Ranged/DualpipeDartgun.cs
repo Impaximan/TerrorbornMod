@@ -52,14 +52,6 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             player.itemAnimation = 2;
             return true;
         }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
     }
 }
 
