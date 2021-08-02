@@ -24,7 +24,9 @@ namespace TerrorbornMod.Tiles
             minPick = 56;
             mineResist = 2;
             drop = mod.ItemType("AzuriteOre");
-            AddMapEntry(new Color(106, 142, 193));
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Azurite");
+            AddMapEntry(new Color(106, 142, 193), name);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

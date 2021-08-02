@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("While being used it will deflect projectiles with a 1.5 second cooldown.");
+            Tooltip.SetDefault("Can deflect projectiles with a 1.5 second cooldown");
         }
         public override void SetDefaults()
         {
@@ -44,12 +44,18 @@ namespace TerrorbornMod.Items.Weapons.Melee
             recipe.AddRecipe();
         }
     }
+
     public class TitaniumNunchucksProjectile : ModProjectile
     {
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            hitDirection = projectile.spriteDirection * -1;
+        }
         public override void SetStaticDefaults()
         {
             Main.projFrames[projectile.type] = 8;
         }
+
         public override void SetDefaults()
         {
             projectile.idStaticNPCHitCooldown = 6;
@@ -62,6 +68,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             projectile.ignoreWater = true;
             projectile.melee = true;
         }
+
         void FindFrame(int FrameHeight)
         {
             projectile.frameCounter--;
@@ -75,6 +82,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
                 projectile.frame = 0;
             }
         }
+
         bool Start = true;
         int DeflectCounter = 120;
         public override void AI()

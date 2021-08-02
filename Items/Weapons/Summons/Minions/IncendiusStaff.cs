@@ -35,6 +35,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         }
         public override void SetDefaults()
         {
+            item.width = 64;
+            item.height = 60;
             item.mana = 10;
             item.summon = true;
             item.damage = 19;

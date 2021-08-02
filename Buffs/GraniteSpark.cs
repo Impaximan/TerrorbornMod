@@ -18,11 +18,9 @@ namespace TerrorbornMod.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            //player.mount.SetMount(mod.MountType("graniteSpark"), player);
             player.immuneAlpha = 255;
             player.wings = 0;
             int dust = Dust.NewDust(player.Center, 0, 0, DustID.Electric);
-            //Main.dust[dust].velocity = player.velocity;
             Main.dust[dust].noGravity = true;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.graniteSpark = true;

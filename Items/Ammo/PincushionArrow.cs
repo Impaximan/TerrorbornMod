@@ -36,7 +36,7 @@ namespace TerrorbornMod.Items.Ammo
         public override string Texture => "TerrorbornMod/Items/Ammo/PincushionArrow";
         public override void SetDefaults()
         {
-            projectile.width = 32;
+            projectile.width = 14;
             projectile.height = 32;
             projectile.ranged = true;
             projectile.timeLeft = 3600;
@@ -86,6 +86,15 @@ namespace TerrorbornMod.Items.Ammo
             }
             return base.CanHitNPC(target);
         }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            hitbox.Width = 14;
+            hitbox.Height = 14;
+            hitbox.Y += (int)(32f * (14f / 32f) / 2f);
+            base.ModifyDamageHitbox(ref hitbox);
+        }
+
         bool stuck = false;
         bool wasCrit;
         NPC stuckNPC;

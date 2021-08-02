@@ -51,7 +51,6 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             //projectile.extraUpdates = 100;
             projectile.timeLeft = 200;
             projectile.penetrate = 1;
-            projectile.light = 0.25f;
         }
         public override void AI()
         {
@@ -86,7 +85,6 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             //projectile.extraUpdates = 100;
             projectile.timeLeft = 60;
             projectile.penetrate = 1;
-            projectile.light = 0.25f;
             projectile.hide = false;
         }
         public override void Kill(int timeLeft)

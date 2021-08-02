@@ -40,7 +40,7 @@ namespace TerrorbornMod.Items.TreasureBags
             }
             else if (choice == 1)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Shadowcrawler.ContaminatedMarinePistol>());
+                player.QuickSpawnItem(ModContent.ItemType<Items.Shadowcrawler.Nightbrood>());
             }
             else if (choice == 2)
             {

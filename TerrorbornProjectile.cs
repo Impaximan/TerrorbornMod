@@ -15,6 +15,11 @@ namespace TerrorbornMod
         int crystalWait = 10;
         public override bool InstancePerEntity => true;
 
+        public bool VeinBurster = false;
+        public bool ContaminatedMarine = false;
+
+        public bool Shadowflame = false;
+
         public override bool CanHitPlayer(Projectile projectile, Player target)
         {
             TerrorbornPlayer player = TerrorbornPlayer.modPlayer(target);
@@ -38,6 +43,12 @@ namespace TerrorbornMod
                 projectile.localNPCHitCooldown = 15;
             }
         }
+
+        public static TerrorbornProjectile modProjectile(Projectile projectile)
+        {
+            return projectile.GetGlobalProjectile<TerrorbornProjectile>();
+        }
+
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
@@ -50,6 +61,34 @@ namespace TerrorbornMod
                     player.statLife += 1;
                     modPlayer.SangoonBandCooldown = 20;
                 }
+            }
+
+            if (VeinBurster)
+            {
+                Main.PlaySound(SoundID.NPCDeath21, target.Center);
+                for (int i = 0; i < Main.rand.Next(3, 5); i++)
+                {
+                    Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
+                    float speed = Main.rand.Next(25, 35);
+                    int proj = Projectile.NewProjectile(target.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), damage, 0f, player.whoAmI);
+                    Main.projectile[proj].ranged = true;
+                }
+            }
+
+            if (ContaminatedMarine)
+            {
+                Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, target.Center);
+                for (int i = 0; i < Main.rand.Next(7, 9); i++)
+                {
+                    Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
+                    float speed = Main.rand.Next(25, 35);
+                    Projectile.NewProjectile(target.Center, direction * speed, ModContent.ProjectileType<Items.Weapons.Restless.NightmareBoilRanged>(), damage, 0f, player.whoAmI);
+                }
+            }
+
+            if (Shadowflame)
+            {
+                target.AddBuff(BuffID.ShadowFlame, 60 * 3);
             }
         }
 
@@ -105,6 +144,14 @@ namespace TerrorbornMod
                         projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(2.5f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
                     }
                 }
+            }
+
+            if (Shadowflame)
+            {
+                Dust dust = Dust.NewDustPerfect(projectile.Center, 27);
+                dust.noGravity = true;
+                dust.velocity = Vector2.Zero;
+                dust.scale = 2f;
             }
         }
     }

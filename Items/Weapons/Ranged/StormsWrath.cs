@@ -57,6 +57,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             return true;
         }
     }
+
     class BoltBallista : ModItem
     {
         int firesTilBolt = 1;
@@ -100,11 +101,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("StormsWrath"));
+            recipe.AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 20);
             recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.AddIngredient(mod.ItemType("StormsWrath"));
             recipe.AddIngredient(ItemID.SoulofFlight, 15);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -125,6 +127,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             return true;
         }
     }
+
     class StormsBeam : ModProjectile
     {
         public override void SetStaticDefaults()
@@ -166,6 +169,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Main.dust[dust].velocity *= 0.2f;
         }
     }
+
     class StormsBolt : ModProjectile
     {
         public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.ShadowBeamFriendly; } }
@@ -195,6 +199,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Main.dust[dust].velocity *= 0.2f;
         }
     }
+
     class ThunderArrow : ModProjectile
     {
         public override void SetStaticDefaults()

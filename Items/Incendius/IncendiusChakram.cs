@@ -34,8 +34,8 @@ namespace TerrorbornMod.Items.Incendius
         public override void SetDefaults()
         {
             item.damage = 35;
-            item.width = 48;
-            item.height = 48;
+            item.width = 54;
+            item.height = 54;
             item.useTime = 8;
             item.useAnimation = 8;
             item.rare = 4;
@@ -98,8 +98,8 @@ namespace TerrorbornMod.Items.Incendius
         public override void SetDefaults()
         {
             projectile.melee = true;
-            projectile.width = 48;
-            projectile.height = 48;
+            projectile.width = 54;
+            projectile.height = 54;
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.tileCollide = true;

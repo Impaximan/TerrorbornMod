@@ -27,4 +27,18 @@ namespace TerrorbornMod
             }
         }
     }
+
+    class astralSparkData
+    {
+        public static float speed = 8.5f;
+        public static void Transform(Player player)
+        {
+            if (!player.HasBuff(ModContent.BuffType<Buffs.Debuffs.AstralSparkCooldown>()))
+            {
+                player.AddBuff(ModContent.BuffType<Buffs.AstralSparkBuff>(), 60 * 5);
+                player.AddBuff(ModContent.BuffType<Buffs.Debuffs.AstralSparkCooldown>(), 60 * 20);
+                Main.PlaySound(SoundID.Item72, player.Center);
+            }
+        }
+    }
 }

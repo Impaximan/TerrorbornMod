@@ -25,6 +25,7 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             npc.noGravity = true;
             npc.noTileCollide = true;
+            npc.aiStyle = -1;
             npc.width = 162;
             npc.height = 132;
             npc.damage = 25;
@@ -66,7 +67,6 @@ namespace TerrorbornMod.NPCs.Bosses
                 npc.lifeMax = 7500;
             }
         }
-        float trueMovementX = 0;
         int AIPhase = 0;
         int PhaseCounter = 450;
         int AttackCounter;
@@ -100,18 +100,18 @@ namespace TerrorbornMod.NPCs.Bosses
 
                     if (targetPosition.X < npc.Center.X && npc.velocity.X > -8)
                     {
-                        trueMovementX -= acceleration; // accelerate to the left
-                        if (trueMovementX > 0)
+                        npc.velocity.X -= acceleration; // accelerate to the left
+                        if (npc.velocity.X > 0)
                         {
-                            trueMovementX -= deceleration;
+                            npc.velocity.X -= deceleration;
                         }
                     }
                     if (targetPosition.X > npc.Center.X && npc.velocity.X < 8)
                     {
-                        trueMovementX += acceleration; // accelerate to the right
-                        if (trueMovementX < 0)
+                        npc.velocity.X += acceleration; // accelerate to the right
+                        if (npc.velocity.X < 0)
                         {
-                            trueMovementX += deceleration;
+                            npc.velocity.X += deceleration;
                         }
                     }
                     if (targetPosition.Y < npc.Center.Y && npc.velocity.Y > -8)
@@ -134,7 +134,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 if (AIPhase == 1)
                 {
                     npc.velocity.Y *= 0.98f;
-                    trueMovementX *= 0.98f;
+                    npc.velocity.X *= 0.98f;
                     AttackCounter--;
                     if (AttackCounter <= 0)
                     {
@@ -180,7 +180,6 @@ namespace TerrorbornMod.NPCs.Bosses
                     }
                 }
             }
-            npc.velocity.X = trueMovementX;
         }
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
         {

@@ -58,7 +58,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             recipe.AddRecipe();
         }
     }
-    class AzuriteSlash: ModProjectile
+    class AzuriteSlash : ModProjectile
     {
         public override void SetStaticDefaults()
         {

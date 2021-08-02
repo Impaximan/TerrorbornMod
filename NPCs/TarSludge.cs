@@ -26,7 +26,7 @@ namespace TerrorbornMod.NPCs
             npc.HitSound = SoundID.NPCHit8;
             npc.DeathSound = SoundID.NPCDeath13;
             npc.value = 250;
-            npc.knockBackResist = 0f;
+            npc.knockBackResist = 0.1f;
             npc.aiStyle = 1;
             
             npc.lavaImmune = true;

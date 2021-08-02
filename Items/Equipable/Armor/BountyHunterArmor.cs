@@ -40,8 +40,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("4% increased ranged damage" +
-                "\n2% increased ranged critical strike chance" +
-                "\nIncreased agility");
+                "\n2% increased ranged critical strike chance");
         }
 
         public override void SetDefaults()
@@ -57,12 +56,16 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             player.rangedDamage += 0.04f;
             player.rangedCrit += 3;
-            player.moveSpeed += 3;
         }
     }
     [AutoloadEquip(EquipType.Head)]
     public class BountyHunterCap : ModItem
     {
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+        {
+            drawAltHair = true;
+        }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("4% increased ranged damage" +

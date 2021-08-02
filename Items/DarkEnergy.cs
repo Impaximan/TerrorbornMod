@@ -15,7 +15,8 @@ namespace TerrorbornMod.Items
     {
         public override void SetDefaults()
         {
-
+            item.width = 40;
+            item.height = 34;
         }
 
         public override void SetStaticDefaults()

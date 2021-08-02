@@ -21,7 +21,7 @@ namespace TerrorbornMod.NPCs.Bosses
     {
         public override void NPCLoot()
         {
-            TerrorbornWorld.downedNightcrawler = true;
+            TerrorbornWorld.downedShadowcrawler = true;
             Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.PermanentUpgrades.AnekronianApple>());
             if (Main.expertMode)
             {
@@ -37,7 +37,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 }
                 else if (choice == 1)
                 {
-                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Shadowcrawler.ContaminatedMarinePistol>());
+                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Shadowcrawler.Nightbrood>());
                 }
                 else if (choice == 2)
                 {

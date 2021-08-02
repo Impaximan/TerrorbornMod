@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items.Shadowcrawler
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Hitting enemies causes Nightmare flames to erupt from them towards your cursor.");
+            Tooltip.SetDefault("Hitting enemies causes Nightmare flames to erupt from them towards your cursor");
         }
 
         public override void SetDefaults()

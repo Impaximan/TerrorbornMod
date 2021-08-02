@@ -69,6 +69,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override void SetDefaults()
         {
+            npc.aiStyle = -1;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.width = 240;
@@ -192,7 +193,6 @@ namespace TerrorbornMod.NPCs.Bosses
             }
         }
 
-        Vector2 velocity = Vector2.Zero;
         bool autoDirection = true;
         int dirOverride = 1;
         int AIPhase = 0;
@@ -582,8 +582,8 @@ namespace TerrorbornMod.NPCs.Bosses
                             spinSpeed = 5;
                             if (npc.Distance(targetPosition) <= 25)
                             {
-                                velocity.X = -25 * attackDirection;
-                                velocity.Y = 0;
+                                npc.velocity.X = -25 * attackDirection;
+                                npc.velocity.Y = 0;
                                 charging = true;
                                 setUpNextAIPhasePortals(nextAIPhase);
                             }
@@ -650,7 +650,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     //}
                     if (AIPhase == 4) // 'Bullet Hell'
                     {
-                        velocity = Vector2.Zero;
+                        npc.velocity = Vector2.Zero;
                         attackCounter1--;
                         if (attackCounter1 <= 0)
                         {
@@ -784,7 +784,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         float progress = (90f - attackCounter1) / 60f;
                         Filters.Scene["Shockwave"].GetShader().UseProgress(progress).UseOpacity(100 * (1 - progress / 3f));
                     }
-                    velocity *= 0.95f;
+                    npc.velocity *= 0.95f;
                 }
 
 
@@ -804,7 +804,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         }
                         if (phaseCounter <= 0)
                         {
-                            velocity *= 0.93f;
+                            npc.velocity *= 0.93f;
                             attackCounter1--;
                             if (attackCounter1 <= 0)
                             {
@@ -959,13 +959,13 @@ namespace TerrorbornMod.NPCs.Bosses
                             {
                                 if (vertical)
                                 {
-                                    velocity.Y = -25 * attackDirection;
-                                    velocity.X = 0;
+                                    npc.velocity.Y = -25 * attackDirection;
+                                    npc.velocity.X = 0;
                                 }
                                 else
                                 {
-                                    velocity.X = -25 * attackDirection;
-                                    velocity.Y = 0;
+                                    npc.velocity.X = -25 * attackDirection;
+                                    npc.velocity.Y = 0;
                                 }
                                 charging = true;
                                 setUpNextAIPhasePortals(nextAIPhase);
@@ -993,7 +993,7 @@ namespace TerrorbornMod.NPCs.Bosses
                                 AIPhase = nextAIPhase;
                                 PreAIPhaseSetup(AIPhase, target);
                             }
-                            velocity *= 0.95f;
+                            npc.velocity *= 0.95f;
                         }
                         if (charging)
                         {
@@ -1041,7 +1041,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         }
                         else
                         {
-                            velocity = Vector2.Zero;
+                            npc.velocity = Vector2.Zero;
 
                             if (Math.Abs(spinAttackRotationSpeed) < MathHelper.ToRadians(8f))
                             {
@@ -1073,7 +1073,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     }
                     if (AIPhase == 4) // 'Bullet Hell'
                     {
-                        velocity = Vector2.Zero;
+                        npc.velocity = Vector2.Zero;
                         attackCounter1--;
                         if (attackCounter1 <= 0)
                         {
@@ -1179,13 +1179,13 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             else
             {
-                velocity.Y -= 0.5f;
+                npc.velocity.Y -= 0.5f;
                 if (npc.position.Y <= target.position.Y - 1200)
                 {
                     npc.active = false;
                 }
             }
-            npc.velocity = velocity;
+            npc.velocity = npc.velocity;
             npc.direction = dirOverride;
             npc.spriteDirection = -dirOverride;
             npc.rotation += MathHelper.ToRadians(spinSpeed * npc.direction);
@@ -1260,7 +1260,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 actualVelocity = actualVelocity.ToRotation().ToRotationVector2() * phase0MaxSpeed;
             }
             phase0MaxSpeed += 0.25f;
-            velocity = actualVelocity;
+            npc.velocity = actualVelocity;
 
             Vector2 laserVelocity = rotation * laserSpeed;
             int laserDamage = 100;
@@ -1337,7 +1337,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         void setCharging(float speed, Vector2 direction)
         {
-            velocity = speed * direction;
+            npc.velocity = speed * direction;
             charging = true;
         }
 
@@ -1358,8 +1358,8 @@ namespace TerrorbornMod.NPCs.Bosses
 
         void preChargeLineup(Vector2 direction, float speed, float drag = 0.92f)
         {
-            velocity += direction * speed;
-            velocity *= drag;
+            npc.velocity += direction * speed;
+            npc.velocity *= drag;
         }
     }
 

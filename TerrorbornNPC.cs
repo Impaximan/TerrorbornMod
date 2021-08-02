@@ -21,6 +21,11 @@ namespace TerrorbornMod
         public float ogKnockbackResist;
         public int soulSplitTime = 0;
         public int soulOrbCooldown = 0;
+        public int mindSpearheadTime = 0;
+        public bool extraWormSegment = false;
+        public int CumulusEmpowermentTime = 0;
+        public int SoulEaterTotalDamageTaken;
+        public int SoulReaperTotalDamageTaken;
 
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
         {
@@ -53,6 +58,12 @@ namespace TerrorbornMod
             {
                 crit = true;
             }
+
+            if (CumulusEmpowermentTime > 0)
+            {
+                damage = (int)(damage * 0.5f);
+                knockback = 0;
+            }
         }
 
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -62,6 +73,12 @@ namespace TerrorbornMod
             if (modPlayer.LiesOfNourishment && npc.life >= npc.lifeMax)
             {
                 crit = true;
+            }
+
+            if (CumulusEmpowermentTime > 0)
+            {
+                damage = (int)(damage * 0.5f);
+                knockback = 0;
             }
         }
 
@@ -80,11 +97,91 @@ namespace TerrorbornMod
             {
                 soulOrbCooldown--;
             }
+
+            if (mindSpearheadTime > 0)
+            {
+                mindSpearheadTime--;
+                if (mindSpearheadTime <= 0)
+                {
+                    CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(80, 112, 109), "Spearhead Dropped!", false, true);
+                }
+            }
+
+            if (CumulusEmpowermentTime > 0)
+            {
+                CumulusEmpowermentTime--;
+                int d = Dust.NewDust(npc.position, npc.width, npc.height, 21);
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity = npc.velocity;
+            }
         }
 
         public static TerrorbornNPC modNPC(NPC npc)
         {
             return npc.GetGlobalNPC<TerrorbornNPC>();
+        }
+
+        public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
+        {
+            if (player.ZoneRain && TerrorbornWorld.terrorRain && maxSpawns != 0) //Checks current maxSpawns specifically so it works with HERO's mod's spawn thingy
+            {
+                if (Main.dayTime)
+                {
+                    spawnRate = (int)(spawnRate * 0.35f);
+                }
+                else
+                {
+                    spawnRate = (int)(spawnRate * 0.55f);
+                }
+                //spawnRate = 180;
+                maxSpawns = (int)(maxSpawns * 2f);
+            }
+            //maxSpawns += TerrorbornWorld.wormExtraSegmentCount;
+        }
+
+        List<int> terrorRainEnemies = new List<int>()
+        {
+            { ModContent.NPCType<NPCs.TerrorRain.VentedCumulus>() },
+            { ModContent.NPCType<NPCs.TerrorRain.VenomHopper>() },
+            { ModContent.NPCType<NPCs.TerrorRain.BrainStinger>() },
+            { ModContent.NPCType<NPCs.TerrorRain.DownpourGecko>() },
+        };
+
+        public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.player.ZoneRain && TerrorbornWorld.terrorRain)
+            {
+                pool.Clear();
+
+                foreach (int i in terrorRainEnemies)
+                {
+                    float weight = 1f;
+                    if (i == ModContent.NPCType<NPCs.TerrorRain.VentedCumulus>())
+                    {
+                        weight = 0.3f;
+                    }
+                    if (i == ModContent.NPCType<NPCs.TerrorRain.BrainStinger>())
+                    {
+                        weight = 0.8f;
+                    }
+                    //if (i == ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>())
+                    //{
+                    //    if (NPC.AnyNPCs(ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>()))
+                    //    {
+                    //        weight = 0f;
+                    //    }
+                    //    else
+                    //    {
+                    //        weight = 0.07f;
+                    //    }
+                    //}
+                    if (i == ModContent.NPCType<NPCs.TerrorRain.DownpourGecko>())
+                    {
+                        weight = 0.6f;
+                    }
+                    pool.Add(i, weight);
+                }
+            }
         }
 
         public bool CheckBountyBiome(Player player)
@@ -167,6 +264,40 @@ namespace TerrorbornMod
             float speed = Main.rand.Next(15, 25);
             Projectile.NewProjectile(npc.Center, direction * speed, ModContent.ProjectileType<Projectiles.AzuriteShard>(), originalDamage / 2, 0f, player.whoAmI);
             Main.PlaySound(SoundID.Item118, npc.Center);
+        }
+
+        public override void HitEffect(NPC npc, int hitDirection, double damage)
+        {
+            Player player = Main.LocalPlayer;
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            if (npc.life <= 0 && !npc.SpawnedFromStatue)
+            {
+                if (modPlayer.SoulEater)
+                {
+                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<TerrorOrb>(), 0, 0, player.whoAmI);
+                }
+            }
+
+            if (modPlayer.SoulEater && npc.boss)
+            {
+                SoulEaterTotalDamageTaken += (int)damage;
+                while (SoulEaterTotalDamageTaken > npc.lifeMax * 0.075f)
+                {
+                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<TerrorOrb>(), 0, 0, player.whoAmI);
+                    SoulEaterTotalDamageTaken -= (int)(npc.lifeMax * 0.075f);
+                }
+            }
+
+            if (modPlayer.SoulReaperArmorBonus && npc.boss)
+            {
+                SoulReaperTotalDamageTaken += (int)damage;
+                while (SoulReaperTotalDamageTaken > npc.lifeMax * 0.075f)
+                {
+                    Item.NewItem(npc.Center, ModContent.ItemType<Items.Equipable.Armor.ThunderSoul>());
+                    SoulReaperTotalDamageTaken -= (int)(npc.lifeMax * 0.075f);
+                }
+            }
         }
 
         public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
@@ -391,6 +522,27 @@ namespace TerrorbornMod
             extraDarkEnergyIDs.Add(NPCID.IceGolem);
             extraDarkEnergyIDs.Add(ModContent.NPCType<NPCs.Bosses.Sangrune>());
             extraDarkEnergyIDs.Add(ModContent.NPCType<NPCs.UndyingSpirit>());
+            extraDarkEnergyIDs.Add(ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
+
+            if (modPlayer.SoulReaperArmorBonus)
+            {
+                Item.NewItem(npc.Center, ModContent.ItemType<Items.Equipable.Armor.ThunderSoul>());
+            }
+
+            if (TerrorbornWorld.terrorRain && player.ZoneRain && Main.rand.NextFloat() <= 0.5f)
+            {
+                int type = ItemID.DirtBlock;
+                switch (Main.rand.Next(3))
+                {
+                    case 0: type = ItemID.SoulofNight;
+                        break;
+                    case 1: type = ItemID.SoulofLight;
+                        break;
+                    case 2: type = ItemID.SoulofFlight;
+                        break;
+                }
+                Item.NewItem(npc.getRect(), type);
+            }
 
             if (NPCID.Sets.ProjectileNPC[npc.type])
             {
@@ -402,15 +554,34 @@ namespace TerrorbornMod
             {
                 ExpertBoost = 2;
             }
+
+            if (npc.type == NPCID.GoblinSorcerer)
+            {
+                if (Main.rand.NextFloat() <= 0.15f * ExpertBoost)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapons.Magic.BookOfChaos>());
+                }
+            }
+
+            if (npc.type == NPCID.GoblinArcher)
+            {
+                if (Main.rand.NextFloat() <= 0.08f * ExpertBoost)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapons.Ranged.WarBow>());
+                }
+            }
+
             if (npc.type == NPCID.EyeofCthulhu)
             {
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.EyeOfTheMenace>());
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Minions.OpticCane>());
             }
+
             if (npc.type == NPCID.MoonLordCore)
             {
                 modPlayer.TerrorPercent = 0f;
             }
+
             if (extraDarkEnergyIDs.Contains(npc.type) || npc.boss)
             {
                 for (int i = 0; i < Main.rand.Next(3, 5); i++)
@@ -418,22 +589,27 @@ namespace TerrorbornMod
                     Item.NewItem(npc.Center, ModContent.ItemType<Items.DarkEnergy>());
                 }
             }
+
             if (npc.type == NPCID.WallofFlesh)
             {
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.DemonicLense>());
             }
+
             if (npc.type == NPCID.Mothron && Main.rand.NextFloat() <= 0.33f)
             {
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Other.Armagrenade>());
             }
+
             if (npc.type == NPCID.MartianSaucerCore)
             {
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Equipable.Accessories.Wings.MartianBoosters>());
             }
+
             if (npc.type == NPCID.SkeletronHead)
             {
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.CoreOfFear>());
             }
+
             if (npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem)
             {
                 if (Main.rand.NextFloat(101) <= 0.45 * ExpertBoost)
@@ -441,6 +617,7 @@ namespace TerrorbornMod
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.graniteVirusSpark>());
                 }
             }
+
             if (npc.type == NPCID.Antlion || npc.type == NPCID.FlyingAntlion || npc.type == NPCID.WalkingAntlion)
             {
                 if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
@@ -531,6 +708,58 @@ namespace TerrorbornMod
                 int healAmount = 1;
                 player.HealEffect(healAmount);
                 player.statLife += healAmount;
+                projectile.active = false;
+            }
+        }
+    }
+
+    class TerrorOrb : ModProjectile
+    {
+        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        //private bool HasGravity = true;
+        //private bool Spawn = true;
+        //private bool GravDown = true;
+        public override void SetDefaults()
+        {
+            projectile.width = 10;
+            projectile.height = 10;
+            projectile.aiStyle = 0;
+            projectile.tileCollide = true;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.hostile = false;
+            projectile.magic = true;
+            projectile.hide = true;
+            projectile.timeLeft = 300;
+            projectile.damage = 0;
+        }
+
+        int Direction = 1;
+        int DirectionCounter = 5;
+        public override void AI()
+        {
+            Player player = Main.player[projectile.owner];
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            int type = 54;
+            int dust = Dust.NewDust(projectile.Center, 0, 0, type);
+            Main.dust[dust].velocity = Vector2.Zero;
+            Main.dust[dust].scale = 1f;
+            Main.dust[dust].alpha = 255 / 2;
+            Main.dust[dust].noGravity = true;
+            Main.dust[dust].color = Color.White;
+
+
+            int speed = 25;
+            projectile.velocity = projectile.DirectionTo(player.Center) * speed;
+            if (projectile.Distance(player.Center) <= speed)
+            {
+                modPlayer.TerrorPercent += 2f;
+                if (modPlayer.TerrorPercent > 100)
+                {
+                    modPlayer.TerrorPercent = 100;
+                }
+                CombatText.NewText(player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), "2%");
                 projectile.active = false;
             }
         }
