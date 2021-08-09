@@ -49,14 +49,14 @@ namespace TerrorbornMod.NPCs
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
             if (modPlayer.DeimosteelCharm)
             {
-                if (Main.rand.NextFloat() <= 0.5f)
+                if (Main.rand.NextFloat() <= 0.7f)
                 {
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                 }
             }
             else
             {
-                if (Main.rand.NextFloat() <= 0.25f)
+                if (Main.rand.NextFloat() <= 0.35f)
                 {
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                 }
@@ -90,7 +90,7 @@ namespace TerrorbornMod.NPCs
             {
                 return 0f;
             }
-            return SpawnCondition.OverworldDaySlime.Chance * 0.35f;
+            return SpawnCondition.OverworldDaySlime.Chance * 0.65f;
         }
     }
 }

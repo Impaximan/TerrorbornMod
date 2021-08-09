@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("CR1MS4NE's Robes");
+            DisplayName.SetDefault("Sir Pogsalots's Robes");
             Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
@@ -31,7 +31,7 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("CR1MS4NE's Leg Robes");
+            DisplayName.SetDefault("Sir Pogsalots's Leg Robes");
             Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
@@ -52,7 +52,7 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("CR1MS4NE's Hood");
+            DisplayName.SetDefault("Sir Pogsalots's Hood");
             Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 

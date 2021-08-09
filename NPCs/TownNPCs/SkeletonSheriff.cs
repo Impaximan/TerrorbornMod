@@ -393,10 +393,6 @@ namespace TerrorbornMod.NPCs.TownNPCs
             }
         }
         
-        //public override void SetupShop(Chest shop, ref int nextSlot)
-        //{
-
-        //}
         public override string GetChat()
         {
             WeightedRandom<string> chat = new WeightedRandom<string>();

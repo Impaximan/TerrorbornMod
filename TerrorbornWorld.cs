@@ -27,14 +27,17 @@ namespace TerrorbornMod
         public static bool downedTerrorRain;
         public static bool downedFrightcrawler;
         public static bool terrorRain;
+        public static bool talkedToCartographer;
         public static int timeSinceFrightcrawlerSpawn = 0;
         public static int ShadowTiles = 0;
         public static int CurrentBountyBiome = 69; //You can't stop me from keeping it like this
         public static bool UnaliveInvasionUp;
         public static string SkeletonSheriffName;
+        public static string CartographerName;
         public static int TerrorMasterDialogue;
         public static int deimostoneTiles;
         public static int wormExtraSegmentCount = 0;
+        public static int CartographerSpawnCooldown = 0;
 
         public static Vector2 ShriekOfHorror;
         public static Vector2 HorrificAdaptation;
@@ -47,6 +50,7 @@ namespace TerrorbornMod
 
         public override void Initialize()
         {
+            CartographerSpawnCooldown = 3600 * 6;
             downedShadowcrawler = false;
             downedPrototypeI = false;
             downedTidalTitan = false;
@@ -58,8 +62,10 @@ namespace TerrorbornMod
             downedFrightcrawler = false;
             downedUndyingSpirit = false;
             obtainedShriekOfHorror = false;
+            talkedToCartographer = false;
             TerrorMasterDialogue = 0;
             SkeletonSheriffName = getSkeletonSheriffName();
+            CartographerName = getCartographerName();
             VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f);
             TerrorWarp = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.66f);
         }
@@ -85,6 +91,7 @@ namespace TerrorbornMod
             TerrorbornPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<TerrorbornPlayer>();
             deimostoneTiles = 0;
         }
+
         public override void TileCountsAvailable(int[] tileCounts)
         {
             deimostoneTiles = tileCounts[ModContent.TileType<Tiles.Deimostone>()];
@@ -113,6 +120,29 @@ namespace TerrorbornMod
             }
         }
 
+        public string getCartographerName()
+        {
+            switch (WorldGen.genRand.Next(7))
+            {
+                case 0:
+                    return "Lupo";
+                case 1:
+                    return "Albert";
+                case 2:
+                    return "Cata";
+                case 3:
+                    return "Cornifer";
+                case 4:
+                    return "Abraham";
+                case 5:
+                    return "Gerardus";
+                case 6:
+                    return "Arthur";
+                default:
+                    return "David";
+            }
+        }
+
         public override TagCompound Save()
         {
             var downed = new List<string>();
@@ -131,11 +161,14 @@ namespace TerrorbornMod
                 {"downed", downed},
                 {"CurrentBountyBiome", CurrentBountyBiome},
                 {"SkeletonSheriffName", SkeletonSheriffName},
+                {"CartographerName", CartographerName},
                 {"TerrorMasterDialogue", TerrorMasterDialogue},
                 {"VoidBlink", VoidBlink},
                 {"TerrorWarp", TerrorWarp},
                 {"terrorRain", terrorRain},
-                {"timeSinceFrightcrawlerSpawn", timeSinceFrightcrawlerSpawn}
+                {"talkedToCartographer", talkedToCartographer},
+                {"timeSinceFrightcrawlerSpawn", timeSinceFrightcrawlerSpawn},
+                {"CartographerSpawnCooldown", CartographerSpawnCooldown}
             };
             
         }
@@ -154,11 +187,14 @@ namespace TerrorbornMod
             downedFrightcrawler = downed.Contains("downedFrightcrawler");
             CurrentBountyBiome = tag.GetInt("CurrentBountyBiome");
             SkeletonSheriffName = tag.GetString("SkeletonSheriffName");
+            CartographerName = tag.GetString("CartographerName");
             TerrorMasterDialogue = tag.GetInt("TerrorMasterDialogue");
             VoidBlink = tag.Get<Vector2>("VoidBlink");
             TerrorWarp = tag.Get<Vector2>("TerrorWarp");
             terrorRain = tag.GetBool("terrorRain");
+            talkedToCartographer = tag.GetBool("talkedToCartographer");
             timeSinceFrightcrawlerSpawn = tag.GetInt("timeSinceFrightcrawlerSpawn");
+            CartographerSpawnCooldown = tag.GetInt("CartographerSpawnCooldown");
         }
 
         public override void LoadLegacy(BinaryReader reader)
@@ -380,6 +416,29 @@ namespace TerrorbornMod
                             if (chest.item[inventoryIndex].type == ItemID.None)
                             {
                                 chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks>());
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36)
+                {
+                    if (Main.rand.NextFloat() <= 0.35f)
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            if (chest.item[inventoryIndex].type == ItemID.None)
+                            {
+                                switch (Main.rand.Next(2))
+                                {
+                                    case 0:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
+                                        break;
+                                    case 1:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CursedShades>());
+                                        break;
+                                }
                                 break;
                             }
                         }
@@ -847,6 +906,11 @@ namespace TerrorbornMod
             else
             {
                 Main.rainTexture = ModContent.GetTexture("Terraria/Rain");
+            }
+
+            if (CartographerSpawnCooldown > 0)
+            {
+                CartographerSpawnCooldown--;
             }
 
             //Vector2 textVector = VoidBlink * 16 - Main.player[Main.myPlayer].position;

@@ -64,6 +64,11 @@ namespace TerrorbornMod
                 damage = (int)(damage * 0.5f);
                 knockback = 0;
             }
+
+            if (crit)
+            {
+                damage = (int)(damage * modPlayer.critDamage);
+            }
         }
 
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -79,6 +84,11 @@ namespace TerrorbornMod
             {
                 damage = (int)(damage * 0.5f);
                 knockback = 0;
+            }
+
+            if (crit)
+            {
+                damage = (int)(damage * modPlayer.critDamage);
             }
         }
 
@@ -571,10 +581,23 @@ namespace TerrorbornMod
                 }
             }
 
+            if (npc.type == NPCID.TacticalSkeleton || npc.type == NPCID.SkeletonCommando || npc.type == NPCID.SkeletonSniper)
+            {
+                if (Main.rand.NextFloat() <= 0.35f)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Accessories.TacticalCommlink>());
+                }
+            }
+
             if (npc.type == NPCID.EyeofCthulhu)
             {
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.EyeOfTheMenace>());
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Minions.OpticCane>());
+            }
+
+            if (npc.type == NPCID.KingSlime)
+            {
+                Item.NewItem(npc.Center, ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.CompressedGelatin>());
             }
 
             if (npc.type == NPCID.MoonLordCore)

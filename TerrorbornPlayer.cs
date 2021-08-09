@@ -53,6 +53,7 @@ namespace TerrorbornMod
         public float placeSpeed = 1f;
         public float allUseSpeed = 1f;
         public bool canUseItems = true;
+        public float critDamage = 1f;
 
         //Restless stats
         public float restlessDamage = 1f;
@@ -66,7 +67,10 @@ namespace TerrorbornMod
         public bool DeimosteelCharm = false;
         public bool MysteriousCompass = false;
         public bool AzuriteBrooch = false;
+        public bool TacticalCommlink = false;
+        public bool ShadowAmulet = false;
         public bool SoulEater = false;
+        public bool PrismalCore = false;
         public bool cloakOfTheWind = false;
         public bool PlasmaArmorBonus = false;
         public bool VampiricPendant = false;
@@ -84,6 +88,9 @@ namespace TerrorbornMod
         public bool TideSpirit = false;
         public bool TidalShellArmorBonus = false;
         public bool HorrificCharm = false;
+        public int BurstJumpTime = 0;
+        public int BurstJumpChargingTime = 0;
+        public bool JustBurstJumped = false;
 
         //Permanent Upgrades
         public bool EyeOfTheMenace = false;
@@ -197,17 +204,22 @@ namespace TerrorbornMod
             restlessUseSpeed = 1f;
             restlessChargedUseSpeed = 1f;
             restlessNonChargedUseSpeed = 1f;
+            critDamage = 1f;
             HorrificCharm = false;
             TideSpirit = false;
             TidalShellArmorBonus = false;
             SoulReaperArmorBonus = false;
             MysteriousCompass = false;
+            ShadowAmulet = false;
             IntimidationAura = false;
             SanguineSetBonus = false;
             AntlionShell = false;
+            PrismalCore = false;
             SoulEater = false;
             AzuriteBrooch = false;
+            TacticalCommlink = false;
             astralSpark = false;
+            JustBurstJumped = false;
             graniteSpark = false;
             ShriekOfHorrorMovement = 0f;
             if (CoreOfFear)

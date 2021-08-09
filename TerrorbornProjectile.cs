@@ -3,14 +3,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using System.Collections.Generic;
 
 namespace TerrorbornMod
 {
     class TerrorbornProjectile : GlobalProjectile
     {
-        int BaseExtraUpdates = 0;
-        bool BaseUsesIDStaticImmunity = false;
-        int BaseIdStaticNPCHitCooldown = 15;
         bool Start = true;
         int crystalWait = 10;
         public override bool InstancePerEntity => true;
@@ -19,6 +17,8 @@ namespace TerrorbornMod
         public bool ContaminatedMarine = false;
 
         public bool Shadowflame = false;
+
+        public bool fromSplit = false;
 
         public override bool CanHitPlayer(Projectile projectile, Player target)
         {
@@ -90,6 +90,57 @@ namespace TerrorbornMod
             {
                 target.AddBuff(BuffID.ShadowFlame, 60 * 3);
             }
+
+            if (modPlayer.TacticalCommlink && projectile.ranged && Main.rand.NextFloat() <= .20f)
+            {
+                Vector2 position = new Vector2(target.Center.X, target.position.Y - 750);
+                position.X += Main.rand.Next(-150, 150);
+                Vector2 direction = target.DirectionFrom(position);
+                float speed = 30f;
+                Projectile newProj = Main.projectile[Projectile.NewProjectile(position, direction * speed, ProjectileID.RocketI, damage, 2f, projectile.owner)];
+                newProj.localNPCHitCooldown = -1;
+                newProj.usesLocalNPCImmunity = true;
+                newProj.tileCollide = false;
+                newProj.timeLeft = 60 * 3;
+            }
+
+            if (modPlayer.ShadowAmulet && Main.rand.NextFloat() <= .35f && projectile.type != ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>())
+            {
+                Vector2 direction = player.DirectionTo(target.Center);
+                float speed = 15f;
+                Projectile newProj = Main.projectile[Projectile.NewProjectile(player.Center, direction * speed, ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>(), (int)(projectile.damage * 0.65f), 2f, projectile.owner)];
+                newProj.melee = projectile.melee;
+                newProj.ranged = projectile.ranged;
+                newProj.magic = projectile.magic;
+
+            }
+        }
+
+        public void OnSpawn(Projectile projectile)
+        {
+            Player player = Main.player[projectile.owner];
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            List<int> bannedProjectiles = new List<int>
+            {
+                { ProjectileID.LastPrism },
+                { ProjectileID.LastPrismLaser},
+                { ProjectileID.ChargedBlasterCannon},
+                { ProjectileID.ChargedBlasterLaser}
+            };
+
+            if (modPlayer.PrismalCore && projectile.magic && Main.rand.NextFloat() <= 0.2f && !fromSplit && !bannedProjectiles.Contains(projectile.type))
+            {
+                float rotation = MathHelper.ToRadians(20);
+
+                Projectile otherProj = Main.projectile[Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(rotation), projectile.type, projectile.damage, projectile.knockBack, projectile.owner)];
+                modProjectile(otherProj).fromSplit = true;
+                //otherProj.ai = projectile.ai;
+
+                otherProj = Main.projectile[Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(-rotation), projectile.type, projectile.damage, projectile.knockBack, projectile.owner)];
+                modProjectile(otherProj).fromSplit = true;
+                //otherProj.ai = projectile.ai;
+            }
         }
 
         int hellfireCooldown = 120;
@@ -113,9 +164,7 @@ namespace TerrorbornMod
             if (Start)
             {
                 Start = false;
-                BaseExtraUpdates = projectile.extraUpdates;
-                BaseUsesIDStaticImmunity = projectile.usesIDStaticNPCImmunity;
-                BaseIdStaticNPCHitCooldown = projectile.idStaticNPCHitCooldown;
+                OnSpawn(projectile);
             }
 
             if (projectile.friendly)

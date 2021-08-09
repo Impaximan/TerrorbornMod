@@ -36,6 +36,8 @@ namespace TerrorbornMod
         public float restlessTerrorDrain;
         public int restlessChargeUpCounter = 0;
 
+        public bool burstJump = false;
+
         int azureCounter = 2;
         public override bool CanUseItem(Item item, Player player)
         {
@@ -115,6 +117,74 @@ namespace TerrorbornMod
             }
         }
 
+        //public override bool CanEquipAccessory(Item item, Player player, int slot)
+        //{
+        //    if (burstJump && slot < 10)
+        //    {
+        //        int maxAccessoryIndex = 5 + Main.LocalPlayer.extraAccessorySlots;
+        //        for (int i = 3; i < 3 + maxAccessoryIndex; i++)
+        //        {
+        //            if (Main.LocalPlayer.armor[i] != null && !Main.LocalPlayer.armor[i].IsAir)
+        //            {
+        //                TerrorbornItem modOther = modItem(Main.LocalPlayer.armor[i]);
+        //                if (modOther.burstJump)
+        //                {
+        //                    return false;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return base.CanEquipAccessory(item, player, slot);
+        //}
+
+        //public override bool CanRightClick(Item item)
+        //{
+        //    if (burstJump)
+        //    {
+        //        int maxAccessoryIndex = 5 + Main.LocalPlayer.extraAccessorySlots;
+        //        for (int i = 3; i < 3 + maxAccessoryIndex; i++)
+        //        {
+        //            if ((Main.LocalPlayer.armor[i] != null && !Main.LocalPlayer.armor[i].IsAir) || Main.LocalPlayer.armor[i].type == item.type)
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    return base.CanRightClick(item);
+        //}
+
+        public override void RightClick(Item item, Player player)
+        {
+            int index = 3;
+            Item accessory = null;
+            if (burstJump)
+            {
+                int maxAccessoryIndex = 5 + Main.LocalPlayer.extraAccessorySlots;
+                for (int i = 3; i < 3 + maxAccessoryIndex; i++)
+                {
+                    if ((Main.LocalPlayer.armor[i] != null && !Main.LocalPlayer.armor[i].IsAir) || Main.LocalPlayer.armor[i].type == item.type)
+                    {
+                        index = i;
+                        accessory = Main.LocalPlayer.armor[i];
+                    }
+                }
+
+                if (accessory != null)
+                {
+                    Main.LocalPlayer.armor[index] = item.Clone();
+                    for (int i = 0; i < player.inventory.Length; i++)
+                    {
+                        if (player.inventory[i] == item)
+                        {
+                            index = i;
+                        }
+                    }
+                    player.inventory[index] = accessory;
+                }
+            }
+            base.RightClick(item, player);
+        }
+
         public override void SetDefaults(Item item)
         {
 
@@ -126,22 +196,58 @@ namespace TerrorbornMod
         }
 
         bool equippedInVanity = false;
-        Color restlessColor = Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255);
+
+        public static Color restlessColor1 = Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255);
+        public static Color restlessColor2 = Color.FromNonPremultiplied(128, 75, 135, 255);
+        public static float restlessColorProgress = 0f;
+        public static int restlessColorDirection = 1;
+        int restlessTransitionTime = 60;
+
+        public static Color burstJumpColor1 = Color.FromNonPremultiplied(104, 251, 107, 255);
+        public static Color burstJumpColor2 = Color.FromNonPremultiplied(198, 251, 104, 255);
+        public static float burstJumpColorProgress = 0f;
+        public static int burstJumpColorDirection = 1;
+        int burstJumpTransitionTime = 30;
+
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             TooltipLine line = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
             if (restless)
             {
                 tooltips.Insert(1, new TooltipLine(mod, "restlessItem", "--Restless Weapon--"));
-                tooltips.FirstOrDefault(x => x.Name == "restlessItem" && x.mod == "TerrorbornMod").overrideColor = Color.FromNonPremultiplied(128, 75, 135, 255);
-                foreach (TooltipLine line2 in tooltips)
-                {
-                    if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                    {
-                        line2.overrideColor = restlessColor;
-                    }
-                }
+                tooltips.FirstOrDefault(x => x.Name == "restlessItem" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(restlessColor1, restlessColor2, restlessColorProgress);
             }
+
+            restlessColorProgress += (1f / restlessTransitionTime) * restlessColorDirection;
+
+            if (restlessColorDirection == 1 && restlessColorProgress >= 1f)
+            {
+                restlessColorDirection *= -1;
+            }
+
+            if (restlessColorDirection == -1 && restlessColorProgress <= 0f)
+            {
+                restlessColorDirection *= -1;
+            }
+
+            if (burstJump)
+            {
+                tooltips.Insert(1, new TooltipLine(mod, "burstJumpItem", "--Burst Jump--"));
+                tooltips.FirstOrDefault(x => x.Name == "burstJumpItem" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(burstJumpColor1, burstJumpColor2, burstJumpColorProgress);
+            }
+
+            burstJumpColorProgress += (1f / burstJumpTransitionTime) * restlessColorDirection;
+
+            if (burstJumpColorDirection == 1 && burstJumpColorProgress >= 1f)
+            {
+                burstJumpColorDirection *= -1;
+            }
+
+            if (burstJumpColorDirection == -1 && burstJumpColorProgress <= 0f)
+            {
+                burstJumpColorDirection *= -1;
+            }
+
             line = tooltips.FirstOrDefault(x => x.Name == "Social" && x.mod == "Terraria");
             if (ShriekDrainBoost != 0f && line == null)
             {

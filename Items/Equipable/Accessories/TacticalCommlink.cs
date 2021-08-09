@@ -5,28 +5,28 @@ using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories
 {
-    class SoulEater : ModItem
+    class TacticalCommlink : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Causes killing enemies to grant you terror" +
-                "\nYou will also gain terror for every 7.5% of a boss's health");
+            Tooltip.SetDefault("Hitting enemies with ranged weapons has a chance to cause a rocket to fall from above" +
+                "\n10% increased ranged damage");
         }
 
         public override void SetDefaults()
         {
             item.accessory = true;
             item.noMelee = true;
-            item.rare = 5;
-            item.defense = 2;
-            item.value = Item.sellPrice(0, 5, 0, 0);
+            item.rare = 8;
+            item.value = Item.sellPrice(0, 8, 0, 0);
             item.useAnimation = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.SoulEater = true;
+            modPlayer.TacticalCommlink = true;
+            player.rangedDamage += 0.1f;
         }
     }
 }

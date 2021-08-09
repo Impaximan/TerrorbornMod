@@ -80,5 +80,81 @@ namespace TerrorbornMod
                 canPressMouseAgain = false;
             }
         }
+
+        static bool fullyCharged = false;
+        public static void UpdateBurstJump(int chargeUpTime, int effectTime, Item item, Player player, Vector2 velocityRight, Color textColor, Terraria.Audio.LegacySoundStyle sound)
+        {
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            if (player.controlUp)
+            {
+                modPlayer.BurstJumpChargingTime++;
+                if (modPlayer.BurstJumpChargingTime > chargeUpTime)
+                {
+                    if (!fullyCharged)
+                    {
+                        CombatText.NewText(player.getRect(), textColor, item.Name + " charged...", true, false);
+                        fullyCharged = true;
+                        Main.PlaySound(SoundID.Item37, player.Center);
+                    }
+                    player.armorEffectDrawOutlines = true;
+                }
+            }
+            else
+            {
+                modPlayer.BurstJumpChargingTime = 0;
+                if (fullyCharged)
+                {
+                    fullyCharged = false;
+                    Vector2 velocity = velocityRight;
+                    player.direction = 1;
+                    if (Main.MouseWorld.X < player.Center.X)
+                    {
+                        velocity.X *= -1;
+                        player.direction = -1;
+                    }
+                    player.velocity = velocity;
+                    modPlayer.BurstJumpTime = effectTime;
+                    modPlayer.JustBurstJumped = true;
+                    CombatText.NewText(player.getRect(), textColor, "..." + item.Name + " activated!", true, false);
+                    Main.PlaySound(sound, player.Center);
+                    TerrorbornMod.ScreenShake(5);
+                    player.fallStart = (int)player.position.Y;
+                    player.jumpAgainSandstorm = true;
+                    player.jumpAgainSail = true;
+                    player.jumpAgainFart = true;
+                    player.jumpAgainCloud = true;
+                    player.jumpAgainBlizzard = true;
+                }
+            }
+
+            if (modPlayer.BurstJumpTime > 0)
+            {
+                modPlayer.BurstJumpTime--;
+            }
+        }
+
+        public static string GetBurstJumpString(int chargeUpTime)
+        {
+            return "Hold UP for " + chargeUpTime / 60f + " seconds to charge up a burst jump" +
+                "\nOnce fully charged, release UP to fling yourself in the direction of your mouse cursor";
+        }
+
+        public static void RevealMapAroundPlayer(int distanceInTiles, Player player)
+        {
+            Point playerPosition = player.Center.ToTileCoordinates();
+            for (int i = playerPosition.X - distanceInTiles; i < playerPosition.X + distanceInTiles; i++)
+            {
+                for (int j = playerPosition.Y - distanceInTiles; j < playerPosition.Y + distanceInTiles; j++)
+                {
+                    Point tile = new Point(i, j);
+                    
+                    if (Vector2.Distance(playerPosition.ToVector2(), tile.ToVector2()) <= distanceInTiles && WorldGen.InWorld(i, j))
+                    {
+                        Main.Map.Update(i, j, 255);
+                    }
+                }
+            }
+            Main.refreshMap = true;
+        }
     }
 }
