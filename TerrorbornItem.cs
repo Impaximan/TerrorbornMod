@@ -203,11 +203,11 @@ namespace TerrorbornMod
         public static int restlessColorDirection = 1;
         int restlessTransitionTime = 60;
 
-        public static Color burstJumpColor1 = Color.FromNonPremultiplied(104, 251, 107, 255);
-        public static Color burstJumpColor2 = Color.FromNonPremultiplied(198, 251, 104, 255);
+        public static Color burstJumpColor1 = Color.FromNonPremultiplied(61, 255, 83, 255);
+        public static Color burstJumpColor2 = Color.FromNonPremultiplied(189, 42, 255, 255);
         public static float burstJumpColorProgress = 0f;
         public static int burstJumpColorDirection = 1;
-        int burstJumpTransitionTime = 30;
+        int burstJumpTransitionTime = 120;
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
@@ -236,7 +236,7 @@ namespace TerrorbornMod
                 tooltips.FirstOrDefault(x => x.Name == "burstJumpItem" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(burstJumpColor1, burstJumpColor2, burstJumpColorProgress);
             }
 
-            burstJumpColorProgress += (1f / burstJumpTransitionTime) * restlessColorDirection;
+            burstJumpColorProgress += (1f / burstJumpTransitionTime) * burstJumpColorDirection;
 
             if (burstJumpColorDirection == 1 && burstJumpColorProgress >= 1f)
             {

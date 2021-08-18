@@ -27,6 +27,69 @@ namespace TerrorbornMod
         public int SoulEaterTotalDamageTaken;
         public int SoulReaperTotalDamageTaken;
 
+        public int fighter_TargetPlayerCounter = 0;
+        public int fighter_StillTime = 0;
+        public int fighter_JumpCooldown = 0;
+        public void ImprovedFighterAI(NPC npc, float maxSpeed, float accelleration, float decelleration, float jumpSpeed, bool faceDirection = true, int jumpCooldown = 0, int stillTimeUntilTurnaround = 120, int wanderTime = 90)
+        {
+            Player player = Main.player[npc.target];
+
+            if (fighter_TargetPlayerCounter > 0)
+            {
+                fighter_TargetPlayerCounter--;
+            }
+            else
+            {
+                npc.TargetClosest(true);
+            }
+
+            if ((int)Math.Abs(npc.velocity.X) < maxSpeed - accelleration)
+            {
+                fighter_StillTime++;
+                if (fighter_StillTime > stillTimeUntilTurnaround)
+                {
+                    fighter_TargetPlayerCounter = wanderTime;
+                    npc.direction *= -1;
+                    fighter_StillTime = 0;
+                }
+            }
+            else
+            {
+                fighter_StillTime = 0;
+            }
+
+            if (npc.direction == 1 && npc.velocity.X < maxSpeed)
+            {
+                npc.velocity.X += accelleration;
+            }
+
+            if (npc.direction == -1 && npc.velocity.X > -maxSpeed)
+            {
+                npc.velocity.X -= accelleration;
+            }
+
+            if (npc.velocity.Y == 0)
+            {
+                if (fighter_JumpCooldown > 0)
+                {
+                    fighter_JumpCooldown--;
+                }
+                else if (!Collision.SolidCollision(npc.position + new Vector2(npc.width * npc.direction, npc.height), npc.width, 17) || Collision.SolidCollision(npc.position + new Vector2(npc.width * npc.direction, 0), npc.width, npc.height) || (MathHelper.Distance(player.Center.X, npc.Center.X) < npc.width && player.position.Y + player.width < npc.position.Y))
+                {
+                    if (player.Center.Y < npc.position.Y + npc.height || Math.Abs(player.Center.X - npc.Center.X) > 150)
+                    {
+                        npc.velocity.Y -= jumpSpeed;
+                        fighter_JumpCooldown = jumpCooldown;
+                    }
+                }
+            }
+
+            if (faceDirection)
+            {
+                npc.spriteDirection = npc.direction;
+            }
+        }
+
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
         {
             TerrorbornPlayer player = TerrorbornPlayer.modPlayer(target);
@@ -280,6 +343,8 @@ namespace TerrorbornMod
         {
             Player player = Main.LocalPlayer;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            fighter_TargetPlayerCounter = 0;
 
             if (npc.life <= 0 && !npc.SpawnedFromStatue)
             {

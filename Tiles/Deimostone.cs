@@ -25,11 +25,6 @@ namespace TerrorbornMod.Tiles
             AddMapEntry(new Color(40, 55, 70));
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = 1;
-        }
-
         public override bool CanExplode(int i, int j)
         {
             return false;

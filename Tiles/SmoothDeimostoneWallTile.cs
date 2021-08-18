@@ -10,11 +10,10 @@ namespace TerrorbornMod.Tiles
     {
         public override void SetDefaults()
         {
-            Main.wallHouse[Type] = false;
+            Main.wallHouse[Type] = true;
             drop = ModContent.ItemType<Items.Placeable.Walls.SmoothDeimostoneWall>();
             AddMapEntry(new Color(9, 19, 29));
         }
-
     }
 }
 

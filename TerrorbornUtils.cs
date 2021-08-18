@@ -136,7 +136,8 @@ namespace TerrorbornMod
         public static string GetBurstJumpString(int chargeUpTime)
         {
             return "Hold UP for " + chargeUpTime / 60f + " seconds to charge up a burst jump" +
-                "\nOnce fully charged, release UP to fling yourself in the direction of your mouse cursor";
+                "\nOnce fully charged, release UP to launch yourself left or right" +
+                "\nThe direction of the launch depends on the position of your cursor";
         }
 
         public static void RevealMapAroundPlayer(int distanceInTiles, Player player)

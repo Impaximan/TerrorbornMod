@@ -178,6 +178,16 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 }
             }
 
+            if (player.ZoneDungeon)
+            {
+                shop.item[nextSlot].SetDefaults(ItemID.Bone);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 3, 0);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.GoldenKey);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+                nextSlot++;
+            }
+
             if (player.ZoneCrimson)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.Vertebrae);
@@ -277,7 +287,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (NPC.AnyNPCs(npc.type) || spawnInfo.player.ZoneUnderworldHeight || spawnInfo.player.ZoneDungeon || TerrorbornWorld.CartographerSpawnCooldown > 0)
+            if (NPC.AnyNPCs(npc.type) || spawnInfo.player.ZoneUnderworldHeight || TerrorbornWorld.CartographerSpawnCooldown > 0)
             {
                 return 0f;
             }
@@ -285,7 +295,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             {
                 return 0.03f;
             }
-            return 0.008f;
+            return 0.005f;
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
@@ -355,7 +365,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
             {
                 start = false;
                 npc.GivenName = TerrorbornWorld.CartographerName;
-                TerrorbornWorld.CartographerSpawnCooldown = 3600 * 12;
+            }
+
+            if (TerrorbornWorld.talkedToCartographer)
+            {
+                TerrorbornWorld.CartographerSpawnCooldown = 3600 * 36;
             }
         }
 
@@ -550,6 +564,14 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         { "Anyways, how can I help you?" }
                     };
                 }
+                else if (player.ZoneDungeon)
+                {
+                    dialogue = new List<string>()
+                    {
+                        { "I never thought I'd get to explore somewhere as crazy as this place, especially since it used to be cursed..." },
+                        { "...since you're probably in a hurry, I'll just cut to the chase: how can I help you?" }
+                    };
+                }
                 else if (player.ZoneHoly)
                 {
                     if (player.ZoneRockLayerHeight)
@@ -661,7 +683,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     dialogue = new List<string>()
                     {
                         { "I've gotta get out of here before the bugs, vultures, armadillos, or high temperatures kill me."},
-                        { "How you not suffering from this heat? Perhaps I'm just not properly adjusted." },
+                        { "Are you not suffering from this heat? Perhaps I'm just not properly adjusted." },
                         { "Anyways, just let me fill in your map or something so we can get this over with." }
                     };
                 }
@@ -697,7 +719,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     WeightedRandom<List<string>> dialogues = new WeightedRandom<List<string>>();
                     dialogues.Add(new List<string>()
                     {
-                        { "It's so floaty up here... and fun to explore! Especially with all the sky islands... getting back down might be a problem, though." },
+                        { "It's so floaty up here... and fun to explore! Especially with all the sky islands. Getting back down might be a problem, though." },
                         { "In speaking of problems, are there any I can fix for you?" }
                     });
                     dialogues.Add(new List<string>()

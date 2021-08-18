@@ -45,10 +45,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 2);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 150);
+            recipe.SetResult(this, 225);
             recipe.AddRecipe();
         }
     }

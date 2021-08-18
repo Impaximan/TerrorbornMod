@@ -289,6 +289,21 @@ namespace TerrorbornMod
                         }
                     }
                 }
+
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 13 * 36)
+                {
+                    if (Main.rand.Next(101) <= 65)
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            if (chest.item[inventoryIndex].type == ItemID.None)
+                            {
+                                chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.SkyBurst>());
+                                break;
+                            }
+                        }
+                    }
+                }
                 if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<Tiles.DeimostoneChestTile>())
                 {
                     List<int> mainItems = new List<int>();
@@ -871,7 +886,6 @@ namespace TerrorbornMod
             {
                 thunderCounter = Main.rand.Next(60 * 4, 60 * 45);
             }
-
             if (terrorRain)
             {
                 Main.rainTexture = ModContent.GetTexture("TerrorbornMod/TerrorRain");

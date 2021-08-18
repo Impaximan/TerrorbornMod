@@ -20,5 +20,14 @@ namespace TerrorbornMod.Items.Placeable.Furniture
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.createTile = ModContent.TileType<Tiles.DeimostoneChestTile>();
 		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<Blocks.SmoothDeimostoneBlock>(), 8);
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

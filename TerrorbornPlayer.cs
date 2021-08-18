@@ -54,6 +54,7 @@ namespace TerrorbornMod
         public float allUseSpeed = 1f;
         public bool canUseItems = true;
         public float critDamage = 1f;
+        public float flightTimeMultiplier = 1f;
 
         //Restless stats
         public float restlessDamage = 1f;
@@ -198,6 +199,7 @@ namespace TerrorbornMod
 
         public override void ResetEffects()
         {
+            flightTimeMultiplier = 1f;
             DeimosteelCharm = false;
             restlessDamage = 1f;
             restlessKnockback = 1f;
@@ -379,6 +381,8 @@ namespace TerrorbornMod
             {
                 player.wingTimeMax *= 2;
             }
+
+            player.wingTimeMax = (int)(player.wingTimeMax * flightTimeMultiplier);
 
             if (Glooped)
             {

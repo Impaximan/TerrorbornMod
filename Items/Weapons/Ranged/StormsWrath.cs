@@ -86,7 +86,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = 5;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = 10;

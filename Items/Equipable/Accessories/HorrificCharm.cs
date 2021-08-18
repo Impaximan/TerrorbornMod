@@ -69,15 +69,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             projectile.localNPCHitCooldown = 120;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            Player player = Main.player[projectile.owner];
-            player.AddBuff(BuffID.Panic, 60 * 5);
-        }
-
         public override bool? CanHitNPC(NPC target)
         {
-            return target.type != NPCID.TruffleWorm && !target.friendly;
+            return false;
         }
 
         int scaleDirection = 1;
@@ -156,6 +150,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
     class HorrificTear : ModProjectile
     {
+        public override bool? CanHitNPC(NPC target)
+        {
+            return target.type != NPCID.TruffleWorm && !target.friendly;
+        }
+
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
         public override void SetDefaults()
         {

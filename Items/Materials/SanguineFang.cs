@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sanguine fang");
-            Tooltip.SetDefault("'All shall be consumed, let none survive'");
+            Tooltip.SetDefault("The fang of a vampiric foe");
         }
         public override void SetDefaults()
         {

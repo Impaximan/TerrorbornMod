@@ -24,11 +24,6 @@ namespace TerrorbornMod.Tiles
             drop = ModContent.ItemType<Items.Placeable.Blocks.SmoothDeimostoneBlock>();
             AddMapEntry(new Color(40, 55, 70));
         }
-
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = 1;
-        }
     }
 }
 
