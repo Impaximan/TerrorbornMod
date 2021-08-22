@@ -17,6 +17,44 @@ namespace TerrorbornMod
 {
     static class TerrorbornUtils
     {
+        public static bool TileShouldBeGrass(int i, int j)
+        {
+            if (WorldGen.TileEmpty(i + 1, j))
+            {
+                return true;
+            }
+            else if (WorldGen.TileEmpty(i - 1, j))
+            {
+                return true;
+            }
+            else if (WorldGen.TileEmpty(i, j + 1))
+            {
+                return true;
+            }
+            else if (WorldGen.TileEmpty(i, j - 1))
+            {
+                return true;
+            }
+            else if (WorldGen.TileEmpty(i + 1, j + 1))
+            {
+                return true;
+            }
+            else if (WorldGen.TileEmpty(i + 1, j - 1))
+            {
+                return true;
+            }
+            else if (WorldGen.TileEmpty(i - 1, j + 1))
+            {
+                return true;
+            }
+            else if (WorldGen.TileEmpty(i - 1, j - 1))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public static AbilityInfo intToAbility(int integerValue)
         {
             if (integerValue == 0)

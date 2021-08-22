@@ -108,6 +108,7 @@ namespace TerrorbornMod
 
         //Biome fields
         public bool ZoneDeimostone;
+        public bool ZoneIncendiary;
 
         //Misc stuff
         public int terrorDrainCounter = 0;
@@ -127,9 +128,28 @@ namespace TerrorbornMod
             }
         }
 
+        public override void UpdateBiomeVisuals()
+        {
+            if (ZoneIncendiary)
+            {
+                //if (ZoneIncendiary)
+                //{
+                //    SpriteBatch spriteBatch = new SpriteBatch(Main.graphics.GraphicsDevice);
+
+                //    spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+
+                //    spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Perlin"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Red * 0.25f);
+
+                //    spriteBatch.End();
+                //}
+            }
+        }
+
         public override void UpdateBiomes()
         {
             ZoneDeimostone = TerrorbornWorld.deimostoneTiles > 75;
+
+            ZoneIncendiary = TerrorbornWorld.incendiaryTiles > 50;
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
@@ -391,6 +411,32 @@ namespace TerrorbornMod
         }
         public override void ModifyScreenPosition()
         {
+            if (TerrorbornMod.screenFollowTime > 0)
+            {
+                if (TerrorbornMod.currentScreenLerp < TerrorbornMod.maxScreenLerp)
+                {
+                    TerrorbornMod.currentScreenLerp += 1f / TerrorbornMod.screenTransitionTime;
+                    if (TerrorbornMod.currentScreenLerp > TerrorbornMod.maxScreenLerp)
+                    {
+                        TerrorbornMod.currentScreenLerp = TerrorbornMod.maxScreenLerp;
+                    }
+                }
+                else
+                {
+                    TerrorbornMod.screenFollowTime--;
+                }
+            }
+            else if (TerrorbornMod.currentScreenLerp > 0)
+            {
+                TerrorbornMod.currentScreenLerp -= 1f / TerrorbornMod.screenTransitionTime;
+                if (TerrorbornMod.currentScreenLerp < 0)
+                {
+                    TerrorbornMod.currentScreenLerp = 0;
+                }
+            }
+
+            Main.screenPosition = Vector2.Lerp(Main.screenPosition, TerrorbornMod.screenFollowPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), TerrorbornMod.currentScreenLerp);
+
             Vector2 ScreenOffset = new Vector2(Main.rand.NextFloat(-TerrorbornMod.screenShaking, TerrorbornMod.screenShaking), Main.rand.NextFloat(-TerrorbornMod.screenShaking, TerrorbornMod.screenShaking));
             Main.screenPosition += ScreenOffset;
         }

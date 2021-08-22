@@ -66,6 +66,12 @@ namespace TerrorbornMod
                 if (modPlayer.ZoneDeimostone)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/CreepyCaverns");
+                    priority = MusicPriority.BiomeMedium;
+                }
+
+                if (modPlayer.ZoneIncendiary)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/IncendiaryIslands");
                     priority = MusicPriority.BiomeHigh;
                 }
 
@@ -217,12 +223,16 @@ namespace TerrorbornMod
         }
 
         public static Color darkRainColor = Color.FromNonPremultiplied((int)(40f * 0.7f), (int)(55f * 0.7f), (int)(70f * 0.7f), 255);
+        public static Color incendiaryColor = Color.FromNonPremultiplied(191, 81, 81, 255);
         public static Color transitionColor = Color.White;
         public static Color lightningColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
         public static float positionForward = 0f;
         public static float positionBackward = 0f;
         public static float positionLightning = 0f;
         public static float transitionTime = 600f;
+
+        public static Color bossColor;
+        public static float bossColorLerp = 0f;
 
         public override void ModifyLightingBrightness(ref float scale)
         {
@@ -234,6 +244,9 @@ namespace TerrorbornMod
 
         public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
         {
+            Player player = Main.LocalPlayer;
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
             if (TerrorbornWorld.terrorRain && Main.raining)
             {
                 positionBackward = 0f;
@@ -269,6 +282,86 @@ namespace TerrorbornMod
                 tileColor = tileColor.MultiplyRGBA(transitionColor);
                 backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
             }
+
+            if (!Main.gameMenu && modPlayer.ZoneIncendiary)
+            {
+                positionBackward = 0f;
+                if (positionForward < 1f)
+                {
+                    positionForward += 1f / transitionTime;
+                }
+                else
+                {
+                    positionForward = 1f;
+                }
+                transitionColor = Color.Lerp(transitionColor, incendiaryColor, positionForward);
+                tileColor = tileColor.MultiplyRGBA(transitionColor);
+                backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
+                if (positionLightning > 0f)
+                {
+                    positionLightning -= 1f / 30f;
+                    backgroundColor = Color.Lerp(backgroundColor, lightningColor, positionLightning);
+                }
+            }
+            else if (transitionColor != Color.White)
+            {
+                positionForward = 0f;
+                if (positionBackward < 1f)
+                {
+                    positionBackward += 1f / transitionTime;
+                }
+                else
+                {
+                    positionBackward = 1f;
+                }
+                transitionColor = Color.Lerp(transitionColor, Color.White, positionBackward);
+                tileColor = tileColor.MultiplyRGBA(transitionColor);
+                backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
+            }
+
+            bool changingToBossColor = false;
+
+            if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))
+            {
+                changingToBossColor = true;
+                bossColor = Color.LightGreen;
+            }
+
+            if (changingToBossColor)
+            {
+                if (bossColorLerp < 1f)
+                {
+                    bossColorLerp += 1f / 60f;
+                }
+            }
+            else
+            {
+                if (bossColorLerp > 0f)
+                {
+                    bossColorLerp -= 1f / 60f;
+                }
+            }
+
+            backgroundColor = backgroundColor.MultiplyRGBA(Color.Lerp(Color.White, bossColor, bossColorLerp));
+
+            //if (!Main.gameMenu)
+            //{
+            //    Main.NewText(bossColorLerp);
+            //}
+        }
+
+        public static Vector2 screenFollowPosition;
+        public static float maxScreenLerp;
+        public static float currentScreenLerp;
+        public static int screenTransitionTime;
+        public static int screenFollowTime;
+        public static void SetScreenToPosition(int duration, int transitionTime, Vector2 position, float maxLerp = 1f)
+        {
+            screenFollowTime = duration;
+            screenTransitionTime = transitionTime;
+            currentScreenLerp = 0f;
+            maxScreenLerp = maxLerp;
+            screenFollowPosition = position;
         }
 
         public override void PostUpdateEverything()

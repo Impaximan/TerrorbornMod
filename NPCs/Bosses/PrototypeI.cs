@@ -96,6 +96,12 @@ namespace TerrorbornMod.NPCs.Bosses
 
         int coreFrame = 0;
         int coreFrameCounter = 0;
+        bool drawingLine;
+        Vector2 lineStart;
+        float lineDistance;
+        float LineRotation;
+        Color colorStart;
+        Color colorEnd;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Player target = Main.player[npc.target];
@@ -171,6 +177,11 @@ namespace TerrorbornMod.NPCs.Bosses
                 position += mirageOffset * 2;
                 Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, npc.width, npc.height), new Rectangle(0, 0, npc.width, npc.height), color, npc.rotation, new Vector2(npc.width / 2, npc.height / 2), effect, 0); texture = Main.npcTexture[npc.type];
             }
+
+            if (drawingLine)
+            {
+                Utils.DrawLine(spriteBatch, lineStart, lineStart + lineDistance * LineRotation.ToRotationVector2(), colorStart, colorEnd, 3);
+            }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -208,6 +219,8 @@ namespace TerrorbornMod.NPCs.Bosses
         float spinAttackRotation = 0;
         float spinAttackRotationSpeed = 0;
         bool spinAttackTelegraph = false;
+        float lineAlpha = 1f;
+        float lineDirection;
 
         bool vertical = false;
         int telegraphCounter = 8;
@@ -222,7 +235,7 @@ namespace TerrorbornMod.NPCs.Bosses
             if (phase == 0)
             {
                 //Main.PlaySound(SoundID.Item71, target.Center);
-                Main.PlaySound(SoundID.Roar, (int)target.Center.X, (int)target.Center.Y, 0, pitchOffset: 0.5f);
+                ModContent.GetSound("TerrorbornMod/Sounds/Effects/PrototypeIRoar").Play(Main.soundVolume, 0.5f, 0f);
                 phase0MaxSpeed = 0;
                 phaseCounter = 300;
                 attackCounter1 = 90;
@@ -377,7 +390,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 }
 
                 DustExplosion(npc.Center, 0, 360, 30, 74, 1.5f, true);
-                Main.PlaySound(SoundID.NPCDeath10, npc.Center);
+                ModContent.GetSound("TerrorbornMod/Sounds/Effects/PrototypeIRoar").Play(Main.soundVolume, -0.3f, 0f);
             }
             if (phase == 3)
             {
@@ -420,7 +433,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 }
                 dirOverride = attackDirection;
                 DustExplosion(npc.Center, 0, 360, 30, 74, 1.5f, true);
-                Main.PlaySound(SoundID.NPCDeath10, npc.Center);
+                ModContent.GetSound("TerrorbornMod/Sounds/Effects/PrototypeIRoar").Play(Main.soundVolume, 0.5f, 0f);
             }
             if (phase == 4)
             {
@@ -538,9 +551,18 @@ namespace TerrorbornMod.NPCs.Bosses
 
                             if (attackCounter1 == (int)(attackCounter1 / 8) * 8)
                             {
-                                Vector2 telegraphVelocity = npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity)) * 5;
-                                Projectile.NewProjectile(npc.Center, telegraphVelocity, ModContent.ProjectileType<ShockWaveTelegraph>(), 0, 0);
+                                drawingLine = true;
+                                colorStart = Color.LightGreen;
+                                colorEnd = Color.Transparent;
+                                LineRotation = npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity)).ToRotation();
+                                lineAlpha = 1f;
+                                lineDistance = 2500f;
                             }
+                            lineStart = npc.Center;
+                            colorStart = Color.LightGreen;
+                            lineAlpha -= 1f / 8f;
+                            colorStart *= lineAlpha;
+                            LineRotation = LineRotation.AngleTowards(npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity)).ToRotation(), MathHelper.ToRadians(0.5f));
                         }
                         else if (!charging)
                         {
@@ -550,12 +572,14 @@ namespace TerrorbornMod.NPCs.Bosses
                             {
                                 setUpNextAIPhasePortals(nextAIPhase);
                             }
-                            Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+                            ModContent.GetSound("TerrorbornMod/Sounds/Effects/PrototypeIRoar").Play(Main.soundVolume, 0f, 0f);
                             Vector2 telegraphVelocity = npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity)) * 5;
                             Projectile.NewProjectile(npc.Center, telegraphVelocity, ModContent.ProjectileType<ShockWaveTelegraph>(), 0, 0);
+
                         }
                         else if (charging)
                         {
+                            drawingLine = false;
                             autoDirection = false;
                             spinSpeed = 8;
                             attackCounter2--;
@@ -737,6 +761,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 }
                 if (overallPhase == 2) //In between phases
                 {
+                    TerrorbornMod.screenFollowPosition = npc.Center;
                     spinSpeed /= 2;
                     if (Math.Round(spinSpeed) == 0)
                     {
@@ -862,17 +887,23 @@ namespace TerrorbornMod.NPCs.Bosses
                                 autoDirection = true;
                                 if (attackCounter1 == (int)(attackCounter1 / 8) * 8)
                                 {
-                                    Vector2 telegraphVelocity = npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity)) * 5;
-                                    if (phaseCounter == 1)
-                                    {
-                                        telegraphVelocity = npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity * 0.75f)) * 5;
-                                    }
-                                    Projectile.NewProjectile(npc.Center, telegraphVelocity, ModContent.ProjectileType<ShockWaveTelegraph>(), 0, 0);
+                                    drawingLine = true;
+                                    colorStart = Color.LightGreen;
+                                    colorEnd = Color.Transparent;
+                                    LineRotation = npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity)).ToRotation();
+                                    lineAlpha = 1f;
+                                    lineDistance = 2500f;
                                 }
+                                lineStart = npc.Center;
+                                colorStart = Color.LightGreen;
+                                lineAlpha -= 1f / 8f;
+                                colorStart *= lineAlpha;
+                                LineRotation = LineRotation.AngleTowards(npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity)).ToRotation(), MathHelper.ToRadians(0.5f));
                             }
                         }
                         else if (!charging)
                         {
+                            drawingLine = false;
                             if (phaseCounter == 1)
                             {
                                 setCharging(chargeSpeed, npc.DirectionTo(target.Center + (npc.Distance(target.Center) / chargeSpeed * target.velocity * 0.75f)));
@@ -910,7 +941,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             {
                                 setUpNextAIPhasePortals(nextAIPhase);
                             }
-                            Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+                            ModContent.GetSound("TerrorbornMod/Sounds/Effects/PrototypeIRoar").Play(Main.soundVolume, 0f, 0f);
                         }
                         else if (charging)
                         {
@@ -1245,6 +1276,9 @@ namespace TerrorbornMod.NPCs.Bosses
                 nextAIPhase = Main.rand.Next(5);
                 vertical = Main.rand.NextBool();
                 dashTelegraph = false;
+
+                int transitionTime = 30;
+                TerrorbornMod.SetScreenToPosition(phaseCounter + attackCounter1 - transitionTime * 2, transitionTime, npc.Center, 1);
             }
         }
 
