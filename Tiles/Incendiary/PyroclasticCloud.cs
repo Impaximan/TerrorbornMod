@@ -18,13 +18,15 @@ namespace TerrorbornMod.Tiles.Incendiary
             Main.tileLighted[Type] = false;
             Main.tileNoSunLight[Type] = false;
             Main.tileSpelunker[Type] = true;
-            soundType = 21;
+            soundType = 0;
             soundStyle = 1;
             //Main.soundDig[Type] =  21;
 
-            minPick = 150;
-            mineResist = 10;
-            drop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryPipe>();
+            dustType = DustID.Fire;
+
+            minPick = 0;
+            drop = ModContent.ItemType<Items.Placeable.Blocks.PyroclasticCloudBlock>(); ;
+            mineResist = 3;
             AddMapEntry(new Color(255, 246, 216));
         }
 

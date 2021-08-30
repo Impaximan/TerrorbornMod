@@ -21,6 +21,8 @@ namespace TerrorbornMod.Tiles.Incendiary
             soundStyle = 1;
             //Main.soundDig[Type] =  21;
 
+            dustType = DustID.Fire;
+
             minPick = 150;
             mineResist = 10;
             drop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryPipe>();

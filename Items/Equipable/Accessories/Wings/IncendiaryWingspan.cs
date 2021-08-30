@@ -10,17 +10,17 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(20 * TerrorbornMod.IncendiaryAlloyMultiplier));
             recipe.AddIngredient(ItemID.CobaltBar, 12);
             recipe.AddIngredient(ItemID.SoulofFlight, 15);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
             recipe.SetResult(this);
             recipe.AddRecipe();
             ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 20);
+            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(20 * TerrorbornMod.IncendiaryAlloyMultiplier));
             recipe2.AddIngredient(ItemID.PalladiumBar, 12);
             recipe2.AddIngredient(ItemID.SoulofFlight, 15);
-            recipe2.AddTile(TileID.MythrilAnvil);
+            recipe2.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
             recipe2.SetResult(this);
             recipe2.AddRecipe();
         }

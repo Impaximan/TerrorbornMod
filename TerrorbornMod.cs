@@ -14,6 +14,7 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using TerrorbornMod;
 using Terraria.Map;
+using TerrorbornMod.ForegroundObjects;
 using Terraria.GameContent.Dyes;
 using Terraria.GameContent.UI;
 using TerrorbornMod.UI.TerrorMeter;
@@ -23,6 +24,7 @@ namespace TerrorbornMod
 {
     class TerrorbornMod : Mod
     {
+        public const float IncendiaryAlloyMultiplier = 0.5f;
 
         internal UserInterface terrorMeterInterface;
         internal TerrorMeterUI terrorMeterUI;
@@ -40,6 +42,9 @@ namespace TerrorbornMod
         public static ModHotKey SecondaryTerrorAbility;
         public static ModHotKey OpenTerrorAbilityMenu;
 
+        public const int foregroundObjectsCount = 500;
+        public static ForegroundObject[] foregroundObjects = new ForegroundObject[foregroundObjectsCount];
+
         public static int CombatTokenCustomCurrencyId;
 
         public static float screenShaking = 0f;
@@ -49,11 +54,6 @@ namespace TerrorbornMod
         public static void ScreenShake(float Intensity)
         {
             screenShaking = Intensity;
-        }
-
-        public override void Unload()
-        {
-            Main.rainTexture = ModContent.GetTexture("Terraria/Rain");
         }
 
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
@@ -72,7 +72,7 @@ namespace TerrorbornMod
                 if (modPlayer.ZoneIncendiary)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/IncendiaryIslands");
-                    priority = MusicPriority.BiomeHigh;
+                    priority = MusicPriority.Environment;
                 }
 
                 if (TerrorbornWorld.terrorRain && Main.raining && player.ZoneRain)
@@ -121,8 +121,11 @@ namespace TerrorbornMod
             mythril.ValidItems.Add(ItemID.OrichalcumBar);
             RecipeGroup.RegisterGroup("mythril", mythril);
         }
+
         public override void Load()
         {
+            TerrorbornUtils.Initialize();
+
             ArmorAbility = RegisterHotKey("ArmorAbility", "Z");
             ShriekOfHorror = RegisterHotKey("Shriek of Horror", "Q");
             PrimaryTerrorAbility = RegisterHotKey("Primary Terror Ability", "F");
@@ -153,6 +156,13 @@ namespace TerrorbornMod
                 terrorAbilityMenu.Activate();
             }
         }
+
+        public override void Unload()
+        {
+            TerrorbornUtils.Unload();
+            Main.rainTexture = ModContent.GetTexture("Terraria/Rain");
+        }
+
         private GameTime _lastUpdateUiGameTime;
         public override void UpdateUI(GameTime gameTime)
         {
@@ -364,9 +374,22 @@ namespace TerrorbornMod
             screenFollowPosition = position;
         }
 
+        public static void UpdateForegroundObjects()
+        {
+            foreach(ForegroundObject fObject in foregroundObjects)
+            {
+                if (fObject != null)
+                {
+                    fObject.Update();
+                }
+            }
+        }
+
         public override void PostUpdateEverything()
         {
             TerrorbornUtils.Update();
+
+            UpdateForegroundObjects();
 
             ShowUI();
 

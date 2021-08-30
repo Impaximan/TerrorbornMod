@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using Terraria.Utilities;
 using System;
 using Microsoft.Xna.Framework;
 using Terraria.GameContent.Generation;
@@ -38,6 +39,7 @@ namespace TerrorbornMod
         public static int TerrorMasterDialogue;
         public static int deimostoneTiles;
         public static int incendiaryTiles;
+        public static bool incendiaryRitual;
         public static int wormExtraSegmentCount = 0;
         public static int CartographerSpawnCooldown = 0;
 
@@ -92,45 +94,7 @@ namespace TerrorbornMod
         {
             TerrorbornPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<TerrorbornPlayer>();
             deimostoneTiles = 0;
-        }
-
-        int positionX = 0;
-        int currentSpriteEffects = 1;
-        public override void PostDrawTiles()
-        {
-            if (TerrorbornPlayer.modPlayer(Main.LocalPlayer).ZoneIncendiary)
-            {
-                SpriteBatch spriteBatch = new SpriteBatch(Main.graphics.GraphicsDevice);
-
-                positionX += Main.screenWidth / (60 * 10);
-                if (positionX >= Main.screenWidth)
-                {
-                    positionX = 0;
-                    currentSpriteEffects *= -1;
-                }
-
-                spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-
-                Texture2D texture = ModContent.GetTexture("TerrorbornMod/Perlin");
-                float widthRatio = texture.Width / Main.screenWidth;
-                SpriteEffects effects = SpriteEffects.None;
-                if (currentSpriteEffects == -1)
-                {
-                    effects = SpriteEffects.FlipHorizontally;
-                }
-                spriteBatch.Draw(texture, new Rectangle(positionX, 0, Main.screenWidth, Main.screenHeight), new Rectangle((int)(positionX * widthRatio), 0, (int)(texture.Width - positionX * widthRatio), texture.Height), Color.Red * 0.15f, 0, Vector2.Zero, effects, 0f);
-
-                effects = SpriteEffects.None;
-                if (currentSpriteEffects == 1)
-                {
-                    effects = SpriteEffects.FlipHorizontally;
-                }
-                int positionX2 = positionX - Main.screenWidth;
-                spriteBatch.Draw(texture, new Rectangle(positionX2, 0, Main.screenWidth, Main.screenHeight), new Rectangle((int)(positionX2 * widthRatio), 0, (int)(texture.Width - positionX2 * widthRatio), texture.Height), Color.Red * 0.15f, 0, Vector2.Zero, effects, 0f);
-                //spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Perlin"), new Rectangle(positionX - Main.screenWidth, 0, Main.screenWidth, Main.screenHeight), new Rectangle((int)(texture.Width * (1 - (positionX / Main.screenWidth))), 0, (int)(texture.Width * (float)(positionX / (float)Main.screenWidth)), texture.Height), Color.Red * 0.15f);
-
-                spriteBatch.End();
-            }
+            incendiaryTiles = 0;
         }
 
         public override void TileCountsAvailable(int[] tileCounts)
@@ -139,6 +103,9 @@ namespace TerrorbornMod
 
             incendiaryTiles = tileCounts[ModContent.TileType<Tiles.Incendiary.KindlingSoil>()];
             incendiaryTiles += tileCounts[ModContent.TileType<Tiles.Incendiary.KindlingGrass>()];
+            incendiaryTiles += tileCounts[ModContent.TileType<Tiles.Incendiary.IncendiaryMachinery>()];
+
+            incendiaryRitual = tileCounts[ModContent.TileType<Tiles.Incendiary.IncendiaryRitual>()] > 0;
         }
 
         public string getSkeletonSheriffName()
@@ -255,8 +222,353 @@ namespace TerrorbornMod
             }
         }
 
+        public static void CreateLineOfBlocksHorizontal(int LineX, int LineY, int Length, int Type, bool Right = true, bool forced = false, bool withWall = false, int wallType = WallID.Dirt)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (Right)
+                {
+                    WorldGen.PlaceTile(LineX + i, LineY, Type, true, forced);
+                    if (withWall)
+                    {
+                        WorldGen.PlaceWall(LineX + i, LineY, wallType, true);
+                    }
+                }
+                else
+                {
+                    WorldGen.PlaceTile(LineX - i, LineY, Type, true, forced);
+                    if (withWall)
+                    {
+                        WorldGen.PlaceWall(LineX - i, LineY, wallType, true);
+                    }
+                }
+            }
+        }
 
-        public static void GenerateIncendiaryIsland_Main(int i, int j, float sizeMultiplier)
+        public static void CreateLineOfBlocksVertical(int LineX, int LineY, int Length, int Type, bool Up = true, bool forced = false, bool withWall = false, int wallType = WallID.Dirt)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (Up)
+                {
+                    WorldGen.PlaceTile(LineX, LineY - i, Type, true, forced);
+                    if (withWall)
+                    {
+                        WorldGen.PlaceWall(LineX, LineY - i, wallType, true);
+                    }
+                }
+                else
+                {
+                    WorldGen.PlaceTile(LineX, LineY + i, Type, true, forced);
+                    if (withWall)
+                    {
+                        WorldGen.PlaceWall(LineX, LineY + i, wallType, true);
+                    }
+                }
+            }
+        }
+
+        public static void CreateLineOfWallsVertical(int LineX, int LineY, int Length, int Type, bool Up = true)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (Up)
+                {
+                    WorldGen.PlaceWall(LineX, LineY - i, Type, true);
+                }
+                else
+                {
+                    WorldGen.PlaceWall(LineX, LineY + i, Type, true);
+                }
+            }
+        }
+
+        #region IncendiaryIslands
+        public static void GenerateIncendiaryChest(int x, int y)
+        {
+            WorldGen.KillTile(x, y, noItem: true);
+            WorldGen.KillTile(x + 1, y, noItem: true);
+            WorldGen.KillTile(x + 1, y + 1, noItem: true);
+            WorldGen.KillTile(x, y + 1, noItem: true);
+            WorldGen.KillTile(x, y + 2, noItem: true);
+            WorldGen.KillTile(x + 1, y + 2, noItem: true);
+            WorldGen.PlaceTile(x, y + 2, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>());
+            WorldGen.PlaceTile(x + 1, y + 2, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>());
+            WorldGen.PlaceTile(x, y + 1, (ushort)ModContent.TileType<Tiles.Incendiary.IncendiaryChest>());
+            int chest = Chest.FindChest(x, y);
+            Main.chest[chest].item[0].SetDefaults(ItemID.FartinaJar);
+        }
+
+        public static void GenerateIncendiaryShrine(int i, int j)
+        {
+            Vector2 currentPosition = new Vector2(i, j);
+            while (!WorldGen.TileEmpty((int)currentPosition.X, (int)currentPosition.Y))
+            {
+                currentPosition.Y -= 1;
+            }
+            currentPosition += new Vector2(0, 2);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X - 4, (int)currentPosition.Y, 8, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>(), forced: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X - 5, (int)currentPosition.Y - 1, 10, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>(), forced: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X - 5, (int)currentPosition.Y - 10, 10, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>(), forced: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X - 4, (int)currentPosition.Y - 11, 8, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>(), forced: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X - 3, (int)currentPosition.Y - 12, 6, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>(), forced: true);
+            CreateLineOfWallsVertical((int)currentPosition.X - 3, (int)currentPosition.Y - 1, 10, ModContent.WallType<Tiles.Incendiary.IncendiaryBrickWall>());
+            CreateLineOfWallsVertical((int)currentPosition.X - 2, (int)currentPosition.Y - 1, 10, ModContent.WallType<Tiles.Incendiary.IncendiaryBrickWall>());
+            CreateLineOfWallsVertical((int)currentPosition.X - 1, (int)currentPosition.Y - 1, 10, ModContent.WallType<Tiles.Incendiary.IncendiaryBrickWall>());
+            CreateLineOfWallsVertical((int)currentPosition.X, (int)currentPosition.Y - 1, 10, ModContent.WallType<Tiles.Incendiary.IncendiaryBrickWall>());
+            CreateLineOfWallsVertical((int)currentPosition.X + 1, (int)currentPosition.Y - 1, 10, ModContent.WallType<Tiles.Incendiary.IncendiaryBrickWall>());
+            CreateLineOfWallsVertical((int)currentPosition.X + 2, (int)currentPosition.Y - 1, 10, ModContent.WallType<Tiles.Incendiary.IncendiaryBrickWall>());
+            GenerateIncendiaryChest((int)currentPosition.X - 1, (int)currentPosition.Y - 3);
+        }
+
+        public static Rectangle GenerateIncendiaryIsland_Skullmound(int i, int j, float sizeMultiplier)
+        {
+            int islandWidth = (int)(16 * sizeMultiplier);
+            int islandHeight = (int)(10 * sizeMultiplier);
+            int pipeOffset = WorldGen.genRand.Next((int)(-2 * sizeMultiplier), (int)(2 * sizeMultiplier));
+            bool forced = true;
+
+            Rectangle rect = new Rectangle(i, j, islandWidth, islandHeight);
+            foreach (Rectangle island in islands)
+            {
+                if (island != Rectangle.Empty)
+                {
+                    if (island.Intersects(rect))
+                    {
+                        return Rectangle.Empty;
+                    }
+                }
+            }
+
+            List<int> verticalPipesUp = new List<int>();
+
+            List<int> verticalPipesDown = new List<int>();
+
+            List<Point16> blockedTiles = new List<Point16>();
+
+            Point16 center = new Point16(i + islandWidth / 2, j + islandHeight / 2);
+            CreateLineOfBlocksHorizontal(center.X, center.Y, islandWidth / 2, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), forced: forced);
+            CreateLineOfBlocksHorizontal(center.X, center.Y, islandWidth / 2, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), false, forced);
+
+            int extraHeight = 0;
+            int blocksFromEdge = 3;
+            for (int x = blocksFromEdge; x < islandWidth - blocksFromEdge; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.025f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)(((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter)) * 2f);
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.Skullmound>(), true, forced: true);
+            }
+
+            extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.05f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight / 2) - (islandHeight / 4 * distanceFromCenter));
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), forced: forced, withWall: true, wallType: WallID.LavaUnsafe3);
+            }
+
+            extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.1f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter)) / 2 + 1;
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), false, forced: forced, withWall: true, wallType: WallID.LavaUnsafe3);
+            }
+
+
+            extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.15f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight) - (islandHeight * distanceFromCenter));
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.PyroclasticCloud>(), false, forced: false);
+            }
+
+            int extraDistance = 10;
+
+            for (int x = -extraDistance; x < islandWidth + extraDistance; x++)
+            {
+                for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
+                {
+                    Tile tile = Main.tile[i + x, j + y];
+                    if (tile.type == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    {
+                        tile.type = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
+                    }
+                }
+            }
+
+            int extraBounds = 12;
+            return new Rectangle(i - extraBounds, j - extraBounds, islandWidth + extraBounds * 2, islandHeight + extraBounds * 2);
+        }
+
+        public static Rectangle GenerateIncendiaryIsland_Chest(int i, int j, float sizeMultiplier)
+        {
+            int islandWidth = (int)(20 * sizeMultiplier);
+            int islandHeight = (int)(10 * sizeMultiplier);
+            int pipeOffset = WorldGen.genRand.Next((int)(-2 * sizeMultiplier), (int)(2 * sizeMultiplier));
+            bool forced = true;
+
+            List<int> verticalPipesUp = new List<int>();
+
+            List<int> verticalPipesDown = new List<int>();
+
+            List<Point16> blockedTiles = new List<Point16>();
+
+            Point16 center = new Point16(i + islandWidth / 2, j + islandHeight / 2);
+            CreateLineOfBlocksHorizontal(center.X, center.Y, islandWidth / 2, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), forced: forced);
+            CreateLineOfBlocksHorizontal(center.X, center.Y, islandWidth / 2, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), false, forced);
+
+            int extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.15f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter));
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), forced: forced, withWall: true, wallType: WallID.LavaUnsafe3);
+            }
+
+            extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.1f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter)) / 2 + 1;
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), false, forced: forced, withWall: true, wallType: WallID.LavaUnsafe3);
+            }
+
+            extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.1f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight) - (islandHeight * distanceFromCenter));
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.PyroclasticCloud>(), false, forced: false);
+            }
+
+            GenerateIncendiaryShrine((int)center.X + 1, (int)center.Y);
+
+            int extraDistance = 10;
+
+            for (int x = -extraDistance; x < islandWidth + extraDistance; x++)
+            {
+                for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
+                {
+                    Tile tile = Main.tile[i + x, j + y];
+                    if (tile.type == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    {
+                        tile.type = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
+                    }
+                }
+            }
+
+            int extraBounds = 12;
+            return new Rectangle(i - extraBounds, j - extraBounds, islandWidth + extraBounds * 2, islandHeight + extraBounds * 2);
+        }
+
+        public static Rectangle GenerateIncendiaryIsland_Main(int i, int j, float sizeMultiplier)
         {
             int islandWidth = (int)(80 * sizeMultiplier);
             int islandHeight = (int)(15 * sizeMultiplier);
@@ -319,6 +631,11 @@ namespace TerrorbornMod
                 CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), false, forced: forced, withWall: true, wallType: WallID.LavaUnsafe3);
             }
 
+            for (int a = 0; a < WorldGen.genRand.Next(4, 7); a++)
+            {
+                WorldGen.TileRunner(i + WorldGen.genRand.Next(islandWidth), j + WorldGen.genRand.Next(islandHeight / 2), (double)WorldGen.genRand.Next(8, 10), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.Incendiary.IncendiaryAlloyTile>(), false, 0f, 0f, false, true);
+            }
+
             extraHeight = 0;
             for (int x = 0; x < islandWidth; x++)
             {
@@ -335,36 +652,14 @@ namespace TerrorbornMod
                 }
 
                 float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
-                int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter)) * 2;
+                int height = (int)((islandHeight) - (islandHeight * distanceFromCenter));
 
                 height += extraHeight;
 
                 CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.PyroclasticCloud>(), false, forced: false);
             }
 
-            //CreateLineOfBlocksHorizontal(center.X, center.Y + pipeOffset, islandWidth / 2 + WorldGen.genRand.Next((int)(4 * sizeMultiplier)), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), forced: true);
-            //CreateLineOfBlocksHorizontal(center.X, center.Y + pipeOffset, islandWidth / 2 + WorldGen.genRand.Next((int)(4 * sizeMultiplier)), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), false, true);
-
-            //for (int p = 0; p < Main.rand.Next(1, 3); p++)
-            //{
-            //    int positionX = WorldGen.genRand.Next(-islandWidth / 2 + (int)(4 * sizeMultiplier), islandWidth / 2 - (int)(4 * sizeMultiplier));
-            //    bool canPlace = false;
-            //    while (!canPlace)
-            //    {
-            //        positionX = WorldGen.genRand.Next(-islandWidth / 2 + (int)(4 * sizeMultiplier), islandWidth / 2 - (int)(4 * sizeMultiplier));
-            //        canPlace = true;
-            //        foreach (int pos in verticalPipesUp)
-            //        {
-            //            if (MathHelper.Distance(positionX, pos) <= 2)
-            //            {
-            //                canPlace = false;
-            //            }
-            //        }
-            //    }
-
-            //    verticalPipesUp.Add(positionX);
-            //    CreateLineOfBlocksVertical(center.X + positionX, center.Y + pipeOffset, Main.rand.Next(islandHeight / 2, islandHeight), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), forced: true);
-            //}
+            GenerateIncendiaryAltar((int)center.X, (int)center.Y);
 
             int extraDistance = 10;
 
@@ -379,11 +674,224 @@ namespace TerrorbornMod
                     }
                 }
             }
+
+            int extraBounds = 12;
+            return new Rectangle(i - extraBounds, j - extraBounds, islandWidth + extraBounds * 2, islandHeight + extraBounds * 2);
         }
 
-        public static void GenerateIncendiaryIsland_Normal(int i, int j, float sizeMultiplier)
+        public static void GenerateIncendiaryAltar(int i, int j)
+        {
+            Vector2 currentPosition = new Vector2(i, j);
+            while (!WorldGen.TileEmpty((int)currentPosition.X, (int)currentPosition.Y))
+            {
+                currentPosition.Y -= 1;
+            }
+            currentPosition -= new Vector2(1, 1);
+            WorldGen.KillTile((int)currentPosition.X, (int)currentPosition.Y, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X + 1, (int)currentPosition.Y, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X + 2, (int)currentPosition.Y, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X, (int)currentPosition.Y + 1, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X + 1, (int)currentPosition.Y + 1, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X + 2, (int)currentPosition.Y + 1, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X, (int)currentPosition.Y + 2, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X + 1, (int)currentPosition.Y + 2, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X + 2, (int)currentPosition.Y + 2, noItem: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X, (int)currentPosition.Y + 2, 3, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), forced: true);
+            WorldGen.PlaceTile((int)currentPosition.X + 1, (int)currentPosition.Y + 1, ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>(), forced: true);
+        }
+
+        public static void GenerateIncendiaryRitual(int i, int j)
+        {
+            Vector2 currentPosition = new Vector2(i, j);
+            while (!WorldGen.TileEmpty((int)currentPosition.X, (int)currentPosition.Y))
+            {
+                currentPosition.Y -= 1;
+            }
+            currentPosition -= new Vector2(1, 1);
+            WorldGen.KillTile((int)currentPosition.X, (int)currentPosition.Y, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X + 1, (int)currentPosition.Y, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X, (int)currentPosition.Y + 1, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X + 1, (int)currentPosition.Y + 1, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X, (int)currentPosition.Y + 2, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X + 1, (int)currentPosition.Y + 2, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X, (int)currentPosition.Y + 3, noItem: true);
+            WorldGen.KillTile((int)currentPosition.X + 1, (int)currentPosition.Y + 3, noItem: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X, (int)currentPosition.Y + 3, 3, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), forced: true);
+            WorldGen.PlaceTile((int)currentPosition.X + 1, (int)currentPosition.Y + 2, ModContent.TileType<Tiles.Incendiary.IncendiaryRitual>(), forced: true);
+        }
+
+        public static Rectangle GenerateIncendiaryIsland_Mechanical(int i, int j, float sizeMultiplier)
         {
             int islandWidth = (int)(20 * sizeMultiplier);
+            int islandHeight = (int)(10 * sizeMultiplier);
+            int pipeOffset = WorldGen.genRand.Next((int)(-2 * sizeMultiplier), (int)(2 * sizeMultiplier));
+            bool forced = true;
+
+            Rectangle rect = new Rectangle(i, j, islandWidth, islandHeight);
+            foreach (Rectangle island in islands)
+            {
+                if (island != Rectangle.Empty)
+                {
+                    if (island.Intersects(rect))
+                    {
+                        return Rectangle.Empty;
+                    }
+                }
+            }
+
+            List<int> verticalPipesUp = new List<int>();
+
+            List<int> verticalPipesDown = new List<int>();
+
+            List<Point16> blockedTiles = new List<Point16>();
+
+            Point16 center = new Point16(i + islandWidth / 2, j + islandHeight / 2);
+            CreateLineOfBlocksHorizontal(center.X, center.Y, islandWidth / 2, ModContent.TileType<Tiles.Incendiary.IncendiaryMachinery>(), forced: forced);
+            CreateLineOfBlocksHorizontal(center.X, center.Y, islandWidth / 2, ModContent.TileType<Tiles.Incendiary.IncendiaryMachinery>(), false, forced);
+
+            CreateLineOfBlocksHorizontal(center.X, center.Y + pipeOffset, islandWidth / 2 + WorldGen.genRand.Next((int)(4 * sizeMultiplier)), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), forced: true);
+            CreateLineOfBlocksHorizontal(center.X, center.Y + pipeOffset, islandWidth / 2 + WorldGen.genRand.Next((int)(4 * sizeMultiplier)), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), false, true);
+
+            int extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.15f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter));
+
+                //height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.IncendiaryMachinery>(), forced: forced, withWall: true, wallType: ModContent.WallType<Tiles.Incendiary.IncendiaryMachineryWall>());
+            }
+
+            extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.1f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter)) / 2 + 1;
+
+                //height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.IncendiaryMachinery>(), false, forced: forced, withWall: true, wallType: ModContent.WallType<Tiles.Incendiary.IncendiaryMachineryWall>());
+            }
+
+            for (int a = 0; a < WorldGen.genRand.Next(2, 4); a++)
+            {
+                WorldGen.TileRunner(i + WorldGen.genRand.Next(islandWidth), j + WorldGen.genRand.Next(islandHeight / 2), (double)WorldGen.genRand.Next(6, 8), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.Incendiary.IncendiaryAlloyTile>(), false, 0f, 0f, false, true);
+            }
+
+            extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.1f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight) - (islandHeight * distanceFromCenter));
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.PyroclasticCloud>(), false, forced: false);
+            }
+
+            CreateLineOfBlocksHorizontal(center.X, center.Y + pipeOffset, islandWidth / 2 + WorldGen.genRand.Next((int)(4 * sizeMultiplier)), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), forced: true);
+            CreateLineOfBlocksHorizontal(center.X, center.Y + pipeOffset, islandWidth / 2 + WorldGen.genRand.Next((int)(4 * sizeMultiplier)), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), false, true);
+
+            for (int p = 0; p < Main.rand.Next(1, 3); p++)
+            {
+                int positionX = WorldGen.genRand.Next(-islandWidth / 2 + (int)(4 * sizeMultiplier), islandWidth / 2 - (int)(4 * sizeMultiplier));
+                bool canPlace = false;
+                while (!canPlace)
+                {
+                    positionX = WorldGen.genRand.Next(-islandWidth / 2 + (int)(4 * sizeMultiplier), islandWidth / 2 - (int)(4 * sizeMultiplier));
+                    canPlace = true;
+                    foreach (int pos in verticalPipesUp)
+                    {
+                        if (MathHelper.Distance(positionX, pos) <= 2)
+                        {
+                            canPlace = false;
+                        }
+                    }
+                }
+
+                verticalPipesUp.Add(positionX);
+                CreateLineOfBlocksVertical(center.X + positionX, center.Y + pipeOffset, Main.rand.Next(islandHeight / 2, islandHeight), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), forced: true);
+            }
+
+            for (int p = 0; p < Main.rand.Next(1, 3); p++)
+            {
+                int positionX = WorldGen.genRand.Next(-islandWidth / 2 + (int)(4 * sizeMultiplier), islandWidth / 2 - (int)(4 * sizeMultiplier));
+                bool canPlace = false;
+                while (!canPlace)
+                {
+                    positionX = WorldGen.genRand.Next(-islandWidth / 2 + (int)(4 * sizeMultiplier), islandWidth / 2 - (int)(4 * sizeMultiplier));
+                    canPlace = true;
+                    foreach (int pos in verticalPipesDown)
+                    {
+                        if (MathHelper.Distance(positionX, pos) <= 2)
+                        {
+                            canPlace = false;
+                        }
+                    }
+                }
+
+                verticalPipesDown.Add(positionX);
+                CreateLineOfBlocksVertical(center.X + positionX, center.Y + pipeOffset, Main.rand.Next(islandHeight / 2, islandHeight), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), Up: false, forced: true);
+            }
+
+            int extraDistance = 10;
+
+            for (int x = -extraDistance; x < islandWidth + extraDistance; x++)
+            {
+                for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
+                {
+                    Tile tile = Main.tile[i + x, j + y];
+                    if (tile.type == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    {
+                        tile.type = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
+                    }
+                }
+            }
+
+            int extraBounds = 12;
+            return new Rectangle(i - extraBounds, j - extraBounds, islandWidth + extraBounds * 2, islandHeight + extraBounds * 2);
+        }
+
+        public static Rectangle GenerateIncendiaryIsland_Ritual(int i, int j, float sizeMultiplier)
+        {
+            int islandWidth = (int)(15 * sizeMultiplier);
             int islandHeight = (int)(10 * sizeMultiplier);
             int pipeOffset = WorldGen.genRand.Next((int)(-2 * sizeMultiplier), (int)(2 * sizeMultiplier));
             bool forced = true;
@@ -397,9 +905,6 @@ namespace TerrorbornMod
             Point16 center = new Point16(i + islandWidth / 2, j + islandHeight / 2);
             CreateLineOfBlocksHorizontal(center.X, center.Y, islandWidth / 2, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), forced: forced);
             CreateLineOfBlocksHorizontal(center.X, center.Y, islandWidth / 2, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), false, forced);
-
-            CreateLineOfBlocksHorizontal(center.X, center.Y + pipeOffset, islandWidth / 2 + WorldGen.genRand.Next((int)(4 * sizeMultiplier)), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), forced: true);
-            CreateLineOfBlocksHorizontal(center.X, center.Y + pipeOffset, islandWidth / 2 + WorldGen.genRand.Next((int)(4 * sizeMultiplier)), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), false, true);
 
             int extraHeight = 0;
             for (int x = 0; x < islandWidth; x++)
@@ -463,7 +968,136 @@ namespace TerrorbornMod
                 }
 
                 float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
-                int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter)) * 2;
+                int height = (int)((islandHeight) - (islandHeight * distanceFromCenter));
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.PyroclasticCloud>(), false, forced: false);
+            }
+
+            GenerateIncendiaryRitual((int)center.X, (int)center.Y);
+
+            int extraDistance = 10;
+
+            for (int x = -extraDistance; x < islandWidth + extraDistance; x++)
+            {
+                for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
+                {
+                    Tile tile = Main.tile[i + x, j + y];
+                    if (tile.type == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    {
+                        tile.type = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
+                    }
+                }
+            }
+
+            int extraBounds = 12;
+            return new Rectangle(i - extraBounds, j - extraBounds, islandWidth + extraBounds * 2, islandHeight + extraBounds * 2);
+        }
+
+        public static Rectangle GenerateIncendiaryIsland_Normal(int i, int j, float sizeMultiplier)
+        {
+            int islandWidth = (int)(20 * sizeMultiplier);
+            int islandHeight = (int)(10 * sizeMultiplier);
+            int pipeOffset = WorldGen.genRand.Next((int)(-2 * sizeMultiplier), (int)(2 * sizeMultiplier));
+            bool forced = true;
+
+            Rectangle rect = new Rectangle(i, j, islandWidth, islandHeight);
+            foreach (Rectangle island in islands)
+            {
+                if (island != Rectangle.Empty)
+                {
+                    if (island.Intersects(rect))
+                    {
+                        return Rectangle.Empty;
+                    }
+                }
+            }
+
+            List<int> verticalPipesUp = new List<int>();
+
+            List<int> verticalPipesDown = new List<int>();
+
+            List<Point16> blockedTiles = new List<Point16>();
+
+            Point16 center = new Point16(i + islandWidth / 2, j + islandHeight / 2);
+            CreateLineOfBlocksHorizontal(center.X, center.Y, islandWidth / 2, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), forced: forced);
+            CreateLineOfBlocksHorizontal(center.X, center.Y, islandWidth / 2, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), false, forced);
+
+            CreateLineOfBlocksHorizontal(center.X, center.Y + pipeOffset, islandWidth / 2 + WorldGen.genRand.Next((int)(4 * sizeMultiplier)), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), forced: true);
+            CreateLineOfBlocksHorizontal(center.X, center.Y + pipeOffset, islandWidth / 2 + WorldGen.genRand.Next((int)(4 * sizeMultiplier)), ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>(), false, true);
+
+            int extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.15f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter));
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), forced: forced, withWall: true, wallType: WallID.LavaUnsafe3);
+            }
+
+            extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.1f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter)) / 2 + 1;
+
+                height += extraHeight;
+
+                CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.KindlingSoil>(), false, forced: forced, withWall: true, wallType: WallID.LavaUnsafe3);
+            }
+
+            if (WorldGen.genRand.NextFloat() <= 0.25f)
+            {
+                for (int a = 0; a < WorldGen.genRand.Next(2, 4); a++)
+                {
+                    WorldGen.TileRunner(i + WorldGen.genRand.Next(islandWidth), j + WorldGen.genRand.Next(islandHeight / 2), (double)WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.Incendiary.IncendiaryAlloyTile>(), false, 0f, 0f, false, true);
+                }
+            }
+
+            extraHeight = 0;
+            for (int x = 0; x < islandWidth; x++)
+            {
+                if (WorldGen.genRand.NextFloat() <= 0.15f)
+                {
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        extraHeight++;
+                    }
+                    else
+                    {
+                        extraHeight--;
+                    }
+                }
+
+                float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
+                int height = (int)((islandHeight) - (islandHeight * distanceFromCenter));
 
                 height += extraHeight;
 
@@ -507,54 +1141,86 @@ namespace TerrorbornMod
                     }
                 }
             }
+
+            int extraBounds = 12;
+            return new Rectangle(i - extraBounds, j - extraBounds, islandWidth + extraBounds * 2, islandHeight + extraBounds * 2);
         }
 
-
-        public static void CreateLineOfBlocksHorizontal(int LineX, int LineY, int Length, int Type, bool Right = true, bool forced = false, bool withWall = false, int wallType = WallID.Dirt)
+        static List<Rectangle> islands = new List<Rectangle>();
+        public static void GenerateIncendiaryBiome(float size = 1f, float density = 1f, bool forced = true)
         {
-            for (int i = 0; i < Length; i++)
+            int biomeWidth = (int)(Main.maxTilesX / 4f * size);
+            int biomeHeight = (int)(Main.maxTilesY / 17f * size);
+            int islandCount = (int)(Main.maxTilesX / 25 * density);
+            int ritualIslandCount = (int)(Main.maxTilesX / 2800 * density);
+            int chestIslandCount = (int)(Main.maxTilesX / 840 * 0.65f * density);
+            int rogueCloudsCount = (int)(Main.maxTilesX / 360 * density);
+
+            islands.Clear();
+
+            int side = 1;
+            if (Main.rand.NextBool())
             {
-                if (Right)
+                side = -1;
+            }
+
+            int distanceFromEdge = 80;
+            Point16 cornerPosition = new Point16(Main.maxTilesX - distanceFromEdge, distanceFromEdge);
+            if (side == -1)
+            {
+                cornerPosition = new Point16(distanceFromEdge, distanceFromEdge);
+            }
+
+            for (int i = 0; i < rogueCloudsCount; i++)
+            {
+                Point16 position = new Point16(cornerPosition.X + WorldGen.genRand.Next(biomeWidth) * -side, cornerPosition.Y + WorldGen.genRand.Next(biomeHeight));
+                WorldGen.TileRunner(position.X, position.Y, Main.rand.NextFloat(3f, 6f), 5, ModContent.TileType<Tiles.Incendiary.PyroclasticCloud>(), true);
+            }
+
+            Point16 biomeCenter = cornerPosition + new Point16(biomeWidth * -side / 2, biomeHeight / 2);
+            islands.Add(GenerateIncendiaryIsland_Main(biomeCenter.X, biomeCenter.Y, WorldGen.genRand.NextFloat(1f, 1.2f)));
+
+            for (int i = 0; i < chestIslandCount; i++)
+            {
+                Point16 position = new Point16(cornerPosition.X + WorldGen.genRand.Next(biomeWidth) * -side, cornerPosition.Y + WorldGen.genRand.Next(biomeHeight));
+                islands.Add(GenerateIncendiaryIsland_Chest(position.X, position.Y, WorldGen.genRand.NextFloat(0.8f, 1.2f)));
+            }
+
+            for (int i = 0; i < ritualIslandCount; i++)
+            {
+                Point16 position = new Point16(cornerPosition.X + WorldGen.genRand.Next(biomeWidth) * -side, cornerPosition.Y + WorldGen.genRand.Next(biomeHeight));
+                islands.Add(GenerateIncendiaryIsland_Ritual(position.X, position.Y, WorldGen.genRand.NextFloat(0.8f, 1.2f)));
+            }
+
+            for (int i = 0; i < islandCount; i++)
+            {
+                Point16 position = new Point16(cornerPosition.X + WorldGen.genRand.Next(biomeWidth) * -side, cornerPosition.Y + WorldGen.genRand.Next(biomeHeight));
+
+                WeightedRandom<int> type = new WeightedRandom<int>();
+                type.Add(0, 1f); //Normal
+                type.Add(1, 0.5f); //Mechanical
+                type.Add(2, 0.2f); //Skullmound
+
+                switch (type)
                 {
-                    WorldGen.PlaceTile(LineX + i, LineY, Type, true, forced);
-                    if (withWall)
-                    {
-                        WorldGen.PlaceWall(LineX + i, LineY, wallType, true);
-                    }
-                }
-                else
-                {
-                    WorldGen.PlaceTile(LineX - i, LineY, Type, true, forced);
-                    if (withWall)
-                    {
-                        WorldGen.PlaceWall(LineX - i, LineY, wallType, true);
-                    }
+                    case 0:
+                        islands.Add(GenerateIncendiaryIsland_Normal(position.X, position.Y, WorldGen.genRand.NextFloat(1f, 2f)));
+                        break;
+                    case 1:
+                        islands.Add(GenerateIncendiaryIsland_Mechanical(position.X, position.Y, WorldGen.genRand.NextFloat(1.5f, 2.25f)));
+                        break;
+                    case 2:
+                        islands.Add(GenerateIncendiaryIsland_Skullmound(position.X, position.Y, WorldGen.genRand.NextFloat(0.8f, 1.2f)));
+                        break;
+                    case 3:
+                        islands.Add(GenerateIncendiaryIsland_Ritual(position.X, position.Y, WorldGen.genRand.NextFloat(0.8f, 1.2f)));
+                        break;
+                    default:
+                        break;
                 }
             }
         }
-
-        public static void CreateLineOfBlocksVertical(int LineX, int LineY, int Length, int Type, bool Up = true, bool forced = false, bool withWall = false, int wallType = WallID.Dirt)
-        {
-            for (int i = 0; i < Length; i++)
-            {
-                if (Up)
-                {
-                    WorldGen.PlaceTile(LineX, LineY - i, Type, true, forced);
-                    if (withWall)
-                    {
-                        WorldGen.PlaceWall(LineX, LineY - i, wallType, true);
-                    }
-                }
-                else
-                {
-                    WorldGen.PlaceTile(LineX, LineY + i, Type, true, forced);
-                    if (withWall)
-                    {
-                        WorldGen.PlaceWall(LineX, LineY + i, wallType, true);
-                    }
-                }
-            }
-        }
+        #endregion
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {

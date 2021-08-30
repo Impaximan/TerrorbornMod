@@ -17,7 +17,6 @@ namespace TerrorbornMod.Tiles.Incendiary
             Main.tileBlockLight[Type] = true;
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = false;
-            Main.tileSpelunker[Type] = true;
             soundType = 0;
             soundStyle = 1;
             //Main.soundDig[Type] =  21;
@@ -76,12 +75,13 @@ namespace TerrorbornMod.Tiles.Incendiary
             Main.tileBlockLight[Type] = true;
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = true;
-            Main.tileSpelunker[Type] = true;
             soundType = 0;
             soundStyle = 1;
             //Main.soundDig[Type] =  21;
 
             Main.tileMerge[Type][ModContent.TileType<KindlingSoil>()] = true;
+
+            dustType = DustID.Fire;
 
             minPick = 0;
             mineResist = 4.5f;
@@ -93,6 +93,27 @@ namespace TerrorbornMod.Tiles.Incendiary
         {
             dustType = DustID.Fire;
             makeDust = true;
+        }
+
+        //public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        //{
+        //    Tile tile = Main.tile[i, j];
+        //    Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+        //    if (Main.drawToScreen)
+        //    {
+        //        zero = Vector2.Zero;
+        //    }
+        //    int height = tile.frameY == 36 ? 18 : 16;
+        //    Main.spriteBatch.Draw(mod.GetTexture("Tiles/Incendiary/KindlingGrass_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+        //}
+
+        public override void RandomUpdate(int i, int j)
+        {
+            Vector2 position = new Vector2(i * 16, j * 16);
+            Dust dust = Dust.NewDustPerfect(position, DustID.Fire);
+            dust.velocity = new Vector2(0, -3);
+            dust.noGravity = true;
+            dust.scale = 1.5f;
         }
 
         public override bool HasWalkDust()

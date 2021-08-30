@@ -209,6 +209,13 @@ namespace TerrorbornMod
                 //spawnRate = 180;
                 maxSpawns = (int)(maxSpawns * 2f);
             }
+
+            if (player.HasBuff(ModContent.BuffType<Buffs.Debuffs.IncendiaryCurse>()))
+            {
+                spawnRate = (int)(spawnRate * 0.65f);
+                maxSpawns = (int)(maxSpawns * 2f);
+            }
+
             //maxSpawns += TerrorbornWorld.wormExtraSegmentCount;
         }
 

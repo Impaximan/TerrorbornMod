@@ -135,7 +135,8 @@ namespace TerrorbornMod
             if (Main.hardMode && !HardmodeMessagesSent)
             {
                 HardmodeMessagesSent = true;
-                Main.NewText("An incendiary curse spreads throughout the caverns", 236, 165, 133);
+                Main.NewText("A hellish curse invades the heavens!", 236, 165, 133);
+                TerrorbornWorld.GenerateIncendiaryBiome(density: 1.5f);
                 Main.NewText("The souls released from the wall begin to condense in the sky...", Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255));
                 Main.NewText("The Skeleton Sheriff has new items in his shop!", Color.Yellow);
             }

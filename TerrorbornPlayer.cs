@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using TerrorbornMod.Abilities;
+using TerrorbornMod.ForegroundObjects;
 using Terraria.GameInput;
 using Microsoft.Xna.Framework.Input;
 using Extensions;
@@ -128,20 +129,18 @@ namespace TerrorbornMod
             }
         }
 
+        int effectCounter = 60;
         public override void UpdateBiomeVisuals()
         {
             if (ZoneIncendiary)
             {
-                //if (ZoneIncendiary)
-                //{
-                //    SpriteBatch spriteBatch = new SpriteBatch(Main.graphics.GraphicsDevice);
-
-                //    spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
-
-                //    spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Perlin"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Red * 0.25f);
-
-                //    spriteBatch.End();
-                //}
+                effectCounter--;
+                if (effectCounter <= 0)
+                {
+                    effectCounter = Main.rand.Next(3, 6);
+                    int maxDistance = 1500;
+                    ForegroundObject.NewForegroundObject(new Vector2(Main.rand.Next(-maxDistance, maxDistance), Main.rand.Next(-maxDistance, maxDistance)), new IncendiaryFog());
+                }
             }
         }
 
@@ -590,6 +589,11 @@ namespace TerrorbornMod
 
         public override void PostUpdate()
         {
+            if (TerrorbornWorld.incendiaryRitual)
+            {
+                player.AddBuff(ModContent.BuffType<Buffs.Debuffs.IncendiaryCurse>(), 2);
+            }
+
             if (GelatinArmorTime > 0)
             {
                 GelatinArmorTime--;

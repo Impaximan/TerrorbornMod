@@ -26,19 +26,6 @@ namespace TerrorbornMod.Items.Placeable.Walls
             item.consumable = true;
             item.createWall = ModContent.WallType<Tiles.DeimostoneWallTile>();
         }
-
-
-        public override void ExtractinatorUse(ref int resultType, ref int resultStack)
-        {
-            if (Main.rand.Next(5) == 0)
-            {
-                resultType = ModContent.ItemType<DarkEnergy>();
-                if (Main.rand.Next(5) == 0)
-                {
-                    resultStack = 1;
-                }
-            }
-        }
     }
 }
 

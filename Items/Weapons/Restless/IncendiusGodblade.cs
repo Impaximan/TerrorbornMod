@@ -90,14 +90,14 @@ namespace TerrorbornMod.Items.Weapons.Restless
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 35);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(35 * TerrorbornMod.IncendiaryAlloyMultiplier));
             recipe.AddIngredient(ItemID.PalladiumBar, 12);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 10);
             recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
             recipe.SetResult(this);
             recipe.AddRecipe();
             ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 35);
+            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(35 * TerrorbornMod.IncendiaryAlloyMultiplier));
             recipe2.AddIngredient(ItemID.CobaltBar, 12);
             recipe2.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 10);
             recipe2.AddTile(ModContent.TileType<Tiles.MeldingStation>());

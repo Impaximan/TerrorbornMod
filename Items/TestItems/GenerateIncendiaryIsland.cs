@@ -39,10 +39,14 @@ namespace TerrorbornMod.Items.TestItems
             return true;
         }
 
-        const int typeCount = 2;
+        const int typeCount = 6;
         int currentType = 0;
         //0 = normal
         //1 = main
+        //2 = mechanical
+        //3 = skullmound
+        //4 = ritual
+        //5 = chest
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -62,6 +66,26 @@ namespace TerrorbornMod.Items.TestItems
                 {
                     Main.NewText("Type: Main");
                 }
+
+                if (currentType == 2)
+                {
+                    Main.NewText("Type: Mechanical");
+                }
+
+                if (currentType == 3)
+                {
+                    Main.NewText("Type: Skullmound");
+                }
+
+                if (currentType == 4)
+                {
+                    Main.NewText("Type: Ritual");
+                }
+
+                if (currentType == 5)
+                {
+                    Main.NewText("Type: Chest");
+                }
             }
             else
             {
@@ -74,7 +98,57 @@ namespace TerrorbornMod.Items.TestItems
                 {
                     TerrorbornWorld.GenerateIncendiaryIsland_Main((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1f, 1.2f));
                 }
+
+                if (currentType == 2)
+                {
+                    TerrorbornWorld.GenerateIncendiaryIsland_Mechanical((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
+                }
+
+                if (currentType == 3)
+                {
+                    TerrorbornWorld.GenerateIncendiaryIsland_Skullmound((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
+                }
+
+                if (currentType == 4)
+                {
+                    TerrorbornWorld.GenerateIncendiaryIsland_Ritual((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
+                }
+
+                if (currentType == 5)
+                {
+                    TerrorbornWorld.GenerateIncendiaryIsland_Chest((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
+                }
             }
+            return base.CanUseItem(player);
+        }
+    }
+
+    class GenerateIncendiaryBiome : ModItem
+    {
+        public override string Texture => "TerrorbornMod/placeholder";
+
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Generates the incendiary biome on a random side of the world");
+        }
+
+        public override void SetDefaults()
+        {
+            item.rare = -12;
+            item.autoReuse = false;
+            item.useStyle = ItemUseStyleID.HoldingUp;
+            item.useTime = 40;
+            item.useAnimation = 40;
+        }
+
+        const int typeCount = 3;
+        int currentType = 0;
+        //0 = normal
+        //1 = main
+        //2 = mechanical
+        public override bool CanUseItem(Player player)
+        {
+            TerrorbornWorld.GenerateIncendiaryBiome(density: 1.5f);
             return base.CanUseItem(player);
         }
     }
