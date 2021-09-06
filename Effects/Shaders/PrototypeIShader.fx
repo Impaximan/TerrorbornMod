@@ -27,8 +27,16 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
     
     float4 color = tex2D(uImage0, coords);
-    float distanceMultiplier = distance(coords, float2(0.5, 0.5)) * 2;
-    return float4(color.r, color.g, color.b * (1 + abs(distanceMultiplier)), color.a);
+    float distanceMultiplier = (distance(coords, float2(0.5, 0.5)) - 0.2) * 0.1;
+    
+    if (distanceMultiplier < 0)
+    {
+        return float4(color.r, color.g, color.b + abs(distanceMultiplier), color.a);
+    }
+    else
+    {
+        return float4(color.r, color.g + abs(distanceMultiplier), color.b, color.a);
+    }
 }
 
 technique Technique1

@@ -147,6 +147,9 @@ namespace TerrorbornMod
                 }
             }
 
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()));
+
+            /*
             if (!Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive() && NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))
             {
                 Main.NewText("Activating shader");
@@ -168,7 +171,7 @@ namespace TerrorbornMod
             {
                 Main.NewText("Deactivating shader");
                 Filters.Scene.Deactivate("TerrorbornMod:PrototypeIShader");
-            }
+            }*/
         }
 
         public override void UpdateBiomes()
