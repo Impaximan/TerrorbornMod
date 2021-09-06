@@ -35,7 +35,7 @@ namespace TerrorbornMod.ForegroundObjects
             distance = Main.rand.NextFloat(1.25f, 1.75f);
             alpha = 255;
             timeLeft = Main.rand.Next(180, 360) * 2;
-            drawColor = Color.Red;
+            drawColor = Color.White;
         }
 
         public int timeLeft;

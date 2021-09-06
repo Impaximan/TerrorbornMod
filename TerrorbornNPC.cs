@@ -438,7 +438,7 @@ namespace TerrorbornMod
                             }
                             else
                             {
-                                target.StrikeNPC(damage, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                                target.StrikeNPC(damage / 2, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
                             }
 
                             int choice = Main.rand.Next(4);
@@ -532,7 +532,7 @@ namespace TerrorbornMod
                             }
                             else
                             {
-                                target.StrikeNPC(damage, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                                target.StrikeNPC(damage / 2, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
                             }
 
                             int choice = Main.rand.Next(4);

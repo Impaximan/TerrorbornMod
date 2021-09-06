@@ -17,6 +17,7 @@ using Terraria.Map;
 using TerrorbornMod.ForegroundObjects;
 using Terraria.GameContent.Dyes;
 using Terraria.GameContent.UI;
+using TerrorbornMod.Effects.Shaders;
 using TerrorbornMod.UI.TerrorMeter;
 using TerrorbornMod.UI.TerrorAbilityUnlock;
 
@@ -134,12 +135,20 @@ namespace TerrorbornMod
             OpenTerrorAbilityMenu = RegisterHotKey("Open/Close Terror Ability Menu", "P");
             CombatTokenCustomCurrencyId = CustomCurrencyManager.RegisterCurrency(new CombatTokenCurrency(ItemType("CombatToken"), 999L));
 
+
             if (Main.netMode != NetmodeID.Server)
             {
                 Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
                 Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
                 Filters.Scene["Shockwave"].Load();
+
+                //GameShaders.Misc["TerrorbornMod:PrototypeIShader"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/Shaders/PrototypeIShader")), "PrototypeI")/*.UseImage("Perlin")*/;
+
+                Ref<Effect> filterRef = new Ref<Effect>(GetEffect("Effects/Shaders/PrototypeIShader"));
+                Filters.Scene["TerrorbornMod:PrototypeIShader"] = new Filter(new ScreenShaderData(filterRef, "PrototypeI").UseIntensity(0.5f).UseImage(ModContent.GetTexture("TerrorbornMod/Perlin")), EffectPriority.VeryHigh);
+                //SkyManager.Instance["TerrorbornMod:PrototypeI"] = new PrototypeISky();
             }
+
             if (!Main.dedServ)
             {
                 terrorMeterInterface = new UserInterface();
@@ -233,7 +242,7 @@ namespace TerrorbornMod
         }
 
         public static Color darkRainColor = Color.FromNonPremultiplied((int)(40f * 0.7f), (int)(55f * 0.7f), (int)(70f * 0.7f), 255);
-        public static Color incendiaryColor = Color.FromNonPremultiplied(191, 81, 81, 255);
+        public static Color incendiaryColor = Color.FromNonPremultiplied(191, 122, 122, 255);
         public static Color transitionColor = Color.White;
         public static Color lightningColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
         public static float positionForward = 0f;

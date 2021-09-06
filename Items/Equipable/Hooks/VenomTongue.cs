@@ -3,6 +3,8 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace TerrorbornMod.Items.Equipable.Hooks
 {
@@ -66,6 +68,7 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 		//	return true;
 		//}
 
+		bool start = false;
         public override void PostAI()
         {
             base.PostAI();
@@ -123,22 +126,22 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 			float distance = distToProj.Length();
 			Texture2D texture = ModContent.GetTexture("TerrorbornMod/NPCs/TerrorRain/VenomTongueSegment");
 
-			while (distance > texture.Height && !float.IsNaN(distance))
-			{
-				distToProj.Normalize();
-				distToProj *= texture.Height;
-				center += distToProj;
-				distToProj = originPoint - center;
-				distance = distToProj.Length();
+            while (distance > texture.Height && !float.IsNaN(distance))
+            {
+                distToProj.Normalize();
+                distToProj *= texture.Height;
+                center += distToProj;
+                distToProj = originPoint - center;
+                distance = distToProj.Length();
 
 
-				//Draw chain
-				spriteBatch.Draw(texture, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-					new Rectangle(0, 0, texture.Width, texture.Height), Color.White, projRotation,
-					new Vector2(texture.Width * 0.5f, texture.Height * 0.5f), 1f, SpriteEffects.None, 0f);
-			}
+                //Draw chain
+                spriteBatch.Draw(texture, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                    new Rectangle(0, 0, texture.Width, texture.Height), Color.White, projRotation,
+                    new Vector2(texture.Width * 0.5f, texture.Height * 0.5f), 1f, SpriteEffects.None, 0f);
+            }
 
-			Texture2D texture2 = Main.projectileTexture[projectile.type];
+            Texture2D texture2 = Main.projectileTexture[projectile.type];
 			Vector2 position = projectile.Center - Main.screenPosition;
 			Main.spriteBatch.Draw(texture2, new Rectangle((int)position.X, (int)position.Y, texture2.Width, texture2.Height), new Rectangle(0, 0, texture2.Width, texture2.Height), projectile.GetAlpha(Color.White), projectile.rotation, new Vector2(texture2.Width / 2, texture2.Height / 2), SpriteEffects.None, 0);
 			return false;

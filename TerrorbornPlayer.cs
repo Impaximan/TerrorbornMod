@@ -8,8 +8,10 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.Graphics.Effects;
 using TerrorbornMod.Abilities;
 using TerrorbornMod.ForegroundObjects;
+using Terraria.Graphics.Shaders;
 using Terraria.GameInput;
 using Microsoft.Xna.Framework.Input;
 using Extensions;
@@ -65,6 +67,7 @@ namespace TerrorbornMod
         public float restlessNonChargedUseSpeed = 1f;
 
         //Accessory/equipment fields
+        public bool SpecterLocket = false;
         public bool IncendiaryShield = false;
         public bool DeimosteelCharm = false;
         public bool MysteriousCompass = false;
@@ -130,6 +133,7 @@ namespace TerrorbornMod
         }
 
         int effectCounter = 60;
+        int progress = 0;
         public override void UpdateBiomeVisuals()
         {
             if (ZoneIncendiary)
@@ -141,6 +145,34 @@ namespace TerrorbornMod
                     int maxDistance = 1500;
                     ForegroundObject.NewForegroundObject(new Vector2(Main.rand.Next(-maxDistance, maxDistance), Main.rand.Next(-maxDistance, maxDistance)), new IncendiaryFog());
                 }
+            }
+
+            Ref<Effect> filterRef = new Ref<Effect>(mod.GetEffect("Effects/Shaders/PrototypeIShader"));
+            Filters.Scene["TerrorbornMod:PrototypeIShader"] = new Filter(new ScreenShaderData(filterRef, "PrototypeI"), EffectPriority.VeryHigh);
+
+            //player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()));
+
+            if (!Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive() && NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))
+            {
+                Main.NewText("Activating shader");
+                Filters.Scene.Activate("TerrorbornMod:PrototypeIShader");
+                Main.NewText(Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive());
+                Filters.Scene["TerrorbornMod:PrototypeIShader"].GetShader().UseOpacity(1f);
+                Filters.Scene["TerrorbornMod:PrototypeIShader"].GetShader().UseProgress(1);
+                progress = 1;
+            }
+
+            if (Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive())
+            {
+                progress++;
+                Filters.Scene["TerrorbornMod:PrototypeIShader"].GetShader().UseProgress(progress);
+                Filters.Scene["TerrorbornMod:PrototypeIShader"].GetShader().Apply();
+            }
+
+            if (Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive() && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))
+            {
+                Main.NewText("Deactivating shader");
+                Filters.Scene.Deactivate("TerrorbornMod:PrototypeIShader");
             }
         }
 
@@ -569,7 +601,6 @@ namespace TerrorbornMod
 
         bool usingPrimary;
         bool usingSecondary;
-
         public override void UpdateAutopause()
         {
             if (TerrorbornMod.OpenTerrorAbilityMenu.JustPressed)
@@ -875,6 +906,18 @@ namespace TerrorbornMod
             }
 
             TerrorPercent = 0f;
+
+            if (SpecterLocket && !player.HasBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>()))
+            {
+                CombatText.NewText(player.getRect(), Color.OrangeRed, "Revived!", true);
+                Main.PlaySound(SoundID.NPCDeath52, player.Center);
+                player.statLife = 25;
+                player.HealEffect(25);
+                player.AddBuff(ModContent.BuffType<Buffs.IncendiaryRevival>(), 60 * 4);
+                player.AddBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>(), 3600 * 3);
+                return false;
+            }
+
             return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
         }
 

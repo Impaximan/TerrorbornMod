@@ -10,8 +10,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics.Effects;
 using Terraria.ModLoader.IO;
 using TerrorbornMod.Abilities;
+using Terraria.Graphics.Shaders;
 using TerrorbornMod.ForegroundObjects;
 using Terraria.GameInput;
 using Microsoft.Xna.Framework.Input;
@@ -39,6 +41,7 @@ namespace TerrorbornMod
 
         private static void DrawOvertopGraphics(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
+
             if (lastScreenPosition == Vector2.Zero)
             {
                 lastScreenPosition = Main.screenPosition;
@@ -78,6 +81,7 @@ namespace TerrorbornMod
                 }
             }
 
+            //Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             foreach (ForegroundObject foregroundObject in drawing)
@@ -121,6 +125,7 @@ namespace TerrorbornMod
             //Main.spriteBatch.Draw(texture2, new Rectangle(positionX2, (int)perlinPosition.Y - Main.screenHeight, Main.screenWidth, Main.screenHeight), new Rectangle((int)(positionX2 * widthRatio), 0, (int)(texture.Width - positionX2 * widthRatio), texture.Height), Color.Red * 0.15f, 0, Vector2.Zero, effects, 0f);
             ////spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Perlin"), new Rectangle(positionX - Main.screenWidth, 0, Main.screenWidth, Main.screenHeight), new Rectangle((int)(texture.Width * (1 - (positionX / Main.screenWidth))), 0, (int)(texture.Width * (float)(positionX / (float)Main.screenWidth)), texture.Height), Color.Red * 0.15f);
 
+
             Main.spriteBatch.End();
 
             orig(self, gameTime);
@@ -128,35 +133,35 @@ namespace TerrorbornMod
 
         public static bool TileShouldBeGrass(int i, int j)
         {
-            if (WorldGen.TileEmpty(i + 1, j) && !Main.tileFrameImportant[Main.tile[i + 1, j].type])
+            if (WorldGen.TileEmpty(i + 1, j) || !Main.tileSolid[Main.tile[i + 1, j].type])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i - 1, j) && !Main.tileFrameImportant[Main.tile[i - 1, j].type])
+            else if (WorldGen.TileEmpty(i - 1, j) && !Main.tileSolid[Main.tile[i - 1, j].type])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i, j + 1) && !Main.tileFrameImportant[Main.tile[i, j + 1].type])
+            else if (WorldGen.TileEmpty(i, j + 1) || !Main.tileSolid[Main.tile[i, j + 1].type])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i, j - 1) && !Main.tileFrameImportant[Main.tile[i, j - 1].type])
+            else if (WorldGen.TileEmpty(i, j - 1) || !Main.tileSolid[Main.tile[i, j - 1].type])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i + 1, j + 1) && !Main.tileFrameImportant[Main.tile[i + 1, j + 1].type])
+            else if (WorldGen.TileEmpty(i + 1, j + 1) || !Main.tileSolid[Main.tile[i + 1, j + 1].type])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i + 1, j - 1) && !Main.tileFrameImportant[Main.tile[i + 1, j - 1].type])
+            else if (WorldGen.TileEmpty(i + 1, j - 1) || !Main.tileSolid[Main.tile[i + 1, j - 1].type])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i - 1, j + 1) && !Main.tileFrameImportant[Main.tile[i - 1, j + 1].type])
+            else if (WorldGen.TileEmpty(i - 1, j + 1) || !Main.tileSolid[Main.tile[i - 1, j + 1].type])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i - 1, j - 1) && !Main.tileFrameImportant[Main.tile[i - 1, j - 1].type])
+            else if (WorldGen.TileEmpty(i - 1, j - 1) || !Main.tileSolid[Main.tile[i - 1, j - 1].type])
             {
                 return true;
             }

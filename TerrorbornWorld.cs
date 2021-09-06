@@ -295,8 +295,117 @@ namespace TerrorbornMod
             WorldGen.PlaceTile(x, y + 2, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>());
             WorldGen.PlaceTile(x + 1, y + 2, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>());
             WorldGen.PlaceTile(x, y + 1, (ushort)ModContent.TileType<Tiles.Incendiary.IncendiaryChest>());
-            int chest = Chest.FindChest(x, y);
-            Main.chest[chest].item[0].SetDefaults(ItemID.FartinaJar);
+            Chest chest = Main.chest[Chest.FindChest(x, y)];
+            
+            List<int> mainItems = new List<int>();
+            mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.Shields.IncendiaryShield>());
+            mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.SpecterLocket>());
+            mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.Asphodel>());
+            mainItems.Add(ModContent.ItemType<Items.Equipable.Hooks.HellishHook>());
+
+            List<int> bossSummons = new List<int>();
+            bossSummons.Add(ItemID.MechanicalEye);
+            bossSummons.Add(ItemID.MechanicalSkull);
+            bossSummons.Add(ItemID.MechanicalWorm);
+
+            List<int> craftingStations = new List<int>();
+            craftingStations.Add(ItemID.MythrilAnvil);
+            craftingStations.Add(ItemID.OrichalcumAnvil);
+            craftingStations.Add(ItemID.AdamantiteForge);
+            craftingStations.Add(ItemID.TitaniumForge);
+
+            List<int> souls = new List<int>();
+            souls.Add(ItemID.SoulofLight);
+            souls.Add(ItemID.SoulofNight);
+            souls.Add(ItemID.SoulofFlight);
+
+            List<int> ammosAndThrowables = new List<int>();
+            ammosAndThrowables.Add(ItemID.IchorArrow);
+            ammosAndThrowables.Add(ItemID.CursedArrow);
+            ammosAndThrowables.Add(ItemID.IchorBullet);
+            ammosAndThrowables.Add(ItemID.CursedBullet);
+
+            List<int> bars = new List<int>();
+            bars.Add(ItemID.CobaltBar);
+            bars.Add(ItemID.PalladiumBar);
+            bars.Add(ItemID.MythrilBar);
+            bars.Add(ItemID.OrichalcumBar);
+            bars.Add(ItemID.AdamantiteBar);
+            bars.Add(ItemID.TitaniumBar);
+
+            List<int> commonPotions = new List<int>();
+            commonPotions.Add(ItemID.SpelunkerPotion);
+            commonPotions.Add(ModContent.ItemType<Items.Potions.AerodynamicPotion>());
+            commonPotions.Add(ItemID.AmmoReservationPotion);
+            commonPotions.Add(ItemID.ObsidianSkinPotion);
+            commonPotions.Add(ItemID.ArcheryPotion);
+            commonPotions.Add(ItemID.MagicPowerPotion);
+
+            List<int> uncommonPotions = new List<int>();
+            commonPotions.Add(ModContent.ItemType<Items.Potions.DarkbloodPotion>());
+            uncommonPotions.Add(ItemID.InfernoPotion);
+            uncommonPotions.Add(ItemID.LifeforcePotion);
+            uncommonPotions.Add(ItemID.WrathPotion);
+            uncommonPotions.Add(ItemID.RagePotion);
+
+            int item = 0;
+            chest.item[item].SetDefaults(WorldGen.genRand.Next(mainItems));
+            item++;
+
+            chest.item[item].SetDefaults(WorldGen.genRand.Next(souls));
+            chest.item[item].stack = Main.rand.Next(6, 12);
+            item++;
+
+            if (WorldGen.genRand.NextFloat() <= 0.4f)
+            {
+                chest.item[item].SetDefaults(WorldGen.genRand.Next(bossSummons));
+                item++;
+            }
+
+            if (WorldGen.genRand.NextFloat() <= 0.5f)
+            {
+                chest.item[item].SetDefaults(WorldGen.genRand.Next(craftingStations));
+                item++;
+            }
+
+            if (WorldGen.genRand.NextFloat() <= 0.5f)
+            {
+                chest.item[item].SetDefaults(WorldGen.genRand.Next(bars));
+                chest.item[item].stack = WorldGen.genRand.Next(5, 15);
+                item++;
+            }
+
+            if (WorldGen.genRand.NextFloat() <= 0.5f)
+            {
+                chest.item[item].SetDefaults(WorldGen.genRand.Next(ammosAndThrowables));
+                chest.item[item].stack = WorldGen.genRand.Next(225, 565);
+                item++;
+            }
+
+            if (WorldGen.genRand.NextFloat() <= 0.5f)
+            {
+                chest.item[item].SetDefaults(ItemID.GreaterHealingPotion);
+                chest.item[item].stack = WorldGen.genRand.Next(6, 11);
+                item++;
+            }
+
+            if (WorldGen.genRand.NextFloat() <= 0.666f)
+            {
+                chest.item[item].SetDefaults(WorldGen.genRand.Next(commonPotions));
+                chest.item[item].stack = WorldGen.genRand.Next(2, 5);
+                item++;
+            }
+
+            if (WorldGen.genRand.NextFloat() <= 0.333f)
+            {
+                chest.item[item].SetDefaults(WorldGen.genRand.Next(uncommonPotions));
+                chest.item[item].stack = WorldGen.genRand.Next(2, 4);
+                item++;
+            }
+
+            chest.item[item].SetDefaults(ItemID.GoldCoin);
+            chest.item[item].stack = WorldGen.genRand.Next(12, 25);
+            item++;
         }
 
         public static void GenerateIncendiaryShrine(int i, int j)
