@@ -142,11 +142,9 @@ namespace TerrorbornMod
                 Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
                 Filters.Scene["Shockwave"].Load();
 
-                //GameShaders.Misc["TerrorbornMod:PrototypeIShader"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/Shaders/PrototypeIShader")), "PrototypeI")/*.UseImage("Perlin")*/;
-
                 Ref<Effect> filterRef = new Ref<Effect>(GetEffect("Effects/Shaders/PrototypeIShader"));
-                Filters.Scene["TerrorbornMod:PrototypeIShader"] = new Filter(new ScreenShaderData(filterRef, "PrototypeI").UseIntensity(0.5f).UseImage(ModContent.GetTexture("TerrorbornMod/Perlin")), EffectPriority.VeryHigh);
-                //SkyManager.Instance["TerrorbornMod:PrototypeI"] = new PrototypeISky();
+                Filters.Scene["TerrorbornMod:PrototypeIShader"] = new Filter(new ScreenShaderData(filterRef, "PrototypeI"), EffectPriority.VeryHigh);
+                Filters.Scene["TerrorbornMod:PrototypeIShader"].Load();
             }
 
             if (!Main.dedServ)

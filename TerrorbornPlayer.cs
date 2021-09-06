@@ -147,11 +147,6 @@ namespace TerrorbornMod
                 }
             }
 
-            Ref<Effect> filterRef = new Ref<Effect>(mod.GetEffect("Effects/Shaders/PrototypeIShader"));
-            Filters.Scene["TerrorbornMod:PrototypeIShader"] = new Filter(new ScreenShaderData(filterRef, "PrototypeI"), EffectPriority.VeryHigh);
-
-            //player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()));
-
             if (!Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive() && NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))
             {
                 Main.NewText("Activating shader");
