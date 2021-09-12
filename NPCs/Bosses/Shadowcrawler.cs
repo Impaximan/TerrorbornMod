@@ -990,40 +990,36 @@ namespace TerrorbornMod.NPCs.Bosses
                 }
                 else
                 {
-                    if (AIPhase == 69)
+                    switch (AIPhase)
                     {
-                        DecideNextAttack();
-                    }
-                    if (AIPhase == 0)
-                    {
-                        OverheadFireballDropping(player);
-                    }
-                    if (AIPhase == 1)
-                    {
-                        HorizontalCharge(player);
-                    }
-                    if (AIPhase == 2)
-                    {
-                        PredictiveJump(player);
-                    }
-                    if (AIPhase == 3)
-                    {
-                        MultipleJumpsWithFireballs(player, 3);
-                    }
-                    if (AIPhase == 4)
-                    {
-                        if (phase == 3)
-                        {
-                            EggSpew(player, 12, 7);
-                        }
-                        else
-                        {
-                            EggSpew(player, 5, 10);
-                        }
-                    }
-                    if (AIPhase == 5)
-                    {
-                        DiagonalCharge(player);
+                        case 0:
+                            OverheadFireballDropping(player);
+                            break;
+                        case 1:
+                            HorizontalCharge(player);
+                            break;
+                        case 2:
+                            PredictiveJump(player);
+                            break;
+                        case 3:
+                            MultipleJumpsWithFireballs(player, 3);
+                            break;
+                        case 4:
+                            if (phase == 3)
+                            {
+                                EggSpew(player, 12, 7);
+                            }
+                            else
+                            {
+                                EggSpew(player, 5, 10);
+                            }
+                            break;
+                        case 5:
+                            DiagonalCharge(player);
+                            break;
+                        default:
+                            DecideNextAttack();
+                            break;
                     }
                 }
             }

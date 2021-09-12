@@ -43,6 +43,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.autoReuse = false;
             item.maxStack = 3;
             item.melee = true;
+            item.noMelee = true;
         }
 
         public override bool CanUseItem(Player player)

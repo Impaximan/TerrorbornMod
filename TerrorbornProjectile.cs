@@ -20,6 +20,8 @@ namespace TerrorbornMod
 
         public bool fromSplit = false;
 
+        public bool BeatStopper = false;
+
         public override bool CanHitPlayer(Projectile projectile, Player target)
         {
             TerrorbornPlayer player = TerrorbornPlayer.modPlayer(target);
@@ -112,7 +114,17 @@ namespace TerrorbornMod
                 newProj.melee = projectile.melee;
                 newProj.ranged = projectile.ranged;
                 newProj.magic = projectile.magic;
+            }
 
+            if (BeatStopper && projectile.type != ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>())
+            {
+                Main.PlaySound(SoundID.DD2_BallistaTowerShot, player.Center);
+                for (int i = 0; i < 2; i++)
+                {
+                    float speed = Main.rand.NextFloat(12f, 20f);
+                    Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * speed;
+                    Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>(), damage / 5, 1, player.whoAmI);
+                }
             }
         }
 
@@ -165,6 +177,21 @@ namespace TerrorbornMod
             {
                 Start = false;
                 OnSpawn(projectile);
+
+                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Ranged.Beatstopper>())
+                {
+                    BeatStopper = true;
+                }
+
+                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Restless.VBMG>())
+                {
+                    VeinBurster = true;
+                }
+
+                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Restless.ContaminatedMarinePistol>())
+                {
+                    ContaminatedMarine = true;
+                }
             }
 
             if (projectile.friendly)

@@ -20,14 +20,10 @@ float uSaturation;
 float4 uSourceRect;
 float2 uZoom;
 
-
-
-
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
-    
     float4 color = tex2D(uImage0, coords);
-    float distanceMultiplier = (distance(coords, float2(0.5, 0.5)) - 0.2) * 0.1;
+    float distanceMultiplier = (distance(coords, float2(0.5, 0.5))) * 0.5;
     
     if (distanceMultiplier < 0)
     {
@@ -35,13 +31,13 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     }
     else
     {
-        return float4(color.r, color.g + abs(distanceMultiplier) * uOpacity, color.b * 1 - (abs(distanceMultiplier) * uOpacity), color.a);
+        return float4(color.r - abs(distanceMultiplier) * uOpacity, color.g - abs(distanceMultiplier) * uOpacity, color.b - abs(distanceMultiplier) * uOpacity, color.a - abs(distanceMultiplier) * uOpacity);
     }
 }
 
 technique Technique1
 {
-    pass PrototypeI
+    pass Darkness
     {
         PixelShader = compile ps_2_0 PixelShaderFunction();
     }

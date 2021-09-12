@@ -142,9 +142,13 @@ namespace TerrorbornMod
                 Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
                 Filters.Scene["Shockwave"].Load();
 
-                Ref<Effect> filterRef = new Ref<Effect>(GetEffect("Effects/Shaders/PrototypeIShader"));
-                Filters.Scene["TerrorbornMod:PrototypeIShader"] = new Filter(new ScreenShaderData(filterRef, "PrototypeI"), EffectPriority.VeryHigh);
+                Ref<Effect> prototypeRef = new Ref<Effect>(GetEffect("Effects/Shaders/PrototypeIShader"));
+                Filters.Scene["TerrorbornMod:PrototypeIShader"] = new Filter(new ScreenShaderData(prototypeRef, "PrototypeI"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:PrototypeIShader"].Load();
+
+                Ref<Effect> darknessRef = new Ref<Effect>(GetEffect("Effects/Shaders/DarknessShader"));
+                Filters.Scene["TerrorbornMod:DarknessShader"] = new Filter(new ScreenShaderData(darknessRef, "Darkness"), EffectPriority.VeryHigh);
+                Filters.Scene["TerrorbornMod:DarknessShader"].Load();
             }
 
             if (!Main.dedServ)
@@ -338,11 +342,11 @@ namespace TerrorbornMod
 
             bool changingToBossColor = false;
 
-            if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))
-            {
-                changingToBossColor = true;
-                bossColor = Color.LightGreen;
-            }
+            //if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))
+            //{
+            //    changingToBossColor = true;
+            //    bossColor = Color.LightGreen;
+            //}
 
             if (changingToBossColor)
             {

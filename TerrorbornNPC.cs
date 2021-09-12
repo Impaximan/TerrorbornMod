@@ -212,7 +212,7 @@ namespace TerrorbornMod
 
             if (player.HasBuff(ModContent.BuffType<Buffs.Debuffs.IncendiaryCurse>()))
             {
-                spawnRate = (int)(spawnRate * 0.65f);
+                spawnRate = (int)(spawnRate * 0.35f);
                 maxSpawns = (int)(maxSpawns * 2f);
             }
 
@@ -229,7 +229,10 @@ namespace TerrorbornMod
 
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.ZoneRain && TerrorbornWorld.terrorRain)
+            Player player = spawnInfo.player;
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            if (player.ZoneRain && TerrorbornWorld.terrorRain)
             {
                 pool.Clear();
 
@@ -260,6 +263,14 @@ namespace TerrorbornMod
                         weight = 0.6f;
                     }
                     pool.Add(i, weight);
+                }
+            }
+
+            if (modPlayer.ZoneIncendiary)
+            {
+                while (pool.ContainsKey(0))
+                {
+                    pool.Remove(0);
                 }
             }
         }
@@ -626,15 +637,30 @@ namespace TerrorbornMod
                 Item.NewItem(npc.getRect(), type);
             }
 
+
             if (NPCID.Sets.ProjectileNPC[npc.type])
             {
                 return;
             }
 
+
             float ExpertBoost = 1;
             if (Main.expertMode)
             {
                 ExpertBoost = 2;
+            }
+
+            if (modPlayer.ZoneIncendiary)
+            {
+                if (Main.rand.NextFloat() <= 0.025f * ExpertBoost)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.IncendiaryLockbox>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.25f && NPC.downedGolemBoss)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Materials.HellbornEssence>());
+                }
             }
 
             if (npc.type == NPCID.GoblinSorcerer)

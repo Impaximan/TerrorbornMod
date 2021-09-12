@@ -356,13 +356,13 @@ namespace TerrorbornMod
             chest.item[item].stack = Main.rand.Next(6, 12);
             item++;
 
-            if (WorldGen.genRand.NextFloat() <= 0.4f)
+            if (WorldGen.genRand.NextFloat() <= 0.25f)
             {
                 chest.item[item].SetDefaults(WorldGen.genRand.Next(bossSummons));
                 item++;
             }
 
-            if (WorldGen.genRand.NextFloat() <= 0.5f)
+            if (WorldGen.genRand.NextFloat() <= 0.35f)
             {
                 chest.item[item].SetDefaults(WorldGen.genRand.Next(craftingStations));
                 item++;
@@ -1263,6 +1263,7 @@ namespace TerrorbornMod
             int islandCount = (int)(Main.maxTilesX / 25 * density);
             int ritualIslandCount = (int)(Main.maxTilesX / 2800 * density);
             int chestIslandCount = (int)(Main.maxTilesX / 840 * 0.65f * density);
+            int skullIslandCount = (int)(Main.maxTilesX / 250 * density);
             int rogueCloudsCount = (int)(Main.maxTilesX / 360 * density);
 
             islands.Clear();
@@ -1295,6 +1296,12 @@ namespace TerrorbornMod
                 islands.Add(GenerateIncendiaryIsland_Chest(position.X, position.Y, WorldGen.genRand.NextFloat(0.8f, 1.2f)));
             }
 
+            for (int i = 0; i < skullIslandCount; i++)
+            {
+                Point16 position = new Point16(cornerPosition.X + WorldGen.genRand.Next(biomeWidth) * -side, cornerPosition.Y + WorldGen.genRand.Next(biomeHeight));
+                islands.Add(GenerateIncendiaryIsland_Skullmound(position.X, position.Y, WorldGen.genRand.NextFloat(0.8f, 1.2f)));
+            }
+
             for (int i = 0; i < ritualIslandCount; i++)
             {
                 Point16 position = new Point16(cornerPosition.X + WorldGen.genRand.Next(biomeWidth) * -side, cornerPosition.Y + WorldGen.genRand.Next(biomeHeight));
@@ -1308,7 +1315,6 @@ namespace TerrorbornMod
                 WeightedRandom<int> type = new WeightedRandom<int>();
                 type.Add(0, 1f); //Normal
                 type.Add(1, 0.5f); //Mechanical
-                type.Add(2, 0.2f); //Skullmound
 
                 switch (type)
                 {
@@ -1317,12 +1323,6 @@ namespace TerrorbornMod
                         break;
                     case 1:
                         islands.Add(GenerateIncendiaryIsland_Mechanical(position.X, position.Y, WorldGen.genRand.NextFloat(1.5f, 2.25f)));
-                        break;
-                    case 2:
-                        islands.Add(GenerateIncendiaryIsland_Skullmound(position.X, position.Y, WorldGen.genRand.NextFloat(0.8f, 1.2f)));
-                        break;
-                    case 3:
-                        islands.Add(GenerateIncendiaryIsland_Ritual(position.X, position.Y, WorldGen.genRand.NextFloat(0.8f, 1.2f)));
                         break;
                     default:
                         break;

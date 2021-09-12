@@ -31,8 +31,8 @@ namespace TerrorbornMod.Items.Shadowcrawler
             item.ranged = true;
             item.width = 26;
             item.height = 56;
-            item.useTime = 40;
-            item.useAnimation = 40;
+            item.useTime = 32;
+            item.useAnimation = 32;
             item.useStyle = 5;
             item.noMelee = true;
             item.channel = true;

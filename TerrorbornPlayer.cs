@@ -148,6 +148,7 @@ namespace TerrorbornMod
             }
 
             player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()));
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", ZoneDeimostone);
 
             /*
             if (!Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive() && NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))

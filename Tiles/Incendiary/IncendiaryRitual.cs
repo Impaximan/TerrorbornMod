@@ -27,6 +27,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 			//TileObjectData.newTile.CoordinateHeights = new[] { 18 };
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Incendiary Ritual");
+			mineResist = 10;
 			AddMapEntry(new Color(92 / 2, 111 / 2, 126 / 2), name);
 			disableSmartCursor = true;
 			adjTiles = new int[] { Type };
