@@ -24,6 +24,7 @@ using TerrorbornMod.UI.TerrorAbilityUnlock;
 
 namespace TerrorbornMod
 {
+    [BackgroundColor(40 / 2, 55 / 2, 70 / 2, (int)(255f * 0.75f))]
     class TerrorbornConfig : ModConfig
     {
         public override ConfigScope Mode => ConfigScope.ServerSide;
@@ -33,9 +34,21 @@ namespace TerrorbornMod
         [Header("QoL features")]
 
         [DefaultValue(true)]
+        [BackgroundColor(40, 55, 70)]
         [Label("Starting Items")]
         [Tooltip("Whether or not the player will spawn with extra items to make early game a more enjoyable experience")]
         public bool startingItems;
+
+        [Header("UI")]
+
+        [DefaultValue(500f)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Paragraph width")]
+        [Tooltip("The size of each line on lore items' paragraphs")]
+        [Range(0, 2000)]
+        [Increment(5)]
+        [Slider()]
+        public int loreParagraphWidth;
 
         public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message)
         {
@@ -53,6 +66,7 @@ namespace TerrorbornMod
         public override void OnChanged()
         {
             TerrorbornMod.StartingItems = startingItems;
+            TerrorbornMod.LoreParagraphWidth = loreParagraphWidth;
         }
     }
 }

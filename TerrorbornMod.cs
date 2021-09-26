@@ -42,6 +42,7 @@ namespace TerrorbornMod
         public static ModHotKey PrimaryTerrorAbility;
         public static ModHotKey SecondaryTerrorAbility;
         public static ModHotKey OpenTerrorAbilityMenu;
+        public static ModHotKey Parry;
 
         public const int foregroundObjectsCount = 500;
         public static ForegroundObject[] foregroundObjects = new ForegroundObject[foregroundObjectsCount];
@@ -51,6 +52,10 @@ namespace TerrorbornMod
         public static float screenShaking = 0f;
 
         public static bool StartingItems = true;
+
+        public static float LoreParagraphWidth = 500f;
+
+        public static float ScreenDarknessAlpha = 0f;
 
         public static void ScreenShake(float Intensity)
         {
@@ -123,9 +128,18 @@ namespace TerrorbornMod
             RecipeGroup.RegisterGroup("mythril", mythril);
         }
 
+        public static Texture2D CreateImage(int width, int height)
+        {
+            var graphics = Main.instance.GraphicsDevice;
+            Color[] colors = new Color[width * height];
+            Texture2D output = new Texture2D(graphics, width, height, false, SurfaceFormat.Color);
+            output.SetData(colors);
+            return output;
+        }
+
         public override void Load()
         {
-            TerrorbornUtils.Initialize();
+            TBUtils.Detours.Initialize();
 
             ArmorAbility = RegisterHotKey("ArmorAbility", "Z");
             ShriekOfHorror = RegisterHotKey("Shriek of Horror", "Q");
@@ -133,14 +147,17 @@ namespace TerrorbornMod
             SecondaryTerrorAbility = RegisterHotKey("Secondary Terror Ability", "X");
             quickVirus = RegisterHotKey("Quick Spark", "T");
             OpenTerrorAbilityMenu = RegisterHotKey("Open/Close Terror Ability Menu", "P");
+            Parry = RegisterHotKey("Parry", "Mouse4");
             CombatTokenCustomCurrencyId = CustomCurrencyManager.RegisterCurrency(new CombatTokenCurrency(ItemType("CombatToken"), 999L));
-
 
             if (Main.netMode != NetmodeID.Server)
             {
-                Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
+                Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect"));
                 Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
                 Filters.Scene["Shockwave"].Load();
+
+                Filters.Scene["ParryShockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
+                Filters.Scene["ParryShockwave"].Load();
 
                 Ref<Effect> prototypeRef = new Ref<Effect>(GetEffect("Effects/Shaders/PrototypeIShader"));
                 Filters.Scene["TerrorbornMod:PrototypeIShader"] = new Filter(new ScreenShaderData(prototypeRef, "PrototypeI"), EffectPriority.VeryHigh);
@@ -149,6 +166,14 @@ namespace TerrorbornMod
                 Ref<Effect> darknessRef = new Ref<Effect>(GetEffect("Effects/Shaders/DarknessShader"));
                 Filters.Scene["TerrorbornMod:DarknessShader"] = new Filter(new ScreenShaderData(darknessRef, "Darkness"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:DarknessShader"].Load();
+
+                Ref<Effect> dunestockRef = new Ref<Effect>(GetEffect("Effects/Shaders/DunestockShader"));
+                Filters.Scene["TerrorbornMod:DunestockShader"] = new Filter(new ScreenShaderData(dunestockRef, "Dunestock"), EffectPriority.VeryHigh);
+                Filters.Scene["TerrorbornMod:DunestockShader"].Load();
+
+                Ref<Effect> glitchRef = new Ref<Effect>(GetEffect("Effects/Shaders/GlitchShader"));
+                Filters.Scene["TerrorbornMod:GlitchShader"] = new Filter(new ScreenShaderData(glitchRef, "Glitch"), EffectPriority.VeryHigh);
+                Filters.Scene["TerrorbornMod:GlitchShader"].Load();
             }
 
             if (!Main.dedServ)
@@ -170,7 +195,7 @@ namespace TerrorbornMod
 
         public override void Unload()
         {
-            TerrorbornUtils.Unload();
+            TBUtils.Detours.Unload();
             Main.rainTexture = ModContent.GetTexture("Terraria/Rain");
         }
 

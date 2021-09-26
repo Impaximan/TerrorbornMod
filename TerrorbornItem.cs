@@ -38,6 +38,8 @@ namespace TerrorbornMod
 
         public bool burstJump = false;
 
+        public bool parryShield = false;
+
         int azureCounter = 2;
         public override bool CanUseItem(Item item, Player player)
         {
@@ -117,42 +119,6 @@ namespace TerrorbornMod
             }
         }
 
-        //public override bool CanEquipAccessory(Item item, Player player, int slot)
-        //{
-        //    if (burstJump && slot < 10)
-        //    {
-        //        int maxAccessoryIndex = 5 + Main.LocalPlayer.extraAccessorySlots;
-        //        for (int i = 3; i < 3 + maxAccessoryIndex; i++)
-        //        {
-        //            if (Main.LocalPlayer.armor[i] != null && !Main.LocalPlayer.armor[i].IsAir)
-        //            {
-        //                TerrorbornItem modOther = modItem(Main.LocalPlayer.armor[i]);
-        //                if (modOther.burstJump)
-        //                {
-        //                    return false;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return base.CanEquipAccessory(item, player, slot);
-        //}
-
-        //public override bool CanRightClick(Item item)
-        //{
-        //    if (burstJump)
-        //    {
-        //        int maxAccessoryIndex = 5 + Main.LocalPlayer.extraAccessorySlots;
-        //        for (int i = 3; i < 3 + maxAccessoryIndex; i++)
-        //        {
-        //            if ((Main.LocalPlayer.armor[i] != null && !Main.LocalPlayer.armor[i].IsAir) || Main.LocalPlayer.armor[i].type == item.type)
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    return base.CanRightClick(item);
-        //}
-
         public override void RightClick(Item item, Player player)
         {
             int index = 3;
@@ -209,6 +175,12 @@ namespace TerrorbornMod
         public static int burstJumpColorDirection = 1;
         int burstJumpTransitionTime = 120;
 
+        public static Color shieldColor1 = Color.FromNonPremultiplied(186, 228, 233, 255);
+        public static Color shieldColor2 = Color.FromNonPremultiplied(255, 239, 207, 255);
+        public static float shieldColorProgress = 0f;
+        public static int shieldColorDirection = 1;
+        int shieldTransitionTime = 120;
+
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             TooltipLine line = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
@@ -246,6 +218,24 @@ namespace TerrorbornMod
             if (burstJumpColorDirection == -1 && burstJumpColorProgress <= 0f)
             {
                 burstJumpColorDirection *= -1;
+            }
+
+            if (parryShield)
+            {
+                tooltips.Insert(1, new TooltipLine(mod, "shieldItem", "--Parry Shield--"));
+                tooltips.FirstOrDefault(x => x.Name == "shieldItem" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(shieldColor1, shieldColor2, shieldColorProgress);
+            }
+
+            shieldColorProgress += (1f / shieldTransitionTime) * shieldColorDirection;
+
+            if (shieldColorDirection == 1 && shieldColorProgress >= 1f)
+            {
+                shieldColorDirection *= -1;
+            }
+
+            if (shieldColorDirection == -1 && shieldColorProgress <= 0f)
+            {
+                shieldColorDirection *= -1;
             }
 
             line = tooltips.FirstOrDefault(x => x.Name == "Social" && x.mod == "Terraria");

@@ -18,6 +18,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tenebris Helmet");

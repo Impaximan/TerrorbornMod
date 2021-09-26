@@ -35,6 +35,7 @@ namespace TerrorbornMod
         public float ShriekTerrorMultiplier = 1f;
         public float ShriekPain = 1f;
         public float ShriekRangeMultiplier = 1f;
+        public int ShriekTime = 0;
         public bool ShowTerrorAbilityMenu = false;
         public int primaryAbilityInt = 0;
         public int secondaryAbilityInt = 0;
@@ -96,6 +97,10 @@ namespace TerrorbornMod
         public int BurstJumpTime = 0;
         public int BurstJumpChargingTime = 0;
         public bool JustBurstJumped = false;
+        public bool JustParried = false;
+        public int ParryCooldown = 0;
+        public int ParryTime = 0;
+        public Color parryColor = Color.White;
 
         //Permanent Upgrades
         public bool EyeOfTheMenace = false;
@@ -132,6 +137,26 @@ namespace TerrorbornMod
             }
         }
 
+        public int parryLightTime = 0;
+        public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+        {
+            if (MidShriek && drawInfo.position == player.position && ShriekTime > 0)
+            {
+                int effectTime = ShriekTime;
+                if (effectTime > 120)
+                {
+                    effectTime = 120;
+                }
+                TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, player.Center - Main.screenPosition, (int)(TerrorPercent / 2 + 100 + effectTime / 2), Color.Black * (0.75f * (effectTime / 120f)));
+            }
+
+            if (drawInfo.position == player.position && parryLightTime > 0)
+            {
+                parryLightTime--;
+                TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, player.Center - Main.screenPosition, (int)(100 + parryLightTime * 2), parryColor * (0.75f * (parryLightTime / 20f)));
+            }
+        }
+
         int effectCounter = 60;
         int progress = 0;
         public override void UpdateBiomeVisuals()
@@ -148,31 +173,28 @@ namespace TerrorbornMod
             }
 
             player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()));
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:DunestockShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.Dunestock>()));
             player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", ZoneDeimostone);
 
-            /*
-            if (!Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive() && NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))
+            Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseTargetPosition(new Vector2(0f, Main.rand.NextFloat(0f, 1f)));
+            Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseIntensity(Main.rand.NextFloat(-0.1f, 0.1f));
+            switch (Main.rand.Next(3))
             {
-                Main.NewText("Activating shader");
-                Filters.Scene.Activate("TerrorbornMod:PrototypeIShader");
-                Main.NewText(Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive());
-                Filters.Scene["TerrorbornMod:PrototypeIShader"].GetShader().UseOpacity(1f);
-                Filters.Scene["TerrorbornMod:PrototypeIShader"].GetShader().UseProgress(1);
-                progress = 1;
+                case 0:
+                    Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(1f, 0f, 0f);
+                    break;
+                case 1:
+                    Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(0f, 1f, 0f);
+                    break;
+                case 2:
+                    Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(0f, 0f, 1f);
+                    break;
+                default:
+                    Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(1f, 0f, 0f);
+                    break;
             }
-
-            if (Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive())
-            {
-                progress++;
-                Filters.Scene["TerrorbornMod:PrototypeIShader"].GetShader().UseProgress(progress);
-                Filters.Scene["TerrorbornMod:PrototypeIShader"].GetShader().Apply();
-            }
-
-            if (Filters.Scene["TerrorbornMod:PrototypeIShader"].IsActive() && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))
-            {
-                Main.NewText("Deactivating shader");
-                Filters.Scene.Deactivate("TerrorbornMod:PrototypeIShader");
-            }*/
+            Filters.Scene["TerrorbornMod:GlitchShader"].Load();
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:GlitchShader", true);
         }
 
         public override void UpdateBiomes()
@@ -503,6 +525,7 @@ namespace TerrorbornMod
 
                 if (ShriekCounter > 0)
                 {
+                    ShriekTime = 0;
                     ShriekCounter--;
                     if (!darkblood)
                     {
@@ -511,6 +534,7 @@ namespace TerrorbornMod
                 }
                 else
                 {
+                    ShriekTime++;
                     Shriek();
                     if (!darkblood)
                     {
@@ -537,6 +561,7 @@ namespace TerrorbornMod
             {
                 SoundCounter = 0;
                 ShriekCounter = (int)(80 * ShriekSpeed);
+                ShriekTime = 0;
             }
         }
 
@@ -617,8 +642,37 @@ namespace TerrorbornMod
             }
         }
 
+        float parryEffectProgress = 0;
         public override void PostUpdate()
         {
+            if (ParryTime > 0)
+            {
+                player.bodyFrame.Y = 6 * player.bodyFrame.Height;
+                canUseItems = false;
+                ParryTime--;
+            }
+
+
+            if (Main.netMode != NetmodeID.Server && Filters.Scene["ParryShockwave"].IsActive())
+            {
+                parryEffectProgress += 1f / 60f;
+                Filters.Scene["ParryShockwave"].GetShader().UseProgress(parryEffectProgress).UseOpacity(100 * (1 - parryEffectProgress / 3f));
+                if (parryEffectProgress > 0.5f)
+                {
+                    Filters.Scene["ParryShockwave"].Deactivate();
+                }
+            }
+
+            if (ParryCooldown > 0)
+            {
+                ParryCooldown--;
+                if (ParryCooldown <= 0)
+                {
+                    Main.PlaySound(SoundID.MaxMana, (int)(player.Center.X), (int)(player.Center.Y), 0);
+                    CombatText.NewText(player.getRect(), Color.FromNonPremultiplied(186, 228, 233, 255), "Parry Recharged", false, true);
+                }
+            }
+
             if (TerrorbornWorld.incendiaryRitual)
             {
                 player.AddBuff(ModContent.BuffType<Buffs.Debuffs.IncendiaryCurse>(), 2);
@@ -774,8 +828,26 @@ namespace TerrorbornMod
             usingPrimary = false;
         }
 
+        public void ActivateParryEffect()
+        {
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene["ParryShockwave"].IsActive())
+            {
+                parryEffectProgress = 0;
+                Filters.Scene.Activate("ParryShockwave", player.Center).GetShader().UseColor(1, 1, 10).UseTargetPosition(player.Center); //Ripple Count, Ripple Size, Ripple Speed
+            }
+        }
+
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
+            if (ParryTime > 0)
+            {
+                ParryTime = 0;
+                damage /= 4;
+                JustParried = true;
+                Main.PlaySound(SoundID.Item37, player.Center);
+                ActivateParryEffect();
+            }
+
             if (GelatinPunishmentDamage > 0)
             {
                 damage += GelatinPunishmentDamage;
@@ -810,6 +882,15 @@ namespace TerrorbornMod
 
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
+            if (ParryTime > 0)
+            {
+                ParryTime = 0;
+                damage /= 4;
+                JustParried = true;
+                Main.PlaySound(SoundID.Item37, player.Center);
+                ActivateParryEffect();
+            }
+
             if (GelatinPunishmentDamage > 0)
             {
                 damage += GelatinPunishmentDamage;

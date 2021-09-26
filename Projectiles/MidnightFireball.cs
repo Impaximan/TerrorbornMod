@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrorbornMod.TBUtils;
 
 namespace TerrorbornMod.Projectiles
 {
@@ -33,7 +34,7 @@ namespace TerrorbornMod.Projectiles
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            lightColor = Color.White;
+            Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, 65, Color.LimeGreen * 0.5f);
             return true;
         }
 

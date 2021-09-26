@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TerrorbornUtils.GetBurstJumpString((int)(60 * 1.5f)) +
+            Tooltip.SetDefault(TBUtils.Accessories.GetBurstJumpString((int)(60 * 1.5f)) +
                 "\nCreates azure geysers below you upon activation");
         }
 
@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            TerrorbornUtils.UpdateBurstJump((int)(60 * 1.5f), 60 * 1, item, player, new Vector2(20, -15), Color.Azure, SoundID.Item14);
+            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 60 * 1, item, player, new Vector2(20, -15), Color.Azure, SoundID.Item14);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.BurstJumpTime > 0)
             {

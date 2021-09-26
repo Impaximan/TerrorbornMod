@@ -1051,6 +1051,12 @@ namespace TerrorbornMod.NPCs.Bosses
             projectile.timeLeft = 90;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            TBUtils.Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, 60, Color.LimeGreen * 0.5f);
+            return base.PreDraw(spriteBatch, lightColor);
+        }
+
         public override void AI()
         {
             projectile.rotation += MathHelper.ToRadians(5);
@@ -1161,7 +1167,6 @@ namespace TerrorbornMod.NPCs.Bosses
             projectile.tileCollide = false;
             projectile.friendly = false;
             projectile.hostile = true;
-            projectile.hide = true;
             projectile.timeLeft = 200;
         }
 
@@ -1173,27 +1178,12 @@ namespace TerrorbornMod.NPCs.Bosses
             float rotation = projectile.velocity.ToRotation() - MathHelper.ToRadians(180);
             float Speed = 0.5f;
             projectile.velocity += new Vector2((float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1));
-            //NPC targetNPC = Main.npc[0];
-            //float Distance = 500; //max distance away
-            //bool Targeted = false;
-            //for (int i = 0; i < 200; i++)
-            //{
-            //    if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy() && projectile.CanHit(Main.npc[i]))
-            //    {
-            //        targetNPC = Main.npc[i];
-            //        Distance = Main.npc[i].Distance(projectile.Center);
-            //        Targeted = true;
-            //    }
-            //}
-            //if (Targeted)
-            //{
-            //    //HOME IN
-            //    float speed = .5f;
-            //    Vector2 move = targetNPC.Center - projectile.Center;
-            //    float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
-            //    move *= speed / magnitude;
-            //    projectile.velocity += move;
-            //}
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            TBUtils.Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, 15, Color.LimeGreen * 1f);
+            return false;
         }
     }
     class LargeNightmareFlame : ModProjectile
@@ -1215,9 +1205,15 @@ namespace TerrorbornMod.NPCs.Bosses
             projectile.tileCollide = false;
             projectile.friendly = false;
             projectile.hostile = true;
-            projectile.hide = true;
             projectile.timeLeft = 360;
         }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            TBUtils.Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, 45, Color.LimeGreen * 1f);
+            return false;
+        }
+
         public override void AI()
         {
             int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 74, 0f, 0f, 100, Scale: 2.25f);

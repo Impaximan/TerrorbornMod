@@ -65,6 +65,7 @@ namespace TerrorbornMod.NPCs.Bosses
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prototype I");
+            NPCID.Sets.MustAlwaysDraw[npc.type] = true;
         }
 
         public override void SetDefaults()
@@ -102,6 +103,13 @@ namespace TerrorbornMod.NPCs.Bosses
         float LineRotation;
         Color colorStart;
         Color colorEnd;
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            TBUtils.Graphics.DrawGlow_1(spriteBatch, npc.Center - Main.screenPosition, 300, Color.LimeGreen * 0.35f);
+            return base.PreDraw(spriteBatch, drawColor);
+        }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Player target = Main.player[npc.target];
@@ -181,6 +189,7 @@ namespace TerrorbornMod.NPCs.Bosses
             if (drawingLine)
             {
                 Utils.DrawLine(spriteBatch, lineStart, lineStart + lineDistance * LineRotation.ToRotationVector2(), colorStart, colorEnd, 3);
+                TBUtils.Graphics.DrawGlow_1(spriteBatch, npc.Center - Main.screenPosition + new Vector2(0, 4), 85, colorStart * 1f);
             }
         }
 
@@ -1417,16 +1426,19 @@ namespace TerrorbornMod.NPCs.Bosses
             projectile.hide = true;
             projectile.timeLeft = 250;
         }
+
         private void OnSpawn()
         {
             Main.PlaySound(SoundID.Item20);
             Spawn = false;
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 2);
             projectile.timeLeft = 1;
         }
+
         public override void AI()
         {
             if (Spawn)
@@ -1463,9 +1475,15 @@ namespace TerrorbornMod.NPCs.Bosses
             projectile.tileCollide = false;
             projectile.friendly = false;
             projectile.hostile = true;
-            projectile.hide = true;
             projectile.timeLeft = 180;
         }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            TBUtils.Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, 45, Color.LimeGreen * 1f);
+            return false;
+        }
+
         public override void AI()
         {
             int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 74, 0f, 0f, 100, Scale: 2.25f);

@@ -20,29 +20,24 @@ float uSaturation;
 float4 uSourceRect;
 float2 uZoom;
 
-
-
-
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
-    
     float4 color = tex2D(uImage0, coords);
-    float distanceMultiplier = (distance(coords, float2(0.5, 0.5)) - 0.2) * 0.1;
-    float distanceMultiplierBlue = 1 - distance(coords, float2(0.5, 0.5)) * 2;
+    float distanceMultiplier = (distance(coords, float2(0.5, 0.5)) - 0.2) * 0.5;
     
     if (distanceMultiplier < 0)
     {
-        return float4(color.r, color.g, color.b * (1 + abs(distanceMultiplierBlue) * uOpacity), color.a);
+        return float4(color.r, color.g, color.b, color.a);
     }
     else
     {
-        return float4(color.r, color.g + abs(distanceMultiplier) * uOpacity, color.b * (1 + abs(distanceMultiplierBlue) * uOpacity), color.a);
+        return float4(color.r + abs(distanceMultiplier) * uOpacity, color.g + abs(distanceMultiplier / 5) * uOpacity, color.b, color.a);
     }
 }
 
 technique Technique1
 {
-    pass PrototypeI
+    pass Dunestock
     {
         PixelShader = compile ps_2_0 PixelShaderFunction();
     }

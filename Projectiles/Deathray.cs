@@ -17,6 +17,7 @@ namespace TerrorbornMod.Projectiles
 		public Rectangle headRect = new Rectangle();
 		public Color drawColor = Color.White;
 		public float deathrayWidth = 1f;
+		public bool FollowPosition = true;
 
 		public override void SetDefaults()
 		{
@@ -84,8 +85,16 @@ namespace TerrorbornMod.Projectiles
 				Position() + unit * MaxDistance, 22, ref point);
 		}
 
+		bool start = true;
+		Vector2 ogPosition;
 		public override void AI()
 		{
+			if (start)
+            {
+				start = false;
+				ogPosition = projectile.Center;
+            }
+
 			projectile.position = Position() + projectile.velocity * MoveDistance;
 
 			SetLaserPosition();
@@ -95,6 +104,10 @@ namespace TerrorbornMod.Projectiles
 
 		public virtual Vector2 Position()
         {
+			if (!FollowPosition)
+            {
+				return ogPosition;
+			}
 			return Main.player[projectile.owner].Center;
         }
 
@@ -125,8 +138,7 @@ namespace TerrorbornMod.Projectiles
 
 		public virtual void CastLights()
 		{
-			DelegateMethods.v3_1 = new Vector3(0.8f, 0.8f, 1f);
-			Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * (MaxDistance - MoveDistance), 26, DelegateMethods.CastLight);
+
 		}
 
 		public override bool ShouldUpdatePosition() => false;
