@@ -25,16 +25,16 @@ namespace TerrorbornMod.Items.MiscConsumables
             item.UseSound = SoundID.Item2;
             item.useTurn = true;
             item.maxStack = 30;
-            item.buffType = ModContent.BuffType<HorificallyStuffed>();
+            item.buffType = ModContent.BuffType<HorrificallyStuffed>();
             item.buffTime = 3600 * 3;
         }
     }
 
-    class HorificallyStuffed : ModBuff
+    class HorrificallyStuffed : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Horifically Stuffed");
+            DisplayName.SetDefault("Horrifically Stuffed");
             Description.SetDefault("You generate terror over time... but be sure not to get too full");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
@@ -44,7 +44,7 @@ namespace TerrorbornMod.Items.MiscConsumables
         public override void Update(Player player, ref int buffIndex)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.TerrorPercent += 1.5f / 60f;
+            modPlayer.GainTerror(1.5f, true, true);
             if (modPlayer.TerrorPercent >= 100)
             {
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " was so full they blew up (literally)"), 10000, 0);

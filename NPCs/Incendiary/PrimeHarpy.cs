@@ -49,7 +49,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary)
+            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && !NPC.downedGolemBoss)
             {
                 return SpawnCondition.Sky.Chance * 0.2f;
             }

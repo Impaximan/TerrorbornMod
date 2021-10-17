@@ -101,7 +101,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 Vector2 rotatedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(15));
                 speedX = rotatedSpeed.X;
                 speedY = rotatedSpeed.Y;
-                modPlayer.TerrorPercent -= percentCost;
+                modPlayer.LoseTerror(percentCost, false, false, true);
             }
             else
             {
@@ -162,7 +162,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.TerrorPercent += 0.5f;
+            modPlayer.GainTerror(0.5f, false, false, true);
         }
     }
 

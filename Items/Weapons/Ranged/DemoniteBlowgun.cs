@@ -63,7 +63,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 if (modPlayer.TerrorPercent >= cost)
                 {
                     Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(maxRotation)), type, damage, knockBack, player.whoAmI);
-                    modPlayer.TerrorPercent -= cost;
+                    modPlayer.LoseTerror(cost);
                 }
             }
             Vector2 newSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(maxRotation));

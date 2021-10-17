@@ -17,7 +17,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 15;
             item.noMelee = true;
             item.width = 46;
             item.height = 46;
@@ -89,7 +89,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                         Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<LightBlast>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
                     projectile.scale = 3f;
-                    Main.PlaySound(SoundID.Item72, projectile.Center);
+                    Main.PlaySound(SoundID.Item68, projectile.Center);
                 }
             }
             else if (trueTimeLeft > 0)

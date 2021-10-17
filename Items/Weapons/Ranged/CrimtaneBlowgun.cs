@@ -52,7 +52,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.TerrorPercent -= 0.5f;
+            modPlayer.LoseTerror(0.5f);
             position = player.Center + offset;
             position.Y -= 3;
             player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();

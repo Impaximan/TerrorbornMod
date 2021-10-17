@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             if (player.controlJump)
             {
-                player.maxFallSpeed /= 3;
+                player.maxFallSpeed /= 5;
                 player.noFallDmg = true;
             }
         }

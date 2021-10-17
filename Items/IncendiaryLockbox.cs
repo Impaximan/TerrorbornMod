@@ -125,7 +125,7 @@ namespace TerrorbornMod.Items
                 player.QuickSpawnItem(Main.rand.Next(commonPotions), Main.rand.Next(2, 4));
             }
 
-            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(12, 25));
+            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(5, 10));
         }
     }
 }

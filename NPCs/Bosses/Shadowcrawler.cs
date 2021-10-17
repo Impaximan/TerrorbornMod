@@ -115,11 +115,16 @@ namespace TerrorbornMod.NPCs.Bosses
             npc.defense = 15;
             npc.DeathSound = SoundID.NPCDeath31;
             npc.frame.Width = 388;
-            music = mod.GetSoundSlot(Terraria.ModLoader.SoundType.Music, "Sounds/Music/CrepuscularCrawler");
+            music = mod.GetSoundSlot(Terraria.ModLoader.SoundType.Music, "Sounds/Music/8LeggedTerror");
             npc.boss = true;
             npc.frame.Height = 254;
             npc.lifeMax = 27000;
             npc.knockBackResist = 0;
+
+            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
+            modNPC.BossTitle = "Shadowcrawler";
+            modNPC.BossSubtitle = "Titan of the Night";
+            modNPC.BossTitleColor = new Color(29, 189, 49);
         }
         bool Attacking = false;
         int Frame = 0;

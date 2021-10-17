@@ -46,7 +46,7 @@ namespace TerrorbornMod.Items.Tools
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.TerrorPercent >= terrorRequired)
             {
-                modPlayer.TerrorPercent -= terrorRequired;
+                modPlayer.LoseTerror(terrorRequired, false);
                 return base.CanUseItem(player);
             }
             return false;

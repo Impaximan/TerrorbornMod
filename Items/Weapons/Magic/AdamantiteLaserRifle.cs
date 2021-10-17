@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 33;
+            item.damage = 20;
             item.noMelee = true;
             item.width = 66;
             item.height = 34;

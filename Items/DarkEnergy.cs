@@ -28,13 +28,8 @@ namespace TerrorbornMod.Items
         public override bool OnPickup(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.TerrorPercent += 10;
             Main.PlaySound(SoundID.Item4, player.Center);
-            if (modPlayer.TerrorPercent > 100)
-            {
-                modPlayer.TerrorPercent = 100;
-            }
-            CombatText.NewText(player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), "10%");
+            modPlayer.GainTerror(10f, false, false);
             return false;
         }
     }

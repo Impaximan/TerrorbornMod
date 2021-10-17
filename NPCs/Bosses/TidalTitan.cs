@@ -146,6 +146,11 @@ namespace TerrorbornMod.NPCs.Bosses
             npc.buffImmune[BuffID.OnFire] = true;
             npc.buffImmune[BuffID.Ichor] = true;
             npc.buffImmune[BuffID.CursedInferno] = true;
+
+            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
+            modNPC.BossTitle = "Tidal Titan";
+            modNPC.BossSubtitle = "Commander of the Ocean";
+            modNPC.BossTitleColor = Color.SkyBlue;
         }
 
         public override void NPCLoot()

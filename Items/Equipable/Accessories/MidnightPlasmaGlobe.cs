@@ -27,11 +27,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.TerrorPercent += 2f / 60f;
-            if (modPlayer.TerrorPercent > 100)
-            {
-                modPlayer.TerrorPercent = 100;
-            }
+            modPlayer.GainTerror(2f, true, true);
             if (modPlayer.TerrorPercent <= 30f)
             {
                 player.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 1);

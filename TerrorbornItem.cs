@@ -72,10 +72,20 @@ namespace TerrorbornMod
                 }
                 else if (base.CanUseItem(item, player))
                 {
-                    modPlayer.TerrorPercent -= TerrorCost;
+                    modPlayer.LoseTerror(TerrorCost);
                 }
             }
             return base.CanUseItem(item, player);
+        }
+
+        public override bool ConsumeAmmo(Item item, Player player)
+        {
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            if (Main.rand.NextFloat() < modPlayer.noAmmoConsumeChance)
+            {
+                return false;
+            }
+            return base.ConsumeAmmo(item, player);
         }
 
         public bool RestlessChargedUp()

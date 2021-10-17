@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using Terraria.World.Generation;
 using System.Collections.Generic;
 using System;
+using TerrorbornMod.UI.TitleCard;
 
 namespace TerrorbornMod
 {
@@ -30,6 +31,15 @@ namespace TerrorbornMod
         public int fighter_TargetPlayerCounter = 0;
         public int fighter_StillTime = 0;
         public int fighter_JumpCooldown = 0;
+
+        public List<float> gloveDoT = new List<float>();
+        public int gloveTime = 0;
+
+        public string BossTitle = "";
+        public string BossSubtitle = "";
+        public Color BossTitleColor = Color.White;
+        public bool getsTitleCard = false;
+
         public void ImprovedFighterAI(NPC npc, float maxSpeed, float accelleration, float decelleration, float jumpSpeed, bool faceDirection = true, int jumpCooldown = 0, int stillTimeUntilTurnaround = 120, int wanderTime = 90)
         {
             Player player = Main.player[npc.target];
@@ -100,9 +110,156 @@ namespace TerrorbornMod
             return base.CanHitPlayer(npc, target, ref cooldownSlot);
         }
 
+        public override bool PreAI(NPC npc)
+        {
+            Player player = Main.LocalPlayer;
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            if (modPlayer.TimeFreezeTime > 0)
+            {
+                npc.position -= npc.velocity;
+                return false;
+            }
+            return base.PreAI(npc);
+        }
+
         public override void SetDefaults(NPC npc)
         {
             ogKnockbackResist = npc.knockBackResist;
+
+            if (npc.type == NPCID.KingSlime)
+            {
+                BossTitle = "King Slime";
+                BossSubtitle = "Gelatinous Monarch";
+                BossTitleColor = Color.SkyBlue;
+            }
+
+            if (npc.type == NPCID.EyeofCthulhu)
+            {
+                BossTitle = "Eye of Cthulhu";
+                BossSubtitle = "Bloodshot Watcher";
+                BossTitleColor = new Color(255, 123, 123);
+            }
+
+            if (npc.type == NPCID.EaterofWorldsHead && !NPC.AnyNPCs(NPCID.EaterofWorldsBody) && !NPC.AnyNPCs(NPCID.EaterofWorldsTail))
+            {
+                getsTitleCard = true;
+                BossTitle = "Eater of Worlds";
+                BossSubtitle = "Tunneler of Decay";
+                BossTitleColor = Color.Purple;
+            }
+
+            if (npc.type == NPCID.BrainofCthulhu)
+            {
+                BossTitle = "The Brain of Cthulhu";
+                BossSubtitle = "Bloodthirsty Mastermind";
+                BossTitleColor = Color.Crimson;
+            }
+
+            if (npc.type == NPCID.QueenBee)
+            {
+                BossTitle = "The Queen Bee";
+                BossSubtitle = "Protector of the hive";
+                BossTitleColor = Color.Yellow;
+            }
+
+            if (npc.type == NPCID.SkeletronHead)
+            {
+                BossTitle = "Skeletron";
+                BossSubtitle = "Accursed Guardian of the Dungeon";
+                BossTitleColor = Color.Beige;
+            }
+
+            if (npc.type == NPCID.WallofFlesh)
+            {
+                BossTitle = "The Wall of Flesh";
+                BossSubtitle = "The Seal of Terror; Guardian of the Underworld";
+                BossTitleColor = Color.Red;
+            }
+
+            if (npc.type == NPCID.SkeletronPrime)
+            {
+                BossTitle = "Skeletron Prime";
+                BossSubtitle = "Construct of Fright";
+                BossTitleColor = Color.OrangeRed;
+            }
+
+            if (npc.type == NPCID.TheDestroyer)
+            {
+                BossTitle = "The Destroyer";
+                BossSubtitle = "Construct of Might";
+                BossTitleColor = Color.RoyalBlue;
+            }
+
+            if (npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+            {
+                BossTitle = "The Twins";
+                BossSubtitle = "Constructs of Sight";
+                BossTitleColor = Color.LightGreen;
+            }
+
+            if (npc.type == NPCID.Plantera)
+            {
+                BossTitle = "Plantera";
+                BossSubtitle = "Southern Plantkill";
+                BossTitleColor = Color.LimeGreen;
+            }
+
+            if (npc.type == NPCID.Golem)
+            {
+                BossTitle = "Golem";
+                BossSubtitle = "Protector of the Lihzahrd Tribe";
+                BossTitleColor = Color.SaddleBrown;
+            }
+
+            if (npc.type == NPCID.CultistBoss)
+            {
+                BossTitle = "Lunatic Cultist";
+                BossSubtitle = "Messenger of Armaggeddon";
+                BossTitleColor = Color.Blue;
+            }
+
+            if (npc.type == NPCID.MoonLordCore || npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
+            {
+                BossTitle = "The Moon Lord";
+                BossSubtitle = "Monarch of the Pillars";
+                BossTitleColor = Color.PaleTurquoise;
+            }
+
+            if (npc.type == NPCID.DD2DarkMageT1)
+            {
+                getsTitleCard = true;
+                BossTitle = "The Dark Mage";
+                BossSubtitle = "Commander of the Dead";
+            }
+
+            if (npc.type == NPCID.DD2OgreT2)
+            {
+                getsTitleCard = true;
+                BossTitle = "Shrek (not actually)";
+                BossSubtitle = "Ogre of the Ages";
+            }
+
+            if (npc.type == NPCID.DD2Betsy)
+            {
+                getsTitleCard = true;
+                BossTitle = "Betsy";
+                BossSubtitle = "Leader of the Old Ones";
+                BossTitleColor = Color.OrangeRed;
+            }
+
+            if (npc.type == NPCID.MartianSaucer)
+            {
+                getsTitleCard = true;
+                BossTitle = "Martian Saucer";
+                BossSubtitle = "Otherwordly Battleship";
+            }
+
+            if (npc.type == NPCID.PirateShip)
+            {
+                getsTitleCard = true;
+                BossTitle = "Flying Dutchman";
+                BossSubtitle = "Ghostly Transport";
+            }
         }
 
         public override void SetupShop(int type, Chest shop, ref int nextSlot)
@@ -155,6 +312,33 @@ namespace TerrorbornMod
             }
         }
 
+        public override void UpdateLifeRegen(NPC npc, ref int damage)
+        {
+            if (gloveTime > 0)
+            {
+                gloveTime--;
+            }
+            else
+            {
+                gloveDoT.Clear();
+            }
+
+            if (gloveDoT.Count > 0)
+            {
+                float gloveDamage = 1f;
+                float gloveDoTTotal = 0f;
+
+                foreach (float dot in gloveDoT)
+                {
+                    gloveDamage += dot / 10f;
+                    gloveDoTTotal += dot;
+                }
+
+                damage += (int)gloveDamage;
+                npc.lifeRegen -= (int)gloveDoTTotal;
+            }
+        }
+
         public override void PostAI(NPC npc)
         {
             if (soulSplitTime > 0)
@@ -166,6 +350,7 @@ namespace TerrorbornMod
                     Main.PlaySound(SoundID.NPCDeath39, npc.Center);
                 }
             }
+
             if (soulOrbCooldown > 0)
             {
                 soulOrbCooldown--;
@@ -391,6 +576,15 @@ namespace TerrorbornMod
                     SoulReaperTotalDamageTaken -= (int)(npc.lifeMax * 0.075f);
                 }
             }
+
+            if (modPlayer.BanditGlove)
+            {
+                gloveDoT.Add((float)(damage * 0.05f));
+                if (gloveTime == 0)
+                {
+                    gloveTime = 60 * 5;
+                }
+            }
         }
 
         public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
@@ -428,10 +622,12 @@ namespace TerrorbornMod
                     }
                 }
             }
+
             if (darkblood)
             {
                 modPlayer.terrorDrainCounter = 30;
             }
+
             if (item.melee && modPlayer.IncendiaryShield)
             {
                 if (Main.rand.Next(101) <= 8 + player.meleeCrit / 2)
@@ -473,6 +669,33 @@ namespace TerrorbornMod
                     }
                 }
             }
+
+            if (modPlayer.HeadHunter)
+            {
+                if (modPlayer.HeadHunterCritCooldown <= 0)
+                {
+                    if ((modPlayer.HeadhunterClass == 0 && item.magic) || 
+                        (modPlayer.HeadhunterClass == 1 && item.melee) ||
+                        (modPlayer.HeadhunterClass == 2 && item.ranged) ||
+                        (modPlayer.HeadhunterClass == 3))
+                    {
+                        modPlayer.HeadHunterCritCooldown = 60;
+                        modPlayer.HeadHunterCritBonus++;
+
+                        CombatText.NewText(player.getRect(), Color.Red, modPlayer.HeadHunterCritBonus + "/30", false, true);
+
+                        if (modPlayer.HeadHunterCritBonus >= 30)
+                        {
+                            player.AddBuff(ModContent.BuffType<Items.Equipable.Armor.HeadhunterFrenzy>(), 60 * 4);
+                            modPlayer.HeadHunterCritBonus = 0;
+
+                            int healingAmount = 40;
+                            player.HealEffect(healingAmount);
+                            player.statLife += healingAmount;
+                        }
+                    }
+                }
+            }
         }
 
         bool start = true;
@@ -482,6 +705,14 @@ namespace TerrorbornMod
             {
                 start = false;
                 ogKnockbackResist = npc.knockBackResist;
+
+                if (getsTitleCard || npc.boss)
+                {
+                    TitleCardUI.bossName = BossTitle;
+                    TitleCardUI.bossSubtitle = BossSubtitle;
+                    TitleCardUI.titleColor = BossTitleColor;
+                    TitleCardUI.titleCardLifetimeCounter = (int)(60 * TerrorbornMod.titleCardDuration);
+                }
             }
         }
 
@@ -526,6 +757,7 @@ namespace TerrorbornMod
                     }
                 }
             }
+
             if (projectile.melee && modPlayer.IncendiaryShield)
             {
                 if (Main.rand.Next(101) <= 8 + player.meleeCrit / 2)
@@ -567,6 +799,35 @@ namespace TerrorbornMod
                     }
                 }
             }
+
+
+
+            if (modPlayer.HeadHunter)
+            {
+                if (modPlayer.HeadHunterCritCooldown <= 0)
+                {
+                    if ((modPlayer.HeadhunterClass == 0 && projectile.magic) ||
+                        (modPlayer.HeadhunterClass == 1 && projectile.melee) ||
+                        (modPlayer.HeadhunterClass == 2 && projectile.ranged) ||
+                        (modPlayer.HeadhunterClass == 3))
+                    {
+                        modPlayer.HeadHunterCritCooldown = 60;
+                        modPlayer.HeadHunterCritBonus++;
+
+                        CombatText.NewText(player.getRect(), Color.Red, modPlayer.HeadHunterCritBonus + "/30", false, true);
+
+                        if (modPlayer.HeadHunterCritBonus >= 30)
+                        {
+                            player.AddBuff(ModContent.BuffType<Items.Equipable.Armor.HeadhunterFrenzy>(), 60 * 4);
+                            modPlayer.HeadHunterCritBonus = 0;
+
+                            int healingAmount = 40;
+                            player.HealEffect(healingAmount);
+                            player.statLife += healingAmount;
+                        }
+                    }
+                }
+            }
         }
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
         {
@@ -598,6 +859,7 @@ namespace TerrorbornMod
             extraDarkEnergyIDs.Add(NPCID.GolemFistRight);
             extraDarkEnergyIDs.Add(NPCID.Paladin);
             extraDarkEnergyIDs.Add(NPCID.PirateCaptain);
+            extraDarkEnergyIDs.Add(NPCID.PirateShip);
             extraDarkEnergyIDs.Add(NPCID.MourningWood);
             extraDarkEnergyIDs.Add(NPCID.Pumpking);
             extraDarkEnergyIDs.Add(NPCID.Everscream);
@@ -655,6 +917,16 @@ namespace TerrorbornMod
                 if (Main.rand.NextFloat() <= 0.025f * ExpertBoost)
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.IncendiaryLockbox>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.025f * ExpertBoost && NPC.downedGolemBoss)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.SkullmoundLockbox>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.015f * ExpertBoost)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.MiscConsumables.HotMilk>());
                 }
 
                 if (Main.rand.NextFloat() <= 0.25f && NPC.downedGolemBoss)
@@ -815,6 +1087,7 @@ namespace TerrorbornMod
             if (modPlayer.SanguineSetBonus) type = 130;
             int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, type);
             Main.dust[dust].velocity = projectile.velocity;
+            if (modPlayer.SanguineSetBonus) Main.dust[dust].velocity = projectile.velocity / 4;
             Main.dust[dust].scale = 1f;
             Main.dust[dust].alpha = 255 / 2;
             Main.dust[dust].noGravity = true;
@@ -875,12 +1148,7 @@ namespace TerrorbornMod
             projectile.velocity = projectile.DirectionTo(player.Center) * speed;
             if (projectile.Distance(player.Center) <= speed)
             {
-                modPlayer.TerrorPercent += 2f;
-                if (modPlayer.TerrorPercent > 100)
-                {
-                    modPlayer.TerrorPercent = 100;
-                }
-                CombatText.NewText(player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), "2%");
+                modPlayer.GainTerror(2f, false);
                 projectile.active = false;
             }
         }

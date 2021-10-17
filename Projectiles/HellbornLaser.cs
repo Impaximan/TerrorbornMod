@@ -31,11 +31,6 @@ namespace TerrorbornMod.Projectiles
             hitbox.Y = oldHitbox.Y - newDimensions / 2;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 60 * 3);
-        }
-
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation();

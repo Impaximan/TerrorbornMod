@@ -51,7 +51,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.TerrorPercent >= drainSpeed / 60)
             {
-                modPlayer.TerrorPercent -= drainSpeed / 60;
+                modPlayer.LoseTerror(drainSpeed, true, true);
                 modPlayer.allUseSpeed *= 1.10f;
                 player.statDefense += 8;
             }

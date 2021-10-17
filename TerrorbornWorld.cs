@@ -25,6 +25,7 @@ namespace TerrorbornMod
         public static bool downedSangrune;
         public static bool downedSangrune2;
         public static bool downedUndyingSpirit;
+        public static bool downedIncendiaryBoss;
         public static bool obtainedShriekOfHorror;
         public static bool downedTerrorRain;
         public static bool downedFrightcrawler;
@@ -167,6 +168,7 @@ namespace TerrorbornMod
             if (obtainedShriekOfHorror) downed.Add("ShriekOfHorror");
             if (downedTerrorRain) downed.Add("downedTerrorRain");
             if (downedFrightcrawler) downed.Add("downedFrightcrawler");
+            if (downedIncendiaryBoss) downed.Add("downedIncendiaryBoss");
 
             return new TagCompound {
                 {"downed", downed},
@@ -193,6 +195,7 @@ namespace TerrorbornMod
             downedSangrune = downed.Contains("Sangrune");
             downedSangrune2 = downed.Contains("Sangrune2");
             downedUndyingSpirit = downed.Contains("UndyingSpirit");
+            downedIncendiaryBoss = downed.Contains("downedIncendiaryBoss");
             obtainedShriekOfHorror = downed.Contains("ShriekOfHorror");
             downedTerrorRain = downed.Contains("downedTerrorRain");
             downedFrightcrawler = downed.Contains("downedFrightcrawler");

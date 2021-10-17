@@ -20,6 +20,7 @@ using Terraria.GameContent.UI;
 using TerrorbornMod.Effects.Shaders;
 using TerrorbornMod.UI.TerrorMeter;
 using TerrorbornMod.UI.TerrorAbilityUnlock;
+using TerrorbornMod.UI.TitleCard;
 
 namespace TerrorbornMod
 {
@@ -32,6 +33,9 @@ namespace TerrorbornMod
 
         internal UserInterface unlockInterface;
         internal UnlockUI unlockUI;
+
+        internal UserInterface titleCardInterface;
+        internal TitleCardUI titleCardUI;
 
         internal UserInterface terrorMenuInterface;
         internal TerrorAbilityMenu terrorAbilityMenu;
@@ -56,6 +60,9 @@ namespace TerrorbornMod
         public static float LoreParagraphWidth = 500f;
 
         public static float ScreenDarknessAlpha = 0f;
+
+        public static float titleCardDuration = 3.5f;
+        public static bool titleCards = true;
 
         public static void ScreenShake(float Intensity)
         {
@@ -174,6 +181,10 @@ namespace TerrorbornMod
                 Ref<Effect> glitchRef = new Ref<Effect>(GetEffect("Effects/Shaders/GlitchShader"));
                 Filters.Scene["TerrorbornMod:GlitchShader"] = new Filter(new ScreenShaderData(glitchRef, "Glitch"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:GlitchShader"].Load();
+
+                Ref<Effect> colorlessRef = new Ref<Effect>(GetEffect("Effects/Shaders/ColorlessShader"));
+                Filters.Scene["TerrorbornMod:ColorlessShader"] = new Filter(new ScreenShaderData(colorlessRef, "Colorless"), EffectPriority.VeryHigh);
+                Filters.Scene["TerrorbornMod:ColorlessShader"].Load();
             }
 
             if (!Main.dedServ)
@@ -181,6 +192,7 @@ namespace TerrorbornMod
                 terrorMeterInterface = new UserInterface();
                 unlockInterface = new UserInterface();
                 terrorMenuInterface = new UserInterface();
+                titleCardInterface = new UserInterface();
 
                 terrorMeterUI = new TerrorMeterUI();
                 terrorMeterUI.Activate();
@@ -190,6 +202,9 @@ namespace TerrorbornMod
 
                 terrorAbilityMenu = new TerrorAbilityMenu();
                 terrorAbilityMenu.Activate();
+
+                titleCardUI = new TitleCardUI();
+                titleCardUI.Activate();
             }
         }
 
@@ -206,6 +221,10 @@ namespace TerrorbornMod
             if (terrorMeterInterface?.CurrentState != null)
             {
                 terrorMeterInterface.Update(gameTime);
+            }
+            if (titleCardInterface?.CurrentState != null)
+            {
+                titleCardInterface.Update(gameTime);
             }
             if (unlockInterface?.CurrentState != null)
             {
@@ -253,6 +272,18 @@ namespace TerrorbornMod
                         if (_lastUpdateUiGameTime != null && terrorMenuInterface?.CurrentState != null)
                         {
                             terrorMenuInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                        }
+                        return true;
+                    },
+                       InterfaceScaleType.UI));
+
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                    "TerrorbornMod: titleCardInterface",
+                    delegate
+                    {
+                        if (_lastUpdateUiGameTime != null && titleCardInterface?.CurrentState != null)
+                        {
+                            titleCardInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
                         }
                         return true;
                     },
@@ -441,6 +472,7 @@ namespace TerrorbornMod
             unlockInterface?.SetState(unlockUI);
             terrorMenuInterface?.SetState(terrorAbilityMenu);
             terrorMeterInterface?.SetState(terrorMeterUI);
+            titleCardInterface?.SetState(titleCardUI);
         }
 
         internal void HideUI()
@@ -448,6 +480,7 @@ namespace TerrorbornMod
             unlockInterface?.SetState(null);
             terrorMenuInterface?.SetState(null);
             terrorMeterInterface?.SetState(null);
+            titleCardInterface?.SetState(null);
         }
 
         public static void DrawTextureEasy(Vector2 position, Texture2D texture)
@@ -485,6 +518,7 @@ namespace TerrorbornMod
                 bossChecklist.Call("AddBossWithInfo", "Prototype I", 11.35f, (Func<bool>)(() => TerrorbornWorld.downedPrototypeI), "Use a [i:" + ModContent.ItemType<Items.PlasmaCore>() + "] during the night.");
                 bossChecklist.Call("AddMiniBossWithInfo", "Sangrune", 3.25f, (Func<bool>)(() => TerrorbornWorld.downedSangrune), "Spawns during a blood moon after the eater of worlds/brain of cthulhu have been defeated.");
                 bossChecklist.Call("AddMiniBossWithInfo", "Sangrune (hardmode)", 7.5f, (Func<bool>)(() => TerrorbornWorld.downedSangrune2), "Re-fight Sangrune after the Wall of Flesh has been defeated.");
+                bossChecklist.Call("AddBossWithInfo", "Hexed Constructor", 7.9f, (Func<bool>)(() => TerrorbornWorld.downedIncendiaryBoss), "Use an [i:" + ModContent.ItemType<Items.AccursedClock>() + "] in the Sisyphean Islands biome. The boss will enrage if you leave the biome.");
                 bossChecklist.Call("AddMiniBossWithInfo", "Undying Spirit", 6.05f, (Func<bool>)(() => TerrorbornWorld.downedUndyingSpirit), "A strange eratic ghost that 'died' long ago. Spawns occasionally in the corruption: be wary.");
                 bossChecklist.Call("AddEventWithInfo", "???", -5f, (Func<bool>)(() => TerrorbornWorld.obtainedShriekOfHorror), "Follow the [i:" + ModContent.ItemType<Items.MysteriousCompass>() + "]'s guidance");
                 bossChecklist.Call("AddEventWithInfo", "Astraphobia", 6.06f, (Func<bool>)(() => TerrorbornWorld.downedTerrorRain), "Has a chance to occur instead of rain. Can be manually summoned by using a [i:" + ModContent.ItemType<Items.MiscConsumables.BrainStorm>() + "] during rain.");

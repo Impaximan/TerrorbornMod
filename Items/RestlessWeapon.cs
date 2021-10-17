@@ -80,7 +80,7 @@ namespace TerrorbornMod.Items
             modItem.restlessChargeUpCounter--;
             if (modItem.restlessChargeUpCounter <= 0)
             {
-                modPlayer.TerrorPercent -= modItem.restlessTerrorDrain;
+                modPlayer.LoseTerror(modItem.restlessTerrorDrain);
             }
             return RestlessShoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }

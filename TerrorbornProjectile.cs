@@ -22,14 +22,26 @@ namespace TerrorbornMod
 
         public bool BeatStopper = false;
 
+        public bool Intimidated = false;
+
         public override bool CanHitPlayer(Projectile projectile, Player target)
         {
             TerrorbornPlayer player = TerrorbornPlayer.modPlayer(target);
-            if (player.iFrames > 0 || player.VoidBlinkTime > 0)
+            if (player.iFrames > 0 || player.VoidBlinkTime > 0 || (player.TimeFreezeTime > 0 && projectile.hostile))
             {
                 return false;
             }
             return base.CanHitPlayer(projectile, target);
+        }
+
+        public override bool? CanHitNPC(Projectile projectile, NPC target)
+        {
+            TerrorbornPlayer player = TerrorbornPlayer.modPlayer(Main.player[projectile.owner]);
+            if (player.TimeFreezeTime > 0 && projectile.hostile)
+            {
+                return false;
+            }
+            return base.CanHitNPC(projectile, target);
         }
 
         public override void SetDefaults(Projectile projectile)
@@ -44,6 +56,19 @@ namespace TerrorbornMod
                 projectile.usesLocalNPCImmunity = true;
                 projectile.localNPCHitCooldown = 15;
             }
+        }
+
+        public override bool PreAI(Projectile projectile)
+        {
+            Player player = Main.LocalPlayer;
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            if (modPlayer.TimeFreezeTime > 0 && projectile.hostile)
+            {
+                projectile.position -= projectile.velocity;
+                projectile.timeLeft++;
+                return false;
+            }
+            return base.PreAI(projectile);
         }
 
         public static TerrorbornProjectile modProjectile(Projectile projectile)
@@ -178,19 +203,9 @@ namespace TerrorbornMod
                 Start = false;
                 OnSpawn(projectile);
 
-                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Ranged.Beatstopper>())
+                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Ranged.Beatstopper>() && projectile.Distance(player.Center) <= 100)
                 {
                     BeatStopper = true;
-                }
-
-                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Restless.VBMG>())
-                {
-                    VeinBurster = true;
-                }
-
-                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Restless.ContaminatedMarinePistol>())
-                {
-                    ContaminatedMarine = true;
                 }
             }
 

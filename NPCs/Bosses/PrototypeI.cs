@@ -87,6 +87,11 @@ namespace TerrorbornMod.NPCs.Bosses
             npc.knockBackResist = 0.00f;
             npc.buffImmune[BuffID.Ichor] = true;
             npc.buffImmune[BuffID.CursedInferno] = true;
+
+            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
+            modNPC.BossTitle = "Prototype I";
+            modNPC.BossSubtitle = "Experiment for the Infection";
+            modNPC.BossTitleColor = new Color(29, 189, 49);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

@@ -39,7 +39,7 @@ namespace TerrorbornMod.Items
             recipe.AddIngredient(ItemID.Cobweb, 50);
             recipe.AddIngredient(ItemID.AntlionMandible, 15);
             recipe.AddIngredient(ItemID.Silk, 5);
-            recipe.AddIngredient(mod.ItemType("TarOfHunger"), 75);
+            recipe.AddIngredient(ModContent.ItemType<Materials.TarOfHunger>(), 75);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

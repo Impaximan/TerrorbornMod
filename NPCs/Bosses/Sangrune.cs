@@ -42,6 +42,10 @@ namespace TerrorbornMod.NPCs.Bosses
                 npc.damage = 40;
                 npc.defense = 17;
             }
+
+            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
+            modNPC.BossTitle = "Sangrune";
+            modNPC.BossSubtitle = "Sanguine Hunter";
         }
         int FrameWait = 0;
         int Frame = 0;

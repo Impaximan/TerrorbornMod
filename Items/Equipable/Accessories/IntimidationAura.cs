@@ -13,7 +13,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             DisplayName.SetDefault("Intimidation Aura");
             Tooltip.SetDefault("Closely dodging hostile enemies and projectiles will grant you terror" +
-                "\nGetting hit will cause you to lose a third of the terror you have");
+                "\nGetting hit will cause you to lose a fourth of the terror you have");
         }
 
         public override void SetDefaults()
@@ -34,35 +34,41 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             {
                 Cooldown--;
             }
-            else
+
+            if (modPlayer.TimeFreezeTime > 0 || modPlayer.VoidBlinkTime > 0)
             {
-                bool CreateDust = false;
-                float range = 16 * 8;
+                return;
+            }
 
-                for (int i = 0; i < 200; i++)
-                {
-                    NPC npc = Main.npc[i];
-                    if (!npc.friendly && npc.damage > 0 && npc.Distance(player.Center) <= range + (npc.height + npc.width) / 4 && npc.active)
-                    {
-                        CreateDust = true;
-                    }
-                }
-                for (int i = 0; i < Main.projectile.GetUpperBound(0); i++)
-                {
-                    Projectile projectile = Main.projectile[i];
-                    if (projectile.hostile && projectile.Distance(player.Center) <= range + (projectile.height + projectile.width) / 4 && projectile.active && projectile.damage > 0)
-                    {
-                        CreateDust = true;
-                    }
-                }
+            bool CreateDust = false;
+            float range = 16 * 6;
 
-                if (CreateDust)
+            for (int i = 0; i < 200; i++)
+            {
+                NPC npc = Main.npc[i];
+                if (!npc.friendly && npc.damage > 0 && npc.Distance(player.Center) <= range + (npc.height + npc.width) / 4 && npc.active && Cooldown <= 0)
                 {
-                    modPlayer.TerrorPercent += 1.5f;
-                    Cooldown = 60 / 6;
-                    Main.PlaySound(SoundID.MaxMana, player.Center);
-                    DustCircle(player.Center, 180, range, 63, -5, 3f);
+                    CreateDust = true;
+                    modPlayer.GainTerror(2f, false, false, true);
                 }
+            }
+
+            for (int i = 0; i < Main.projectile.GetUpperBound(0); i++)
+            {
+                Projectile projectile = Main.projectile[i];
+                if (projectile.hostile && projectile.Distance(player.Center) <= range + (projectile.height + projectile.width) / 4 && projectile.active && projectile.damage > 0 && !TerrorbornProjectile.modProjectile(projectile).Intimidated && projectile.timeLeft > 2)
+                {
+                    CreateDust = true;
+                    modPlayer.GainTerror(0.75f, false, false, true);
+                    TerrorbornProjectile.modProjectile(projectile).Intimidated = true;
+                }
+            }
+
+            if (CreateDust)
+            {
+                Cooldown = 60 / 6;
+                Main.PlaySound(SoundID.MaxMana, player.Center);
+                DustCircle(player.Center, 180, range, 63, -5, 3f);
             }
         }
 

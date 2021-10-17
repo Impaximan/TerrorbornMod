@@ -28,6 +28,9 @@ namespace TerrorbornMod
 		public bool body;
 		public bool tail;
 
+		public bool customBodyList = false;
+		public List<int> customBodyTypeList = new List<int>();
+
 		public int headType;
 		public int bodyType;
 		public int tailType;
@@ -51,7 +54,7 @@ namespace TerrorbornMod
 				{
 					bool isPart = false;
 					NPC thingy = Main.npc[i];
-					if (thingy.type == bodyType && bodySegments.Contains(thingy.whoAmI) && thingy.ai[0] == npc.whoAmI && thingy.active)
+					if ((thingy.type == bodyType || customBodyTypeList.Contains(thingy.type)) && bodySegments.Contains(thingy.whoAmI) && thingy.ai[0] == npc.whoAmI && thingy.active)
 					{
 						isPart = true;
 						thingy.velocity = Vector2.Zero;
@@ -92,14 +95,29 @@ namespace TerrorbornMod
 
 				if (!hasSegments)
                 {
-					for (int i = 0; i < bodySegmentCount; i++)
-                    {
-						int thingy = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, bodyType);
-						Main.npc[thingy].ai[0] = npc.whoAmI;
-						Main.npc[thingy].ai[1] = i;
-						Main.npc[thingy].realLife = npc.whoAmI;
-						Main.npc[thingy].dontCountMe = true;
-						bodySegments.Add(thingy);
+					if (customBodyList)
+					{
+						for (int i = 0; i < customBodyTypeList.Count; i++)
+						{
+							int thingy = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, customBodyTypeList[i]);
+							Main.npc[thingy].ai[0] = npc.whoAmI;
+							Main.npc[thingy].ai[1] = i;
+							Main.npc[thingy].realLife = npc.whoAmI;
+							Main.npc[thingy].dontCountMe = true;
+							bodySegments.Add(thingy);
+						}
+					}
+                    else
+					{
+						for (int i = 0; i < bodySegmentCount; i++)
+						{
+							int thingy = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, bodyType);
+							Main.npc[thingy].ai[0] = npc.whoAmI;
+							Main.npc[thingy].ai[1] = i;
+							Main.npc[thingy].realLife = npc.whoAmI;
+							Main.npc[thingy].dontCountMe = true;
+							bodySegments.Add(thingy);
+						}
 					}
 					int tail = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, tailType);
 					Main.npc[tail].ai[0] = npc.whoAmI;

@@ -160,7 +160,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 }
                 else if (superiorPlayer.TerrorPercent >= 3f)
                 {
-                    superiorPlayer.TerrorPercent -= 3f;
+                    superiorPlayer.LoseTerror(3f, false);
                     azuriteCounter = 40;
                     Main.PlaySound(SoundID.Item110, projectile.Center);
                     for (int i = 0; i < Main.rand.Next(3, 5); i++)

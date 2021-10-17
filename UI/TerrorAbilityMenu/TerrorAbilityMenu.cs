@@ -61,7 +61,7 @@ namespace TerrorbornMod.UI.TerrorMeter
         UIPanel abilityPanel3 = new UIPanel();
 
         int page = 0;
-        const int maxPage = 1;
+        const int maxPage = 2;
 
         string abilityDescription;
         bool showingAbilityDescription = false;
@@ -128,39 +128,71 @@ namespace TerrorbornMod.UI.TerrorMeter
             if (page == 0)
             {
                 ability1 = new NecromanticCurseInfo();
+                ability2 = new GelatinArmorInfo();
+                ability3 = new HorrificAdaptationInfo();
+
                 if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability1)))
                 {
-                    ability1 = new NotYetUnlocked();
+                    if (ability1.typeInt() == 0) ability1 = new None();
+                    else ability1 = new NotYetUnlocked();
                 }
-                ability2 = new GelatinArmorInfo();
                 if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability2)))
                 {
-                    ability2 = new NotYetUnlocked();
+                    if (ability2.typeInt() == 0) ability2 = new None();
+                    else ability2 = new NotYetUnlocked();
                 }
-                ability3 = new HorrificAdaptationInfo();
                 if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability3)))
                 {
-                    ability3 = new NotYetUnlocked();
+                    if (ability3.typeInt() == 0) ability3 = new None();
+                    else ability3 = new NotYetUnlocked();
                 }
             }
             if (page == 1)
             {
                 ability1 = new VoidBlinkInfo();
+                ability2 = new StarvingStormInfo();
+                ability3 = new TerrorWarpInfo();
+
                 if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability1)))
                 {
-                    ability1 = new NotYetUnlocked();
+                    if (ability1.typeInt() == 0) ability1 = new None();
+                    else ability1 = new NotYetUnlocked();
                 }
-                ability2 = new StarvingStormInfo();
                 if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability2)))
                 {
-                    ability2 = new NotYetUnlocked();
+                    if (ability2.typeInt() == 0) ability2 = new None();
+                    else ability2 = new NotYetUnlocked();
                 }
-                ability3 = new TerrorWarpInfo();
                 if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability3)))
                 {
-                    ability3 = new NotYetUnlocked();
+                    if (ability3.typeInt() == 0) ability3 = new None();
+                    else ability3 = new NotYetUnlocked();
                 }
             }
+
+            if (page == 2)
+            {
+                ability1 = new TimeFreezeInfo();
+                ability2 = new None();
+                ability3 = new None();
+
+                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability1)))
+                {
+                    if (ability1.typeInt() == 0) ability1 = new None();
+                    else ability1 = new NotYetUnlocked();
+                }
+                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability2)))
+                {
+                    if (ability2.typeInt() == 0) ability2 = new None();
+                    else ability2 = new NotYetUnlocked();
+                }
+                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability3)))
+                {
+                    if (ability3.typeInt() == 0) ability3 = new None();
+                    else ability3 = new NotYetUnlocked();
+                }
+            }
+
             mousePos = new Vector2(Main.mouseX, Main.mouseY);
             mouseRectangle = new Rectangle((int)mousePos.X, (int)mousePos.Y, 1, 1);
             screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.UIScale;

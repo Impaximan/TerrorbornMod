@@ -41,11 +41,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
             modPlayer.parryColor = new Color(138, 155, 152);
             if (modPlayer.JustParried)
             {
-                modPlayer.TerrorPercent += 20f;
-                if (modPlayer.TerrorPercent > 100)
-                {
-                    modPlayer.TerrorPercent = 100;
-                }
+                modPlayer.GainTerror(20f, false);
             }
             TBUtils.Accessories.UpdateParryShield(cooldown, item, player);
         }

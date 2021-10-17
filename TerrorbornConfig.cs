@@ -50,6 +50,21 @@ namespace TerrorbornMod
         [Slider()]
         public int loreParagraphWidth;
 
+        [DefaultValue(true)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Boss title cards")]
+        [Tooltip("Whether or not bosses will have title cards that appear at the top of your screen when spawning")]
+        public bool titleCards;
+
+        [DefaultValue(3.5f)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Boss title card duration")]
+        [Tooltip("How long boss title cards will be visible (in seconds) before dissappearing")]
+        [Range(0, 10f)]
+        [Increment(0.1f)]
+        [Slider()]
+        public float titleCardTime;
+
         public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message)
         {
             return true;
@@ -67,6 +82,8 @@ namespace TerrorbornMod
         {
             TerrorbornMod.StartingItems = startingItems;
             TerrorbornMod.LoreParagraphWidth = loreParagraphWidth;
+            TerrorbornMod.titleCardDuration = titleCardTime;
+            TerrorbornMod.titleCards = titleCards;
         }
     }
 }

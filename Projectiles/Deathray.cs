@@ -59,7 +59,7 @@ namespace TerrorbornMod.Projectiles
 				spriteBatch.Draw(texture, origin - Main.screenPosition, newBodyRectangle, i < transDist ? Color.Transparent : c, r, newBodyRectangle.Size() / 2, scale, 0, 0);
 			}
 
-			Rectangle newTailRectangle = headRect;
+			Rectangle newTailRectangle = tailRect;
 			if (deathrayWidth != 1f)
 			{
 				newTailRectangle.X = newTailRectangle.X + (int)((tailRect.Width / 2) * (1 - deathrayWidth));

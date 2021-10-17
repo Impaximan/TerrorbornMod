@@ -27,11 +27,13 @@ namespace TerrorbornMod.TBUtils
         public static void Initialize()
         {
             On.Terraria.Main.DrawInterface += DrawOvertopGraphics;
+            On.Terraria.Main.DrawNPCs += DrawNPCs;
         }
 
         public static void Unload()
         {
             On.Terraria.Main.DrawInterface -= DrawOvertopGraphics;
+            On.Terraria.Main.DrawNPCs -= DrawNPCs;
         }
 
         static Vector2 perlinPosition = Vector2.Zero;
@@ -105,6 +107,22 @@ namespace TerrorbornMod.TBUtils
             Main.spriteBatch.End();
 
             orig(self, gameTime);
+        }
+
+        private static void DrawNPCs(On.Terraria.Main.orig_DrawNPCs orig, Main self, bool behindTiles)
+        {
+            if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedConstructor>()))
+            {
+                NPC npc = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedConstructor>())];
+                foreach (NPC claw in Main.npc)
+                {
+                    if (claw.type == ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedClaw>() && claw.active)
+                    {
+                        NPCs.Bosses.HexedConstructor.HexedConstructor.DrawWire(Main.spriteBatch, Color.White, ModContent.GetTexture("TerrorbornMod/NPCs/Bosses/HexedConstructor/HexedWire"), ModContent.GetTexture("TerrorbornMod/NPCs/Bosses/HexedConstructor/HexedWireEnd"), npc.Center - new Vector2(0, 20), claw.Center, (int)(Math.Abs(Math.Sin((double)(npc.ai[0] / 60f))) * 50) + 20, 25);
+                    }
+                }
+            }
+            orig(self, behindTiles);
         }
     }
 }

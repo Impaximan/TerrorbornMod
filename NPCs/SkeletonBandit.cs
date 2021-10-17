@@ -16,6 +16,7 @@ namespace TerrorbornMod.NPCs
             NPCID.Sets.TrailCacheLength[npc.type] = 3;
             NPCID.Sets.TrailingMode[npc.type] = 1;
         }
+
         public override void SetDefaults()
         {
             npc.noGravity = false;
@@ -35,6 +36,14 @@ namespace TerrorbornMod.NPCs
             npc.value = Item.buyPrice(0, 0, 75, 0);
             npc.knockBackResist = 1f;
             npc.lavaImmune = true;
+        }
+
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextFloat() <= 0.05f)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Accessories.BanditGlove>());
+            }
         }
 
         int frame = 0;

@@ -62,6 +62,11 @@ namespace TerrorbornMod.NPCs.Bosses
             npc.value = 110000f;
             npc.alpha = 250;
             npc.knockBackResist = 0.00f;
+
+            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
+            modNPC.BossTitle = "Dunestock";
+            modNPC.BossSubtitle = "Amalgamation of the Dead";
+            modNPC.BossTitleColor = Color.SandyBrown;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

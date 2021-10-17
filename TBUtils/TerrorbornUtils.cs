@@ -113,6 +113,10 @@ namespace TerrorbornMod
             {
                 return new GelatinArmorInfo();
             }
+            if (integerValue == 7)
+            {
+                return new TimeFreezeInfo();
+            }
             return new None();
         }
 
