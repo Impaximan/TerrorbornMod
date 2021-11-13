@@ -13,8 +13,8 @@ namespace TerrorbornMod.Items.Potions
         }
         public override void SetDefaults()
         {
-            item.useTime = 10;
-            item.useAnimation = 10;
+            item.useTime = 20;
+            item.useAnimation = 32;
             item.useStyle = 2;
             item.maxStack = 30;
             item.consumable = true;

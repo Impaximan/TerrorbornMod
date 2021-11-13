@@ -38,7 +38,29 @@ namespace TerrorbornMod
 
         public bool burstJump = false;
 
+        public bool countAsThrown = false;
+
         public bool parryShield = false;
+
+        public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
+        {
+            base.ModifyWeaponDamage(item, player, ref add, ref mult, ref flat);
+
+            if (countAsThrown)
+            {
+                mult *= player.thrownDamage;
+            }
+        }
+
+        public override void GetWeaponCrit(Item item, Player player, ref int crit)
+        {
+            base.GetWeaponCrit(item, player, ref crit);
+
+            if (countAsThrown)
+            {
+                crit += player.thrownCrit - 4;
+            }
+        }
 
         int azureCounter = 2;
         public override bool CanUseItem(Item item, Player player)
@@ -163,7 +185,40 @@ namespace TerrorbornMod
 
         public override void SetDefaults(Item item)
         {
+            if (item.ranged)
+            {
+                if (item.consumable && (item.useStyle == ItemUseStyleID.SwingThrow || item.noUseGraphic))
+                {
+                    countAsThrown = true;
+                }
+            }
 
+            if (item.melee)
+            {
+                if (item.consumable || (item.noUseGraphic && item.noMelee && !item.channel && item.useStyle == ItemUseStyleID.SwingThrow))
+                {
+                    countAsThrown = true;
+                }
+            }
+
+            List<int> otherThrownItems = new List<int>() {
+                ItemID.ScourgeoftheCorruptor,
+                ModContent.ItemType<Items.Weapons.Melee.HurricaneDiscs>(),
+            };
+
+            if (otherThrownItems.Contains(item.type))
+            {
+                countAsThrown = true;
+            }
+
+            List<int> thrownItemsBlacklist = new List<int>() {
+
+            };
+
+            if (thrownItemsBlacklist.Contains(item.type))
+            {
+                countAsThrown = false;
+            }
         }
 
         public static TerrorbornItem modItem(Item item)
@@ -274,6 +329,12 @@ namespace TerrorbornMod
                 tooltips.Add(new TooltipLine(mod, "terrorcostprefix", changeText + "% terror required per use"));
                 tooltips.FirstOrDefault(x => x.Name == "terrorcostprefix" && x.mod == "TerrorbornMod").isModifier = true;
                 tooltips.FirstOrDefault(x => x.Name == "terrorcostprefix" && x.mod == "TerrorbornMod").isModifierBad = true;
+            }
+
+            if (countAsThrown)
+            {
+                tooltips.Add(new TooltipLine(mod, "countsAsThrown", "Counts as a thrown weapon"));
+                tooltips.FirstOrDefault(x => x.Name == "countsAsThrown" && x.mod == "TerrorbornMod").overrideColor = new Color(193, 243, 245);
             }
         }
 

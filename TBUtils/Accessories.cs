@@ -82,6 +82,7 @@ namespace TerrorbornMod.TBUtils
             {
                 modPlayer.ParryTime = 15;
                 modPlayer.ParryCooldown = parryCooldown;
+                player.AddBuff(ModContent.BuffType<Buffs.Debuffs.ParryCooldown>(), parryCooldown);
                 modPlayer.parryLightTime = 20;
                 Main.PlaySound(SoundID.Item8, player.Center);
             }

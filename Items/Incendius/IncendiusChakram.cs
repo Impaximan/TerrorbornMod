@@ -14,13 +14,13 @@ namespace TerrorbornMod.Items.Incendius
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(5 * TerrorbornMod.IncendiaryAlloyMultiplier));
             recipe.AddIngredient(ItemID.CobaltBar, 3);
-            ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>();
+            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
             recipe.SetResult(this);
             recipe.AddRecipe();
             ModRecipe recipe2 = new ModRecipe(mod);
             recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(5 * TerrorbornMod.IncendiaryAlloyMultiplier));
             recipe2.AddIngredient(ItemID.PalladiumBar, 3);
-            ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>();
+            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
             recipe2.SetResult(this);
             recipe2.AddRecipe();
         }
@@ -49,6 +49,7 @@ namespace TerrorbornMod.Items.Incendius
             item.autoReuse = true;
             item.maxStack = 5;
             item.melee = true;
+            item.noMelee = true;
         }
         public override bool CanUseItem(Player player)
         {

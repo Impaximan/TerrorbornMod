@@ -105,14 +105,21 @@ namespace TerrorbornMod
         {
             return "Any Bug";
         }
+
         string MythrilString()
         {
             return "Any Mythril Bar";
         }
+
+        string FragmentString()
+        {
+            return "Any Lunar Fragment";
+        }
+
         public override void AddRecipeGroups()
         {
             //Any Bug
-            RecipeGroup bugs = new RecipeGroup(new System.Func<string>(BugString));
+            RecipeGroup bugs = new RecipeGroup(new Func<string>(BugString));
             bugs.ValidItems.Add(ItemID.JuliaButterfly);
             bugs.ValidItems.Add(ItemID.MonarchButterfly);
             bugs.ValidItems.Add(ItemID.PurpleEmperorButterfly);
@@ -129,23 +136,64 @@ namespace TerrorbornMod
             RecipeGroup.RegisterGroup("bugs", bugs);
 
             //Any Mythril Bar
-            RecipeGroup mythril = new RecipeGroup(new System.Func<string>(MythrilString));
+            RecipeGroup mythril = new RecipeGroup(new Func<string>(MythrilString));
             mythril.ValidItems.Add(ItemID.MythrilBar);
             mythril.ValidItems.Add(ItemID.OrichalcumBar);
             RecipeGroup.RegisterGroup("mythril", mythril);
+
+            //Any Lunar Fragment
+            RecipeGroup fragment = new RecipeGroup(new Func<string>(FragmentString));
+            fragment.ValidItems.Add(ItemID.FragmentSolar);
+            fragment.ValidItems.Add(ItemID.FragmentNebula);
+            fragment.ValidItems.Add(ItemID.FragmentStardust);
+            fragment.ValidItems.Add(ItemID.FragmentVortex);
+            RecipeGroup.RegisterGroup("fragment", fragment);
         }
 
-        public static Texture2D CreateImage(int width, int height)
+
+        public virtual void SetColors(ref Color[] colors, int width, int height)
+        {
+            int x = width / 2;
+            int y = height / 2;
+            for (int j = 0; j < height; j++)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    int index = j * width + i;
+                    float distanceUntilFade = 0.3f;
+                    double dX = (double)(i - x) / (double)width;
+                    double dY = (double)(j - y) / (double)width;
+                    float c = (float)Math.Sqrt(dX * dX + dY * dY) * 2f;
+                    c -= distanceUntilFade;
+                    if (c < 0f)
+                    {
+                        c = 0f;
+                    }
+                    colors[index] = Color.Lerp(Color.Lerp(Color.Yellow, Color.OrangeRed, c / (float)(1f - distanceUntilFade)), Color.Transparent, c / (float)(1f - distanceUntilFade));
+                }
+            }
+        }
+
+        public virtual Texture2D CreateImage(int width, int height)
         {
             var graphics = Main.instance.GraphicsDevice;
             Color[] colors = new Color[width * height];
             Texture2D output = new Texture2D(graphics, width, height, false, SurfaceFormat.Color);
+            SetColors(ref colors, width, height);
             output.SetData(colors);
             return output;
         }
 
+        private static string savingFolder = Path.Combine(Main.SavePath, "Mods", "Cache");
         public override void Load()
         {
+            Directory.CreateDirectory(savingFolder);
+            string path = Path.Combine(savingFolder, "TerrorbornOutput.png");
+            //using (Stream stream = File.OpenWrite(path))
+            //{
+            //    CreateImage(1000, 1000).SaveAsPng(stream, 1000, 1000);
+            //}
+
             TBUtils.Detours.Initialize();
 
             ArmorAbility = RegisterHotKey("ArmorAbility", "Z");
@@ -300,7 +348,7 @@ namespace TerrorbornMod
         }
 
         public static Color darkRainColor = Color.FromNonPremultiplied((int)(40f * 0.7f), (int)(55f * 0.7f), (int)(70f * 0.7f), 255);
-        public static Color incendiaryColor = Color.FromNonPremultiplied(191, 122, 122, 255);
+        public static Color incendiaryColor = Color.FromNonPremultiplied(191, 122, 122, 255) * 0.65f;
         public static Color transitionColor = Color.White;
         public static Color lightningColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
         public static float positionForward = 0f;

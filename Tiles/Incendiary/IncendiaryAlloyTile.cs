@@ -19,7 +19,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             soundType = 21;
             soundStyle = 1;
             dustType = DustID.Fire;
-            minPick = 150;
+            minPick = 100;
             mineResist = 6f;
             drop = ModContent.ItemType<Items.Materials.IncendiusAlloy>();
             ModTranslation name = CreateMapEntryName();

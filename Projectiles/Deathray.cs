@@ -100,6 +100,8 @@ namespace TerrorbornMod.Projectiles
 			SetLaserPosition();
 			SpawnDusts();
 			CastLights();
+
+			projectile.velocity.Normalize();
 		}
 
 		public virtual Vector2 Position()

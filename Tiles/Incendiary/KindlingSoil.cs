@@ -114,6 +114,22 @@ namespace TerrorbornMod.Tiles.Incendiary
             dust.velocity = new Vector2(0, -3);
             dust.noGravity = true;
             dust.scale = 1.5f;
+
+            if (WorldGen.TileEmpty(i, j - 1) && Main.rand.NextFloat() <= 0.05f)
+            {
+                int distance = 10;
+                for (int checkI = -distance; checkI <= distance; checkI++)
+                {
+                    for (int checkJ = -distance; checkJ <= distance; checkJ++)
+                    {
+                        if (Main.tile[checkI + i, checkJ + j].type == ModContent.TileType<PyroclasticGemstone>())
+                        {
+                            return;
+                        }
+                    }
+                }
+                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<PyroclasticGemstone>(), true, false);
+            }
         }
 
         public override bool HasWalkDust()

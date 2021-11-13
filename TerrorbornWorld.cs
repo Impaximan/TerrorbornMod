@@ -31,6 +31,7 @@ namespace TerrorbornMod
         public static bool downedFrightcrawler;
         public static bool terrorRain;
         public static bool talkedToCartographer;
+        public static bool talkedToHeretic;
         public static int timeSinceFrightcrawlerSpawn = 0;
         public static int ShadowTiles = 0;
         public static int CurrentBountyBiome = 69; //You can't stop me from keeping it like this
@@ -68,6 +69,7 @@ namespace TerrorbornMod
             downedUndyingSpirit = false;
             obtainedShriekOfHorror = false;
             talkedToCartographer = false;
+            talkedToHeretic = false;
             TerrorMasterDialogue = 0;
             SkeletonSheriffName = getSkeletonSheriffName();
             CartographerName = getCartographerName();
@@ -180,6 +182,7 @@ namespace TerrorbornMod
                 {"TerrorWarp", TerrorWarp},
                 {"terrorRain", terrorRain},
                 {"talkedToCartographer", talkedToCartographer},
+                {"talkedToHeretic", talkedToHeretic},
                 {"timeSinceFrightcrawlerSpawn", timeSinceFrightcrawlerSpawn},
                 {"CartographerSpawnCooldown", CartographerSpawnCooldown}
             };
@@ -207,6 +210,7 @@ namespace TerrorbornMod
             TerrorWarp = tag.Get<Vector2>("TerrorWarp");
             terrorRain = tag.GetBool("terrorRain");
             talkedToCartographer = tag.GetBool("talkedToCartographer");
+            talkedToHeretic = tag.GetBool("talkedToHeretic");
             timeSinceFrightcrawlerSpawn = tag.GetInt("timeSinceFrightcrawlerSpawn");
             CartographerSpawnCooldown = tag.GetInt("CartographerSpawnCooldown");
         }
@@ -1287,7 +1291,7 @@ namespace TerrorbornMod
             for (int i = 0; i < rogueCloudsCount; i++)
             {
                 Point16 position = new Point16(cornerPosition.X + WorldGen.genRand.Next(biomeWidth) * -side, cornerPosition.Y + WorldGen.genRand.Next(biomeHeight));
-                WorldGen.TileRunner(position.X, position.Y, Main.rand.NextFloat(3f, 6f), 5, ModContent.TileType<Tiles.Incendiary.PyroclasticCloud>(), true);
+                WorldGen.TileRunner(position.X, position.Y, Main.rand.NextFloat(5f, 8f), 5, ModContent.TileType<Tiles.Incendiary.PyroclasticRaincloud>(), true);
             }
 
             Point16 biomeCenter = cornerPosition + new Point16(biomeWidth * -side / 2, biomeHeight / 2);
@@ -1386,13 +1390,20 @@ namespace TerrorbornMod
                 }
                 if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 2 * 36)
                 {
-                    if (Main.rand.Next(101) <= 20)
+                    if (Main.rand.Next(101) <= 40)
                     {
                         for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                         {
                             if (chest.item[inventoryIndex].type == ItemID.None)
                             {
-                                chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.DualpipeDartgun>());
+                                if (Main.rand.NextBool())
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.DualpipeDartgun>());
+                                }
+                                else
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.PalladiumShield>());
+                                }
                                 break;
                             }
                         }
@@ -1548,23 +1559,23 @@ namespace TerrorbornMod
 
                 if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36)
                 {
-                    if (Main.rand.NextFloat() <= 0.35f)
+                    for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                     {
-                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        if (chest.item[inventoryIndex].type == ItemID.None)
                         {
-                            if (chest.item[inventoryIndex].type == ItemID.None)
+                            switch (Main.rand.Next(3))
                             {
-                                switch (Main.rand.Next(2))
-                                {
-                                    case 0:
-                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
-                                        break;
-                                    case 1:
-                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CursedShades>());
-                                        break;
-                                }
-                                break;
+                                case 0:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
+                                    break;
+                                case 1:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CursedShades>());
+                                    break;
+                                case 2:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.BronzeBuckler>());
+                                    break;
                             }
+                            break;
                         }
                     }
                 }

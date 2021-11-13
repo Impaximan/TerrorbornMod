@@ -67,6 +67,15 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             {
                 player.runAcceleration += 0.2f;
             }
+
+            return;
+            player.accRunSpeed = 9f;
+            player.runSoundDelay = (int)(player.runSoundDelay * 0.75f);
+            if (player.velocity.Y == 0)
+            {
+                player.accRunSpeed *= 1.2f;
+                player.runAcceleration += 0.15f;
+            }
         }
     }
 }

@@ -43,6 +43,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.shootSpeed = 22;
             item.shoot = ModContent.ProjectileType<ThunderGrenadeProjectile>();
+            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            modItem.countAsThrown = true;
         }
     }
 

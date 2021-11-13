@@ -23,7 +23,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
             dustType = DustID.Fire;
 
-            minPick = 150;
+            minPick = 100;
             mineResist = 10;
             drop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryPipe>();
             ModTranslation name = CreateMapEntryName();

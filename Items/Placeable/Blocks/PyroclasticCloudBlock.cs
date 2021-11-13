@@ -24,5 +24,3 @@ namespace TerrorbornMod.Items.Placeable.Blocks
         }
     }
 }
-
-

@@ -289,6 +289,11 @@ namespace TerrorbornMod
             {
                 damage = (int)(damage * modPlayer.critDamage);
             }
+
+            if (modPlayer.TimeFreezeTime > 0)
+            {
+                knockback = 0f;
+            }
         }
 
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -309,6 +314,11 @@ namespace TerrorbornMod
             if (crit)
             {
                 damage = (int)(damage * modPlayer.critDamage);
+            }
+
+            if (modPlayer.TimeFreezeTime > 0)
+            {
+                knockback = 0f;
             }
         }
 
@@ -1050,6 +1060,19 @@ namespace TerrorbornMod
             if (Main.rand.Next(12) == 0 && modPlayer.TerrorPercent < 100 && TerrorbornWorld.obtainedShriekOfHorror)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DarkEnergy>());
+            }
+
+            if (player.HasBuff(ModContent.BuffType<Buffs.Vampirism>()) && npc.Distance(player.Center) <= 350)
+            {
+                if (Main.rand.NextFloat() <= 0.2f)
+                {
+                    Item.NewItem(npc.getRect(), ItemID.Heart);
+                }
+
+                if (Main.rand.NextFloat() <= 0.2f)
+                {
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.DarkEnergy>());
+                }
             }
         }
     }
