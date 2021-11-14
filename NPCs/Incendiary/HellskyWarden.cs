@@ -50,7 +50,7 @@ namespace TerrorbornMod.NPCs.Incendiary
         {
             if (frame == 4 && fireCounter > 0)
             {
-                int laserCount = 4;
+                int laserCount = 5;
                 for (int i = 0; i < laserCount; i++)
                 {
                     Utils.DrawLine(spriteBatch, npc.Center, npc.Center + rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i) * 100, Color.Red, Color.Transparent, 5);
