@@ -53,7 +53,7 @@ namespace TerrorbornMod.NPCs.Incendiary
         {
             if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && NPC.downedGolemBoss)
             {
-                return SpawnCondition.Sky.Chance * 0.2f;
+                return SpawnCondition.Sky.Chance * 0.15f;
             }
             else
             {

@@ -351,7 +351,7 @@ namespace TerrorbornMod
         }
 
         public static Color darkRainColor = Color.FromNonPremultiplied((int)(40f * 0.7f), (int)(55f * 0.7f), (int)(70f * 0.7f), 255);
-        public static Color incendiaryColor = Color.FromNonPremultiplied(191, 122, 122, 255) * 0.65f;
+        public static Color incendiaryColor = Color.FromNonPremultiplied(191, 122, 122, 255);
         public static Color transitionColor = Color.White;
         public static Color lightningColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
         public static float positionForward = 0f;

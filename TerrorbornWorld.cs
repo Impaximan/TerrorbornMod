@@ -716,6 +716,16 @@ namespace TerrorbornMod
                     }
                 }
 
+                if (extraHeight < -islandHeight / 3)
+                {
+                    extraHeight = -islandHeight / 3;
+                }
+
+                if (extraHeight > islandHeight / 3)
+                {
+                    extraHeight = islandHeight / 3;
+                }
+
                 float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
                 int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter));
 
@@ -737,6 +747,16 @@ namespace TerrorbornMod
                     {
                         extraHeight--;
                     }
+                }
+
+                if (extraHeight < -islandHeight / 5)
+                {
+                    extraHeight = -islandHeight / 5;
+                }
+
+                if (extraHeight > islandHeight / 5)
+                {
+                    extraHeight = islandHeight / 5;
                 }
 
                 float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
@@ -871,22 +891,8 @@ namespace TerrorbornMod
             int extraHeight = 0;
             for (int x = 0; x < islandWidth; x++)
             {
-                if (WorldGen.genRand.NextFloat() <= 0.15f)
-                {
-                    if (WorldGen.genRand.NextBool())
-                    {
-                        extraHeight++;
-                    }
-                    else
-                    {
-                        extraHeight--;
-                    }
-                }
-
                 float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
                 int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter));
-
-                //height += extraHeight;
 
                 CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.IncendiaryMachinery>(), forced: forced, withWall: true, wallType: ModContent.WallType<Tiles.Incendiary.IncendiaryMachineryWall>());
             }
@@ -894,22 +900,8 @@ namespace TerrorbornMod
             extraHeight = 0;
             for (int x = 0; x < islandWidth; x++)
             {
-                if (WorldGen.genRand.NextFloat() <= 0.1f)
-                {
-                    if (WorldGen.genRand.NextBool())
-                    {
-                        extraHeight++;
-                    }
-                    else
-                    {
-                        extraHeight--;
-                    }
-                }
-
                 float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
                 int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter)) / 2 + 1;
-
-                //height += extraHeight;
 
                 CreateLineOfBlocksVertical(i + x, center.Y, height, ModContent.TileType<Tiles.Incendiary.IncendiaryMachinery>(), false, forced: forced, withWall: true, wallType: ModContent.WallType<Tiles.Incendiary.IncendiaryMachineryWall>());
             }
@@ -1037,6 +1029,16 @@ namespace TerrorbornMod
                     }
                 }
 
+                if (extraHeight < -islandHeight / 3)
+                {
+                    extraHeight = -islandHeight / 3;
+                }
+
+                if (extraHeight > islandHeight / 3)
+                {
+                    extraHeight = islandHeight / 3;
+                }
+
                 float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
                 int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter));
 
@@ -1058,6 +1060,16 @@ namespace TerrorbornMod
                     {
                         extraHeight--;
                     }
+                }
+
+                if (extraHeight < -islandHeight / 5)
+                {
+                    extraHeight = -islandHeight / 5;
+                }
+
+                if (extraHeight > islandHeight / 5)
+                {
+                    extraHeight = islandHeight / 5;
                 }
 
                 float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
@@ -1158,6 +1170,16 @@ namespace TerrorbornMod
                     }
                 }
 
+                if (extraHeight < -islandHeight / 3)
+                {
+                    extraHeight = -islandHeight / 3;
+                }
+
+                if (extraHeight > islandHeight / 3)
+                {
+                    extraHeight = islandHeight / 3;
+                }
+
                 float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
                 int height = (int)((islandHeight / 2) - (islandHeight / 2 * distanceFromCenter));
 
@@ -1179,6 +1201,16 @@ namespace TerrorbornMod
                     {
                         extraHeight--;
                     }
+                }
+
+                if (extraHeight < -islandHeight / 5)
+                {
+                    extraHeight = -islandHeight / 5;
+                }
+
+                if (extraHeight > islandHeight / 5)
+                {
+                    extraHeight = islandHeight / 5;
                 }
 
                 float distanceFromCenter = MathHelper.Distance(x, islandWidth / 2f) / (islandWidth / 2f);
