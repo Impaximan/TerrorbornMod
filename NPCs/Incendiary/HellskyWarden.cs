@@ -14,10 +14,11 @@ using Terraria.Graphics.Shaders;
 using Terraria.Localization;
 using Terraria.World.Generation;
 using Terraria.UI;
+using TerrorbornMod.Projectiles;
 
 namespace TerrorbornMod.NPCs.Incendiary
 {
-    class IncendiaryGuardian : ModNPC
+    class HellskyWarden : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -27,11 +28,11 @@ namespace TerrorbornMod.NPCs.Incendiary
         {
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.width = 48;
-            npc.height = 42;
+            npc.width = 94;
+            npc.height = 98;
             npc.damage = 45;
             npc.defense = 21;
-            npc.lifeMax = 750;
+            npc.lifeMax = 2000;
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.value = 250;
@@ -52,14 +53,14 @@ namespace TerrorbornMod.NPCs.Incendiary
                 int laserCount = 4;
                 for (int i = 0; i < laserCount; i++)
                 {
-                    Utils.DrawLine(spriteBatch, npc.Center + new Vector2(0, -15), npc.Center + new Vector2(0, -15) + rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i) * 100, Color.Red, Color.Transparent, 5);
+                    Utils.DrawLine(spriteBatch, npc.Center, npc.Center + new Vector2(0, -15) + rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i) * 100, Color.Red, Color.Transparent, 5);
                 }
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && !NPC.downedGolemBoss)
+            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && NPC.downedGolemBoss)
             {
                 return SpawnCondition.Sky.Chance * 0.05f;
             }
@@ -97,20 +98,42 @@ namespace TerrorbornMod.NPCs.Incendiary
                             Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, Style: 15, 4, 0);
                         }
 
-                        rotation += MathHelper.ToRadians(1);
+                        rotation += MathHelper.ToRadians(1.5f);
                         TerrorbornMod.ScreenShake(2);
-                        int laserCount = 4;
+                        int laserCount = 5;
                         for (int i = 0; i < laserCount; i++)
                         {
-                            Projectile projectile = Main.projectile[Projectile.NewProjectile(npc.Center, rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i), ModContent.ProjectileType<Projectiles.IncendiaryDeathray>(), 80 / 4, 0)];
+                            Projectile projectile = Main.projectile[Projectile.NewProjectile(npc.Center, rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i), ModContent.ProjectileType<HellskyDeathray>(), 120 / 4, 0)];
                             projectile.ai[0] = npc.whoAmI;
-                            projectile.ai[1] = -15;
                         }
                     }
                 }
             }
         }
     }
+
+    class HellskyDeathray : Deathray
+    {
+        public override void SetDefaults()
+        {
+            projectile.width = 18;
+            projectile.height = 22;
+            projectile.penetrate = -1;
+            projectile.tileCollide = true;
+            projectile.hide = false;
+            projectile.hostile = true;
+            projectile.friendly = false;
+            projectile.timeLeft = 2;
+            MoveDistance = 20f;
+            RealMaxDistance = 1000f;
+            bodyRect = new Rectangle(0, 22, 34, 22);
+            headRect = new Rectangle(0, 0, 34, 22);
+            tailRect = new Rectangle(0, 44, 34, 24);
+        }
+
+        public override Vector2 Position()
+        {
+            return Main.npc[(int)projectile.ai[0]].Center + new Vector2(0, projectile.ai[1]);
+        }
+    }
 }
-
-
