@@ -939,6 +939,21 @@ namespace TerrorbornMod
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.MiscConsumables.HotMilk>());
                 }
 
+                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Vanity.IncendiaryBreastplate>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Vanity.IncendiaryLeggings>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Vanity.IncendiaryVisor>());
+                }
+
                 if (Main.rand.NextFloat() <= 0.25f && NPC.downedGolemBoss)
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Materials.HellbornEssence>());

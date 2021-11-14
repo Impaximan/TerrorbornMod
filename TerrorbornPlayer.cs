@@ -85,7 +85,8 @@ namespace TerrorbornMod
         public bool cloakOfTheWind = false;
         public bool PlasmaArmorBonus = false;
         public bool VampiricPendant = false;
-        public bool IncendiusArmorBonus = false;
+        public bool PyroclasticShinobiBonus = false;
+        public bool SuperthrowNext = false;
         public bool SoulReaperArmorBonus = false;
         public bool Aerodynamic = false;
         public bool Glooped = false;
@@ -137,7 +138,7 @@ namespace TerrorbornMod
                 if (player.armor[2] != null && player.armor[2].type > Main.maxItemTypes)
                 {
                     Texture2D texture = ModContent.GetTexture(player.armor[2].modItem.Texture + "_Legs_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (int)(player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.legOrigin;
+                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.legOrigin;
                     DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.legFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.legRotation, drawInfo.legOrigin, 1f, drawInfo.spriteEffects, 0);
                     Main.playerDrawData.Add(data);
                 }
@@ -153,7 +154,7 @@ namespace TerrorbornMod
                 if (player.armor[2 + vanityAddend] != null && player.armor[2 + vanityAddend].type > Main.maxItemTypes)
                 {
                     Texture2D texture = ModContent.GetTexture(player.armor[2 + vanityAddend].modItem.Texture + "_Legs_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (int)(player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.legOrigin;
+                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.legOrigin;
                     DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.legFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.legRotation, drawInfo.legOrigin, 1f, drawInfo.spriteEffects, 0);
                     Main.playerDrawData.Add(data);
                 }
@@ -168,7 +169,7 @@ namespace TerrorbornMod
                 if (player.armor[1] != null && player.armor[1].type > Main.maxItemTypes)
                 {
                     Texture2D texture = ModContent.GetTexture(player.armor[1].modItem.Texture + "_Arms_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (int)(player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.bodyOrigin;
+                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.bodyOrigin;
                     DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
                     Main.playerDrawData.Add(data);
                 }
@@ -184,7 +185,7 @@ namespace TerrorbornMod
                 if (player.armor[1 + vanityAddend] != null && player.armor[1 + vanityAddend].type > Main.maxItemTypes)
                 {
                     Texture2D texture = ModContent.GetTexture(player.armor[1 + vanityAddend].modItem.Texture + "_Arms_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (int)(player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.bodyOrigin;
+                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.bodyOrigin;
                     DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
                     Main.playerDrawData.Add(data);
                 }
@@ -199,7 +200,7 @@ namespace TerrorbornMod
                 if (player.armor[1] != null && player.armor[1].type > Main.maxItemTypes)
                 {
                     Texture2D texture = ModContent.GetTexture(player.armor[1].modItem.Texture + "_Body_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (int)(player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.bodyOrigin;
+                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.bodyOrigin;
                     DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
                     Main.playerDrawData.Add(data);
                 }
@@ -215,7 +216,7 @@ namespace TerrorbornMod
                 if (player.armor[1 + vanityAddend] != null && player.armor[1 + vanityAddend].type > Main.maxItemTypes)
                 {
                     Texture2D texture = ModContent.GetTexture(player.armor[1 + vanityAddend].modItem.Texture + "_Body_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (int)(player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.bodyOrigin;
+                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.bodyOrigin;
                     DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
                     Main.playerDrawData.Add(data);
                 }
@@ -230,7 +231,7 @@ namespace TerrorbornMod
                 if (player.armor[0] != null && player.armor[0].type > Main.maxItemTypes)
                 {
                     Texture2D texture = ModContent.GetTexture(player.armor[0].modItem.Texture + "_Head_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (int)(player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.headOrigin;
+                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.headOrigin;
                     DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.headRotation, drawInfo.headOrigin, 1f, drawInfo.spriteEffects, 0);
                     Main.playerDrawData.Add(data);
                 }
@@ -246,7 +247,7 @@ namespace TerrorbornMod
                 if (player.armor[0 + vanityAddend] != null && player.armor[0 + vanityAddend].type > Main.maxItemTypes)
                 {
                     Texture2D texture = ModContent.GetTexture(player.armor[0 + vanityAddend].modItem.Texture + "_Head_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (int)(player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.headOrigin;
+                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10f) + player.headPosition + drawInfo.headOrigin;
                     DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.headRotation, drawInfo.headOrigin, 1f, drawInfo.spriteEffects, 0);
                     Main.playerDrawData.Add(data);
                 }
@@ -601,7 +602,7 @@ namespace TerrorbornMod
             Aerodynamic = false;
             Glooped = false;
             PlasmaArmorBonus = false;
-            IncendiusArmorBonus = false;
+            PyroclasticShinobiBonus = false;
             AzuriteArmorBonus = false;
             VampiricPendant = false;
             noAmmoConsumeChance = 0f;

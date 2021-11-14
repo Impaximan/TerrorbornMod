@@ -66,11 +66,13 @@ namespace TerrorbornMod
         public override bool CanUseItem(Item item, Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
             bool darkblood = player.HasBuff(ModContent.BuffType<Buffs.Darkblood>());
             if (player.HasBuff(ModContent.BuffType<Buffs.GraniteSpark>()) || (modPlayer.MidShriek && !darkblood) || !modPlayer.canUseItems)
             {
                 return false;
             }
+
             if (modPlayer.AzuriteArmorBonus && item.magic && base.CanUseItem(item, player) && player.statMana >= item.mana)
             {
                 if (azureCounter <= 0)
@@ -86,6 +88,7 @@ namespace TerrorbornMod
                     azureCounter--;
                 }
             }
+
             if (TerrorCost > 0f)
             {
                 if (modPlayer.TerrorPercent <= TerrorCost)
@@ -97,6 +100,7 @@ namespace TerrorbornMod
                     modPlayer.LoseTerror(TerrorCost);
                 }
             }
+
             return base.CanUseItem(item, player);
         }
 
@@ -203,7 +207,7 @@ namespace TerrorbornMod
 
             List<int> otherThrownItems = new List<int>() {
                 ItemID.ScourgeoftheCorruptor,
-                ModContent.ItemType<Items.Weapons.Melee.HurricaneDiscs>(),
+                ModContent.ItemType<Items.Weapons.Ranged.PyroclasticKunai>(),
             };
 
             if (otherThrownItems.Contains(item.type))

@@ -74,7 +74,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Graphics.DrawGlow(spriteBatch, ModContent.GetTexture("TerrorbornMod/Effects/Textures/Glow_2"), projectile.Center - Main.screenPosition, currentSize, Color.White);
+            Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, currentSize, Color.LightYellow);
             return false;
         }
 

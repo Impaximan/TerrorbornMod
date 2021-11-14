@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using TerrorbornMod.Items.Materials;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -54,6 +55,13 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
     class PyroclasticKunaiProjectile : ModProjectile
     {
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = ModContent.GetTexture(Texture + "Glow");
+            Vector2 position = projectile.Center - Main.screenPosition;
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, projectile.width, projectile.height), Color.White * (1f - (projectile.alpha / 255f)), projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.scale, SpriteEffects.None, 0);
+        }
+
         int FallWait = 40;
         public override void SetDefaults()
         {
@@ -133,6 +141,13 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
     class PyroclasticPortal : ModProjectile
     {
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = ModContent.GetTexture(Texture + "Glow");
+            Vector2 position = projectile.Center - Main.screenPosition;
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, projectile.width, projectile.height), Color.White * (1f - (projectile.alpha / 255f)), projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.scale, SpriteEffects.None, 0);
+        }
+
         public override void SetDefaults()
         {
             projectile.width = 44;
@@ -180,6 +195,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 {
                     projectile.active = false;
                 }
+                projectile.scale -= 0.02f;
             }
         }
     }

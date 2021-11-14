@@ -9,6 +9,26 @@ namespace TerrorbornMod
 {
     class TerrorbornProjectile : GlobalProjectile
     {
+        public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
+        {
+            float currentAngle = Main.rand.Next(360);
+
+            //if(Main.netMode!=1){
+            for (int i = 0; i < Streams; ++i)
+            {
+
+                Vector2 direction = Vector2.Normalize(new Vector2(1, 1)).RotatedBy(MathHelper.ToRadians(((360 / Streams) * i) + currentAngle));
+                direction.X *= DustSpeed;
+                direction.Y *= DustSpeed;
+
+                Dust dust = Dust.NewDustPerfect(position + (new Vector2(Main.rand.Next(RectWidth), Main.rand.Next(RectWidth))), DustType, direction, 0, default(Color), DustScale);
+                if (NoGravity)
+                {
+                    dust.noGravity = true;
+                }
+            }
+        }
+
         bool Start = true;
         int crystalWait = 10;
         public override bool InstancePerEntity => true;
@@ -76,6 +96,23 @@ namespace TerrorbornMod
             return projectile.GetGlobalProjectile<TerrorbornProjectile>();
         }
 
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            Player player = Main.player[projectile.owner];
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            if (player.HeldItem != null && player != null)
+            {
+                if (TerrorbornItem.modItem(player.HeldItem).countAsThrown)
+                {
+                    if (Main.rand.NextFloat() <= (float)player.thrownCrit / 100)
+                    {
+                        crit = true;
+                    }
+                }
+            }
+        }
+
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
@@ -87,6 +124,54 @@ namespace TerrorbornMod
                     player.HealEffect(1);
                     player.statLife += 1;
                     modPlayer.SangoonBandCooldown = 20;
+                }
+            }
+
+            if (player.HeldItem != null && player != null)
+            {
+                if (modPlayer.PyroclasticShinobiBonus && crit && TerrorbornItem.modItem(player.HeldItem).countAsThrown)
+                {
+                    modPlayer.SuperthrowNext = true;
+                }
+            }
+
+            if (superthrow)
+            {
+                DustExplosion(projectile.Center, 0, 45, 30, DustID.Fire, DustScale: 1f, NoGravity: true);
+                Main.PlaySound(SoundID.Item14, projectile.Center);
+                TerrorbornMod.ScreenShake(1.5f);
+                for (int i = 0; i < 200; i++)
+                {
+                    NPC npc = Main.npc[i];
+                    if (!npc.friendly && projectile.Distance(npc.Center) <= 200 + (npc.width + npc.height) / 2 && !npc.dontTakeDamage)
+                    {
+                        if (npc.type == NPCID.TheDestroyerBody)
+                        {
+                            npc.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                        }
+                        else
+                        {
+                            npc.StrikeNPC(damage / 3, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                        }
+
+                        int choice = Main.rand.Next(4);
+                        if (choice == 0)
+                        {
+                            npc.AddBuff(BuffID.OnFire, 60 * 5);
+                        }
+                        if (choice == 1)
+                        {
+                            npc.AddBuff(BuffID.Frostburn, 60 * 5);
+                        }
+                        if (choice == 2)
+                        {
+                            npc.AddBuff(BuffID.CursedInferno, 60 * 5);
+                        }
+                        if (choice == 3)
+                        {
+                            npc.AddBuff(BuffID.ShadowFlame, 60 * 5);
+                        }
+                    }
                 }
             }
 
@@ -153,6 +238,7 @@ namespace TerrorbornMod
             }
         }
 
+        bool superthrow = false;
         public void OnSpawn(Projectile projectile)
         {
             Player player = Main.player[projectile.owner];
@@ -178,6 +264,16 @@ namespace TerrorbornMod
                 modProjectile(otherProj).fromSplit = true;
                 //otherProj.ai = projectile.ai;
             }
+
+            if (player.HeldItem != null && player != null)
+            {
+                if (modPlayer.SuperthrowNext && TerrorbornItem.modItem(player.HeldItem).countAsThrown)
+                {
+                    projectile.extraUpdates = (projectile.extraUpdates * 2) + 1;
+                    superthrow = true;
+                    modPlayer.SuperthrowNext = false;
+                }
+            }
         }
 
         int hellfireCooldown = 120;
@@ -185,18 +281,6 @@ namespace TerrorbornMod
         {
             Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-
-            if (modPlayer.IncendiusArmorBonus && projectile.minion)
-            {
-                hellfireCooldown--;
-                if (hellfireCooldown <= 0 && player.HeldItem.summon)
-                {
-                    float speed = 15f;
-                    hellfireCooldown = 120;
-                    Vector2 velocity = projectile.DirectionTo(Main.MouseWorld) * speed;
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<Items.Equipable.Armor.HellFire>(), (int)(18 * projectile.minionSlots), 0.01f, projectile.owner);
-                }
-            }
 
             if (Start)
             {
@@ -235,6 +319,14 @@ namespace TerrorbornMod
                         projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(2.5f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
                     }
                 }
+            }
+
+            if (superthrow)
+            {
+                Dust dust = Dust.NewDustPerfect(projectile.Center, 235);
+                dust.noGravity = true;
+                dust.velocity = Vector2.Zero;
+                dust.scale = 2f;
             }
 
             if (Shadowflame)

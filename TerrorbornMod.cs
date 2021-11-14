@@ -66,7 +66,10 @@ namespace TerrorbornMod
 
         public static void ScreenShake(float Intensity)
         {
-            screenShaking = Intensity;
+            if (screenShaking < Intensity)
+            {
+                screenShaking = Intensity;
+            }
         }
 
         public override void UpdateMusic(ref int music, ref MusicPriority priority)

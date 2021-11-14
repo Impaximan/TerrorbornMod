@@ -7,15 +7,6 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 {
     class BanditGlove : ModItem
     {
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.AzuriteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<Materials.CrackedShell>(), 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bandit's Glove");
