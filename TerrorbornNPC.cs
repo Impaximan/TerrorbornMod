@@ -922,6 +922,14 @@ namespace TerrorbornMod
                 ExpertBoost = 2;
             }
 
+            if (player.ZoneDungeon)
+            {
+                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.MiscConsumables.StrangeBag>());
+                }
+            }
+
             if (modPlayer.ZoneIncendiary)
             {
                 if (Main.rand.NextFloat() <= 0.025f * ExpertBoost)
