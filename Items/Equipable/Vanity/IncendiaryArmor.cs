@@ -31,7 +31,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Underwordly Bodygear");
+            DisplayName.SetDefault("Underwordly Breastplate");
             Tooltip.SetDefault("'It feels otherwordly... but also incendiary'");
         }
 
