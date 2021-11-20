@@ -27,18 +27,5 @@ namespace TerrorbornMod.Items.Materials
             item.createTile = mod.TileType("Azurite");
             item.value = Item.sellPrice(0, 0, 8, 0);
         }
-
-
-        public override void ExtractinatorUse(ref int resultType, ref int resultStack)
-        {
-            if (Main.rand.Next(100) == 0)
-            {
-                resultType = ItemID.FrozenKey;
-                if (Main.rand.Next(5) == 0)
-                {
-                    resultStack = 1;
-                }
-            }
-        }
     }
 }

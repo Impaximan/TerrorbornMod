@@ -163,16 +163,20 @@ namespace TerrorbornMod
                 for (int i = 0; i < width; i++)
                 {
                     int index = j * width + i;
-                    float distanceUntilFade = 0.3f;
+                    float distanceUntilFade = 0f;
                     double dX = (double)(i - x) / (double)width;
                     double dY = (double)(j - y) / (double)width;
                     float c = (float)Math.Sqrt(dX * dX + dY * dY) * 2f;
                     c -= distanceUntilFade;
-                    if (c < 0f)
+                    if (c == 0)
                     {
-                        c = 0f;
+                        colors[index] = new Color(1f, 1f, 1f, 1f);
                     }
-                    colors[index] = Color.Lerp(Color.Lerp(Color.Yellow, Color.OrangeRed, c / (float)(1f - distanceUntilFade)), Color.Transparent, c / (float)(1f - distanceUntilFade));
+                    else
+                    {
+                        float value = 1f - (float)c;
+                        colors[index] = new Color(value, value, value, value);
+                    }
                 }
             }
         }
@@ -192,10 +196,10 @@ namespace TerrorbornMod
         {
             Directory.CreateDirectory(savingFolder);
             string path = Path.Combine(savingFolder, "TerrorbornOutput.png");
-            //using (Stream stream = File.OpenWrite(path))
-            //{
-            //    CreateImage(1000, 1000).SaveAsPng(stream, 1000, 1000);
-            //}
+            using (Stream stream = File.OpenWrite(path))
+            {
+                CreateImage(133, 133).SaveAsPng(stream, 133, 133);
+            }
 
             TBUtils.Detours.Initialize();
 
@@ -236,6 +240,10 @@ namespace TerrorbornMod
                 Ref<Effect> colorlessRef = new Ref<Effect>(GetEffect("Effects/Shaders/ColorlessShader"));
                 Filters.Scene["TerrorbornMod:ColorlessShader"] = new Filter(new ScreenShaderData(colorlessRef, "Colorless"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:ColorlessShader"].Load();
+
+                Ref<Effect> hexedRef = new Ref<Effect>(GetEffect("Effects/Shaders/HexedMirage"));
+                Filters.Scene["TerrorbornMod:HexedMirage"] = new Filter(new ScreenShaderData(hexedRef, "HexedMirage"), EffectPriority.VeryHigh);
+                Filters.Scene["TerrorbornMod:HexedMirage"].Load();
             }
 
             if (!Main.dedServ)

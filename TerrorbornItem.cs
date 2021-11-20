@@ -277,6 +277,18 @@ namespace TerrorbornMod
                 tooltips.FirstOrDefault(x => x.Name == "burstJumpItem" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(burstJumpColor1, burstJumpColor2, burstJumpColorProgress);
             }
 
+            if (item.type == ItemID.IronPickaxe || item.type == ItemID.LeadPickaxe || item.type == ItemID.TungstenPickaxe || item.type == ItemID.SilverPickaxe || item.type == ItemID.PlatinumPickaxe || item.type == ItemID.GoldPickaxe)
+            {
+                tooltips.Add(new TooltipLine(mod, "MineNovagold", "Can mine novagold ore"));
+                tooltips.FirstOrDefault(x => x.Name == "MineNovagold" && x.mod == "TerrorbornMod").overrideColor = new Color(207, 253, 255);
+            }
+
+            if (item.type == ItemID.Picksaw)
+            {
+                tooltips.Add(new TooltipLine(mod, "MineSkullmound", "Can mine skullmound ore in the Sisyphean Islands"));
+                tooltips.FirstOrDefault(x => x.Name == "MineSkullmound" && x.mod == "TerrorbornMod").overrideColor = new Color(255, 211, 207);
+            }
+
             burstJumpColorProgress += (1f / burstJumpTransitionTime) * burstJumpColorDirection;
 
             if (burstJumpColorDirection == 1 && burstJumpColorProgress >= 1f)

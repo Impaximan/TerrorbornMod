@@ -96,6 +96,10 @@ namespace TerrorbornMod.WeaponPossession
             {
                 Player player = Main.player[projectile.owner];
                 TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+                if (originalItem.IsAir)
+                {
+                    return;
+                }
                 Item item = originalItem;
                 PossessedItem pItem = PossessedItem.modItem(item);
 

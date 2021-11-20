@@ -44,6 +44,7 @@ namespace TerrorbornMod
         public static bool incendiaryRitual;
         public static int wormExtraSegmentCount = 0;
         public static int CartographerSpawnCooldown = 0;
+        public static int incendiaryIslandsSide = 0;
 
         public static Vector2 ShriekOfHorror;
         public static Vector2 HorrificAdaptation;
@@ -184,7 +185,8 @@ namespace TerrorbornMod
                 {"talkedToCartographer", talkedToCartographer},
                 {"talkedToHeretic", talkedToHeretic},
                 {"timeSinceFrightcrawlerSpawn", timeSinceFrightcrawlerSpawn},
-                {"CartographerSpawnCooldown", CartographerSpawnCooldown}
+                {"CartographerSpawnCooldown", CartographerSpawnCooldown},
+                {"incendiaryIslandsSide", incendiaryIslandsSide}
             };
             
         }
@@ -213,6 +215,7 @@ namespace TerrorbornMod
             talkedToHeretic = tag.GetBool("talkedToHeretic");
             timeSinceFrightcrawlerSpawn = tag.GetInt("timeSinceFrightcrawlerSpawn");
             CartographerSpawnCooldown = tag.GetInt("CartographerSpawnCooldown");
+            incendiaryIslandsSide = tag.GetInt("incendiaryIslandsSide");
         }
 
         public override void LoadLegacy(BinaryReader reader)
@@ -1312,6 +1315,7 @@ namespace TerrorbornMod
             {
                 side = -1;
             }
+            incendiaryIslandsSide = side;
 
             int distanceFromEdge = 80;
             Point16 cornerPosition = new Point16(Main.maxTilesX - distanceFromEdge, distanceFromEdge);
@@ -1395,6 +1399,8 @@ namespace TerrorbornMod
             {
                 progress.Message = "Generating Deimosteel";
                 GenerateDeimosteel();
+                progress.Message = "Generating Novagold";
+                GenerateNovagold();
             }));
 
         }
@@ -1643,6 +1649,16 @@ namespace TerrorbornMod
                     int y = WorldGen.genRand.Next(element.Top, element.Bottom);
                     WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.DeimosteelOre>(), false, 0f, 0f, false, true);
                 }
+            }
+        }
+
+        public void GenerateNovagold()
+        {
+            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * 6E-05 / 3); k++)
+            {
+                int x = WorldGen.genRand.Next(0, Main.maxTilesX);
+                int y = WorldGen.genRand.Next((int)WorldGen.rockLayerHigh, (int)Main.maxTilesY - 300);
+                WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(6, 8), WorldGen.genRand.Next(1, 3), ModContent.TileType<Tiles.Novagold>(), false, 0f, 0f, false, true);
             }
         }
 

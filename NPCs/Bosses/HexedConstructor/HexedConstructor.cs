@@ -99,7 +99,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             npc.aiStyle = -1;
             npc.alpha = 255;
             npc.dontTakeDamage = true;
-            music = MusicID.Boss4;
+            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/HexedConstructor");
 
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
             modNPC.BossTitle = "Hexed Constructor";
@@ -320,6 +320,11 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             SetStats();
             RotateWings(MathHelper.ToRadians(3), MathHelper.ToRadians(25));
 
+            if (phase == 2)
+            {
+                TerrorbornPlayer.modPlayer(player).HexedMirage = true;
+            }
+
             if (transitioning)
             {
                 if (firstTransition)
@@ -398,7 +403,6 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 if (phase == 1 && npc.life <= secondPhaseHealth * npc.lifeMax)
                 {
                     npc.dontTakeDamage = true;
-
                 }
 
                 switch (AIPhase)
@@ -429,7 +433,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     case 3:
                         if (phase == 2)
                         {
-                            PredictiveDeathray(0.5f, 80, 90);
+                            PredictiveDeathray(0.32f, 80, 90, 45);
                         }
                         else
                         {
@@ -862,6 +866,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 phaseStart = false;
                 attackWait = timeUntilDeathray;
                 attackWait2 = deathrayTime;
+                projectileCounter = timeUntilDeathray / 3;
 
                 lerpAmount = 0f;
 
@@ -880,6 +885,14 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
 
                 lerpAmount += 1f / (float)timeUntilDeathray;
 
+                projectileCounter--;
+                if (projectileCounter <= 0)
+                {
+                    projectileCounter = timeUntilDeathray / 3;
+                    DustExplosion(lineStart, 0, 25, 30, 235, 2f, true);
+                    Main.PlaySound(SoundID.MaxMana, (int)npc.Center.X, (int)npc.Center.Y, 0, 3f, -0.25f);
+                }
+
                 Vector2 claw1Target = new Vector2(clawDistance, -25);
                 claw1.ai[0] = 4;
                 claw1.rotation += MathHelper.ToRadians(20);
@@ -894,7 +907,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
 
                 lineStart = npc.Center - new Vector2(0, npc.height / 2 - 20);
                 colorStart = Color.Red;
-                deathrayRotation = deathrayRotation.AngleTowards(((player.Center + player.velocity * deathrayDistance) - lineStart).ToRotation(), MathHelper.ToRadians(3f));
+                deathrayRotation = deathrayRotation.AngleTowards(((player.Center + player.velocity * deathrayDistance) - lineStart).ToRotation(), MathHelper.ToRadians(6f));
                 LineRotation = deathrayRotation;
                 colorEnd = Color.Transparent;
                 lineDistance = 2000f;

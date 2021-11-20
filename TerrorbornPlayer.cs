@@ -129,6 +129,7 @@ namespace TerrorbornMod
 
         //Misc stuff
         public int terrorDrainCounter = 0;
+        public bool HexedMirage = false;
 
         public static readonly PlayerLayer legsGlow = new PlayerLayer("TerrorbornMod", "Legs_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
         {
@@ -398,6 +399,8 @@ namespace TerrorbornMod
             player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", ZoneDeimostone);
             player.ManageSpecialBiomeVisuals("TerrorbornMod:ColorlessShader", TimeFreezeTime > 0);
 
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:HexedMirage", HexedMirage);
+
             //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseTargetPosition(new Vector2(0f, Main.rand.NextFloat(0f, 1f)));
             //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseIntensity(Main.rand.NextFloat(-0.1f, 0.1f));
             //switch (Main.rand.Next(3))
@@ -425,7 +428,12 @@ namespace TerrorbornMod
         {
             ZoneDeimostone = TerrorbornWorld.deimostoneTiles > 75;
 
-            ZoneIncendiary = TerrorbornWorld.incendiaryTiles > 50;
+            Rectangle incendiaryBiomeRect = new Rectangle(0, 0, (int)(Main.maxTilesX / 4f * 16) + 80 * 16, (int)(Main.maxTilesY / 17f * 16) + 80 * 16);
+            if (TerrorbornWorld.incendiaryIslandsSide == 1)
+            {
+                incendiaryBiomeRect = new Rectangle((Main.maxTilesX * 16) - (int)(Main.maxTilesX / 4f * 16) - 80 * 16, 80 * 16, (int)(Main.maxTilesX / 4f * 16) + 80 * 16, (int)(Main.maxTilesY / 17f * 16) + 80 * 16);
+            }
+            ZoneIncendiary = incendiaryBiomeRect.Intersects(player.getRect()) && Main.hardMode;
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
@@ -555,6 +563,7 @@ namespace TerrorbornMod
             ShadowAmulet = false;
             IntimidationAura = false;
             SanguineSetBonus = false;
+            HexedMirage = false;
             BanditGlove = false;
             AntlionShell = false;
             PrismalCore = false;

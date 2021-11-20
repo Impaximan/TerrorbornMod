@@ -103,11 +103,14 @@ namespace TerrorbornMod
 
             if (player.HeldItem != null && player != null)
             {
-                if (TerrorbornItem.modItem(player.HeldItem).countAsThrown)
+                if (player.HeldItem.modItem != null)
                 {
-                    if (Main.rand.NextFloat() <= (float)player.thrownCrit / 100)
+                    if (TerrorbornItem.modItem(player.HeldItem).countAsThrown)
                     {
-                        crit = true;
+                        if (Main.rand.NextFloat() <= (float)player.thrownCrit / 100)
+                        {
+                            crit = true;
+                        }
                     }
                 }
             }
