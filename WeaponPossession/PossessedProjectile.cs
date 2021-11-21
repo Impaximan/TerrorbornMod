@@ -61,7 +61,7 @@ namespace TerrorbornMod.WeaponPossession
 
                 if (pItem.possessType == PossessType.Might)
                 {
-                    projectile.velocity *= 2;
+                    projectile.extraUpdates = projectile.extraUpdates * 2 + 1;
                 }
 
                 if (pItem.possessType == PossessType.Flight)

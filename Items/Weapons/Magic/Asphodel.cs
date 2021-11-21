@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrorbornMod.TBUtils;
+using System.Collections.Generic;
 
 namespace TerrorbornMod.Items.Weapons.Magic
 {
@@ -90,11 +92,64 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 float speed = Main.rand.Next(10, 15);
                 int proj = Projectile.NewProjectile(projectile.Center, direction * speed, ModContent.ProjectileType<IncendiarySeed>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
+            DustExplosion(projectile.Center, 10, 25f, 46f);
+        }
+
+        public void DustExplosion(Vector2 position, int dustAmount, float minDistance, float maxDistance)
+        {
+            Vector2 direction = new Vector2(0, 1);
+            for (int i = 0; i < dustAmount; i++)
+            {
+                Vector2 newPos = position + direction.RotatedBy(MathHelper.ToRadians((360f / dustAmount) * i)) * Main.rand.NextFloat(minDistance, maxDistance);
+                Dust dust = Dust.NewDustPerfect(newPos, 127);
+                dust.scale = 1f;
+                dust.velocity = (newPos - position) / 5;
+                dust.noGravity = true;
+            }
         }
     }
 
     class IncendiarySeed : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            //Thanks to Seraph for afterimage code.
+            //Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            //for (int i = 0; i < projectile.oldPos.Length; i++)
+            //{
+            //    Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + projectile.Size / 2;
+            //    Color color = projectile.GetAlpha(new Color(247, 84, 37)) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
+            //    Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length)), color * 0.5f);
+            //}
+            BezierCurve bezier = new BezierCurve();
+            bezier.Controls.Clear();
+            foreach (Vector2 pos in projectile.oldPos)
+            {
+                if (pos != Vector2.Zero && pos != null)
+                {
+                    bezier.Controls.Add(pos);
+                }
+            }
+
+            if (bezier.Controls.Count > 1)
+            {
+                List<Vector2> positions = bezier.GetPoints(15);
+                for (int i = 0; i < positions.Count; i++)
+                {
+                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
+                    Color color = projectile.GetAlpha(new Color(247, 84, 37)) * ((float)(positions.Count - i) / (float)positions.Count);
+                    Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * ((float)(positions.Count - i) / (float)positions.Count)), color * 0.5f);
+                }
+            }
+            return true;
+        }
+
         public override void SetDefaults()
         {
             projectile.width = 28;
@@ -117,10 +172,28 @@ namespace TerrorbornMod.Items.Weapons.Magic
             return base.TileCollideStyle(ref width, ref height, ref fallThrough);
         }
 
+        public override void Kill(int timeLeft)
+        {
+            DustExplosion(projectile.Center, 10, 5f, 10f);
+        }
+
+        public void DustExplosion(Vector2 position, int dustAmount, float minDistance, float maxDistance)
+        {
+            Vector2 direction = new Vector2(0, 1);
+            for (int i = 0; i < dustAmount; i++)
+            {
+                Vector2 newPos = position + direction.RotatedBy(MathHelper.ToRadians((360f / dustAmount) * i)) * Main.rand.NextFloat(minDistance, maxDistance);
+                Dust dust = Dust.NewDustPerfect(newPos, 127);
+                dust.scale = 1f;
+                dust.velocity = (newPos - position) / 10;
+                dust.noGravity = true;
+            }
+        }
+
         public override void AI()
         {
             projectile.velocity.Y += 0.2f;
-            Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Fire);
+            //Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Fire);
             projectile.rotation = projectile.velocity.ToRotation();
         }
     }
