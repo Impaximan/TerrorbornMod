@@ -9,11 +9,29 @@ namespace TerrorbornMod.Items.Weapons.Melee
 {
     public class IcarusShred : ModItem
     {
+        public override void AddRecipes()
+        {
+            int evilBars = 10;
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8);
+            recipe.AddIngredient(ItemID.CrimtaneBar, evilBars);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            ModRecipe recipe2 = new ModRecipe(mod);
+            recipe2.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8);
+            recipe2.AddIngredient(ItemID.DemoniteBar, evilBars);
+            recipe2.AddTile(TileID.MythrilAnvil);
+            recipe2.SetResult(this);
+            recipe2.AddRecipe();
+        }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Teleports you to a nearby enemy when used" +
                 "\nGives you some of your flight time back on hit");
         }
+
         public override void SetDefaults()
         {
             item.damage = 72;

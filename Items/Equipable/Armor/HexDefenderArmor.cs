@@ -11,6 +11,23 @@ namespace TerrorbornMod.Items.Equipable.Armor
     [AutoloadEquip(EquipType.Head)]
     public class HexDefenderMask : ModItem
     {
+        public override void AddRecipes()
+        {
+            int evilBars = 8;
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4);
+            recipe.AddIngredient(ItemID.CrimtaneBar, evilBars);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            ModRecipe recipe2 = new ModRecipe(mod);
+            recipe2.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4);
+            recipe2.AddIngredient(ItemID.DemoniteBar, evilBars);
+            recipe2.AddTile(TileID.MythrilAnvil);
+            recipe2.SetResult(this);
+            recipe2.AddRecipe();
+        }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("5% increased melee damage" +
@@ -65,6 +82,23 @@ namespace TerrorbornMod.Items.Equipable.Armor
     [AutoloadEquip(EquipType.Body)]
     public class HexDefenderBreastplate : ModItem
     {
+        public override void AddRecipes()
+        {
+            int evilBars = 12;
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 6);
+            recipe.AddIngredient(ItemID.CrimtaneBar, evilBars);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            ModRecipe recipe2 = new ModRecipe(mod);
+            recipe2.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 6);
+            recipe2.AddIngredient(ItemID.DemoniteBar, evilBars);
+            recipe2.AddTile(TileID.MythrilAnvil);
+            recipe2.SetResult(this);
+            recipe2.AddRecipe();
+        }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("7% increased melee damage" +
@@ -95,6 +129,23 @@ namespace TerrorbornMod.Items.Equipable.Armor
     [AutoloadEquip(EquipType.Legs)]
     public class HexDefenderGreaves : ModItem
     {
+        public override void AddRecipes()
+        {
+            int evilBars = 8;
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4);
+            recipe.AddIngredient(ItemID.CrimtaneBar, evilBars);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            ModRecipe recipe2 = new ModRecipe(mod);
+            recipe2.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4);
+            recipe2.AddIngredient(ItemID.DemoniteBar, evilBars);
+            recipe2.AddTile(TileID.MythrilAnvil);
+            recipe2.SetResult(this);
+            recipe2.AddRecipe();
+        }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("6% increased melee damage" +

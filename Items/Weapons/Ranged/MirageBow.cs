@@ -9,6 +9,23 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 {
     class MirageBow : ModItem
     {
+        public override void AddRecipes()
+        {
+            int evilBars = 10;
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8);
+            recipe.AddIngredient(ItemID.CrimtaneBar, evilBars);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            ModRecipe recipe2 = new ModRecipe(mod);
+            recipe2.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8);
+            recipe2.AddIngredient(ItemID.DemoniteBar, evilBars);
+            recipe2.AddTile(TileID.MythrilAnvil);
+            recipe2.SetResult(this);
+            recipe2.AddRecipe();
+        }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Creates numerous spectral versions of itself to fire at your cursor");
