@@ -99,11 +99,11 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             npc.height = 152;
             npc.damage = 60;
             npc.HitSound = SoundID.NPCHit41;
-            npc.defense = 20;
+            npc.defense = 10;
             npc.DeathSound = SoundID.NPCDeath39;
             npc.boss = true;
             npc.frame.Height = 254;
-            npc.lifeMax = 22500;
+            npc.lifeMax = 20000;
             npc.knockBackResist = 0;
             npc.aiStyle = -1;
             npc.alpha = 255;
@@ -247,7 +247,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
         bool phaseStart;
         List<int> NextAttacks = new List<int>();
         int LastAttack = -1;
-        float secondPhaseHealth = 0.5f;
+        float secondPhaseHealth = 0.4f;
         bool transitioning = true;
         int transitionTime = 120;
         int attackWait;

@@ -33,19 +33,20 @@ namespace TerrorbornMod.Items.TreasureBags
             //}
             //player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Accessories.DarkAbdomen>());
             player.QuickSpawnItem(ModContent.ItemType<Items.Materials.HexingEssence>(), Main.rand.Next(25, 41));
-            int choice = Main.rand.Next(1);
+            int choice = Main.rand.Next(3);
             if (choice == 0)
             {
                 player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Ranged.MirageBow>());
             }
-            //else if (choice == 1)
-            //{
-            //    player.QuickSpawnItem(ModContent.ItemType<Items.Shadowcrawler.Nightbrood>());
-            //}
-            //else if (choice == 2)
-            //{
-            //    player.QuickSpawnItem(ModContent.ItemType<Items.Shadowcrawler.BoiledBarrageWand>());
-            //}
+            else if (choice == 1)
+            {
+                player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Melee.IcarusShred>());
+            }
+            else if (choice == 2)
+            {
+                player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Magic.SongOfTime>());
+            }
+
             int armorChoice = Main.rand.Next(3);
             if (armorChoice == 0)
             {

@@ -185,8 +185,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
             }
 
             float timeMult = 10f;
-            longHandRotation += MathHelper.ToRadians(1f / timeMult);
-            shortHandRotation += MathHelper.ToRadians(12f / timeMult);
+            shortHandRotation += MathHelper.ToRadians(1f / timeMult);
+            longHandRotation += MathHelper.ToRadians(12f / timeMult);
 
             longHandRotation = MathHelper.WrapAngle(longHandRotation);
             shortHandRotation = MathHelper.WrapAngle(shortHandRotation);
@@ -204,7 +204,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
                 Main.PlaySound(SoundID.Item67, player.Center);
             }
 
-            projectile.position = player.Center + new Vector2(0, -100);
+            projectile.position = Vector2.Lerp(projectile.position, player.Center + new Vector2(0, -100), 0.2f);
         }
     }
 }
