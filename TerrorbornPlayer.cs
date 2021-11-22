@@ -76,6 +76,7 @@ namespace TerrorbornMod
         public int HeadhunterClass = 0; //0 for magic, 1 for melee, 2 for ranger, and 3 for summoner
         public bool IncendiaryShield = false;
         public bool DeimosteelCharm = false;
+        public bool HexDefender = false;
         public bool MysteriousCompass = false;
         public bool AzuriteBrooch = false;
         public bool TacticalCommlink = false;
@@ -569,6 +570,7 @@ namespace TerrorbornMod
             PrismalCore = false;
             SoulEater = false;
             AzuriteBrooch = false;
+            HexDefender = false;
             TacticalCommlink = false;
             astralSpark = false;
             JustBurstJumped = false;

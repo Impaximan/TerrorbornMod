@@ -63,6 +63,15 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             {
                 Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<TimeFreeze>(), 0, 0, Main.myPlayer);
             }
+
+            if (Main.expertMode)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.TreasureBags.HC_TreasureBag>());
+            }
+            else
+            {
+
+            }
         }
 
         public override bool CheckActive()
