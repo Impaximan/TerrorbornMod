@@ -35,12 +35,16 @@ namespace TerrorbornMod.Abilities
 
         public override string Name()
         {
-            return "Void Blink";
+            return "Voidslip";
         }
 
         public override string Description()
         {
-            return "Gives you immunity frames for 3.5 seconds when used.";
+            return "Lets you 'slip away' for 3.5 seconds when used," +
+                "\ngranting the following:" +
+                "\n • Immunity to damage" +
+                "\n • Increased item use speed" +
+                "\n • Increased movement speed";
         }
 
         public override bool canUse(Player player)
@@ -81,7 +85,7 @@ namespace TerrorbornMod.Abilities
         public override string Texture => "TerrorbornMod/placeholder";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Get Void Blink");
+            DisplayName.SetDefault("Get Voidslip");
             Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nUnlocks 'Void Blink'" +
                 "\nRight click to get a list of unlocked abilities");
@@ -110,7 +114,7 @@ namespace TerrorbornMod.Abilities
                 else
                 {
                     tPlayer.unlockedAbilities.Add(3);
-                    Main.NewText("Unlocked 'Void Blink'");
+                    Main.NewText("Unlocked 'Voidslip'");
                 }
             }
             else
@@ -166,7 +170,7 @@ namespace TerrorbornMod.Abilities
 
             TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)]);
             target.unlockedAbilities.Add(3);
-            target.TriggerAbilityAnimation("Void Blink", "Grants you immunity for 3.5 seconds when used", "Costs 65% terror to use", 0, visibilityTime: 700);
+            target.TriggerAbilityAnimation("Voidslip", "Grants you immunity and increased speed for 3.5 seconds when used", "Costs 65% terror to use", 0, visibilityTime: 700);
         }
     }
 }

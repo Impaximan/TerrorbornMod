@@ -429,10 +429,10 @@ namespace TerrorbornMod
         {
             ZoneDeimostone = TerrorbornWorld.deimostoneTiles > 75;
 
-            Rectangle incendiaryBiomeRect = new Rectangle(0, 0, (int)(Main.maxTilesX / 4f * 16) + 80 * 16, (int)(Main.maxTilesY / 17f * 16) + 80 * 16);
+            Rectangle incendiaryBiomeRect = new Rectangle(0, 0, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
             if (TerrorbornWorld.incendiaryIslandsSide == 1)
             {
-                incendiaryBiomeRect = new Rectangle((Main.maxTilesX * 16) - (int)(Main.maxTilesX / 4f * 16) - 80 * 16, 80 * 16, (int)(Main.maxTilesX / 4f * 16) + 80 * 16, (int)(Main.maxTilesY / 17f * 16) + 80 * 16);
+                incendiaryBiomeRect = new Rectangle((Main.maxTilesX * 16) - (int)(Main.maxTilesX / 4f * 16) - 120 * 16, 120 * 16, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
             }
             ZoneIncendiary = incendiaryBiomeRect.Intersects(player.getRect()) && Main.hardMode;
         }
@@ -730,6 +730,8 @@ namespace TerrorbornMod
         }
         public override void PostUpdateEquips()
         {
+            player.wingTimeMax = (int)(player.wingTimeMax * flightTimeMultiplier);
+
             if (Aerodynamic)
             {
                 player.wingTimeMax *= 2;
@@ -740,11 +742,15 @@ namespace TerrorbornMod
                 allUseSpeed *= 0.5f;
             }
 
-            player.wingTimeMax = (int)(player.wingTimeMax * flightTimeMultiplier);
-
             if (Glooped)
             {
                 player.wingTimeMax /= 4;
+            }
+
+            if (VoidBlinkTime > 0)
+            {
+                allUseSpeed *= 1.3f;
+                player.accRunSpeed *= 2;
             }
         }
         public override void ModifyScreenPosition()
@@ -997,12 +1003,12 @@ namespace TerrorbornMod
                 VoidBlinkTime--;
                 if (VoidBlinkTime == 0)
                 {
-                    DustExplosion(player.Center, 0, 15, 15, 27, 1.5f, true);
+                    DustExplosion(player.Center, 0, 25, 15, 27, 1.5f, true);
                     Main.PlaySound(SoundID.Item72, player.Center);
                 }
                 if (VoidBlinkTime == 60)
                 {
-                    DustExplosion(player.Center, 0, 15, 7.5f, 27, 1.5f, true);
+                    DustExplosion(player.Center, 0, 25, 7.5f, 27, 1.5f, true);
                     Main.PlaySound(SoundID.MaxMana, player.Center);
                 }
                 player.immuneAlpha = 255 / 2;
@@ -1179,10 +1185,6 @@ namespace TerrorbornMod
             {
                 damage = (int)(damage * ShriekOfHorrorExtraDamageMultiplier);
             }
-            if (player.HasBuff(ModContent.BuffType<Items.Equipable.Armor.TenebralFocus>()))
-            {
-                damage = (int)(damage * 1.5f);
-            }
         }
 
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
@@ -1226,15 +1228,6 @@ namespace TerrorbornMod
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (TenebrisDashTime > 0 && !player.HasBuff(ModContent.BuffType<Items.Equipable.Armor.TenebralFocus>()))
-            {
-                player.immuneTime = 120;
-                DustExplosion(player.Center, 0, 360, 50, 74, 1.5f, true);
-                Main.PlaySound(SoundID.Item60, player.Center);
-                player.AddBuff(ModContent.BuffType<Items.Equipable.Armor.TenebralFocus>(), 60 * 13);
-                iFrames = 120;
-                return false;
-            }
             if (iFrames > 0 || VoidBlinkTime > 0)
             {
                 return false;

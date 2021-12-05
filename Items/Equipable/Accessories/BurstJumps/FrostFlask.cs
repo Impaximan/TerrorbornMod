@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 {
-    class CompressedGelatin : ModItem
+    class FrostFlask : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TBUtils.Accessories.GetBurstJumpString(60 * 2));
+            Tooltip.SetDefault(TBUtils.Accessories.GetBurstJumpString((int)(60 * 1.5f)));
         }
 
         public override void SetDefaults()
@@ -17,7 +17,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
             item.accessory = true;
             item.noMelee = true;
             item.rare = 1;
-            item.defense = 3;
+            item.defense = 2;
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.useAnimation = 5;
             TerrorbornItem modItem = TerrorbornItem.modItem(item);
@@ -26,13 +26,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            TBUtils.Accessories.UpdateBurstJump(60 * 2, 60 * 1, item, player, new Vector2(20, -15), Color.LightBlue, SoundID.Item14);
+            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 45, item, player, new Vector2(8, -20), Color.White, SoundID.Item14);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.BurstJumpTime > 0)
             {
-                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height, 59)];
+                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height, 92)];
                 dust.noGravity = true;
-                dust.noLight = true;
+                dust.noLight = false;
                 dust.velocity = Vector2.Zero;
             }
         }

@@ -9,8 +9,7 @@ namespace TerrorbornMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Killing enemies and dealing critical hits has a chance to cause the enemy to explode into blood" +
-                "\nIf the enemy is killed, it will turn into a soul that chases other nearby enemies");
+            Tooltip.SetDefault("Killing enemies causes them to explode into blood and turn into a soul that spins around your cursor");
         }
         public override void SetDefaults()
         {

@@ -1414,6 +1414,32 @@ namespace TerrorbornMod
                 Chest chest = Main.chest[i];
                 if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 11 * 36)
                 {
+                    for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                    {
+                        if (chest.item[inventoryIndex].type == ItemID.None)
+                        {
+                            switch (Main.rand.Next(4))
+                            {
+                                case 0:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
+                                    break;
+                                case 1:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CursedShades>());
+                                    break;
+                                case 2:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.BronzeBuckler>());
+                                    break;
+                                case 3:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.FrostFlask>());
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 11 * 36)
+                {
                     if (Main.rand.Next(101) <= 25)
                     {
                         for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
@@ -1426,6 +1452,7 @@ namespace TerrorbornMod
                         }
                     }
                 }
+
                 if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 2 * 36)
                 {
                     if (Main.rand.Next(101) <= 40)
@@ -1462,6 +1489,7 @@ namespace TerrorbornMod
                         }
                     }
                 }
+
                 if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<Tiles.DeimostoneChestTile>())
                 {
                     List<int> mainItems = new List<int>();
@@ -1580,6 +1608,7 @@ namespace TerrorbornMod
                         item++;
                     }
                 }
+
                 if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 0 * 36)
                 {
                     if (Main.rand.NextFloat() <= 0.25f)
@@ -1601,7 +1630,7 @@ namespace TerrorbornMod
                     {
                         if (chest.item[inventoryIndex].type == ItemID.None)
                         {
-                            switch (Main.rand.Next(3))
+                            switch (Main.rand.Next(4))
                             {
                                 case 0:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
@@ -1611,6 +1640,9 @@ namespace TerrorbornMod
                                     break;
                                 case 2:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.BronzeBuckler>());
+                                    break;
+                                case 3:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.CloudInAFlask>());
                                     break;
                             }
                             break;

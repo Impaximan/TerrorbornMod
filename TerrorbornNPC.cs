@@ -6,6 +6,7 @@ using Terraria.World.Generation;
 using System.Collections.Generic;
 using System;
 using TerrorbornMod.UI.TitleCard;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod
 {
@@ -552,6 +553,29 @@ namespace TerrorbornMod
             Main.PlaySound(SoundID.Item118, npc.Center);
         }
 
+        public void SinducementExplosion(NPC npc, int damage, bool death = true)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
+                float speed = Main.rand.NextFloat(10f, 20f);
+                int projDamage = damage / 2;
+                if (death && !npc.boss)
+                {
+                    projDamage = npc.lifeMax / 3;
+                }
+                Projectile.NewProjectile(npc.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), projDamage, 0.5f, Main.LocalPlayer.whoAmI);
+            }
+
+            if (death)
+            {
+                Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
+                float speed = Main.rand.NextFloat(10f, 20f);
+                int projDamage = damage / 2;
+                Projectile.NewProjectile(npc.Center, direction * speed, ModContent.ProjectileType<SinducementSoul>(), projDamage, 0.5f, Main.LocalPlayer.whoAmI);
+            }
+        }
+
         public override void HitEffect(NPC npc, int hitDirection, double damage)
         {
             Player player = Main.LocalPlayer;
@@ -735,6 +759,16 @@ namespace TerrorbornMod
             if (projectile.melee && modPlayer.TidalShellArmorBonus)
             {
                 SpawnGeyser(damage, npc, player);
+            }
+
+            if (npc.life <= 0 && !npc.SpawnedFromStatue)
+            {
+                if (player.HasBuff(ModContent.BuffType<Buffs.Sinducement>()))
+                {
+                    SinducementExplosion(npc, (int)damage, true);
+                    TerrorbornMod.ScreenShake(2.5f);
+                    Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, npc.Center);
+                }
             }
 
             if (modPlayer.AzuriteBrooch)
@@ -1197,6 +1231,64 @@ namespace TerrorbornMod
                 modPlayer.GainTerror(2f, false);
                 projectile.active = false;
             }
+        }
+    }
+
+    class SinducementSoul : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+        }
+
+        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        //private bool HasGravity = true;
+        //private bool Spawn = true;
+        //private bool GravDown = true;
+        public override void SetDefaults()
+        {
+            projectile.width = 15;
+            projectile.height = 15;
+            projectile.aiStyle = 0;
+            projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.penetrate = 10;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 15;
+            projectile.hostile = false;
+            projectile.extraUpdates = 2;
+            projectile.timeLeft = 120 * (projectile.extraUpdates + 1);
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            BezierCurve bezier = new BezierCurve();
+            bezier.Controls.Clear();
+            foreach (Vector2 pos in projectile.oldPos)
+            {
+                if (pos != Vector2.Zero && pos != null)
+                {
+                    bezier.Controls.Add(pos);
+                }
+            }
+
+            if (bezier.Controls.Count > 1)
+            {
+                List<Vector2> positions = bezier.GetPoints(15);
+                for (int i = 0; i < positions.Count; i++)
+                {
+                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
+                    Color color = projectile.GetAlpha(Color.LightGray) * ((float)(positions.Count - i) / (float)positions.Count);
+                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * ((float)(positions.Count - i) / (float)positions.Count)), color);
+                }
+            }
+            return false;
+        }
+
+        public override void AI()
+        {
+            projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(5f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
         }
     }
 }

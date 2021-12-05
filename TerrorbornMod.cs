@@ -165,7 +165,7 @@ namespace TerrorbornMod
                     int index = j * width + i;
                     float distanceUntilFade = 0f;
                     double dX = (double)(i - x) / (double)width;
-                    double dY = (double)(j - y) / (double)width;
+                    double dY = (double)(j - y) / (double)height;
                     float c = (float)Math.Sqrt(dX * dX + dY * dY) * 2f;
                     c -= distanceUntilFade;
                     if (c == 0)
@@ -198,7 +198,7 @@ namespace TerrorbornMod
             string path = Path.Combine(savingFolder, "TerrorbornOutput.png");
             using (Stream stream = File.OpenWrite(path))
             {
-                CreateImage(133, 133).SaveAsPng(stream, 133, 133);
+                CreateImage(200, 100).SaveAsPng(stream, 200, 100);
             }
 
             TBUtils.Detours.Initialize();

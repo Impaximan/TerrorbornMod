@@ -91,9 +91,9 @@ namespace TerrorbornMod.NPCs.Incendiary
                     npc.velocity += npc.DirectionFrom(player.Center) * 3;
                     Main.PlaySound(SoundID.Item33, npc.Center);
                     float offset = MathHelper.ToRadians(30);
-                    Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<IncendiaryProbeLaser>(), 90 / 4, 0);
-                    Projectile.NewProjectile(npc.Center, velocity.RotatedBy(offset), ModContent.ProjectileType<IncendiaryProbeLaser>(), 120 / 4, 0);
-                    Projectile.NewProjectile(npc.Center, velocity.RotatedBy(-offset), ModContent.ProjectileType<IncendiaryProbeLaser>(), 120 / 4, 0);
+                    Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
+                    Projectile.NewProjectile(npc.Center, velocity.RotatedBy(offset), ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
+                    Projectile.NewProjectile(npc.Center, velocity.RotatedBy(-offset), ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
                 }
             }
             else

@@ -138,7 +138,12 @@ namespace TerrorbornMod
                 }
             }
 
-            if (superthrow)
+            List<int> bannedTypes = new List<int>(){
+                NPCID.TheDestroyerBody,
+                ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerBody>(),
+            };
+
+            if (superthrow && !bannedTypes.Contains(target.type))
             {
                 DustExplosion(projectile.Center, 0, 45, 30, DustID.Fire, DustScale: 1f, NoGravity: true);
                 Main.PlaySound(SoundID.Item14, projectile.Center);

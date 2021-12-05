@@ -21,7 +21,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 10;
+            Main.npcFrameCount[npc.type] = 11;
             NPCID.Sets.TrailCacheLength[npc.type] = 1;
             NPCID.Sets.TrailingMode[npc.type] = 1;
         }
@@ -87,6 +87,15 @@ namespace TerrorbornMod.NPCs.TerrorRain
             }
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            if (frame == 8 && extraFrame == 0)
+            {
+                TBUtils.Graphics.DrawGlow_1(spriteBatch, npc.Center - Main.screenPosition, 75, new Color(255, 120, 209) * 0.25f);
+            }
+            return base.PreDraw(spriteBatch, drawColor);
+        }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects effects = new SpriteEffects();
@@ -105,6 +114,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
         bool pushingUp = false;
         int frame = 0;
+        int extraFrame = 0;
         public override void FindFrame(int frameHeight)
         {
             if (pushingUp)
@@ -122,9 +132,23 @@ namespace TerrorbornMod.NPCs.TerrorRain
                         frame++;
                     }
                 }
+                if (frame == 8)
+                {
+                    npc.frameCounter--;
+                    if (npc.frameCounter <= 0)
+                    {
+                        npc.frameCounter = 4;
+                        extraFrame++;
+                        if (extraFrame > 1)
+                        {
+                            extraFrame = 0;
+                        }
+                    }
+                }
             }
             else
             {
+                extraFrame = 0;
                 if (frame != 1)
                 {
                     npc.frameCounter--;
@@ -132,14 +156,14 @@ namespace TerrorbornMod.NPCs.TerrorRain
                     {
                         npc.frameCounter = 10;
                         frame++;
-                        if (frame >= 10)
+                        if (frame >= 11)
                         {
                             frame = 0;
                         }
                     }
                 }
             }
-            npc.frame.Y = frame * frameHeight;
+            npc.frame.Y = (frame + extraFrame) * frameHeight;
         }
         public override void AI()
         {
