@@ -12,14 +12,14 @@ namespace TerrorbornMod.Items.Incendius
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(5 * TerrorbornMod.IncendiaryAlloyMultiplier));
-            recipe.AddIngredient(ItemID.CobaltBar, 3);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(25 * TerrorbornMod.IncendiaryAlloyMultiplier));
+            recipe.AddIngredient(ItemID.CobaltBar, 15);
             recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
             recipe.SetResult(this);
             recipe.AddRecipe();
             ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(5 * TerrorbornMod.IncendiaryAlloyMultiplier));
-            recipe2.AddIngredient(ItemID.PalladiumBar, 3);
+            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(25 * TerrorbornMod.IncendiaryAlloyMultiplier));
+            recipe2.AddIngredient(ItemID.PalladiumBar, 15);
             recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
             recipe2.SetResult(this);
             recipe2.AddRecipe();
@@ -28,40 +28,26 @@ namespace TerrorbornMod.Items.Incendius
         {
             DisplayName.SetDefault("Purgatory Chakram");
             Tooltip.SetDefault("Throws a chakram that returns to you" +
-                "\nThe higher the stack, the more chakrams you can throw at once" +
-                "\nMaximum stack of five");
+                "\nIf a chakram hits the same enemy twice, it will home into that enemy for a few seconds, hitting it repeatedly");
         }
         public override void SetDefaults()
         {
-            item.damage = 35;
+            item.damage = 33;
             item.width = 54;
             item.height = 54;
-            item.useTime = 8;
-            item.useAnimation = 8;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.rare = 4;
             item.useStyle = 1;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;
             item.value = Item.sellPrice(0, 0, 60, 0);
             item.shootSpeed = 35;
-            item.shoot = mod.ProjectileType("IncendiusChakram_projectile");
+            item.shoot = ModContent.ProjectileType<IncendiusChakram_projectile>();
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.maxStack = 5;
             item.melee = true;
             item.noMelee = true;
-        }
-        public override bool CanUseItem(Player player)
-        {
-            int CrescentCount = 1;
-            for (int i = 0; i < 300; i++)
-            {
-                if (Main.projectile[i].type == item.shoot && Main.projectile[i].active)
-                {
-                    CrescentCount++;
-                }
-            }
-            return CrescentCount <= item.stack;
         }
     }
     class IncendiusChakram_projectile : ModProjectile
@@ -73,6 +59,7 @@ namespace TerrorbornMod.Items.Incendius
             ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
@@ -86,16 +73,22 @@ namespace TerrorbornMod.Items.Incendius
                 }
                 Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
                 Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
+                if (homing)
+                {
+                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, 60, Color.OrangeRed * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length) * 0.5f);
+                }
                 spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
             }
             return false;
         }
+
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
             width = 30;
             height = 30;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough);
         }
+
         public override void SetDefaults()
         {
             projectile.melee = true;
@@ -109,6 +102,28 @@ namespace TerrorbornMod.Items.Incendius
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;
         }
+
+        NPC firstEnemy;
+        bool foundFirst = false;
+        bool homing = false;
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (foundFirst)
+            {
+                if (target == firstEnemy && !homing)
+                {
+                    homing = true;
+                    projectile.tileCollide = false;
+                    projectile.penetrate = 3;
+                }
+            }
+            else
+            {
+                foundFirst = true;
+                firstEnemy = target;
+            }
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Main.PlaySound(0, projectile.position); //Sound for when it hits a block
@@ -127,24 +142,30 @@ namespace TerrorbornMod.Items.Incendius
             return false;
         }
 
-        int TimeUntilReturn = 18;
+        int TimeUntilReturn = 15;
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             projectile.spriteDirection = player.direction * -1;
             projectile.rotation += 0.5f * player.direction;
-            if (TimeUntilReturn <= 0)
+            if (homing)
+            {
+                Vector2 targetPosition = firstEnemy.Center;
+                float speed = 1f;
+                projectile.velocity += projectile.DirectionTo(targetPosition) * speed;
+                projectile.velocity *= 0.98f;
+                if (firstEnemy.active == false)
+                {
+                    projectile.active = false;
+                }
+            }
+            else if (TimeUntilReturn <= 0)
             {
                 projectile.tileCollide = false;
                 Vector2 targetPosition = Main.player[projectile.owner].Center;
-                float speed = 3.4f;
-                Vector2 move = targetPosition - projectile.Center;
-                float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
-                move *= speed / magnitude;
-                projectile.velocity += move;
-                projectile.velocity *= 0.90f;
-                if (Main.player[projectile.owner].Distance(projectile.Center) <= 30)
+                projectile.velocity = (projectile.velocity.Length() + 1) * projectile.DirectionTo(targetPosition);
+                if (Main.player[projectile.owner].Distance(projectile.Center) <= projectile.velocity.Length())
                 {
                     projectile.active = false;
                 }
@@ -152,6 +173,10 @@ namespace TerrorbornMod.Items.Incendius
             else
             {
                 TimeUntilReturn--;
+                if (TimeUntilReturn <= 0)
+                {
+                    projectile.velocity = Vector2.Zero;
+                }
             }
         }
     }
