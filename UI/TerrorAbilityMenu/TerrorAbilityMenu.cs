@@ -70,7 +70,7 @@ namespace TerrorbornMod.UI.TerrorMeter
         {
             mousePos = new Vector2(Main.mouseX, Main.mouseY);
             mouseRectangle = new Rectangle((int)mousePos.X, (int)mousePos.Y, 1, 1);
-            screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.UIScale;
+            screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
 
             main = new UIPanel();
             EquippedPanel = new UIPanel();
@@ -195,7 +195,7 @@ namespace TerrorbornMod.UI.TerrorMeter
 
             mousePos = new Vector2(Main.mouseX, Main.mouseY);
             mouseRectangle = new Rectangle((int)mousePos.X, (int)mousePos.Y, 1, 1);
-            screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.UIScale;
+            screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
 
             main.Left.Set(screenCenter.X - 400f, 0f);
             main.Width.Set(800f, 0f);

@@ -32,7 +32,7 @@ namespace TerrorbornMod.Items.Incendius
         }
         public override void SetDefaults()
         {
-            item.damage = 33;
+            item.damage = 25;
             item.width = 54;
             item.height = 54;
             item.useTime = 20;

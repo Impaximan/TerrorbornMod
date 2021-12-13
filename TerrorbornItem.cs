@@ -283,6 +283,12 @@ namespace TerrorbornMod
                 tooltips.FirstOrDefault(x => x.Name == "MineNovagold" && x.mod == "TerrorbornMod").overrideColor = new Color(207, 253, 255);
             }
 
+            if (item.type == ItemID.MythrilPickaxe || item.type == ItemID.OrichalcumPickaxe)
+            {
+                tooltips.Add(new TooltipLine(mod, "MineAlloy", "Can mine incendiary alloy in the Sisyphean Islands"));
+                tooltips.FirstOrDefault(x => x.Name == "MineAlloy" && x.mod == "TerrorbornMod").overrideColor = new Color(255, 211, 207);
+            }
+
             if (item.type == ItemID.Picksaw)
             {
                 tooltips.Add(new TooltipLine(mod, "MineSkullmound", "Can mine skullmound ore in the Sisyphean Islands"));

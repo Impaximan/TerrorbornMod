@@ -318,12 +318,6 @@ namespace TerrorbornMod
             bossSummons.Add(ItemID.MechanicalSkull);
             bossSummons.Add(ItemID.MechanicalWorm);
 
-            List<int> craftingStations = new List<int>();
-            craftingStations.Add(ItemID.MythrilAnvil);
-            craftingStations.Add(ItemID.OrichalcumAnvil);
-            craftingStations.Add(ItemID.AdamantiteForge);
-            craftingStations.Add(ItemID.TitaniumForge);
-
             List<int> souls = new List<int>();
             souls.Add(ItemID.SoulofLight);
             souls.Add(ItemID.SoulofNight);
@@ -369,12 +363,6 @@ namespace TerrorbornMod
             if (WorldGen.genRand.NextFloat() <= 0.25f)
             {
                 chest.item[item].SetDefaults(WorldGen.genRand.Next(bossSummons));
-                item++;
-            }
-
-            if (WorldGen.genRand.NextFloat() <= 0.35f)
-            {
-                chest.item[item].SetDefaults(WorldGen.genRand.Next(craftingStations));
                 item++;
             }
 

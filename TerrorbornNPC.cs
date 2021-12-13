@@ -966,12 +966,12 @@ namespace TerrorbornMod
 
             if (modPlayer.ZoneIncendiary)
             {
-                if (Main.rand.NextFloat() <= 0.025f * ExpertBoost)
+                if (Main.rand.NextFloat() <= 0.02f)
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.IncendiaryLockbox>());
                 }
 
-                if (Main.rand.NextFloat() <= 0.025f * ExpertBoost && NPC.downedGolemBoss)
+                if (Main.rand.NextFloat() <= 0.02f && NPC.downedGolemBoss)
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.SkullmoundLockbox>());
                 }

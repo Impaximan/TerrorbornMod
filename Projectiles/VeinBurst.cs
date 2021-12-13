@@ -44,7 +44,7 @@ namespace TerrorbornMod.Projectiles
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity = projectile.velocity;
                 projectile.velocity.Y += 0.2f;
-                Lighting.AddLight(projectile.Center, 3, 0, 0);
+                Lighting.AddLight(projectile.Center, 0.5f, 0, 0);
             }
         }
     }

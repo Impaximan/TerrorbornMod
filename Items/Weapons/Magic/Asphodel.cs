@@ -11,15 +11,6 @@ namespace TerrorbornMod.Items.Weapons.Magic
 {
     class Asphodel : ModItem
     {
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
         public override void SetStaticDefaults()
         {
             Item.staff[item.type] = true;

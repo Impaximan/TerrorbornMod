@@ -42,12 +42,6 @@ namespace TerrorbornMod.Items
             bossSummons.Add(ItemID.MechanicalSkull);
             bossSummons.Add(ItemID.MechanicalWorm);
 
-            List<int> craftingStations = new List<int>();
-            craftingStations.Add(ItemID.MythrilAnvil);
-            craftingStations.Add(ItemID.OrichalcumAnvil);
-            craftingStations.Add(ItemID.AdamantiteForge);
-            craftingStations.Add(ItemID.TitaniumForge);
-
             List<int> souls = new List<int>();
             souls.Add(ItemID.SoulofLight);
             souls.Add(ItemID.SoulofNight);
@@ -95,11 +89,6 @@ namespace TerrorbornMod.Items
                 player.QuickSpawnItem(Main.rand.Next(bossSummons));
             }
 
-            if (Main.rand.NextFloat() <= 0.35f)
-            {
-                player.QuickSpawnItem(Main.rand.Next(craftingStations));
-            }
-
             if (Main.rand.NextFloat() <= 0.5f)
             {
                 player.QuickSpawnItem(Main.rand.Next(bars), Main.rand.Next(5, 15));
@@ -107,7 +96,7 @@ namespace TerrorbornMod.Items
 
             if (Main.rand.NextFloat() <= 0.5f)
             {
-                player.QuickSpawnItem(Main.rand.Next(ammosAndThrowables), Main.rand.Next(225, 565));
+                player.QuickSpawnItem(Main.rand.Next(ammosAndThrowables), Main.rand.Next(125, 255));
             }
 
             if (Main.rand.NextFloat() <= 0.5f)
