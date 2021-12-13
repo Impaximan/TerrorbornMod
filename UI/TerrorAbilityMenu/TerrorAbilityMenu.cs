@@ -68,9 +68,9 @@ namespace TerrorbornMod.UI.TerrorMeter
 
         public override void OnInitialize()
         {
-            mousePos = new Vector2(Main.mouseX, Main.mouseY);
+            mousePos = new Vector2(Main.mouseX, Main.mouseY) * Main.UIScale;
             mouseRectangle = new Rectangle((int)mousePos.X, (int)mousePos.Y, 1, 1);
-            screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+            screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.UIScale;
 
             main = new UIPanel();
             EquippedPanel = new UIPanel();
@@ -193,9 +193,9 @@ namespace TerrorbornMod.UI.TerrorMeter
                 }
             }
 
-            mousePos = new Vector2(Main.mouseX, Main.mouseY);
+            mousePos = new Vector2(Main.mouseX, Main.mouseY) * Main.UIScale;
             mouseRectangle = new Rectangle((int)mousePos.X, (int)mousePos.Y, 1, 1);
-            screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+            screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.UIScale;
 
             main.Left.Set(screenCenter.X - 400f, 0f);
             main.Width.Set(800f, 0f);
