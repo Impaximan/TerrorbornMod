@@ -23,7 +23,7 @@ namespace TerrorbornMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 1;
             item.shootSpeed = 2;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = mod.ProjectileType("AzuriteDartProjectile");
             item.ammo = AmmoID.Dart;
         }

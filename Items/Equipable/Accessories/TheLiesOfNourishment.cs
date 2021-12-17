@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             item.height = 36;
             item.accessory = true;
             item.noMelee = true;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(0, 3, 75, 0);
             item.useAnimation = 5;
         }

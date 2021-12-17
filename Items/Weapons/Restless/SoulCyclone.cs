@@ -41,7 +41,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 6;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.UseSound = SoundID.Item8;
             item.shoot = ModContent.ProjectileType<SoulProjectile>();
             item.shootSpeed = 20;

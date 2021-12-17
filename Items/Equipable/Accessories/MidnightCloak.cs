@@ -34,7 +34,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void SetDefaults()
         {
             item.accessory = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.value = Item.sellPrice(0, 10, 0, 0);
             item.defense = 8;
         }

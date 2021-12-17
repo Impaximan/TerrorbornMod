@@ -16,10 +16,10 @@ namespace TerrorbornMod.Items
         {
             item.width = 12;
             item.height = 24;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 30;
             item.useTime = 30;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
         }
         public override bool CanUseItem(Player player)

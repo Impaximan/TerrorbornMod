@@ -22,11 +22,11 @@ namespace TerrorbornMod.Items.Materials
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.Novagold>();
             item.value = Item.sellPrice(0, 0, 4, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
     }
 }

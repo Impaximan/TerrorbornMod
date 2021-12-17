@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
         {
             item.width = 26;
             item.height = 25;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.vanity = true;
             item.value = Item.sellPrice(0, 3, 0, 0);
         }
@@ -41,7 +41,7 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
         {
             item.width = 20;
             item.height = 12;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.vanity = true;
             item.value = Item.sellPrice(0, 3, 0, 0);
         }
@@ -59,7 +59,7 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
         {
             item.width = 18;
             item.height = 18;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.vanity = true;
             item.value = Item.sellPrice(0, 3, 0, 0);
         }

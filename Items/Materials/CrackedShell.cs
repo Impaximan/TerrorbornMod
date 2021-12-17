@@ -14,7 +14,7 @@ namespace TerrorbornMod.Items.Materials
         {
             item.maxStack = 999;
             item.value = Item.sellPrice(0, 0, 10, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
         public override void AddRecipes()
         {

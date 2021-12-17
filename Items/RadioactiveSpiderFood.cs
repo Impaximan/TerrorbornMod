@@ -28,8 +28,8 @@ namespace TerrorbornMod.Items
             item.width = 34;
             item.height = 26;
             item.maxStack = 20;
-            item.rare = 7;
-            item.useStyle = 4;
+            item.rare = ItemRarityID.Lime;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
             item.useAnimation = 30;
             item.useTime = 30;

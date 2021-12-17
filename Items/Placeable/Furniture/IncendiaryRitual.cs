@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Placeable.Furniture
             item.height = 48;
             item.maxStack = 999;
             item.useTurn = true;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;

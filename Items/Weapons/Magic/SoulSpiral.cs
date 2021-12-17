@@ -34,11 +34,11 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.useTime = 32;
             item.useAnimation = 32;
             item.mana = 10;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = mod.ProjectileType("SpiralSoul");
             item.shootSpeed = 35;
             item.UseSound = SoundID.Item20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 0.1f;
             item.autoReuse = true;
         }

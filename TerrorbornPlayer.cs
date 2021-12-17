@@ -15,6 +15,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.GameInput;
 using Microsoft.Xna.Framework.Input;
 using Extensions;
+using TerrorbornMod.TwilightMode;
 
 namespace TerrorbornMod
 {
@@ -131,6 +132,7 @@ namespace TerrorbornMod
         //Misc stuff
         public int terrorDrainCounter = 0;
         public bool HexedMirage = false;
+        public bool TwilightMatrix = false;
 
         public static readonly PlayerLayer legsGlow = new PlayerLayer("TerrorbornMod", "Legs_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
         {
@@ -382,6 +384,7 @@ namespace TerrorbornMod
 
         int effectCounter = 60;
         int progress = 0;
+        public bool twilight = false;
         public override void UpdateBiomeVisuals()
         {
             if (ZoneIncendiary)
@@ -401,6 +404,8 @@ namespace TerrorbornMod
             player.ManageSpecialBiomeVisuals("TerrorbornMod:ColorlessShader", TimeFreezeTime > 0);
 
             player.ManageSpecialBiomeVisuals("TerrorbornMod:HexedMirage", HexedMirage);
+
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:TwilightShaderNight", twilight);
 
             //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseTargetPosition(new Vector2(0f, Main.rand.NextFloat(0f, 1f)));
             //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseIntensity(Main.rand.NextFloat(-0.1f, 0.1f));
@@ -547,6 +552,7 @@ namespace TerrorbornMod
 
         public override void ResetEffects()
         {
+            TwilightMatrix = false;
             HeadHunter = false;
             flightTimeMultiplier = 1f;
             DeimosteelCharm = false;
@@ -559,6 +565,7 @@ namespace TerrorbornMod
             HorrificCharm = false;
             TideSpirit = false;
             TidalShellArmorBonus = false;
+            twilight = false;
             SoulReaperArmorBonus = false;
             MysteriousCompass = false;
             ShadowAmulet = false;

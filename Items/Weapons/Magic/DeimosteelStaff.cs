@@ -31,10 +31,10 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.height = 36;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 4, 80, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item72;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("DeimoSoul");

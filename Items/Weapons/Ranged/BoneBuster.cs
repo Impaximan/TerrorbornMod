@@ -31,10 +31,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.height = 18;
             item.useTime = 3;
             item.useAnimation = 3;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item41;
             item.autoReuse = false;
             item.shootSpeed = 16f;
@@ -64,7 +64,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.knockBack = 2;
             item.value = 10;
             item.shootSpeed = 20;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = mod.ProjectileType("CartilageRoundProjectile");
             item.ammo = item.type;
         }
@@ -129,7 +129,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
 
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             BouncesLeft--;
             if (BouncesLeft <= 0)
             {

@@ -28,10 +28,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             item.damage = 34;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 0;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item44;
             item.shoot = mod.ProjectileType("FlyingAngler");
             item.shootSpeed = 10f;

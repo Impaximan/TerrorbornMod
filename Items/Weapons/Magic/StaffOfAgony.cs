@@ -26,11 +26,11 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.height = 48;
             item.useTime = 5;
             item.useAnimation = 5;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.crit = 14;
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 10, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item12;
             item.shootSpeed = 1f;
             item.autoReuse = true;

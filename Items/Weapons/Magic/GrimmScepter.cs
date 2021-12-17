@@ -36,12 +36,12 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.width = 52;
             item.height = 52;
             item.useTime = 16;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.useAnimation = 16;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("GrimmRay");

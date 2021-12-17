@@ -22,10 +22,10 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.height = 56;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7.5f;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.DD2_MonkStaffSwing;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("KnockedBone");

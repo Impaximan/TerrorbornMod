@@ -28,7 +28,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
             item.width = 20;
             item.height = 20;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)

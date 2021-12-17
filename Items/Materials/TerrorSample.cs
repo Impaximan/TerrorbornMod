@@ -21,7 +21,7 @@ namespace TerrorbornMod.Items.Materials
             item.maxStack = 999;
             item.width = 18;
             item.height = 26;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         Color restlessColor = Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255);

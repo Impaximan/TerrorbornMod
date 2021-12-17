@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Materials
             item.value = Item.sellPrice(0, 0, 15, 0);
             item.width = 22;
             item.height = 20;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
     }
 }

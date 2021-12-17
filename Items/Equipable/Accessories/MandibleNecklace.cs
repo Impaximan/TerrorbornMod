@@ -26,7 +26,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             item.accessory = true;
             item.noMelee = true;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.value = Item.sellPrice(0, 5, 0, 0);
             item.useAnimation = 5;
         }

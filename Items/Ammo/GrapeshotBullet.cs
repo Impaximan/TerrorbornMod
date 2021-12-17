@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items.Ammo
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 0, 0, 5);
             item.shootSpeed = 20;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = mod.ProjectileType("GrapeshotBulletSpawn");
             item.ammo = AmmoID.Bullet;
         }
@@ -112,7 +112,7 @@ namespace TerrorbornMod.Items.Ammo
             if (timeLeft > 0)
             {
                 Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-                Main.PlaySound(0, projectile.position);
+                Main.PlaySound(SoundID.Dig, projectile.position);
             }
         }
     }

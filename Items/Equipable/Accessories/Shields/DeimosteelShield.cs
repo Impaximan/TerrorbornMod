@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
         public override void SetDefaults()
         {
             item.accessory = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.defense = 3;
             item.knockBack = knockback;
             item.value = Item.sellPrice(0, 3, 0, 0);

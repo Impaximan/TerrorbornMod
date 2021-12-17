@@ -31,10 +31,10 @@ namespace TerrorbornMod.Items.Shadowcrawler
             item.height = 52;
             item.useTime = 8;
             item.useAnimation = 8;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 1;
             item.value = Item.buyPrice(gold: 2, silver: 70);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }

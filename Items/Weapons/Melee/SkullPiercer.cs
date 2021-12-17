@@ -22,8 +22,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.height = 34;
             item.useTime = 15;
             item.useAnimation = 15;
-            item.rare = 8;
-            item.useStyle = 1;
+            item.rare = ItemRarityID.Yellow;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item39;
             item.value = Item.sellPrice(0, 0, 50, 0);
@@ -75,7 +75,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             timeUntilReturn = 0;
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             return false;
         }
 

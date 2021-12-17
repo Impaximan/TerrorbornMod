@@ -68,7 +68,7 @@ namespace TerrorbornMod.NPCs.Bosses
         public override bool PreNPCLoot()
         {
             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 37, mod.NPCType("TidalTitan"));
-            Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+            Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
             TerrorbornMod.ScreenShake(40f);
             return false;
         }
@@ -353,7 +353,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     {
                         frame = 7;
                         PhaseTimeLeft = 90;
-                        Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+                        Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
                         jumpTarget = targetPosition + new Vector2(0, -300);
                     }
                     if (PlannedAIPhase == 4)

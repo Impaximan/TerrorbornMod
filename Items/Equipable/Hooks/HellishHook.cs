@@ -20,14 +20,14 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 			item.noUseGraphic = true;
 			item.damage = 0;
 			item.knockBack = 7f;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shootSpeed = 30f;
 			item.width = 44;
 			item.height = 38;
 			item.UseSound = SoundID.Item1;
 			item.useAnimation = 20;
 			item.useTime = 20;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.noMelee = true;
 			item.value = Item.sellPrice(0, 3, 0, 0);
 			item.shoot = ModContent.ProjectileType<HellishHookProjectile>();

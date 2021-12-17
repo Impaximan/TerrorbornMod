@@ -33,14 +33,14 @@ namespace TerrorbornMod.Items.Shadowcrawler
             item.height = 56;
             item.useTime = 32;
             item.useAnimation = 32;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.channel = true;
             item.knockBack = 2;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.DD2_BallistaTowerShot;
             item.autoReuse = true;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 18f;
             item.useAmmo = AmmoID.Arrow;
             item.value = Item.sellPrice(0, 5, 0, 0);

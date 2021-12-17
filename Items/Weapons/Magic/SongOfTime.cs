@@ -42,10 +42,10 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.height = 52;
             item.useTime = 10;
             item.useAnimation = 10;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 2.5f;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item28;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SpectralClock>();

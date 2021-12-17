@@ -33,10 +33,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.useTime = 18;
             item.useAnimation = 18;
             item.noUseGraphic = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 0, 0, 20);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.noMelee = true;

@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items.MiscConsumables
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.maxStack = 20;
         }
 

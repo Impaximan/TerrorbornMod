@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity
             item.width = 18;
             item.height = 18;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.vanity = true;
         }
 
@@ -40,7 +40,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity
             item.width = 26;
             item.height = 24;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.vanity = true;
         }
 
@@ -64,7 +64,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity
             item.width = 20;
             item.height = 12;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.vanity = true;
         }
     }

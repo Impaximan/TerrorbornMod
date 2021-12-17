@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             item.width = 40;
             item.height = 34;
             item.accessory = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.sellPrice(0, 2, 0, 0);
         }
 

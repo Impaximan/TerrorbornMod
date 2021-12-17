@@ -23,10 +23,10 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.useTime = 5;
             item.scale = 0.8f;
             item.useAnimation = 5;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("AntlionLarva");

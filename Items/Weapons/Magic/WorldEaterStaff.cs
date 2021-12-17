@@ -32,10 +32,10 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.height = 40;
             item.useTime = 35;
             item.useAnimation = 35;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item17;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("WorldEaterTooth");

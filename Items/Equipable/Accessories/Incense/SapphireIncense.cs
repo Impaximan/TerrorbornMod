@@ -26,7 +26,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Incense
             item.height = 44;
             item.accessory = true;
             item.noMelee = true;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(gold: 1, silver: 25);
             item.useAnimation = 5;
         }

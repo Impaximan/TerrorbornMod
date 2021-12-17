@@ -35,10 +35,10 @@ namespace TerrorbornMod.Items.Weapons.Restless
             item.height = 62;
             item.useTime = 18;
             item.useAnimation = 18;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item1;
             item.shoot = mod.ProjectileType("IncendiusSlash");
             item.shootSpeed = 20;
@@ -167,7 +167,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             }
             speed = projectile.velocity.Length();
             timeUntilReturn = 0;
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             return false;
         }
 

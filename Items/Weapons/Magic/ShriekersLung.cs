@@ -27,9 +27,9 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.width = 44;
             item.height = 26;
             item.useTime = 24;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.useAnimation = 24;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 0.0001f;
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.autoReuse = true;
@@ -41,7 +41,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(4, (int)player.Center.X, (int)player.Center.Y, 4, 1, -0.6f);
+            Main.PlaySound(SoundID.NPCKilled, (int)player.Center.X, (int)player.Center.Y, 4, 1, -0.6f);
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
 

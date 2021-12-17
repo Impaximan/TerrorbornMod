@@ -30,12 +30,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.height = 30;
             item.useTime = 7;
             item.useAnimation = 7;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item11;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.autoReuse = true;
             item.scale = 0.75f;
             item.shootSpeed = 10f;

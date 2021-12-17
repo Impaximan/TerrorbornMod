@@ -21,10 +21,10 @@ namespace TerrorbornMod.Items.Placeable.Blocks
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.value = Item.sellPrice(0, 0, 10, 0);
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.Incendiary.IncendiaryPiping>();
         }

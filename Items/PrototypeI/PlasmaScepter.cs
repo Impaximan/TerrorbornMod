@@ -21,11 +21,11 @@ namespace TerrorbornMod.Items.PrototypeI
             item.height = 54;
             item.useTime = 4;
             item.useAnimation = 4;
-            item.shoot = 10;
-            item.useStyle = 5;
+            item.shoot = ProjectileID.PurificationPowder;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 16, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item13;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("PlasmaSpray");

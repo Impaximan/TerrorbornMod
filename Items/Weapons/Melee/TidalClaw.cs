@@ -17,13 +17,13 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.shootSpeed = 20f;
             item.damage = 28;
             item.knockBack = 5f;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 25;
             item.useTime = 25;
             item.width = 16;
             item.height = 18;
             item.maxStack = 9999;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.consumable = true;
             item.noUseGraphic = true;
             item.noMelee = true;

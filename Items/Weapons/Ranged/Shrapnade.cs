@@ -44,10 +44,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.useTime = 30;
             item.useAnimation = 30;
             item.noUseGraphic = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 10;
             item.value = Item.sellPrice(0, 0, 0, 20);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;
             item.noMelee = true;
@@ -150,7 +150,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             return true;
         }
     }

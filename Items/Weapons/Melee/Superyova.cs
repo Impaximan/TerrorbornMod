@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 			item.shoot = ModContent.ProjectileType<SuperyovaProjectile>();
 			item.knockBack = 0f;
 			item.damage = 20;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.melee = true;
 			item.channel = true;
 			item.noMelee = true;

@@ -142,7 +142,7 @@ namespace TerrorbornMod.NPCs
                 ambientCounter = Main.rand.Next(360, 1600);
 
                 hasSeenPlayer = true;
-                Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+                Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
                 WeightedRandom<string> voiceLines = new WeightedRandom<string>();
 
@@ -160,7 +160,7 @@ namespace TerrorbornMod.NPCs
             ambientCounter = Main.rand.Next(360, 1600);
 
             hasSeenPlayer = true;
-            Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+            Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
             WeightedRandom<string> voiceLines = new WeightedRandom<string>();
 
@@ -204,7 +204,7 @@ namespace TerrorbornMod.NPCs
                 ambientCounter = Main.rand.Next(360, 1600);
 
                 hasSeenPlayer = true;
-                Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+                Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
                 WeightedRandom<string> voiceLines = new WeightedRandom<string>();
 
@@ -233,7 +233,7 @@ namespace TerrorbornMod.NPCs
             if (ambientCounter <= 0)
             {
                 ambientCounter = Main.rand.Next(360, 1600);
-                Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+                Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
                 WeightedRandom<string> voiceLines = new WeightedRandom<string>();
                 if (shooting)

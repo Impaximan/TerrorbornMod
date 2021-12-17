@@ -32,7 +32,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.defense = 10;
         }
 
@@ -102,7 +102,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             item.width = 26;
             item.height = 24;
             item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.defense = 16;
         }
 
@@ -145,7 +145,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             item.width = 20;
             item.height = 12;
             item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.defense = 10;
         }
 

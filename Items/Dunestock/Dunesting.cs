@@ -22,14 +22,14 @@ namespace TerrorbornMod.Items.Dunestock
             item.height = 56;
             item.useTime = 5;
             item.useAnimation = 5;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true; //so the item's animation doesn't do damage
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 2, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item42;
             item.autoReuse = true;
-            item.shoot = 20;
+            item.shoot = ProjectileID.GreenLaser;
             item.shootSpeed = 18f;
             item.useAmmo = AmmoID.Arrow;
         }

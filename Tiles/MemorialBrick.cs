@@ -17,7 +17,7 @@ namespace TerrorbornMod.Tiles
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = true;
             Main.tileSpelunker[Type] = true;
-            soundType = 21;
+            soundType = SoundID.Tink;
             soundStyle = 1;
             //Main.soundDig[Type] =  21;
 
@@ -70,7 +70,7 @@ namespace TerrorbornMod.Tiles
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = mod.TileType("MemorialBrick");
         }
@@ -92,7 +92,7 @@ namespace TerrorbornMod.Tiles
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createWall = mod.WallType("MemorialWall");
         }

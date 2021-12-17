@@ -21,14 +21,14 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 			item.noUseGraphic = true;
 			item.damage = 0;
 			item.knockBack = 7f;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shootSpeed = 30f;
 			item.width = 20;
 			item.height = 26;
 			item.UseSound = SoundID.Item1;
 			item.useAnimation = 20;
 			item.useTime = 20;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.noMelee = true;
 			item.value = Item.sellPrice(0, 5, 0, 0);
 			item.shoot = ModContent.ProjectileType<VenomTongueProj>();

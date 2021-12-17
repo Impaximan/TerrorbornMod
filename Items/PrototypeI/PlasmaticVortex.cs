@@ -20,8 +20,8 @@ namespace TerrorbornMod.Items.PrototypeI
             item.height = 82;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.rare = 9;
-            item.useStyle = 1;
+            item.rare = ItemRarityID.Cyan;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 0f;
             item.UseSound = SoundID.Item1;
             item.value = Item.sellPrice(0, 16, 0, 0);
@@ -85,7 +85,7 @@ namespace TerrorbornMod.Items.PrototypeI
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             TimeUntilReturn = 0;
             speed = 0;
             return false;

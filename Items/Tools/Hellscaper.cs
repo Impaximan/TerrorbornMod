@@ -34,9 +34,9 @@ namespace TerrorbornMod.Items.Tools
             item.useTime = 5;
             item.axe = 175 / 5;
             item.pick = 210;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }

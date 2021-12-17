@@ -244,6 +244,10 @@ namespace TerrorbornMod
                 Ref<Effect> hexedRef = new Ref<Effect>(GetEffect("Effects/Shaders/HexedMirage"));
                 Filters.Scene["TerrorbornMod:HexedMirage"] = new Filter(new ScreenShaderData(hexedRef, "HexedMirage"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:HexedMirage"].Load();
+
+                Ref<Effect> twilightRef = new Ref<Effect>(GetEffect("Effects/Shaders/TwilightShaderNight"));
+                Filters.Scene["TerrorbornMod:TwilightShaderNight"] = new Filter(new ScreenShaderData(twilightRef, "TwilightShaderNight"), EffectPriority.VeryHigh);
+                Filters.Scene["TerrorbornMod:TwilightShaderNight"].Load();
             }
 
             if (!Main.dedServ)

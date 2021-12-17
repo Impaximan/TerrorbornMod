@@ -26,10 +26,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.useTime = 15;
             item.useAnimation = 15;
             item.noUseGraphic = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.noMelee = true;
@@ -82,7 +82,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             if (!stuck)
             {
-                Main.PlaySound(0, projectile.position);
+                Main.PlaySound(SoundID.Dig, projectile.position);
                 stuck = true;
                 stuckNPC = target;
                 offset = target.position - projectile.position;
@@ -91,7 +91,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
         }
 

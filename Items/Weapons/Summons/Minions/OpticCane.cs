@@ -27,10 +27,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             item.height = 40;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 0;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item44;
             item.shoot = mod.ProjectileType("OpticDemon");
             item.shootSpeed = 10f;

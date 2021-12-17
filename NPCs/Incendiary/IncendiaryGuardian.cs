@@ -94,7 +94,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                         if (soundCounter <= 0)
                         {
                             soundCounter = 10;
-                            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, Style: 15, 4, 0);
+                            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, Style: 15, 4, 0);
                         }
 
                         rotation += MathHelper.ToRadians(1);

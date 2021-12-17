@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             item.noMelee = true;
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.summon = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.damage = 10;
         }
 

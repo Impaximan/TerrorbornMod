@@ -17,7 +17,7 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
 
         public override void SetDefaults()
         {
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.vanity = true;
             item.value = Item.sellPrice(0, 3, 0, 0);
         }
@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
 
         public override void SetDefaults()
         {
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.vanity = true;
             item.value = Item.sellPrice(0, 3, 0, 0);
         }
@@ -58,7 +58,7 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
 
         public override void SetDefaults()
         {
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.vanity = true;
             item.value = Item.sellPrice(0, 3, 0, 0);
         }

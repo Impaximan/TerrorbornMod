@@ -21,10 +21,10 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.height = 48;
             item.useTime = 18;
             item.useAnimation = 18;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 9f;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shootSpeed = 23;

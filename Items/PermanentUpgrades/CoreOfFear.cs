@@ -14,8 +14,8 @@ namespace TerrorbornMod.Items.PermanentUpgrades
         }
         public override void SetDefaults()
         {
-            item.rare = 3;
-            item.useStyle = 4;
+            item.rare = ItemRarityID.Orange;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
             item.useAnimation = 30;
             item.useTime = 30;

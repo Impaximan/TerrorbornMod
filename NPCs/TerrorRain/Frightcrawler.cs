@@ -79,7 +79,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
                 {
 					AIPhase++;
 					phaseTimeLeft = 60 * 5;
-					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 10, 1, -0.3f);
+					Main.PlaySound(SoundID.NPCKilled, (int)npc.Center.X, (int)npc.Center.Y, 10, 1, -0.3f);
 					TerrorbornMod.ScreenShake(20);
 				}
 			}

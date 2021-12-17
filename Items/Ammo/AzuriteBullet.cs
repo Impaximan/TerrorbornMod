@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items.Ammo
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 0, 0, 5);
             item.shootSpeed = 20;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = mod.ProjectileType("AzuriteBulletProjectile");
             item.ammo = AmmoID.Bullet;
         }
@@ -89,7 +89,7 @@ namespace TerrorbornMod.Items.Ammo
             if (timeLeft > 0)
             {
                 Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-                Main.PlaySound(0, projectile.position);
+                Main.PlaySound(SoundID.Dig, projectile.position);
                 for (int i = 0; i < Main.rand.Next(2, 4); i++)
                 {
                     int Num54 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0, 0, Scale: 1f, newColor: Color.Blue);

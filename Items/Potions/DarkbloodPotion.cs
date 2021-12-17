@@ -15,11 +15,11 @@ namespace TerrorbornMod.Items.Potions
         {
             item.useTime = 10;
             item.useAnimation = 10;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.value = Item.sellPrice(0, 0, 50, 0);
             item.maxStack = 30;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.autoReuse = false;
             item.UseSound = SoundID.Item3;
             item.useTurn = true;

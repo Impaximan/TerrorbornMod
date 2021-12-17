@@ -25,12 +25,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.width = 58;
             item.height = 26;
             item.useTime = 25;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.useAnimation = 25;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item61;
             item.autoReuse = true;
             item.shootSpeed = 16f;
@@ -142,7 +142,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
 
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             bouncesLeft--;
             if (bouncesLeft <= 0)
             {

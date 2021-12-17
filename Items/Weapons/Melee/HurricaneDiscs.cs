@@ -27,9 +27,9 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.height = 25;
             item.useTime = 25;
             item.useAnimation = 25;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3f;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.DD2_MonkStaffSwing;
             item.autoReuse = true;
             item.shootSpeed = 0f;

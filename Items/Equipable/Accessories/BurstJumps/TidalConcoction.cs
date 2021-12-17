@@ -28,7 +28,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
         {
             item.accessory = true;
             item.damage = 60;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.defense = 5;
             item.value = Item.sellPrice(0, 3, 0, 0);
             item.useAnimation = 5;

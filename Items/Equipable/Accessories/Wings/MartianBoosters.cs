@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
                     player.wingTime = 0;
                     downCounter = -1;
                     CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height), Color.Cyan, "Flight fuel disposed", true);
-                    Main.PlaySound(2, (int)player.Center.X, (int)player.Center.Y, 72, 1.5f, -0.6f);
+                    Main.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 72, 1.5f, -0.6f);
                 }
                 else
                 {
@@ -67,7 +67,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
                 if (soundDelay <= 0)
                 {
                     soundDelay = 10;
-                    Main.PlaySound(2, (int)player.Center.X, (int)player.Center.Y, 24, 1, 1);
+                    Main.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 24, 1, 1);
                 }
                 int dust = Dust.NewDust(new Vector2(player.Center.X - 20 + (-17.5f * player.direction), player.Center.Y - 10), 40, 40, 226);
                 Main.dust[dust].velocity = new Vector2(0, 3);

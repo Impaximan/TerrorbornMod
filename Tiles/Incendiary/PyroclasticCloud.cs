@@ -18,7 +18,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             Main.tileLighted[Type] = false;
             Main.tileNoSunLight[Type] = false;
             Main.tileSpelunker[Type] = false;
-            soundType = 0;
+            soundType = SoundID.Dig;
             soundStyle = 1;
             //Main.soundDig[Type] =  21;
 

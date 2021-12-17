@@ -20,12 +20,12 @@ namespace TerrorbornMod.Items.Dunestock
             item.width = 54;
             item.height = 56;
             item.useTime = 22;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.useAnimation = 22;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 2, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("Claw");

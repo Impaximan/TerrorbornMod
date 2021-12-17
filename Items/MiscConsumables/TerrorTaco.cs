@@ -17,10 +17,10 @@ namespace TerrorbornMod.Items.MiscConsumables
         {
             item.useTime = 10;
             item.useAnimation = 10;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.maxStack = 30;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.autoReuse = false;
             item.UseSound = SoundID.Item2;
             item.useTurn = true;

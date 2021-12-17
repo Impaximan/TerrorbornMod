@@ -28,12 +28,12 @@ namespace TerrorbornMod.Items.Shadowcrawler
 
         public override void SetDefaults()
         {
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.width = 44;
             item.height = 54;
             item.useTime = 25;
             item.useAnimation = 25;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.magic = true;
             item.UseSound = SoundID.Item20;
             item.mana = 12;

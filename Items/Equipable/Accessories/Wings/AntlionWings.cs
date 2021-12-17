@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
             item.width = 20;
             item.height = 20;
             item.value = Item.sellPrice(0, 2, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
         }
 

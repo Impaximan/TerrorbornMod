@@ -31,7 +31,7 @@ namespace TerrorbornMod.Items
         }
         public override void SetDefaults()
         {
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useTime = 1;
             item.useAnimation = 1;
             item.useStyle = ItemUseStyleID.Stabbing;

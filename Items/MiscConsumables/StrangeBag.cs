@@ -21,7 +21,7 @@ namespace TerrorbornMod.Items.MiscConsumables
             item.consumable = true;
             item.width = 26;
             item.height = 32;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
         public override bool CanRightClick()

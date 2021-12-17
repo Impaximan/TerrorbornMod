@@ -26,7 +26,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
             item.width = 48;
             item.height = 50;
             item.damage = 28;
@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.useAnimation = 18;
             item.shootSpeed = 4;
             item.knockBack = 4;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item1;
             item.noUseGraphic = true;
             item.autoReuse = true;

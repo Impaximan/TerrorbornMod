@@ -25,10 +25,10 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.height = 46;
             item.useTime = 27;
             item.useAnimation = 27;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("TarDroplet");

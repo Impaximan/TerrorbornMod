@@ -36,11 +36,11 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.useTime = 28;
             item.useAnimation = 28;
             item.mana = 10;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = mod.ProjectileType("SearingDagger");
             item.shootSpeed = 15;
             item.UseSound = SoundID.Item20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 0.1f;
             item.autoReuse = true;
             item.noMelee = true;

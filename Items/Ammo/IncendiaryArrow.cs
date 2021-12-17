@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items.Ammo
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 0, 0, 20);
             item.shootSpeed = 4.5f;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = mod.ProjectileType("IncendiaryArrowProjectile");
             item.ammo = AmmoID.Arrow;
         }
@@ -170,7 +170,7 @@ namespace TerrorbornMod.Items.Ammo
             if (timeLeft > 0)
             {
                 Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-                Main.PlaySound(0, projectile.position);
+                Main.PlaySound(SoundID.Dig, projectile.position);
             }
         }
 

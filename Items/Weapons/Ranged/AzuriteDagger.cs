@@ -23,10 +23,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.useTime = 15;
             item.noUseGraphic = true;
             item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.noMelee = true;
@@ -133,7 +133,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override void Kill(int timeLeft)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
         }
     }
 }

@@ -15,10 +15,10 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.useTime = 5;
             item.useAnimation = 5;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.magic = true;
             item.UseSound = SoundID.Item13;
             item.mana = 2;

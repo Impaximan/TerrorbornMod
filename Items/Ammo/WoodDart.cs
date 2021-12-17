@@ -23,7 +23,7 @@ namespace TerrorbornMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 1;
             item.shootSpeed = 0;
-            item.rare = 0;
+            item.rare = ItemRarityID.White;
             item.shoot = mod.ProjectileType("WoodDartProjectile");
             item.ammo = AmmoID.Dart;
         }
@@ -69,7 +69,7 @@ namespace TerrorbornMod.Items.Ammo
                 Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("WoodDart"));
             }
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
         }
     }
 }

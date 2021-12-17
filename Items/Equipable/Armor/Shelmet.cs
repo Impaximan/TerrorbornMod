@@ -30,7 +30,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             item.height = 24;
             item.value = Item.sellPrice(0, 2, 0, 0);
             item.defense = 6;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

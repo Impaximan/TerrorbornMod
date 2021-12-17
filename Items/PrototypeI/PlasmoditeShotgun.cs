@@ -23,10 +23,10 @@ namespace TerrorbornMod.Items.PrototypeI
             item.height = 22;
             item.useTime = 9;
             item.useAnimation = 9;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 16, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.autoReuse = true;
             item.shootSpeed = 4f;
             item.UseSound = SoundID.Item61;

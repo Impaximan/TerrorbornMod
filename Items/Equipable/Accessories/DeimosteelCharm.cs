@@ -22,7 +22,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             item.noMelee = true;
             item.value = Item.sellPrice(0, 3, 0, 0);
             item.useAnimation = 5;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -39,11 +39,11 @@ namespace TerrorbornMod.Items.Incendius
             item.useTime = 16;
             item.useAnimation = 16;
             item.mana = 8;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = mod.ProjectileType("IncendiusShard");
             item.shootSpeed = 1;
             item.UseSound = SoundID.Item20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 0.1f;
             item.autoReuse = true;
             item.noMelee = true;

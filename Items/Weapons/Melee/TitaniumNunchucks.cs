@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = mod.ProjectileType("TitaniumNunchucksProjectile");
             item.noUseGraphic = true;
             item.noMelee = true;

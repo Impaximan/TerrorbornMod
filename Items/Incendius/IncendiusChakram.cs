@@ -37,8 +37,8 @@ namespace TerrorbornMod.Items.Incendius
             item.height = 54;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.rare = 4;
-            item.useStyle = 1;
+            item.rare = ItemRarityID.LightRed;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;
             item.value = Item.sellPrice(0, 0, 60, 0);
@@ -126,7 +126,7 @@ namespace TerrorbornMod.Items.Incendius
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(0, projectile.position); //Sound for when it hits a block
+            Main.PlaySound(SoundID.Dig, projectile.position); //Sound for when it hits a block
 
             // B O U N C E
             if (projectile.velocity.X != oldVelocity.X)

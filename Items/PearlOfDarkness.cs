@@ -22,8 +22,8 @@ namespace TerrorbornMod.Items
         {
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 1;
-            item.rare = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item1;
             item.shoot = ModContent.ProjectileType<PearlOfDarknessProjectile>();
             item.maxStack = 999;

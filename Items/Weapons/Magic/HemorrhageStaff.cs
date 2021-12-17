@@ -33,10 +33,10 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.height = 42;
             item.useTime = 40;
             item.useAnimation = 40;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.NPCDeath13;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("CrimsonHeartBomb");

@@ -35,10 +35,10 @@ namespace TerrorbornMod.Items.Incendius
             item.useTime = 4;
             item.useAnimation = 15;
             item.axe = 17;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }

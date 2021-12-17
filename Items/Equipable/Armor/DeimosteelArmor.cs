@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             item.width = 24;
             item.height = 22;
             item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.defense = 5;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -91,7 +91,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             item.width = 30;
             item.height = 20;
             item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.defense = 6;
         }
 
@@ -128,7 +128,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             item.width = 22;
             item.height = 18;
             item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.defense = 5;
         }
     }

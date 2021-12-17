@@ -38,14 +38,14 @@ namespace TerrorbornMod.Items.Weapons.Restless
             item.height = 18;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 1;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 16f;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.useAmmo = AmmoID.Bullet;
             modItem.restlessChargeUpUses = 5;
             modItem.restlessTerrorDrain = 8;

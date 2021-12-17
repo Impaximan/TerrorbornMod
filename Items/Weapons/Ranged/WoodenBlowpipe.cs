@@ -25,8 +25,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.useStyle = 101;
             item.knockBack = 0.6f;
             item.value = 0;
-            item.shoot = 10;
-            item.rare = 0;
+            item.shoot = ProjectileID.PurificationPowder;
+            item.rare = ItemRarityID.White;
             item.UseSound = SoundID.Item63;
             item.autoReuse = true;
             item.shootSpeed = 11.25f;

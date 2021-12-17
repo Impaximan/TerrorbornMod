@@ -17,7 +17,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
 
-            soundType = 42;
+            soundType = SoundID.Trackable;
             soundStyle = 165;
             drop = ModContent.ItemType<Items.Materials.PyroclasticGemstone>();
 

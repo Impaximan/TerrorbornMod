@@ -15,7 +15,7 @@ namespace TerrorbornMod.Items.Materials
         {
             item.maxStack = 999;
             item.value = Item.sellPrice(0, 0, 20, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.width = 18;
             item.height = 18;
         }

@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items.Ammo
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 0, 0, 20);
             item.shootSpeed = 3;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = mod.ProjectileType("PincushionArrowProjectile");
             item.ammo = AmmoID.Arrow;
         }
@@ -62,7 +62,7 @@ namespace TerrorbornMod.Items.Ammo
         {
             if (!stuck)
             {
-                Main.PlaySound(0, projectile.position);
+                Main.PlaySound(SoundID.Dig, projectile.position);
                 stuck = true;
                 wasCrit = crit;
                 stuckNPC = target;
@@ -71,7 +71,7 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
             if (stuck)
             {

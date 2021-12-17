@@ -29,11 +29,11 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.height = 30;
             item.useTime = 25;
             item.useAnimation = 25;
-            item.shoot = 10;
-            item.useStyle = 5;
+            item.shoot = ProjectileID.PurificationPowder;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 4, 80, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("ChlorophyteBeam");

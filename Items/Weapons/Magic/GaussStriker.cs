@@ -33,12 +33,12 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.width = 48;
             item.height = 20;
             item.useTime = 8;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.useAnimation = 8;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 1;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item12;
             item.autoReuse = true;
             item.shootSpeed = 25f;

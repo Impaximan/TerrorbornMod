@@ -403,7 +403,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                         DecideNextAttack();
                         DustExplosion(npc.Center + new Vector2(0, -npc.height / 2 + 20), 0, 25, 20f, DustID.Fire, 1.5f, true);
                         TerrorbornMod.ScreenShake(10f);
-                        Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, 105, 1, 0);
+                        Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 105, 1, 0);
                     }
                 }
             }
@@ -928,7 +928,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     drawingLine = false;
                     claw1.ai[1]++;
                     claw2.ai[1]++;
-                    Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, 104, 1, 2f);
+                    Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 104, 1, 2f);
                 }
             }
             else if (attackWait2 > 0)
