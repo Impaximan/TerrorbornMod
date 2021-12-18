@@ -964,6 +964,14 @@ namespace TerrorbornMod
                 }
             }
 
+            if (npc.type == NPCID.LunarTowerSolar || npc.type == NPCID.LunarTowerNebula || npc.type == NPCID.LunarTowerStardust || npc.type == NPCID.LunarTowerVortex)
+            {
+                for (int i = 0; i < Main.rand.Next(5, 21); i++)
+                {
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.FusionFragment>(), 1);
+                }
+            }
+
             if (modPlayer.ZoneIncendiary)
             {
                 if (Main.rand.NextFloat() <= 0.02f)

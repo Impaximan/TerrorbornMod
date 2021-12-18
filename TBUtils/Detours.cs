@@ -69,7 +69,7 @@ namespace TerrorbornMod.TBUtils
                     for (int i = 0; i < drawing.Count; i++)
                     {
                         ForegroundObject foregroundObject2 = drawing[i];
-                        if (foregroundObject2.distance > foregroundObject.distance)
+                        if (foregroundObject2.distance < foregroundObject.distance)
                         {
                             drawing.Insert(i, foregroundObject);
                             i = drawing.Count;
