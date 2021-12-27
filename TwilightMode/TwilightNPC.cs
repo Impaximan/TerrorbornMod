@@ -33,6 +33,7 @@ namespace TerrorbornMod.TwilightMode
 			if (start)
 			{
 				start = false;
+				twilight = false;
 				if (TerrorbornPlayer.modPlayer(Main.LocalPlayer).TwilightMatrix)
 				{
 					if (npc.type == NPCID.EyeofCthulhu && NPC.downedBoss1)
@@ -48,10 +49,6 @@ namespace TerrorbornMod.TwilightMode
 						twilight = true;
 					}
 				}
-			}
-			if (TerrorbornPlayer.modPlayer(Main.LocalPlayer).TwilightMatrix)
-			{
-				twilight = true;
 			}
 			if (!twilight || !npc.boss)
 			{
