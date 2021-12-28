@@ -27,6 +27,72 @@ namespace TerrorbornMod
 
         public override void RandomUpdate(int i, int j, int type)
         {
+            List<int> types = new List<int>()
+            {
+                TileID.Stone,
+                TileID.ClayBlock,
+                TileID.Granite,
+                TileID.Marble,
+                TileID.IceBlock,
+                TileID.SnowBlock,
+                TileID.Ash,
+                TileID.BreakableIce,
+                TileID.Ebonstone,
+                TileID.CorruptGrass,
+                TileID.Crimstone,
+                TileID.FleshGrass,
+                TileID.CorruptIce,
+                TileID.FleshIce,
+                TileID.ObsidianBrick,
+                TileID.Obsidian,
+                TileID.HallowedIce,
+                TileID.HallowedGrass,
+                TileID.Pearlstone,
+                TileID.MushroomGrass
+            };
+
+            //Main.NewText(WorldGen.rockLayerHigh < WorldGen.rockLayerLow);
+            if (TerrorbornWorld.downedShadowcrawler && types.Contains(type))
+            {
+                if (Main.rand.NextFloat() <= 0.01f)
+                {
+                    bool generate = true;
+                    int distance = 60;
+                    for (int checkI = -distance; checkI <= distance; checkI++)
+                    {
+                        if (checkI + i < 0 || checkI + i > Main.maxTilesX)
+                        {
+                            break;
+                        }
+                        for (int checkJ = -distance; checkJ <= distance; checkJ++)
+                        {
+                            if (checkJ + j < 0 || checkJ + j > Main.maxTilesY)
+                            {
+                                break;
+                            }
+                            if (Main.tile[checkI + i, checkJ + j] != null)
+                            {
+                                if (Main.tile[checkI + i, checkJ + j].type == ModContent.TileType<MidnightFruit>())
+                                {
+                                    generate = false;
+                                }
+                            }
+                        }
+                    }
+
+                    if (generate)
+                    {
+                        if (WorldGen.TileEmpty(i, j - 1) && WorldGen.TileEmpty(i, j - 2) && WorldGen.TileEmpty(i + 1, j - 2) && WorldGen.TileEmpty(i + 1, j - 1))
+                        {
+                            WorldGen.PlaceTile(i, j - 1, ModContent.TileType<MidnightFruit>(), true);
+                        }
+                        else if (WorldGen.TileEmpty(i, j - 1) && WorldGen.TileEmpty(i, j - 2) && WorldGen.TileEmpty(i - 1, j - 2) && WorldGen.TileEmpty(i - 1, j - 1))
+                        {
+                            WorldGen.PlaceTile(i - 1, j - 1, ModContent.TileType<MidnightFruit>(), true);
+                        }
+                    }
+                }
+            }
         }
 
         public void DestroyBadGrass(int i, int j)

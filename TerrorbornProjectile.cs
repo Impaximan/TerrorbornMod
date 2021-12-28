@@ -130,6 +130,11 @@ namespace TerrorbornMod
                 }
             }
 
+            if (superthrow)
+            {
+                superthrow = false;
+            }
+
             if (player.HeldItem != null && player != null)
             {
                 if (modPlayer.PyroclasticShinobiBonus && crit && TerrorbornItem.modItem(player.HeldItem).countAsThrown)
@@ -259,19 +264,6 @@ namespace TerrorbornMod
                 { ProjectileID.ChargedBlasterCannon},
                 { ProjectileID.ChargedBlasterLaser}
             };
-
-            if (modPlayer.PrismalCore && projectile.magic && Main.rand.NextFloat() <= 0.2f && !fromSplit && !bannedProjectiles.Contains(projectile.type))
-            {
-                float rotation = MathHelper.ToRadians(20);
-
-                Projectile otherProj = Main.projectile[Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(rotation), projectile.type, projectile.damage, projectile.knockBack, projectile.owner)];
-                modProjectile(otherProj).fromSplit = true;
-                //otherProj.ai = projectile.ai;
-
-                otherProj = Main.projectile[Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(-rotation), projectile.type, projectile.damage, projectile.knockBack, projectile.owner)];
-                modProjectile(otherProj).fromSplit = true;
-                //otherProj.ai = projectile.ai;
-            }
 
             if (player.HeldItem != null && player != null)
             {

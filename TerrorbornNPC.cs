@@ -761,6 +761,11 @@ namespace TerrorbornMod
                 SpawnGeyser(damage, npc, player);
             }
 
+            if (modPlayer.PrismalCore && Main.rand.NextFloat() <= 0.15f && projectile.magic)
+            {
+                npc.StrikeNPC(damage, 0, 0, crit);
+            }
+
             if (npc.life <= 0 && !npc.SpawnedFromStatue)
             {
                 if (player.HasBuff(ModContent.BuffType<Buffs.Sinducement>()))

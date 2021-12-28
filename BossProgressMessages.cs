@@ -117,7 +117,7 @@ namespace TerrorbornMod
             if (TerrorbornWorld.downedShadowcrawler && !PostShadowcrawlerMessagesSent)
             {
                 PostShadowcrawlerMessagesSent = true;
-                Main.NewText("With the predator defeated, Midnight Fruit flourishes in deimostone caves!", Color.LimeGreen);
+                Main.NewText("With the predator defeated, Midnight Fruit flourishes throughout the world!", Color.LimeGreen);
             }
         }
     }
