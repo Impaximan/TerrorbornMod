@@ -357,7 +357,7 @@ namespace TerrorbornMod
             item++;
 
             chest.item[item].SetDefaults(WorldGen.genRand.Next(souls));
-            chest.item[item].stack = Main.rand.Next(6, 12);
+            chest.item[item].stack = Main.rand.Next(1, 2);
             item++;
 
             if (WorldGen.genRand.NextFloat() <= 0.25f)

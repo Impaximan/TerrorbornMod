@@ -23,6 +23,7 @@ namespace TerrorbornMod
         public static bool PostAllMechMessagesSent;
         public static bool PostOneMechMessagesSent;
         public static bool PostPlanteraMessagesSent;
+        public static bool PostShadowcrawlerMessagesSent;
 
         public override void Initialize()
         {
@@ -33,6 +34,7 @@ namespace TerrorbornMod
             PostAllMechMessagesSent = false;
             PostOneMechMessagesSent = false;
             PostPlanteraMessagesSent = false;
+            PostShadowcrawlerMessagesSent = false;
         }
         public override TagCompound Save()
         {
@@ -44,6 +46,7 @@ namespace TerrorbornMod
             if (PostAllMechMessagesSent) messages.Add("postmech");
             if (PostOneMechMessagesSent) messages.Add("postonemech");
             if (PostPlanteraMessagesSent) messages.Add("postplant");
+            if (PostShadowcrawlerMessagesSent) messages.Add("postshadowcrawler");
 
             return new TagCompound {
                 {"messages", messages}
@@ -60,45 +63,9 @@ namespace TerrorbornMod
             HardmodeMessagesSent = messages.Contains("hardmode");
             PostOneMechMessagesSent = messages.Contains("postonemech");
             PostPlanteraMessagesSent = messages.Contains("postplant");
+            PostShadowcrawlerMessagesSent = messages.Contains("postshadowcrawler");
         }
-        public override void LoadLegacy(BinaryReader reader)
-        {
-            int loadVersion = reader.ReadInt32();
-            if (loadVersion == 0)
-            {
-                BitsByte flags = reader.ReadByte();
-                TarMessageSent = flags[0];
-                TideMessageSent = flags[1];
-                BloodMoonMessageSent = flags[2];
-                HardmodeMessagesSent = flags[3];
-                PostAllMechMessagesSent = flags[4];
-                PostOneMechMessagesSent = flags[5];
-                PostPlanteraMessagesSent = flags[6];
-            }
-        }
-        public override void NetSend(BinaryWriter writer)
-        {
-            BitsByte flags = new BitsByte();
-            flags[0] = TarMessageSent;
-            flags[1] = TideMessageSent;
-            flags[2] = BloodMoonMessageSent;
-            flags[3] = HardmodeMessagesSent;
-            flags[4] = PostAllMechMessagesSent;
-            flags[5] = PostOneMechMessagesSent;
-            flags[6] = PostPlanteraMessagesSent;
-            writer.Write(flags);
-        }
-        public override void NetReceive(BinaryReader reader)
-        {
-            BitsByte flags = reader.ReadByte();
-            TarMessageSent = flags[0];
-            TideMessageSent = flags[1];
-            BloodMoonMessageSent = flags[2];
-            HardmodeMessagesSent = flags[3];
-            PostAllMechMessagesSent = flags[4];
-            PostOneMechMessagesSent = flags[5];
-            PostPlanteraMessagesSent = flags[6];
-        }
+
         public override void PostUpdate()
         {
             if (NPC.downedBoss3 && !TarMessageSent)
@@ -140,10 +107,17 @@ namespace TerrorbornMod
                 Main.NewText("The souls released from the wall begin to condense in the sky...", Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255));
                 Main.NewText("The Skeleton Sheriff has new items in his shop!", Color.Yellow);
             }
+
             if (NPC.downedPlantBoss && !PostPlanteraMessagesSent)
             {
                 PostPlanteraMessagesSent = true;
                 Main.NewText("The Skeleton Sheriff has new items in his shop!", Color.Yellow);
+            }
+
+            if (TerrorbornWorld.downedShadowcrawler && !PostShadowcrawlerMessagesSent)
+            {
+                PostShadowcrawlerMessagesSent = true;
+                Main.NewText("With the predator defeated, Midnight Fruit flourishes in deimostone caves!", Color.LimeGreen);
             }
         }
     }

@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items.TreasureBags
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.PrototypeI.PlasmaScepter>());
+                player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Magic.PlasmaScepter>());
             }
             if (choice == 1)
             {

@@ -11,16 +11,10 @@ namespace TerrorbornMod.Items.Incendius
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(35 * TerrorbornMod.IncendiaryAlloyMultiplier));
-            recipe.AddIngredient(ItemID.CobaltBar, 20);
+            recipe.AddRecipeGroup("cobalt", 20);
             recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
             recipe.SetResult(this);
             recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(35 * TerrorbornMod.IncendiaryAlloyMultiplier));
-            recipe2.AddIngredient(ItemID.PalladiumBar, 20);
-            recipe2.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
         }
         public override void SetDefaults()
         {

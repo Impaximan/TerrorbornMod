@@ -31,6 +31,9 @@ namespace TerrorbornMod.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
             foreach (Vector2 pos in projectile.oldPos)
@@ -43,7 +46,7 @@ namespace TerrorbornMod.Projectiles
 
             if (bezier.Controls.Count > 1)
             {
-                List<Vector2> positions = bezier.GetPoints(15);
+                List<Vector2> positions = bezier.GetPoints(30);
                 for (int i = 0; i < positions.Count; i++)
                 {
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
@@ -52,6 +55,9 @@ namespace TerrorbornMod.Projectiles
                     Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * mult), color);
                 }
             }
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return false;
         }
 

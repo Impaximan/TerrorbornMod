@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.World.Generation;
 using System.Collections.Generic;
 using System;
+using TerrorbornMod.Tiles;
 
 namespace TerrorbornMod
 {
@@ -22,6 +23,10 @@ namespace TerrorbornMod
             DestroyBadGrass(i + 1, j - 1);
             DestroyBadGrass(i - 1, j + 1);
             DestroyBadGrass(i - 1, j - 1);
+        }
+
+        public override void RandomUpdate(int i, int j, int type)
+        {
         }
 
         public void DestroyBadGrass(int i, int j)

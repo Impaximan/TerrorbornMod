@@ -28,7 +28,43 @@ namespace TerrorbornMod.TwilightMode
 			}
 		}
 
-		public override bool PreAI(NPC npc)
+        public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
+		{
+			if (npc.type == NPCID.CultistBossClone)
+			{
+				NPC npc2 = Main.npc[(int)npc.ai[3]];
+				if (modNPC(npc2).twilight)
+				{
+					int healAmount = npc2.lifeMax / 15 + ((npc2.lifeMax - npc2.life) / 10);
+					npc2.HealEffect(healAmount);
+					npc2.life += healAmount;
+					if (npc2.life >= npc2.lifeMax)
+					{
+						npc2.life = npc2.lifeMax;
+					}
+				}
+			}
+		}
+
+        public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+		{
+			if (npc.type == NPCID.CultistBossClone)
+			{
+				NPC npc2 = Main.npc[(int)npc.ai[3]];
+				if (modNPC(npc2).twilight)
+				{
+					int healAmount = npc2.lifeMax / 15 + ((npc2.lifeMax - npc2.life) / 10);
+					npc2.HealEffect(healAmount);
+					npc2.life += healAmount;
+					if (npc2.life >= npc2.lifeMax)
+					{
+						npc2.life = npc2.lifeMax;
+					}
+				}
+			}
+		}
+
+        public override bool PreAI(NPC npc)
 		{
 			if (start)
 			{
@@ -1456,10 +1492,19 @@ namespace TerrorbornMod.TwilightMode
 
 		public void LunaticCultistAI(NPC npc)
         {
+			if (NPC.AnyNPCs(NPCID.CultistDragonHead))
+            {
+				npc.life += npc.lifeMax / (60 * 30);
+				if (npc.life >= npc.lifeMax)
+				{
+					npc.life = npc.lifeMax;
+				}
+			}
 			if (npc.ai[0] != -1f && Main.rand.Next(1000) == 0)
 			{
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, Main.rand.Next(88, 92));
 			}
+			Lighting.AddLight(npc.Center, new Vector3(0.5f, 0.5f, 0.5f));
 			bool expertMode = Main.expertMode;
 			bool flag = npc.life <= npc.lifeMax / 2;
 			int num = 120;
@@ -2394,6 +2439,7 @@ namespace TerrorbornMod.TwilightMode
 							float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * ((float)Math.PI * 2f) / 60f;
 							int num51 = NPC.NewNPC((int)vector15.X, (int)vector15.Y + 7, 522, 0, 0f, ai, spinningpoint2.X, spinningpoint2.Y);
 							Main.npc[num51].velocity = spinningpoint2;
+							Main.npc[num51].dontTakeDamage = true;
 						}
 					}
 				}
@@ -2461,7 +2507,8 @@ namespace TerrorbornMod.TwilightMode
 									}
 									if (flag7)
 									{
-										NPC.NewNPC(num61 * 16 + 8, num62 * 16 + 8, 523, 0, npc.whoAmI);
+										int newNPC = NPC.NewNPC(num61 * 16 + 8, num62 * 16 + 8, 523, 0, npc.whoAmI);
+										Main.npc[newNPC].dontTakeDamage = true;
 										flag6 = true;
 										break;
 									}

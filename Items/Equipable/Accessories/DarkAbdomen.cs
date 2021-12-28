@@ -8,12 +8,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Your defense is decreased by 20" +
-                "\nYour maximum life is decreased by 50" +
+            Tooltip.SetDefault("Decreases defense by 15" +
+                "\nGreatly increases life regen" +
+                "\nDecreases your maximum life by 50" +
                 "\nBeing under 250 health grants you the following stats:" +
                 "\n20% increased item/weapon use speed" +
                 "\n15% increased critical strike chance" +
-                "\nIncreased life regen" +
                 "\nBeing under 75 health doubles these bonuses");
         }
 
@@ -23,7 +23,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             item.height = 32;
             item.accessory = true;
             item.noMelee = true;
-            item.lifeRegen = 5;
+            item.lifeRegen = 8;
             item.rare = ItemRarityID.Pink;
             item.expert = true;
             item.value = Item.sellPrice(0, 1, 50, 0);
@@ -32,7 +32,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.statDefense -= 20;
+            player.statDefense -= 15;
             player.statLifeMax2 -= 50;
             if (player.statLife <= 250)
             {

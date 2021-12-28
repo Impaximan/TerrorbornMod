@@ -117,6 +117,7 @@ namespace TerrorbornMod
         public bool CoreOfFear = false;
         public bool AnekronianApple = false;
         public bool DemonicLense = false;
+        public int MidnightFruit = 0;
 
         //Terror ability fields
         public int VoidBlinkTime = 0;
@@ -625,6 +626,8 @@ namespace TerrorbornMod
             VampiricPendant = false;
             noAmmoConsumeChance = 0f;
 
+            player.statManaMax2 += 5 * MidnightFruit;
+
             Vector2 screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.UIScale;
             Rectangle mainRect = new Rectangle((int)screenCenter.X - 400, (int)screenCenter.Y - 400, 800, 300);
             Rectangle mouseRectangle = new Rectangle((int)Main.mouseX, (int)Main.mouseY, 1, 1);
@@ -955,6 +958,12 @@ namespace TerrorbornMod
             if (HeadHunterCritCooldown > 0)
             {
                 HeadHunterCritCooldown--;
+            }
+
+            Main.manaTexture = ModContent.GetTexture("Terraria/Mana");
+            if (MidnightFruit == 20)
+            {
+                Main.manaTexture = ModContent.GetTexture("TerrorbornMod/MidnightMana");
             }
 
             if (ParryTime > 0)
@@ -1336,7 +1345,8 @@ namespace TerrorbornMod
                 {"PrimaryAbility", primaryAbilityInt},
                 {"SecondaryAbility", secondaryAbilityInt},
                 {"unlockedAbilities", unlockedAbilities},
-                {"TerrorPercent", TerrorPercent}
+                {"TerrorPercent", TerrorPercent},
+                {"MidnightFruit", MidnightFruit}
             };
         }
 
@@ -1352,14 +1362,10 @@ namespace TerrorbornMod
             secondaryAbilityInt = tag.GetInt("SecondaryAbility");
             unlockedAbilities = tag.GetList<int>("unlockedAbilities");
             TerrorPercent = tag.GetFloat("TerrorPercent");
+            MidnightFruit = tag.GetInt("MidnightFruit");
 
             primaryAbility = TerrorbornUtils.intToAbility(primaryAbilityInt);
             secondaryAbility = TerrorbornUtils.intToAbility(secondaryAbilityInt);
-        }
-
-        public override void LoadLegacy(BinaryReader reader)
-        {
-            int loadVersion = reader.ReadInt32();
         }
 
         public static TerrorbornPlayer modPlayer(Player player)

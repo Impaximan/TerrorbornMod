@@ -80,7 +80,7 @@ namespace TerrorbornMod.Items
 
             if (Main.rand.NextFloat() <= 0.5f) player.QuickSpawnItem(ModContent.ItemType<Items.Placeable.Furniture.IncendiaryAltarItem>());
 
-            player.QuickSpawnItem(Main.rand.Next(souls), Main.rand.Next(6, 12));
+            player.QuickSpawnItem(Main.rand.Next(souls), Main.rand.Next(1, 2));
 
             player.QuickSpawnItem(ModContent.ItemType<Materials.IncendiusAlloy>(), Main.rand.Next(18, 35));
 

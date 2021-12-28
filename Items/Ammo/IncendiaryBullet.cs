@@ -38,16 +38,10 @@ namespace TerrorbornMod.Items.Ammo
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Materials.IncendiusAlloy>(), 2);
-            recipe.AddIngredient(ItemID.CobaltBar);
+            recipe.AddRecipeGroup("cobalt", 1);
             recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
             recipe.SetResult(this, 222);
             recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.IncendiusAlloy>(), 2);
-            recipe2.AddIngredient(ItemID.PalladiumBar);
-            recipe2.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
-            recipe2.SetResult(this, 222);
-            recipe2.AddRecipe();
         }
     }
     class IncendiaryBulletProjectile : ModProjectile

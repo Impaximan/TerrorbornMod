@@ -119,6 +119,15 @@ namespace TerrorbornMod
             return "Any Lunar Fragment";
         }
 
+        string CobaltString()
+        {
+            return "Any Cobalt Bar";
+        }
+        public override void PreSaveAndQuit()
+        {
+            Main.manaTexture = ModContent.GetTexture("Terraria/Mana");
+        }
+
         public override void AddRecipeGroups()
         {
             //Any Bug
@@ -151,6 +160,11 @@ namespace TerrorbornMod
             fragment.ValidItems.Add(ItemID.FragmentStardust);
             fragment.ValidItems.Add(ItemID.FragmentVortex);
             RecipeGroup.RegisterGroup("fragment", fragment);
+
+            RecipeGroup cobalt = new RecipeGroup(new Func<string>(CobaltString));
+            cobalt.ValidItems.Add(ItemID.CobaltBar);
+            cobalt.ValidItems.Add(ItemID.PalladiumBar);
+            RecipeGroup.RegisterGroup("cobalt", cobalt);
         }
 
 
@@ -275,6 +289,7 @@ namespace TerrorbornMod
         {
             TBUtils.Detours.Unload();
             Main.rainTexture = ModContent.GetTexture("Terraria/Rain");
+            Main.manaTexture = ModContent.GetTexture("Terraria/Mana");
         }
 
         private GameTime _lastUpdateUiGameTime;
