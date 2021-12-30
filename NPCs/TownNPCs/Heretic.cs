@@ -364,6 +364,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         text.Add("Buy an NFT! It's a worthwhile investment.");
                         text.Add("Subscribe to Water on terratube.");
                         text.Add("Use bouncy dynamite.");
+                        text.Add("Skeletron becomes weaker during the day.");
                         player.AddBuff(ModContent.BuffType<Buffs.BadAdvice>(), 3600 * 15);
                         Main.npcChatText = text;
 

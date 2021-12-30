@@ -321,6 +321,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             }
         }
 
+        bool hasStartedLeave = false;
         public override void AI()
         {
             npc.ai[0]++;
@@ -333,6 +334,24 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
 
             SetStats();
             RotateWings(MathHelper.ToRadians(3), MathHelper.ToRadians(25));
+
+            if (player.dead || !player.active)
+            {
+                if (!hasStartedLeave)
+                {
+                    hasStartedLeave = true;
+                    claw1Offset = claw1.position - npc.position;
+                    claw2Offset = claw2.position - npc.position;
+                }
+                claw1.position = npc.position + claw1Offset;
+                claw2.position = npc.position + claw2Offset;
+                npc.velocity.Y -= 0.2f;
+                if (npc.position.Y <= 0)
+                {
+                    npc.active = false;
+                }
+                return;
+            }
 
             if (phase == 2)
             {

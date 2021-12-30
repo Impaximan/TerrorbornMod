@@ -14,6 +14,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 4);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -67,6 +68,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 4);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -139,6 +141,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -166,6 +169,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 4);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

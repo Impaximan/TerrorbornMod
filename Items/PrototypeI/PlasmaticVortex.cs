@@ -20,15 +20,15 @@ namespace TerrorbornMod.Items.PrototypeI
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Slowly returns to you upon hitting an enemy, dealing extra hits");
+            Tooltip.SetDefault("Slowly returns to you upon hitting an enemy, dealing numerous hits per attack");
         }
         public override void SetDefaults()
         {
-            item.damage = 118;
+            item.damage = 80;
             item.width = 102;
             item.height = 82;
-            item.useTime = 30;
-            item.useAnimation = 30;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.rare = ItemRarityID.Cyan;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 0f;
@@ -39,6 +39,7 @@ namespace TerrorbornMod.Items.PrototypeI
             item.noUseGraphic = true;
             item.autoReuse = true;
             item.melee = true;
+            item.noMelee = true;
         }
     }
     class PlasmaticVortex_projectile : ModProjectile
@@ -82,7 +83,7 @@ namespace TerrorbornMod.Items.PrototypeI
             projectile.ignoreWater = false;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 5;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)

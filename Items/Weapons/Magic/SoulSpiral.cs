@@ -34,7 +34,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.damage = 70;
             item.useTime = 32;
             item.useAnimation = 32;
-            item.mana = 15;
+            item.mana = 8;
             item.rare = ItemRarityID.Pink;
             item.shoot = mod.ProjectileType("SpiralSoul");
             item.shootSpeed = 35;
