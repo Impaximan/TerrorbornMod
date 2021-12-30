@@ -71,6 +71,7 @@ namespace TerrorbornMod
 
         //Accessory/equipment fields
         public bool SpecterLocket = false;
+        public float PlasmaPower = 0f;
         public bool HeadHunter = false;
         public int HeadHunterCritCooldown = 0;
         public int HeadHunterCritBonus = 0;
@@ -438,7 +439,7 @@ namespace TerrorbornMod
             Rectangle incendiaryBiomeRect = new Rectangle(0, 0, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
             if (TerrorbornWorld.incendiaryIslandsSide == 1)
             {
-                incendiaryBiomeRect = new Rectangle((Main.maxTilesX * 16) - (int)(Main.maxTilesX / 4f * 16) - 120 * 16, 120 * 16, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
+                incendiaryBiomeRect = new Rectangle((Main.maxTilesX * 16) - (int)(Main.maxTilesX / 4f * 16) - 120 * 16, 0, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
             }
             ZoneIncendiary = incendiaryBiomeRect.Intersects(player.getRect()) && Main.hardMode;
         }
@@ -726,6 +727,11 @@ namespace TerrorbornMod
                 {
                     TerrorPercent = 0;
                 }
+            }
+
+            if (PlasmaPower > 0f)
+            {
+                PlasmaPower = 0f;
             }
         }
 

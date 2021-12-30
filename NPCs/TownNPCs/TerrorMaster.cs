@@ -396,7 +396,10 @@ namespace TerrorbornMod.NPCs.TownNPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 35, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MiscConsumables.TerrorTaco>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MiscConsumables.TerrorCheese>());
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
             nextSlot++;
         }
     }

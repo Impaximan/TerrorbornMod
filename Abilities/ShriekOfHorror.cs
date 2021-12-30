@@ -37,6 +37,7 @@ namespace TerrorbornMod.Abilities
 
             Vector2 terrorMasterPosition = new Vector2(Main.spawnTileX * 16, Main.spawnTileY * 16);
             NPC.NewNPC((int)terrorMasterPosition.X, (int)terrorMasterPosition.Y, ModContent.NPCType<NPCs.TownNPCs.TerrorMaster>());
+            Main.NewText("??? the Terror Master has arrived!", new Color(50, 125, 255));
 
             TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)]);
             target.TriggerAbilityAnimation("Shriek of Horror", "Hold the 'Shriek of Horror' mod hotkey to unleash a scream that generates terror while close to enemies.", "Getting hit while doing so will cause you to take twice as much damage", 0, "Special abilities and items will consume terror", 800);

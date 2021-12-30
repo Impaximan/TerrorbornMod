@@ -32,10 +32,11 @@ namespace TerrorbornMod.Items.TreasureBags
                 player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.PrototypeIMask>());
             }
             player.QuickSpawnItem(ModContent.ItemType<Equipable.Accessories.MidnightPlasmaGlobe>());
+            player.QuickSpawnItem(ModContent.ItemType<Materials.PlasmaliumBar>(), Main.rand.Next(18, 25));
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Magic.PlasmaScepter>());
+                player.QuickSpawnItem(ModContent.ItemType<Items.PrototypeI.PlasmaScepter>());
             }
             if (choice == 1)
             {

@@ -16,7 +16,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons an optic demons that swarms enemies and spews blood");
+            Tooltip.SetDefault("Summons an optic demon that swarms enemies and spews blood");
         }
         public override void SetDefaults()
         {

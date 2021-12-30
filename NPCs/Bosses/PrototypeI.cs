@@ -27,10 +27,11 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             else
             {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.PlasmaliumBar>(), Main.rand.Next(18, 25));
                 int choice = Main.rand.Next(3);
                 if (choice == 0)
                 {
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Magic.PlasmaScepter>());
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.PrototypeI.PlasmaScepter>());
                 }
                 if (choice == 1)
                 {

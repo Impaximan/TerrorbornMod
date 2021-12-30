@@ -5,10 +5,20 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.PrototypeI
 {
     class PlasmaScepter : ModItem
     {
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.PlasmaliumBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 5);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+
         public override void SetStaticDefaults()
         {
             Item.staff[item.type] = true;
@@ -17,7 +27,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            item.damage = 25;
+            item.damage = 35;
             item.noMelee = true;
             item.width = 54;
             item.height = 54;

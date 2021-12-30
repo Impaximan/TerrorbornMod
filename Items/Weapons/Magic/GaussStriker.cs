@@ -43,7 +43,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shootSpeed = 25f;
             item.shoot = mod.ProjectileType("GaussBolt");
-            item.mana = 3;
+            item.mana = 6;
             item.magic = true;
         }
 

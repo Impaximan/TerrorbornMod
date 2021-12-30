@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Collections.Generic;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -94,7 +92,6 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            position = player.Center + (player.DirectionTo(Main.MouseWorld) * 50 * item.scale);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (player.altFunctionUse == 2)
             {
@@ -106,7 +103,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             else
             {
                 type = ModContent.ProjectileType<BattleBullet>();
-
+                position = player.Center + (player.DirectionTo(Main.MouseWorld) * 25 * item.scale);
             }
             return true;
         }
@@ -130,16 +127,50 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             projectile.localNPCHitCooldown = -1;
             projectile.hostile = false;
             projectile.ranged = true;
-            projectile.hide = true;
+            projectile.hide = false;
             projectile.timeLeft = 250;
+        }
+
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+            BezierCurve bezier = new BezierCurve();
+            bezier.Controls.Clear();
+            foreach (Vector2 pos in projectile.oldPos)
+            {
+                if (pos != Vector2.Zero && pos != null)
+                {
+                    bezier.Controls.Add(pos);
+                }
+            }
+
+            if (bezier.Controls.Count > 1)
+            {
+                List<Vector2> positions = bezier.GetPoints(50);
+                for (int i = 0; i < positions.Count; i++)
+                {
+                    float mult = (float)(positions.Count - i) / (float)positions.Count;
+                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
+                    Color color = projectile.GetAlpha(Color.Lerp(Color.MediumPurple, Color.LightPink, mult)) * mult;
+                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(12.5f * mult), color);
+                }
+            }
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            return false;
         }
 
         public override void AI()
         {
-            Dust dust = Dust.NewDustPerfect(projectile.Center, 21);
-            dust.noGravity = true;
-            dust.velocity = Vector2.Zero;
-
             NPC targetNPC = Main.npc[0];
             float Distance = 375; //max distance away
             bool Targeted = false;

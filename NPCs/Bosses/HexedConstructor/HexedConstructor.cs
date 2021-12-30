@@ -24,7 +24,6 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
     [AutoloadBossHead]
     class HexedConstructor : ModNPC
     {
-
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
         {
             float currentAngle = Main.rand.Next(360);
@@ -47,7 +46,13 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
 
         public override void NPCLoot()
         {
-            TerrorbornWorld.downedIncendiaryBoss = true;
+            if (!TerrorbornWorld.downedIncendiaryBoss)
+            {
+                TerrorbornWorld.downedIncendiaryBoss = true;
+                Vector2 terrorMasterPosition = new Vector2(Main.spawnTileX * 16, Main.spawnTileY * 16);
+                NPC.NewNPC((int)terrorMasterPosition.X, (int)terrorMasterPosition.Y, ModContent.NPCType<NPCs.TownNPCs.Heretic>());
+                Main.NewText("Gabrielle the Heretic has invited herself to your town!", new Color(50, 125, 255));
+            }
 
             bool spawnTF = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(7);
             for (int i = 0; i < 1000; i++)

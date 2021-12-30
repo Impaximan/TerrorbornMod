@@ -3,17 +3,16 @@ The Terrorborn mod by Penumbral and numerous other people is an ambitiously-plan
 Unlock new abilities, face difficult but fair boss encounters, master a new style of combat, and most importantly, have fun, in a refreshing souls like inspired experience.
 
 More details on what the mod adds
- • 8 new challenging bosses, made to challenge players more than vanilla whilst simultaneously being more fair and enjoyable. 2 of the new bosses are fought after the Moon Lord himself!
+ • 8+ challenging, hard-but-fair new bosses
  • 1 new mechanic: Terror. Shriek to reap fear from your foes when you get the opportunity, and unleash devastating new spells.
- • 9 horrific abilities that make use of the terror mechanic. Try out their various aspects and master each one for far better efficiency in combat.
- • A WIP storyline that will grow as the mod gains more content- all of the lore will be available to you in-game! Looking into it might give you some hints as to what's to come.
+ • 9 horrific abilities that make use of the terror mechanic.
  • 4 new NPCs with unique and useful functions. Each NPC has its own purpose and personality, as well as a backstory that you can learn from.
- • Over 300 new items.
-   • Various new armor sets throughout the game that encourage a variety of playstyles. We promise that not one set bonus will simply be lazy stat changes!
-   • New types of weapons have been added, including a new subclass for mage.
-   • Many new accessories. At any point in the game there are useful accessory options from Terrorborn; your gear can almost always be fresh.
+ • 300+ new items
+   • Various new armor sets throughout the game that encourage a variety of playstyles.
+   • Many new accessories.
    • New types of accessories and gear, including new ways of handling movement.
- • The lore of the mod will be findable in-game and expand as the mod updates. That's right- no having to look at the wiki to find the lore.
+   • MANY new weapons to choose from
+ • The lore of the mod is findable in-game and will expand as the mod updates.
  • Post-Moon Lord content. Not a lot of it right now, but it's definitely enough to make the finale of your playthrough memorable.
 
 Feel free to join our discord server if you have any feedback or ideas, or if you just want to discuss the mod. A link is on the homepage!

@@ -78,7 +78,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
         }
         public override string TownNPCName()
         {
-            return "Gabriellen't";
+            return "Gabrielle";
         }
 
 
@@ -217,14 +217,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         }
                         if (loreText == 1) //What types of demons are there?
                         {
-                            Main.npcChatText = "There are seven main types of demons, each representing a sin and a soul type;" +
-                                "\n •Light (representing Lust)" +
-                                "\n •Night (representing Sloth)" +
-                                "\n •Flight (representing Pride)" +
-                                "\n •Fright (reprenting Wrath)" +
-                                "\n •Sight (representing Envy)" +
-                                "\n •Might (representing Gluttony)" +
-                                "\n •Plight (representing Greed)";
+                            Main.npcChatText = "I don't know about all of them, but there are generic demons, which are the ones you find in the underworld most of the time, arch demons, which are demons with higher ranks, and dread demons, which represent a soul type and punish sinners.";
                         }
                         if (loreText == 2) //Who leads the demons?
                         {
@@ -251,8 +244,43 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
                         int type = soulsAvailable[soulIndex - 1];
 
+                        if (player.HeldItem == null)
+                        {
+                            Main.npcChatText = "Uh, I can't possess nothing. Sorry. (Make sure you're holding the weapon you want to possess.)";
+                            possessingItem = false;
+                            return;
+                        }
+
+                        if (player.HeldItem.IsAir)
+                        {
+                            Main.npcChatText = "Uh, I can't possess nothing. Sorry. (Make sure you're holding the weapon you want to possess.)";
+                            possessingItem = false;
+                            return;
+                        }
+
                         Item item = player.HeldItem;
                         PossessedItem pItem = PossessedItem.modItem(player.HeldItem);
+
+                        if (item == null)
+                        {
+                            Main.npcChatText = "Uh, I can't possess nothing. Sorry. (Make sure you're holding the weapon you want to possess.)";
+                            possessingItem = false;
+                            return;
+                        }
+
+                        if (item.IsAir)
+                        {
+                            Main.npcChatText = "Uh, I can't possess nothing. Sorry. (Make sure you're holding the weapon you want to possess.)";
+                            possessingItem = false;
+                            return;
+                        }
+
+                        if (item.summon || item.maxStack != 1 || item.damage == 0 || item.accessory)
+                        {
+                            Main.npcChatText = "Sorry, I can't possess that item!";
+                            possessingItem = false;
+                            return;
+                        }
 
                         if (type == ItemID.SoulofLight)
                         {
@@ -302,6 +330,8 @@ namespace TerrorbornMod.NPCs.TownNPCs
                             }
                         }
 
+                        Main.PlaySound(SoundID.NPCDeath52, player.Center);
+
                         possessingItem = false;
                         item.prefix = (byte)0;
                         Main.npcChatText = "Alright! Your " + item.Name + " has been successfully enhanced. Enjoy it... or something... idk.";
@@ -327,8 +357,14 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         WeightedRandom<string> text = new WeightedRandom<string>();
                         text.Add("Uhhhh... go... kill something. Or somebody. Or maybe commit mass genocide on the goblins.");
                         text.Add("Become a heretic just like me! Commit as many questionable actions as possible to guarentee your #2 (#1 is mine you can't have it) torture chamber in hell!");
-                        text.Add("...idk.");
-
+                        text.Add("You should play multiplayer... whatever that means.");
+                        text.Add("You should kill your self... NOW!", 0.5f);
+                        text.Add("When life gives you pineapples, put them on pizza.");
+                        text.Add("The birds and the bears, a powerful force.");
+                        text.Add("Buy an NFT! It's a worthwhile investment.");
+                        text.Add("Subscribe to Water on terratube.");
+                        text.Add("Use bouncy dynamite.");
+                        player.AddBuff(ModContent.BuffType<Buffs.BadAdvice>(), 3600 * 15);
                         Main.npcChatText = text;
 
                     }
@@ -370,42 +406,45 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
                         if (type == ItemID.SoulofLight)
                         {
-                            text = "";
+                            text = "Critical hits cause an explosion of light";
                         }
 
                         if (type == ItemID.SoulofNight)
                         {
-                            text = "";
+                            text = "Lifesteals on critical hits" +
+                                "\n-15% damage";
                         }
 
                         if (type == ItemID.SoulofFlight)
                         {
-                            text = " +Projectiles can travel through walls" +
-                                "\n -15% damage" +
-                                "\n -25% velocity";
+                            text = "Projectiles can travel through walls" +
+                                "\n-15% damage" +
+                                "\n-25% velocity";
                         }
 
                         if (type == ItemID.SoulofFright)
                         {
-                            text = "";
+                            text = "Steals terror from enemies";
                         }
 
                         if (type == ItemID.SoulofMight)
                         {
-                            text = " +Projectiles move 2x as fast" +
-                                "\n +50% knockback" +
-                                "\n +15% damage";
+                            text = "Projectiles move 2x as fast" +
+                                "\n+50% knockback" +
+                                "\n+15% damage";
                         }
 
                         if (type == ItemID.SoulofSight)
                         {
-                            text = "";
+                            text = "Projectiles will home into enemies" +
+                                "\n-15% damage" +
+                                "\n-35% velocity";
                         }
 
                         if (type == ModContent.ItemType<Items.Materials.SoulOfPlight>())
                         {
-                            text = " +Projectiles have a 15% chance to create a weaker clone of themselves on hit" +
-                                "\n -Placeholder";
+                            text = "Holding this inflicts you with the 'Midnight Flames' debuff" +
+                                "\n+50% damage";
                         }
 
                         firstText.Add("The bonuses/drawbacks this soul type will provide are:", 0.5);
@@ -586,7 +625,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = ProjectileID.DiamondBolt;
+            projType = ProjectileID.BallofFire;
             attackDelay = 1;
         }
         public override void TownNPCAttackShoot(ref bool inBetweenShots)

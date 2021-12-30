@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 25;
+            item.damage = 18;
             item.noMelee = true;
             item.width = 52;
             item.height = 52;
@@ -33,7 +33,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("IncendiaryFlower");
             item.shootSpeed = 5f;
-            item.mana = 6;
+            item.mana = 8;
             item.magic = true;
         }
 
@@ -110,14 +110,9 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            //Thanks to Seraph for afterimage code.
-            //Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            //for (int i = 0; i < projectile.oldPos.Length; i++)
-            //{
-            //    Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + projectile.Size / 2;
-            //    Color color = projectile.GetAlpha(new Color(247, 84, 37)) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-            //    Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length)), color * 0.5f);
-            //}
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
             foreach (Vector2 pos in projectile.oldPos)
@@ -130,14 +125,17 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
             if (bezier.Controls.Count > 1)
             {
-                List<Vector2> positions = bezier.GetPoints(15);
+                List<Vector2> positions = bezier.GetPoints(25);
                 for (int i = 0; i < positions.Count; i++)
                 {
                     Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
                     Color color = projectile.GetAlpha(new Color(247, 84, 37)) * ((float)(positions.Count - i) / (float)positions.Count);
-                    Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * ((float)(positions.Count - i) / (float)positions.Count)), color * 0.5f);
+                    Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(35f * ((float)(positions.Count - i) / (float)positions.Count)), color * 0.5f);
                 }
             }
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return true;
         }
 

@@ -105,7 +105,6 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
     }
 
-
     class LightBlast : Deathray
     {
         int timeLeft = 10;

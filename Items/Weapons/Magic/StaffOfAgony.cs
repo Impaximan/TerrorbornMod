@@ -89,7 +89,6 @@ namespace TerrorbornMod.Items.Weapons.Magic
             bodyRect = new Rectangle(0, 24, 18, 22);
             headRect = new Rectangle(0, 0, 18, 22);
             tailRect = new Rectangle(0, 46, 18, 22);
-            drawColor = Color.Red;
         }
 
         public override Vector2 Position()

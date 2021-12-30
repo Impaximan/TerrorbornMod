@@ -633,7 +633,6 @@ namespace TerrorbornMod
                 }
             }
 
-            bool darkblood = player.HasBuff(ModContent.BuffType<Buffs.Darkblood>());
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             if (item.melee && modPlayer.TidalShellArmorBonus)
@@ -655,11 +654,6 @@ namespace TerrorbornMod
                         modPlayer.CombatPoints += npc.lifeMax;
                     }
                 }
-            }
-
-            if (darkblood)
-            {
-                modPlayer.terrorDrainCounter = 30;
             }
 
             if (item.melee && modPlayer.IncendiaryShield)
@@ -754,7 +748,6 @@ namespace TerrorbornMod
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.player[projectile.owner]);
             Player player = Main.player[projectile.owner];
-            bool darkblood = player.HasBuff(ModContent.BuffType<Buffs.Darkblood>());
 
             if (projectile.melee && modPlayer.TidalShellArmorBonus)
             {
@@ -789,11 +782,6 @@ namespace TerrorbornMod
                     Main.PlaySound(SoundID.NPCHit36, npc.Center);
                     soulOrbCooldown = 3;
                 }
-            }
-
-            if (darkblood)
-            {
-                modPlayer.terrorDrainCounter = 30;
             }
 
             if (NPC.AnyNPCs(ModContent.NPCType<NPCs.TownNPCs.SkeletonSheriff>()))

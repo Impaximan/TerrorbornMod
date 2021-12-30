@@ -9,7 +9,7 @@ namespace TerrorbornMod.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Darkblood");
-            Description.SetDefault("Allows you to drain terror from enemies while attacking, also allowing you to attack while using Shriek of Horror");
+            Description.SetDefault("Allows you to attack while using Shriek of Horror");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

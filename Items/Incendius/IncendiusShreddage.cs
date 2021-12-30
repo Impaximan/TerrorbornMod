@@ -82,7 +82,7 @@ namespace TerrorbornMod.Items.Incendius
             projectile.magic = true;
             projectile.friendly = true;
             projectile.hostile = false;
-            projectile.tileCollide = false;
+            projectile.tileCollide = true;
             projectile.ignoreWater = false;
             projectile.penetrate = 1;
             projectile.timeLeft = 180;

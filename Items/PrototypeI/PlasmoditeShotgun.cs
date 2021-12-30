@@ -9,6 +9,15 @@ namespace TerrorbornMod.Items.PrototypeI
 {
     class PlasmoditeShotgun : ModItem
     {
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.PlasmaliumBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 5);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Rapidly fires bursts of plasma crystals" +

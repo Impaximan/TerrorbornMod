@@ -36,6 +36,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             recipe.AddIngredient(ItemID.LightningBoots);
             recipe.AddRecipeGroup("fragment", 4);
             recipe.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<Materials.NovagoldBar>(), 6);
             recipe.AddIngredient(ItemID.HallowedBar, 6);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
@@ -46,6 +48,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             recipe2.AddIngredient(ItemID.FrostsparkBoots);
             recipe2.AddRecipeGroup("fragment", 4);
             recipe2.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 6);
+            recipe2.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 6);
+            recipe2.AddIngredient(ModContent.ItemType<Materials.NovagoldBar>(), 6);
             recipe2.AddIngredient(ItemID.HallowedBar, 6);
             recipe2.AddTile(TileID.TinkerersWorkbench);
             recipe2.SetResult(this);

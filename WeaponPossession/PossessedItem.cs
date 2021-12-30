@@ -39,9 +39,19 @@ namespace TerrorbornMod.WeaponPossession
                 mult *= 0.85f;
             }
 
+            if (possessType == PossessType.Night)
+            {
+                mult *= 0.85f;
+            }
+
             if (possessType == PossessType.Sight)
             {
                 mult *= 0.85f;
+            }
+
+            if (possessType == PossessType.Plight)
+            {
+                mult *= 1.5f;
             }
         }
 
@@ -60,6 +70,10 @@ namespace TerrorbornMod.WeaponPossession
             if (possessType == PossessType.Might)
             {
                 modPlayer.allUseSpeed *= 0.85f;
+            }
+            if (possessType == PossessType.Plight)
+            {
+                player.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 3);
             }
         }
 
@@ -86,6 +100,22 @@ namespace TerrorbornMod.WeaponPossession
         public override bool InstancePerEntity => true;
 
         public override bool CloneNewInstances => true;
+
+        public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
+        {
+            if (possessType == PossessType.Light && crit)
+            {
+                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, player.whoAmI);
+                TerrorbornMod.ScreenShake(5f);
+                Main.PlaySound(SoundID.Item68, target.Center);
+            }
+
+            if (possessType == PossessType.Night && crit)
+            {
+                player.HealEffect(1);
+                player.statLife++;
+            }
+        }
 
         public static PossessedItem modItem(Item item)
         {
@@ -114,28 +144,42 @@ namespace TerrorbornMod.WeaponPossession
             string drawback = "";
             if (possessType == PossessType.Plight)
             {
-                bonus = "+Projectiles have a 15% chance to create a weaker clone of themselves on hit";
-                drawback = "+Placeholder";
+                drawback = "Holding this inflicts you with the 'Midnight Flames' debuff";
+                bonus = "+50% damage";
             }
             if (possessType == PossessType.Might)
             {
-                bonus = "+Projectiles move 2x as fast" +
+                bonus = "Projectiles move 2x as fast" +
                     "\n+50% knockback" +
                     "\n+15% damage";
                 drawback = "-15% use speed";
             }
             if (possessType == PossessType.Flight)
             {
-                bonus = "+Projectiles can travel through walls";
+                bonus = "Projectiles can travel through walls";
                 drawback = "-15% damage" +
                     "\n-25% velocity";
             }
             if (possessType == PossessType.Sight)
             {
-                bonus = "+Projectiles will home into enemies";
+                bonus = "Projectiles will home into enemies";
                 drawback = "-15% damage" +
                     "\n-35% velocity";
             }
+            if (possessType == PossessType.Fright)
+            {
+                bonus = "Steals terror from enemies";
+            }
+            if (possessType == PossessType.Light)
+            {
+                bonus = "Critical hits cause an explosion of light";
+            }
+            if (possessType == PossessType.Night)
+            {
+                bonus = "Lifesteals on critical hits";
+                drawback = "-15% damage";
+            }
+
             tooltips.Add(new TooltipLine(mod, "SoulBonus", bonus));
             tooltips.FirstOrDefault(x => x.Name == "SoulBonus" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(PossessType.ToColor(possessType), Color.White, 0.25f);
 
