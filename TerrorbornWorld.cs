@@ -1651,23 +1651,11 @@ namespace TerrorbornMod
 
             foreach(Rectangle element in deimostoneCaves)
             {
-                for (int i = 0; i < WorldGen.genRand.Next(5, 8); i++)
+                for (int i = 0; i < 45; i++)
                 {
                     int x = WorldGen.genRand.Next(element.Left, element.Right);
                     int y = WorldGen.genRand.Next(element.Top, element.Bottom);
-                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.DeimosteelOre>(), false, 0f, 0f, false, true);
-                }
-                for (int i = 0; i < WorldGen.genRand.Next(4, 7); i++)
-                {
-                    int x = WorldGen.genRand.Next(element.Left - 3, element.Left + 10);
-                    int y = WorldGen.genRand.Next(element.Top, element.Bottom);
-                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.DeimosteelOre>(), false, 0f, 0f, false, true);
-                }
-                for (int i = 0; i < WorldGen.genRand.Next(4, 7); i++)
-                {
-                    int x = WorldGen.genRand.Next(element.Right - 10, element.Right + 3);
-                    int y = WorldGen.genRand.Next(element.Top, element.Bottom);
-                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.DeimosteelOre>(), false, 0f, 0f, false, true);
+                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(6, 9), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.DeimosteelOre>(), false, 0f, 0f, false, true);
                 }
             }
         }
@@ -1726,24 +1714,28 @@ namespace TerrorbornMod
 
         public void GenerateDeimostoneCave(Point16 position, float sizeMultiplier)
         {
-            int caveHeight = (int)(85 * sizeMultiplier);
-            int caveWidth = (int)(45 * sizeMultiplier);
-            int sideWidth = (int)(10 * sizeMultiplier);
-            int currentSideOffset = 0;
-            float offsetChance = 0.4f;
-            int maxOffsetRange = 4;
-            int maxSizeOffset = 2;
-            int distortRange = 2;
-            float distortChance = 0.3f;
+            int caveHeight = (int)(125 * sizeMultiplier);
+            int caveWidth = (int)(32 * sizeMultiplier);
+            int sideWidth = (int)(18 * sizeMultiplier);
+            int sideDistance = (int)(15 * sizeMultiplier);
+            float smallPartMult = 0.3f;
+            float smallPartWidth = (int)(5 * sizeMultiplier);
             int caveCenterX = position.X + caveWidth / 2;
+            int maxOffset = (int)(10 * sizeMultiplier);
+
+            int largeSpikeSize = (int)(45 * sizeMultiplier);
+            int largeSpikeThickness = (int)(5 * sizeMultiplier);
+
+            int smallSpikeSize = (int)(25 * sizeMultiplier);
+            int smallSpikeThickness = (int)(2 * sizeMultiplier);
 
 
-            deimostoneCaves.Add(new Rectangle(position.X, position.Y, caveWidth, caveHeight));
+            deimostoneCaves.Add(new Rectangle(position.X - caveWidth, position.Y - caveHeight, caveWidth * 2, caveHeight * 2));
 
             bool dontGenerate = false;
-            for (int i = 0; i < caveWidth; i++)
+            for (int i = -caveWidth; i < caveWidth; i++)
             {
-                for (int j = 0; j < caveHeight; j++)
+                for (int j = -caveHeight; j < caveHeight; j++)
                 {
                     Point16 tilePosition = new Point16(position.X + i, position.Y + j);
                     if (Main.tile[tilePosition.X, tilePosition.Y].type == ModContent.TileType<Tiles.Deimostone>())
@@ -1758,142 +1750,192 @@ namespace TerrorbornMod
                 return;
             }
 
-            for (int i = 5; i < caveWidth - 5; i++)
-            {
-                for (int j = 5; j < caveHeight - 5; j++)
-                {
-                    if ((j < distortRange + 5 || j > caveHeight - distortRange - 5) && WorldGen.genRand.NextFloat() <= distortChance)
-                    {
+            int pointCount = 12;
 
-                    }
-                    else
+            List<int> offset = new List<int>();
+            for (int i = -pointCount; i <= pointCount; i++)
+            {
+                offset.Add(WorldGen.genRand.Next(-maxOffset, maxOffset));
+            }
+
+            bool spikeOnLeft = WorldGen.genRand.NextBool();
+
+            //GENERATE LEFT SIDE
+            List<Point16> points = new List<Point16>();
+            for (int i = -pointCount; i <= pointCount; i++)
+            {
+                if (Math.Abs(i) >= pointCount * smallPartMult)
+                {
+                    points.Add(new Point16((int)(position.X - smallPartWidth + offset[i + pointCount]), position.Y + (int)(caveHeight * ((float)i / (float)pointCount) / 2f)));
+                }
+                else
+                {
+                    points.Add(new Point16((int)(position.X - (caveWidth * (1f - Math.Abs((float)i / (float)pointCount)) * WorldGen.genRand.NextFloat(0.8f, 1.2f))) + offset[i + pointCount], position.Y + (int)(caveHeight * ((float)i / (float)pointCount) / 2f)));
+                }
+            }
+
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                int amount = points[i + 1].Y - points[i].Y;
+                int y = points[i].Y;
+                int x = points[i].X - sideDistance;
+                int width = (int)(sideWidth * WorldGen.genRand.NextFloat(0.6f, 1.4f));
+                for (int w = x; w < position.X; w++)
+                {
+                    WorldGen.KillTile(w, y);
+                    WorldGen.KillWall(w, y);
+                    WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                }
+                for (int w = -width / 2; w <= width / 2; w++)
+                {
+                    WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                }
+                for (float a = 0; a <= amount; a += 0.5f)
+                {
+                    y = (int)MathHelper.Lerp(points[i + 1].Y, points[i].Y, (float)a / amount);
+                    x = (int)MathHelper.Lerp(points[i + 1].X, points[i].X, (float)a / amount) - sideDistance;
+                    width = (int)(sideWidth * WorldGen.genRand.NextFloat(0.6f, 1.4f));
+                    for (int w = x; w < position.X; w++)
                     {
-                        Point16 tilePosition = new Point16(position.X + i, position.Y + j);
-                        WorldGen.KillTile(tilePosition.X, tilePosition.Y);
-                        WorldGen.KillWall(tilePosition.X, tilePosition.Y);
-                        WorldGen.PlaceWall(tilePosition.X, tilePosition.Y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                        WorldGen.KillTile(w, y);
+                        WorldGen.KillWall(w, y);
+                        WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>(), true);
+                    }
+                    for (int w = -width / 2; w <= width / 2; w++)
+                    {
+                        WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
                     }
                 }
             }
 
-            for (int y = 0; y < caveHeight; y++)
+            Point16 spikePos = points[pointCount];
+            List<Point16> smallSpikePos = new List<Point16>();
+            if (!spikeOnLeft)
             {
-                if (WorldGen.genRand.NextFloat() <= offsetChance)
-                {
-                    if (WorldGen.genRand.NextBool())
-                    {
-                        currentSideOffset++;
-                    }
-                    else
-                    {
-                        currentSideOffset--;
-                    }
+                smallSpikePos.Add(points[WorldGen.genRand.Next(pointCount - 1, pointCount + 3)]);
+                smallSpikePos.Add(points[WorldGen.genRand.Next(pointCount + 1, pointCount + 3)]);
+            }
 
-                    if (currentSideOffset < -maxOffsetRange)
-                    {
-                        currentSideOffset = -maxOffsetRange;
-                    }
-                    if (currentSideOffset > maxOffsetRange)
-                    {
-                        currentSideOffset = maxOffsetRange;
-                    }
+            for (int i = 0; i < WorldGen.genRand.Next(1, 3); i++)
+            {
+                Point16 chestPosition = WorldGen.genRand.Next(points);
+                while (deimostoneChests.Contains(chestPosition))
+                {
+                    chestPosition = WorldGen.genRand.Next(points);
                 }
-                for (int x = 0; x < sideWidth + WorldGen.genRand.Next(-maxSizeOffset, maxSizeOffset + 1); x++)
-                {
-                    Point16 tilePosition = position + new Point16(x + currentSideOffset, y);
+                deimostoneChests.Add(chestPosition);
+            }
 
-                    if ((y > 1 && y < caveHeight - 2) || WorldGen.genRand.NextBool())
+            //GENERATE RIGHT SIDE
+            points.Clear();
+            for (int i = -pointCount; i <= pointCount; i++)
+            {
+                if (Math.Abs(i) >= pointCount * smallPartMult)
+                {
+                    points.Add(new Point16((int)(position.X + smallPartWidth) + offset[i + pointCount], position.Y + (int)(caveHeight * ((float)i / (float)pointCount) / 2f)));
+                }
+                else
+                {
+                    points.Add(new Point16((int)(position.X + (caveWidth * (1f - Math.Abs((float)i / (float)pointCount)) * WorldGen.genRand.NextFloat(0.8f, 1.2f))) + offset[i + pointCount], position.Y + (int)(caveHeight * ((float)i / (float)pointCount) / 2f)));
+                }
+            }
+
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                int amount = points[i + 1].Y - points[i].Y;
+                int y = points[i].Y;
+                int x = points[i].X + sideDistance;
+                int width = (int)(sideWidth * WorldGen.genRand.NextFloat(0.6f, 1.4f));
+                for (int w = x; w > position.X - 1; w--)
+                {
+                    WorldGen.KillTile(w, y);
+                    WorldGen.KillWall(w, y);
+                    WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                }
+                for (int w = -width / 2; w <= width / 2; w++)
+                {
+                    WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>());
+                }
+                for (float a = 0; a <= amount; a += 0.5f)
+                {
+                    y = (int)MathHelper.Lerp(points[i + 1].Y, points[i].Y, (float)a / amount);
+                    x = (int)MathHelper.Lerp(points[i + 1].X, points[i].X, (float)a / amount) + sideDistance;
+                    width = (int)(sideWidth * WorldGen.genRand.NextFloat(0.6f, 1.4f));
+                    for (int w = x; w > position.X - 1; w--)
                     {
-                        WorldGen.KillTile(tilePosition.X, tilePosition.Y);
-                        WorldGen.PlaceTile(tilePosition.X, tilePosition.Y, ModContent.TileType<Tiles.Deimostone>());
-                        WorldGen.PlaceWall(tilePosition.X, tilePosition.Y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                        WorldGen.KillTile(w, y);
+                        WorldGen.KillWall(w, y);
+                        WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                    }
+                    for (int w = -width / 2; w <= width / 2; w++)
+                    {
+                        WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>());
                     }
                 }
             }
 
-            currentSideOffset = 0;
-            for (int y = 0; y < caveHeight; y++)
+            for (int i = 0; i < WorldGen.genRand.Next(1, 3); i++)
             {
-                if (WorldGen.genRand.NextFloat() <= offsetChance)
+                Point16 chestPosition = WorldGen.genRand.Next(points);
+                while (deimostoneChests.Contains(chestPosition))
                 {
-                    if (WorldGen.genRand.NextBool())
-                    {
-                        currentSideOffset++;
-                    }
-                    else
-                    {
-                        currentSideOffset--;
-                    }
+                    chestPosition = WorldGen.genRand.Next(points);
+                }
+                deimostoneChests.Add(chestPosition);
+            }
 
-                    if (currentSideOffset < -maxOffsetRange)
+            if (!spikeOnLeft)
+            {
+                spikePos = points[pointCount];
+                for (int j = -largeSpikeThickness; j <= largeSpikeThickness; j++)
+                {
+                    int y = spikePos.Y + j;
+                    for (int i = -20; i < largeSpikeSize * (1f - Math.Abs((float)j / (float)largeSpikeThickness)); i++)
                     {
-                        currentSideOffset = -maxOffsetRange;
-                    }
-                    if (currentSideOffset > maxOffsetRange)
-                    {
-                        currentSideOffset = maxOffsetRange;
+                        int x = spikePos.X - i + 10;
+                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
                     }
                 }
 
-                for (int x = 0; x < sideWidth + WorldGen.genRand.Next(-maxSizeOffset, maxSizeOffset + 1); x++)
+                foreach (Point16 pos in smallSpikePos)
                 {
-                    Point16 newPosition = position + new Point16(caveWidth, 0);
-                    Point16 tilePosition = newPosition + new Point16(-x - currentSideOffset, y);
-
-                    if ((y > 1 && y < caveHeight - 2) || WorldGen.genRand.NextBool())
+                    for (int j = -smallSpikeThickness; j <= smallSpikeThickness; j++)
                     {
-                        WorldGen.KillTile(tilePosition.X, tilePosition.Y);
-                        WorldGen.PlaceTile(tilePosition.X, tilePosition.Y, ModContent.TileType<Tiles.Deimostone>());
-                        WorldGen.PlaceWall(tilePosition.X, tilePosition.Y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                        int y = pos.Y + j;
+                        for (int i = -15; i < smallSpikeSize * (1f - Math.Abs((float)j / (float)smallSpikeThickness)); i++)
+                        {
+                            int x = pos.X + i - 10;
+                            WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                        }
                     }
                 }
             }
-
-            for (int i = 0; i < WorldGen.genRand.Next(5, 8) * sizeMultiplier; i++)
+            else
             {
-                Point16 platformPosition = new Point16(position.X, position.Y + WorldGen.genRand.Next((int)(15 * sizeMultiplier), caveHeight - (int)(15 * sizeMultiplier)));
-                int platformLength = (int)(WorldGen.genRand.Next(20, 45) * sizeMultiplier);
+                smallSpikePos.Clear();
+                smallSpikePos.Add(points[WorldGen.genRand.Next(pointCount - 1, pointCount + 3)]);
+                smallSpikePos.Add(points[WorldGen.genRand.Next(pointCount + 1, pointCount + 3)]);
 
-                for (int i2 = 0; i2 < platformLength; i2++)
+                for (int j = -largeSpikeThickness; j <= largeSpikeThickness; j++)
                 {
-                    Point16 tilePosition = platformPosition + new Point16(i2, 0);
-                    WorldGen.PlaceTile(tilePosition.X, tilePosition.Y, ModContent.TileType<Tiles.Deimostone>());
+                    int y = spikePos.Y + j;
+                    for (int i = -20; i < largeSpikeSize * (1f - Math.Abs((float)j / (float)largeSpikeThickness)); i++)
+                    {
+                        int x = spikePos.X + i - 10;
+                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                    }
                 }
-
-                for (int i2 = 0; i2 < platformLength - WorldGen.genRand.Next(5, 15) * sizeMultiplier; i2++)
+                foreach (Point16 pos in smallSpikePos)
                 {
-                    Point16 tilePosition = platformPosition + new Point16(i2, -1);
-                    WorldGen.PlaceTile(tilePosition.X, tilePosition.Y, ModContent.TileType<Tiles.Deimostone>());
-                }
-
-                for (int i2 = 0; i2 < platformLength - WorldGen.genRand.Next(5, 15) * sizeMultiplier; i2++)
-                {
-                    Point16 tilePosition = platformPosition + new Point16(i2, 1);
-                    WorldGen.PlaceTile(tilePosition.X, tilePosition.Y, ModContent.TileType<Tiles.Deimostone>());
-                }
-            }
-
-            for (int i = 0; i < WorldGen.genRand.Next(5, 8) * sizeMultiplier; i++)
-            {
-                Point16 platformPosition = new Point16(position.X + caveWidth, position.Y + WorldGen.genRand.Next((int)(15 * sizeMultiplier), caveHeight - (int)(15 * sizeMultiplier)));
-                int platformLength = (int)(WorldGen.genRand.Next(20, 35) * sizeMultiplier);
-
-                for (int i2 = 0; i2 < platformLength; i2++)
-                {
-                    Point16 tilePosition = platformPosition + new Point16(-i2, 0);
-                    WorldGen.PlaceTile(tilePosition.X, tilePosition.Y, ModContent.TileType<Tiles.Deimostone>());
-                }
-
-                for (int i2 = 0; i2 < platformLength - WorldGen.genRand.Next(5, 15) * sizeMultiplier; i2++)
-                {
-                    Point16 tilePosition = platformPosition + new Point16(-i2, -1);
-                    WorldGen.PlaceTile(tilePosition.X, tilePosition.Y, ModContent.TileType<Tiles.Deimostone>());
-                }
-
-                for (int i2 = 0; i2 < platformLength - WorldGen.genRand.Next(5, 15) * sizeMultiplier; i2++)
-                {
-                    Point16 tilePosition = platformPosition + new Point16(-i2, 1);
-                    WorldGen.PlaceTile(tilePosition.X, tilePosition.Y, ModContent.TileType<Tiles.Deimostone>());
+                    for (int j = -smallSpikeThickness; j <= smallSpikeThickness; j++)
+                    {
+                        int y = pos.Y + j;
+                        for (int i = -15; i < smallSpikeSize * (1f - Math.Abs((float)j / (float)smallSpikeThickness)); i++)
+                        {
+                            int x = pos.X - i + 10;
+                            WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                        }
+                    }
                 }
             }
 
@@ -1901,87 +1943,6 @@ namespace TerrorbornMod
             if (WorldGen.genRand.NextBool())
             {
                 side = -1;
-            }
-
-            Point16 chestPosition = new Point16(caveCenterX + (caveWidth / 2 - 10) * side, position.Y + WorldGen.genRand.Next(10, caveHeight - 10));
-            deimostoneChests.Add(chestPosition);
-
-            //generate second chest
-            side *= -1;
-            chestPosition = new Point16(caveCenterX + (caveWidth / 2 - 10) * side, position.Y + WorldGen.genRand.Next(10, caveHeight - 10));
-            deimostoneChests.Add(chestPosition);
-
-            //add tunnels to the sides
-            int tunnelY;
-            int tunnelHeight;
-            int tunnelCeilingWidth;
-
-            for (int i = 0; i < WorldGen.genRand.Next(4); i++)
-            {
-                tunnelY = position.Y + WorldGen.genRand.Next(25, caveHeight - 25);
-                tunnelHeight = (int)(WorldGen.genRand.Next(4, 7) * sizeMultiplier);
-                tunnelCeilingWidth = (int)(2 * sizeMultiplier);
-                int startingX = (int)(position.X + sideWidth + Main.rand.Next(2, 4) * sizeMultiplier);
-                int yOffset = 0;
-
-                for (int x = 0; x < sideWidth + WorldGen.genRand.Next(4, 9) * sizeMultiplier; x++)
-                {
-                    int currentX = startingX - x;
-                    int currentY = tunnelY - tunnelHeight / 2;
-                    yOffset += WorldGen.genRand.Next(-1, 2);
-                    if (yOffset > 3)
-                    {
-                        yOffset = 3;
-                    }
-                    if (yOffset < -3)
-                    {
-                        yOffset = -3;
-                    }
-
-                    for (int i2 = 0; i2 < tunnelHeight; i2++)
-                    {
-                        WorldGen.KillTile(currentX, currentY + i2 + yOffset);
-                        if (i2 <= tunnelCeilingWidth || i2 >= tunnelHeight - tunnelCeilingWidth)
-                        {
-                            WorldGen.PlaceTile(currentX, currentY + i2 + yOffset, ModContent.TileType<Tiles.Deimostone>());
-                        }
-                        WorldGen.PlaceWall(currentX, currentY + i2 + yOffset, ModContent.WallType<Tiles.DeimostoneWallTile>());
-                    }
-                }
-            }
-
-            for (int i = 0; i < WorldGen.genRand.Next(4); i++)
-            {
-                tunnelY = position.Y + WorldGen.genRand.Next(25, caveHeight - 25);
-                tunnelHeight = (int)(WorldGen.genRand.Next(4, 7) * sizeMultiplier);
-                tunnelCeilingWidth = (int)(2 * sizeMultiplier);
-                int startingX = (int)(position.X + caveWidth - sideWidth - Main.rand.Next(2, 4) * sizeMultiplier);
-                int yOffset = 0;
-
-                for (int x = 0; x < sideWidth + WorldGen.genRand.Next(4, 9) * sizeMultiplier; x++)
-                {
-                    int currentX = startingX + x;
-                    int currentY = tunnelY - tunnelHeight / 2;
-                    yOffset += WorldGen.genRand.Next(-1, 2);
-                    if (yOffset > 3)
-                    {
-                        yOffset = 3;
-                    }
-                    if (yOffset < -3)
-                    {
-                        yOffset = -3;
-                    }
-
-                    for (int i2 = 0; i2 < tunnelHeight; i2++)
-                    {
-                        WorldGen.KillTile(currentX, currentY + i2 + yOffset);
-                        if (i2 <= tunnelCeilingWidth || i2 >= tunnelHeight - tunnelCeilingWidth)
-                        {
-                            WorldGen.PlaceTile(currentX, currentY + i2 + yOffset, ModContent.TileType<Tiles.Deimostone>());
-                        }
-                        WorldGen.PlaceWall(currentX, currentY + i2 + yOffset, ModContent.WallType<Tiles.DeimostoneWallTile>());
-                    }
-                }
             }
         }
 
@@ -2004,6 +1965,10 @@ namespace TerrorbornMod
             WorldGen.KillTile(x + 1, y + 2);
             WorldGen.PlaceTile(x, y + 2, ModContent.TileType<Tiles.Deimostone>());
             WorldGen.PlaceTile(x + 1, y + 2, ModContent.TileType<Tiles.Deimostone>());
+            WorldGen.PlaceTile(x - 1, y + 2, ModContent.TileType<Tiles.Deimostone>());
+            WorldGen.PlaceTile(x + 2, y + 2, ModContent.TileType<Tiles.Deimostone>());
+            WorldGen.PlaceTile(x, y + 3, ModContent.TileType<Tiles.Deimostone>());
+            WorldGen.PlaceTile(x + 1, y + 3, ModContent.TileType<Tiles.Deimostone>());
             WorldGen.PlaceTile(x, y + 1, (ushort)ModContent.TileType<Tiles.DeimostoneChestTile>());
             int chest = Chest.FindChest(x, y);
         }
