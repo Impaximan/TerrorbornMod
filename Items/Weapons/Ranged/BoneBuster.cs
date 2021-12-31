@@ -24,13 +24,13 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 18;
+            item.damage = 16;
             item.ranged = true;
             item.noMelee = true;
-            item.width = 38;
-            item.height = 18;
-            item.useTime = 3;
-            item.useAnimation = 3;
+            item.width = 36;
+            item.height = 22;
+            item.useTime = 5;
+            item.useAnimation = 5;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;
             item.value = Item.sellPrice(0, 1, 0, 0);

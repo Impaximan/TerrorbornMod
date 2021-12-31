@@ -287,7 +287,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (NPC.AnyNPCs(npc.type) || spawnInfo.player.ZoneUnderworldHeight || TerrorbornWorld.CartographerSpawnCooldown > 0)
+            if (NPC.AnyNPCs(npc.type) || spawnInfo.player.ZoneUnderworldHeight || TerrorbornWorld.CartographerSpawnCooldown > 0 || spawnInfo.player.Distance(new Vector2(Main.spawnTileX * 16, Main.spawnTileY * 16)) <= 6000)
             {
                 return 0f;
             }

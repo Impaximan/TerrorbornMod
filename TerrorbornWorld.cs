@@ -1851,7 +1851,7 @@ namespace TerrorbornMod
                 }
                 for (int w = -width / 2; w <= width / 2; w++)
                 {
-                    WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>());
+                    WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
                 }
                 for (float a = 0; a <= amount; a += 0.5f)
                 {
@@ -1866,7 +1866,7 @@ namespace TerrorbornMod
                     }
                     for (int w = -width / 2; w <= width / 2; w++)
                     {
-                        WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>());
+                        WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
                     }
                 }
             }
@@ -1890,7 +1890,7 @@ namespace TerrorbornMod
                     for (int i = -20; i < largeSpikeSize * (1f - Math.Abs((float)j / (float)largeSpikeThickness)); i++)
                     {
                         int x = spikePos.X - i + 10;
-                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>());
                     }
                 }
 
@@ -1902,7 +1902,7 @@ namespace TerrorbornMod
                         for (int i = -15; i < smallSpikeSize * (1f - Math.Abs((float)j / (float)smallSpikeThickness)); i++)
                         {
                             int x = pos.X + i - 10;
-                            WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                            WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>());
                         }
                     }
                 }
@@ -1919,7 +1919,7 @@ namespace TerrorbornMod
                     for (int i = -20; i < largeSpikeSize * (1f - Math.Abs((float)j / (float)largeSpikeThickness)); i++)
                     {
                         int x = spikePos.X + i - 10;
-                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>());
                     }
                 }
                 foreach (Point16 pos in smallSpikePos)
@@ -1930,7 +1930,7 @@ namespace TerrorbornMod
                         for (int i = -15; i < smallSpikeSize * (1f - Math.Abs((float)j / (float)smallSpikeThickness)); i++)
                         {
                             int x = pos.X - i + 10;
-                            WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                            WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Deimostone>());
                         }
                     }
                 }

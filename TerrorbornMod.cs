@@ -171,7 +171,7 @@ namespace TerrorbornMod
         public virtual void SetColors(ref Color[] colors, int width, int height)
         {
             int x = width / 2;
-            int y = height / 2;
+            int y = height;
             for (int j = 0; j < height; j++)
             {
                 for (int i = 0; i < width; i++)
@@ -179,7 +179,7 @@ namespace TerrorbornMod
                     int index = j * width + i;
                     float distanceUntilFade = 0f;
                     double dX = (double)(i - x) / (double)width;
-                    double dY = (double)(j - y) / (double)height;
+                    double dY = (double)(j - y) / (double)height / 2;
                     float c = (float)Math.Sqrt(dX * dX + dY * dY) * 2f;
                     c -= distanceUntilFade;
                     if (c == 0)
@@ -212,7 +212,7 @@ namespace TerrorbornMod
             string path = Path.Combine(savingFolder, "TerrorbornOutput.png");
             using (Stream stream = File.OpenWrite(path))
             {
-                CreateImage(200, 100).SaveAsPng(stream, 200, 100);
+                CreateImage(50, 200).SaveAsPng(stream, 50, 200);
             }
 
             TBUtils.Detours.Initialize();
