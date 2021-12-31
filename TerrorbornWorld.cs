@@ -1704,9 +1704,9 @@ namespace TerrorbornMod
 
         public void GenerateDeimostoneCaves()
         {
-            float amountMultiplier = 1f;
+            float amountMultiplier = 0.005f;
             GenerateDeimostoneCave(new Point16(WorldGen.genRand.Next(Main.maxTilesX / 2 - 350, Main.maxTilesX / 2 + 350), (int)(WorldGen.rockLayerHigh + 25)), WorldGen.genRand.NextFloat(1.2f, 1.6f));
-            for (int i = 0; i < WorldGen.genRand.Next(30, 45) * amountMultiplier; i++)
+            for (int i = 0; i < Main.maxTilesX * amountMultiplier; i++)
             {
                 GenerateDeimostoneCave(new Point16(WorldGen.genRand.Next(500, Main.maxTilesX - 500), WorldGen.genRand.Next((int)WorldGen.rockLayerHigh, (int)Main.maxTilesY - 300)), WorldGen.genRand.NextFloat(1.2f, 1.6f));
             }
