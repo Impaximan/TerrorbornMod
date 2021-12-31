@@ -22,8 +22,6 @@ namespace TerrorbornMod
         public static bool downedPrototypeI;
         public static bool downedTidalTitan;
         public static bool downedDunestock;
-        public static bool downedSangrune;
-        public static bool downedSangrune2;
         public static bool downedUndyingSpirit;
         public static bool downedIncendiaryBoss;
         public static bool obtainedShriekOfHorror;
@@ -64,7 +62,6 @@ namespace TerrorbornMod
             downedTidalTitan = false;
             downedDunestock = false;
             timeSinceFrightcrawlerSpawn = 0;
-            downedSangrune = false;
             terrorRain = false;
             downedTerrorRain = false;
             downedFrightcrawler = false;
@@ -167,8 +164,6 @@ namespace TerrorbornMod
             if (downedPrototypeI) downed.Add("PrototypeI");
             if (downedTidalTitan) downed.Add("TidalTitan");
             if (downedDunestock) downed.Add("Dunestock");
-            if (downedSangrune) downed.Add("Sangrune");
-            if (downedSangrune2) downed.Add("Sangrune2");
             if (downedUndyingSpirit) downed.Add("UndyingSpirit");
             if (obtainedShriekOfHorror) downed.Add("ShriekOfHorror");
             if (downedTerrorRain) downed.Add("downedTerrorRain");
@@ -200,8 +195,6 @@ namespace TerrorbornMod
             downedPrototypeI = downed.Contains("PrototypeI");
             downedTidalTitan = downed.Contains("TidalTitan");
             downedDunestock = downed.Contains("Dunestock");
-            downedSangrune = downed.Contains("Sangrune");
-            downedSangrune2 = downed.Contains("Sangrune2");
             downedUndyingSpirit = downed.Contains("UndyingSpirit");
             downedIncendiaryBoss = downed.Contains("downedIncendiaryBoss");
             obtainedShriekOfHorror = downed.Contains("ShriekOfHorror");

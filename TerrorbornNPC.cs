@@ -912,7 +912,6 @@ namespace TerrorbornMod
             extraDarkEnergyIDs.Add(NPCID.BigMimicHallow);
             extraDarkEnergyIDs.Add(NPCID.GoblinSummoner);
             extraDarkEnergyIDs.Add(NPCID.IceGolem);
-            extraDarkEnergyIDs.Add(ModContent.NPCType<NPCs.Bosses.Sangrune>());
             extraDarkEnergyIDs.Add(ModContent.NPCType<NPCs.UndyingSpirit>());
             extraDarkEnergyIDs.Add(ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
 

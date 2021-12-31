@@ -20,13 +20,14 @@ namespace TerrorbornMod.Items.Equipable.Armor
             item.width = 22;
             item.height = 24;
             item.value = Item.sellPrice(0, 2, 0, 0);
-            item.defense = 6;
+            item.defense = 4;
             item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer.modPlayer(player).magicUseSpeed *= 1.1f;
+            player.magicCrit += 6;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -37,12 +38,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Greatly increases mana regen while standing still" +
-                "\nGrants you the 'dryad's blessing' buff while on the surface during the day";
+                "\nGrants you the 'dryad's blessing' buff while on the surface";
             if (player.velocity.X == 0)
             {
                 player.manaRegen += 10;
             }
-            if (player.ZoneOverworldHeight && Main.dayTime)
+            if (player.ZoneOverworldHeight)
             {
                 player.AddBuff(BuffID.DryadsWard, 2);
             }

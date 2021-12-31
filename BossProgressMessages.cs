@@ -79,11 +79,10 @@ namespace TerrorbornMod
                 Main.NewText("The moon pulls on the ocean ever stronger", 94, 116, 227);
             }
 
-            if (NPC.downedBoss2 && !BloodMoonMessageSent)
+            if (NPC.downedBoss1 && !BloodMoonMessageSent)
             {
                 BloodMoonMessageSent = true;
                 Main.NewText("The blood moon calls to you...", 238, 57, 57);
-                Main.NewText("An ancient peacekeeper wishes to move in to your town", Color.Yellow);
             }
 
             if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && !PostAllMechMessagesSent)

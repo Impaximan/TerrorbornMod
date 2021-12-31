@@ -573,7 +573,6 @@ namespace TerrorbornMod
             Mod yabhb = ModLoader.GetMod("FKBossHealthBar");
             if (yabhb != null)
             {
-                yabhb.Call("RegisterHealthBar", ModContent.NPCType<NPCs.Bosses.Sangrune>());
                 yabhb.Call("RegisterHealthBarMini", ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
                 yabhb.Call("RegisterHealthBarMini", ModContent.NPCType<NPCs.SlateBanshee>());
             }
@@ -595,8 +594,6 @@ namespace TerrorbornMod
                 bossChecklist.Call("AddBossWithInfo", "Dunestock", 5.5f, (Func<bool>)(() => TerrorbornWorld.downedDunestock), "Use a [i:" + ModContent.ItemType<Items.DriedCanteen>() + "] in the desert.");
                 bossChecklist.Call("AddBossWithInfo", "Shadowcrawler", 9.5f, (Func<bool>)(() => TerrorbornWorld.downedShadowcrawler), "Use a [i:" + ModContent.ItemType<Items.RadioactiveSpiderFood>() + "] during the night.");
                 bossChecklist.Call("AddBossWithInfo", "Prototype I", 11.35f, (Func<bool>)(() => TerrorbornWorld.downedPrototypeI), "Use a [i:" + ModContent.ItemType<Items.PlasmaCore>() + "] during the night.");
-                bossChecklist.Call("AddMiniBossWithInfo", "Sangrune", 3.25f, (Func<bool>)(() => TerrorbornWorld.downedSangrune), "Spawns during a blood moon after the eater of worlds/brain of cthulhu have been defeated.");
-                bossChecklist.Call("AddMiniBossWithInfo", "Sangrune (hardmode)", 7.5f, (Func<bool>)(() => TerrorbornWorld.downedSangrune2), "Re-fight Sangrune after the Wall of Flesh has been defeated.");
                 bossChecklist.Call("AddBossWithInfo", "Hexed Constructor", 7.9f, (Func<bool>)(() => TerrorbornWorld.downedIncendiaryBoss), "Use an [i:" + ModContent.ItemType<Items.AccursedClock>() + "] in the Sisyphean Islands biome. The boss will enrage if you leave the biome.");
                 bossChecklist.Call("AddMiniBossWithInfo", "Undying Spirit", 6.05f, (Func<bool>)(() => TerrorbornWorld.downedUndyingSpirit), "A strange eratic ghost that 'died' long ago. Spawns occasionally in the corruption: be wary.");
                 bossChecklist.Call("AddEventWithInfo", "???", -5f, (Func<bool>)(() => TerrorbornWorld.obtainedShriekOfHorror), "Follow the [i:" + ModContent.ItemType<Items.MysteriousCompass>() + "]'s guidance");
