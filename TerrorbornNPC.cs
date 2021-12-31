@@ -54,7 +54,7 @@ namespace TerrorbornMod
                 npc.TargetClosest(true);
             }
 
-            if ((int)Math.Abs(npc.velocity.X) < maxSpeed - accelleration)
+            if (Math.Abs(npc.velocity.X) < maxSpeed - accelleration)
             {
                 fighter_StillTime++;
                 if (fighter_StillTime > stillTimeUntilTurnaround)

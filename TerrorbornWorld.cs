@@ -29,6 +29,7 @@ namespace TerrorbornMod
         public static bool obtainedShriekOfHorror;
         public static bool downedTerrorRain;
         public static bool downedFrightcrawler;
+        public static bool downedSlateBanshee;
         public static bool terrorRain;
         public static bool talkedToCartographer;
         public static bool talkedToHeretic;
@@ -70,6 +71,7 @@ namespace TerrorbornMod
             downedUndyingSpirit = false;
             obtainedShriekOfHorror = false;
             talkedToCartographer = false;
+            downedSlateBanshee = false;
             talkedToHeretic = false;
             TerrorMasterDialogue = 0;
             SkeletonSheriffName = getSkeletonSheriffName();
@@ -172,6 +174,7 @@ namespace TerrorbornMod
             if (downedTerrorRain) downed.Add("downedTerrorRain");
             if (downedFrightcrawler) downed.Add("downedFrightcrawler");
             if (downedIncendiaryBoss) downed.Add("downedIncendiaryBoss");
+            if (downedSlateBanshee) downed.Add("downedSlateBanshee");
 
             return new TagCompound {
                 {"downed", downed},
@@ -204,6 +207,7 @@ namespace TerrorbornMod
             obtainedShriekOfHorror = downed.Contains("ShriekOfHorror");
             downedTerrorRain = downed.Contains("downedTerrorRain");
             downedFrightcrawler = downed.Contains("downedFrightcrawler");
+            downedSlateBanshee = downed.Contains("downedSlateBanshee");
             CurrentBountyBiome = tag.GetInt("CurrentBountyBiome");
             SkeletonSheriffName = tag.GetString("SkeletonSheriffName");
             CartographerName = tag.GetString("CartographerName");

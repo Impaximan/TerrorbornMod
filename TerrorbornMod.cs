@@ -575,6 +575,7 @@ namespace TerrorbornMod
             {
                 yabhb.Call("RegisterHealthBar", ModContent.NPCType<NPCs.Bosses.Sangrune>());
                 yabhb.Call("RegisterHealthBarMini", ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
+                yabhb.Call("RegisterHealthBarMini", ModContent.NPCType<NPCs.SlateBanshee>());
             }
 
             Mod fargos = ModLoader.GetMod("Fargowiltas");
@@ -599,6 +600,7 @@ namespace TerrorbornMod
                 bossChecklist.Call("AddBossWithInfo", "Hexed Constructor", 7.9f, (Func<bool>)(() => TerrorbornWorld.downedIncendiaryBoss), "Use an [i:" + ModContent.ItemType<Items.AccursedClock>() + "] in the Sisyphean Islands biome. The boss will enrage if you leave the biome.");
                 bossChecklist.Call("AddMiniBossWithInfo", "Undying Spirit", 6.05f, (Func<bool>)(() => TerrorbornWorld.downedUndyingSpirit), "A strange eratic ghost that 'died' long ago. Spawns occasionally in the corruption: be wary.");
                 bossChecklist.Call("AddEventWithInfo", "???", -5f, (Func<bool>)(() => TerrorbornWorld.obtainedShriekOfHorror), "Follow the [i:" + ModContent.ItemType<Items.MysteriousCompass>() + "]'s guidance");
+                bossChecklist.Call("AddMiniBossWithInfo", "Slate Banshee", 0.5f, (Func<bool>)(() => TerrorbornWorld.downedSlateBanshee), "Spawns occasionally in deimostone caves after you've obtained Shriek of Horror. Has an increased spawn chance if you're wearing a [i:" + ModContent.ItemType<Items.Equipable.Accessories.DeimosteelCharm>() + "].");
                 bossChecklist.Call("AddEventWithInfo", "Astraphobia", 6.06f, (Func<bool>)(() => TerrorbornWorld.downedTerrorRain), "Has a chance to occur instead of rain. Can be manually summoned by using a [i:" + ModContent.ItemType<Items.MiscConsumables.BrainStorm>() + "] during rain.");
                 bossChecklist.Call("AddMiniBossWithInfo", "Frightcrawler", 6.07f, (Func<bool>)(() => TerrorbornWorld.downedFrightcrawler), "Spawns during the Astraphobia event (see above).");
             }

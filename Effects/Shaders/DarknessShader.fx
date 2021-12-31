@@ -23,7 +23,7 @@ float2 uZoom;
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
-    float distanceMultiplier = (distance(coords, float2(0.5, 0.5))) * 0.5;
+    float distanceMultiplier = (distance(coords, float2(0.5, 0.5))) * 0.3;
     
     if (distanceMultiplier < 0)
     {

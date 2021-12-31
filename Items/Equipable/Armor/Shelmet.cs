@@ -20,8 +20,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("6% increased melee critical strike chance" +
+            Tooltip.SetDefault("9% increased melee critical strike chance" +
                 "\nHas a set bonus when paired with copper or tin armor");
+        }
+        public override void UpdateEquip(Player player)
+        {
+            player.meleeCrit += 9;
         }
 
         public override void SetDefaults()

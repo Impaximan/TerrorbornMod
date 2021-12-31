@@ -90,7 +90,11 @@ namespace TerrorbornMod.NPCs
             {
                 return 0f;
             }
-            return SpawnCondition.OverworldDaySlime.Chance * 0.65f;
+            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary)
+            {
+                return 0f;
+            }
+            return SpawnCondition.OverworldDaySlime.Chance * 0.5f;
         }
     }
 }
