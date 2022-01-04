@@ -5,6 +5,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Liquid;
 using Terraria.World.Generation;
 
 namespace TerrorbornMod.NPCs.Bosses
@@ -94,33 +95,6 @@ namespace TerrorbornMod.NPCs.Bosses
     [AutoloadBossHead]
     class TidalTitan : ModNPC
     {
-        int bubbleCooldown = 10;
-        private void SpawnBubble(float CrabChance, float Speed)
-        {
-            bubbleCooldown--;
-            if (bubbleCooldown <= 0)
-            {
-                bubbleCooldown = 5;
-                int captive = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("TidalCrabBubble"));
-            }
-            else
-            {
-                int captive = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("TidalBubble"));
-            }
-            Main.PlaySound(SoundID.Item85, npc.Center);
-            //float rotation = (float)Math.Atan2(vector8.Y - (Main.player[npc.target].position.Y + (Main.player[npc.target].height * 0.5f)), vector8.X - (Main.player[npc.target].position.X + (Main.player[npc.target].width * 0.5f)));
-            //Main.npc[captive].velocity = new Vector2((float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1));
-        }
-
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            if (AIPhase == 3 && PhaseTimeLeft > 0)
-            {
-                return false;
-            }
-            return base.CanHitPlayer(target, ref cooldownSlot);
-        }
-
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[npc.type] = 17;
@@ -128,8 +102,8 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override void SetDefaults()
         {
-            npc.noGravity = false;
-            npc.noTileCollide = false;
+            npc.noGravity = true;
+            npc.noTileCollide = true;
             npc.boss = true;
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/CrustaceanCrackdown");
             npc.width = 128;
@@ -149,7 +123,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
             modNPC.BossTitle = "Tidal Titan";
-            modNPC.BossSubtitle = "Commander of the Ocean";
+            modNPC.BossSubtitle = "Terror of the Ocean";
             modNPC.BossTitleColor = Color.SkyBlue;
         }
 
@@ -232,313 +206,12 @@ namespace TerrorbornMod.NPCs.Bosses
             npc.lifeMax -= npc.lifeMax / 3;
             npc.defense = 19;
         }
-        int FollowingFlameThingWait = 0;
-        void SpawnFlame()
-        {
-            Vector2 position = Main.player[npc.target].Center;
-            while (!WorldUtils.Find(position.ToTileCoordinates(), Searches.Chain(new Searches.Down(1), new GenCondition[]
-                {
-        new Conditions.IsSolid()
-                }), out _))
-            {
-                position.Y++;
-            }
 
-            //for (position = Main.player[npc.target].Center; Main.tileSolid[Main.tile[(int)position.X / 16, (int)position.Y / 16].type]; position.Y += 0.25f) ;
-            Projectile.NewProjectile(position, new Vector2(0, 0), mod.ProjectileType("TideFireWait"), 30, 0, ai0: 100);
-            Main.PlaySound(SoundID.Item117, position);
-        }
-
-        void DecideNextAIPhase()
-        {
-            PlannedAIPhase = Main.rand.Next(1, 6);
-            while (PlannedAIPhase == AIPhase || (PlannedAIPhase == 3 && JumpCooldown > 0) || (PlannedAIPhase == 5 && bubbleAttackCooldown > 0))
-            {
-                PlannedAIPhase = Main.rand.Next(1, 6);
-            }
-        }
-
-        int AIPhase = 0;
-        int PlannedAIPhase = 1;
-        int waitingTime = 50;
-        int PhaseTimeLeft = 120;
-        int BubbleWait = 60;
-        int BubblesToFire = 4;
-        int JumpCooldown = 0;
-        int requiredJumpWait = 600;
-        int bubbleAttackCooldown = 0;
-        Vector2 jumpTarget;
+        bool inWater = false;
 
         public override void AI()
         {
-            if (bubbleAttackCooldown > 0)
-            {
-                bubbleAttackCooldown--;
-            }
-            if (requiredJumpWait > 900 - ((npc.lifeMax - npc.life) / npc.lifeMax) * 450)
-            {
-                requiredJumpWait = 900 - ((npc.lifeMax - npc.life) / npc.lifeMax) * 450;
-            }
-            if (JumpCooldown > 0)
-            {
-                JumpCooldown--;
-                requiredJumpWait = 900 - ((npc.lifeMax - npc.life) / npc.lifeMax) * 450;
-            }
-            else if (requiredJumpWait > 0)
-            {
-                requiredJumpWait--;
-            }
-            if (npc.life <= npc.lifeMax * .4f)
-            {
-                FollowingFlameThingWait--;
-                if (FollowingFlameThingWait <= 0)
-                {
-                    FollowingFlameThingWait = 720;
-                    SpawnFlame();
-                }
-            }
-            if (npc.wet || !Main.player[npc.target].active || Main.player[npc.target].dead || !Main.player[npc.target].ZoneBeach)
-            {
-                npc.alpha += 2;
-                if (npc.alpha >= 255)
-                {
-                    npc.active = false;
-                    if (npc.wet)
-                    {
-                        Main.NewText("The mysterious crab plunges into the depths. Perhaps you should try and keep it from doing that somehow....", new Color(0, 0, 225));
-                    }
-                }
-            }
-            else
-            {
-                if (npc.alpha > 0)
-                {
-                    npc.alpha -= 5;
-                }
-                else if (npc.alpha < 0)
-                {
-                    npc.alpha = 0;
-                }
-            }
-            Player target = Main.player[npc.target];
-            Vector2 targetPosition = target.Center;
-            if (AIPhase == 0) //Standing still. Will keep waiting until it is told to stahp waiting
-            {
-                if (targetPosition.Y >= npc.position.Y + 150)
-                {
-                    npc.velocity.Y += 0.2f;
-                    npc.position.Y += 0.1f;
-                }
-                frame = 0;
-                if (!(PlannedAIPhase == 3 && npc.velocity.Y != 0) || !(PlannedAIPhase == 2 && npc.velocity.Y != 0) || !(PlannedAIPhase == 4 && npc.velocity.Y != 0))
-                {
-                    waitingTime--;
-                }
-                if (waitingTime <= 0)
-                {
-                    if (requiredJumpWait <= 0)
-                    {
-                        PlannedAIPhase = 3;
-                    }
-                    AIPhase = PlannedAIPhase;
-                    if (PlannedAIPhase == 1)
-                    {
-                        BubbleWait = 120;
-                    }
-                    if (PlannedAIPhase == 2)
-                    {
-                        frame = 12;
-                    }
-                    if (PlannedAIPhase == 3)
-                    {
-                        frame = 7;
-                        PhaseTimeLeft = 90;
-                        Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
-                        jumpTarget = targetPosition + new Vector2(0, -300);
-                    }
-                    if (PlannedAIPhase == 4)
-                    {
-                        frame = 6;
-                        PhaseTimeLeft = 3;
-                        if (npc.life <= npc.lifeMax * 0.66f)
-                        {
-                            PhaseTimeLeft = 4;
-                        }
-                        if (npc.life <= npc.lifeMax * 0.33f)
-                        {
-                            PhaseTimeLeft = 5;
-                        }
-                    }
-                    if (PlannedAIPhase == 5)
-                    {
-                        BubbleWait = 10;
-                        BubblesToFire = 3;
-                        bubbleAttackCooldown = 500;
-                    }
-                }
-            }
-            if (AIPhase == 1) //walking
-            {
-                //BubbleWait--;
-                //if (BubbleWait <= 0)
-                //{
-                //    BubbleWait = 120;
-                //    float speed = 7f;
-                //    Vector2 velocity = npc.DirectionTo(targetPosition) * speed;
-                //    Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<Projectiles.MoonlightOrb>(), 50 / 4, 0);
-                //}
-                if (targetPosition.Y >= npc.position.Y + 150)
-                {
-                    npc.velocity.Y += 0.2f;
-                    npc.position.Y += 0.1f;
-                }
-                float WalkSpeed = 0.35f;
-                WalkingAnimation(4);
-                if (npc.Center.X <= targetPosition.X)
-                {
-                    npc.velocity.X += WalkSpeed;
-                }
-                else
-                {
-                    npc.velocity.X -= WalkSpeed;
-                }
-                PhaseTimeLeft--;
-                if (PhaseTimeLeft <= 0)
-                {
-                    DecideNextAIPhase();
-                    AIPhase = 0;
-                    waitingTime = 40;
-                    FrameWait = 6;
-                }
-            }
-            if (AIPhase == 2) //Slam Towards player
-            {
-                FrameWait--;
-                if (FrameWait <= 0)
-                {
-                    frame++;
-                    FrameWait = 6;
-                    if (frame == 14)
-                    {
-                        Main.PlaySound(SoundID.Item14, npc.Center);
-                        if (npc.Center.X <= targetPosition.X)
-                        {
-                            Projectile.NewProjectile(new Vector2(npc.Center.X, npc.position.Y), new Vector2(12.5f, 0), mod.ProjectileType("SlamOut"), 50 / 4, 15);
-                        }
-                        else
-                        {
-                            Projectile.NewProjectile(new Vector2(npc.Center.X, npc.position.Y), new Vector2(-12.5f, 0), mod.ProjectileType("SlamOut"), 50 / 4, 15);
-                        }
-
-                    }
-                    if (frame >= 16)
-                    {
-                        DecideNextAIPhase();
-                        AIPhase = 0;
-                        waitingTime = 40;
-                    }
-                }
-            }
-            if (AIPhase == 3) //Jump
-            {
-                if (PhaseTimeLeft > 0)
-                {
-                    frame = 7;
-                    PhaseTimeLeft--;
-                    npc.noTileCollide = true;
-                    npc.velocity = npc.DirectionTo(jumpTarget) * npc.Distance(jumpTarget) / 10;
-
-                    if (PhaseTimeLeft <= 0)
-                    {
-                        npc.velocity.Y += 15;
-                    }
-                }
-                else
-                {
-                    frame = 7;
-                    npc.noTileCollide = targetPosition.Y > npc.position.Y + npc.height;
-                    if (npc.velocity.Y == 0)
-                    {
-                        frame = 0;
-                        Main.PlaySound(SoundID.Item14, npc.Center);
-                        npc.velocity.X = 0;
-
-                        int geyserCount = 45;
-                        float geyserSpace = 200;
-
-                        for (int i = -geyserCount / 2; i < geyserCount / 2; i++)
-                        {
-                            Vector2 position = new Vector2(npc.Center.X - i * geyserSpace, npc.position.Y);
-                            int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<JumpGeyserTelegraph>(), 17, 0);
-                            Main.projectile[proj].ai[0] = 50 - ((npc.lifeMax - npc.life) / npc.lifeMax) * 45;
-                        }
-
-                        DecideNextAIPhase();
-                        AIPhase = 0;
-                        waitingTime = 90;
-                        JumpCooldown = 120;
-                        PhaseTimeLeft = 240;
-                    }
-                    frame = 0;
-                }
-            }
-            if (AIPhase == 4) //Predictive Geysers
-            {
-                FrameWait--;
-                if (FrameWait <= 0)
-                {
-                    frame++;
-                    FrameWait = 6;
-                    if (npc.life <= npc.lifeMax * 0.66f)
-                    {
-                        FrameWait = 4;
-                    }
-                    if (frame == 10)
-                    {
-                        Main.PlaySound(SoundID.Item14, npc.Center);
-                        Vector2 position = new Vector2(target.Center.X + target.velocity.X * 60, target.Center.Y);
-                        int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<JumpGeyserTelegraph>(), 17, 0);
-                        Main.projectile[proj].ai[0] = 60;
-                    }
-                    if (frame >= 11)
-                    {
-                        PhaseTimeLeft--;
-                        if (PhaseTimeLeft <= 0)
-                        {
-                            DecideNextAIPhase();
-                            AIPhase = 0;
-                            waitingTime = 80;
-                        }
-                        else
-                        {
-                            frame = 6;
-                        }
-                    }
-                }
-            }
-            if (AIPhase == 5) //Bubble Barrage of bubbling fear and ultimate doom
-            {
-                BubbleWait--;
-                if (BubbleWait <= 0)
-                {
-                    if (Main.expertMode)
-                    {
-                        SpawnBubble(10, 10);
-                    }
-                    else
-                    {
-                        SpawnBubble(10, 10);
-                    }
-                    BubbleWait = 30;
-                    BubblesToFire--;
-                    if (BubblesToFire <= 0)
-                    {
-                        DecideNextAIPhase();
-                        AIPhase = 0;
-                        waitingTime = 40;
-                    }
-                }
-            }
+            inWater = Collision.WetCollision(npc.position, npc.width, npc.height) || Collision.SolidCollision(npc.position, npc.width, npc.height);
         }
         class SlamOut : ModProjectile
         {

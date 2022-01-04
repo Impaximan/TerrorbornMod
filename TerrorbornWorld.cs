@@ -49,6 +49,7 @@ namespace TerrorbornMod
         public static Vector2 HorrificAdaptation;
         public static Vector2 VoidBlink;
         public static Vector2 TerrorWarp;
+        public static Vector2 IIShrinePosition;
 
         int BountyBiomeCount = 7;
 
@@ -180,6 +181,7 @@ namespace TerrorbornMod
                 {"VoidBlink", VoidBlink},
                 {"TerrorWarp", TerrorWarp},
                 {"terrorRain", terrorRain},
+                {"IIShrinePosition", IIShrinePosition},
                 {"talkedToCartographer", talkedToCartographer},
                 {"talkedToHeretic", talkedToHeretic},
                 {"timeSinceFrightcrawlerSpawn", timeSinceFrightcrawlerSpawn},
@@ -207,6 +209,7 @@ namespace TerrorbornMod
             TerrorMasterDialogue = tag.GetInt("TerrorMasterDialogue");
             VoidBlink = tag.Get<Vector2>("VoidBlink");
             TerrorWarp = tag.Get<Vector2>("TerrorWarp");
+            IIShrinePosition = tag.Get<Vector2>("IIShrinePosition");
             terrorRain = tag.GetBool("terrorRain");
             talkedToCartographer = tag.GetBool("talkedToCartographer");
             talkedToHeretic = tag.GetBool("talkedToHeretic");
@@ -1691,6 +1694,29 @@ namespace TerrorbornMod
             }
             Vector2 HorrificAdaptationPosition = new Vector2(Main.spawnTileX + (Main.maxTilesX / 4) * -DungeonDirection, Main.maxTilesY / 2);
             Structures.StructureGenerator.GenerateHAShrine(mod, new Point((int)HorrificAdaptationPosition.X, (int)HorrificAdaptationPosition.Y));
+
+            bool foundIIShrinePosition = false;
+            while (!foundIIShrinePosition)
+            {
+                IIShrinePosition = new Vector2(WorldGen.genRand.Next(150, Main.maxTilesX - 150), 100);
+                while (!(Main.tileSolid[Main.tile[(int)IIShrinePosition.X, (int)IIShrinePosition.Y].type] || IIShrinePosition.Y >= Main.maxTilesY * 0.75f))
+                {
+                    IIShrinePosition.Y++;
+                }
+                if (Main.tile[(int)IIShrinePosition.X, (int)IIShrinePosition.Y].type == TileID.SnowBlock || Main.tile[(int)IIShrinePosition.X, (int)IIShrinePosition.Y].type == TileID.IceBlock)
+                {
+                    foundIIShrinePosition = true;
+                    break;
+                }
+            }
+            while (!WorldUtils.Find(IIShrinePosition.ToPoint(), Searches.Chain(new Searches.Down(1), new GenCondition[]
+                {
+        new Conditions.IsSolid()
+                }), out _))
+            {
+                IIShrinePosition.Y++;
+            }
+            Structures.StructureGenerator.GenerateIIArena(mod, new Point((int)IIShrinePosition.X - 52, (int)IIShrinePosition.Y - 8));
 
             VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f);
             Structures.StructureGenerator.GenerateVBShrine(mod, new Point((int)VoidBlink.X, (int)VoidBlink.Y));

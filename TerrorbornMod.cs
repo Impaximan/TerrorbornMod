@@ -91,6 +91,12 @@ namespace TerrorbornMod
                     priority = MusicPriority.Environment;
                 }
 
+                if (modPlayer.ZoneICU)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/ICU");
+                    priority = MusicPriority.Environment;
+                }
+
                 if (TerrorbornWorld.terrorRain && Main.raining && player.ZoneRain)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/DarkRain");

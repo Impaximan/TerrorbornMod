@@ -16,7 +16,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HellstoneBar, 12);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddIngredient(ModContent.ItemType<PyroclasticGemstone>(), 12);
             recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
             recipe.SetResult(this);

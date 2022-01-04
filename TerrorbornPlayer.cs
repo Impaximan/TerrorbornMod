@@ -130,6 +130,7 @@ namespace TerrorbornMod
         //Biome fields
         public bool ZoneDeimostone;
         public bool ZoneIncendiary;
+        public bool ZoneICU;
 
         //Misc stuff
         public int terrorDrainCounter = 0;
@@ -401,8 +402,8 @@ namespace TerrorbornMod
             }
 
             player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()));
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:DunestockShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.Dunestock>()));
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", ZoneDeimostone);
+            //player.ManageSpecialBiomeVisuals("TerrorbornMod:DunestockShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.Dunestock>()));
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", ZoneDeimostone || ZoneICU);
             player.ManageSpecialBiomeVisuals("TerrorbornMod:ColorlessShader", TimeFreezeTime > 0);
 
             player.ManageSpecialBiomeVisuals("TerrorbornMod:HexedMirage", HexedMirage);
@@ -442,6 +443,8 @@ namespace TerrorbornMod
                 incendiaryBiomeRect = new Rectangle((Main.maxTilesX * 16) - (int)(Main.maxTilesX / 4f * 16) - 120 * 16, 0, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
             }
             ZoneIncendiary = incendiaryBiomeRect.Intersects(player.getRect()) && Main.hardMode;
+
+            ZoneICU = player.Distance(TerrorbornWorld.IIShrinePosition + new Vector2(105f, 140f) * 8) <= 1120;
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)

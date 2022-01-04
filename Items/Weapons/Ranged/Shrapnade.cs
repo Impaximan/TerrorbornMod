@@ -74,7 +74,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(projectile.velocity.X * 2);
+            projectile.rotation += MathHelper.ToRadians(projectile.velocity.X * 4);
             projectile.velocity.Y += 0.2f;
         }
 

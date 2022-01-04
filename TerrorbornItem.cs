@@ -27,6 +27,8 @@ namespace TerrorbornMod
 
         public float ShriekDrainBoost = 0f;
         public float ShriekSpeedMultiplier = 1f;
+        public float critDamageBoost = 0f;
+        public float allUseSpeedBoost = 1f;
 
         public float TerrorCost = 0f;
 
@@ -55,11 +57,6 @@ namespace TerrorbornMod
         public override void GetWeaponCrit(Item item, Player player, ref int crit)
         {
             base.GetWeaponCrit(item, player, ref crit);
-
-            if (countAsThrown)
-            {
-                crit += player.thrownCrit - 4;
-            }
         }
 
         int azureCounter = 2;
@@ -130,9 +127,20 @@ namespace TerrorbornMod
             {
                 ShriekSpeedMultiplier = 1f;
             }
+
             if (item.prefix != ModContent.PrefixType<Prefixes.Weapons.Nightmarish>())
             {
                 TerrorCost = 0f;
+            }
+
+            if (item.prefix != ModContent.PrefixType<Prefixes.Accessories.Sharpened>() && item.prefix != ModContent.PrefixType<Prefixes.Accessories.Refined>())
+            {
+                critDamageBoost = 0f;
+            }
+
+            if (item.prefix != ModContent.PrefixType<Prefixes.Accessories.Shinobi>())
+            {
+                allUseSpeedBoost = 1f;
             }
         }
 
@@ -149,9 +157,17 @@ namespace TerrorbornMod
             {
                 modPlayer.ShriekTerrorMultiplier += ShriekDrainBoost;
             }
+            if (critDamageBoost != 0f)
+            {
+                modPlayer.critDamage += critDamageBoost;
+            }
             if (ShriekSpeedMultiplier != 1f)
             {
                 modPlayer.ShriekSpeed *= ShriekSpeedMultiplier;
+            }
+            if (allUseSpeedBoost != 1f)
+            {
+                modPlayer.allUseSpeed *= allUseSpeedBoost;
             }
         }
 
@@ -326,11 +342,19 @@ namespace TerrorbornMod
             }
 
             line = tooltips.FirstOrDefault(x => x.Name == "Social" && x.mod == "Terraria");
+
             if (ShriekDrainBoost != 0f && line == null)
             {
                 tooltips.Add(new TooltipLine(mod, "shriekterrorprefix", "+" + (ShriekDrainBoost * 100f) + "% Shriek of Horror terror drain"));
                 tooltips.FirstOrDefault(x => x.Name == "shriekterrorprefix" && x.mod == "TerrorbornMod").isModifier = true;
             }
+
+            if (critDamageBoost != 0f && line == null)
+            {
+                tooltips.Add(new TooltipLine(mod, "critdamageprefix", "+" + (critDamageBoost * 100f) + "% critical damage"));
+                tooltips.FirstOrDefault(x => x.Name == "critdamageprefix" && x.mod == "TerrorbornMod").isModifier = true;
+            }
+
             if (ShriekSpeedMultiplier != 1f && line == null)
             {
                 bool isBad = true;
@@ -345,6 +369,22 @@ namespace TerrorbornMod
                 tooltips.FirstOrDefault(x => x.Name == "shriekspeedprefix" && x.mod == "TerrorbornMod").isModifier = true;
                 tooltips.FirstOrDefault(x => x.Name == "shriekspeedprefix" && x.mod == "TerrorbornMod").isModifierBad = isBad;
             }
+
+            if (allUseSpeedBoost != 1f && line == null)
+            {
+                bool isBad = false;
+                string changeText = "+3";
+                if (allUseSpeedBoost < 1f)
+                {
+                    changeText = ((allUseSpeedBoost - 1f) * 100f).ToString();
+                    isBad = true;
+                }
+
+                tooltips.Add(new TooltipLine(mod, "usespeedprefix", changeText + "% item use speed"));
+                tooltips.FirstOrDefault(x => x.Name == "usespeedprefix" && x.mod == "TerrorbornMod").isModifier = true;
+                tooltips.FirstOrDefault(x => x.Name == "usespeedprefix" && x.mod == "TerrorbornMod").isModifierBad = isBad;
+            }
+
             if (TerrorCost > 0f)
             {
                 string changeText = "+" + TerrorCost;

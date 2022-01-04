@@ -233,5 +233,41 @@ namespace TerrorbornMod.Structures
             sample.SetPosition(point);
             sample.Apply();
         }
+
+        internal static void GenerateIIArena(Mod mod, Point point)
+        {
+            GenerationSample sample = new GenerationSample();
+            sample.SetSample(mod.GetTexture("Structures/IIArena"));
+            sample.SetFlag(SamplingKey.Placement);
+            sample.SetPosition(point);
+            int tileType = ModContent.TileType<Tiles.MemorialBrick>();
+            for (int i = 0; i < Main.maxTileSets; i++)
+            {
+
+            }
+            sample.SetSamplingValues(
+                new ValueTuple<byte, byte, byte, int>(255, 0, 0, tileType),
+                new ValueTuple<byte, byte, byte, int>(0, 255, 0, TileID.Chain),
+                new ValueTuple<byte, byte, byte, int>(0, 0, 255, TileID.SnowBlock),
+                new ValueTuple<byte, byte, byte, int>(0, 255, 255, TileID.IceBlock)
+                );
+            sample.Apply();
+
+            sample = new GenerationSample();
+            sample.SetSample(mod.GetTexture("Structures/IIArena_Water"));
+            sample.SetFlag(SamplingKey.LiquidWater);
+            sample.SetPosition(point);
+            sample.Apply();
+
+            sample = new GenerationSample();
+            sample.SetSample(mod.GetTexture("Structures/IIArena_Walls"));
+            sample.SetFlag(SamplingKey.Walls);
+            sample.SetPosition(point);
+            sample.SetSamplingValues(
+                new ValueTuple<byte, byte, byte, int>(255, 0, 0, ModContent.WallType<Tiles.MemorialWall>()),
+                new ValueTuple<byte, byte, byte, int>(0, 255, 0, WallID.IceUnsafe)
+                );
+            sample.Apply();
+        }
     }
 }

@@ -100,20 +100,6 @@ namespace TerrorbornMod
         {
             Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-
-            if (player.HeldItem != null && player != null)
-            {
-                if (player.HeldItem.modItem != null)
-                {
-                    if (TerrorbornItem.modItem(player.HeldItem).countAsThrown)
-                    {
-                        if (Main.rand.NextFloat() <= (float)player.thrownCrit / 100)
-                        {
-                            crit = true;
-                        }
-                    }
-                }
-            }
         }
 
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
