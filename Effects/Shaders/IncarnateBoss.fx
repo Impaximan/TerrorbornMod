@@ -23,7 +23,11 @@ float2 uZoom;
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
-    float distanceMultiplier = (distance(coords, float2(0.5, 0.5)) - 0.2) * 0.5;
+    float distanceMultiplier = (distance(coords, float2(0.5, 0.5)) - 0.3) * 0.5;
+    
+    float r = 1;
+    float g = 0.45;
+    float b = 0.15;
     
     if (distanceMultiplier < 0)
     {
@@ -31,13 +35,13 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     }
     else
     {
-        return float4(color.r + abs(distanceMultiplier) * uOpacity, color.g + abs(distanceMultiplier / 5) * uOpacity, color.b, color.a);
+        return float4(color.r + abs(distanceMultiplier) * uOpacity * r, color.g + abs(distanceMultiplier) * uOpacity * g, color.b + abs(distanceMultiplier) * uOpacity * b, color.a);
     }
 }
 
 technique Technique1
 {
-    pass Dunestock
+    pass IncarnateBoss
     {
         PixelShader = compile ps_2_0 PixelShaderFunction();
     }

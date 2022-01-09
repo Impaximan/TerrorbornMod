@@ -41,7 +41,7 @@ namespace TerrorbornMod.Tiles
         public override void SetDefaults()
         {
             Main.wallHouse[Type] = false;
-            AddMapEntry(new Color(20, 30, 40));
+            AddMapEntry(new Color(20 / 2, 30 / 2, 40 / 2));
         }
         public override bool CanExplode(int i, int j)
         {

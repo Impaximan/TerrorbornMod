@@ -24,7 +24,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Materials.ShellFragments>(), 2);
-            recipe.AddIngredient(ItemID.IronBar);
+            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 100);
             recipe.AddRecipe();

@@ -177,18 +177,16 @@ namespace TerrorbornMod
         public virtual void SetColors(ref Color[] colors, int width, int height)
         {
             int x = width / 2;
-            int y = height;
+            int y = height / 2;
             for (int j = 0; j < height; j++)
             {
                 for (int i = 0; i < width; i++)
                 {
                     int index = j * width + i;
-                    float distanceUntilFade = 0f;
-                    double dX = (double)(i - x) / (double)width;
-                    double dY = (double)(j - y) / (double)height / 2;
-                    float c = (float)Math.Sqrt(dX * dX + dY * dY) * 2f;
-                    c -= distanceUntilFade;
-                    if (c == 0)
+                    double dX = (double)(i - x) / (double)width * 2;
+                    double dY = (double)(j - y) / (double)height * 2;
+                    float c = Math.Abs((float)Math.Sqrt(dX * dX + dY * dY) - 0.85f) / 0.15f;
+                    if (c <= 0)
                     {
                         colors[index] = new Color(1f, 1f, 1f, 1f);
                     }
@@ -218,7 +216,7 @@ namespace TerrorbornMod
             string path = Path.Combine(savingFolder, "TerrorbornOutput.png");
             using (Stream stream = File.OpenWrite(path))
             {
-                CreateImage(50, 200).SaveAsPng(stream, 50, 200);
+                CreateImage(500, 500).SaveAsPng(stream, 500, 500);
             }
 
             TBUtils.Detours.Initialize();
@@ -249,9 +247,9 @@ namespace TerrorbornMod
                 Filters.Scene["TerrorbornMod:DarknessShader"] = new Filter(new ScreenShaderData(darknessRef, "Darkness"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:DarknessShader"].Load();
 
-                Ref<Effect> dunestockRef = new Ref<Effect>(GetEffect("Effects/Shaders/DunestockShader"));
-                Filters.Scene["TerrorbornMod:DunestockShader"] = new Filter(new ScreenShaderData(dunestockRef, "Dunestock"), EffectPriority.VeryHigh);
-                Filters.Scene["TerrorbornMod:DunestockShader"].Load();
+                Ref<Effect> incarnateRef = new Ref<Effect>(GetEffect("Effects/Shaders/IncarnateBoss"));
+                Filters.Scene["TerrorbornMod:IncarnateBoss"] = new Filter(new ScreenShaderData(incarnateRef, "IncarnateBoss"), EffectPriority.VeryHigh);
+                Filters.Scene["TerrorbornMod:IncarnateBoss"].Load();
 
                 Ref<Effect> glitchRef = new Ref<Effect>(GetEffect("Effects/Shaders/GlitchShader"));
                 Filters.Scene["TerrorbornMod:GlitchShader"] = new Filter(new ScreenShaderData(glitchRef, "Glitch"), EffectPriority.VeryHigh);
@@ -260,6 +258,9 @@ namespace TerrorbornMod
                 Ref<Effect> colorlessRef = new Ref<Effect>(GetEffect("Effects/Shaders/ColorlessShader"));
                 Filters.Scene["TerrorbornMod:ColorlessShader"] = new Filter(new ScreenShaderData(colorlessRef, "Colorless"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:ColorlessShader"].Load();
+
+                Filters.Scene["TerrorbornMod:BlandnessShader"] = new Filter(new ScreenShaderData(colorlessRef, "Colorless").UseOpacity(0.5f), EffectPriority.VeryHigh);
+                Filters.Scene["TerrorbornMod:BlandnessShader"].Load();
 
                 Ref<Effect> hexedRef = new Ref<Effect>(GetEffect("Effects/Shaders/HexedMirage"));
                 Filters.Scene["TerrorbornMod:HexedMirage"] = new Filter(new ScreenShaderData(hexedRef, "HexedMirage"), EffectPriority.VeryHigh);
@@ -596,6 +597,7 @@ namespace TerrorbornMod
             Mod bossChecklist = ModLoader.GetMod("BossChecklist");
             if (bossChecklist != null)
             {
+                bossChecklist.Call("AddBossWithInfo", "Infected Incarnate", 1.5f, (Func<bool>)(() => TerrorbornWorld.downedInfectedIncarnate), "Once you've obtained Shriek of Horror, find a strange chamber, the entrance to which is found in the snow biome. In the chamber use Shriek of Horror, and your foe will awake.");
                 bossChecklist.Call("AddBossWithInfo", "Tidal Titan", 3.5f, (Func<bool>)(() => TerrorbornWorld.downedTidalTitan), "Kill a mysterious crab, which rarely spawns in the ocean biome during the night. Despawns if it sinks back into the water (a layer of platforms over the ocean is recommended). Note: doesn't despawn when it becomes day");
                 bossChecklist.Call("AddBossWithInfo", "Dunestock", 5.5f, (Func<bool>)(() => TerrorbornWorld.downedDunestock), "Use a [i:" + ModContent.ItemType<Items.DriedCanteen>() + "] in the desert.");
                 bossChecklist.Call("AddBossWithInfo", "Shadowcrawler", 9.5f, (Func<bool>)(() => TerrorbornWorld.downedShadowcrawler), "Use a [i:" + ModContent.ItemType<Items.RadioactiveSpiderFood>() + "] during the night.");

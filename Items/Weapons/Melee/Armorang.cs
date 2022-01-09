@@ -13,7 +13,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Materials.ShellFragments>(), 4);
-            recipe.AddIngredient(ItemID.IronBar, 2);
+            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 2);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 18;
+            item.damage = 15;
             item.width = 20;
             item.height = 34;
             item.useTime = 16;

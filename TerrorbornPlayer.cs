@@ -402,8 +402,9 @@ namespace TerrorbornMod
             }
 
             player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()));
-            //player.ManageSpecialBiomeVisuals("TerrorbornMod:DunestockShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.Dunestock>()));
             player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", ZoneDeimostone || ZoneICU);
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:BlandnessShader", ZoneICU && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
+            //player.ManageSpecialBiomeVisuals("TerrorbornMod:IncarnateBoss", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
             player.ManageSpecialBiomeVisuals("TerrorbornMod:ColorlessShader", TimeFreezeTime > 0);
 
             player.ManageSpecialBiomeVisuals("TerrorbornMod:HexedMirage", HexedMirage);
@@ -444,7 +445,7 @@ namespace TerrorbornMod
             }
             ZoneIncendiary = incendiaryBiomeRect.Intersects(player.getRect()) && Main.hardMode;
 
-            ZoneICU = player.Distance(TerrorbornWorld.IIShrinePosition + new Vector2(105f, 140f) * 8) <= 1120;
+            ZoneICU = player.Distance(TerrorbornWorld.IIShrinePosition * 16 + new Vector2(0f, 140f) * 8) <= 1200 && player.behindBackWall;
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
@@ -784,7 +785,7 @@ namespace TerrorbornMod
                         TerrorbornMod.currentScreenLerp = TerrorbornMod.maxScreenLerp;
                     }
                 }
-                else
+                else if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()))
                 {
                     TerrorbornMod.screenFollowTime--;
                 }

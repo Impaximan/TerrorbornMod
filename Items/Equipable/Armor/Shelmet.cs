@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Materials.ShellFragments>(), 12);
-            recipe.AddIngredient(ItemID.IronBar, 6);
+            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 6);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

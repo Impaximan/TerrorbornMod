@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Materials.ShellFragments>(), 8);
-            recipe.AddIngredient(ItemID.IronBar, 4);
+            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -31,7 +31,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.width = 48;
             item.height = 50;
-            item.damage = 8;
+            item.damage = 13;
             item.melee = true;
             item.noMelee = true;
             item.value = Item.sellPrice(0, 1, 0, 0);
@@ -44,6 +44,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.noUseGraphic = true;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("ShellSpearProjectile");
+            item.crit = 10;
         }
 
         public override bool CanUseItem(Player player)

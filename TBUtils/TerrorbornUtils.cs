@@ -8,6 +8,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.World.Generation;
 using Terraria.ID;
 using ReLogic.Graphics;
 using Terraria.ModLoader;
@@ -123,6 +124,72 @@ namespace TerrorbornMod
         public static int abilityToInt(AbilityInfo abilityType)
         {
             return abilityType.typeInt();
+        }
+
+        public static Vector2 findGroundUnder(this Vector2 position)
+        {
+            Vector2 returned = position;
+            while (!WorldUtils.Find(returned.ToTileCoordinates(), Searches.Chain(new Searches.Down(1), new GenCondition[]
+                {
+        new Conditions.IsSolid()
+                }), out _))
+            {
+                returned.Y++;
+            }
+
+            return returned;
+        }
+
+        public static Vector2 findGroundUnder(this Vector2 position, int type)
+        {
+            Vector2 returned = position;
+
+            int i = 5000;
+            while (Main.tile[(int)(returned.X / 16), (int)(returned.Y / 16)].type != type)
+            {
+                returned.Y++;
+
+                i--;
+                if (i <= 0)
+                {
+                    return Vector2.Zero;
+                }
+            }
+
+            return returned;
+        }
+
+        public static Vector2 findCeilingAbove(this Vector2 position)
+        {
+            Vector2 returned = position;
+            while (!WorldUtils.Find(returned.ToTileCoordinates(), Searches.Chain(new Searches.Up(1), new GenCondition[]
+                {
+        new Conditions.IsSolid()
+                }), out _))
+            {
+                returned.Y--;
+            }
+
+            return returned;
+        }
+
+        public static Vector2 findCeilingAbove(this Vector2 position, int type)
+        {
+            Vector2 returned = position;
+
+            int i = 5000;
+            while (Main.tile[(int)(returned.X / 16), (int)(returned.Y / 16)].type != type)
+            {
+                returned.Y--;
+
+                i--;
+                if (i <= 0)
+                {
+                    return Vector2.Zero;
+                }
+            }
+
+            return returned;
         }
 
         public static bool mouseDown;

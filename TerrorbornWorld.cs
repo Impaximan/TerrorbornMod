@@ -20,6 +20,7 @@ namespace TerrorbornMod
     {
         public static bool downedShadowcrawler;
         public static bool downedPrototypeI;
+        public static bool downedInfectedIncarnate;
         public static bool downedTidalTitan;
         public static bool downedDunestock;
         public static bool downedUndyingSpirit;
@@ -69,6 +70,7 @@ namespace TerrorbornMod
             downedUndyingSpirit = false;
             obtainedShriekOfHorror = false;
             talkedToCartographer = false;
+            downedInfectedIncarnate = false;
             downedSlateBanshee = false;
             talkedToHeretic = false;
             TerrorMasterDialogue = 0;
@@ -171,6 +173,7 @@ namespace TerrorbornMod
             if (downedFrightcrawler) downed.Add("downedFrightcrawler");
             if (downedIncendiaryBoss) downed.Add("downedIncendiaryBoss");
             if (downedSlateBanshee) downed.Add("downedSlateBanshee");
+            if (downedInfectedIncarnate) downed.Add("downedInfectedIncarnate");
 
             return new TagCompound {
                 {"downed", downed},
@@ -203,6 +206,7 @@ namespace TerrorbornMod
             downedTerrorRain = downed.Contains("downedTerrorRain");
             downedFrightcrawler = downed.Contains("downedFrightcrawler");
             downedSlateBanshee = downed.Contains("downedSlateBanshee");
+            downedInfectedIncarnate = downed.Contains("downedInfectedIncarnate");
             CurrentBountyBiome = tag.GetInt("CurrentBountyBiome");
             SkeletonSheriffName = tag.GetString("SkeletonSheriffName");
             CartographerName = tag.GetString("CartographerName");
@@ -2054,10 +2058,27 @@ namespace TerrorbornMod
             HorrificAdaptation *= 16;
         }
 
+        Rectangle arena;
+        void SetArenaPosition()
+        {
+            Vector2 arenaPos = TerrorbornWorld.IIShrinePosition * 16;
+            arenaPos += new Vector2(-37 * 16, 92 * 16);
+            arena = new Rectangle((int)arenaPos.X, (int)arenaPos.Y, 75 * 16, 35 * 16);
+        }
+
         bool wasRaining = true;
         int thunderCounter = -69;
         public override void PostUpdate()
         {
+            SetArenaPosition();
+            if (Main.LocalPlayer.Distance(arena.Center.ToVector2()) >= 3000f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()) && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.MemorialCoffin>()))
+            {
+                if (!(IIShrinePosition == null || IIShrinePosition == Vector2.Zero))
+                {
+                    NPC.NewNPC(arena.Center.X, arena.Center.Y, ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.MemorialCoffin>());
+                }
+            }
+
             if (thunderCounter == -69)
             {
                 thunderCounter = Main.rand.Next(60 * 4, 60 * 45);
