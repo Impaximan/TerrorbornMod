@@ -118,6 +118,10 @@ namespace TerrorbornMod
             {
                 return new TimeFreezeInfo();
             }
+            if (integerValue == 8)
+            {
+                return new BlinkDashInfo();
+            }
             return new None();
         }
 

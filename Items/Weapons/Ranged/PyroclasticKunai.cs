@@ -11,6 +11,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     {
         public override void SetDefaults()
         {
+            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            modItem.critDamageMult = 1.2f;
             item.damage = 15;
             item.ranged = true;
             item.width = 40;

@@ -2,9 +2,9 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace TerrorbornMod.Items.Lore.JournalEntries.Tenebris
+namespace TerrorbornMod.Items.Lore.JournalEntries.Raven
 {
-    class Tenebris_Dunestock : ModItem
+    class Raven_Dunestock : ModItem
     {
         public override string Texture => "TerrorbornMod/TornPage";
         public override void SetStaticDefaults()
@@ -17,7 +17,7 @@ namespace TerrorbornMod.Items.Lore.JournalEntries.Tenebris
                 "\nstrange, hungry hallucination my warriors keep having while travelling the desert. What's the point of all this, anyway? It's not like" +
                 "\nthat cog-driven madland is worth visiting for trade. All they ever offer us is the stupidest of gadgets. Who needs to defend their" +
                 "\ncity with tech when you can use the power of mind games to overwhelm your foe. Maybe I should reconsider my allyship with them." +
-                "\n                                                                   -Tenebris, king of Anekronyx");
+                "\n                                                                   -Raven, king of Anekronyx");
         }
         public override void SetDefaults()
         {

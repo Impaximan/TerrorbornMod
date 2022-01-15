@@ -280,11 +280,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     }
                     if (loreText == 2) //Tell me about Anekronyx
                     {
-                        Main.npcChatText = "Ahhhh, the grand kingdom of Anekronyx. You see, the population was primarily composed of 'shadows', a race that is created through magic similar to necromancy by the Anekronian king, Tenebris. After a foolhearty decision on his behalf, he lost his kingdom and the ability to create these beings. From my knowledge, he never died, though.";
+                        Main.npcChatText = "Ahhhh, the grand kingdom of Anekronyx. You see, the population was primarily composed of 'shadows', a race that is created through magic similar to necromancy by the Anekronian king, Raven. After a foolhearty decision on his behalf, he lost his kingdom and the ability to create these beings. From my knowledge, he never died, though.";
                     }
                     if (loreText == 3) //What were the Anekronian tournaments like?
                     {
-                        Main.npcChatText = "I'm glad you asked. You see, Tenebris would invite all warriors around the globe to fight in a grand colloseum. The rewards got better and better the higher up you got in the ranks of this tournament, but you'd also fight increasingly strong foes, naturally. There were 1v1 tournaments and 2v2 tournaments. I used to be the champion, until I was defeated by a terrarian like yourself.";
+                        Main.npcChatText = "I'm glad you asked. You see, Raven would invite all warriors around the globe to fight in a grand colloseum. The rewards got better and better the higher up you got in the ranks of this tournament, but you'd also fight increasingly strong foes, naturally. There were 1v1 tournaments and 2v2 tournaments. I used to be the champion, until I was defeated by a terrarian like yourself.";
                     }
                     if (loreText == 4) //Who was rath?
                     {
@@ -414,7 +414,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 chat.Add("Have you seen that creepy old structure? Yeah, it's pretty creepy. There's this old guy guarding it... wonder what would happen if you tried to sneak past him.");
             }
             chat.Add("Way back when, I had a friend who went by the name of Rath. He lived in the grand kingdom of Anekronyx, and was a member of a race that's supposedly extinct. Legend has it though that the Anekronians still have one member alive, I wonder if it could be him.");
-            chat.Add("I remember the good old days, back when king Tenebris held his fun old gladiator's tournaments. They're gone now, but I remember participating in one clearly! Hah, I was the champion until a terrarian came around and beat me. You kinda remind me of them, actually...");
+            chat.Add("I remember the good old days, back when king Raven held his fun old gladiator's tournaments. They're gone now, but I remember participating in one clearly! Hah, I was the champion until a terrarian came around and beat me. You kinda remind me of them, actually...");
             chat.Add("Remember, I'll only give you things if you help me do my job. It's certainly not an easy one, so be prepared for some... 'fun'.");
             chat.Add("I've always wondered... what's it like being an incarnate? I suppose it's something regular beings such as myself will never understand. After all, it's impossible to make yourself an incarnate. At least, I think....");
             chat.Add("You know how the others look at me suspiciously? Yeah, that's why I need you to do my job for me. Nobody trusts a corpse to do the law enforcement, as I learned the hard way.");

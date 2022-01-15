@@ -16,6 +16,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
+            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            modItem.critDamageMult = 1.3f;
             item.damage = 62;
             item.width = 52;
             item.height = 94;

@@ -564,6 +564,15 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         { "Anyways, how can I help you?" }
                     };
                 }
+                else if (modPlayer.ZoneIncendiary)
+                {
+                    dialogue = new List<string>()
+                    {
+                        { "And I thought the bird people from the REGULAR sky islands were annoying. Yikes." },
+                        { "The energy of this place is like that of the underworld. Whatever this place is, it originated from below no doubt." },
+                        { "Perhaps we should move along. I don't want to be sacrificed or something." }
+                    };
+                }
                 else if (player.ZoneDungeon)
                 {
                     dialogue = new List<string>()
@@ -734,7 +743,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     WeightedRandom<List<string>> dialogues = new WeightedRandom<List<string>>();
                     dialogues.Add(new List<string>()
                     {
-                        { "Hello again. Down here spelunking? I'm personally looking for some interesting ruins." },
+                        { "Hello again. Down here spelunking? I'm personally looking for some interesting ruins. I was told of an ancient undead champion who had his base underground." },
                         { "How can I help you?" }
                     });
                     dialogues.Add(new List<string>()
@@ -806,6 +815,16 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     chat.Add("You seem like a powerful warrior... have you ever visited the dungeon? I hear the old man there is cursed- maybe you can fix that for him.");
                 }
                 chat.Add("What do you think the undead do while they're not attacking others. Why? I dunno... suppose I'm just curious.");
+                chat.Add("You ever just alert the nearby skeletons by burping? No? Man, I really need to get that gas issue worked out.");
+                chat.Add("What's up with everybody in this world and tacos, and pineapple pizza. Like, come on, all food does the same thing here.");
+                chat.Add("Where is all the cheese on this island? Gosh, I could really do with some tasty, normal cheese.");
+                chat.Add("I once met a nice looking man who told me to kill myself. How rude.");
+                chat.Add("Never gonna give you up, never gonna let you down, never gonna... what are you looking at me like that for? It's a nice song.");
+                chat.Add("This world used to be so much more lively. Betrayal, envy, and pride has put once great nations to ruin.");
+                chat.Add("It's a shame Navaylos and his Empire of Sanctuary never got far with their goals before they well... you know....");
+                chat.Add("I'm so happy to have such a wonderful occupation. Seeing the world really is something special.");
+                chat.Add("I've seen some Anekronian bones, and their structure is very human-like, but for some arbitrary replacements here and there. One of them even had wings... why them specifically, I wonder?");
+                chat.Add("I've been around long enough to literally meet an angel. Not what you'd expect- surprisingly casual.");
                 chat.Add("While exploring, I highly recommend you bring some tools to help you see traps. Why, you ask? Well uh... there are a lot of traps.");
                 shownDialogue = chat;
             }

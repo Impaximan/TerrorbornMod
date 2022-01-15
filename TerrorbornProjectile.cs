@@ -47,7 +47,7 @@ namespace TerrorbornMod
         public override bool CanHitPlayer(Projectile projectile, Player target)
         {
             TerrorbornPlayer player = TerrorbornPlayer.modPlayer(target);
-            if (player.iFrames > 0 || player.VoidBlinkTime > 0 || (player.TimeFreezeTime > 0 && projectile.hostile))
+            if (player.iFrames > 0 || player.VoidBlinkTime > 0 || (player.TimeFreezeTime > 0 && projectile.hostile) || player.BlinkDashTime > 0)
             {
                 return false;
             }

@@ -41,20 +41,26 @@ namespace TerrorbornMod
 
         [Header("UI")]
 
-        [DefaultValue(500f)]
-        [BackgroundColor(40, 55, 70)]
-        [Label("Paragraph width")]
-        [Tooltip("The size of each line on lore items' paragraphs")]
-        [Range(0, 2000)]
-        [Increment(5)]
-        [Slider()]
-        public int loreParagraphWidth;
+        //[DefaultValue(500f)]
+        //[BackgroundColor(40, 55, 70)]
+        //[Label("Paragraph width")]
+        //[Tooltip("The size of each line on lore items' paragraphs")]
+        //[Range(0, 2000)]
+        //[Increment(5)]
+        //[Slider()]
+        //public int loreParagraphWidth;
 
         [DefaultValue(true)]
         [BackgroundColor(40, 55, 70)]
         [Label("Boss title cards")]
         [Tooltip("Whether or not bosses will have title cards that appear at the top of your screen when spawning")]
         public bool titleCards;
+
+        [DefaultValue(true)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Show critical strike damage in tooltips")]
+        [Tooltip("Whether or not item tooltips will contain critical strike damage")]
+        public bool showCritDamage;
 
         [DefaultValue(3.5f)]
         [BackgroundColor(40, 55, 70)]
@@ -64,6 +70,14 @@ namespace TerrorbornMod
         [Increment(0.1f)]
         [Slider()]
         public float titleCardTime;
+
+        [Header("Mechanics")]
+
+        [DefaultValue(true)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Other mod weapons can be thrown")]
+        [Tooltip("Whether or not weapons from other mods can be affected by this mod's thrown weapon system")]
+        public bool thrownAffectsMods;
 
         public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message)
         {
@@ -81,9 +95,11 @@ namespace TerrorbornMod
         public override void OnChanged()
         {
             TerrorbornMod.StartingItems = startingItems;
-            TerrorbornMod.LoreParagraphWidth = loreParagraphWidth;
+            TerrorbornMod.showCritDamage = showCritDamage;
+            //TerrorbornMod.LoreParagraphWidth = loreParagraphWidth;
             TerrorbornMod.titleCardDuration = titleCardTime;
             TerrorbornMod.titleCards = titleCards;
+            TerrorbornMod.thrownAffectsMods = thrownAffectsMods;
         }
     }
 }

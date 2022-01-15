@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases critical damage by 20%" +
-                "\n15% increased ranged critical strike chance while close to an enemy" +
-                "\n12% increased ranged damage");
+            Tooltip.SetDefault("Increases critical damage by 15%" +
+                "\n20% increased thrown and ranged critical strike chance while close to an enemy" +
+                "\n12% increased thrown and ranged damage");
         }
 
         public override void SetDefaults()
@@ -54,10 +54,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             }
             if (bonus)
             {
-                player.rangedCrit += 15;
+                player.rangedCrit += 20;
+                player.thrownCrit += 20;
             }
-            modPlayer.critDamage += 0.2f;
+            modPlayer.critDamage += 0.15f;
             player.rangedDamage += 0.12f;
+            player.thrownDamage += 0.12f;
         }
     }
 }

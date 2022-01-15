@@ -15,7 +15,7 @@ namespace TerrorbornMod.Items.Materials
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Placeable.Blocks.DeimosteelOreItem>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<Placeable.Blocks.DeimosteelOreItem>(), 3);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

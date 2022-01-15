@@ -111,6 +111,7 @@ namespace TerrorbornMod
         public int ParryTime = 0;
         public Color parryColor = Color.White;
         public bool BanditGlove = false;
+        public bool SilentArmor = false;
 
         //Permanent Upgrades
         public bool EyeOfTheMenace = false;
@@ -122,6 +123,9 @@ namespace TerrorbornMod
 
         //Terror ability fields
         public int VoidBlinkTime = 0;
+        public int BlinkDashTime = 0;
+        public int BlinkDashCooldown = 0;
+        public Vector2 BlinkDashVelocity = Vector2.Zero;
         public int GelatinArmorTime = 0;
         public int GelatinPunishmentDamage = 0;
         public IList<int> unlockedAbilities = new List<int>();
@@ -136,6 +140,7 @@ namespace TerrorbornMod
         public int terrorDrainCounter = 0;
         public bool HexedMirage = false;
         public bool TwilightMatrix = false;
+        public int currentThrownCritState = -1;
 
         public static readonly PlayerLayer legsGlow = new PlayerLayer("TerrorbornMod", "Legs_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
         {
@@ -564,6 +569,7 @@ namespace TerrorbornMod
             DeimosteelCharm = false;
             restlessDamage = 1f;
             restlessKnockback = 1f;
+            SilentArmor = false;
             restlessUseSpeed = 1f;
             restlessChargedUseSpeed = 1f;
             restlessNonChargedUseSpeed = 1f;
@@ -733,6 +739,11 @@ namespace TerrorbornMod
                 }
             }
 
+            if (SilentArmor)
+            {
+                TerrorPercent = 0f;
+            }
+
             if (PlasmaPower > 0f)
             {
                 PlasmaPower = 0f;
@@ -811,7 +822,7 @@ namespace TerrorbornMod
         {
             bool darkblood = player.HasBuff(ModContent.BuffType<Buffs.Darkblood>());
 
-            if (TerrorbornMod.ShriekOfHorror.Current && (player.velocity.Y == 0 || ShriekOfHorrorMovement > 0) && (player.itemTime <= 0 || darkblood) && TimeFreezeTime <= 0 && VoidBlinkTime <= 0)
+            if (TerrorbornMod.ShriekOfHorror.Current && (player.velocity.Y == 0 || ShriekOfHorrorMovement > 0) && (player.itemTime <= 0 || darkblood) && TimeFreezeTime <= 0 && VoidBlinkTime <= 0 && BlinkDashTime <= 0)
             {
                 MidShriek = true;
             }
@@ -876,7 +887,7 @@ namespace TerrorbornMod
                 ShriekTime = 0;
             }
 
-            if (TimeFreezeTime > 0 || VoidBlinkTime > 0)
+            if (TimeFreezeTime > 0 || VoidBlinkTime > 0 || BlinkDashTime > 0)
             {
                 SoundCounter = 0;
                 ShriekCounter = (int)(80 * ShriekSpeed);
@@ -962,9 +973,45 @@ namespace TerrorbornMod
             }
         }
 
+        public void SuperBlinkDash()
+        {
+            BlinkDashTime = 0;
+            DustExplosion(player.Center, 0, 25, 45, 162, 2f, true);
+            Main.PlaySound(SoundID.Item72, player.Center);
+            player.velocity = BlinkDashVelocity * 1.5f;
+
+            blinkDashSpinRotation = 0f;
+            blinkSpin = true;
+            if (BlinkDashVelocity.X != 0)
+            {
+                blinkDashDirection = Math.Sign(BlinkDashVelocity.X);
+            }
+            else
+            {
+                blinkDashDirection = player.direction;
+            }
+            Main.PlaySound(SoundID.Item62, player.Center);
+            TerrorbornMod.ScreenShake(10f);
+        }
+
         float parryEffectProgress = 0;
+        float blinkDashSpinRotation = 0f;
+        bool blinkSpin = false;
+        int blinkDashDirection = 0;
         public override void PostUpdate()
         {
+            if (blinkSpin)
+            {
+                blinkDashSpinRotation += MathHelper.ToRadians(15f) * blinkDashDirection;
+                player.fullRotation = blinkDashSpinRotation;
+                player.fullRotationOrigin = new Vector2(player.width / 2, player.height / 2);
+                if (Math.Abs(blinkDashSpinRotation) >= MathHelper.ToRadians(360))
+                {
+                    blinkSpin = false;
+                    player.fullRotation = 0f;
+                }
+            }
+
             if (HeadHunterCritCooldown > 0)
             {
                 HeadHunterCritCooldown--;
@@ -1040,6 +1087,36 @@ namespace TerrorbornMod
                 player.immuneAlpha = 255 / 2;
             }
 
+            if (BlinkDashCooldown > 0)
+            {
+                BlinkDashCooldown--;
+            }
+
+            if (BlinkDashTime > 0)
+            {
+                player.noFallDmg = true;
+                BlinkDashCooldown = 30;
+                player.velocity = BlinkDashVelocity;
+                foreach (NPC npc in Main.npc)
+                {
+                    if (npc.active && npc.Distance(player.Center) <= 100 && !npc.friendly)
+                    {
+                        npc.AddBuff(BuffID.Confused, 60 * 3);
+                    }
+                }
+                BlinkDashTime--;
+                if (BlinkDashTime == 0)
+                {
+                    DustExplosion(player.Center, 0, 15, 30, 162, 1.5f, true);
+                    Main.PlaySound(SoundID.Item72, player.Center);
+                    player.velocity /= 2;
+                }
+                if (BlinkDashTime <= 5 && (TerrorbornMod.PrimaryTerrorAbility.JustPressed || TerrorbornMod.SecondaryTerrorAbility.JustPressed))
+                {
+                    SuperBlinkDash();
+                }
+                player.immuneAlpha = 255;
+            }
             if (TimeFreezeTime > 0)
             {
                 TimeFreezeTime--;
@@ -1254,7 +1331,7 @@ namespace TerrorbornMod
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (iFrames > 0 || VoidBlinkTime > 0)
+            if (iFrames > 0 || VoidBlinkTime > 0 || BlinkDashTime > 0)
             {
                 return false;
             }

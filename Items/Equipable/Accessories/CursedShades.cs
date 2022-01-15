@@ -17,7 +17,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Critical hits do 30% more damage than normal" +
+            Tooltip.SetDefault("Critical hits do 20% more damage than normal" +
                 "\n10% increased critical strike chance");
         }
 
@@ -33,7 +33,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.critDamage += 0.3f;
+            modPlayer.critDamage += 0.2f;
             player.magicCrit += 10;
             player.meleeCrit += 10;
             player.rangedCrit += 10;

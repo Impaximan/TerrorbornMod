@@ -96,7 +96,7 @@ namespace TerrorbornMod.NPCs.Bosses
             if (!TerrorbornWorld.downedDunestock)
             {
                 TerrorbornWorld.downedDunestock = true;
-                Item.NewItem(npc.Center, ModContent.ItemType<Items.Lore.JournalEntries.Tenebris.Tenebris_Dunestock>());
+                Item.NewItem(npc.Center, ModContent.ItemType<Items.Lore.JournalEntries.Raven.Raven_Dunestock>());
             }
             if (Main.expertMode)
             {

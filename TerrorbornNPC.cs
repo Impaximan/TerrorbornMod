@@ -104,7 +104,7 @@ namespace TerrorbornMod
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
         {
             TerrorbornPlayer player = TerrorbornPlayer.modPlayer(target);
-            if (player.iFrames > 0 || player.VoidBlinkTime > 0)
+            if (player.iFrames > 0 || player.VoidBlinkTime > 0 || player.BlinkDashTime > 0)
             {
                 return false;
             }
@@ -286,9 +286,12 @@ namespace TerrorbornMod
                 knockback = 0;
             }
 
-            if (crit)
+            if (player.HeldItem != null)
             {
-                damage = (int)(damage * modPlayer.critDamage);
+                if (crit && !player.HeldItem.IsAir)
+                {
+                    damage = (int)(damage * modPlayer.critDamage * TerrorbornItem.modItem(player.HeldItem).critDamageMult);
+                }
             }
 
             if (modPlayer.TimeFreezeTime > 0)
@@ -306,15 +309,32 @@ namespace TerrorbornMod
                 crit = true;
             }
 
+            if (player.HeldItem != null)
+            {
+                if (!player.HeldItem.IsAir)
+                {
+                    if (player.HeldItem.GetGlobalItem<TerrorbornItem>().countAsThrown)
+                    {
+                        modPlayer.currentThrownCritState *= -1;
+                        if (modPlayer.currentThrownCritState == 1)
+                        {
+                            crit = Main.rand.Next(101) <= player.HeldItem.crit + player.thrownCrit;
+                        }
+                    }
+                }
+            }
             if (CumulusEmpowermentTime > 0)
             {
                 damage = (int)(damage * 0.5f);
                 knockback = 0;
             }
 
-            if (crit)
+            if (player.HeldItem != null)
             {
-                damage = (int)(damage * modPlayer.critDamage);
+                if (crit && !player.HeldItem.IsAir)
+                {
+                    damage = (int)(damage * modPlayer.critDamage * TerrorbornItem.modItem(player.HeldItem).critDamageMult);
+                }
             }
 
             if (modPlayer.TimeFreezeTime > 0)
@@ -347,6 +367,11 @@ namespace TerrorbornMod
 
                 damage += (int)gloveDamage;
                 npc.lifeRegen -= (int)gloveDoTTotal;
+            }
+
+            if (npc.friendly && gloveDoT.Count > 0)
+            {
+                gloveDoT.Clear();
             }
         }
 
@@ -392,6 +417,16 @@ namespace TerrorbornMod
 
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
         {
+            for (int i = 0; i < Main.npc.Length; i++)
+            {
+                if (Main.npc[i].active && Main.npc[i].boss)
+                {
+                    spawnRate = 0;
+                    maxSpawns = 0;
+                    return;
+                }
+            }
+
             if (player.ZoneRain && TerrorbornWorld.terrorRain && maxSpawns != 0) //Checks current maxSpawns specifically so it works with HERO's mod's spawn thingy
             {
                 if (Main.dayTime)
@@ -753,6 +788,7 @@ namespace TerrorbornMod
             {
                 SpawnGeyser(damage, npc, player);
             }
+
 
             if (modPlayer.PrismalCore && Main.rand.NextFloat() <= 0.15f && projectile.magic)
             {

@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace TerrorbornMod.Items.Lore.JournalEntries.Tenebris
+namespace TerrorbornMod.Items.Lore.JournalEntries.Rath
 {
     class Rath_TidalTitan : ModItem
     {

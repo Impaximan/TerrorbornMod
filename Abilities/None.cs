@@ -28,7 +28,7 @@ namespace TerrorbornMod.Abilities
 
         public override string Description()
         {
-            return " ";
+            return "This ability has not yet been implemented.";
         }
     }
     class NotYetUnlocked : AbilityInfo
@@ -50,7 +50,7 @@ namespace TerrorbornMod.Abilities
 
         public override string Description()
         {
-            return " ";
+            return "You haven't unlocked this ability yet.";
         }
     }
 }

@@ -16,6 +16,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
+            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            modItem.critDamageMult = 1.15f;
             item.damage = 8;
             item.noMelee = true;
             item.width = 52;

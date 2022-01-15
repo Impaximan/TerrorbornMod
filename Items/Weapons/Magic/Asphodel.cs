@@ -19,7 +19,9 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 18;
+            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            modItem.critDamageMult = 1.33f;
+            item.damage = 11;
             item.noMelee = true;
             item.width = 52;
             item.height = 52;
@@ -33,7 +35,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("IncendiaryFlower");
             item.shootSpeed = 5f;
-            item.mana = 8;
+            item.mana = 10;
             item.magic = true;
         }
 

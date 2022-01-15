@@ -64,6 +64,9 @@ namespace TerrorbornMod
         public static float titleCardDuration = 3.5f;
         public static bool titleCards = true;
 
+        public static bool thrownAffectsMods = true;
+        public static bool showCritDamage = true;
+
         public static void ScreenShake(float Intensity)
         {
             if (screenShaking < Intensity)

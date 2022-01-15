@@ -50,6 +50,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void restlessSetDefaults(TerrorbornItem modItem)
         {
+            modItem.critDamageMult = 1.2f;
             item.damage = 160;
             item.melee = true;
             item.width = 128;

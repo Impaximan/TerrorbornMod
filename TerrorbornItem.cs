@@ -38,6 +38,8 @@ namespace TerrorbornMod
         public float restlessTerrorDrain;
         public int restlessChargeUpCounter = 0;
 
+        public float critDamageMult = 1f;
+
         public bool burstJump = false;
 
         public bool countAsThrown = false;
@@ -205,19 +207,36 @@ namespace TerrorbornMod
 
         public override void SetDefaults(Item item)
         {
-            if (item.ranged)
+            bool canBeThrown = true;
+            if (item.modItem != null)
             {
-                if (item.consumable && (item.useStyle == ItemUseStyleID.SwingThrow || item.noUseGraphic))
+                if (item.modItem.mod.Name != "TerrorbornMod" && item.modItem.mod.Name != "Terraria")
                 {
-                    countAsThrown = true;
+                    canBeThrown = TerrorbornMod.thrownAffectsMods;
                 }
             }
 
-            if (item.melee)
+            if (item.modItem == null && item.useStyle == ItemUseStyleID.Stabbing)
             {
-                if (item.consumable || (item.noUseGraphic && item.noMelee && !item.channel && item.useStyle == ItemUseStyleID.SwingThrow))
+                critDamageMult = 1.5f;
+            }
+
+            if (canBeThrown)
+            {
+                if (item.ranged)
                 {
-                    countAsThrown = true;
+                    if (item.consumable && (item.useStyle == ItemUseStyleID.SwingThrow || item.noUseGraphic))
+                    {
+                        countAsThrown = true;
+                    }
+                }
+
+                if (item.melee)
+                {
+                    if (item.consumable || (item.noUseGraphic && item.noMelee && !item.channel && item.useStyle == ItemUseStyleID.SwingThrow))
+                    {
+                        countAsThrown = true;
+                    }
                 }
             }
 
@@ -268,6 +287,8 @@ namespace TerrorbornMod
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
+
             TooltipLine line = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
             if (restless)
             {
@@ -393,10 +414,24 @@ namespace TerrorbornMod
                 tooltips.FirstOrDefault(x => x.Name == "terrorcostprefix" && x.mod == "TerrorbornMod").isModifierBad = true;
             }
 
+            if (TerrorbornMod.showCritDamage && item.damage != 0 && !item.accessory)
+            {
+                if (tooltips.FirstOrDefault(x => x.Name == "CritChance" && x.mod == "Terraria") != null)
+                {
+                    tooltips.Insert(tooltips.FindIndex(x => x.Name == "CritChance" && x.mod == "Terraria"), new TooltipLine(mod, "CritDamage", Math.Round(200f * critDamageMult * modPlayer.critDamage).ToString() + "% critical strike damage"));
+                    if (critDamageMult != 1f)
+                    {
+                        tooltips.FirstOrDefault(x => x.Name == "CritDamage" && x.mod == "TerrorbornMod").overrideColor = Color.FromNonPremultiplied(255, 251, 168, 255);
+                    }
+                }
+            }
+
             if (countAsThrown)
             {
                 tooltips.Add(new TooltipLine(mod, "countsAsThrown", "Counts as a thrown weapon"));
                 tooltips.FirstOrDefault(x => x.Name == "countsAsThrown" && x.mod == "TerrorbornMod").overrideColor = new Color(193, 243, 245);
+                tooltips.Insert(tooltips.FindIndex(x => x.Name == "CritChance" && x.mod == "Terraria") + 1, new TooltipLine(mod, "thrownCrit", (item.crit + Main.LocalPlayer.thrownCrit).ToString() + "% thrown critical strike chance" +
+                    "\nThrown crit chance replaces regular crit chance every other hit"));
             }
         }
 

@@ -181,6 +181,44 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             }
             TerrorbornWorld.downedInfectedIncarnate = true;
             TerrorbornMod.ScreenDarknessAlpha = 0f;
+
+
+            bool spawnBD = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(8);
+            for (int i = 0; i < 1000; i++)
+            {
+                Projectile projectile = Main.projectile[i];
+                if (projectile.active && projectile.type == ModContent.ProjectileType<Abilities.BlinkDash>())
+                {
+                    spawnBD = false;
+                }
+            }
+
+            if (spawnBD)
+            {
+                Projectile.NewProjectile(arena.Center.ToVector2(), Vector2.Zero, ModContent.ProjectileType<Abilities.BlinkDash>(), 0, 0, Main.myPlayer);
+                Projectile.NewProjectile(arena.Center.ToVector2(), Vector2.Zero, ModContent.ProjectileType<TeleportLight>(), 0, 0);
+            }
+
+            if (Main.expertMode)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.TreasureBags.II_TreasureBag>());
+            }
+            else
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentHelmet>());
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentBreastplate>());
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentGreaves>());
+
+                switch (Main.rand.Next(2))
+                {
+                    case 0:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
+                        break;
+                    case 1:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
+                        break;
+                }
+            }
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -775,7 +813,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 }
                 else
                 {
-                    Projectile.NewProjectile(targetPosition + new Vector2(0, 2000), new Vector2(0, -1), ModContent.ProjectileType<InfectedSlash>(), 40 / 4, 0f);
+                    Projectile.NewProjectile(targetPosition + new Vector2(-5, 2000), new Vector2(0, -1), ModContent.ProjectileType<InfectedSlash>(), 40 / 4, 0f);
                     attackCounter2 = 0;
                     npc.position.X = targetPosition.X - npc.width / 2;
                     if (bottom)
