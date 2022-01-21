@@ -100,18 +100,22 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DS_TreasureBag"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.TreasureBags.DS_TreasureBag>());
             }
             else
             {
-                int choice = Main.rand.Next(2);
+                int choice = Main.rand.Next(3);
                 if (choice == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NeedleClawStaff"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Dunestock.NeedleClawStaff>());
                 }
                 else if (choice == 1)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Dunesting"), Stack: 750);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Dunestock.Dunesting>());
+                }
+                else if (choice == 2)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Dunestock.HungryWhirlwind>());
                 }
 
                 int item1;

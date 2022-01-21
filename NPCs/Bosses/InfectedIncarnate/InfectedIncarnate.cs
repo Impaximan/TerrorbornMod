@@ -445,9 +445,9 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                         else TeleportingSlashes(7, 30);
                         break;
                     case 4:
-                        if (npc.life >= npc.lifeMax * 0.66f) VerticalDashes(5, 25f);
-                        else if (npc.life >= npc.lifeMax * 0.25f) VerticalDashes(6, 25f);
-                        else VerticalDashes(8, 33f);
+                        if (npc.life >= npc.lifeMax * 0.66f) VerticalDashes(7, 34f);
+                        else if (npc.life >= npc.lifeMax * 0.25f) VerticalDashes(8, 34f);
+                        else VerticalDashes(10, 42f);
                         break;
                     default:
                         break;
@@ -768,15 +768,16 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         bool bottom = false;
         Vector2 targetPosition;
         bool hasStartedYet = false;
+        int teleportDirection = 1;
         void VerticalDashes(int amount, float speed)
         {
             float distance = arena.Height * 3f;
             if (phaseStart)
             {
-                int direction = 1;
-                if (Main.rand.NextBool()) direction = -1;
+                teleportDirection = 1;
+                if (Main.rand.NextBool()) teleportDirection = -1;
                 int distanceFromCenter = 200;
-                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + new Vector2(0, npc.height / 2), (arena.Center().findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2)));
+                Teleport((arena.Center() + new Vector2(distanceFromCenter * teleportDirection, 0)).findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + new Vector2(0, npc.height / 2), (arena.Center().findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2)));
                 npc.noTileCollide = true;
                 npc.noGravity = true;
                 npc.rotation = 0f;
@@ -789,7 +790,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 slashingFrameCounter = 0;
                 npc.spriteDirection = -1;
                 npc.rotation = MathHelper.ToRadians(90);
-                npc.velocity = new Vector2(0, speed);
+                npc.velocity = new Vector2(0, 18f);
                 bottom = true;
                 hasStartedYet = false;
             }
@@ -831,7 +832,12 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                         npc.position.Y = arena.Center.Y - 1000f;
                     }
                     Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 71, 2.5f, -0.25f);
+
                     targetPosition = player.Center;
+                    if (attackCounter1 == (int)(amount * 0.65f) && npc.life <= npc.lifeMax * 0.75f)
+                    {
+                        targetPosition.X += -teleportDirection * 200;
+                    }
                 }
             }
         }

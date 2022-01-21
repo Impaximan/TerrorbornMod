@@ -1404,6 +1404,53 @@ namespace TerrorbornMod
             for (int i = 0; i < 1000; i++)
             {
                 Chest chest = Main.chest[i];
+
+                if (chest != null)
+                {
+                    if (Main.rand.NextFloat() <= 0.2f)
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            if (chest.item[inventoryIndex].type == ItemID.None)
+                            {
+                                chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Potions.LesserTerrorPotion>());
+                                chest.item[inventoryIndex].stack = Main.rand.Next(3, 7);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (Main.rand.NextFloat() <= 0.35f)
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            if (chest.item[inventoryIndex].type == ItemID.None)
+                            {
+                                switch (Main.rand.Next(4))
+                                {
+                                    case 0:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Potions.VampirismPotion>());
+                                        chest.item[inventoryIndex].stack = Main.rand.Next(1, 3);
+                                        break;
+                                    case 1:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Potions.BloodFlowPotion>());
+                                        chest.item[inventoryIndex].stack = Main.rand.Next(1, 3);
+                                        break;
+                                    case 2:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Potions.StarpowerPotion>());
+                                        chest.item[inventoryIndex].stack = Main.rand.Next(1, 3);
+                                        break;
+                                    case 3:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Potions.AerodynamicPotion>());
+                                        chest.item[inventoryIndex].stack = Main.rand.Next(1, 3);
+                                        break;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 11 * 36)
                 {
                     for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)

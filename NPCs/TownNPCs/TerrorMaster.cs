@@ -401,6 +401,27 @@ namespace TerrorbornMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MiscConsumables.TerrorCheese>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
             nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.LesserTerrorPotion>());
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 3, 0);
+            nextSlot++;
+            if (TerrorbornWorld.downedInfectedIncarnate)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.TerrorPotion>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 10, 0);
+                nextSlot++;
+            }
+            if (TerrorbornWorld.downedDunestock)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.GreaterTerrorPotion>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
+                nextSlot++;
+            }
+            if (TerrorbornWorld.downedShadowcrawler)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.SuperTerrorPotion>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 50, 0);
+                nextSlot++;
+            }
         }
     }
 }

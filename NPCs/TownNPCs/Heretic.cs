@@ -425,7 +425,8 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
                         if (type == ItemID.SoulofFright)
                         {
-                            text = "Steals terror from enemies";
+                            text = "Steals terror from enemies" +
+                                "\n-10% damage";
                         }
 
                         if (type == ItemID.SoulofMight)

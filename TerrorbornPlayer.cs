@@ -130,6 +130,7 @@ namespace TerrorbornMod
         public int GelatinPunishmentDamage = 0;
         public IList<int> unlockedAbilities = new List<int>();
         public int TimeFreezeTime = 0;
+        public int TerrorPotionCooldown = 60 * 10;
 
         //Biome fields
         public bool ZoneDeimostone;
@@ -516,6 +517,10 @@ namespace TerrorbornMod
                 item.SetDefaults(ItemID.Hook);
                 items.Add(item);
             }
+
+            Item matrix = new Item();
+            matrix.SetDefaults(ModContent.ItemType<Items.TwilightMatrix>());
+            items.Add(matrix);
         }
         public void LoseTerror(float amount, bool silent = true, bool perSecond = false, bool smallerText = false)
         {
@@ -635,6 +640,7 @@ namespace TerrorbornMod
             PyroclasticShinobiBonus = false;
             AzuriteArmorBonus = false;
             VampiricPendant = false;
+            TerrorPotionCooldown = 60 * 10;
             noAmmoConsumeChance = 0f;
 
             player.statManaMax2 += 5 * MidnightFruit;
@@ -816,11 +822,88 @@ namespace TerrorbornMod
             Main.screenPosition += ScreenOffset;
         }
 
+        public void ConsumeTerrorPotion()
+        {
+            Item currentItem = null;
+            float currentTerror = 0f;
+            foreach (Item item in player.inventory)
+            {
+                if (item != null)
+                {
+                    if (!item.IsAir)
+                    {
+                        TerrorbornItem modItem = TerrorbornItem.modItem(item);
+                        if (modItem.terrorPotionTerror > currentTerror)
+                        {
+                            currentTerror = modItem.terrorPotionTerror;
+                            currentItem = item;
+                        }
+                    }
+                }
+            }
+
+            if (currentItem != null)
+            {
+                float range = 300;
+                TerrorbornItem modItem = TerrorbornItem.modItem(currentItem);
+
+                for (int i = 0; i < 200; i++)
+                {
+                    NPC npc = Main.npc[i];
+                    if (!npc.friendly && npc.Distance(player.Center) <= range + (npc.height + npc.width) / 4 && npc.active && npc.type != NPCID.TargetDummy)
+                    {
+                        GainTerror(modItem.terrorPotionTerror, false, false, true);
+                    }
+                }
+
+                currentItem.stack--;
+
+                Main.PlaySound(SoundID.Item3, player.Center);
+                player.velocity = Vector2.Zero;
+                DustCircle(player.Center, 180, range, 63, -5, 3f);
+
+                player.AddBuff(ModContent.BuffType<Buffs.Debuffs.TerrorSickness>(), TerrorPotionCooldown);
+            }
+        }
+
+        public void DustCircle(Vector2 position, int Dusts, float Radius, int DustType, float DustSpeed, float DustScale = 1f) //Thanks to seraph for this code
+        {
+            float currentAngle = Main.rand.Next(360);
+            for (int i = 0; i < Dusts; ++i)
+            {
+
+                Vector2 direction = Vector2.Normalize(new Vector2(1, 1)).RotatedBy(MathHelper.ToRadians(((360 / Dusts) * i) + currentAngle));
+                direction.X *= Radius;
+                direction.Y *= Radius;
+
+                Dust dust = Dust.NewDustPerfect(position + direction, DustType, (direction / Radius) * DustSpeed, 0, default(Color), DustScale);
+                dust.noGravity = true;
+                dust.noLight = true;
+                dust.alpha = 125;
+            }
+        }
+
         int ShriekCounter = 0;
         int SoundCounter = 0;
+        int timeSincePressed = 0;
         public void UpdateShriekOfHorror()
         {
             bool darkblood = player.HasBuff(ModContent.BuffType<Buffs.Darkblood>());
+
+            if (TerrorbornMod.ShriekOfHorror.JustPressed)
+            {
+                timeSincePressed = 0;
+            }
+
+            if (TerrorbornMod.ShriekOfHorror.Current)
+            {
+                timeSincePressed++;
+            }
+
+            if (TerrorbornMod.ShriekOfHorror.JustReleased && timeSincePressed <= 10 && !player.HasBuff(ModContent.BuffType<Buffs.Debuffs.TerrorSickness>()) && TerrorbornWorld.obtainedShriekOfHorror)
+            {
+                ConsumeTerrorPotion();
+            }
 
             if (TerrorbornMod.ShriekOfHorror.Current && (player.velocity.Y == 0 || ShriekOfHorrorMovement > 0) && (player.itemTime <= 0 || darkblood) && TimeFreezeTime <= 0 && VoidBlinkTime <= 0 && BlinkDashTime <= 0)
             {

@@ -13,6 +13,7 @@ namespace TerrorbornMod.Items
         {
             Tooltip.SetDefault("While this item is favorited in your inventory, vanilla bosses you have already defeated will enter their twilight forms" +
                 "\nIn their twilight forms, bosses will have more difficult AI and sometimes new drops" +
+                "\nThis feature has not yet been fully implemented for all bosses" +
                 "\n'Dragged by fate...'");
         }
 

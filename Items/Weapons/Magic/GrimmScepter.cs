@@ -162,7 +162,6 @@ namespace TerrorbornMod.Items.Weapons.Magic
             projectile.damage = 0;
         }
 
-
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
@@ -201,8 +200,6 @@ namespace TerrorbornMod.Items.Weapons.Magic
             return false;
         }
 
-        int Direction = 1;
-        int DirectionCounter = 5;
         public override void AI()
         {
             Player player = Main.player[projectile.owner];

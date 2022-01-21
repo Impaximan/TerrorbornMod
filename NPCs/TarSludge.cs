@@ -14,6 +14,7 @@ namespace TerrorbornMod.NPCs
         {
             Main.npcFrameCount[npc.type] = 2;
         }
+
         public override void SetDefaults()
         {
             npc.noGravity = false;
@@ -40,6 +41,7 @@ namespace TerrorbornMod.NPCs
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheLiesOfNourishment"));
             }
         }
+
         int JavelinCounter = 69;
         public override void PostAI()
         {
@@ -69,6 +71,7 @@ namespace TerrorbornMod.NPCs
                 }
             }
         }
+
         int frame = 0;
         public override void FindFrame(int frameHeight)
         {
@@ -91,6 +94,7 @@ namespace TerrorbornMod.NPCs
             }
             npc.frame.Y = frame * frameHeight;
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (NPC.downedBoss3)

@@ -46,6 +46,8 @@ namespace TerrorbornMod
 
         public bool parryShield = false;
 
+        public float terrorPotionTerror = 0f;
+
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
             base.ModifyWeaponDamage(item, player, ref add, ref mult, ref flat);
@@ -221,6 +223,16 @@ namespace TerrorbornMod
                 critDamageMult = 1.5f;
             }
 
+            if (item.type == ItemID.CrystalVileShard || item.type == ItemID.FetidBaghnakhs)
+            {
+                critDamageMult = 1.15f;
+            }
+
+            if (item.type == ItemID.Flamethrower || item.type == ItemID.PoisonStaff || item.type == ItemID.ShadowbeamStaff)
+            {
+                critDamageMult = 1.3f;
+            }
+
             if (canBeThrown)
             {
                 if (item.ranged)
@@ -251,7 +263,10 @@ namespace TerrorbornMod
             }
 
             List<int> thrownItemsBlacklist = new List<int>() {
-
+                ItemID.CopperCoin,
+                ItemID.SilverCoin,
+                ItemID.GoldCoin,
+                ItemID.PlatinumCoin
             };
 
             if (thrownItemsBlacklist.Contains(item.type))
@@ -412,6 +427,29 @@ namespace TerrorbornMod
                 tooltips.Add(new TooltipLine(mod, "terrorcostprefix", changeText + "% terror required per use"));
                 tooltips.FirstOrDefault(x => x.Name == "terrorcostprefix" && x.mod == "TerrorbornMod").isModifier = true;
                 tooltips.FirstOrDefault(x => x.Name == "terrorcostprefix" && x.mod == "TerrorbornMod").isModifierBad = true;
+            }
+
+            if (terrorPotionTerror > 0f && !TerrorbornWorld.obtainedShriekOfHorror)
+            {
+                int index = tooltips.FindIndex(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+                tooltips.RemoveAt(index);
+                tooltips.Insert(index, new TooltipLine(mod, "noUseTerrorPotion", "A flask containing a strange substance" +
+                    "\n'Can only be used by those who can shriek'"));
+                for (int i = 0; i < tooltips.Count; i++)
+                {
+                    TooltipLine line2 = tooltips[i];
+
+                    if (line2.Name.Contains("Tooltip"))
+                    {
+                        tooltips.RemoveAt(i);
+                        i--;
+                    }
+
+                    if (i >= tooltips.Count)
+                    {
+                        break;
+                    }
+                }
             }
 
             if (TerrorbornMod.showCritDamage && item.damage != 0 && !item.accessory)

@@ -44,6 +44,11 @@ namespace TerrorbornMod.WeaponPossession
                 mult *= 0.85f;
             }
 
+            if (possessType == PossessType.Fright)
+            {
+                mult *= 0.9f;
+            }
+
             if (possessType == PossessType.Sight)
             {
                 mult *= 0.85f;
@@ -168,7 +173,8 @@ namespace TerrorbornMod.WeaponPossession
             }
             if (possessType == PossessType.Fright)
             {
-                bonus = "Steals terror from enemies";
+                bonus = "Steals terror from enemies" +
+                    "\n-10% damage";
             }
             if (possessType == PossessType.Light)
             {

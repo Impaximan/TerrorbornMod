@@ -21,7 +21,7 @@ namespace TerrorbornMod.Items.Ammo
             item.value = Item.sellPrice(0, 0, 0, 20);
             item.shootSpeed = 3;
             item.rare = ItemRarityID.Pink;
-            item.shoot = mod.ProjectileType("PincushionArrowProjectile");
+            item.shoot = ModContent.ProjectileType<PincushionArrowProjectile>();
             item.ammo = AmmoID.Arrow;
         }
         public override void SetStaticDefaults()

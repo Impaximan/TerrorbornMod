@@ -1040,7 +1040,7 @@ namespace TerrorbornMod
 
             if (npc.type == NPCID.GoblinSorcerer)
             {
-                if (Main.rand.NextFloat() <= 0.15f * ExpertBoost)
+                if (Main.rand.NextFloat() <= 0.14f * ExpertBoost)
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapons.Magic.BookOfChaos>());
                 }
@@ -1048,7 +1048,7 @@ namespace TerrorbornMod
 
             if (npc.type == NPCID.GoblinArcher)
             {
-                if (Main.rand.NextFloat() <= 0.08f * ExpertBoost)
+                if (Main.rand.NextFloat() <= 0.04f * ExpertBoost)
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapons.Ranged.WarBow>());
                 }

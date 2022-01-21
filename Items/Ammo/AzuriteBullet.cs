@@ -28,15 +28,11 @@ namespace TerrorbornMod.Items.Ammo
         {
             Tooltip.SetDefault("A high speed bullet that has a 20% chance to rain azurite shards on hit foes\nThe bullet's speed is unaffected by water");
         }
-        //public override bool HoldItemFrame(Player player)
-        //{
-        //    player.bodyFrame.Y = 56 * 2;
-        //    return true;
-        //}
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("AzuriteBar"));
+            recipe.AddIngredient(ModContent.ItemType<Materials.AzuriteBar>());
             recipe.AddIngredient(ItemID.MusketBall, 111);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 111);

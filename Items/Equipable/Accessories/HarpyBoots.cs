@@ -28,7 +28,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Feather, 6);
             recipe.AddIngredient(ItemID.Cloud, 20);
-            recipe.AddIngredient(ItemID.IronBar, 3);
+            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 3);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

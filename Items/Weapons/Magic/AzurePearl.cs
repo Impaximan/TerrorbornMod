@@ -41,6 +41,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             item.noUseGraphic = true;
         }
     }
+
     class AzureBurst : ModProjectile
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";

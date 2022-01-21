@@ -84,6 +84,16 @@ namespace TerrorbornMod.TwilightMode
 					{
 						twilight = true;
 					}
+					if (npc.type == NPCID.BrainofCthulhu && NPC.downedBoss2)
+					{
+						twilight = true;
+						BoCPartTwo = false;
+						BoCSpawnedNewCreepers = false;
+						BoCIchorCounter = 0;
+						BoCIchorAmount = 0;
+						BoCDustTelegraphCounter = 0;
+						BoCHealed = false;
+					}
 				}
 			}
 			if (!twilight || !npc.boss)
@@ -104,6 +114,11 @@ namespace TerrorbornMod.TwilightMode
 			if (npc.aiStyle == 84)
 			{
 				LunaticCultistAI(npc);
+				return false;
+			}
+			if (npc.aiStyle == 54)
+			{
+				BrainOfCthulhuAI(npc);
 				return false;
 			}
 			return base.PreAI(npc);
@@ -2534,7 +2549,375 @@ namespace TerrorbornMod.TwilightMode
 			npc.dontTakeDamage = flag3;
 			npc.chaseable = !flag4;
 		}
-	}
+
+		int invincible = 1;
+		bool BoCPartTwo = false;
+		bool BoCSpawnedNewCreepers = false;
+		int BoCIchorCounter = 0;
+		int BoCIchorAmount = 0;
+		int BoCDustTelegraphCounter = 0;
+		bool BoCHealed = false;
+		public void BrainOfCthulhuAI(NPC npc)
+        {
+			float teleportDistance = 350f;
+			NPC.crimsonBoss = npc.whoAmI;
+			if (Main.netMode != 1 && npc.localAI[0] == 0f)
+			{
+				npc.localAI[0] = 1f;
+				for (int num796 = 0; num796 < 20; num796++)
+				{
+					float x2 = npc.Center.X;
+					float y3 = npc.Center.Y;
+					x2 += (float)Main.rand.Next(-npc.width, npc.width);
+					y3 += (float)Main.rand.Next(-npc.height, npc.height);
+					int num797 = NPC.NewNPC((int)x2, (int)y3, NPCID.Creeper);
+					Main.npc[num797].velocity = new Vector2((float)Main.rand.Next(-30, 31) * 0.1f, (float)Main.rand.Next(-30, 31) * 0.1f);
+					Main.npc[num797].netUpdate = true;
+					invincible *= -1;
+					if (invincible == 1)
+                    {
+						Main.npc[num797].dontTakeDamage = true;
+						Main.npc[num797].alpha = 120;
+						Main.npc[num797].knockBackResist = 0f;
+					}
+				}
+			}
+
+			bool allInvincible = true;
+			List<NPC> creepers = new List<NPC>();
+
+			foreach (NPC creeper in Main.npc)
+            {
+				if (creeper.type == NPCID.Creeper && creeper.active)
+                {
+					creepers.Add(creeper);
+					if (!creeper.dontTakeDamage)
+                    {
+						allInvincible = false;
+                    }
+                }
+            }
+
+			if (allInvincible)
+            {
+				BoCPartTwo = true;
+				foreach (NPC creeper in creepers)
+				{
+					invincible *= -1;
+					if (invincible == 1 || creepers.Count == 1)
+					{
+						creeper.dontTakeDamage = false;
+						creeper.alpha = 0;
+					}
+					creeper.defense += 2;
+                }
+            }
+
+			if (BoCSpawnedNewCreepers && NPC.AnyNPCs(NPCID.Creeper))
+            {
+				BoCIchorCounter++;
+				if (BoCIchorAmount > 0)
+                {
+					if (BoCIchorCounter > 20)
+					{
+						BoCIchorAmount--;
+						BoCIchorCounter = 0;
+
+						NPC creeper = Main.rand.Next(creepers);
+						Vector2 position = creeper.Center;
+						float speed = 9f;
+						Vector2 velocity = creeper.DirectionTo(Main.player[npc.target].Center) * speed;
+						int proj = Projectile.NewProjectile(position, velocity, ProjectileID.GoldenShowerHostile, 25 / 4, 0f);
+						Main.projectile[proj].tileCollide = false;
+					}
+                }
+                else
+				{
+					if (BoCIchorCounter > 250)
+					{
+						Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0, 1, 1);
+						TerrorbornMod.ScreenShake(5f);
+						BoCIchorCounter = 0;
+						BoCIchorAmount = 13;
+					}
+				}
+            }
+
+			if (Main.netMode != 1)
+			{
+				npc.TargetClosest();
+				int num798 = 6000;
+				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)num798)
+				{
+					npc.active = false;
+					npc.life = 0;
+					if (Main.netMode == 2)
+					{
+						NetMessage.SendData(23, -1, -1, null, npc.whoAmI);
+					}
+				}
+			}
+			if (npc.ai[0] < 0f)
+			{
+				if (npc.localAI[2] == 0f)
+				{
+					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y);
+					npc.localAI[2] = 1f;
+					Gore.NewGore(npc.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 392);
+					Gore.NewGore(npc.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 393);
+					Gore.NewGore(npc.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 394);
+					Gore.NewGore(npc.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 395);
+					for (int num799 = 0; num799 < 20; num799++)
+					{
+						Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f);
+					}
+					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+				}
+
+				npc.TargetClosest();
+				float speed = 5f;
+				if (BoCSpawnedNewCreepers && !NPC.AnyNPCs(NPCID.Creeper))
+				{
+					speed = 7.5f;
+					if (!BoCHealed)
+                    {
+						BoCHealed = true;
+						npc.life = npc.lifeMax;
+					}
+				}
+				npc.velocity = npc.DirectionTo(Main.player[npc.target].Center) * speed;
+
+				if (npc.life <= npc.lifeMax / 4 && !BoCSpawnedNewCreepers)
+				{
+					BoCSpawnedNewCreepers = true;
+					for (int num796 = 0; num796 < 10; num796++)
+					{
+						float x2 = npc.Center.X;
+						float y3 = npc.Center.Y;
+						x2 += (float)Main.rand.Next(-npc.width, npc.width);
+						y3 += (float)Main.rand.Next(-npc.height, npc.height);
+						int num797 = NPC.NewNPC((int)x2, (int)y3, NPCID.Creeper);
+						Main.npc[num797].velocity = new Vector2((float)Main.rand.Next(-30, 31) * 0.1f, (float)Main.rand.Next(-30, 31) * 0.1f);
+						Main.npc[num797].netUpdate = true;
+						invincible *= -1;
+						if (invincible == 1)
+						{
+							Main.npc[num797].dontTakeDamage = true;
+							Main.npc[num797].alpha = 120;
+							Main.npc[num797].knockBackResist = 0f;
+						}
+						Main.npc[num797].defense += 4;
+					}
+				}
+
+				npc.dontTakeDamage = NPC.AnyNPCs(NPCID.Creeper);
+
+				if (npc.ai[0] == -1f)
+				{
+					if (Main.netMode != 1)
+					{
+						npc.localAI[1] += 1f;
+						if (npc.justHit)
+						{
+							npc.localAI[1] -= Main.rand.Next(5);
+						}
+						int num804 = 60 + Main.rand.Next(120);
+						if (Main.netMode != 0)
+						{
+							num804 += Main.rand.Next(30, 90);
+						}
+						if (npc.localAI[1] >= (float)num804)
+						{
+							npc.localAI[1] = 0f;
+							npc.TargetClosest();
+							int num814 = 0;
+							Vector2 vector = npc.DirectionTo(Main.player[npc.target].Center) * teleportDistance + Main.player[npc.target].Center;
+							float num815 = vector.X / 16f;
+							float num816 = vector.Y / 16f;
+							npc.ai[0] = 1f;
+							npc.ai[1] = num815;
+							npc.ai[0] = 1f;
+							npc.ai[2] = num816;
+							npc.netUpdate = true;
+						}
+					}
+				}
+				else if (npc.ai[0] == -2f)
+				{
+					npc.velocity *= 0.9f;
+					if (Main.netMode != 0)
+					{
+						npc.ai[3] += 15f;
+					}
+					else
+					{
+						npc.ai[3] += 25f;
+					}
+					BoCDustTelegraphCounter++;
+					if (BoCDustTelegraphCounter >= 5)
+                    {
+						BoCDustTelegraphCounter = 0;
+						DustExplosion(new Vector2(npc.ai[1] * 16f, npc.ai[2] * 16f), 0, 20, 20f, DustID.GoldFlame, 1.5f, true);
+                    }
+					if (npc.ai[3] >= 255f)
+					{
+						npc.ai[3] = 255f;
+						npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
+						npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
+						Main.PlaySound(SoundID.Item8, npc.Center);
+						npc.ai[0] = -3f;
+						npc.netUpdate = true;
+						npc.netSpam = 0;
+					}
+					npc.alpha = (int)npc.ai[3];
+				}
+				else if (npc.ai[0] == -3f)
+				{
+					if (Main.netMode != 0)
+					{
+						npc.ai[3] -= 15f;
+					}
+					else
+					{
+						npc.ai[3] -= 25f;
+					}
+					if (npc.ai[3] <= 0f)
+					{
+						npc.ai[3] = 0f;
+						npc.ai[0] = -1f;
+						npc.netUpdate = true;
+						npc.netSpam = 0;
+					}
+					npc.alpha = (int)npc.ai[3];
+				}
+			}
+			else
+			{
+				npc.TargetClosest();
+				float speed = 1f;
+				if (BoCPartTwo)
+                {
+					speed = 3f;
+                }
+				if (BoCSpawnedNewCreepers)
+				{
+					speed = 5f;
+				}
+				npc.velocity = npc.DirectionTo(Main.player[npc.target].Center) * speed;
+				if (npc.ai[0] == 0f)
+				{
+					if (Main.netMode != 1)
+					{
+						int num812 = 0;
+						for (int num813 = 0; num813 < 200; num813++)
+						{
+							if (Main.npc[num813].active && Main.npc[num813].type == 267)
+							{
+								num812++;
+							}
+						}
+						if (num812 == 0)
+						{
+							npc.ai[0] = -1f;
+							npc.localAI[1] = 0f;
+							npc.alpha = 0;
+							npc.netUpdate = true;
+						}
+						npc.localAI[1] += 1f;
+						if (npc.localAI[1] >= (float)(120 + Main.rand.Next(300)))
+						{
+							npc.localAI[1] = 0f;
+							npc.TargetClosest();
+							int num814 = 0;
+							Vector2 vector = npc.DirectionTo(Main.player[npc.target].Center) * teleportDistance + Main.player[npc.target].Center;
+							float num815 = vector.X / 16f;
+							float num816 = vector.Y / 16f;
+							npc.ai[0] = 1f;
+							npc.ai[1] = num815;
+							npc.ai[0] = 1f;
+							npc.ai[2] = num816;
+							npc.netUpdate = true;
+						}
+					}
+				}
+				else if (npc.ai[0] == 1f)
+				{
+					BoCDustTelegraphCounter++;
+					if (BoCDustTelegraphCounter >= 5)
+					{
+						BoCDustTelegraphCounter = 0;
+						DustExplosion(new Vector2(npc.ai[1] * 16f, npc.ai[2] * 16f), 0, 20, 20f, DustID.GoldFlame, 1.5f, true);
+					}
+					npc.alpha += 5;
+					if (npc.alpha >= 255)
+					{
+						Main.PlaySound(SoundID.Item8, npc.Center);
+						npc.alpha = 255;
+						npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
+						npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
+						npc.ai[0] = 2f;
+					}
+				}
+				else if (npc.ai[0] == 2f)
+				{
+					npc.alpha -= 5;
+					if (npc.alpha <= 0)
+					{
+						npc.alpha = 0;
+						npc.ai[0] = 0f;
+					}
+				}
+			}
+			if (Main.player[npc.target].dead || !Main.player[npc.target].ZoneCrimson)
+			{
+				if (npc.localAI[3] < 120f)
+				{
+					npc.localAI[3]++;
+				}
+				if (npc.localAI[3] > 60f)
+				{
+					npc.velocity.Y += (npc.localAI[3] - 60f) * 0.25f;
+				}
+				npc.ai[0] = 2f;
+				npc.alpha = 10;
+			}
+			else if (npc.localAI[3] > 0f)
+			{
+				npc.localAI[3]--;
+			}
+		}
+
+		public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
+		{
+			float currentAngle = Main.rand.Next(360);
+
+			//if(Main.netMode!=1){
+			for (int i = 0; i < Streams; ++i)
+			{
+
+				Vector2 direction = Vector2.Normalize(new Vector2(1, 1)).RotatedBy(MathHelper.ToRadians(((360 / Streams) * i) + currentAngle));
+				direction.X *= DustSpeed;
+				direction.Y *= DustSpeed;
+
+				Dust dust = Dust.NewDustPerfect(position + (new Vector2(Main.rand.Next(RectWidth), Main.rand.Next(RectWidth))), DustType, direction, 0, default(Color), DustScale);
+				if (NoGravity)
+				{
+					dust.noGravity = true;
+				}
+			}
+		}
+
+        public override void HitEffect(NPC npc, int hitDirection, double damage)
+        {
+			if (npc.type == NPCID.BrainofCthulhu && twilight && !BoCSpawnedNewCreepers)
+            {
+				if (npc.life <= 0)
+                {
+					npc.life = 1;
+                }
+            }
+        }
+    }
 
 	class QueenBeeLaser : ModProjectile
 	{

@@ -34,25 +34,29 @@ namespace TerrorbornMod.Items.TreasureBags
             {
                 player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.DunestockMask>());
             }
-            int choice = Main.rand.Next(2);
-            if (choice == 0)
-            {
-                player.QuickSpawnItem(mod.ItemType("Dunesting"));
-            }
-            else if (choice == 1)
-            {
-                player.QuickSpawnItem(mod.ItemType("NeedleClawStaff"));
-            }
-            choice = Main.rand.Next(2);
+
             int item1;
             WeightedRandom<int> itemlist = new WeightedRandom<int>();
+            itemlist.Add(ModContent.ItemType<Items.Dunestock.NeedleClawStaff>());
+            itemlist.Add(ModContent.ItemType<Items.Dunestock.Dunesting>());
+            itemlist.Add(ModContent.ItemType<Items.Dunestock.HungryWhirlwind>());
+            item1 = itemlist.Get();
+            player.QuickSpawnItem(item1);
+            int item2 = itemlist.Get();
+            while (item2 == item1)
+            {
+                item2 = itemlist.Get();
+            }
+            player.QuickSpawnItem(item2);
+
+            itemlist = new WeightedRandom<int>();
             itemlist.Add(ModContent.ItemType<Equipable.Accessories.DryScarf>());
             itemlist.Add(ModContent.ItemType<Equipable.Accessories.AntlionShell>());
             itemlist.Add(ModContent.ItemType<Equipable.Accessories.AntlionClaw>());
             itemlist.Add(ModContent.ItemType<Equipable.Accessories.Wings.AntlionWings>(), 1.5f);
             item1 = itemlist.Get();
             player.QuickSpawnItem(item1);
-            int item2 = itemlist.Get();
+            item2 = itemlist.Get();
             while (item2 == item1)
             {
                 item2 = itemlist.Get();
@@ -62,7 +66,7 @@ namespace TerrorbornMod.Items.TreasureBags
             player.QuickSpawnItem(ModContent.ItemType<DustwindRod>());
         }
 
-        public override int BossBagNPC => mod.NPCType("Dunestock");
+        public override int BossBagNPC => ModContent.NPCType<NPCs.Bosses.Dunestock>();
     }
 }
 
