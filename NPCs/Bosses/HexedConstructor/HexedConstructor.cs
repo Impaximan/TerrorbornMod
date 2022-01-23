@@ -75,7 +75,42 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             }
             else
             {
+                Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Materials.HexingEssence>(), Stack: Main.rand.Next(15, 20));
+                int choice = Main.rand.Next(3);
+                if (choice == 0)
+                {
+                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Weapons.Ranged.MirageBow>());
+                }
+                else if (choice == 1)
+                {
+                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Weapons.Magic.SongOfTime>());
+                }
+                else if (choice == 2)
+                {
+                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Weapons.Melee.IcarusShred>());
+                }
 
+                if (Main.rand.Next(7) == 0)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Vanity.BossMasks.HexedConstructorMask>());
+                }
+
+                int armorChoice = Main.rand.Next(3);
+                if (armorChoice == 0)
+                {
+                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderMask>());
+                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderBreastplate>());
+                }
+                if (armorChoice == 1)
+                {
+                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderGreaves>());
+                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderBreastplate>());
+                }
+                if (armorChoice == 2)
+                {
+                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderMask>());
+                    Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderGreaves>());
+                }
             }
         }
 

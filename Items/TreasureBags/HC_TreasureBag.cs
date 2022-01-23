@@ -27,10 +27,10 @@ namespace TerrorbornMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            //if (Main.rand.Next(7) == 0)
-            //{
-            //    player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.ShadowcrawlerMask>());
-            //}
+            if (Main.rand.Next(7) == 0)
+            {
+                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.HexedConstructorMask>());
+            }
             //player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Accessories.DarkAbdomen>());
             player.QuickSpawnItem(ModContent.ItemType<Items.Materials.HexingEssence>(), Main.rand.Next(15, 20));
             int choice = Main.rand.Next(3);

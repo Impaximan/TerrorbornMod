@@ -71,6 +71,18 @@ namespace TerrorbornMod
         [Slider()]
         public float titleCardTime;
 
+        [BackgroundColor(40, 55, 70)]
+        [Label("Terror Meter Style")]
+        [Tooltip("How the terror meter looks")]
+        [DefaultValue("Default")]
+        [Slider()]
+        [OptionStrings(new string[3]{
+            "Default",
+            "Filled In",
+            "Legacy"
+        })]
+        public string TerrorMeterStyle;
+
         [Header("Mechanics")]
 
         [DefaultValue(true)]
@@ -100,6 +112,7 @@ namespace TerrorbornMod
             TerrorbornMod.titleCardDuration = titleCardTime;
             TerrorbornMod.titleCards = titleCards;
             TerrorbornMod.thrownAffectsMods = thrownAffectsMods;
+            TerrorbornMod.TerrorMeterStyle = TerrorMeterStyle;
         }
     }
 }

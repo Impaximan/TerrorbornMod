@@ -28,6 +28,13 @@ namespace TerrorbornMod.Items
         public override bool OnPickup(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            if (modPlayer.TerrorTonic && modPlayer.DarkEnergyStored < 5)
+            {
+                modPlayer.DarkEnergyStored++;
+                Main.PlaySound(SoundID.Item3, player.Center);
+                CombatText.NewText(player.getRect(), Color.Orange, modPlayer.DarkEnergyStored, true, false);
+                return false;
+            }
             Main.PlaySound(SoundID.Item4, player.Center);
             modPlayer.GainTerror(10f, false, false);
             return false;

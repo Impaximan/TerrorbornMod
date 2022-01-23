@@ -67,6 +67,8 @@ namespace TerrorbornMod
         public static bool thrownAffectsMods = true;
         public static bool showCritDamage = true;
 
+        public static string TerrorMeterStyle = "Default";
+
         public static void ScreenShake(float Intensity)
         {
             if (screenShaking < Intensity)

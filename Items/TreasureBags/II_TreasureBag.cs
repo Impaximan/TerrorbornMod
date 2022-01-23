@@ -27,11 +27,11 @@ namespace TerrorbornMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            //if (Main.rand.Next(7) == 0)
-            //{
-            //    player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.ShadowcrawlerMask>());
-            //}
-            //player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Accessories.DarkAbdomen>());
+            if (Main.rand.Next(7) == 0)
+            {
+                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>());
+            }
+            player.QuickSpawnItem(ModContent.ItemType<Items.TerrorTonic>());
             switch (Main.rand.Next(2))
             {
                 case 0:
