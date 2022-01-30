@@ -199,6 +199,11 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 Projectile.NewProjectile(arena.Center.ToVector2(), Vector2.Zero, ModContent.ProjectileType<TeleportLight>(), 0, 0);
             }
 
+            if (Main.rand.Next(10) == 0)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Placeable.Furniture.InfectedIncarnateTrophy>());
+            }
+
             if (Main.expertMode)
             {
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.TreasureBags.II_TreasureBag>());
@@ -209,13 +214,19 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentBreastplate>());
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentGreaves>());
 
-                switch (Main.rand.Next(2))
+                switch (Main.rand.Next(3))
                 {
                     case 0:
                         Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
                         break;
                     case 1:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
                         Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
+                        break;
+                    case 2:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
                         break;
                 }
 

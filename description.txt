@@ -1,10 +1,12 @@
 WARNING: This mod does not support multiplayer and likely never will. It is highly recommended that you play this mod on a large world.
-The Terrorborn mod by Penumbral and numerous other people is an ambitiously-planned out content mod with the goal of adding an engaging storyline and greatly increasing the quality of combat, primarily through a new mechanic; terror.
+
+--Details--
+The Terrorborn mod by Penumbral and numerous other people is an ambitious content mod with the goal of adding an engaging storyline and greatly increasing the quality of combat, primarily through a new mechanic; terror.
 Unlock new abilities, face difficult but fair boss encounters, master a new style of combat, and most importantly, have fun, in a refreshing souls like inspired experience.
 
-More details on what the mod adds
- • 8 new challenging-but-fair bosses
- • 1 new mechanic: Terror. Shriek to reap fear from your foes when you get the opportunity, and unleash devastating new spells.
+Content:
+ • 7 new challenging-but-fair bosses
+ • Terror: Shriek to reap fear from your foes when you get the opportunity, and unleash devastating new spells.
  • 9 horrific abilities that make use of the terror mechanic.
  • 4 new NPCs with unique and useful functions. Each NPC has its own purpose and personality, as well as a backstory that you can learn from.
  • 350+ new items
@@ -17,21 +19,36 @@ More details on what the mod adds
 
 Feel free to join our discord server if you have any feedback or ideas, or if you just want to discuss the mod. A link is on the homepage!
 
-Dev team:
+--Dev team--
 Spriters:
  • Jellybru
  • Sir Pogsalot
  • LightningShox
- • Mollusk (left the dev team at some point during development)
+ • RedShift
 
 Composers:
  • LightningShox
  • Sir Pogsalot
- • ProVISIO (Check out his music mod, ProvEdition, it's really good)
+ • RedShift
 
 Coders:
  • Penumbral (that's me :D)
- • Seraph (Check out his mod, Extradimensional)
+ • Seraph (Check out Extradimensional)
 
- Other:
- • 
+Testers:
+ • CataclysmicArmageddon
+ • DreadSoul/Lavnir
+ • Spyro
+ • Termi/TerminatorShock
+ • turingcomplete30 (Check out Polarities)
+
+--Special Thanks--
+ • georgeGMC
+ • nalyddd
+ • MrPlague
+ • Mollusk (former dev)
+ • ProVisio/ProVGM (former dev)
+ • IDGCaptainRussia
+ • moonburn
+ • Gameraiders101
+ • ThomasThePencil

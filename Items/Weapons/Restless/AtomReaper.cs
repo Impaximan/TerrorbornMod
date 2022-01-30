@@ -91,6 +91,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 20);
             recipe.AddIngredient(ItemID.FragmentSolar, 10);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 5);
             recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
             recipe.SetResult(this);
             recipe.AddRecipe();

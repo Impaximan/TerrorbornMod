@@ -1,6 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories.Incense
 {
@@ -9,43 +10,26 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Incense
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Sapphire, 5);
+            recipe.AddIngredient(ItemID.Sapphire, 2);
+            recipe.AddIngredient(ModContent.ItemType<Materials.TerrorSample>());
             recipe.AddIngredient(ItemID.Bottle);
+            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Decreased enemy defense by 3." +
-                "\n2% increased movement speed for every enemy nearby.");
+            Tooltip.SetDefault("Makes your terror meter royal blue");
         }
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 44;
             item.accessory = true;
             item.noMelee = true;
             item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(gold: 1, silver: 25);
-            item.useAnimation = 5;
-        }
-
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.armorPenetration += 3;
-            int enemyCount = 0;
-            for (int i = 0; i < 200; i++)
-            {
-                NPC npc = Main.npc[i];
-                if (!npc.friendly && npc.CanBeChasedBy())
-                {
-                    enemyCount++;
-                }
-            }
-            player.moveSpeed *= 1 + (0.02f * enemyCount);
+            item.vanity = true;
+            TerrorbornItem.modItem(item).meterColor = Color.RoyalBlue;
         }
     }
 }
-
-

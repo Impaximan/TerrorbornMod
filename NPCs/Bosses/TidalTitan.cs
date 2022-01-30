@@ -149,6 +149,10 @@ namespace TerrorbornMod.NPCs.Bosses
                     WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(3, 6), mod.TileType("Azurite"), false, 0f, 0f, false, true);
                 }
             }
+            if (Main.rand.Next(10) == 0)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Placeable.Furniture.TidalTitanTrophy>());
+            }
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AzuriteOre"), Main.rand.Next(15, 26));
             if (Main.expertMode)
             {

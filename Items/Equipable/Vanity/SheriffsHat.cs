@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sheriff's Hat");
-            Tooltip.SetDefault("Don't worry, he has another one");
+            Tooltip.SetDefault("Don't worry, he has another");
         }
 
         public override void SetDefaults()

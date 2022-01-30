@@ -98,6 +98,12 @@ namespace TerrorbornMod.NPCs.Bosses
                 TerrorbornWorld.downedDunestock = true;
                 Item.NewItem(npc.Center, ModContent.ItemType<Items.Lore.JournalEntries.Raven.Raven_Dunestock>());
             }
+
+            if (Main.rand.Next(10) == 0)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Placeable.Furniture.DunestockTrophy>());
+            }
+
             if (Main.expertMode)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.TreasureBags.DS_TreasureBag>());

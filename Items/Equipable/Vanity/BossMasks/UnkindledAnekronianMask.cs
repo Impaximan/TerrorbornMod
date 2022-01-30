@@ -31,5 +31,3 @@ namespace TerrorbornMod.Items.Equipable.Vanity.BossMasks
         }
     }
 }
-
-

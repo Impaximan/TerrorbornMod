@@ -30,7 +30,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a spectral clock that accellerates your cursor" +
+            Tooltip.SetDefault("Summons a spectral clock that accellerates to your cursor" +
                 "\nThe clock will deal 5x damage if it is moving at a high velocity");
         }
 

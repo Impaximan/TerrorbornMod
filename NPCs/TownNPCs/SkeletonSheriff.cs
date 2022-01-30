@@ -64,6 +64,8 @@ namespace TerrorbornMod.NPCs.TownNPCs
         {
             Main.NewText("<" + npc.GivenName + " the Skeleton Sheriff> Don't worry, I'm an undead. I'll be back....", Color.Yellow);
             Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Vanity.SheriffsHat>());
+            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Vanity.SheriffsCoat>());
+            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Vanity.SheriffsJeans>());
         }
 
         public override bool UsesPartyHat()

@@ -11,21 +11,21 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires faster and faster as you use it" +
-                "\nAt maximum firing rate it will additionally fire powerful, infinitely piercing lightning bolts" +
-                "\nFires multiple arrows at once");
+            Tooltip.SetDefault("Right click to load in ammo, up to max of 8" +
+                "\nLeft click to rapidly fire loaded ammo" +
+                "\nFiring with 8 ammo loaded will release a blast of lightning bolts as well, but consume 3 shots");
         }
 
         public override void SetDefaults()
         {
             item.reuseDelay = 45;
-            item.damage = 9;
+            item.damage = 43;
             item.ranged = true;
             item.width = 64;
             item.height = 36;
             item.channel = true;
-            item.useTime = 9;
-            item.useAnimation = 9;
+            item.useTime = 6;
+            item.useAnimation = 6;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2;
@@ -52,33 +52,58 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             recipe.AddRecipe();
         }
 
+        int shotsLeft = 0;
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                shotsLeft++;
+                if (shotsLeft > 8)
+                {
+                    shotsLeft = 8;
+                }
+                item.shoot = ProjectileID.None;
+                item.autoReuse = true;
+                item.reuseDelay = 5;
+                item.UseSound = SoundID.Item56;
+                CombatText.NewText(player.getRect(), Color.White, shotsLeft, shotsLeft == 8, true);
+                return base.CanUseItem(player);
+            }
+
+            item.shoot = ProjectileID.PurificationPowder;
+            item.autoReuse = true;
+            item.reuseDelay = 0;
+            item.UseSound = SoundID.Item5;
+            return shotsLeft > 0;
+        }
+
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (item.reuseDelay > 0)
+            if (player.altFunctionUse == 2)
             {
-                item.reuseDelay -= 2;
-                if (item.reuseDelay < 0)
+                return false;
+            }
+            if (shotsLeft == 8)
+            {
+                Main.PlaySound(SoundID.Item92, position);
+                TerrorbornMod.ScreenShake(3.5f);
+                for (int i = 0; i < Main.rand.Next(5, 7); i++)
                 {
-                    item.reuseDelay = 0;
+                    Vector2 velocity = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(20)) * Main.rand.NextFloat(2f, 3f);
+                    Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LightningBolt>(), damage, knockBack, player.whoAmI);
                 }
+                shotsLeft -= 3;
             }
             else
             {
-                Vector2 velocity = new Vector2(speedX, speedY);
-                velocity.Normalize();
-                velocity *= 50;
-                Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LightningBolt>(), damage * 2, knockBack, player.whoAmI);
+                shotsLeft--;
             }
-
-            for (int i = 0; i < Main.rand.Next(2, 4); i++)
-            {
-                Vector2 velocity = new Vector2(speedX, speedY);
-                velocity *= Main.rand.NextFloat(0.8f, 1.2f);
-                velocity = velocity.RotatedByRandom(MathHelper.ToRadians(15));
-                Projectile.NewProjectile(position, velocity, type, (int)(damage * 0.4f), knockBack, player.whoAmI);
-            }
-
-            return false;
+            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
 
         public override void UpdateInventory(Player player)

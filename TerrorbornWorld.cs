@@ -1457,7 +1457,7 @@ namespace TerrorbornMod
                     {
                         if (chest.item[inventoryIndex].type == ItemID.None)
                         {
-                            switch (Main.rand.Next(4))
+                            switch (Main.rand.Next(5))
                             {
                                 case 0:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
@@ -1469,6 +1469,9 @@ namespace TerrorbornMod
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.BronzeBuckler>());
                                     break;
                                 case 3:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.RollerSkates>());
+                                    break;
+                                case 4:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.FrostFlask>());
                                     break;
                             }
@@ -1494,19 +1497,25 @@ namespace TerrorbornMod
 
                 if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 2 * 36)
                 {
-                    if (Main.rand.Next(101) <= 40)
+                    if (Main.rand.Next(101) <= 60)
                     {
                         for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                         {
                             if (chest.item[inventoryIndex].type == ItemID.None)
                             {
-                                if (Main.rand.NextBool())
+                                switch (Main.rand.Next(3))
                                 {
-                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.DualpipeDartgun>());
-                                }
-                                else
-                                {
-                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.PalladiumShield>());
+                                    case 0:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.DualpipeDartgun>());
+                                        break;
+                                    case 1:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.PalladiumShield>());
+                                        break;
+                                    case 2:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.DeathRollers>());
+                                        break;
+                                    default:
+                                        break;
                                 }
                                 break;
                             }
@@ -1669,7 +1678,7 @@ namespace TerrorbornMod
                     {
                         if (chest.item[inventoryIndex].type == ItemID.None)
                         {
-                            switch (Main.rand.Next(4))
+                            switch (Main.rand.Next(5))
                             {
                                 case 0:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
@@ -1682,6 +1691,9 @@ namespace TerrorbornMod
                                     break;
                                 case 3:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.CloudInAFlask>());
+                                    break;
+                                case 4:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.RollerSkates>());
                                     break;
                             }
                             break;

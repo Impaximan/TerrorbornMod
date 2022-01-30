@@ -70,6 +70,10 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
             int biomeKeyCost = Item.buyPrice(3, 50, 0, 0);
 
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Incense.HeartCrystalIncense>());
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 4, 0, 0);
+            nextSlot++;
+
             shop.item[nextSlot].SetDefaults(ItemID.Torch);
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 25);
             nextSlot++;

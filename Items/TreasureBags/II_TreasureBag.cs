@@ -32,13 +32,19 @@ namespace TerrorbornMod.Items.TreasureBags
                 player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>());
             }
             player.QuickSpawnItem(ModContent.ItemType<Items.TerrorTonic>());
-            switch (Main.rand.Next(2))
+            switch (Main.rand.Next(3))
             {
                 case 0:
                     player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
+                    player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
                     break;
                 case 1:
+                    player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
                     player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
+                    break;
+                case 2:
+                    player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
+                    player.QuickSpawnItem(ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
                     break;
             }
 

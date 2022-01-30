@@ -7,12 +7,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 {
     class IncendiaryShield : ModItem
     {
-        int cooldown = 10 * 60;
+        int cooldown = 15 * 60;
         float knockback = 7.5f;
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TBUtils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks will also launch you towards the cursor");
+            Tooltip.SetDefault(TBUtils.Accessories.GetParryShieldString(cooldown, knockback) + "\nSuccessful parries rest the cooldown instantly");
         }
 
         public override void SetDefaults()
@@ -32,19 +32,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
             modPlayer.parryColor = Color.Red;
             if (modPlayer.JustParried)
             {
-                dashTime = 30;
-            }
-            if (dashTime > 0)
-            {
-                dashTime--;
-                float speed = 20f;
-                player.velocity = player.DirectionTo(Main.MouseWorld) * speed;
-                if (player.maxFallSpeed < speed)
-                {
-                    player.maxFallSpeed = speed;
-                }
-                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height, 235)];
-                dust.noGravity = true;
+                player.ClearBuff(ModContent.BuffType<Buffs.Debuffs.ParryCooldown>());
+                modPlayer.ParryCooldown = 5;
             }
             TBUtils.Accessories.UpdateParryShield(cooldown, item, player);
         }

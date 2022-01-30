@@ -1,6 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories.Incense
 {
@@ -9,44 +10,26 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Incense
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Emerald, 5);
+            recipe.AddIngredient(ItemID.Emerald, 2);
+            recipe.AddIngredient(ModContent.ItemType<Materials.TerrorSample>());
             recipe.AddIngredient(ItemID.Bottle);
+            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Decreased enemy defense by 2." +
-                "\n1 further increased armor penetration for every 4 enemies nearby.");
+            Tooltip.SetDefault("Makes your terror meter green");
         }
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 44;
             item.accessory = true;
             item.noMelee = true;
             item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(gold: 1, silver: 25);
-            item.useAnimation = 5;
-        }
-
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.armorPenetration += 3;
-            int enemyCount = 0;
-            for (int i = 0; i < 200; i++)
-            {
-                NPC npc = Main.npc[i];
-                if (!npc.friendly && npc.CanBeChasedBy() && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.TheDestroyerBody)
-                {
-                    enemyCount++;
-                }
-            }
-            player.armorPenetration += enemyCount / 2;
+            item.vanity = true;
+            TerrorbornItem.modItem(item).meterColor = Color.LimeGreen;
         }
     }
 }
-
-
-

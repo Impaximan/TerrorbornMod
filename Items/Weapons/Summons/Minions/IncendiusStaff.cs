@@ -77,6 +77,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             return false;
         }
     }
+
     class IncendiaryDemon : ModProjectile
     {
         public override void SetStaticDefaults()
@@ -94,8 +95,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         public override void SetDefaults()
         {
             projectile.penetrate = -1;
-            projectile.width = 86;
-            projectile.height = 66;
+            projectile.width = 84;
+            projectile.height = 76;
             projectile.tileCollide = false;
             projectile.friendly = false;
             projectile.hostile = false;

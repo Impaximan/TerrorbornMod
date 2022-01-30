@@ -40,9 +40,14 @@ namespace TerrorbornMod.NPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextFloat() <= 0.05f)
+            if (Main.rand.NextFloat() <= 0.075f)
             {
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Accessories.BanditGlove>());
+            }
+
+            if (Main.rand.NextFloat() <= 0.02f)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Vanity.BFCap>());
             }
         }
 

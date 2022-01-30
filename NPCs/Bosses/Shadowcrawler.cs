@@ -23,6 +23,10 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             TerrorbornWorld.downedShadowcrawler = true;
             Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.PermanentUpgrades.AnekronianApple>());
+            if (Main.rand.Next(10) == 0)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Placeable.Furniture.ShadowcrawlerTrophy>());
+            }
             if (Main.expertMode)
             {
                 Item.NewItem(npc.position, npc.width, npc.height, ModContent.ItemType<Items.TreasureBags.SC_TreasureBag>());

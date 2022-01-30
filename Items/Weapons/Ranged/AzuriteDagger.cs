@@ -42,15 +42,19 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             recipe.AddRecipe();
         }
     }
+
     class AzuriteDaggerProjectile : ModProjectile
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Ranged/AzuriteDagger";
+
         int FallWait = 60;
         int leaveWait = 120;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Azurite Dagger");
         }
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -65,6 +69,13 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.timeLeft = 3000;
+        }
+
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        {
+            width = 15;
+            height = 15;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -130,6 +141,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 }
             }
         }
+
         public override void Kill(int timeLeft)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);

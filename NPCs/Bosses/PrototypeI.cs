@@ -21,6 +21,10 @@ namespace TerrorbornMod.NPCs.Bosses
         public override void NPCLoot()
         {
             TerrorbornWorld.downedPrototypeI = true;
+            if (Main.rand.Next(10) == 0)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Placeable.Furniture.PrototypeITrophy>());
+            }
             if (Main.expertMode)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PI_TreasureBag"));

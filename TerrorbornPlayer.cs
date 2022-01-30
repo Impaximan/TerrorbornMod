@@ -42,6 +42,7 @@ namespace TerrorbornMod
         public int secondaryAbilityInt = 0;
         public AbilityInfo primaryAbility = new None();
         public AbilityInfo secondaryAbility = new None();
+        public Color terrorMeterColor = Color.White;
 
         int abilityAnimationCounter1 = 0;
         int abilityAnimationCounter2 = 0;
@@ -61,6 +62,7 @@ namespace TerrorbornMod
         public float critDamage = 1f;
         public float flightTimeMultiplier = 1f;
         public float noAmmoConsumeChance = 0f;
+        public int badLifeRegen = 0;
 
         //Restless stats
         public float restlessDamage = 1f;
@@ -572,6 +574,7 @@ namespace TerrorbornMod
 
         public override void ResetEffects()
         {
+            terrorMeterColor = Color.White;
             TwilightMatrix = false;
             HeadHunter = false;
             flightTimeMultiplier = 1f;
@@ -587,6 +590,7 @@ namespace TerrorbornMod
             TideSpirit = false;
             TidalShellArmorBonus = false;
             twilight = false;
+            badLifeRegen = 0;
             SoulReaperArmorBonus = false;
             MysteriousCompass = false;
             ShadowAmulet = false;
@@ -770,6 +774,11 @@ namespace TerrorbornMod
         {
             OnHitByAnything(proj, damage, crit);
         }
+
+        public override void UpdateVanityAccessories()
+        {
+        }
+
         public override void PostUpdateEquips()
         {
             player.wingTimeMax = (int)(player.wingTimeMax * flightTimeMultiplier);
@@ -794,7 +803,25 @@ namespace TerrorbornMod
                 allUseSpeed *= 1.3f;
                 player.accRunSpeed *= 2;
             }
+
+            for (int i = 0; i < player.armor.Length; i++)
+            {
+                if (i >= player.armor.Length)
+                {
+                    break;
+                }
+                else if (player.armor[i] != null && !player.armor[i].IsAir)
+                {
+                    Item item = player.armor[i];
+                    TerrorbornItem modItem = TerrorbornItem.modItem(item);
+                    if (modItem.meterColor != Color.White)
+                    {
+                        terrorMeterColor = modItem.meterColor;
+                    }
+                }
+            }
         }
+
         public override void ModifyScreenPosition()
         {
             if (TerrorbornMod.screenFollowTime > 0)
@@ -1450,8 +1477,13 @@ namespace TerrorbornMod
         {
             if (player.HasBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>()))
             {
-                player.lifeRegen = 0;
+                if (player.lifeRegen > 0) player.lifeRegen = 0;
                 player.lifeRegen -= 10 + (player.statDefense / 100) * 18;
+            }
+            if (badLifeRegen > 0)
+            {
+                if (player.lifeRegen > 0) player.lifeRegen = 0;
+                player.lifeRegen -= badLifeRegen;
             }
         }
 

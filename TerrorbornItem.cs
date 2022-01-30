@@ -48,6 +48,8 @@ namespace TerrorbornMod
 
         public float terrorPotionTerror = 0f;
 
+        public Color meterColor = Color.White;
+
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
             base.ModifyWeaponDamage(item, player, ref add, ref mult, ref flat);
