@@ -604,7 +604,7 @@ namespace TerrorbornMod
             if (bossChecklist != null)
             {
                 bossChecklist.Call("AddBossWithInfo", "Infected Incarnate", 1.5f, (Func<bool>)(() => TerrorbornWorld.downedInfectedIncarnate), "Once you've obtained Shriek of Horror, find a strange chamber, the entrance to which is found in the snow biome. In the chamber use Shriek of Horror, and your foe will awake.");
-                bossChecklist.Call("AddBossWithInfo", "Tidal Titan", 3.5f, (Func<bool>)(() => TerrorbornWorld.downedTidalTitan), "Kill a mysterious crab, which rarely spawns in the ocean biome during the night. Despawns if it sinks back into the water (a layer of platforms over the ocean is recommended). Note: doesn't despawn when it becomes day");
+                bossChecklist.Call("AddBossWithInfo", "Tidal Titan", 3.5f, (Func<bool>)(() => TerrorbornWorld.downedTidalTitan), "Kill a mysterious crab, which occassionally spawns in the ocean biome during the night.");
                 bossChecklist.Call("AddBossWithInfo", "Dunestock", 5.5f, (Func<bool>)(() => TerrorbornWorld.downedDunestock), "Use a [i:" + ModContent.ItemType<Items.DriedCanteen>() + "] in the desert.");
                 bossChecklist.Call("AddBossWithInfo", "Shadowcrawler", 9.5f, (Func<bool>)(() => TerrorbornWorld.downedShadowcrawler), "Use a [i:" + ModContent.ItemType<Items.RadioactiveSpiderFood>() + "] during the night.");
                 bossChecklist.Call("AddBossWithInfo", "Prototype I", 11.35f, (Func<bool>)(() => TerrorbornWorld.downedPrototypeI), "Use a [i:" + ModContent.ItemType<Items.PlasmaCore>() + "] during the night.");

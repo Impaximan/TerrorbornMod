@@ -19,6 +19,7 @@ using TerrorbornMod.ForegroundObjects;
 using Terraria.GameInput;
 using Microsoft.Xna.Framework.Input;
 using Extensions;
+using System.Reflection;
 
 namespace TerrorbornMod.TBUtils
 {
@@ -28,12 +29,26 @@ namespace TerrorbornMod.TBUtils
         {
             On.Terraria.Main.DrawInterface += DrawOvertopGraphics;
             On.Terraria.Main.DrawNPCs += DrawNPCs;
+            IL.Terraria.Player.Update += HookUpdate;
+        }
+
+        private static void HookUpdate(ILContext il)
+        {
+            var c = new ILCursor(il);
+            if (!c.TryGotoNext(MoveType.Before, i => i.MatchLdfld("Terraria.Player", "statManaMax2"), i => i.MatchLdcI4(400)))
+            {
+                ErrorLogger.Log("Mana patchy no worky... missing instruction UWU");
+                return;
+            }
+
+            c.Next.Next.Operand = int.MaxValue;
         }
 
         public static void Unload()
         {
             On.Terraria.Main.DrawInterface -= DrawOvertopGraphics;
             On.Terraria.Main.DrawNPCs -= DrawNPCs;
+            IL.Terraria.Player.Update -= HookUpdate;
         }
 
         static Vector2 perlinPosition = Vector2.Zero;
@@ -44,7 +59,6 @@ namespace TerrorbornMod.TBUtils
 
         private static void DrawOvertopGraphics(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
-
             if (lastScreenPosition == Vector2.Zero)
             {
                 lastScreenPosition = Main.screenPosition;
@@ -111,6 +125,9 @@ namespace TerrorbornMod.TBUtils
 
         private static void DrawNPCs(On.Terraria.Main.orig_DrawNPCs orig, Main self, bool behindTiles)
         {
+            Player player = Main.LocalPlayer;
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
             if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedConstructor>()))
             {
                 NPC npc = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedConstructor>())];
@@ -122,6 +139,39 @@ namespace TerrorbornMod.TBUtils
                     }
                 }
             }
+
+            if (modPlayer.deimosChained.Count > 0)
+            {
+                for (int i = 0; i < modPlayer.deimosChained.Count; i++)
+                {
+                    Vector2 originPoint = modPlayer.deimosChained[i].Center;
+                    Vector2 center = player.Center;
+                    if (i > 0)
+                    {
+                        center = modPlayer.deimosChained[i - 1].Center;
+                    }
+                    Vector2 distToProj = originPoint - center;
+                    float projRotation = distToProj.ToRotation() - 1.57f;
+                    float distance = distToProj.Length();
+                    Texture2D texture = ModContent.GetTexture("TerrorbornMod/Items/Weapons/Restless/DeimosChain");
+
+                    while (distance > texture.Height && !float.IsNaN(distance))
+                    {
+                        distToProj.Normalize();
+                        distToProj *= texture.Height;
+                        center += distToProj;
+                        distToProj = originPoint - center;
+                        distance = distToProj.Length();
+
+
+                        //Draw chain
+                        Main.spriteBatch.Draw(texture, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                            new Rectangle(0, 0, texture.Width, texture.Height), Color.White, projRotation,
+                            new Vector2(texture.Width * 0.5f, texture.Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                    }
+                }
+            }
+            
             orig(self, behindTiles);
         }
     }

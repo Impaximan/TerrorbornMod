@@ -71,6 +71,7 @@ namespace TerrorbornMod
             obtainedShriekOfHorror = false;
             talkedToCartographer = false;
             downedInfectedIncarnate = false;
+            downedIncendiaryBoss = false;
             downedSlateBanshee = false;
             talkedToHeretic = false;
             TerrorMasterDialogue = 0;

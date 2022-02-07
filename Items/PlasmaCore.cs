@@ -13,13 +13,15 @@ namespace TerrorbornMod.Items
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 30);
             recipe.AddIngredient(ItemID.Ectoplasm, 20);
             recipe.AddIngredient(ItemID.MartianConduitPlating, 100);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a machine controlled by conflicting forces" +
+            DisplayName.SetDefault("Midnight Energy Core");
+            Tooltip.SetDefault("Calls forth the first prototype, a failure to create control" +
                 "\nNot consumable");
         }
         public override void SetDefaults()

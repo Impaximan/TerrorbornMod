@@ -20,6 +20,7 @@ namespace TerrorbornMod.Items.Tools
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 8);
             recipe.AddRecipeGroup(RecipeGroupID.Wood, 3);
+            recipe.AddIngredient(ModContent.ItemType<Materials.TerrorSample>());
             recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
             recipe.SetResult(this);
             recipe.AddRecipe();

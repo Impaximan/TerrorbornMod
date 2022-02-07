@@ -63,6 +63,8 @@ namespace TerrorbornMod
         public float flightTimeMultiplier = 1f;
         public float noAmmoConsumeChance = 0f;
         public int badLifeRegen = 0;
+        public bool inCombat = false;
+        public int combatTime = 0;
 
         //Restless stats
         public float restlessDamage = 1f;
@@ -70,6 +72,7 @@ namespace TerrorbornMod
         public float restlessUseSpeed = 1f;
         public float restlessChargedUseSpeed = 1f;
         public float restlessNonChargedUseSpeed = 1f;
+        public List<NPC> deimosChained = new List<NPC>();
 
         //Accessory/equipment fields
         public bool SpecterLocket = false;
@@ -99,6 +102,7 @@ namespace TerrorbornMod
         public bool AzuriteArmorBonus = false;
         public bool SangoonBand = false;
         public int SangoonBandCooldown = 0;
+        public bool FusionArmor = false;
         public bool LiesOfNourishment = false;
         public bool IntimidationAura = false;
         public bool AntlionShell = false;
@@ -272,6 +276,7 @@ namespace TerrorbornMod
             }
         });
         #endregion
+
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
@@ -528,11 +533,39 @@ namespace TerrorbornMod
             matrix.SetDefaults(ModContent.ItemType<Items.TwilightMatrix>());
             items.Add(matrix);
         }
+
+        float fusionHealCounter = 0f;
+        const float maxFusionHealCounter = 2.5f;
         public void LoseTerror(float amount, bool silent = true, bool perSecond = false, bool smallerText = false)
         {
             if (!(perSecond || silent))
             {
                 CombatText.NewText(player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), "-" + amount + "%", dot: smallerText);
+            }
+
+            if (FusionArmor)
+            {
+                if (perSecond)
+                {
+                    fusionHealCounter += amount / 60f;
+                }
+                else
+                {
+                    fusionHealCounter += amount;
+                }
+
+                int healAmount = 0;
+                while (fusionHealCounter >= maxFusionHealCounter)
+                {
+                    fusionHealCounter -= maxFusionHealCounter;
+                    healAmount++;
+                }
+
+                if (healAmount > 0)
+                {
+                    player.HealEffect(healAmount);
+                    player.statLife += healAmount;
+                }
             }
 
             if (perSecond)
@@ -555,6 +588,31 @@ namespace TerrorbornMod
             if (!(perSecond || silent))
             {
                 CombatText.NewText(player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), amount + "%", dot: smallerText);
+            }
+
+            if (FusionArmor)
+            {
+                if (perSecond)
+                {
+                    fusionHealCounter += amount / 60f;
+                }
+                else
+                {
+                    fusionHealCounter += amount;
+                }
+
+                int healAmount = 0;
+                while (fusionHealCounter >= maxFusionHealCounter)
+                {
+                    fusionHealCounter -= maxFusionHealCounter;
+                    healAmount++;
+                }
+
+                if (healAmount > 0)
+                {
+                    player.HealEffect(healAmount);
+                    player.statLife += healAmount;
+                }
             }
 
             if (perSecond)
@@ -605,6 +663,7 @@ namespace TerrorbornMod
             HexDefender = false;
             TacticalCommlink = false;
             astralSpark = false;
+            FusionArmor = false;
             JustBurstJumped = false;
             graniteSpark = false;
             ShriekOfHorrorMovement = 0f;
@@ -699,6 +758,18 @@ namespace TerrorbornMod
             {
                 player.velocity = Vector2.Zero;
             }
+
+            if (player.HeldItem != null && !player.HeldItem.IsAir && player.HeldItem.useStyle == ItemUseStyleID.SwingThrow && player.controlUseItem)
+            {
+                if (Main.MouseWorld.X > player.Center.X)
+                {
+                    player.direction = 1;
+                }
+                else
+                {
+                    player.direction = -1;
+                }
+            }
         }
 
         public override float UseTimeMultiplier(Item item)
@@ -735,6 +806,10 @@ namespace TerrorbornMod
                     finalMult *= restlessNonChargedUseSpeed;
                 }
             }
+            if (item.useTime <= (int)(1f / (finalMult - 1f)))
+            {
+                return 1f;
+            }
             return finalMult;
         }
 
@@ -743,8 +818,26 @@ namespace TerrorbornMod
 
         }
 
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        {
+            base.OnHitNPCWithProj(proj, target, damage, knockback, crit);
+        }
+
+        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        {
+            if (combatTime < 300)
+            {
+                combatTime = 300;
+            }
+        }
+
         public void OnHitByAnything(Entity entity, int damage, bool crit)
         {
+            if (combatTime < 600)
+            {
+                combatTime = 600;
+            }
+
             if (IntimidationAura)
             {
                 TerrorPercent -= TerrorPercent / 4;
@@ -1115,6 +1208,46 @@ namespace TerrorbornMod
         int blinkDashDirection = 0;
         public override void PostUpdate()
         {
+            if (combatTime > 0)
+            {
+                combatTime--;
+                inCombat = true;
+            }
+            else
+            {
+                inCombat = false;
+            }
+            for (int i = 0; i < Main.npc.Length; i++)
+            {
+                NPC npc = Main.npc[i];
+                if (npc.active && npc != null)
+                {
+                    if (npc.Distance(player.Center) <= 550 && !npc.friendly && npc.lifeMax > 15)
+                    {
+                        if (combatTime < 600)
+                        {
+                            combatTime = 600;
+                        }
+                    }
+                }
+            }
+
+            if (deimosChained.Count > 0)
+            {
+                for (int i = 0; i < deimosChained.Count; i++)
+                {
+                    if (i > deimosChained.Count || deimosChained[i] == null)
+                    {
+                        break;
+                    }
+                    NPC npc = deimosChained[i];
+                    if (!npc.active)
+                    {
+                        deimosChained.Remove(npc);
+                    }
+                }
+            }
+
             if (blinkSpin)
             {
                 blinkDashSpinRotation += MathHelper.ToRadians(15f) * blinkDashDirection;
@@ -1274,27 +1407,27 @@ namespace TerrorbornMod
             if (primaryAbility.HeldDown() && TerrorPercent >= primaryAbility.Cost() / 60 && primaryAbility.canUse(player) && TerrorbornMod.PrimaryTerrorAbility.Current)
             {
                 primaryAbility.OnUse(player);
-                TerrorPercent -= primaryAbility.Cost() / 60;
+                LoseTerror(primaryAbility.Cost(), true, true, false);
 
             }
 
             if (!primaryAbility.HeldDown() && TerrorPercent >= primaryAbility.Cost() && primaryAbility.canUse(player) && TerrorbornMod.PrimaryTerrorAbility.JustPressed)
             {
                 primaryAbility.OnUse(player);
-                TerrorPercent -= primaryAbility.Cost();
+                LoseTerror(primaryAbility.Cost(), true, false, false);
             }
 
             if (secondaryAbility.HeldDown() && TerrorPercent >= secondaryAbility.Cost() * 1.5f / 60 && secondaryAbility.canUse(player) && TerrorbornMod.SecondaryTerrorAbility.Current)
             {
                 secondaryAbility.OnUse(player);
-                TerrorPercent -= (secondaryAbility.Cost() / 60) * 1.5f;
+                LoseTerror(secondaryAbility.Cost() * 1.5f, true, true, false);
 
             }
 
             if (!secondaryAbility.HeldDown() && TerrorPercent >= secondaryAbility.Cost() * 1.5f && secondaryAbility.canUse(player) && TerrorbornMod.SecondaryTerrorAbility.JustPressed)
             {
                 secondaryAbility.OnUse(player);
-                TerrorPercent -= secondaryAbility.Cost() * 1.5f;
+                LoseTerror(secondaryAbility.Cost() * 1.5f, true, false, false);
             }
 
             if (SangoonBandCooldown > 0)

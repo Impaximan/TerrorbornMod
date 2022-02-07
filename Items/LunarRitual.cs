@@ -33,7 +33,7 @@ namespace TerrorbornMod.Items
                     return false;
                 }
             }
-            return player.ZoneBeach && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.TidalTitan>()) && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.TidalTitanIdle>());
+            return player.ZoneBeach && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.TidalTitan.TidalTitan>()) && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.TidalTitan.MysteriousCrab>());
         }
         public override bool UseItem(Player player)
         {
@@ -113,7 +113,7 @@ namespace TerrorbornMod.Items
             else if (!spawned)
             {
                 spawned = true;
-                NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, ModContent.NPCType<NPCs.Bosses.TidalTitanIdle>());
+                NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, ModContent.NPCType<NPCs.Bosses.TidalTitan.MysteriousCrab>());
             }
         }
     }

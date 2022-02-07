@@ -106,6 +106,12 @@ namespace TerrorbornMod
         {
             Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            if (modPlayer.combatTime < 300)
+            {
+                modPlayer.combatTime = 300;
+            }
+
             if (crit && modPlayer.SangoonBand && target.type != NPCID.TargetDummy)
             {
                 if (modPlayer.SangoonBandCooldown <= 0)
@@ -114,11 +120,6 @@ namespace TerrorbornMod
                     player.statLife += 1;
                     modPlayer.SangoonBandCooldown = 20;
                 }
-            }
-
-            if (superthrow)
-            {
-                superthrow = false;
             }
 
             if (player.HeldItem != null && player != null)
@@ -172,6 +173,7 @@ namespace TerrorbornMod
                         }
                     }
                 }
+                superthrow = false;
             }
 
             if (VeinBurster)

@@ -73,7 +73,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 20);
             recipe.AddIngredient(ItemID.FragmentVortex, 10);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 5);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

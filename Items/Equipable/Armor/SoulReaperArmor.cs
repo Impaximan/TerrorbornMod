@@ -15,6 +15,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -38,7 +39,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("SoulReaperBreastplate") && legs.type == mod.ItemType("SoulReaperGreaves");
+            return body.type == ModContent.ItemType<SoulReaperBreastplate>() && legs.type == ModContent.ItemType<FusionLeggings>();
         }
 
         public override void UpdateArmorSet(Player player)
@@ -77,6 +78,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 24);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -124,6 +126,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 12);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

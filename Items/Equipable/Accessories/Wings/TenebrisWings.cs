@@ -62,4 +62,3 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
         }
     }
 }
-
