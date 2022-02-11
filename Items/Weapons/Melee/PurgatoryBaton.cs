@@ -5,23 +5,23 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using TerrorbornMod.Projectiles;
 
-namespace TerrorbornMod.Items.Dunestock
+namespace TerrorbornMod.Items.Weapons.Melee
 {
-    class HungryWhirlwind : ModItem
+    class PurgatoryBaton : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Pulls nearby enemies closer");
+            Tooltip.SetDefault("Fires deathrays in all directions");
         }
 
         public override void SetDefaults()
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(item);
-            modItem.critDamageMult = 1.3f;
-            item.damage = 55;
-            item.width = 66;
-            item.height = 72;
+            item.damage = 135;
+            item.width = 60;
+            item.height = 58;
             item.melee = true;
             item.channel = true;
             item.useTime = 25;
@@ -29,16 +29,15 @@ namespace TerrorbornMod.Items.Dunestock
             item.useStyle = 100;
             item.knockBack = 6f;
             item.value = Item.sellPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.shoot = ModContent.ProjectileType<HungryWhirlwindProjectile>();
+            item.rare = ItemRarityID.Yellow;
+            item.shoot = ModContent.ProjectileType<PurgatoryBatonProjectile>();
             item.noUseGraphic = true;
             item.noMelee = true;
         }
     }
-
-    public class HungryWhirlwindProjectile : ModProjectile
+    public class PurgatoryBatonProjectile : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Items/Dunestock/HungryWhirlwind";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Melee/PurgatoryBaton";
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -49,8 +48,8 @@ namespace TerrorbornMod.Items.Dunestock
         {
             projectile.idStaticNPCHitCooldown = 6;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.width = 66;
-            projectile.height = 72;
+            projectile.width = 60;
+            projectile.height = 58;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -65,25 +64,16 @@ namespace TerrorbornMod.Items.Dunestock
             Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            foreach (NPC npc in Main.npc)
-            {
-                if (npc.active && npc.Distance(projectile.Center) <= 1000 && !npc.friendly && Collision.CanHitLine(projectile.Center, 1, 1, npc.Center, 1, 1))
-                {
-                    npc.velocity += npc.DirectionTo(projectile.Center) * 0.3f * npc.knockBackResist;
-                }
-            }
-
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 vector2000 = Main.MouseWorld - vector;
             vector2000.Normalize();
             projectile.soundDelay--;
             if (projectile.soundDelay <= 0)
             {
-                Main.PlaySound(SoundID.Item71, (int)projectile.Center.X, (int)projectile.Center.Y);
-                projectile.soundDelay = 25;
+                Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, (int)projectile.Center.X, (int)projectile.Center.Y);
+                projectile.soundDelay = 50;
 
             }
-
 
             if (TerrorbornItem.modItem(player.HeldItem).TerrorCost > 0f)
             {
@@ -104,22 +94,63 @@ namespace TerrorbornMod.Items.Dunestock
                 }
             }
 
-            Dust dust = Dust.NewDustPerfect(projectile.Center + projectile.rotation.ToRotationVector2() * 33, DustID.GoldFlame);
-            dust.noGravity = true;
-            dust.scale = 1.5f;
-            dust.velocity = projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(90 * projectile.spriteDirection)) * 5;
-            //Lighting.AddLight(projectile.Center, 0.5f, 0.5f, 0.7f);
+
             projectile.Center = player.MountedCenter;
             projectile.position.X += player.width / 2 * player.direction;
             projectile.spriteDirection = player.direction;
+            if (projectile.spriteDirection == 0)
+            {
+                projectile.spriteDirection = 1;
+            }
             player.ChangeDir((int)(vector2000.X / (float)Math.Abs(vector2000.X)));
             player.heldProj = projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
             player.bodyFrame.Y = 3 * player.bodyFrame.Height;
-            projectile.rotation += MathHelper.ToRadians(25f) * projectile.spriteDirection;
+            projectile.rotation += MathHelper.ToRadians(10f) * projectile.spriteDirection;
+
+            int rotationMult = projectile.spriteDirection;
+            Vector2 position = projectile.Center + projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-45 * rotationMult)) * 30;
+            Vector2 velocity = projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-45 * rotationMult));
+            Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<PurgatoryLaser>(), projectile.damage, 0f, projectile.owner);
+            position = projectile.Center + projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(135 * rotationMult)) * 30;
+            velocity = projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(135 * rotationMult));
+            Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<PurgatoryLaser>(), projectile.damage, 0f, projectile.owner);
+        }
+    }
+
+    class PurgatoryLaser : Deathray
+    {
+        int timeLeft = 5;
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/LightBlast";
+        public override void SetDefaults()
+        {
+            projectile.width = 10;
+            projectile.height = 10;
+            projectile.penetrate = -1;
+            projectile.tileCollide = true;
+            projectile.hide = false;
+            projectile.hostile = false;
+            projectile.friendly = true;
+            projectile.ranged = true;
+            projectile.timeLeft = timeLeft;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 10;
+            projectile.arrow = true;
+            MoveDistance = 20f;
+            RealMaxDistance = 2000f;
+            bodyRect = new Rectangle(0, 0, 10, 10);
+            headRect = new Rectangle(0, 0, 10, 10);
+            tailRect = new Rectangle(0, 0, 10, 10);
+            FollowPosition = false;
+            drawColor = new Color(255, 228, 200);
+        }
+
+        public override void PostAI()
+        {
+            deathrayWidth -= 1f / (float)timeLeft;
+            projectile.velocity.Normalize();
         }
     }
 }
-

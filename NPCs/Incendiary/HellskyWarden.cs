@@ -46,6 +46,14 @@ namespace TerrorbornMod.NPCs.Incendiary
             npc.frame.Y = frame * frameHeight;
         }
 
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextFloat() <= 0.15f)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Melee.PurgatoryBaton>());
+            }
+        }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (frame == 4 && fireCounter > 0)

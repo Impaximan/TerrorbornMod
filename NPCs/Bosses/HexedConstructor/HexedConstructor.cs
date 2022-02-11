@@ -64,6 +64,11 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 }
             }
 
+            if (Main.rand.Next(10) == 0)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Placeable.Furniture.HexedConstructorTrophy>());
+            }
+
             if (spawnTF)
             {
                 Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<TimeFreeze>(), 0, 0, Main.myPlayer);

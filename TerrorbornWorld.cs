@@ -1427,7 +1427,7 @@ namespace TerrorbornMod
                         {
                             if (chest.item[inventoryIndex].type == ItemID.None)
                             {
-                                switch (Main.rand.Next(4))
+                                switch (Main.rand.Next(5))
                                 {
                                     case 0:
                                         chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Potions.VampirismPotion>());
@@ -1443,6 +1443,10 @@ namespace TerrorbornMod
                                         break;
                                     case 3:
                                         chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Potions.AerodynamicPotion>());
+                                        chest.item[inventoryIndex].stack = Main.rand.Next(1, 3);
+                                        break;
+                                    case 4:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Potions.AdrenalinePotion>());
                                         chest.item[inventoryIndex].stack = Main.rand.Next(1, 3);
                                         break;
                                 }

@@ -127,7 +127,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TidalTitan");
             npc.width = 278;
             npc.height = 88;
-            npc.damage = 60;
+            npc.damage = 40;
             npc.HitSound = SoundID.DD2_WitherBeastCrystalImpact;
             npc.defense = 5;
             npc.DeathSound = SoundID.NPCDeath14;
@@ -251,6 +251,8 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 listOfAttacks.Add(0);
                 listOfAttacks.Add(1);
                 listOfAttacks.Add(2);
+                listOfAttacks.Add(3);
+                listOfAttacks.Add(4);
                 for (int i = 0; i < listOfAttacks.elements.Count; i++)
                 {
                     int choice = listOfAttacks.Get();
@@ -261,7 +263,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                     NextAttacks.Add(choice);
                 }
             }
-            phaseWait = timeBetween;
+            phaseWait = (int)(timeBetween * MathHelper.Lerp(0.75f, 1.25f, (float)npc.life / (float)npc.lifeMax));
             NextAIPhase = NextAttacks[0];
             AIPhase = -1;
             LastAttack = NextAttacks[0];
@@ -328,6 +330,11 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
                 npc.dontTakeDamage = true;
+            }
+
+            if (player.wet)
+            {
+                player.velocity.Y -= 0.5f;
             }
 
             int hitboxSize = 60;
@@ -407,13 +414,19 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                         InBetweenAttacks();
                         break;
                     case 0:
-                        BubbleBurping(3, 30);
+                        BubbleBurping((int)MathHelper.Lerp(6f, 3f, (float)npc.life / (float)npc.lifeMax), (int)MathHelper.Lerp(25, 35, (float)npc.life / (float)npc.lifeMax));
                         break;
                     case 1:
-                        GeyserRoar(5, 20, 60);
+                        GeyserRoar((int)MathHelper.Lerp(8f, 5f, (float)npc.life / (float)npc.lifeMax), 20, 60);
                         break;
                     case 2:
-                        Leap(30, 15f, 30f);
+                        Leap((int)MathHelper.Lerp(18f, 45f, (float)npc.life / (float)npc.lifeMax), 15f, 30f);
+                        break;
+                    case 3:
+                        ChargeAttack(20f, 60, 30);
+                        break;
+                    case 4:
+                        BubbleDash(20f, 5, 0.25f, 60, (int)MathHelper.Lerp(30f, 60f, (float)npc.life / (float)npc.lifeMax));
                         break;
                     default:
                         break;
@@ -532,13 +545,12 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
 
                 Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 10, 1, 1f);
                 TerrorbornMod.ScreenShake(10f);
-                npc.velocity -= GetDirectionTo(player.Center, true).ToRotationVector2() * 10f;
             }
             else if (attackCounter2 == 0)
             {
                 npc.velocity *= 0.98f;
                 npc.velocity.Y -= 0.3f;
-                npc.rotation = npc.rotation.AngleLerp(GetDirectionTo(player.Center), 0.1f);
+                npc.rotation = npc.rotation.AngleLerp(GetDirectionTo(player.Center), 0.05f);
 
                 if (!inWater)
                 {
@@ -556,9 +568,170 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 float targetX = player.Center.X + 500f * attackDirection1;
                 npc.velocity.X += Math.Sign(targetX - realPosition.X) * 0.5f;
 
+                attackCounter1++;
+                if (attackCounter1 > timeBetweenProjectiles)
+                {
+                    attackCounter1 = 0;
+                    Main.PlaySound(SoundID.Item21, npc.Center);
+                    TerrorbornMod.ScreenShake(2f);
+                    Vector2 velocity = GetDirectionTo(player.Center, true).ToRotationVector2() * projectileSpeed;
+                    Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<TidebornLaser>(), 50 / 4, 0f);
+
+                }
+
                 if (npc.velocity.Y > 0 && inWater)
                 {
                     DecideNextAttack(90);
+                    ModContent.GetSound("TerrorbornMod/Sounds/Effects/TTSplash").Play(Main.soundVolume * 0.75f, 0f, 0f);
+                }
+            }
+        }
+
+        public void ChargeAttack(float leapSpeed, int chargeTime, int timeUntilCharge)
+        {
+            if (phaseStart)
+            {
+                attackCounter2 = 0;
+                attackCounter1 = chargeTime;
+                attackCounter3 = timeUntilCharge;
+
+                phaseStart = false;
+                if (player.Center.X > realPosition.X) npc.spriteDirection = 1;
+                else npc.spriteDirection = -1;
+
+            }
+            else if (attackCounter2 == 0)
+            {
+                npc.velocity *= 0.98f;
+                npc.velocity.Y -= 0.3f;
+                if (npc.life <= npc.lifeMax * 0.65f)
+                {
+                    npc.rotation = npc.rotation.AngleLerp(GetDirectionTo(player.Center + player.velocity * (npc.Distance(player.Center) / leapSpeed)), 0.1f);
+                }
+                else
+                {
+                    npc.rotation = npc.rotation.AngleLerp(GetDirectionTo(player.Center), 0.1f);
+                }
+
+                if (!inWater)
+                {
+                    npc.velocity.Y -= 10;
+                    attackCounter2++;
+                }
+            }
+            else if (attackCounter3 > 0)
+            {
+                npc.velocity *= 0.98f;
+                npc.velocity.Y += 0.1f;
+                if (npc.life <= npc.lifeMax * 0.65f)
+                {
+                    npc.rotation = npc.rotation.AngleLerp(GetDirectionTo(player.Center + player.velocity * (npc.Distance(player.Center) / leapSpeed)), 0.1f);
+                }
+                else
+                {
+                    npc.rotation = npc.rotation.AngleLerp(GetDirectionTo(player.Center), 0.1f);
+                }
+
+                attackCounter3--;
+                if (attackCounter3 <= 0)
+                {
+                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1, 1f);
+                    TerrorbornMod.ScreenShake(10f);
+                    if (npc.life <= npc.lifeMax * 0.65f)
+                    {
+                        npc.rotation = GetDirectionTo(player.Center + player.velocity * (npc.Distance(player.Center) / leapSpeed));
+                        npc.velocity = GetDirectionTo(player.Center + player.velocity * (npc.Distance(player.Center) / leapSpeed), true).ToRotationVector2() * leapSpeed;
+                    }
+                    else
+                    {
+                        npc.rotation = GetDirectionTo(player.Center);
+                        npc.velocity = GetDirectionTo(player.Center, true).ToRotationVector2() * leapSpeed;
+                    }
+                }
+            }
+            else if (attackCounter1 > 0)
+            {
+                if (inWater)
+                {
+                    attackCounter1 = 0;
+                }
+                attackCounter1--;
+                if (attackCounter1 <= 0)
+                {
+                    if (player.Center.X > realPosition.X) npc.spriteDirection = 1;
+                    else npc.spriteDirection = -1;
+                }
+            }
+            else
+            {
+                npc.rotation = npc.rotation.AngleLerp(GetDirectionTo(player.Center), 0.2f);
+
+                npc.velocity.Y *= 0.98f;
+                npc.velocity.X *= 0.95f;
+                npc.velocity.Y += 0.3f;
+
+
+                if (npc.velocity.Y > 0 && inWater)
+                {
+                    DecideNextAttack(90);
+                    ModContent.GetSound("TerrorbornMod/Sounds/Effects/TTSplash").Play(Main.soundVolume * 0.75f, 0f, 0f);
+                }
+            }
+        }
+
+        public void BubbleDash(float dashSpeed, int timeBetweenBubbles, float bubbleAccelleration, int dashTime, int timeUntilDash = 60, int maxTimeUntilDash = 180)
+        {
+            if (phaseStart)
+            {
+                attackCounter1 = 0;
+                attackCounter2 = 0;
+                attackCounter3 = 0;
+                phaseStart = false;
+                if (player.Center.X > realPosition.X) npc.spriteDirection = 1;
+                else npc.spriteDirection = -1;
+                attackDirection1 = npc.spriteDirection;
+            }
+            else if (attackCounter1 < maxTimeUntilDash)
+            {
+                npc.rotation = npc.rotation.AngleLerp(0f + MathHelper.ToRadians(npc.velocity.Y * npc.spriteDirection), 0.05f);
+
+                Vector2 targetPosition = player.Center + new Vector2(attackDirection1 * -760, 300);
+                if (inWater)
+                {
+                    npc.velocity.Y += Math.Sign(targetPosition.Y - realPosition.Y) * 0.3f;
+                }
+                else
+                {
+                    npc.velocity.Y += 0.6f;
+                }
+                npc.velocity.X += Math.Sign(targetPosition.X - realPosition.X) * 0.5f;
+                npc.velocity *= 0.98f;
+
+                attackCounter1++;
+                if (Math.Abs(targetPosition.X - realPosition.X) < 200 && attackCounter1 >= timeUntilDash)
+                {
+                    attackCounter1 = maxTimeUntilDash;
+                }
+            }
+            else
+            {
+                npc.rotation = npc.rotation.AngleLerp(0f + MathHelper.ToRadians(npc.velocity.Y * npc.spriteDirection), 0.2f);
+                npc.velocity.Y = 0;
+                npc.velocity.X = dashSpeed * attackDirection1;
+
+                attackCounter2++;
+                if (attackCounter2 > timeBetweenBubbles)
+                {
+                    Main.PlaySound(SoundID.Item85, npc.Center);
+                    attackCounter2 = 0;
+                    NPC bubble = Main.npc[NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<TidalBubble>())];
+                    bubble.ai[0] = bubbleAccelleration;
+                }
+
+                attackCounter3++;
+                if (attackCounter3 > dashTime)
+                {
+                    DecideNextAttack(120);
                 }
             }
         }
@@ -566,7 +739,6 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
 
     class TidalBubble : ModNPC
     {
-        Vector2 trueVelocity = new Vector2(0, 0);
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[npc.type] = 4;
@@ -576,7 +748,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         {
             for (int i = 0; i < Main.rand.Next(3, 6); i++)
             {
-                Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)), mod.ProjectileType("TidalBubbleSmall"), npc.damage / 3, 0);
+                Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)), ModContent.ProjectileType<TidalBubbleSmall>(), npc.damage / 4, 0);
             }
             if (Main.rand.Next(10) == 0)
             {
@@ -590,21 +762,22 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             npc.noTileCollide = true;
             npc.width = 30;
             npc.height = 30;
-            npc.damage = 30;
+            npc.damage = 25;
             npc.HitSound = SoundID.Item54;
             npc.defense = 0;
             npc.DeathSound = SoundID.Item54;
             npc.frame.Width = 388;
             npc.frame.Height = 254;
-            npc.lifeMax = 20;
+            npc.lifeMax = 40;
             npc.knockBackResist = 0;
             npc.dontTakeDamage = true;
+            npc.aiStyle = -1;
         }
+
         int frame = 0;
         int frameWait = 10;
         public override void FindFrame(int frameHeight)
         {
-
             frameWait--;
             if (frameWait <= 0)
             {
@@ -616,10 +789,6 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 }
             }
             npc.frame.Y = frame * 30;
-        }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = 55;
         }
 
         int invincTime = 30;
@@ -634,8 +803,13 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 invincTime--;
             }
             npc.TargetClosest(true);
-            trueVelocity *= 0.98f;
-            npc.velocity = trueVelocity;
+
+            npc.velocity.Y -= npc.ai[0];
+
+            if (npc.Center.Y < Main.LocalPlayer.Center.Y - 1000)
+            {
+                npc.active = false;
+            }
         }
     }
 
@@ -673,7 +847,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         {
             for (int i = 0; i < Main.rand.Next(3, 6); i++)
             {
-                Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)), mod.ProjectileType("TidalBubbleSmall"), npc.damage / 3, 0);
+                Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)), mod.ProjectileType("TidalBubbleSmall"), npc.damage / 4, 0);
             }
             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("TidalCrab"));
             return false;
@@ -685,7 +859,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             npc.noTileCollide = true;
             npc.width = 30;
             npc.height = 30;
-            npc.damage = 32;
+            npc.damage = 25;
             npc.HitSound = SoundID.Item54;
             npc.defense = 0;
             npc.DeathSound = SoundID.Item54;
@@ -715,7 +889,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = 35;
+            npc.lifeMax = 45;
         }
 
         public override void AI()
@@ -740,7 +914,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             npc.noTileCollide = false;
             npc.width = 26;
             npc.height = 24;
-            npc.damage = 35;
+            npc.damage = 20;
             npc.HitSound = SoundID.NPCHit1;
             npc.defense = 0;
             npc.DeathSound = SoundID.NPCDeath1;
@@ -888,7 +1062,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             FireWait--;
             if (FireWait == 0)
             {
-                Main.PlaySound(SoundID.Item34, projectile.Center);
+                Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 34, 3, 0.15f);
                 TerrorbornMod.ScreenShake(3f);
             }
             if (FireWait <= 0)
@@ -969,6 +1143,75 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return false;
+        }
+    }
+
+    class TidebornLaser : ModProjectile
+    {
+        public override string Texture => "TerrorbornMod/Effects/Textures/Glow_1";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+        }
+
+        public override void SetDefaults()
+        {
+            projectile.width = 12;
+            projectile.height = 12;
+            projectile.friendly = false;
+            projectile.hostile = true;
+            projectile.tileCollide = false;
+            projectile.ignoreWater = false;
+            projectile.penetrate = 1;
+            projectile.timeLeft = 180;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+            BezierCurve bezier = new BezierCurve();
+            bezier.Controls.Clear();
+            foreach (Vector2 pos in projectile.oldPos)
+            {
+                if (pos != Vector2.Zero && pos != null)
+                {
+                    bezier.Controls.Add(pos);
+                }
+            }
+
+            if (bezier.Controls.Count > 1)
+            {
+                List<Vector2> positions = bezier.GetPoints(30);
+                for (int i = 0; i < positions.Count; i++)
+                {
+                    float mult = (float)(positions.Count - i) / (float)positions.Count;
+                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
+                    Color color = projectile.GetAlpha(Color.Lerp(Color.RoyalBlue, Color.Azure, mult)) * mult;
+                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * mult), color);
+                }
+            }
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            return false;
+        }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            int newDimensions = 15;
+            Rectangle oldHitbox = hitbox;
+            hitbox.Width = newDimensions;
+            hitbox.Height = newDimensions;
+            hitbox.X = oldHitbox.X - newDimensions / 2;
+            hitbox.Y = oldHitbox.Y - newDimensions / 2;
+        }
+
+        public override void AI()
+        {
+            projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Main.LocalPlayer.Center).ToRotation(), MathHelper.ToRadians(1f)).ToRotationVector2() * projectile.velocity.Length();
         }
     }
 }

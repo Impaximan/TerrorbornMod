@@ -759,7 +759,7 @@ namespace TerrorbornMod
                 player.velocity = Vector2.Zero;
             }
 
-            if (player.HeldItem != null && !player.HeldItem.IsAir && player.HeldItem.useStyle == ItemUseStyleID.SwingThrow && player.controlUseItem)
+            if (player.HeldItem != null && !player.HeldItem.IsAir && player.HeldItem.useStyle == ItemUseStyleID.SwingThrow && player.controlUseItem && player.HeldItem.createTile == -1 && player.HeldItem.createWall == -1)
             {
                 if (Main.MouseWorld.X > player.Center.X)
                 {

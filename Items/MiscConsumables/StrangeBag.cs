@@ -31,10 +31,10 @@ namespace TerrorbornMod.Items.MiscConsumables
 
         public override void RightClick(Player player)
         {
-            for (int i = 0; i < Main.rand.Next(2, 3); i++)
+            for (int i = 0; i < Main.rand.Next(2, 4); i++)
             {
                 int type = 0;
-                switch (Main.rand.Next(5))
+                switch (Main.rand.Next(6))
                 {
                     case 0:
                         type = ModContent.ItemType<Potions.AerodynamicPotion>();
@@ -50,6 +50,9 @@ namespace TerrorbornMod.Items.MiscConsumables
                         break;
                     case 4:
                         type = ModContent.ItemType<Potions.VampirismPotion>();
+                        break;
+                    case 5:
+                        type = ModContent.ItemType<Potions.AdrenalinePotion>();
                         break;
                     default:
                         break;

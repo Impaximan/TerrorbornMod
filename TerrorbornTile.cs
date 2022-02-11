@@ -25,6 +25,19 @@ namespace TerrorbornMod
             DestroyBadGrass(i - 1, j - 1);
         }
 
+        public override bool Drop(int i, int j, int type)
+        {
+            if (type == TileID.Pots)
+            {
+                if (Main.rand.NextFloat() <= 0.01f && TerrorbornWorld.obtainedShriekOfHorror)
+                {
+                    Item.NewItem(new Vector2(i * 16, j * 16), ModContent.ItemType<Items.DarkEnergy>());
+                    return false;
+                }
+            }
+            return base.Drop(i, j, type);
+        }
+
         public override void RandomUpdate(int i, int j, int type)
         {
             List<int> types = new List<int>()
