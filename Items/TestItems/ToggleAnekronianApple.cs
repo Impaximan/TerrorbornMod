@@ -54,6 +54,3 @@ namespace TerrorbornMod.Items.TestItems
         }
     }
 }
-
-
-

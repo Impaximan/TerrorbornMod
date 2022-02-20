@@ -24,6 +24,7 @@ namespace TerrorbornMod
         public static bool PostOneMechMessagesSent;
         public static bool PostPlanteraMessagesSent;
         public static bool PostShadowcrawlerMessagesSent;
+        public static bool PostMoonLordMessagesSent;
 
         public override void Initialize()
         {
@@ -35,6 +36,7 @@ namespace TerrorbornMod
             PostOneMechMessagesSent = false;
             PostPlanteraMessagesSent = false;
             PostShadowcrawlerMessagesSent = false;
+            PostMoonLordMessagesSent = false;
         }
         public override TagCompound Save()
         {
@@ -47,6 +49,7 @@ namespace TerrorbornMod
             if (PostOneMechMessagesSent) messages.Add("postonemech");
             if (PostPlanteraMessagesSent) messages.Add("postplant");
             if (PostShadowcrawlerMessagesSent) messages.Add("postshadowcrawler");
+            if (PostMoonLordMessagesSent) messages.Add("postmoonlord");
 
             return new TagCompound {
                 {"messages", messages}
@@ -64,6 +67,7 @@ namespace TerrorbornMod
             PostOneMechMessagesSent = messages.Contains("postonemech");
             PostPlanteraMessagesSent = messages.Contains("postplant");
             PostShadowcrawlerMessagesSent = messages.Contains("postshadowcrawler");
+            PostMoonLordMessagesSent = messages.Contains("postmoonlord");
         }
 
         public override void PostUpdate()
@@ -117,6 +121,14 @@ namespace TerrorbornMod
             {
                 PostShadowcrawlerMessagesSent = true;
                 Main.NewText("With the predator defeated, Midnight Fruit flourishes throughout the world!", Color.LimeGreen);
+            }
+
+            if (NPC.downedMoonlord && !PostMoonLordMessagesSent)
+            {
+                PostMoonLordMessagesSent = true;
+                Main.NewText("The decrepit deity's energy disperses throughout the night, forming powerful foes", new Color(136, 255, 224));
+                Main.NewText("The Sisyphean Islands and Underworld hum with new essence", new Color(255, 246, 120));
+                Main.NewText("The Terror Master has something important to say...", Color.Yellow);
             }
         }
     }

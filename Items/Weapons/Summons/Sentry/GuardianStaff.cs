@@ -9,42 +9,33 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using TerrorbornMod.Projectiles;
 
 namespace TerrorbornMod.Items.Weapons.Summons.Sentry
 {
-    class SupercellStaff : ModItem
+    class GuardianStaff : ModItem
     {
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a storm cell sentry that rapidly zaps nearby enemies");
+            Tooltip.SetDefault("Summons a friendly incendiary guardian to fire deathrays at enemies");
         }
 
         public override void SetDefaults()
         {
             item.mana = 10;
             item.summon = true;
-            item.damage = 55;
-            item.width = 54;
-            item.height = 58;
+            item.damage = 22;
+            item.width = 44;
+            item.height = 44;
             item.sentry = true;
             item.useTime = 30;
             item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
-            item.knockBack = 0;
-            item.rare = ItemRarityID.Pink;
+            item.knockBack = 1.5f;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item44;
-            item.shoot = ModContent.ProjectileType<Supercell>();
+            item.shoot = ModContent.ProjectileType<IncendiaryGuardianSummon>();
             item.shootSpeed = 10f;
             item.value = Item.sellPrice(0, 1, 0, 0);
         }
@@ -85,59 +76,54 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
         }
     }
 
-    class Supercell : ModProjectile
+    class IncendiaryGuardianSummon : ModProjectile
     {
+        public override string Texture => "TerrorbornMod/NPCs/Incendiary/IncendiaryGuardian";
+
         public override bool? CanHitNPC(NPC target)
         {
             return false;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             return false;
         }
+
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[projectile.type] = 5;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.Homing[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true; //This is necessary for right-click targeting
+            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
+
         public override void SetDefaults()
         {
             projectile.netImportant = true;
-            projectile.width = 52;
-            projectile.height = 50;
-            projectile.friendly = true;
+            projectile.width = 62;
+            projectile.height = 70;
+            projectile.friendly = false;
             projectile.sentry = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 10;
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
+            projectile.scale = 1f;
         }
 
         void FindFrame(int FrameHeight)
         {
-            projectile.frameCounter--;
-            if (projectile.frameCounter <= 0)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 4;
-            }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-            {
-                projectile.frame = 0;
-            }
+            projectile.frame = 3;
         }
 
-        int PinWait = 60;
-        int PinRoundsLeft = 2;
+        int projectileWait = 0;
         public override void AI()
         {
             FindFrame(projectile.height);
             projectile.timeLeft = 10;
             bool Targeted = false;
-            //projectile.velocity.Y = 50;
-            //projectile.velocity.X = 0;
+
             Player player = Main.player[projectile.owner];
             NPC target = Main.npc[0];
             if (player.HasMinionAttackTargetNPC && Main.npc[player.MinionAttackTargetNPC].Distance(projectile.Center) < 1500)
@@ -147,7 +133,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             }
             else
             {
-                float Distance = 750;
+                float Distance = 1000;
                 for (int i = 0; i < 200; i++)
                 {
                     if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
@@ -158,26 +144,51 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
                     }
                 }
             }
+
             if (Targeted)
             {
-                PinWait--;
-                if (PinWait <= 0)
+                projectileWait++;
+                if (projectileWait > 25)
                 {
-                    PinWait = 10;
-                    SpawnLightning(target.whoAmI);
+                    projectileWait = 0;
+                    Vector2 position = projectile.Center + new Vector2(0, -10);
+                    Vector2 velocity = target.DirectionFrom(position);
+                    Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<GuardianSummonLaser>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    Main.PlaySound(SoundID.Item33, position);
                 }
             }
         }
+    }
 
-
-        public void SpawnLightning(int target)
+    class GuardianSummonLaser : Deathray
+    {
+        int timeLeft = 25;
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/LightBlast";
+        public override void SetDefaults()
         {
-            Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
-            float speed = Main.rand.NextFloat(10f, 25f);
+            projectile.width = 10;
+            projectile.height = 10;
+            projectile.penetrate = -1;
+            projectile.tileCollide = true;
+            projectile.hide = false;
+            projectile.hostile = false;
+            projectile.friendly = true;
+            projectile.timeLeft = timeLeft;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 5;
+            MoveDistance = 20f;
+            RealMaxDistance = 2000f;
+            bodyRect = new Rectangle(0, 0, 10, 10);
+            headRect = new Rectangle(0, 0, 10, 10);
+            tailRect = new Rectangle(0, 0, 10, 10);
+            FollowPosition = false;
+            drawColor = new Color(255, 228, 200);
+        }
 
-            int proj = Projectile.NewProjectile(projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.SoulLightning>(), projectile.damage, 0.5f, projectile.owner);
-            Main.projectile[proj].ai[0] = target;
+        public override void PostAI()
+        {
+            deathrayWidth -= 1f / (float)timeLeft;
+            projectile.velocity.Normalize();
         }
     }
 }
-

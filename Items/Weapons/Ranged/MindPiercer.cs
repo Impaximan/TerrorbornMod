@@ -30,7 +30,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.noMelee = true;
             item.shootSpeed = 15;
-            item.shoot = mod.ProjectileType("MindPiercerProjectile");
+            item.shoot = ModContent.ProjectileType<MindPiercerProjectile>();
         }
     }
     class MindPiercerProjectile : ModProjectile
@@ -171,4 +171,3 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
     }
 }
-

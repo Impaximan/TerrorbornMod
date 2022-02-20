@@ -15,7 +15,7 @@ namespace TerrorbornMod.Effects.Shaders
 
 		private void UpdatePrototypeIIndex()
 		{
-			int prototypeIType = ModContent.NPCType<NPCs.Bosses.PrototypeI>();
+			int prototypeIType = ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>();
 			if (prototypeIIndex >= 0 && Main.npc[prototypeIIndex].active && Main.npc[prototypeIIndex].type == prototypeIType)
 			{
 				return;

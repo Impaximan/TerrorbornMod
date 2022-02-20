@@ -204,7 +204,7 @@ namespace TerrorbornMod
                 target.AddBuff(BuffID.ShadowFlame, 60 * 3);
             }
 
-            if (modPlayer.TacticalCommlink && projectile.ranged && Main.rand.NextFloat() <= .20f)
+            if (modPlayer.TacticalCommlink && projectile.ranged && Main.rand.NextFloat() <= .1f)
             {
                 Vector2 position = new Vector2(target.Center.X, target.position.Y - 750);
                 position.X += Main.rand.Next(-150, 150);

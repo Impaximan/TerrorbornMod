@@ -22,7 +22,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         {
             item.mana = 5;
             item.summon = true;
-            item.damage = 8;
+            item.damage = 12;
             item.width = 38;
             item.height = 40;
             item.useTime = 30;
@@ -213,7 +213,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 bloodCounter--;
                 if (bloodCounter <= 0)
                 {
-                    bloodCounter = 30;
+                    bloodCounter = 25;
                     float speed = 25;
                     Vector2 velocity = projectile.DirectionTo(target.Center) * speed;
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<OpticBlood>(), projectile.damage, projectile.knockBack, projectile.owner);

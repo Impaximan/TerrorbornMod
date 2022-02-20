@@ -70,6 +70,8 @@ namespace TerrorbornMod
         public static string TerrorMeterStyle = "Default";
         public static bool TerrorMeterText = true;
 
+        public static bool showNoUseSpeed = true;
+
         public static void ScreenShake(float Intensity)
         {
             if (screenShaking < Intensity)
@@ -171,6 +173,7 @@ namespace TerrorbornMod
             fragment.ValidItems.Add(ItemID.FragmentNebula);
             fragment.ValidItems.Add(ItemID.FragmentStardust);
             fragment.ValidItems.Add(ItemID.FragmentVortex);
+            fragment.ValidItems.Add(ModContent.ItemType<Items.Materials.FusionFragment>());
             RecipeGroup.RegisterGroup("fragment", fragment);
 
             RecipeGroup cobalt = new RecipeGroup(new Func<string>(CobaltString));
@@ -390,14 +393,24 @@ namespace TerrorbornMod
             ModContent.GetSound("TerrorbornMod/Sounds/Effects/ThunderAmbience").Play(Main.ambientVolume, Main.rand.NextFloat(-0.25f, 0.25f), Main.rand.NextFloat(-0.3f, 0.3f));
         }
 
+        public static void p1Thunder()
+        {
+            positionLightningP1 = 1f;
+            //transitionColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
+            ScreenShake(15);
+            ModContent.GetSound("TerrorbornMod/Sounds/Effects/ThunderAmbience").Play(Main.soundVolume, Main.rand.NextFloat(0.75f, 1f), Main.rand.NextFloat(-0.3f, 0.3f));
+        }
+
         public static Color darkRainColor = Color.FromNonPremultiplied((int)(40f * 0.7f), (int)(55f * 0.7f), (int)(70f * 0.7f), 255);
         public static Color incendiaryColor = Color.FromNonPremultiplied(191, 122, 122, 255);
         public static Color transitionColor = Color.White;
         public static Color lightningColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
+        public static Color p1LightningColor = Color.FromNonPremultiplied((int)(143f), (int)(255f), (int)(191f), 255);
         public static float positionForward = 0f;
         public static float positionBackward = 0f;
         public static float positionLightning = 0f;
         public static float transitionTime = 600f;
+        public static float positionLightningP1 = 0f;
 
         public static Color bossColor;
         public static float bossColorLerp = 0f;
@@ -489,11 +502,11 @@ namespace TerrorbornMod
 
             bool changingToBossColor = false;
 
-            //if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()))
-            //{
-            //    changingToBossColor = true;
-            //    bossColor = Color.LightGreen;
-            //}
+            if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>()))
+            {
+                changingToBossColor = true;
+                bossColor = Color.LightBlue;
+            }
 
             if (changingToBossColor)
             {
@@ -511,6 +524,12 @@ namespace TerrorbornMod
             }
 
             backgroundColor = backgroundColor.MultiplyRGBA(Color.Lerp(Color.White, bossColor, bossColorLerp));
+
+            if (positionLightningP1 > 0f)
+            {
+                positionLightningP1 -= 1f / 30f;
+                backgroundColor = Color.Lerp(backgroundColor, p1LightningColor, positionLightningP1);
+            }
 
             //if (!Main.gameMenu)
             //{
@@ -614,6 +633,9 @@ namespace TerrorbornMod
                 bossChecklist.Call("AddMiniBossWithInfo", "Slate Banshee", 0.5f, (Func<bool>)(() => TerrorbornWorld.downedSlateBanshee), "Spawns occasionally in deimostone caves after you've obtained Shriek of Horror. Has an increased spawn chance if you're wearing a [i:" + ModContent.ItemType<Items.Equipable.Accessories.DeimosteelCharm>() + "].");
                 bossChecklist.Call("AddEventWithInfo", "Astraphobia", 6.06f, (Func<bool>)(() => TerrorbornWorld.downedTerrorRain), "Has a chance to occur instead of rain. Can be manually summoned by using a [i:" + ModContent.ItemType<Items.MiscConsumables.BrainStorm>() + "] during rain.");
                 bossChecklist.Call("AddMiniBossWithInfo", "Frightcrawler", 6.07f, (Func<bool>)(() => TerrorbornWorld.downedFrightcrawler), "Spawns during the Astraphobia event (see above).");
+                bossChecklist.Call("AddMiniBossWithInfo", "Dread Angel", 15.05f, (Func<bool>)(() => TerrorbornWorld.downedDreadAngel), "Spawns in the Sisyphean Islands biome after Moon Lord has been defeated.");
+                bossChecklist.Call("AddEventWithInfo", "Dreadwind", 16f, (Func<bool>)(() => TerrorbornWorld.downedDreadwind), "Not written yet.");
+                bossChecklist.Call("AddBossWithInfo", "Uriel", 16.01f, (Func<bool>)(() => TerrorbornWorld.downedUriel), "Spawns at the end of the Dreadwind event.");
             }
         }
     }

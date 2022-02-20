@@ -52,6 +52,11 @@ namespace TerrorbornMod.NPCs.Incendiary
             {
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Melee.PurgatoryBaton>());
             }
+
+            if (Main.rand.NextFloat() <= 0.15f)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Summons.Sentry.GuardianStaff>());
+            }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

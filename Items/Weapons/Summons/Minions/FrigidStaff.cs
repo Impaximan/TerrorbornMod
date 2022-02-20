@@ -18,11 +18,12 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         {
             Tooltip.SetDefault("Summons a frigid soul to fight for you");
         }
+
         public override void SetDefaults()
         {
             item.mana = 5;
             item.summon = true;
-            item.damage = 5;
+            item.damage = 10;
             item.useTime = 30;
             item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -34,10 +35,12 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             item.shootSpeed = 10f;
             item.value = Item.sellPrice(0, 0, 20, 0);
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override bool UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -46,6 +49,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             }
             return base.UseItem(player);
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)

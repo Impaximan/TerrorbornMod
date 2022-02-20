@@ -17,7 +17,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            item.damage = 15;
+            item.damage = 24;
             item.noMelee = true;
             item.width = 46;
             item.height = 46;
@@ -79,7 +79,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             if (trueTimeLeft > 10)
             {
                 trueTimeLeft--;
-                projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(3)).ToRotationVector2() * projectile.velocity.Length();
+                projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(6)).ToRotationVector2() * projectile.velocity.Length();
                 if (trueTimeLeft == 10)
                 {
                     for (int i = 0; i < Main.rand.Next(2, 4); i++)

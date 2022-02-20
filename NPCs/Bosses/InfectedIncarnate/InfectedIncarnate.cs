@@ -174,7 +174,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         {
             foreach (Projectile projectile in Main.projectile)
             {
-                if (player.heldProj != projectile.whoAmI)
+                if (player.heldProj != projectile.whoAmI && !projectile.minion && !projectile.sentry)
                 {
                     projectile.active = false;
                 }
@@ -257,7 +257,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
             foreach (Projectile projectile in Main.projectile)
             {
-                if (player.heldProj != projectile.whoAmI)
+                if (player.heldProj != projectile.whoAmI && !projectile.minion && !projectile.sentry)
                 {
                     projectile.active = false;
                 }
@@ -427,7 +427,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
                 foreach (Projectile projectile in Main.projectile)
                 {
-                    if (player.heldProj != projectile.whoAmI)
+                    if (player.heldProj != projectile.whoAmI && !projectile.minion && !projectile.sentry)
                     {
                         projectile.active = false;
                     }

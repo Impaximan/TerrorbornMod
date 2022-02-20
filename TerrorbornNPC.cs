@@ -41,6 +41,8 @@ namespace TerrorbornMod
         public Color BossTitleColor = Color.White;
         public bool getsTitleCard = false;
 
+        public float damageResist = 1f;
+
         public void ImprovedFighterAI(NPC npc, float maxSpeed, float accelleration, float decelleration, float jumpSpeed, bool faceDirection = true, int jumpCooldown = 0, int stillTimeUntilTurnaround = 120, int wanderTime = 90)
         {
             Player player = Main.player[npc.target];
@@ -271,7 +273,6 @@ namespace TerrorbornMod
                 nextSlot++;
             }
         }
-
         public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);

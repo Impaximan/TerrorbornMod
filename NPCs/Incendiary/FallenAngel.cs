@@ -61,6 +61,14 @@ namespace TerrorbornMod.NPCs.Incendiary
             }
         }
 
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextFloat() <= 0.2f)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Ranged.CursedJavelin>(), Main.rand.Next(125, 176));
+            }
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (spawningLaser)

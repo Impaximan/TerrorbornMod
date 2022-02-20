@@ -137,7 +137,6 @@ namespace TerrorbornMod.Items.Weapons.Melee
             projectile.timeLeft = timeLeft;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 10;
-            projectile.arrow = true;
             MoveDistance = 20f;
             RealMaxDistance = 2000f;
             bodyRect = new Rectangle(0, 0, 10, 10);

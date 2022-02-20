@@ -62,6 +62,12 @@ namespace TerrorbornMod
         [Tooltip("Whether or not item tooltips will contain critical strike damage")]
         public bool showCritDamage;
 
+        [DefaultValue(true)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("No use speed modifiers tooltip")]
+        [Tooltip("Whether or not item tooltips can contain text saying 'Unaffected by external item use speed modifiers' to indicate that this is the case")]
+        public bool showNoUseSpeed;
+
         [DefaultValue(3.5f)]
         [BackgroundColor(40, 55, 70)]
         [Label("Boss title card duration")]
@@ -122,6 +128,7 @@ namespace TerrorbornMod
             TerrorbornMod.thrownAffectsMods = thrownAffectsMods;
             TerrorbornMod.TerrorMeterStyle = TerrorMeterStyle;
             TerrorbornMod.TerrorMeterText = TerrorMeterText;
+            TerrorbornMod.showNoUseSpeed = showNoUseSpeed;
         }
     }
 }

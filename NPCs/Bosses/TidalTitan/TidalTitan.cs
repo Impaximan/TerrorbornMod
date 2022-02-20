@@ -117,6 +117,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[npc.type] = 1;
+            DisplayName.SetDefault("Azuredire");
         }
 
         public override void SetDefaults()
@@ -134,7 +135,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             Main.raining = true;
             npc.frame.Width = 388;
             npc.frame.Height = 254;
-            npc.lifeMax = 2500;
+            npc.lifeMax = 3250;
             npc.knockBackResist = 0;
             npc.buffImmune[BuffID.OnFire] = true;
             npc.buffImmune[BuffID.Ichor] = true;
@@ -143,8 +144,8 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             npc.alpha = 255;
 
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
-            modNPC.BossTitle = "Tidal Titan";
-            modNPC.BossSubtitle = "Terror of the Ocean";
+            modNPC.BossTitle = "Azuredire";
+            modNPC.BossSubtitle = "Terrific Tidal Titan";
             modNPC.BossTitleColor = Color.SkyBlue;
         }
 
@@ -315,7 +316,6 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         int attackCounter3 = 0;
 
         int attackDirection1 = 0;
-        int attackDirection2 = 0;
 
         int phaseWait = 0;
 

@@ -418,7 +418,7 @@ namespace TerrorbornMod
                 }
             }
 
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI>()));
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>()));
             player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", ZoneDeimostone || ZoneICU);
             player.ManageSpecialBiomeVisuals("TerrorbornMod:BlandnessShader", ZoneICU && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
             //player.ManageSpecialBiomeVisuals("TerrorbornMod:IncarnateBoss", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
@@ -759,7 +759,7 @@ namespace TerrorbornMod
                 player.velocity = Vector2.Zero;
             }
 
-            if (player.HeldItem != null && !player.HeldItem.IsAir && player.HeldItem.useStyle == ItemUseStyleID.SwingThrow && player.controlUseItem && player.HeldItem.createTile == -1 && player.HeldItem.createWall == -1)
+            if (player.HeldItem != null && !player.HeldItem.IsAir && player.HeldItem.useStyle == ItemUseStyleID.SwingThrow && player.controlUseItem && player.HeldItem.createTile == -1 && player.HeldItem.createWall == -1 && player.HeldItem.shoot == ProjectileID.None)
             {
                 if (Main.MouseWorld.X > player.Center.X)
                 {
@@ -806,7 +806,7 @@ namespace TerrorbornMod
                     finalMult *= restlessNonChargedUseSpeed;
                 }
             }
-            if (item.useTime <= (int)(1f / (finalMult - 1f)))
+            if (item.useTime <= 5)
             {
                 return 1f;
             }

@@ -235,6 +235,11 @@ namespace TerrorbornMod
                 critDamageMult = 1.3f;
             }
 
+            if (item.type == ItemID.LastPrism)
+            {
+                item.damage = 65;
+            }
+
             if (canBeThrown)
             {
                 if (item.ranged)
@@ -472,6 +477,11 @@ namespace TerrorbornMod
                 tooltips.FirstOrDefault(x => x.Name == "countsAsThrown" && x.mod == "TerrorbornMod").overrideColor = new Color(193, 243, 245);
                 tooltips.Insert(tooltips.FindIndex(x => x.Name == "CritChance" && x.mod == "Terraria") + 1, new TooltipLine(mod, "thrownCrit", (item.crit + Main.LocalPlayer.thrownCrit).ToString() + "% thrown critical strike chance" +
                     "\nThrown crit chance replaces regular crit chance every other hit"));
+            }
+
+            if (item.useTime <= 5 && TerrorbornMod.showNoUseSpeed)
+            {
+                tooltips.Add(new TooltipLine(mod, "noUseSpeed", "Unaffected by external item use speed modifiers"));
             }
         }
 

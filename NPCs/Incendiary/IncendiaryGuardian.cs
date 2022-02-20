@@ -39,6 +39,14 @@ namespace TerrorbornMod.NPCs.Incendiary
             npc.lavaImmune = true;
         }
 
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextFloat() <= 0.15f)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Summons.Sentry.GuardianStaff>());
+            }
+        }
+
         int frame = 0;
         public override void FindFrame(int frameHeight)
         {
@@ -112,5 +120,3 @@ namespace TerrorbornMod.NPCs.Incendiary
         }
     }
 }
-
-

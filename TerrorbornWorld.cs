@@ -29,6 +29,9 @@ namespace TerrorbornMod
         public static bool downedTerrorRain;
         public static bool downedFrightcrawler;
         public static bool downedSlateBanshee;
+        public static bool downedDreadAngel;
+        public static bool downedDreadwind;
+        public static bool downedUriel;
         public static bool terrorRain;
         public static bool talkedToCartographer;
         public static bool talkedToHeretic;
@@ -45,6 +48,7 @@ namespace TerrorbornMod
         public static int wormExtraSegmentCount = 0;
         public static int CartographerSpawnCooldown = 0;
         public static int incendiaryIslandsSide = 0;
+
 
         public static Vector2 ShriekOfHorror;
         public static Vector2 HorrificAdaptation;
@@ -74,6 +78,9 @@ namespace TerrorbornMod
             downedIncendiaryBoss = false;
             downedSlateBanshee = false;
             talkedToHeretic = false;
+            downedDreadAngel = false;
+            downedDreadwind = false;
+            downedUriel = false;
             TerrorMasterDialogue = 0;
             SkeletonSheriffName = getSkeletonSheriffName();
             CartographerName = getCartographerName();
@@ -175,6 +182,9 @@ namespace TerrorbornMod
             if (downedIncendiaryBoss) downed.Add("downedIncendiaryBoss");
             if (downedSlateBanshee) downed.Add("downedSlateBanshee");
             if (downedInfectedIncarnate) downed.Add("downedInfectedIncarnate");
+            if (downedDreadAngel) downed.Add("downedDreadAngel");
+            if (downedDreadwind) downed.Add("downedDreadwind");
+            if (downedUriel) downed.Add("downedUriel");
 
             return new TagCompound {
                 {"downed", downed},
@@ -208,6 +218,9 @@ namespace TerrorbornMod
             downedFrightcrawler = downed.Contains("downedFrightcrawler");
             downedSlateBanshee = downed.Contains("downedSlateBanshee");
             downedInfectedIncarnate = downed.Contains("downedInfectedIncarnate");
+            downedDreadAngel = downed.Contains("downedDreadAngel");
+            downedDreadwind = downed.Contains("downedDreadwind");
+            downedUriel = downed.Contains("downedUriel");
             CurrentBountyBiome = tag.GetInt("CurrentBountyBiome");
             SkeletonSheriffName = tag.GetString("SkeletonSheriffName");
             CartographerName = tag.GetString("CartographerName");
@@ -317,6 +330,7 @@ namespace TerrorbornMod
             mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.SpecterLocket>());
             mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.Asphodel>());
             mainItems.Add(ModContent.ItemType<Items.Equipable.Hooks.HellishHook>());
+            mainItems.Add(ModContent.ItemType<Items.CrackedTimeChime>());
 
             List<int> bossSummons = new List<int>();
             bossSummons.Add(ItemID.MechanicalEye);
@@ -1487,13 +1501,21 @@ namespace TerrorbornMod
 
                 if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 11 * 36)
                 {
-                    if (Main.rand.Next(101) <= 25)
+                    if (Main.rand.Next(101) <= 50)
                     {
                         for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                         {
                             if (chest.item[inventoryIndex].type == ItemID.None)
                             {
-                                chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Summons.Minions.FrigidStaff>());
+                                switch (Main.rand.Next(2))
+                                {
+                                    case 0:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Summons.Minions.FrigidStaff>());
+                                        break;
+                                    case 1:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.IceBreaker>());
+                                        break;
+                                }
                                 break;
                             }
                         }

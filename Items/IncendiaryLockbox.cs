@@ -32,10 +32,11 @@ namespace TerrorbornMod.Items
         public override void RightClick(Player player)
         {
             List<int> mainItems = new List<int>();
-            mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.Shields.IncendiaryShield>());
-            mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.SpecterLocket>());
-            mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.Asphodel>());
-            mainItems.Add(ModContent.ItemType<Items.Equipable.Hooks.HellishHook>());
+            mainItems.Add(ModContent.ItemType<Equipable.Accessories.Shields.IncendiaryShield>());
+            mainItems.Add(ModContent.ItemType<Equipable.Accessories.SpecterLocket>());
+            mainItems.Add(ModContent.ItemType<Weapons.Magic.Asphodel>());
+            mainItems.Add(ModContent.ItemType<Equipable.Hooks.HellishHook>());
+            mainItems.Add(ModContent.ItemType<CrackedTimeChime>());
 
             List<int> bossSummons = new List<int>();
             bossSummons.Add(ItemID.MechanicalEye);

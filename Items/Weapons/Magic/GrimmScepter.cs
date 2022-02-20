@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(item);
             modItem.critDamageMult = 1.3f;
-            item.damage = 10;
+            item.damage = 11;
             item.noMelee = true;
             item.width = 52;
             item.height = 52;

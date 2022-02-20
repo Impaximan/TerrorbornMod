@@ -47,6 +47,14 @@ namespace TerrorbornMod.NPCs.Incendiary
             npc.frame.Y = frame * frameHeight;
         }
 
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextFloat() <= 0.2f)
+            {
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Ranged.CursedJavelin>(), Main.rand.Next(125, 176));
+            }
+        }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && !NPC.downedGolemBoss)
