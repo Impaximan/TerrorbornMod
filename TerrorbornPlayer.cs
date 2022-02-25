@@ -1611,7 +1611,7 @@ namespace TerrorbornMod
             if (player.HasBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>()))
             {
                 if (player.lifeRegen > 0) player.lifeRegen = 0;
-                player.lifeRegen -= 10 + (player.statDefense / 100) * 18;
+                player.lifeRegen -= 10 + (int)((player.statDefense / 100f) * 18f);
             }
             if (badLifeRegen > 0)
             {

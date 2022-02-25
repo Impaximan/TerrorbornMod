@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Materials
 {
-    class HexingEssence : ModItem
+    class DreadfulEssence : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("'The essence of a hexed machine'");
+            Tooltip.SetDefault("'The essence of an angel'");
             ItemID.Sets.ItemNoGravity[item.type] = true;
             ItemID.Sets.ItemIconPulse[item.type] = true;
         }
@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Materials
         {
             item.maxStack = 999;
             item.value = Item.sellPrice(0, 0, 75, 0);
-            item.rare = ItemRarityID.Pink;
+            item.rare = 12;
             item.width = 48;
             item.height = 42;
         }

@@ -312,6 +312,10 @@ namespace TerrorbornMod
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
 
             TooltipLine line = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
+            if (item.rare == 12 && item.modItem != null && item.modItem.mod == mod)
+            {
+                tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria").overrideColor = Color.LightGoldenrodYellow;
+            }
             if (restless)
             {
                 tooltips.Insert(1, new TooltipLine(mod, "restlessItem", "--Restless Weapon--"));

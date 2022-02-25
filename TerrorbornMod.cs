@@ -192,18 +192,24 @@ namespace TerrorbornMod
                 for (int i = 0; i < width; i++)
                 {
                     int index = j * width + i;
-                    double dX = (double)(i - x) / (double)width * 2;
-                    double dY = (double)(j - y) / (double)height * 2;
-                    float c = Math.Abs((float)Math.Sqrt(dX * dX + dY * dY) - 0.85f) / 0.15f;
-                    if (c <= 0)
+                    float value = 0f;
+                    if (Math.Abs(i - x) <= MathHelper.Lerp(0f, width / 2, (float)j / (float)height))
                     {
-                        colors[index] = new Color(1f, 1f, 1f, 1f);
+                        value = MathHelper.Lerp(1f, 0f, (float)j / (float)height);
                     }
-                    else
-                    {
-                        float value = 1f - (float)c;
-                        colors[index] = new Color(value, value, value, value);
-                    }
+                    colors[index] = new Color(value, value, value, value);
+                    //double dX = (double)(i - x) / (double)width * 2;
+                    //double dY = (double)(j - y) / (double)height * 2;
+                    //float c = Math.Abs((float)Math.Sqrt(dX * dX + dY * dY) - 0.85f) / 0.15f;
+                    //if (c <= 0)
+                    //{
+                    //    colors[index] = new Color(1f, 1f, 1f, 1f);
+                    //}
+                    //else
+                    //{
+                    //    float value = 1f - (float)c;
+                    //    colors[index] = new Color(value, value, value, value);
+                    //}
                 }
             }
         }
@@ -225,7 +231,7 @@ namespace TerrorbornMod
             string path = Path.Combine(savingFolder, "TerrorbornOutput.png");
             using (Stream stream = File.OpenWrite(path))
             {
-                CreateImage(500, 500).SaveAsPng(stream, 500, 500);
+                CreateImage(200, 1000).SaveAsPng(stream, 200, 1000);
             }
 
             TBUtils.Detours.Initialize();
@@ -395,10 +401,14 @@ namespace TerrorbornMod
 
         public static void p1Thunder()
         {
+            if (timeSinceLightning > 10)
+            {
+                ModContent.GetSound("TerrorbornMod/Sounds/Effects/ThunderAmbience").Play(Main.soundVolume * 0.75f, Main.rand.NextFloat(0.75f, 1f), Main.rand.NextFloat(-0.3f, 0.3f));
+            }
+            timeSinceLightning = 0;
             positionLightningP1 = 1f;
             //transitionColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
             ScreenShake(15);
-            ModContent.GetSound("TerrorbornMod/Sounds/Effects/ThunderAmbience").Play(Main.soundVolume, Main.rand.NextFloat(0.75f, 1f), Main.rand.NextFloat(-0.3f, 0.3f));
         }
 
         public static Color darkRainColor = Color.FromNonPremultiplied((int)(40f * 0.7f), (int)(55f * 0.7f), (int)(70f * 0.7f), 255);
@@ -562,8 +572,13 @@ namespace TerrorbornMod
             }
         }
 
+        static int timeSinceLightning = 0;
         public override void PostUpdateEverything()
         {
+            if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>()))
+            {
+                timeSinceLightning++;
+            }
             TerrorbornUtils.Update();
 
             UpdateForegroundObjects();
@@ -607,6 +622,7 @@ namespace TerrorbornMod
             {
                 yabhb.Call("RegisterHealthBarMini", ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
                 yabhb.Call("RegisterHealthBarMini", ModContent.NPCType<NPCs.SlateBanshee>());
+                yabhb.Call("RegisterHealthBar", ModContent.NPCType<NPCs.Minibosses.DreadAngel>());
             }
 
             Mod fargos = ModLoader.GetMod("Fargowiltas");

@@ -172,8 +172,8 @@ namespace TerrorbornMod.NPCs.Incendiary
             MoveDistance = 20f;
             RealMaxDistance = 6000f;
             bodyRect = new Rectangle(0, 0, projectile.width, projectile.height);
-            headRect = new Rectangle(0, 0, projectile.width, projectile.height); ;
-            tailRect = new Rectangle(0, 0, projectile.width, projectile.height); ;
+            headRect = new Rectangle(0, 0, projectile.width, projectile.height);
+            tailRect = new Rectangle(0, 0, projectile.width, projectile.height);
             FollowPosition = false;
         }
 
