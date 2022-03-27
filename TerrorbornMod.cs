@@ -224,9 +224,11 @@ namespace TerrorbornMod
             return output;
         }
 
+        public static List<int> GoldenChestLore = new List<int>();
         private static string savingFolder = Path.Combine(Main.SavePath, "Mods", "Cache");
         public override void Load()
         {
+            GoldenChestLore.Clear();
             Directory.CreateDirectory(savingFolder);
             string path = Path.Combine(savingFolder, "TerrorbornOutput.png");
             using (Stream stream = File.OpenWrite(path))

@@ -124,7 +124,7 @@ namespace TerrorbornMod
 
             if (player.HeldItem != null && player != null)
             {
-                if (modPlayer.PyroclasticShinobiBonus && crit && TerrorbornItem.modItem(player.HeldItem).countAsThrown)
+                if (modPlayer.PyroclasticShinobiBonus && crit && TerrorbornItem.modItem(player.HeldItem).countAsThrown && projectile.friendly)
                 {
                     modPlayer.SuperthrowNext = true;
                 }
@@ -151,7 +151,7 @@ namespace TerrorbornMod
                         }
                         else
                         {
-                            npc.StrikeNPC(damage / 3, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                            npc.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
                         }
 
                         int choice = Main.rand.Next(4);
@@ -255,7 +255,7 @@ namespace TerrorbornMod
 
             if (player.HeldItem != null && player != null)
             {
-                if (modPlayer.SuperthrowNext && TerrorbornItem.modItem(player.HeldItem).countAsThrown)
+                if (modPlayer.SuperthrowNext && TerrorbornItem.modItem(player.HeldItem).countAsThrown && projectile.friendly)
                 {
                     projectile.extraUpdates = (projectile.extraUpdates * 2) + 1;
                     superthrow = true;

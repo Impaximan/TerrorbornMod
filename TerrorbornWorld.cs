@@ -49,6 +49,9 @@ namespace TerrorbornMod
         public static int CartographerSpawnCooldown = 0;
         public static int incendiaryIslandsSide = 0;
 
+        //TWILIGHT MODE
+        public static bool TwilightMode;
+
 
         public static Vector2 ShriekOfHorror;
         public static Vector2 HorrificAdaptation;
@@ -62,6 +65,7 @@ namespace TerrorbornMod
 
         public override void Initialize()
         {
+            TwilightMode = false;
             CartographerSpawnCooldown = 3600 * 6;
             downedShadowcrawler = false;
             downedPrototypeI = false;
@@ -198,6 +202,7 @@ namespace TerrorbornMod
                 {"IIShrinePosition", IIShrinePosition},
                 {"talkedToCartographer", talkedToCartographer},
                 {"talkedToHeretic", talkedToHeretic},
+                {"TwilightMode", TwilightMode},
                 {"timeSinceFrightcrawlerSpawn", timeSinceFrightcrawlerSpawn},
                 {"CartographerSpawnCooldown", CartographerSpawnCooldown},
                 {"incendiaryIslandsSide", incendiaryIslandsSide}
@@ -231,6 +236,7 @@ namespace TerrorbornMod
             terrorRain = tag.GetBool("terrorRain");
             talkedToCartographer = tag.GetBool("talkedToCartographer");
             talkedToHeretic = tag.GetBool("talkedToHeretic");
+            TwilightMode = tag.GetBool("TwilightMode");
             timeSinceFrightcrawlerSpawn = tag.GetInt("timeSinceFrightcrawlerSpawn");
             CartographerSpawnCooldown = tag.GetInt("CartographerSpawnCooldown");
             incendiaryIslandsSide = tag.GetInt("incendiaryIslandsSide");
@@ -296,16 +302,24 @@ namespace TerrorbornMod
             }
         }
 
-        public static void CreateLineOfWallsVertical(int LineX, int LineY, int Length, int Type, bool Up = true)
+        public static void CreateLineOfWallsVertical(int LineX, int LineY, int Length, int Type, bool Up = true, bool breakTiles = false)
         {
             for (int i = 0; i < Length; i++)
             {
                 if (Up)
                 {
+                    if (breakTiles)
+                    {
+                        WorldGen.KillTile(LineX, LineY - i, noItem: true);
+                    }
                     WorldGen.PlaceWall(LineX, LineY - i, Type, true);
                 }
                 else
                 {
+                    if (breakTiles)
+                    {
+                        WorldGen.KillTile(LineX, LineY + i, noItem: true);
+                    }
                     WorldGen.PlaceWall(LineX, LineY + i, Type, true);
                 }
             }
@@ -1389,7 +1403,12 @@ namespace TerrorbornMod
                 progress.Message = "Generating Deimostone Chests";
                 GenerateDeimostoneChests();
             }));
-            tasks.Insert(genIndex + 2, new PassLegacy("Terror Shrines", delegate (GenerationProgress progress)
+            tasks.Insert(genIndex + 2, new PassLegacy("Lavender Chests", delegate (GenerationProgress progress)
+            {
+                progress.Message = "Generating Lavender Chests";
+                GenerateLavenderChests();
+            }));
+            tasks.Insert(genIndex + 3, new PassLegacy("Terror Shrines", delegate (GenerationProgress progress)
             {
                 progress.Message = "Building the shrines";
                 GenerateShrineStructures();
@@ -1410,6 +1429,73 @@ namespace TerrorbornMod
                 GenerateNovagold();
             }));
 
+        }
+
+        public static void GenerateLavenderChests()
+        {
+            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * 6E-05 / 15); k++)
+            {
+                int x = WorldGen.genRand.Next(0 + 100, Main.maxTilesX - 100);
+                int y = WorldGen.genRand.Next((int)WorldGen.rockLayerHigh, (int)Main.maxTilesY - 300);
+                GenerateLavenderChestShrine(x, y);
+            }
+        }
+
+        public static void GenerateLavenderChestShrine(int i, int j)
+        {
+            Vector2 currentPosition = new Vector2(i, j);
+            while (WorldGen.TileEmpty((int)currentPosition.X, (int)currentPosition.Y) && !Main.tileSolid[Main.tile[(int)currentPosition.X, (int)currentPosition.Y].type])
+            {
+                if (currentPosition.Y > Main.maxTilesY - 300)
+                {
+                    break;
+                }
+                currentPosition.Y++;
+            }
+            while (!WorldGen.TileEmpty((int)currentPosition.X, (int)currentPosition.Y) && Main.tileSolid[Main.tile[(int)currentPosition.X, (int)currentPosition.Y].type])
+            {
+                if (currentPosition.Y < (int)WorldGen.rockLayerHigh)
+                {
+                    break;
+                }
+                currentPosition.Y--;
+            }
+            currentPosition += new Vector2(0, 2);
+            int tileType = TileID.IridescentBrick;
+            int wallType = WallID.IronFence;
+            CreateLineOfWallsVertical((int)currentPosition.X - 3, (int)currentPosition.Y - 1, 10, wallType, breakTiles: true);
+            CreateLineOfWallsVertical((int)currentPosition.X - 2, (int)currentPosition.Y - 1, 10, wallType, breakTiles: true);
+            CreateLineOfWallsVertical((int)currentPosition.X - 1, (int)currentPosition.Y - 1, 10, wallType, breakTiles: true);
+            CreateLineOfWallsVertical((int)currentPosition.X, (int)currentPosition.Y - 1, 10, wallType, breakTiles: true);
+            CreateLineOfWallsVertical((int)currentPosition.X + 1, (int)currentPosition.Y - 1, 10, wallType, breakTiles: true);
+            CreateLineOfWallsVertical((int)currentPosition.X + 2, (int)currentPosition.Y - 1, 10, wallType, breakTiles: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X - 4, (int)currentPosition.Y, 8, tileType, forced: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X - 5, (int)currentPosition.Y - 1, 10, tileType, forced: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X - 5, (int)currentPosition.Y - 10, 10, tileType, forced: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X - 4, (int)currentPosition.Y - 11, 8, tileType, forced: true);
+            CreateLineOfBlocksHorizontal((int)currentPosition.X - 3, (int)currentPosition.Y - 12, 6, tileType, forced: true);
+            GenerateLavenderChest((int)currentPosition.X - 1, (int)currentPosition.Y - 3);
+        }
+
+        public static void GenerateLavenderChest(int x, int y)
+        {
+            if (x < 3 || x > Main.maxTilesX - 3 || y < 3 || y > Main.maxTilesY - 3)
+            {
+                return;
+            }
+            WorldGen.KillTile(x, y, noItem: true);
+            WorldGen.KillTile(x + 1, y, noItem: true);
+            WorldGen.KillTile(x + 1, y + 1, noItem: true);
+            WorldGen.KillTile(x, y + 1, noItem: true);
+            WorldGen.KillTile(x, y + 2, noItem: true);
+            WorldGen.KillTile(x + 1, y + 2, noItem: true);
+            WorldGen.PlaceTile(x, y + 2, TileID.IridescentBrick);
+            WorldGen.PlaceTile(x + 1, y + 2, TileID.IridescentBrick);
+            WorldGen.PlaceTile(x, y + 1, (ushort)ModContent.TileType<Tiles.LavenderChest>());
+            Main.tile[x, y].frameX += 1 * 36;
+            Main.tile[x + 1, y].frameX += 1 * 36;
+            Main.tile[x + 1, y + 1].frameX += 1 * 36;
+            Main.tile[x, y + 1].frameX += 1 * 36;
         }
 
         List<Point16> deimostoneChests = new List<Point16>(500);
@@ -1470,13 +1556,13 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 11 * 36)
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 11 * 36 && Main.rand.NextFloat() <= 0.6f)
                 {
                     for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                     {
                         if (chest.item[inventoryIndex].type == ItemID.None)
                         {
-                            switch (Main.rand.Next(5))
+                            switch (Main.rand.Next(8))
                             {
                                 case 0:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
@@ -1492,6 +1578,15 @@ namespace TerrorbornMod
                                     break;
                                 case 4:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.FrostFlask>());
+                                    break;
+                                case 5:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.MiscConsumables.MetalKey>());
+                                    break;
+                                case 6:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks>());
+                                    break;
+                                case 7:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CaneOfCurses>());
                                     break;
                             }
                             break;
@@ -1684,28 +1779,122 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 0 * 36)
+                if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<Tiles.LavenderChest>())
                 {
-                    if (Main.rand.NextFloat() <= 0.25f)
+                    List<int> mainItems = new List<int>();
+                    mainItems.Add(ModContent.ItemType<Items.Weapons.Melee.PhoenixFlameSpear>());
+
+                    List<int> secondaryMainItems = new List<int>();
+                    secondaryMainItems.Add(ItemID.BandofRegeneration);
+                    secondaryMainItems.Add(ItemID.MagicMirror);
+                    secondaryMainItems.Add(ItemID.CloudinaBottle);
+                    secondaryMainItems.Add(ItemID.HermesBoots);
+                    secondaryMainItems.Add(ItemID.ShoeSpikes);
+
+                    List<int> ammosAndThrowables = new List<int>();
+                    ammosAndThrowables.Add(ItemID.FlamingArrow);
+                    ammosAndThrowables.Add(ItemID.ThrowingKnife);
+
+                    List<int> bars = new List<int>();
+                    bars.Add(ItemID.SilverBar);
+                    bars.Add(ItemID.TungstenBar);
+                    bars.Add(ItemID.GoldBar);
+                    bars.Add(ItemID.PlatinumBar);
+
+                    List<int> commonPotions = new List<int>();
+                    commonPotions.Add(ItemID.SpelunkerPotion);
+                    commonPotions.Add(ItemID.FeatherfallPotion);
+                    commonPotions.Add(ItemID.NightOwlPotion);
+                    commonPotions.Add(ItemID.WaterWalkingPotion);
+                    commonPotions.Add(ItemID.ArcheryPotion);
+                    commonPotions.Add(ItemID.GravitationPotion);
+
+                    List<int> uncommonPotions = new List<int>();
+                    uncommonPotions.Add(ItemID.ThornsPotion);
+                    uncommonPotions.Add(ItemID.HunterPotion);
+                    uncommonPotions.Add(ItemID.TrapsightPotion);
+                    uncommonPotions.Add(ItemID.TeleportationPotion);
+
+                    List<int> lightItems = new List<int>();
+                    lightItems.Add(ItemID.Torch);
+                    lightItems.Add(ItemID.SpelunkerGlowstick);
+
+                    int item = 0;
+                    chest.item[item].SetDefaults(WorldGen.genRand.Next(mainItems));
+                    item++;
+                    chest.item[item].SetDefaults(WorldGen.genRand.Next(secondaryMainItems));
+                    item++;
+                    if (WorldGen.genRand.NextFloat() <= 0.7f)
                     {
-                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
-                        {
-                            if (chest.item[inventoryIndex].type == ItemID.None)
-                            {
-                                chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks>());
-                                break;
-                            }
-                        }
+                        chest.item[item].SetDefaults(ItemID.Extractinator);
+                        item++;
                     }
+                    if (WorldGen.genRand.NextFloat() <= 0.6f)
+                    {
+                        chest.item[item].SetDefaults(ItemID.SuspiciousLookingEye);
+                        item++;
+                    }
+                    if (WorldGen.genRand.NextFloat() <= 0.53f)
+                    {
+                        chest.item[item].SetDefaults(ItemID.Dynamite);
+                        item++;
+                    }
+                    if (WorldGen.genRand.NextFloat() <= 0.45f)
+                    {
+                        chest.item[item].SetDefaults(ItemID.JestersArrow);
+                        chest.item[item].stack = WorldGen.genRand.Next(35, 75);
+                        item++;
+                    }
+                    chest.item[item].SetDefaults(WorldGen.genRand.Next(bars));
+                    chest.item[item].stack = WorldGen.genRand.Next(25, 30);
+                    item++;
+                    if (WorldGen.genRand.NextFloat() <= 0.7f)
+                    {
+                        chest.item[item].SetDefaults(WorldGen.genRand.Next(ammosAndThrowables));
+                        chest.item[item].stack = WorldGen.genRand.Next(50, 75);
+                        item++;
+                    }
+                    if (WorldGen.genRand.NextFloat() <= 0.7f)
+                    {
+                        chest.item[item].SetDefaults(ItemID.HealingPotion);
+                        chest.item[item].stack = WorldGen.genRand.Next(10, 15);
+                        item++;
+                    }
+                    if (WorldGen.genRand.NextFloat() <= 0.866f)
+                    {
+                        chest.item[item].SetDefaults(WorldGen.genRand.Next(commonPotions));
+                        chest.item[item].stack = WorldGen.genRand.Next(4, 6);
+                        item++;
+                    }
+                    if (WorldGen.genRand.NextFloat() <= 0.533f)
+                    {
+                        chest.item[item].SetDefaults(WorldGen.genRand.Next(uncommonPotions));
+                        chest.item[item].stack = WorldGen.genRand.Next(4, 6);
+                        item++;
+                    }
+                    if (WorldGen.genRand.NextFloat() <= 0.7f)
+                    {
+                        chest.item[item].SetDefaults(ItemID.RecallPotion);
+                        chest.item[item].stack = WorldGen.genRand.Next(5, 10);
+                        item++;
+                    }
+                    if (WorldGen.genRand.NextFloat() <= 0.7f)
+                    {
+                        chest.item[item].SetDefaults(WorldGen.genRand.Next(lightItems));
+                        chest.item[item].stack = WorldGen.genRand.Next(30, 60);
+                        item++;
+                    }
+                    chest.item[item].SetDefaults(ItemID.GoldCoin);
+                    chest.item[item].stack = WorldGen.genRand.Next(10, 15);
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36)
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.NextFloat() <= 0.4f) //Golden chest
                 {
                     for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                     {
                         if (chest.item[inventoryIndex].type == ItemID.None)
                         {
-                            switch (Main.rand.Next(5))
+                            switch (Main.rand.Next(8))
                             {
                                 case 0:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
@@ -1721,6 +1910,103 @@ namespace TerrorbornMod
                                     break;
                                 case 4:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.RollerSkates>());
+                                    break;
+                                case 5:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.MiscConsumables.MetalKey>());
+                                    break;
+                                case 6:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks>());
+                                    break;
+                                case 7:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CaneOfCurses>());
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.NextFloat() <= 0.25f) //Gold chest lore items
+                {
+                    for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                    {
+                        if (chest.item[inventoryIndex].type == ItemID.None)
+                        {
+                            chest.item[inventoryIndex].SetDefaults(Main.rand.Next(TerrorbornMod.GoldenChestLore));
+                            break;
+                        }
+                    }
+                }
+
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 8 * 36 && Main.rand.NextFloat() <= 0.25f) //Jungle chest
+                {
+                    for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                    {
+                        if (chest.item[inventoryIndex].type == ItemID.None)
+                        {
+                            switch (Main.rand.Next(8))
+                            {
+                                case 0:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
+                                    break;
+                                case 1:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CursedShades>());
+                                    break;
+                                case 2:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.BronzeBuckler>());
+                                    break;
+                                case 3:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.CloudInAFlask>());
+                                    break;
+                                case 4:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.RollerSkates>());
+                                    break;
+                                case 5:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.MiscConsumables.MetalKey>());
+                                    break;
+                                case 6:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks>());
+                                    break;
+                                case 7:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CaneOfCurses>());
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && (Main.tile[chest.x, chest.y].frameX == 32 * 36 || Main.tile[chest.x, chest.y].frameX == 50 * 36 || Main.tile[chest.x, chest.y].frameX == 51 * 36)) //Mushroom, granite, and marble chests
+                {
+                    for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                    {
+                        if (chest.item[inventoryIndex].type == ItemID.None)
+                        {
+                            switch (Main.rand.Next(8))
+                            {
+                                case 0:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BoostRelic>());
+                                    break;
+                                case 1:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CursedShades>());
+                                    break;
+                                case 2:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.BronzeBuckler>());
+                                    break;
+                                case 3:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.CloudInAFlask>());
+                                    break;
+                                case 4:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.RollerSkates>());
+                                    break;
+                                case 5:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.MiscConsumables.MetalKey>());
+                                    break;
+                                case 6:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks>());
+                                    break;
+                                case 7:
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CaneOfCurses>());
                                     break;
                             }
                             break;
@@ -1815,9 +2101,31 @@ namespace TerrorbornMod
             Structures.StructureGenerator.GenerateTWShrine(mod, new Point((int)TerrorWarp.X, (int)TerrorWarp.Y));
         }
 
+        public override void PreWorldGen()
+        {
+            List<int> alreadySeenLore = new List<int>();
+            for (int i = 0; i < TerrorbornMod.GoldenChestLore.Count; i++)
+            {
+                if (i >= TerrorbornMod.GoldenChestLore.Count)
+                {
+                    break;
+                }
+                int lore = TerrorbornMod.GoldenChestLore[i];
+                if (alreadySeenLore.Contains(lore))
+                {
+                    TerrorbornMod.GoldenChestLore.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+                    alreadySeenLore.Add(lore);
+                }
+            }
+        }
+
         public void GenerateDeimostoneCaves()
         {
-            float amountMultiplier = 0.005f;
+            float amountMultiplier = 0.003f;
             GenerateDeimostoneCave(new Point16(WorldGen.genRand.Next(Main.maxTilesX / 2 - 350, Main.maxTilesX / 2 + 350), (int)(WorldGen.rockLayerHigh + 25)), WorldGen.genRand.NextFloat(1.2f, 1.6f));
             for (int i = 0; i < Main.maxTilesX * amountMultiplier; i++)
             {

@@ -62,7 +62,22 @@ namespace TerrorbornMod
 
         public override void GetWeaponCrit(Item item, Player player, ref int crit)
         {
-            base.GetWeaponCrit(item, player, ref crit);
+            if (item.melee && countAsThrown)
+            {
+                if (player.thrownCrit > player.meleeCrit)
+                {
+                    crit = player.thrownCrit + item.crit;
+                    return;
+                }
+            }
+            if (item.ranged && countAsThrown)
+            {
+                if (player.thrownCrit > player.rangedCrit)
+                {
+                    crit = player.thrownCrit + item.crit;
+                    return;
+                }
+            }
         }
 
         int azureCounter = 2;
@@ -295,6 +310,10 @@ namespace TerrorbornMod
         public static int restlessColorDirection = 1;
         int restlessTransitionTime = 60;
 
+        public static float rarityColorProgress = 0f;
+        public static int rarityColorDirection = 1;
+        int rarityColorTransitionTime = 30;
+
         public static Color burstJumpColor1 = Color.FromNonPremultiplied(61, 255, 83, 255);
         public static Color burstJumpColor2 = Color.FromNonPremultiplied(189, 42, 255, 255);
         public static float burstJumpColorProgress = 0f;
@@ -312,10 +331,12 @@ namespace TerrorbornMod
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
 
             TooltipLine line = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
-            if (item.rare == 12 && item.modItem != null && item.modItem.mod == mod)
+
+            if (item.rare >= 12 && item.modItem != null && item.modItem.mod == mod)
             {
-                tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria").overrideColor = Color.LightGoldenrodYellow;
+                tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria").overrideColor = Color.Lerp(Color.Goldenrod, Color.LightGoldenrodYellow, rarityColorProgress);
             }
+
             if (restless)
             {
                 tooltips.Insert(1, new TooltipLine(mod, "restlessItem", "--Restless Weapon--"));
@@ -332,6 +353,18 @@ namespace TerrorbornMod
             if (restlessColorDirection == -1 && restlessColorProgress <= 0f)
             {
                 restlessColorDirection *= -1;
+            }
+
+            rarityColorProgress += (1f / rarityColorTransitionTime) * rarityColorDirection;
+
+            if (rarityColorDirection == 1 && rarityColorProgress >= 1f)
+            {
+                rarityColorDirection *= -1;
+            }
+
+            if (rarityColorDirection == -1 && rarityColorProgress <= 0f)
+            {
+                rarityColorDirection *= -1;
             }
 
             if (burstJump)
@@ -479,8 +512,8 @@ namespace TerrorbornMod
             {
                 tooltips.Add(new TooltipLine(mod, "countsAsThrown", "Counts as a thrown weapon"));
                 tooltips.FirstOrDefault(x => x.Name == "countsAsThrown" && x.mod == "TerrorbornMod").overrideColor = new Color(193, 243, 245);
-                tooltips.Insert(tooltips.FindIndex(x => x.Name == "CritChance" && x.mod == "Terraria") + 1, new TooltipLine(mod, "thrownCrit", (item.crit + Main.LocalPlayer.thrownCrit).ToString() + "% thrown critical strike chance" +
-                    "\nThrown crit chance replaces regular crit chance every other hit"));
+                //tooltips.Insert(tooltips.FindIndex(x => x.Name == "CritChance" && x.mod == "Terraria") + 1, new TooltipLine(mod, "thrownCrit", (item.crit + Main.LocalPlayer.thrownCrit).ToString() + "% thrown critical strike chance" +
+                //    "\nThrown crit chance replaces regular crit chance every other hit"));
             }
 
             if (item.useTime <= 5 && TerrorbornMod.showNoUseSpeed)

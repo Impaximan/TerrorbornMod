@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items
 {
@@ -11,6 +12,8 @@ namespace TerrorbornMod.Items
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofNight, 15);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 30);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.HexingEssence>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<Items.Materials.HellbornEssence>(), 3);
             recipe.AddIngredient(ItemID.Ectoplasm, 20);
             recipe.AddIngredient(ItemID.MartianConduitPlating, 100);
             recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 3);
@@ -23,6 +26,7 @@ namespace TerrorbornMod.Items
             DisplayName.SetDefault("Midnight Energy Core");
             Tooltip.SetDefault("Calls forth the first prototype, a failure to create control" +
                 "\nNot consumable");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 14));
         }
         public override void SetDefaults()
         {
@@ -34,6 +38,7 @@ namespace TerrorbornMod.Items
             item.consumable = false;
             item.useAnimation = 30;
             item.useTime = 30;
+            item.noUseGraphic = true;
         }
         public override bool CanUseItem(Player player)
         {

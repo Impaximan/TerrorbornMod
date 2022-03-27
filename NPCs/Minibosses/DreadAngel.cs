@@ -41,7 +41,16 @@ namespace TerrorbornMod.NPCs.Minibosses
 
         public override void NPCLoot()
         {
-
+            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.DreadfulEssence>(), Main.rand.Next(5, 10));
+            switch (Main.rand.Next(2))
+            {
+                case 0:
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Ranged.TaleOfTragedy>());
+                    break;
+                case 1:
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Magic.PhoenixConjuration>());
+                    break;
+            }
             TerrorbornWorld.downedDreadAngel = true;
         }
 

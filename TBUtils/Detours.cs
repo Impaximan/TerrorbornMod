@@ -30,6 +30,7 @@ namespace TerrorbornMod.TBUtils
             On.Terraria.Main.DrawInterface += DrawOvertopGraphics;
             On.Terraria.Main.DrawNPCs += DrawNPCs;
             IL.Terraria.Player.Update += HookUpdate;
+            //IL.Terraria.Item.Prefix += HookPrefix;
         }
 
         private static void HookUpdate(ILContext il)
@@ -44,11 +45,24 @@ namespace TerrorbornMod.TBUtils
             c.Next.Next.Operand = int.MaxValue;
         }
 
+        private static void HookPrefix(ILContext il)
+        {
+            var c = new ILCursor(il);
+            if (!c.TryGotoNext(MoveType.Before, i => i.MatchLdfld("Terraria.Item", "rare"), i => i.MatchLdcI4(11)))
+            {
+                ErrorLogger.Log("AHAHALHGKJLHDFGKJHDSGHJ NO RARITY INSTRUCTION GRRR");
+                return;
+            }
+
+            c.Next.Next.Operand = int.MaxValue;
+        }
+
         public static void Unload()
         {
             On.Terraria.Main.DrawInterface -= DrawOvertopGraphics;
             On.Terraria.Main.DrawNPCs -= DrawNPCs;
             IL.Terraria.Player.Update -= HookUpdate;
+            //IL.Terraria.Item.Prefix -= HookPrefix;
         }
 
         static Vector2 perlinPosition = Vector2.Zero;
@@ -123,6 +137,27 @@ namespace TerrorbornMod.TBUtils
             orig(self, gameTime);
         }
 
+        public static void DrawWireFriendly(SpriteBatch spriteBatch, Color drawColor, Texture2D texture, Texture2D endTexture, Vector2 startPosition, Vector2 endPosition, int fallAmount, int segmentCount = 25)
+        {
+            BezierCurve chain = new BezierCurve(new List<Vector2>()
+            {
+                { startPosition },
+                { Vector2.Lerp(startPosition, endPosition, 0.5f) + new Vector2(0, fallAmount) },
+                { endPosition }
+            });
+
+            List<Vector2> positions = chain.GetPoints(segmentCount);
+
+            for (int i = 0; i < positions.Count - 1; i++)
+            {
+                spriteBatch.Draw(texture, new Rectangle((int)(positions[i].X - Main.screenPosition.X), (int)(positions[i].Y - Main.screenPosition.Y), texture.Width, (int)(positions[i + 1] - positions[i]).Length() + 2), null, drawColor, (positions[i + 1] - positions[i]).RotatedBy(MathHelper.ToRadians(90)).ToRotation(), texture.Size() / 2, SpriteEffects.None, 0);
+            }
+
+            spriteBatch.Draw(texture, new Rectangle((int)(positions[positions.Count - 1].X - Main.screenPosition.X), (int)(positions[positions.Count - 1].Y - Main.screenPosition.Y), texture.Width, (int)(endPosition - positions[positions.Count - 1]).Length() + 2), null, drawColor, (endPosition - positions[positions.Count - 1]).RotatedBy(MathHelper.ToRadians(90)).ToRotation(), texture.Size() / 2, SpriteEffects.None, 0);
+
+            spriteBatch.Draw(endTexture, endPosition - Main.screenPosition, null, drawColor, (endPosition - positions[positions.Count - 1]).RotatedBy(MathHelper.ToRadians(90)).ToRotation(), new Vector2(texture.Width / 2, 0), 1f, SpriteEffects.None, 0);
+        }
+
         private static void DrawNPCs(On.Terraria.Main.orig_DrawNPCs orig, Main self, bool behindTiles)
         {
             Player player = Main.LocalPlayer;
@@ -137,6 +172,14 @@ namespace TerrorbornMod.TBUtils
                     {
                         NPCs.Bosses.HexedConstructor.HexedConstructor.DrawWire(Main.spriteBatch, Color.White, ModContent.GetTexture("TerrorbornMod/NPCs/Bosses/HexedConstructor/HexedWire"), ModContent.GetTexture("TerrorbornMod/NPCs/Bosses/HexedConstructor/HexedWireEnd"), npc.Center - new Vector2(0, 20), claw.Center, (int)(Math.Abs(Math.Sin((double)(npc.ai[0] / 60f))) * 50) + 20, 25);
                     }
+                }
+            }
+
+            foreach (Projectile projectile in Main.projectile)
+            {
+                if (projectile.active && projectile.type == ModContent.ProjectileType<Items.Equipable.Accessories.ConstructorsDestructorsClaw>())
+                {
+                    DrawWireFriendly(Main.spriteBatch, Color.White, ModContent.GetTexture("TerrorbornMod/Items/Equipable/Accessories/ConstructorsDestructorsWire"), ModContent.GetTexture("TerrorbornMod/Items/Equipable/Accessories/ConstructorsDestructorsWireEnd"), Main.player[projectile.owner].Center, projectile.Center, 30, 35);
                 }
             }
 

@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             item.reuseDelay = 45;
-            item.damage = 43;
+            item.damage = 32;
             item.ranged = true;
             item.width = 64;
             item.height = 36;

@@ -16,14 +16,14 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a frigid soul to fight for you");
+            Tooltip.SetDefault("Summons a frigid soul to fight for you that has a chance to inflict frostburn");
         }
 
         public override void SetDefaults()
         {
             item.mana = 5;
             item.summon = true;
-            item.damage = 10;
+            item.damage = 7;
             item.useTime = 30;
             item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -79,6 +79,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             ProjectileID.Sets.Homing[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
+
         public override void SetDefaults()
         {
             projectile.penetrate = -1;
@@ -94,6 +95,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
         }
+
         void FindFrame(int FrameHeight)
         {
             projectile.frameCounter--;
@@ -131,6 +133,14 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 {
                     dust.noGravity = true;
                 }
+            }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (Main.rand.NextFloat() <= 0.2f)
+            {
+                target.AddBuff(BuffID.Frostburn, 60 * 3);
             }
         }
 
@@ -197,11 +207,13 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 {
                     projectile.position = player.Center - new Vector2(projectile.width / 2, projectile.height / 2);
                 }
+                projectile.friendly = false;
                 projectile.rotation += MathHelper.ToRadians(projectile.velocity.Length()) * rotationDirection;
             }
 
             if (mode == 1)
             {
+                projectile.friendly = true;
                 float speed = 20f;
                 dashCounter--;
                 if (dashCounter <= 0)
@@ -237,7 +249,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             for (int i = 0; i < 1000; i++)
             {
-                if (Main.projectile[i].type == ModContent.ProjectileType<FrigidSoul>())
+                if (Main.projectile[i].type == ModContent.ProjectileType<FrigidSoul>() && Main.projectile[i].active)
                 {
                     player.buffTime[buffIndex] = 60;
                 }

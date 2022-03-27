@@ -265,7 +265,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             for (int i = 0; i < 1000; i++)
             {
-                if (Main.projectile[i].type == ModContent.ProjectileType<FlyingAngler>())
+                if (Main.projectile[i].type == ModContent.ProjectileType<FlyingAngler>() && Main.projectile[i].active)
                 {
                     player.buffTime[buffIndex] = 60;
                 }

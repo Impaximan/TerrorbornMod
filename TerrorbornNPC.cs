@@ -625,6 +625,10 @@ namespace TerrorbornMod
                 {
                     Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<TerrorOrb>(), 0, 0, player.whoAmI);
                 }
+                if (modPlayer.TorturersTalisman)
+                {
+                    player.AddBuff(ModContent.BuffType<Buffs.TortureBoost>(), 60 * 10);
+                }
             }
 
             if (modPlayer.SoulEater && npc.boss)

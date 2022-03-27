@@ -28,7 +28,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.useTime = 6;
             item.useAnimation = 6;
             item.knockBack = 5;
-            item.UseSound = SoundID.Item11;
+            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Effects/CoolerMachineGun");
             item.shoot = ProjectileID.PurificationPowder;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.value = Item.sellPrice(0, 0, 25, 0);

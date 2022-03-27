@@ -41,14 +41,15 @@ namespace TerrorbornMod
 
         [Header("UI")]
 
-        //[DefaultValue(500f)]
-        //[BackgroundColor(40, 55, 70)]
-        //[Label("Paragraph width")]
-        //[Tooltip("The size of each line on lore items' paragraphs")]
-        //[Range(0, 2000)]
-        //[Increment(5)]
-        //[Slider()]
-        //public int loreParagraphWidth;
+        [DefaultValue(750)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Paragraph width")]
+        [Tooltip("The size of each line on lore items' paragraphs")]
+        [Range(500, 1500)]
+        [ReloadRequired]
+        [Increment(5)]
+        [Slider()]
+        public int loreParagraphWidth;
 
         [DefaultValue(true)]
         [BackgroundColor(40, 55, 70)]
@@ -122,7 +123,7 @@ namespace TerrorbornMod
         {
             TerrorbornMod.StartingItems = startingItems;
             TerrorbornMod.showCritDamage = showCritDamage;
-            //TerrorbornMod.LoreParagraphWidth = loreParagraphWidth;
+            TerrorbornMod.LoreParagraphWidth = loreParagraphWidth;
             TerrorbornMod.titleCardDuration = titleCardTime;
             TerrorbornMod.titleCards = titleCards;
             TerrorbornMod.thrownAffectsMods = thrownAffectsMods;

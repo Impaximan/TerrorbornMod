@@ -14,7 +14,6 @@ namespace TerrorbornMod.Tiles
 	{
 		public override void SetDefaults()
 		{
-			//thank you examplemod for existing lol
 			Main.tileSpelunker[Type] = true;
 			Main.tileContainer[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -34,8 +33,6 @@ namespace TerrorbornMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Deimostone Chest");
 			AddMapEntry(new Color(80, 112, 109), name);
-			//name = CreateMapEntryName(Name + "_Locked");
-			//name.SetDefault("Locked Deimostone Chest");
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
 			chest = "Deimostone Chest";

@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             TerrorbornItem modItem = TerrorbornItem.modItem(item);
             modItem.critDamageMult = 1.5f;
             item.crit = 10;
-            item.damage = 22;
+            item.damage = 13;
             item.melee = true;
             item.width = 70;
             item.height = 66;

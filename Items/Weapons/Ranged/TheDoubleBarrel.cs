@@ -19,13 +19,13 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(item);
             modItem.critDamageMult = 1.17f;
-            item.damage = 20;
+            item.damage = 15;
             item.ranged = true;
             item.noMelee = true;
             item.width = 50;
             item.height = 24;
-            item.useTime = 8;
-            item.useAnimation = 8;
+            item.useTime = 14;
+            item.useAnimation = 14;
             item.shoot = ProjectileID.PurificationPowder;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 5;

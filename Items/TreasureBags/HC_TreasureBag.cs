@@ -31,7 +31,7 @@ namespace TerrorbornMod.Items.TreasureBags
             {
                 player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.HexedConstructorMask>());
             }
-            //player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Accessories.DarkAbdomen>());
+            player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Accessories.ConstructorsDestructors>());
             player.QuickSpawnItem(ModContent.ItemType<Items.Materials.HexingEssence>(), Main.rand.Next(15, 20));
             int choice = Main.rand.Next(3);
             if (choice == 0)

@@ -22,7 +22,7 @@ namespace TerrorbornMod.NPCs
             npc.aiStyle = -1;
             npc.width = 32;
             npc.height = 26;
-            npc.damage = 10;
+            npc.damage = 5;
             npc.defense = 2;
             npc.lifeMax = 25;
             npc.HitSound = SoundID.NPCHit7;

@@ -27,11 +27,12 @@ namespace TerrorbornMod
     {
         public static string AutoSortTooltip(string tooltip)
         {
-            string newTooltip = tooltip;
-            for (int i = 0; i < tooltip.Length; i++)
+            int lineAmount;
+            string[] lines = Utils.WordwrapString(tooltip, Main.fontMouseText, (int)TerrorbornMod.LoreParagraphWidth, 25, out lineAmount);
+            string newTooltip = "";
+            for (int i = 0; i <= lineAmount; i++)
             {
-                string substring = tooltip.Substring(0, i);
-                float width = GetStringWidth(substring, Main.fontMouseText);
+                newTooltip = newTooltip + "\n" + lines[i];
             }
             return newTooltip;
         }
@@ -52,7 +53,7 @@ namespace TerrorbornMod
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i - 1, j) && !Main.tileSolid[Main.tile[i - 1, j].type])
+            else if (WorldGen.TileEmpty(i - 1, j) || !Main.tileSolid[Main.tile[i - 1, j].type])
             {
                 return true;
             }

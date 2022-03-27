@@ -13,6 +13,7 @@ namespace TerrorbornMod.Items.Ammo
         {
             Tooltip.SetDefault("Creates a weaker but piercing clone of itself upon hitting an enemy");
         }
+
         public override void SetDefaults()
         {
             item.damage = 11;
@@ -24,14 +25,10 @@ namespace TerrorbornMod.Items.Ammo
             item.knockBack = 1;
             item.shootSpeed = 2;
             item.rare = ItemRarityID.Green;
-            item.shoot = mod.ProjectileType("AzuriteDartProjectile");
+            item.shoot = ModContent.ProjectileType<AzuriteDartProjectile>();
             item.ammo = AmmoID.Dart;
         }
-        //public override bool HoldItemFrame(Player player)
-        //{
-        //    player.bodyFrame.Y = 56 * 2;
-        //    return true;
-        //}
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -42,14 +39,17 @@ namespace TerrorbornMod.Items.Ammo
             recipe.AddRecipe();
         }
     }
+
     class AzuriteDartProjectile : ModProjectile
     {
         public override string Texture => "TerrorbornMod/Items/Ammo/AzuriteDart";
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
@@ -62,6 +62,7 @@ namespace TerrorbornMod.Items.Ammo
             }
             return false;
         }
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -75,6 +76,7 @@ namespace TerrorbornMod.Items.Ammo
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
         }
+
         int DustCooldown = 69;
         bool start = true;
         Vector2 originalVelocity;
@@ -88,12 +90,13 @@ namespace TerrorbornMod.Items.Ammo
                 originalPosition = projectile.Center;
             }
             projectile.velocity.Y += 0.03f;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
             if (projectile.ai[0] > 0)
             {
                 projectile.alpha = 255 / 2;
             }
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (projectile.ai[0] > 0)
@@ -106,4 +109,3 @@ namespace TerrorbornMod.Items.Ammo
         }
     }
 }
-

@@ -75,6 +75,9 @@ namespace TerrorbornMod
         public List<NPC> deimosChained = new List<NPC>();
 
         //Accessory/equipment fields
+        public float NatureSpiritRotation = 0f;
+        public bool ConstructorsDestructors = false;
+        public bool CaneOfCurses = false;
         public bool SpecterLocket = false;
         public float PlasmaPower = 0f;
         public bool HeadHunter = false;
@@ -91,6 +94,7 @@ namespace TerrorbornMod
         public bool SoulEater = false;
         public bool PrismalCore = false;
         public bool cloakOfTheWind = false;
+        public bool TorturersTalisman = false;
         public bool PlasmaArmorBonus = false;
         public bool VampiricPendant = false;
         public bool PyroclasticShinobiBonus = false;
@@ -426,8 +430,6 @@ namespace TerrorbornMod
 
             player.ManageSpecialBiomeVisuals("TerrorbornMod:HexedMirage", HexedMirage);
 
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:TwilightShaderNight", twilight);
-
             //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseTargetPosition(new Vector2(0f, Main.rand.NextFloat(0f, 1f)));
             //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseIntensity(Main.rand.NextFloat(-0.1f, 0.1f));
             //switch (Main.rand.Next(3))
@@ -477,27 +479,28 @@ namespace TerrorbornMod
 
                 Item item = new Item();
 
-                //staff
+                //sticks
                 item = new Item();
-                item.SetDefaults(ItemID.AmethystStaff);
+                item.SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.Stick>());
+                item.stack = 150;
                 items.Add(item);
 
                 //torch
                 item = new Item();
                 item.SetDefaults(ItemID.Torch);
-                item.stack = 50;
+                item.stack = 15;
                 items.Add(item);
 
                 //torch
                 item = new Item();
                 item.SetDefaults(ItemID.Glowstick);
-                item.stack = 50;
+                item.stack = 10;
                 items.Add(item);
 
                 //bombs
                 item = new Item();
                 item.SetDefaults(ItemID.Bomb);
-                item.stack = 15;
+                item.stack = 5;
                 items.Add(item);
 
                 //ropes
@@ -667,6 +670,7 @@ namespace TerrorbornMod
             JustBurstJumped = false;
             graniteSpark = false;
             ShriekOfHorrorMovement = 0f;
+            CaneOfCurses = false;
             TerrorTonic = false;
             if (CoreOfFear)
             {
@@ -703,11 +707,13 @@ namespace TerrorbornMod
             allUseSpeed = 1f;
             IncendiaryShield = false;
             Aerodynamic = false;
+            TorturersTalisman = false;
             Glooped = false;
             PlasmaArmorBonus = false;
             PyroclasticShinobiBonus = false;
             AzuriteArmorBonus = false;
             VampiricPendant = false;
+            ConstructorsDestructors = false;
             TerrorPotionCooldown = 60 * 10;
             noAmmoConsumeChance = 0f;
 
@@ -820,11 +826,44 @@ namespace TerrorbornMod
 
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
-            base.OnHitNPCWithProj(proj, target, damage, knockback, crit);
+            if (CaneOfCurses)
+            {
+                CaneOfCursesEffect(target);
+            }
+        }
+
+        public void CaneOfCursesEffect(NPC target)
+        {
+            if (Main.rand.Next(5) == 0)
+            {
+                int buffType = 0;
+                switch (Main.rand.Next(5))
+                {
+                    case 0:
+                        buffType = BuffID.OnFire;
+                        break;
+                    case 1:
+                        buffType = BuffID.Poisoned;
+                        break;
+                    case 2:
+                        buffType = BuffID.Confused;
+                        break;
+                    case 4:
+                        buffType = BuffID.Frostburn;
+                        break;
+                    default:
+                        break;
+                }
+                target.AddBuff(buffType, (int)(60 * Main.rand.NextFloat(2f, 5f)));
+            }
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+            if (CaneOfCurses)
+            {
+                CaneOfCursesEffect(target);
+            }
             if (combatTime < 300)
             {
                 combatTime = 300;
@@ -1487,6 +1526,8 @@ namespace TerrorbornMod
         public override void OnRespawn(Player player)
         {
             usingPrimary = false;
+            combatTime = 0;
+            inCombat = false;
         }
 
         public void ActivateParryEffect()

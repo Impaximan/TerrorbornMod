@@ -31,7 +31,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.width = 48;
             item.height = 50;
-            item.damage = 13;
+            item.damage = 8;
             item.melee = true;
             item.noMelee = true;
             item.value = Item.sellPrice(0, 1, 0, 0);
@@ -43,7 +43,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ShellSpearProjectile");
+            item.shoot = ModContent.ProjectileType<ShellSpearProjectile>();
             item.crit = 10;
         }
 
@@ -52,6 +52,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             return player.ownedProjectileCounts[item.shoot] < 1;
         }
     }
+
     class ShellSpearProjectile : ModProjectile
     {
         public override void SetDefaults()
@@ -79,7 +80,6 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void AI()
         {
-
             Player projOwner = Main.player[projectile.owner];
             Vector2 ownerMountedCenter = projOwner.RotatedRelativePoint(projOwner.MountedCenter, true);
             projectile.direction = projOwner.direction;

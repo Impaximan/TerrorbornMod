@@ -17,6 +17,9 @@ using Microsoft.Xna.Framework.Input;
 using Extensions;
 using Terraria.Utilities;
 using TerrorbornMod.Projectiles;
+using Terraria.Audio;
+using Terraria.ModLoader.Audio;
+using Microsoft.Xna.Framework.Audio;
 
 
 namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
@@ -53,6 +56,9 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 NPC.NewNPC((int)terrorMasterPosition.X, (int)terrorMasterPosition.Y, ModContent.NPCType<NPCs.TownNPCs.Heretic>());
                 Main.NewText("Gabrielle the Heretic has invited herself to your town!", new Color(50, 125, 255));
             }
+
+            ModContent.GetSound("TerrorbornMod/Sounds/Effects/HexedConstructorDeath").Play(Main.musicVolume, 0f, 0f);
+            Main.musicFade[music] = 0f;
 
             bool spawnTF = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(7);
             for (int i = 0; i < 1000; i++)
@@ -153,7 +159,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             npc.aiStyle = -1;
             npc.alpha = 255;
             npc.dontTakeDamage = true;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/HexedConstructor");
+            music = mod.GetSoundSlot(Terraria.ModLoader.SoundType.Music, "Sounds/Music/HexedConstructor");
 
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
             modNPC.BossTitle = "Hexed Constructor";

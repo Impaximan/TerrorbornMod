@@ -10,14 +10,7 @@ namespace TerrorbornMod.Items.Lore.JournalEntries.Raven
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Torn Page");
-            Tooltip.SetDefault("Written in fiery, royal handwriting it reads:" +
-                "\nMore and more of my men fall to, well, whatever that strange beast in the desert is. The beast must die, one way or another. That" +
-                "\nbeing said, I'm rather unsure how hostile this thing actually is. They say it brings strong winds along with it, however winds that" +
-                "\nmy warriors say don't push- a hallucination, perhaps? If I could express a sigh with letters, I would. Maybe this entire thing is a" +
-                "\nstrange, hungry hallucination my warriors keep having while travelling the desert. What's the point of all this, anyway? It's not like" +
-                "\nthat cog-driven madland is worth visiting for trade. All they ever offer us is the stupidest of gadgets. Who needs to defend their" +
-                "\ncity with tech when you can use the power of mind games to overwhelm your foe. Maybe I should reconsider my allyship with them." +
-                "\n                                                                   -Raven, king of Anekronyx");
+            Tooltip.SetDefault(TerrorbornUtils.AutoSortTooltip("I, king of Anekronyx, write to you, my fellow leaders, to warn you of oncoming attack from creatures of the desert. I fear that they will, unfortunately, halt our trade routes, and thus we will be unable to continue porting our food. Do not take this as a sign of hostility, but of peace, as we do not want your traders to be harmed further by.. whatever it is that has been inhabiting the desert. I will send this to you over the desert, and simply hope that it makes it through; I've sent my greatest warriors to deliver this. If they don't make it... then... well, you wouldn't be reading this."));
         }
         public override void SetDefaults()
         {

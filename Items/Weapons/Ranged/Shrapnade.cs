@@ -39,7 +39,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(item);
             modItem.critDamageMult = 1.25f;
-            item.damage = 11;
+            item.damage = 13;
             item.ranged = true;
             item.consumable = true;
             item.maxStack = 999;
@@ -89,6 +89,14 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
                 Projectile.NewProjectile(projectile.Center, ProjectileSpeed, ModContent.ProjectileType<Shrapnel>(), (int)(projectile.damage * 0.75f), 0, projectile.owner);
             }
+            
+            for (int i = 0; i < Main.rand.Next(3, 5); i++)
+            {
+                float Speed = Main.rand.Next(2, 5);
+                Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
+                Gore.NewGore(projectile.Center, ProjectileSpeed, Main.rand.Next(825, 828));
+            }
+            TerrorbornMod.ScreenShake(1f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

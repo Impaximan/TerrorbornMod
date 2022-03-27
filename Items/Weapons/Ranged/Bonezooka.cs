@@ -17,6 +17,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 "\nFires homing skulls that explode on contact with enemies, dealing 70 extra damage to the hit enemy and" +
                 "\nnearby enemies");
         }
+
         public override void SetDefaults()
         {
             item.damage = 63;
@@ -36,22 +37,26 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             item.shootSpeed = 16f;
             item.useAmmo = AmmoID.Rocket;
         }
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             type = ModContent.ProjectileType<BonezookaSkull>();
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
     }
+
     class BonezookaSkull : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.Homing[projectile.type] = true;
         }
+
         public override void SetDefaults()
         {
             projectile.width = 18;
@@ -63,6 +68,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             projectile.hostile = false;
             projectile.ignoreWater = true;
         }
+
         public override void Kill(int timeLeft)
         {
             DustExplosion(projectile.Center, 0, 45, 15, 172, DustScale: 1f, NoGravity: true);
@@ -76,6 +82,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 }
             }
         }
+
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
         {
             float currentAngle = Main.rand.Next(360);
@@ -95,6 +102,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 }
             }
         }
+
         public override void AI()
         {
             if (projectile.velocity.X <= 0)
@@ -127,6 +135,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Dust dust = Dust.NewDustPerfect(projectile.Center, 172, Vector2.Zero, 0, Scale: 0.8f);
             dust.noGravity = true;
         }
+
         int bouncesLeft = 3;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
