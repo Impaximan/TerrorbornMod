@@ -155,7 +155,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DarkMatter");
             npc.damage = 65;
             npc.takenDamageMultiplier = 0.85f;
-            npc.lifeMax = 75000;
+            npc.lifeMax = 60000;
             npc.HitSound = SoundID.NPCHit42;
             npc.DeathSound = SoundID.NPCDeath56;
             npc.value = 0f;
@@ -168,11 +168,6 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
             modNPC.BossTitle = "Prototype I";
             modNPC.BossSubtitle = "Experiment for the Infection";
             modNPC.BossTitleColor = new Color(29, 189, 49);
-        }
-
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = 120000;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

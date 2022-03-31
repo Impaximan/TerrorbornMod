@@ -48,9 +48,21 @@ namespace TerrorbornMod.TwilightMode
 
         public override void SetDefaults(NPC npc)
         {
-			if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
+			if (!TerrorbornWorld.TwilightMode || npc.friendly || npc.lifeMax >= int.MaxValue / 2)
             {
-				npc.lifeMax = (int)(npc.lifeMax * 1.3f);
+				return;
+            }
+
+			if (npc.boss)
+			{
+				npc.lifeMax = (int)(npc.lifeMax * 1.5f);
+				npc.value *= 1.3f;
+			}
+            else
+			{
+				npc.lifeMax = (int)(npc.lifeMax * 1.35f);
+				npc.knockBackResist *= 0.5f;
+				npc.value *= 2f;
 			}
         }
 
@@ -81,46 +93,96 @@ namespace TerrorbornMod.TwilightMode
 			}
 		}
 
+		bool postAIStart = true;
+		bool ballStoppedHoming = false;
+        public override void PostAI(NPC npc)
+        {
+			if (!TerrorbornWorld.TwilightMode)
+            {
+				return;
+            }
+
+			if (postAIStart)
+            {
+				postAIStart = false;
+				ballStoppedHoming = false;
+			}
+
+			if (npc.aiStyle == 9)
+            {
+				if (!ballStoppedHoming)
+                {
+					npc.velocity = npc.DirectionTo(Main.LocalPlayer.Center) * (npc.velocity.Length() + 0.07f);
+					if (npc.Distance(Main.LocalPlayer.Center) <= 200f)
+                    {
+						ballStoppedHoming = true;
+                    }
+                }
+            }
+        }
+
         public override bool PreAI(NPC npc)
 		{
 			if (start)
 			{
 				twilight = TerrorbornWorld.TwilightMode;
 			}
-			if (npc.aiStyle == 4)
+			if (twilight)
 			{
-				EyeOfCthulhuAI(npc);
-				return false;
-			}
-			if (npc.aiStyle == 43)
-			{
-				QueenBeeAI(npc);
-				return false;
-			}
-			if (npc.aiStyle == 84)
-			{
-				LunaticCultistAI(npc);
-				return false;
-			}
-			if (npc.aiStyle == 54)
-			{
-				BrainOfCthulhuAI(npc);
-				return false;
-			}
-			if (npc.aiStyle == 27)
-			{
-				WoFMouthAI(npc);
-				return false;
-			}
-			if (npc.aiStyle == 28)
-			{
-				WoFEyeAI(npc);
-				return false;
+				if (npc.aiStyle == 4)
+				{
+					EyeOfCthulhuAI(npc);
+					return false;
+				}
+				if (npc.aiStyle == 15)
+				{
+					KingSlimeAI(npc);
+					return false;
+				}
+				if (npc.aiStyle == 43)
+				{
+					QueenBeeAI(npc);
+					return false;
+				}
+				if (npc.aiStyle == 84)
+				{
+					LunaticCultistAI(npc);
+					return false;
+				}
+				if (npc.aiStyle == 54)
+				{
+					BrainOfCthulhuAI(npc);
+					return false;
+				}
+				if (npc.aiStyle == 27)
+				{
+					WoFMouthAI(npc);
+					return false;
+				}
+				if (npc.aiStyle == 28)
+				{
+					WoFEyeAI(npc);
+					return false;
+				}
 			}
 			start = false;
 			return base.PreAI(npc);
 		}
 
+		int EoCFlameDir = 0;
+		public void SetEoCFlamethrowerDirection(NPC npc)
+        {
+			if (Main.player[npc.target].Center.X > npc.Center.X) EoCFlameDir = 1;
+			else EoCFlameDir = -1;
+
+			if (Main.player[npc.target].Center.Y < npc.Center.Y + 100) EoCFlameDir *= -1;
+
+		}
+
+		bool EoCAutoRotate = true;
+		int EoCFlamethrowerWait = 0;
+		int EoCAttackCounter = 0;
+		bool EoCThirdPhaseJustStarted = true;
 		public void EyeOfCthulhuAI(NPC npc)
 		{
 			bool flag2 = false;
@@ -187,43 +249,46 @@ namespace TerrorbornMod.TwilightMode
 			{
 				num8 = 0f;
 			}
-			if (npc.rotation < num7)
+			if (EoCAutoRotate)
 			{
-				if ((double)(num7 - npc.rotation) > 3.1415)
+				if (npc.rotation < num7)
 				{
-					npc.rotation -= num8;
+					if ((double)(num7 - npc.rotation) > 3.1415)
+					{
+						npc.rotation -= num8;
+					}
+					else
+					{
+						npc.rotation += num8;
+					}
 				}
-				else
+				else if (npc.rotation > num7)
 				{
-					npc.rotation += num8;
+					if ((double)(npc.rotation - num7) > 3.1415)
+					{
+						npc.rotation += num8;
+					}
+					else
+					{
+						npc.rotation -= num8;
+					}
 				}
-			}
-			else if (npc.rotation > num7)
-			{
-				if ((double)(npc.rotation - num7) > 3.1415)
+				if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8)
 				{
-					npc.rotation += num8;
+					npc.rotation = num7;
 				}
-				else
+				if (npc.rotation < 0f)
 				{
-					npc.rotation -= num8;
+					npc.rotation += 6.283f;
 				}
-			}
-			if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8)
-			{
-				npc.rotation = num7;
-			}
-			if (npc.rotation < 0f)
-			{
-				npc.rotation += 6.283f;
-			}
-			else if ((double)npc.rotation > 6.283)
-			{
-				npc.rotation -= 6.283f;
-			}
-			if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8)
-			{
-				npc.rotation = num7;
+				else if ((double)npc.rotation > 6.283)
+				{
+					npc.rotation -= 6.283f;
+				}
+				if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8)
+				{
+					npc.rotation = num7;
+				}
 			}
 			if (Main.rand.Next(5) == 0)
 			{
@@ -240,9 +305,109 @@ namespace TerrorbornMod.TwilightMode
 				}
 				return;
 			}
+			if (npc.life <= npc.lifeMax * 0.33f && npc.ai[0] > 1f)
+            {
+				Player player = Main.player[npc.target];
+				if (EoCThirdPhaseJustStarted)
+                {
+					EoCThirdPhaseJustStarted = false;
+					EoCAttackCounter = -30;
+					EoCAutoRotate = false;
+					npc.ai[1] = 3;
+					npc.damage = (int)(npc.damage * 1.5f);
+				}
+				else if (npc.ai[1] == 0)
+				{
+					npc.velocity *= 0.9f;
+					if (EoCFlamethrowerWait > 0)
+					{
+						npc.rotation += MathHelper.ToRadians(7f) * EoCFlameDir;
+						EoCFlamethrowerWait--;
+						if (EoCFlamethrowerWait <= 0)
+                        {
+							Main.PlaySound(SoundID.NPCDeath10, npc.Center);
+						}
+					}
+					else
+					{
+						npc.rotation += MathHelper.ToRadians(MathHelper.Lerp(1.1f, 0.8f, (float)npc.life / (float)npc.lifeMax / 0.33f)) * EoCFlameDir;
+						EoCAttackCounter++;
+						if (EoCAttackCounter % 3 == 2)
+						{
+							Main.PlaySound(SoundID.Item34, npc.Center);
+							Projectile.NewProjectile(npc.Center, npc.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(90f)) * 24f, ModContent.ProjectileType<EoCFlameThrower>(), 60 / 4, 0f);
+                        }
+						TerrorbornMod.ScreenShake(1f);
+						if (EoCAttackCounter > 120)
+                        {
+							npc.ai[1] = 1;
+							EoCAttackCounter = 0;
+							EoCFlameDir = -Math.Sign(npc.Center.X - player.Center.X);
+						}
+					}
+				}
+				else if (npc.ai[1] == 1)
+				{
+					npc.rotation = npc.rotation.AngleTowards(num7, MathHelper.ToRadians(10f));
+					npc.velocity += npc.DirectionTo(player.Center + new Vector2(500 * EoCFlameDir, -100f)) * 2f;
+					npc.velocity *= 0.93f;
+					EoCAttackCounter++;
+					if (EoCAttackCounter % 30 == 29)
+					{
+						int num22 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.ServantofCthulhu);
+						Main.npc[num22].lifeMax = (int)MathHelper.Lerp(25f, 40f, (float)npc.life / (float)npc.lifeMax / 0.33f);
+						Main.npc[num22].life = Main.npc[num22].lifeMax;
+						Main.PlaySound(SoundID.NPCDeath13, npc.Center);
+					}
+					if (EoCAttackCounter > 90)
+                    {
+						npc.velocity = npc.DirectionTo(player.Center) * 25f;
+						npc.rotation = npc.DirectionTo(player.Center).ToRotation() - MathHelper.ToRadians(90f);
+						EoCAutoRotate = false;
+						EoCAttackCounter = 0;
+						Main.PlaySound(SoundID.ForceRoar, (int)npc.position.X, (int)npc.position.Y, -1);
+						npc.ai[1] = 2;
+					}
+                }
+				else if (npc.ai[1] == 2)
+                {
+					EoCAttackCounter++;
+					if (EoCAttackCounter == 29)
+					{
+						int num22 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.ServantofCthulhu);
+						Main.npc[num22].lifeMax = (int)MathHelper.Lerp(35f, 55f, (float)npc.life / (float)npc.lifeMax / 0.33f);
+						Main.npc[num22].life = Main.npc[num22].lifeMax;
+						Main.PlaySound(SoundID.NPCDeath13, npc.Center);
+					}
+					if (EoCAttackCounter > 65)
+                    {
+						EoCAttackCounter = 0;
+						EoCAutoRotate = true;
+						npc.ai[1] = 3;
+                    }
+
+				}
+				else if (npc.ai[1] == 3)
+				{
+					npc.rotation = npc.rotation.AngleTowards(num7, MathHelper.ToRadians(5f));
+					npc.velocity += npc.DirectionTo(player.Center + new Vector2(600 * Math.Sign(npc.Center.X - player.Center.X), -300)) * 2f;
+					npc.velocity *= 0.93f;
+					EoCAttackCounter++;
+					if (EoCAttackCounter > 90)
+					{
+						EoCFlamethrowerWait = 45;
+						EoCAttackCounter = 0;
+						SetEoCFlamethrowerDirection(npc);
+						EoCAutoRotate = false;
+						npc.rotation = npc.DirectionTo(player.Center).ToRotation() - MathHelper.ToRadians(90f);
+						npc.ai[1] = 0;
+					}
+				}
+				return;
+            }
 			if (npc.ai[0] == 0f)
 			{
-				if (npc.ai[1] == 0f)
+				if (npc.ai[1] == 0f) //Hovering
 				{
 					float num10 = 22.5f; //hover speed (phase one)
 					float num11 = 0.1f;
@@ -347,10 +512,10 @@ namespace TerrorbornMod.TwilightMode
 						}
 					}
 				}
-				else if (npc.ai[1] == 1f)
+				else if (npc.ai[1] == 1f) //Start dash
 				{
 					npc.rotation = num7;
-					float num23 = 13.5f; //charge speed (phase one)
+					float num23 = 8f; //charge speed (phase one)
 					Vector2 vector4 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num24 = Main.player[npc.target].Center.X - vector4.X + Main.player[npc.target].velocity.X * (npc.Distance(Main.player[npc.target].Center) / num23);
 					float num25 = Main.player[npc.target].Center.Y - vector4.Y + Main.player[npc.target].velocity.Y * (npc.Distance(Main.player[npc.target].Center) / num23);
@@ -360,7 +525,7 @@ namespace TerrorbornMod.TwilightMode
 					npc.velocity.Y = num25 * num26;
 					npc.ai[1] = 2f;
 				}
-				else if (npc.ai[1] == 2f)
+				else if (npc.ai[1] == 2f) //Mid dash
 				{
 					npc.ai[2] += 1f;
 					if (npc.ai[2] >= 40f)
@@ -405,11 +570,7 @@ namespace TerrorbornMod.TwilightMode
 						}
 					}
 				}
-				float num28 = 0.5f;
-				if (Main.expertMode)
-				{
-					num28 = 0.65f;
-				}
+				float num28 = 0.66f;
 				if ((float)npc.life < (float)npc.lifeMax * num28)
 				{
 					npc.ai[0] = 1f;
@@ -527,7 +688,7 @@ namespace TerrorbornMod.TwilightMode
 			{
 				npc.ai[1] = 5f;
 			}
-			if (npc.ai[1] == 0f)
+			if (npc.ai[1] == 0f) //Hovering
 			{
 				float num36 = 12f; //hover speed (phase two)
 				float num37 = 0.07f;
@@ -610,11 +771,11 @@ namespace TerrorbornMod.TwilightMode
 					npc.ai[3] -= 1000f;
 				}
 			}
-			else if (npc.ai[1] == 1f)
+			else if (npc.ai[1] == 1f) //Frame of dash
 			{
 				Main.PlaySound(SoundID.ForceRoar, (int)npc.position.X, (int)npc.position.Y, 0);
 				npc.rotation = num7;
-				float num41 = 10f; //charge speed (phase two)
+				float num41 = 11f; //charge speed (phase two)
 				if (npc.ai[3] == 1f)
 				{
 					num41 *= 1.15f;
@@ -632,7 +793,7 @@ namespace TerrorbornMod.TwilightMode
 				npc.velocity.Y = num43 * num44;
 				npc.ai[1] = 2f;
 			}
-			else if (npc.ai[1] == 2f)
+			else if (npc.ai[1] == 2f) //Mid normal dash
 			{
 				float num45 = 40f;
 				npc.ai[2] += 1f;
@@ -687,7 +848,7 @@ namespace TerrorbornMod.TwilightMode
 					}
 				}
 			}
-			else if (npc.ai[1] == 3f)
+			else if (npc.ai[1] == 3f) //Frame of fast dash
 			{
 				if (npc.ai[3] == 4f && flag2 && npc.Center.Y > Main.player[npc.target].Center.Y)
 				{
@@ -698,108 +859,109 @@ namespace TerrorbornMod.TwilightMode
 				}
 				else if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					npc.TargetClosest();
-					float num47 = 30f;
+					//	npc.TargetClosest();
+					//	float num47 = 30f;
 
-					int num22 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 5);
-					Main.PlaySound(SoundID.NPCDeath13, npc.Center);
+					//	//int num22 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.ServantofCthulhu);
+					//	//Main.PlaySound(SoundID.NPCDeath13, npc.Center);
 
-					Vector2 vector10 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-					float num48 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector10.X;
-					float num49 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector10.Y;
-					float num50 = Math.Abs(Main.player[npc.target].velocity.X) + Math.Abs(Main.player[npc.target].velocity.Y) / 4f;
-					num50 += 10f - num50;
-					if (num50 < 5f)
-					{
-						num50 = 5f;
-					}
-					if (num50 > 15f)
-					{
-						num50 = 15f;
-					}
-					if (npc.ai[2] == -1f && !flag3)
-					{
-						num50 *= 4f;
-						num47 *= 1.3f;
-					}
-					if (flag3)
-					{
-						num50 *= 2f;
-					}
-					num48 -= Main.player[npc.target].velocity.X * num50;
-					num49 -= Main.player[npc.target].velocity.Y * num50 / 4f;
-					num48 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
-					num49 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
-					if (flag3)
-					{
-						num48 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
-						num49 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
-					}
-					float num51 = (float)Math.Sqrt(num48 * num48 + num49 * num49);
-					float num52 = num51;
-					num51 = num47 / num51;
-					npc.velocity.X = num48 * num51;
-					npc.velocity.Y = num49 * num51;
-					npc.velocity.X += (float)Main.rand.Next(-20, 21) * 0.1f;
-					npc.velocity.Y += (float)Main.rand.Next(-20, 21) * 0.1f;
-					if (flag3)
-					{
-						npc.velocity.X += (float)Main.rand.Next(-50, 51) * 0.1f;
-						npc.velocity.Y += (float)Main.rand.Next(-50, 51) * 0.1f;
-						float num53 = Math.Abs(npc.velocity.X);
-						float num54 = Math.Abs(npc.velocity.Y);
-						if (npc.Center.X > Main.player[npc.target].Center.X)
-						{
-							num54 *= -1f;
-						}
-						if (npc.Center.Y > Main.player[npc.target].Center.Y)
-						{
-							num53 *= -1f;
-						}
-						npc.velocity.X = num54 + npc.velocity.X;
-						npc.velocity.Y = num53 + npc.velocity.Y;
-						npc.velocity.Normalize();
-						npc.velocity *= num47;
-						npc.velocity.X += (float)Main.rand.Next(-20, 21) * 0.1f;
-						npc.velocity.Y += (float)Main.rand.Next(-20, 21) * 0.1f;
-					}
-					else if (num52 < 100f)
-					{
-						if (Math.Abs(npc.velocity.X) > Math.Abs(npc.velocity.Y))
-						{
-							float num55 = Math.Abs(npc.velocity.X);
-							float num56 = Math.Abs(npc.velocity.Y);
-							if (npc.Center.X > Main.player[npc.target].Center.X)
-							{
-								num56 *= -1f;
-							}
-							if (npc.Center.Y > Main.player[npc.target].Center.Y)
-							{
-								num55 *= -1f;
-							}
-							npc.velocity.X = num56;
-							npc.velocity.Y = num55;
-						}
-					}
-					else if (Math.Abs(npc.velocity.X) > Math.Abs(npc.velocity.Y))
-					{
-						float num57 = (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) / 2f;
-						float num58 = num57;
-						if (npc.Center.X > Main.player[npc.target].Center.X)
-						{
-							num58 *= -1f;
-						}
-						if (npc.Center.Y > Main.player[npc.target].Center.Y)
-						{
-							num57 *= -1f;
-						}
-						npc.velocity.X = num58;
-						npc.velocity.Y = num57;
-					}
+					//	Vector2 vector10 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+					//	float num48 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector10.X;
+					//	float num49 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector10.Y;
+					//	float num50 = Math.Abs(Main.player[npc.target].velocity.X) + Math.Abs(Main.player[npc.target].velocity.Y) / 4f;
+					//	num50 += 10f - num50;
+					//	if (num50 < 5f)
+					//	{
+					//		num50 = 5f;
+					//	}
+					//	if (num50 > 15f)
+					//	{
+					//		num50 = 15f;
+					//	}
+					//	if (npc.ai[2] == -1f && !flag3)
+					//	{
+					//		num50 *= 4f;
+					//		num47 *= 1.3f;
+					//	}
+					//	if (flag3)
+					//	{
+					//		num50 *= 2f;
+					//	}
+					//	num48 -= Main.player[npc.target].velocity.X * num50;
+					//	num49 -= Main.player[npc.target].velocity.Y * num50 / 4f;
+					//	num48 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
+					//	num49 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
+					//	if (flag3)
+					//	{
+					//		num48 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
+					//		num49 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
+					//	}
+					//	float num51 = (float)Math.Sqrt(num48 * num48 + num49 * num49);
+					//	float num52 = num51;
+					//	num51 = num47 / num51;
+					//	npc.velocity.X = num48 * num51;
+					//	npc.velocity.Y = num49 * num51;
+					//	npc.velocity.X += (float)Main.rand.Next(-20, 21) * 0.1f;
+					//	npc.velocity.Y += (float)Main.rand.Next(-20, 21) * 0.1f;
+					//	if (flag3)
+					//	{
+					//		npc.velocity.X += (float)Main.rand.Next(-50, 51) * 0.1f;
+					//		npc.velocity.Y += (float)Main.rand.Next(-50, 51) * 0.1f;
+					//		float num53 = Math.Abs(npc.velocity.X);
+					//		float num54 = Math.Abs(npc.velocity.Y);
+					//		if (npc.Center.X > Main.player[npc.target].Center.X)
+					//		{
+					//			num54 *= -1f;
+					//		}
+					//		if (npc.Center.Y > Main.player[npc.target].Center.Y)
+					//		{
+					//			num53 *= -1f;
+					//		}
+					//		npc.velocity.X = num54 + npc.velocity.X;
+					//		npc.velocity.Y = num53 + npc.velocity.Y;
+					//		npc.velocity.Normalize();
+					//		npc.velocity *= num47;
+					//		npc.velocity.X += (float)Main.rand.Next(-20, 21) * 0.1f;
+					//		npc.velocity.Y += (float)Main.rand.Next(-20, 21) * 0.1f;
+					//	}
+					//	else if (num52 < 100f)
+					//	{
+					//		if (Math.Abs(npc.velocity.X) > Math.Abs(npc.velocity.Y))
+					//		{
+					//			float num55 = Math.Abs(npc.velocity.X);
+					//			float num56 = Math.Abs(npc.velocity.Y);
+					//			if (npc.Center.X > Main.player[npc.target].Center.X)
+					//			{
+					//				num56 *= -1f;
+					//			}
+					//			if (npc.Center.Y > Main.player[npc.target].Center.Y)
+					//			{
+					//				num55 *= -1f;
+					//			}
+					//			npc.velocity.X = num56;
+					//			npc.velocity.Y = num55;
+					//		}
+					//	}
+					//	else if (Math.Abs(npc.velocity.X) > Math.Abs(npc.velocity.Y))
+					//	{
+					//		float num57 = (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) / 2f;
+					//		float num58 = num57;
+					//		if (npc.Center.X > Main.player[npc.target].Center.X)
+					//		{
+					//			num58 *= -1f;
+					//		}
+					//		if (npc.Center.Y > Main.player[npc.target].Center.Y)
+					//		{
+					//			num57 *= -1f;
+					//		}
+					//		npc.velocity.X = num58;
+					//		npc.velocity.Y = num57;
+					//	}
+					npc.velocity = npc.DirectionTo(Main.player[npc.target].Center) * 15f;
 					npc.ai[1] = 4f;
 				}
 			}
-			else if (npc.ai[1] == 4f)
+			else if (npc.ai[1] == 4f) //Mid fast dash
 			{
 				if (npc.ai[2] == 0f)
 				{
@@ -3403,6 +3565,355 @@ namespace TerrorbornMod.TwilightMode
 			}
 		}
 
+		public void KingSlimeAI(NPC npc)
+        {
+			float num234 = 1f;
+			bool flag8 = false;
+			bool flag9 = false;
+			npc.aiAction = 0;
+			if (npc.ai[3] == 0f && npc.life > 0)
+			{
+				npc.ai[3] = npc.lifeMax;
+			}
+			if (npc.localAI[3] == 0f && Main.netMode != 1)
+			{
+				npc.ai[0] = -100f;
+				npc.localAI[3] = 1f;
+				npc.TargetClosest();
+				npc.netUpdate = true;
+			}
+			if (Main.player[npc.target].dead)
+			{
+				npc.TargetClosest();
+				if (Main.player[npc.target].dead)
+				{
+					npc.timeLeft = 0;
+					if (Main.player[npc.target].Center.X < npc.Center.X)
+					{
+						npc.direction = 1;
+					}
+					else
+					{
+						npc.direction = -1;
+					}
+				}
+			}
+			if (!Main.player[npc.target].dead && npc.ai[2] >= 400f && npc.ai[1] < 5f && npc.velocity.Y == 0f)
+			{
+				npc.ai[2] = 0f;
+				npc.ai[0] = 0f;
+				npc.ai[1] = 5f;
+				if (Main.netMode != 1)
+				{
+					npc.TargetClosest(false);
+					Point point3 = npc.Center.ToTileCoordinates();
+					Point point4 = Main.player[npc.target].Center.ToTileCoordinates();
+					Vector2 vector30 = Main.player[npc.target].Center - npc.Center;
+					int num235 = 10;
+					int num236 = 0;
+					int num237 = 7;
+					int num238 = 0;
+					bool flag10 = false;
+					if (vector30.Length() > 500f)
+					{
+						flag10 = true;
+						num238 = 100;
+					}
+					while (!flag10 && num238 < 100)
+					{
+						num238++;
+						int num239 = Main.rand.Next(point4.X - num235, point4.X + num235 + 1);
+						int num240 = Main.rand.Next(point4.Y - num235, point4.Y + 1);
+						if ((num240 >= point4.Y - num237 && num240 <= point4.Y + num237 && num239 >= point4.X - num237 && num239 <= point4.X + num237) || (num240 >= point3.Y - num236 && num240 <= point3.Y + num236 && num239 >= point3.X - num236 && num239 <= point3.X + num236) || Main.tile[num239, num240].nactive())
+						{
+							continue;
+						}
+						int num241 = num240;
+						int num242 = 0;
+						if (Main.tile[num239, num241].nactive() && Main.tileSolid[Main.tile[num239, num241].type] && !Main.tileSolidTop[Main.tile[num239, num241].type])
+						{
+							num242 = 1;
+						}
+						else
+						{
+							for (; num242 < 150 && num241 + num242 < Main.maxTilesY; num242++)
+							{
+								int num243 = num241 + num242;
+								if (Main.tile[num239, num243].nactive() && Main.tileSolid[Main.tile[num239, num243].type] && !Main.tileSolidTop[Main.tile[num239, num243].type])
+								{
+									num242--;
+									break;
+								}
+							}
+						}
+						num240 += num242;
+						bool flag11 = true;
+						if (flag11 && Main.tile[num239, num240].lava())
+						{
+							flag11 = false;
+						}
+						if (flag11 && !Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+						{
+							flag11 = false;
+						}
+						if (flag11)
+						{
+							npc.localAI[1] = num239 * 16 + 8;
+							npc.localAI[2] = num240 * 16 + 16;
+							flag10 = true;
+							break;
+						}
+					}
+					Player player = Main.player[npc.target];
+					Vector2 bottom = new Vector2(player.Center.X + Math.Sign(player.Center.X - npc.Center.X) * 400f, player.Center.Y - 500f).findGroundUnder(); //Set teleport position
+					npc.localAI[1] = bottom.X;
+					npc.localAI[2] = bottom.Y;
+					DustExplosion(bottom, 0, 40, 25f, DustID.t_Slime, Color.Azure, 2f, true);
+					if (num238 >= 100)
+					{
+					}
+				}
+			}
+			npc.ai[2]++;
+			if (Math.Abs(npc.Top.Y - Main.player[npc.target].Bottom.Y) > 320f)
+			{
+				npc.ai[2]++;
+			}
+			Dust dust28;
+			Dust dust2;
+			if (npc.ai[1] == 5f) //Entering teleport
+			{
+				flag8 = true;
+				npc.aiAction = 1;
+				npc.ai[0]++;
+				num234 = MathHelper.Clamp((60f - npc.ai[0]) / 60f, 0f, 1f);
+				num234 = 0.5f + num234 * 0.5f;
+				if (npc.ai[0] >= 60f)
+				{
+					flag9 = true;
+				}
+				if (npc.ai[0] == 60f)
+				{
+					Gore.NewGore(npc.Center + new Vector2(-40f, -npc.height / 2), npc.velocity, 734);
+				}
+				if (npc.ai[0] >= 60f && Main.netMode != 1)
+				{
+					npc.Bottom = new Vector2(npc.localAI[1], npc.localAI[2]);
+					npc.ai[1] = 6f;
+					npc.ai[0] = 0f;
+					npc.netUpdate = true;
+				}
+				if (Main.netMode == 1 && npc.ai[0] >= 120f)
+				{
+					npc.ai[1] = 6f;
+					npc.ai[0] = 0f;
+				}
+				if (!flag9)
+				{
+					for (int num244 = 0; num244 < 10; num244++)
+					{
+						int num245 = Dust.NewDust(npc.position + Vector2.UnitX * -20f, npc.width + 40, npc.height, 4, npc.velocity.X, npc.velocity.Y, 150, new Color(78, 136, 255, 80), 2f);
+						Main.dust[num245].noGravity = true;
+						dust28 = Main.dust[num245];
+						dust2 = dust28;
+						dust2.velocity *= 0.5f;
+					}
+				}
+			}
+			else if (npc.ai[1] == 6f) //Exiting Teleport
+			{
+				flag8 = true;
+				npc.aiAction = 0;
+				npc.ai[0]++;
+				num234 = MathHelper.Clamp(npc.ai[0] / 30f, 0f, 1f);
+				num234 = 0.5f + num234 * 0.5f;
+				if (npc.ai[0] >= 30f && Main.netMode != 1)
+				{
+					npc.ai[1] = 0f;
+					npc.ai[0] = 0f;
+					npc.netUpdate = true;
+					npc.TargetClosest();
+				}
+				if (Main.netMode == 1 && npc.ai[0] >= 60f)
+				{
+					npc.ai[1] = 0f;
+					npc.ai[0] = 0f;
+					npc.TargetClosest();
+				}
+				for (int num246 = 0; num246 < 10; num246++)
+				{
+					int num247 = Dust.NewDust(npc.position + Vector2.UnitX * -20f, npc.width + 40, npc.height, 4, npc.velocity.X, npc.velocity.Y, 150, new Color(78, 136, 255, 80), 2f);
+					Main.dust[num247].noGravity = true;
+					dust28 = Main.dust[num247];
+					dust2 = dust28;
+					dust2.velocity *= 2f;
+				}
+			}
+			npc.dontTakeDamage = (npc.hide = flag9);
+			if (npc.velocity.Y == 0f)
+			{
+				npc.velocity.X *= 0.8f;
+				if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
+				{
+					npc.velocity.X = 0f;
+				}
+				if (!flag8)
+				{
+					npc.ai[0] += 4f;
+					if ((double)npc.life < (double)npc.lifeMax * 0.8)
+					{
+						npc.ai[0] += 1f;
+					}
+					if ((double)npc.life < (double)npc.lifeMax * 0.6)
+					{
+						npc.ai[0] += 1f;
+					}
+					if ((double)npc.life < (double)npc.lifeMax * 0.4)
+					{
+						npc.ai[0] += 2f;
+					}
+					if ((double)npc.life < (double)npc.lifeMax * 0.2)
+					{
+						npc.ai[0] += 3f;
+					}
+					if ((double)npc.life < (double)npc.lifeMax * 0.1)
+					{
+						npc.ai[0] += 4f;
+					}
+					if (npc.ai[0] >= 0f)
+					{
+						npc.netUpdate = true;
+						npc.TargetClosest();
+						if (npc.ai[1] == 3f) //Big jump
+						{
+							npc.velocity.Y = -10f;
+							npc.velocity.X += 4.5f * (float)npc.direction;
+							npc.ai[0] = -200f;
+							npc.ai[1] = 0f;
+
+							float intervals = 0.1f;
+							float ySpeed = 7.5f;
+							if (npc.life <= npc.lifeMax * 0.75f)
+                            {
+								intervals = 0.075f;
+							}
+							if (npc.life <= npc.lifeMax * 0.5f)
+							{
+								intervals = 0.05f;
+							}
+							if (npc.life <= npc.lifeMax * 0.25f)
+							{
+								intervals = 0.035f;
+								ySpeed = 11f;
+							}
+							Player player = Main.player[npc.target];
+							if (player.Center.Y < npc.Top.Y)
+                            {
+								ySpeed *= 1.4f;
+                            }
+							for (float i = -0.5f; i <= 0.5f; i += intervals)
+                            {
+								float maxSpeedX = 15f;
+								Vector2 position = npc.Center + new Vector2(npc.width * i, -npc.height / 2);
+								Projectile.NewProjectile(position, new Vector2(maxSpeedX * i * 2f, -ySpeed), ProjectileID.SpikedSlimeSpike, 60 / 4, 0f);
+                            }
+						}
+						else if (npc.ai[1] == 2f) //Horizontal jump/short jump
+						{
+							npc.velocity.Y = -6f;
+							npc.velocity.X += 6f * (float)npc.direction;
+							npc.ai[0] = -120f;
+							npc.ai[1] += 1f;
+						}
+						else //Regular jump
+						{
+							npc.velocity.Y = -8f;
+							npc.velocity.X += 5f * (float)npc.direction;
+							npc.ai[0] = -120f;
+							npc.ai[1] += 1f;
+						}
+					}
+					else if (npc.ai[0] >= -30f)
+					{
+						npc.aiAction = 1;
+					}
+				}
+			}
+			else if (npc.target < 255 && ((npc.direction == 1 && npc.velocity.X < 3f) || (npc.direction == -1 && npc.velocity.X > -3f)))
+			{
+				if ((npc.direction == -1 && (double)npc.velocity.X < 0.1) || (npc.direction == 1 && (double)npc.velocity.X > -0.1))
+				{
+					npc.velocity.X += 0.2f * (float)npc.direction;
+				}
+				else
+				{
+					npc.velocity.X *= 0.93f;
+				}
+			}
+			int num248 = Dust.NewDust(npc.position, npc.width, npc.height, 4, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.2f);
+			Main.dust[num248].noGravity = true;
+			dust28 = Main.dust[num248];
+			dust2 = dust28;
+			dust2.velocity *= 0.5f;
+			if (npc.life <= 0)
+			{
+				return;
+			}
+			float num249 = (float)npc.life / (float)npc.lifeMax;
+			num249 = num249 * 0.5f + 0.75f;
+			num249 *= num234;
+			if (num249 != npc.scale)
+			{
+				npc.position.X += npc.width / 2;
+				npc.position.Y += npc.height;
+				npc.scale = num249;
+				npc.width = (int)(98f * npc.scale);
+				npc.height = (int)(92f * npc.scale);
+				npc.position.X -= npc.width / 2;
+				npc.position.Y -= npc.height;
+			}
+			if (Main.netMode == 1)
+			{
+				return;
+			}
+			int num250 = (int)((double)npc.lifeMax * 0.05);
+			if (!((float)(npc.life + num250) < npc.ai[3]))
+			{
+				return;
+			}
+			npc.ai[3] = npc.life;
+			int num251 = Main.rand.Next(1, 4);
+			for (int num252 = 0; num252 < num251; num252++)
+			{
+				int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
+				int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
+				int num253 = 1;
+				if (Main.expertMode && Main.rand.Next(4) == 0)
+				{
+					num253 = 535;
+				}
+				if (Main.rand.Next(6) == 0)
+				{
+					num253 = ModContent.NPCType<NPCs.TerrorSlime>();
+				}
+				int num254 = NPC.NewNPC(x, y, num253);
+				Main.npc[num254].SetDefaults(num253);
+				Main.npc[num254].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
+				Main.npc[num254].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
+				Main.npc[num254].ai[0] = -1000 * Main.rand.Next(3);
+				Main.npc[num254].ai[1] = 0f;
+				if (num253 != ModContent.NPCType<NPCs.TerrorSlime>())
+				{
+					Main.npc[num254].lifeMax /= 2;
+					Main.npc[num254].life = Main.npc[num254].lifeMax;
+				}
+				if (Main.netMode == 2 && num254 < 200)
+				{
+					NetMessage.SendData(23, -1, -1, null, num254);
+				}
+			}
+		}
+
 		public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
 		{
 			float currentAngle = Main.rand.Next(360);
@@ -3423,7 +3934,28 @@ namespace TerrorbornMod.TwilightMode
 			}
 		}
 
-        public override void HitEffect(NPC npc, int hitDirection, double damage)
+		public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, Color color, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
+		{
+			float currentAngle = Main.rand.Next(360);
+
+			//if(Main.netMode!=1){
+			for (int i = 0; i < Streams; ++i)
+			{
+
+				Vector2 direction = Vector2.Normalize(new Vector2(1, 1)).RotatedBy(MathHelper.ToRadians(((360 / Streams) * i) + currentAngle));
+				direction.X *= DustSpeed;
+				direction.Y *= DustSpeed;
+
+				Dust dust = Dust.NewDustPerfect(position + (new Vector2(Main.rand.Next(RectWidth), Main.rand.Next(RectWidth))), DustType, direction, 0, default(Color), DustScale);
+				if (NoGravity)
+				{
+					dust.noGravity = true;
+				}
+				dust.color = color;
+			}
+		}
+
+		public override void HitEffect(NPC npc, int hitDirection, double damage)
         {
 			if (npc.type == NPCID.BrainofCthulhu && twilight && !BoCSpawnedNewCreepers)
             {
@@ -3432,6 +3964,59 @@ namespace TerrorbornMod.TwilightMode
 					npc.life = 1;
                 }
             }
+        }
+    }
+
+	class EoCFlameThrower : ModProjectile
+    {
+		//259, 270, 271, 6 = potential dust
+		public override string Texture => "TerrorbornMod/WhitePixel";
+
+		public override void SetDefaults()
+		{
+			projectile.width = 35;
+			projectile.height = 35;
+			projectile.friendly = false;
+			projectile.hostile = true;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = false;
+			projectile.penetrate = 1;
+			projectile.alpha = 255;
+			projectile.timeLeft = 70;
+		}
+
+		float dustScale = 0f;
+        public override void AI()
+        {
+			if (dustScale < 1f)
+            {
+				dustScale += 0.05f;
+            }
+			for (int i = 0; i < 3; i++)
+			{
+				int type = 0;
+				switch (Main.rand.Next(4))
+				{
+					case 0:
+						type = 6;
+						break;
+					case 1:
+						type = 259;
+						break;
+					case 2:
+						type = 270;
+						break;
+					case 3:
+						type = 271;
+						break;
+				}
+				Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, type)];
+				dust.noGravity = true;
+				dust.color = Color.Red;
+				dust.velocity = projectile.velocity * Main.rand.NextFloat();
+				dust.scale = Main.rand.NextFloat(2f, 2.5f) * dustScale;
+				//if (Main.rand.NextFloat() <= 0.05f) dust.noGravity = false;
+			}
         }
     }
 

@@ -159,11 +159,6 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             modNPC.BossTitleColor = new Color(255, 116, 39);
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = 3500;
-        }
-
         public override void BossLoot(ref string name, ref int potionType)
         {
             name = "Stiria";

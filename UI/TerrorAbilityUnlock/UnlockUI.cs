@@ -107,23 +107,23 @@ namespace TerrorbornMod.UI.TerrorAbilityUnlock
             spriteBatch.Begin(default, BlendState.AlphaBlend);
 
             scale = 0.65f;
-            textPosition1.X -= text1.Length * scale * offsetFactor;
+            textPosition1.X -= font.MeasureString(text1).X * scale * 0.5f;
             spriteBatch.DrawString(font, text1, textPosition1, color1 * abilityUnlockAlpha, 0f, new Vector2(0, 0), scale, SpriteEffects.None, 0f);
 
             scale = 0.8f;
-            textPosition2.X -= text2.Length * scale * offsetFactor;
+            textPosition2.X -= font.MeasureString(text2).X * scale * 0.5f;
             spriteBatch.DrawString(font, text2, textPosition2, color2 * abilityUnlockAlpha, 0f, new Vector2(0, 0), scale, SpriteEffects.None, 0f);
 
             scale = 0.65f;
-            textPosition3.X -= text3.Length * scale * offsetFactor;
+            textPosition3.X -= font.MeasureString(text3).X * scale * 0.5f;
             spriteBatch.DrawString(font, text3, textPosition3, color3 * abilityUnlockAlpha, 0f, new Vector2(0, 0), scale, SpriteEffects.None, 0f);
 
             scale = 0.55f;
-            textPosition4.X -= text4.Length * scale * offsetFactor;
+            textPosition4.X -= font.MeasureString(text4).X * scale * 0.5f;
             spriteBatch.DrawString(font, text4, textPosition4, color4 * abilityUnlockAlpha, 0f, new Vector2(0, 0), scale, SpriteEffects.None, 0f);
 
             scale = 0.62f;
-            textPosition5.X -= text5.Length * scale * offsetFactor;
+            textPosition5.X -= font.MeasureString(text5).X * scale * 0.5f;
             spriteBatch.DrawString(font, text5, textPosition5, color5 * abilityUnlockAlpha, 0f, new Vector2(0, 0), scale, SpriteEffects.None, 0f);
         }
     }

@@ -21,6 +21,7 @@ using TerrorbornMod.Effects.Shaders;
 using TerrorbornMod.UI.TerrorMeter;
 using TerrorbornMod.UI.TerrorAbilityUnlock;
 using TerrorbornMod.UI.TitleCard;
+using TerrorbornMod.UI.TwilightEmpowerment;
 
 namespace TerrorbornMod
 {
@@ -31,6 +32,9 @@ namespace TerrorbornMod
         internal UserInterface terrorMeterInterface;
         internal TerrorMeterUI terrorMeterUI;
 
+        internal UserInterface twilightMeterInterface;
+        internal TwilightEmpowermentUI twilightEmpowermentUI;
+
         internal UserInterface unlockInterface;
         internal UnlockUI unlockUI;
 
@@ -39,6 +43,12 @@ namespace TerrorbornMod
 
         internal UserInterface terrorMenuInterface;
         internal TerrorAbilityMenu terrorAbilityMenu;
+
+        public static float TerrorMeterX = 0.5f;
+        public static float TerrorMeterY = 0.06f;
+
+        public static float TwilightMeterX = 0.5f;
+        public static float TwilightMeterY = 0.13f;
 
         public static ModHotKey ArmorAbility;
         public static ModHotKey quickVirus;
@@ -291,13 +301,17 @@ namespace TerrorbornMod
             if (!Main.dedServ)
             {
                 terrorMeterInterface = new UserInterface();
+                twilightMeterInterface = new UserInterface();
                 unlockInterface = new UserInterface();
                 terrorMenuInterface = new UserInterface();
                 titleCardInterface = new UserInterface();
 
                 terrorMeterUI = new TerrorMeterUI();
                 terrorMeterUI.Activate();
-                
+
+                twilightEmpowermentUI = new TwilightEmpowermentUI();
+                twilightEmpowermentUI.Activate();
+
                 unlockUI = new UnlockUI();
                 unlockUI.Activate();
 
@@ -323,6 +337,10 @@ namespace TerrorbornMod
             if (terrorMeterInterface?.CurrentState != null)
             {
                 terrorMeterInterface.Update(gameTime);
+            }
+            if (twilightMeterInterface?.CurrentState != null)
+            {
+                twilightMeterInterface.Update(gameTime);
             }
             if (titleCardInterface?.CurrentState != null)
             {
@@ -350,6 +368,18 @@ namespace TerrorbornMod
                         if (_lastUpdateUiGameTime != null && terrorMeterInterface?.CurrentState != null)
                         {
                             terrorMeterInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                        }
+                        return true;
+                    },
+                       InterfaceScaleType.UI));
+
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                    "TerrorbornMod: twilightMeterInterface",
+                    delegate
+                    {
+                        if (_lastUpdateUiGameTime != null && twilightMeterInterface?.CurrentState != null)
+                        {
+                            twilightMeterInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
                         }
                         return true;
                     },
@@ -454,11 +484,6 @@ namespace TerrorbornMod
                 transitionColor = Color.Lerp(transitionColor, darkRainColor, positionForward);
                 tileColor = tileColor.MultiplyRGBA(transitionColor);
                 backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
-                if (positionLightning > 0f)
-                {
-                    positionLightning -= 1f / 30f;
-                    backgroundColor = Color.Lerp(backgroundColor, lightningColor, positionLightning);
-                }
             }
             else if (transitionColor != Color.White)
             {
@@ -514,6 +539,11 @@ namespace TerrorbornMod
 
             bool changingToBossColor = false;
 
+            if (positionLightning > 0f)
+            {
+                positionLightning -= 1f / 30f;
+                backgroundColor = Color.Lerp(backgroundColor, lightningColor, positionLightning);
+            }
             if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>()))
             {
                 changingToBossColor = true;
@@ -599,6 +629,7 @@ namespace TerrorbornMod
             unlockInterface?.SetState(unlockUI);
             terrorMenuInterface?.SetState(terrorAbilityMenu);
             terrorMeterInterface?.SetState(terrorMeterUI);
+            twilightMeterInterface?.SetState(twilightEmpowermentUI);
             titleCardInterface?.SetState(titleCardUI);
         }
 
@@ -607,6 +638,7 @@ namespace TerrorbornMod
             unlockInterface?.SetState(null);
             terrorMenuInterface?.SetState(null);
             terrorMeterInterface?.SetState(null);
+            twilightMeterInterface?.SetState(null);
             titleCardInterface?.SetState(null);
         }
 

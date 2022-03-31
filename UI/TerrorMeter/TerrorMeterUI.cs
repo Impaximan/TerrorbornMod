@@ -46,8 +46,8 @@ namespace TerrorbornMod.UI.TerrorMeter
             if (TerrorbornMod.TerrorMeterStyle == "Legacy")
             {
                 Vector2 position;
-                position.X = (int)(Main.screenWidth * Main.UIScale * 0.5f);
-                position.Y = (int)(60.05882352941f * Main.UIScale);
+                position.X = (int)(Main.screenWidth * Main.UIScale * TerrorbornMod.TerrorMeterX);
+                position.Y = (int)(Main.screenHeight * Main.UIScale * TerrorbornMod.TerrorMeterY);
 
                 int frameCount = 7;
                 int meterFrame = (int)((modPlayer.TerrorPercent / 100) * frameCount);
@@ -75,8 +75,8 @@ namespace TerrorbornMod.UI.TerrorMeter
             else
             {
                 Vector2 position;
-                position.X = (int)(Main.screenWidth * Main.UIScale * 0.5f);
-                position.Y = (int)(60.05882352941f * Main.UIScale);
+                position.X = (int)(Main.screenWidth * Main.UIScale * TerrorbornMod.TerrorMeterX);
+                position.Y = (int)(Main.screenHeight * Main.UIScale * TerrorbornMod.TerrorMeterY);
 
                 frameCounter++;
                 if (frameCounter >= 10)

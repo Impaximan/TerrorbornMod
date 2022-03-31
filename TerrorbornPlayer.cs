@@ -155,6 +155,12 @@ namespace TerrorbornMod
         public bool TwilightMatrix = false;
         public int currentThrownCritState = -1;
 
+        //Twilight Mode
+        public int TwilightHPCap = 400;
+        public float TwilightPower = 0f;
+        public float TwilightPowerMultiplier = 1f;
+        public bool InTwilightOverload = false;
+
         #region GlowmaskStuff
         public static readonly PlayerLayer legsGlow = new PlayerLayer("TerrorbornMod", "Legs_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
         {
@@ -427,6 +433,7 @@ namespace TerrorbornMod
             player.ManageSpecialBiomeVisuals("TerrorbornMod:BlandnessShader", ZoneICU && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
             //player.ManageSpecialBiomeVisuals("TerrorbornMod:IncarnateBoss", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
             player.ManageSpecialBiomeVisuals("TerrorbornMod:ColorlessShader", TimeFreezeTime > 0);
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:TwilightShaderNight", InTwilightOverload);
 
             player.ManageSpecialBiomeVisuals("TerrorbornMod:HexedMirage", HexedMirage);
 
@@ -539,6 +546,8 @@ namespace TerrorbornMod
 
         float fusionHealCounter = 0f;
         const float maxFusionHealCounter = 2.5f;
+        float twilightHealCounter = 0f;
+        const float maxTwilightHealCounter = 15f;
         public void LoseTerror(float amount, bool silent = true, bool perSecond = false, bool smallerText = false)
         {
             if (!(perSecond || silent))
@@ -568,6 +577,31 @@ namespace TerrorbornMod
                 {
                     player.HealEffect(healAmount);
                     player.statLife += healAmount;
+                }
+            }
+
+            if (TerrorbornWorld.TwilightMode && !perSecond)
+            {
+                twilightHealCounter += amount;
+
+                int healAmount = 0;
+                float actualMaxHeal = maxTwilightHealCounter;
+                if (player.lifeRegen != 0) actualMaxHeal *= 1f / player.lifeRegen;
+                while (twilightHealCounter >= actualMaxHeal)
+                {
+                    twilightHealCounter -= actualMaxHeal;
+                    healAmount++;
+                }
+
+                if (healAmount > 0)
+                {
+                    player.HealEffect(healAmount);
+                    player.statLife += healAmount;
+                }
+
+                if (!InTwilightOverload)
+                {
+                    TwilightPower += amount / 65f * TwilightPowerMultiplier;
                 }
             }
 
@@ -669,8 +703,13 @@ namespace TerrorbornMod
             FusionArmor = false;
             JustBurstJumped = false;
             graniteSpark = false;
+            TwilightPowerMultiplier = 1f;
             ShriekOfHorrorMovement = 0f;
             CaneOfCurses = false;
+            if (TerrorbornWorld.TwilightMode)
+            {
+                player.extraAccessorySlots++;
+            }
             TerrorTonic = false;
             if (CoreOfFear)
             {
@@ -911,6 +950,30 @@ namespace TerrorbornMod
         {
         }
 
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (InTwilightOverload)
+            {
+                damage = (int)(damage * 1.75f);
+            }
+        }
+
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (InTwilightOverload)
+            {
+                damage = (int)(damage * 1.75f);
+            }
+        }
+
+        public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
+        {
+            if (TerrorbornWorld.TwilightMode)
+            {
+                TwilightHPCap += healValue;
+            }
+        }
+
         public override void PostUpdateEquips()
         {
             player.wingTimeMax = (int)(player.wingTimeMax * flightTimeMultiplier);
@@ -934,6 +997,18 @@ namespace TerrorbornMod
             {
                 allUseSpeed *= 1.3f;
                 player.accRunSpeed *= 2;
+            }
+
+            if (TerrorbornWorld.TwilightMode && TwilightPower > 0f)
+            {
+                player.lifeRegen += (int)MathHelper.Lerp(1f, 5f, TwilightPower);
+            }
+
+            if (InTwilightOverload)
+            {
+                allUseSpeed *= 1.3f;
+                player.accRunSpeed *= 2;
+                player.jumpSpeedBoost += 3f;
             }
 
             for (int i = 0; i < player.armor.Length; i++)
@@ -1241,10 +1316,20 @@ namespace TerrorbornMod
             TerrorbornMod.ScreenShake(10f);
         }
 
+        public void TwilightOverload()
+        {
+            InTwilightOverload = true;
+            bleepWait = 0;
+            bleepsLeft = 3;
+            Main.PlaySound(SoundID.Zombie, (int)player.Center.X, (int)player.Center.Y, 104, 1, 2f);
+        }
+
         float parryEffectProgress = 0;
         float blinkDashSpinRotation = 0f;
         bool blinkSpin = false;
         int blinkDashDirection = 0;
+        int bleepWait = 0;
+        int bleepsLeft = 0;
         public override void PostUpdate()
         {
             if (combatTime > 0)
@@ -1256,6 +1341,75 @@ namespace TerrorbornMod
             {
                 inCombat = false;
             }
+
+            if (TerrorbornWorld.TwilightMode)
+            {
+                if (TerrorPercent <= 3f)
+                {
+                    if (player.statLife < TwilightHPCap)
+                    {
+                        TwilightHPCap = player.statLife;
+                    }
+                    if (player.statLife > TwilightHPCap)
+                    {
+                        player.statLife = TwilightHPCap;
+                    }
+                    player.statDefense /= 2;
+                    player.allDamage *= 0.75f;
+                    player.AddBuff(ModContent.BuffType<Buffs.Debuffs.TwilightWarning>(), 2);
+                }
+                else
+                {
+                    TwilightHPCap = player.statLifeMax2;
+                    LoseTerror(0.5f, true, true);
+                }
+
+                if (TwilightPower > 1f)
+                {
+                    TwilightOverload();
+                    TwilightPower = 1f;
+                }
+
+                if (TwilightPower > 0f)
+                {
+                    if (InTwilightOverload)
+                    {
+                        TwilightPower -= 1f / (10f * 60f);
+                        GainTerror(3f, true, true, false);
+                    }
+                    else
+                    {
+                        TwilightPower -= 1f / (60f * 60f);
+                    }
+                }
+
+                if (TwilightPower < 0f)
+                {
+                    TwilightPower = 0f;
+                    InTwilightOverload = false;
+                }
+            }
+
+            if (InTwilightOverload)
+            {
+                TerrorbornMod.ScreenShake(1.5f);
+                bleepWait--;
+                if (bleepWait <= 0)
+                {
+                    ModContent.GetSound("TerrorbornMod/Sounds/Effects/undertalewarning").Play(Main.soundVolume, 0f, 0f);
+                    bleepsLeft--;
+                    if (bleepsLeft <= 0)
+                    {
+                        bleepsLeft = 3;
+                        bleepWait = 30;
+                    }
+                    else
+                    {
+                        bleepWait = 6;
+                    }
+                }
+            }
+
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 NPC npc = Main.npc[i];
@@ -1528,6 +1682,12 @@ namespace TerrorbornMod
             usingPrimary = false;
             combatTime = 0;
             inCombat = false;
+            if (TerrorbornWorld.TwilightMode)
+            {
+                TwilightHPCap = player.statLifeMax2;
+                player.statLife = player.statLifeMax2;
+                TerrorPercent = 50f;
+            }
         }
 
         public void ActivateParryEffect()
@@ -1542,6 +1702,11 @@ namespace TerrorbornMod
 
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
+            if (TerrorbornWorld.TwilightMode)
+            {
+                damage = (int)(damage * 1.5f);
+            }
+
             if (ParryTime > 0)
             {
                 ParryTime = 0;
@@ -1581,6 +1746,11 @@ namespace TerrorbornMod
 
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
+            if (TerrorbornWorld.TwilightMode)
+            {
+                damage = (int)(damage * 1.35f);
+            }
+
             if (ParryTime > 0)
             {
                 ParryTime = 0;

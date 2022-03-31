@@ -376,8 +376,23 @@ namespace TerrorbornMod
             }
         }
 
+        bool start = true;
         public override void PostAI(NPC npc)
         {
+            if (start)
+            {
+                start = false;
+                ogKnockbackResist = npc.knockBackResist;
+
+                if (getsTitleCard || npc.boss)
+                {
+                    TitleCardUI.bossName = BossTitle;
+                    TitleCardUI.bossSubtitle = BossSubtitle;
+                    TitleCardUI.titleColor = BossTitleColor;
+                    TitleCardUI.titleCardLifetimeCounter = (int)(60 * TerrorbornMod.titleCardDuration);
+                }
+            }
+
             if (soulSplitTime > 0)
             {
                 soulSplitTime--;
@@ -762,24 +777,6 @@ namespace TerrorbornMod
                             player.statLife += healingAmount;
                         }
                     }
-                }
-            }
-        }
-
-        bool start = true;
-        public override void AI(NPC npc)
-        {
-            if (start)
-            {
-                start = false;
-                ogKnockbackResist = npc.knockBackResist;
-
-                if (getsTitleCard || npc.boss)
-                {
-                    TitleCardUI.bossName = BossTitle;
-                    TitleCardUI.bossSubtitle = BossSubtitle;
-                    TitleCardUI.titleColor = BossTitleColor;
-                    TitleCardUI.titleCardLifetimeCounter = (int)(60 * TerrorbornMod.titleCardDuration);
                 }
             }
         }

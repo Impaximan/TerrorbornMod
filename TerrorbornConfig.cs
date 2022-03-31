@@ -27,7 +27,7 @@ namespace TerrorbornMod
     [BackgroundColor(40 / 2, 55 / 2, 70 / 2, (int)(255f * 0.75f))]
     class TerrorbornConfig : ModConfig
     {
-        public override ConfigScope Mode => ConfigScope.ServerSide;
+        public override ConfigScope Mode => ConfigScope.ClientSide;
 
         public static TerrorbornConfig Instance;
 
@@ -57,6 +57,15 @@ namespace TerrorbornMod
         [Tooltip("Whether or not bosses will have title cards that appear at the top of your screen when spawning")]
         public bool titleCards;
 
+        [DefaultValue(3.5f)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Boss title card duration")]
+        [Tooltip("How long boss title cards will be visible (in seconds) before dissappearing")]
+        [Range(0, 10f)]
+        [Increment(0.1f)]
+        [Slider()]
+        public float titleCardTime;
+
         [DefaultValue(true)]
         [BackgroundColor(40, 55, 70)]
         [Label("Show critical strike damage in tooltips")]
@@ -68,15 +77,6 @@ namespace TerrorbornMod
         [Label("No use speed modifiers tooltip")]
         [Tooltip("Whether or not item tooltips can contain text saying 'Unaffected by external item use speed modifiers' to indicate that this is the case")]
         public bool showNoUseSpeed;
-
-        [DefaultValue(3.5f)]
-        [BackgroundColor(40, 55, 70)]
-        [Label("Boss title card duration")]
-        [Tooltip("How long boss title cards will be visible (in seconds) before dissappearing")]
-        [Range(0, 10f)]
-        [Increment(0.1f)]
-        [Slider()]
-        public float titleCardTime;
 
         [BackgroundColor(40, 55, 70)]
         [Label("Terror meter style")]
@@ -97,6 +97,24 @@ namespace TerrorbornMod
         [Label("Terror meter text")]
         [Tooltip("Whether or not the terror meter will display how much terror you have in text")]
         public bool TerrorMeterText;
+
+        [DefaultValue(0.5f)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Terror meter X")]
+        [Tooltip("The X position of the terror meter on your screen")]
+        [Slider]
+        [Increment(0.005f)]
+        [Range(0f, 1f)]
+        public float TerrorMeterX;
+
+        [DefaultValue(0.06f)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Terror meter Y")]
+        [Tooltip("The Y position of the terror meter on your screen")]
+        [Slider]
+        [Increment(0.005f)]
+        [Range(0f, 1f)]
+        public float TerrorMeterY;
 
         [Header("Mechanics")]
 
@@ -130,6 +148,44 @@ namespace TerrorbornMod
             TerrorbornMod.TerrorMeterStyle = TerrorMeterStyle;
             TerrorbornMod.TerrorMeterText = TerrorMeterText;
             TerrorbornMod.showNoUseSpeed = showNoUseSpeed;
+            TerrorbornMod.TerrorMeterX = TerrorMeterX;
+            TerrorbornMod.TerrorMeterY = TerrorMeterY;
+        }
+    }
+
+    [BackgroundColor(135 / 5, 59 / 5, 212 / 5, (int)(255f * 0.75f))]
+    class TwilightModeConfig : ModConfig
+    {
+        public override ConfigScope Mode => ConfigScope.ClientSide;
+
+        [Header("UI")]
+        [DefaultValue(0.5f)]
+        [BackgroundColor(210, 92, 255)]
+        [Label("Twilight meter X")]
+        [Tooltip("The X position of the twilight meter on your screen")]
+        [Slider]
+        [Increment(0.005f)]
+        [Range(0f, 1f)]
+        public float TwilightMeterX;
+
+        [DefaultValue(0.13f)]
+        [BackgroundColor(210, 92, 255)]
+        [Label("Terror meter Y")]
+        [Tooltip("The Y position of the twilight meter on your screen")]
+        [Slider]
+        [Increment(0.005f)]
+        [Range(0f, 1f)]
+        public float TwilightMeterY;
+
+        public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message)
+        {
+            return true;
+        }
+
+        public override void OnChanged()
+        {
+            TerrorbornMod.TwilightMeterX = TwilightMeterX;
+            TerrorbornMod.TwilightMeterY = TwilightMeterY;
         }
     }
 }
