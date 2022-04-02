@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TerrorbornMod.Items.TestItems
+﻿namespace TerrorbornMod.Items.TestItems
 {
     class GenerateTexture
     {

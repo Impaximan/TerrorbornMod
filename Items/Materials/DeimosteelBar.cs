@@ -8,17 +8,16 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 0, 30, 0);
-            item.rare = ItemRarityID.Blue;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 0, 30, 0);
+            Item.rare = ItemRarityID.Blue;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Placeable.Blocks.DeimosteelOreItem>(), 3);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Placeable.Blocks.DeimosteelOreItem>(3)
+                .AddTile(TileID.Furnaces)
+                .Register();
         }
     }
 }

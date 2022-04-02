@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Weapons.Restless
@@ -14,7 +14,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         public override void restlessSetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Cyclone");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override string defaultTooltip()
@@ -30,23 +30,23 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void restlessSetDefaults(TerrorbornItem modItem)
         {
-            item.damage = 66;
-            item.noMelee = true;
-            item.magic = true;
-            item.width = 74;
-            item.mana = 15;
-            item.height = 78;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 6;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.LightPurple;
-            item.UseSound = SoundID.Item8;
-            item.shoot = ModContent.ProjectileType<SoulProjectile>();
-            item.shootSpeed = 20;
-            item.crit = 7;
-            item.autoReuse = true;
+            Item.damage = 66;
+            Item.noMelee = true;
+            Item.DamageType = DamageClass.Magic;;
+            Item.width = 74;
+            Item.mana = 15;
+            Item.height = 78;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 6;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.UseSound = SoundID.Item8;
+            Item.shoot = ModContent.ProjectileType<SoulProjectile>();
+            Item.shootSpeed = 20;
+            Item.crit = 7;
+            Item.autoReuse = true;
             modItem.restlessTerrorDrain = 8f;
             modItem.restlessChargeUpUses = 4;
         }
@@ -56,21 +56,21 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return base.RestlessCanUseItem(player);
         }
 
-        public override bool RestlessShoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool RestlessShoot(Player player, EntitySource_ItemUse_WithAmmo source, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())
             {
-                Main.PlaySound(SoundID.Item117, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item117, player.Center);
                 for (int i = 0; i < 7; i++)
                 {
-                    int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                    int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI);
                     Main.projectile[proj].ai[0] = i;
                 }
             }
             else
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI);
                 Main.projectile[proj].ai[0] = Main.rand.Next(7);
             }
             return false;
@@ -78,20 +78,19 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 20);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SoulOfPlight>(), 5);
-            recipe.AddIngredient(ItemID.SoulofFright, 5);
-            recipe.AddIngredient(ItemID.SoulofSight, 5);
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddIngredient(ItemID.SoulofFlight, 5);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 20)
+                .AddIngredient(ItemID.HallowedBar, 10)
+                .AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 5)
+                .AddIngredient(ModContent.ItemType<Materials.SoulOfPlight>(), 5)
+                .AddIngredient(ItemID.SoulofFright, 5)
+                .AddIngredient(ItemID.SoulofSight, 5)
+                .AddIngredient(ItemID.SoulofMight, 5)
+                .AddIngredient(ItemID.SoulofLight, 5)
+                .AddIngredient(ItemID.SoulofNight, 5)
+                .AddIngredient(ItemID.SoulofFlight, 5)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
     }
 
@@ -99,8 +98,8 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
         
         //SOUL NUMBERS:
@@ -112,11 +111,11 @@ namespace TerrorbornMod.Items.Weapons.Restless
         //5 = Soul of Fright
         //6 = Soul of Plight
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
             Color soulColor = Color.White;
-            switch (projectile.ai[0])
+            switch (Projectile.ai[0])
             {
                 case 0:
                     soulColor = Color.Cyan;
@@ -141,44 +140,44 @@ namespace TerrorbornMod.Items.Weapons.Restless
                     break;
             }
 
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(soulColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(soulColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 30;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 60;
+            Projectile.width = 10;
+            Projectile.height = 30;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 60;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 14;
             height = 14;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
 
-            switch (projectile.ai[0])
+            switch (Projectile.ai[0])
             {
                 case 0:
                     FlightAI();
@@ -206,7 +205,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public void FlightAI()
         {
-            projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(5f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
+            Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(5f * (Projectile.velocity.Length() / 20))).ToRotationVector2() * Projectile.velocity.Length();
         }
 
         int Direction = 1;
@@ -214,7 +213,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         public void LightAI()
         {
             int RotatationSpeed = 5;
-            projectile.velocity = projectile.velocity.RotatedBy(MathHelper.ToRadians(RotatationSpeed * Direction));
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(RotatationSpeed * Direction));
             DirectionCounter--;
             if (DirectionCounter <= 0)
             {
@@ -226,7 +225,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         public void NightAI()
         {
             int RotatationSpeed = 5;
-            projectile.velocity = projectile.velocity.RotatedBy(MathHelper.ToRadians(RotatationSpeed * -Direction));
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(RotatationSpeed * -Direction));
             DirectionCounter--;
             if (DirectionCounter <= 0)
             {
@@ -238,9 +237,9 @@ namespace TerrorbornMod.Items.Weapons.Restless
         public void MightAI()
         {
             float speed = 3f;
-            float currentVelocityLength = projectile.velocity.Length();
-            projectile.velocity.Normalize();
-            projectile.velocity *= currentVelocityLength + speed;
+            float currentVelocityLength = Projectile.velocity.Length();
+            Projectile.velocity.Normalize();
+            Projectile.velocity *= currentVelocityLength + speed;
         }
 
         public void SightAI()
@@ -250,28 +249,28 @@ namespace TerrorbornMod.Items.Weapons.Restless
             bool Targeted = false;
             for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                 {
                     targetNPC = Main.npc[i];
-                    Distance = Main.npc[i].Distance(projectile.Center);
+                    Distance = Main.npc[i].Distance(Projectile.Center);
                     Targeted = true;
                 }
             }
             if (Targeted)
             {
                 //HOME IN
-                projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(2f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
+                Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(2f * (Projectile.velocity.Length() / 20))).ToRotationVector2() * Projectile.velocity.Length();
             }
         }
 
         public void FrightAI()
         {
-            projectile.velocity = projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15));
+            Projectile.velocity = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15));
         }
 
         public void PlightAI()
         {
-            projectile.extraUpdates = 2;
+            Projectile.extraUpdates = 2;
         }
     }
 }

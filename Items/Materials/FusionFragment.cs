@@ -1,7 +1,5 @@
 ﻿using Terraria.ID;
 using Terraria;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Materials
@@ -11,16 +9,16 @@ namespace TerrorbornMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("'The resentment of an aging star shrieks from this fragment'");
-            ItemID.Sets.ItemNoGravity[item.type] = true;
-            ItemID.Sets.ItemIconPulse[item.type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+            ItemID.Sets.ItemIconPulse[Item.type] = true;
         }
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 1, 5, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.width = 22;
-            item.height = 22;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 1, 5, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.width = 22;
+            Item.height = 22;
         }
     }
 }

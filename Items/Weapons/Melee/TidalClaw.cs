@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,24 +13,24 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            item.shootSpeed = 20f;
-            item.damage = 28;
-            item.knockBack = 5f;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.width = 16;
-            item.height = 18;
-            item.maxStack = 9999;
-            item.rare = ItemRarityID.Green;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.melee = true;
-            item.UseSound = SoundID.Item1;
-            item.value = Item.sellPrice(0, 0, 0, 5);
-            item.shoot = mod.ProjectileType("TidalClawProjectile");
+            Item.shootSpeed = 20f;
+            Item.damage = 28;
+            Item.knockBack = 5f;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.width = 16;
+            Item.height = 18;
+            Item.maxStack = 9999;
+            Item.rare = ItemRarityID.Green;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.UseSound = SoundID.Item1;
+            Item.value = Item.sellPrice(0, 0, 0, 5);
+            Item.shoot = ModContent.ProjectileType<TidalClawProjectile>();
         }
     }
     class TidalClawProjectile : ModProjectile
@@ -48,21 +47,21 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 18;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 10000;
-            projectile.hide = false;
+            Projectile.width = 16;
+            Projectile.height = 18;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 10000;
+            Projectile.hide = false;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity *= 0f;
+            Projectile.velocity *= 0f;
             if (HasStuck)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
             return HasStuck;
         }
@@ -70,10 +69,10 @@ namespace TerrorbornMod.Items.Weapons.Melee
         {
             if (!HasStuck)
             {
-                projectile.damage /= 4;
+                Projectile.damage /= 4;
                 HasStuck = true;
                 stuckTo = target;
-                RelativePosition = new Vector2(target.position.X - projectile.position.X, target.position.Y - projectile.position.Y);
+                RelativePosition = new Vector2(target.position.X - Projectile.position.X, target.position.Y - Projectile.position.Y);
             }
         }
         public override bool? CanHitNPC(NPC target)
@@ -85,18 +84,18 @@ namespace TerrorbornMod.Items.Weapons.Melee
             TrueTimeleft--;
             if (TrueTimeleft <= 0)
             {
-                projectile.alpha += 10;
-                if (projectile.alpha >= 255)
+                Projectile.alpha += 10;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
             if (!HasStuck)
             {
-                projectile.velocity.X *= 0.95f;
-                projectile.velocity.Y *= 0.98f;
-                projectile.velocity.Y += 0.25f;
-                projectile.rotation += MathHelper.ToRadians(projectile.velocity.X * 2);
+                Projectile.velocity.X *= 0.95f;
+                Projectile.velocity.Y *= 0.98f;
+                Projectile.velocity.Y += 0.25f;
+                Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X * 2);
             }
             else
             {
@@ -104,13 +103,13 @@ namespace TerrorbornMod.Items.Weapons.Melee
                 if (StrikeWait <= 0)
                 {
                     StrikeWait = 120;
-                    stuckTo.StrikeNPC(projectile.damage, 0, 0);
+                    stuckTo.StrikeNPC(Projectile.damage, 0, 0);
                 }
-                projectile.position.X = stuckTo.position.X - RelativePosition.X;
-                projectile.position.Y = stuckTo.position.Y - RelativePosition.Y;
+                Projectile.position.X = stuckTo.position.X - RelativePosition.X;
+                Projectile.position.Y = stuckTo.position.Y - RelativePosition.Y;
                 if (stuckTo.life <= 0 || !stuckTo.active)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
         }

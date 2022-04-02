@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,24 +16,24 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            TerrorbornItem.modItem(item).countAsThrown = true;
-            item.damage = 14;
-            item.ranged = true;
-            item.width = 28;
-            item.height = 26;
-            item.consumable = false;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.shootSpeed = 35;
-            item.shoot = ModContent.ProjectileType<GraveNeedleProjectile>();
+            TerrorbornItem.modItem(Item).countAsThrown = true;
+            Item.damage = 14;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 28;
+            Item.height = 26;
+            Item.consumable = false;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shootSpeed = 35;
+            Item.shoot = ModContent.ProjectileType<GraveNeedleProjectile>();
         }
     }
 
@@ -45,21 +43,21 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 26;
-            projectile.ranged = true;
-            projectile.timeLeft = 3600;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.extraUpdates = 4;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.arrow = true;
+            Projectile.width = 28;
+            Projectile.height = 26;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 3600;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.extraUpdates = 4;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.arrow = true;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 8;
             height = 8;
@@ -70,17 +68,17 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             if (!stuck)
             {
-                Main.PlaySound(SoundID.Dig, projectile.position);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
                 stuck = true;
                 stuckNPC = target;
-                offset = target.position - projectile.position;
+                offset = target.position - Projectile.position;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
         }
 
         public override bool? CanHitNPC(NPC target)
@@ -107,31 +105,31 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         NPC stuckNPC;
         Vector2 offset;
         bool start = true;
-        int projectileCounter = 0;
+        int ProjectileCounter = 0;
         public override void AI()
         {
             if (start)
             {
                 start = false;
-                projectile.velocity /= projectile.extraUpdates + 1;
-                projectile.timeLeft *= projectile.extraUpdates + 1;
+                Projectile.velocity /= Projectile.extraUpdates + 1;
+                Projectile.timeLeft *= Projectile.extraUpdates + 1;
             }
 
             if (stuck)
             {
-                projectile.ai[0] = 1;
+                Projectile.ai[0] = 1;
 
-                projectile.tileCollide = false;
-                projectile.position = stuckNPC.position - offset;
+                Projectile.tileCollide = false;
+                Projectile.position = stuckNPC.position - offset;
                 if (!stuckNPC.active)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
 
                 List<Projectile> needles = new List<Projectile>();
                 foreach (Projectile needle in Main.projectile)
                 {
-                    if (needle.active && needle.type == projectile.type && needle.ai[0] == 1)
+                    if (needle.active && needle.type == Projectile.type && needle.ai[0] == 1)
                     {
                         needles.Add(needle);
                     }
@@ -145,15 +143,15 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
                         float speed = 10f;
                         Vector2 velocity = (needle.rotation - MathHelper.ToRadians(45)).ToRotationVector2() * speed;
-                        Projectile.NewProjectile(needle.Center, velocity, ModContent.ProjectileType<NeedleExplosion>(), projectile.damage, projectile.knockBack * 3, projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), needle.Center, velocity, ModContent.ProjectileType<NeedleExplosion>(), Projectile.damage, Projectile.knockBack * 3, Projectile.owner);
                     }
-                    Main.PlaySound(SoundID.Item62, projectile.Center);
-                    TerrorbornMod.ScreenShake(3f);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, Projectile.Center);
+                    TerrorbornSystem.ScreenShake(3f);
                 }
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45);
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45);
             }
         }
     }
@@ -167,21 +165,21 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         int currentSize = defaultSize;
         public override void SetDefaults()
         {
-            projectile.width = defaultSize;
-            projectile.height = defaultSize;
-            projectile.ranged = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.localNPCHitCooldown = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.timeLeft = timeLeft;
+            Projectile.width = defaultSize;
+            Projectile.height = defaultSize;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.timeLeft = timeLeft;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            TBUtils.Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, currentSize, new Color(234, 79, 9));
+            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, new Color(234, 79, 9));
             return false;
         }
 

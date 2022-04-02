@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Terraria.World.Generation;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items
 {
@@ -22,14 +14,14 @@ namespace TerrorbornMod.Items
 
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.Pink;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.width = 20;
-            item.height = 26;
-            item.UseSound = SoundID.Item67;
+            Item.rare = ItemRarityID.Pink;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.width = 20;
+            Item.height = 26;
+            Item.UseSound = SoundID.Item67;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -41,17 +33,17 @@ namespace TerrorbornMod.Items
         {
             if (player.altFunctionUse == 2)
             {
-                item.autoReuse = true;
+                Item.autoReuse = true;
                 Main.time += 1200;
-                item.UseSound = SoundID.Item28;
+                Item.UseSound = SoundID.Item28;
             }
             else
             {
-                item.UseSound = SoundID.Item67;
-                item.autoReuse = false;
+                Item.UseSound = SoundID.Item67;
+                Item.autoReuse = false;
                 Main.dayTime = !Main.dayTime;
                 Main.time = 0;
-                TerrorbornMod.ScreenShake(10f);
+                TerrorbornSystem.ScreenShake(10f);
             }
             return base.CanUseItem(player);
         }

@@ -36,8 +36,8 @@ namespace TerrorbornMod.Tiles.Incendiary
 			AddMapEntry(new Color(80, 112, 109), name);
 			//name = CreateMapEntryName(Name + "_Locked");
 			//name.SetDefault("Locked Deimostone Chest");
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Containers };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Containers };
 			chest = "Incendiary Chest";
 			chestDrop = ModContent.ItemType<Items.Placeable.Furniture.IncendiaryChest>();
 		}
@@ -80,14 +80,14 @@ namespace TerrorbornMod.Tiles.Incendiary
 			}
 			if (player.sign >= 0)
 			{
-				Main.PlaySound(SoundID.MenuClose);
+				Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
 				player.sign = -1;
 				Main.editSign = false;
 				Main.npcChatText = "";
 			}
 			if (Main.editChest)
 			{
-				Main.PlaySound(SoundID.MenuTick);
+				Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuTick);
 				Main.editChest = false;
 				Main.npcChatText = "";
 			}
@@ -103,7 +103,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 				{
 					player.chest = -1;
 					Recipe.FindRecipes();
-					Main.PlaySound(SoundID.MenuClose);
+					Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
 				}
 				else
 				{
@@ -120,7 +120,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 					if (chest == player.chest)
 					{
 						player.chest = -1;
-						Main.PlaySound(SoundID.MenuClose);
+						Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
 					}
 					else
 					{
@@ -129,7 +129,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 						Main.recBigList = false;
 						player.chestX = left;
 						player.chestY = top;
-						Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+						Terraria.Audio.SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
 					}
 					Recipe.FindRecipes();
 				}

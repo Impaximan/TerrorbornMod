@@ -14,32 +14,31 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 19;
-            item.ranged = true;
-            item.width = 26;
-            item.height = 32;
-            item.consumable = true;
-            item.maxStack = 999;
-            item.useTime = 15;
-            item.noUseGraphic = true;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.shootSpeed = 15;
-            item.shoot = mod.ProjectileType("AzuriteDaggerProjectile");
+            Item.damage = 19;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 26;
+            Item.height = 32;
+            Item.consumable = true;
+            Item.maxStack = 999;
+            Item.useTime = 15;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 1, 0, 0) / 100;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shootSpeed = 15;
+            Item.shoot = ModContent.ProjectileType<AzuriteDaggerProjectile>();
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("AzuriteBar"), 1);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 111);
-            recipe.AddRecipe();
+            CreateRecipe(111)
+                .AddIngredient<Materials.AzuriteBar>()
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 
@@ -57,25 +56,25 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 32;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.ranged = true;
-            projectile.hide = false;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.timeLeft = 3000;
+            Projectile.width = 26;
+            Projectile.height = 32;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.hide = false;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.timeLeft = 3000;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 15;
             height = 15;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -84,9 +83,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             {
                 return;
             }
-            float speed = projectile.velocity.Length() / 3;
-            Vector2 direction = (projectile.DirectionTo(target.Center).ToRotation() + MathHelper.ToRadians(180)).ToRotationVector2();
-            projectile.velocity = speed * direction;
+            float speed = Projectile.velocity.Length() / 3;
+            Vector2 direction = (Projectile.DirectionTo(target.Center).ToRotation() + MathHelper.ToRadians(180)).ToRotationVector2();
+            Projectile.velocity = speed * direction;
             FallWait = 0;
         }
 
@@ -103,29 +102,29 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (FallWait > 0)
             {
                 FallWait--;
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
 
-                if (projectile.velocity.X > 0)
+                if (Projectile.velocity.X > 0)
                 {
-                    projectile.spriteDirection = 1;
-                    projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+                    Projectile.spriteDirection = 1;
+                    Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
                 }
                 else
                 {
-                    projectile.spriteDirection = -1;
-                    projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
+                    Projectile.spriteDirection = -1;
+                    Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
                 }
             }
             else
             {
-                projectile.velocity *= 0.98f;
-                if (projectile.velocity.X > 0)
+                Projectile.velocity *= 0.98f;
+                if (Projectile.velocity.X > 0)
                 {
-                    projectile.rotation += MathHelper.ToRadians(20);
+                    Projectile.rotation += MathHelper.ToRadians(20);
                 }
                 else
                 {
-                    projectile.rotation -= MathHelper.ToRadians(20);
+                    Projectile.rotation -= MathHelper.ToRadians(20);
                 }
                 if (leaveWait > 0)
                 {
@@ -133,10 +132,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 }
                 else
                 {
-                    projectile.alpha += 15;
-                    if (projectile.alpha >= 255)
+                    Projectile.alpha += 15;
+                    if (Projectile.alpha >= 255)
                     {
-                        projectile.active = false;
+                        Projectile.active = false;
                     }
                 }
             }
@@ -144,8 +143,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
         }
     }
 }

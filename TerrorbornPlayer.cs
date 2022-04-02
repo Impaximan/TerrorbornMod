@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -10,12 +8,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Graphics.Effects;
 using TerrorbornMod.Abilities;
-using TerrorbornMod.ForegroundObjects;
-using Terraria.Graphics.Shaders;
-using Terraria.GameInput;
-using Microsoft.Xna.Framework.Input;
-using Extensions;
-using TerrorbornMod.TwilightMode;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TerrorbornMod
 {
@@ -162,220 +155,219 @@ namespace TerrorbornMod
         public bool InTwilightOverload = false;
 
         #region GlowmaskStuff
-        public static readonly PlayerLayer legsGlow = new PlayerLayer("TerrorbornMod", "Legs_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
-        {
-            Player player = drawInfo.drawPlayer;
-            if (player.armor[2] != null && player.armor[2].type > Main.maxItemTypes)
-            {
-                if (player.armor[2] != null && player.armor[2].type > Main.maxItemTypes)
-                {
-                    Texture2D texture = ModContent.GetTexture(player.armor[2].modItem.Texture + "_Legs_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10) + player.headPosition + drawInfo.legOrigin;
-                    DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.legFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.legRotation, drawInfo.legOrigin, 1f, drawInfo.spriteEffects, 0);
-                    Main.playerDrawData.Add(data);
-                }
-            }
-        });
+        //public static readonly PlayerLayer legsGlow = new PlayerLayer("TerrorbornMod", "Legs_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        //{
+        //    Player Player = drawInfo.drawPlayer;
+        //    if (Player.armor[2] != null && Player.armor[2].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[2] != null && Player.armor[2].type > Main.maxItemTypes)
+        //        {
+        //            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Player.armor[2].modItem.Texture + "_Legs_Glow");
+        //            Vector2 drawPosition = drawInfo.position + new Vector2(-Player.bodyFrame.Width / 2 + (Player.width / 2), Player.height - Player.bodyFrame.Height + 10) + Player.headPosition + drawInfo.legOrigin;
+        //            DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), Player.legFrame, Color.White * (drawInfo.bodyColor.A / 255f), Player.legRotation, drawInfo.legOrigin, 1f, drawInfo.spriteEffects, 0);
+        //            Main.PlayerDrawData.Add(data);
+        //        }
+        //    }
+        //});
 
-        public static readonly PlayerLayer legsGlowVanity = new PlayerLayer("TerrorbornMod", "Legs_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
-        {
-            Player player = drawInfo.drawPlayer;
-            int vanityAddend = 10;
-            if (player.armor[2 + vanityAddend] != null && player.armor[2 + vanityAddend].type > Main.maxItemTypes)
-            {
-                if (player.armor[2 + vanityAddend] != null && player.armor[2 + vanityAddend].type > Main.maxItemTypes)
-                {
-                    Texture2D texture = ModContent.GetTexture(player.armor[2 + vanityAddend].modItem.Texture + "_Legs_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10) + player.headPosition + drawInfo.legOrigin;
-                    DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.legFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.legRotation, drawInfo.legOrigin, 1f, drawInfo.spriteEffects, 0);
-                    Main.playerDrawData.Add(data);
-                }
-            }
-        });
+        //public static readonly PlayerLayer legsGlowVanity = new PlayerLayer("TerrorbornMod", "Legs_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        //{
+        //    Player Player = drawInfo.drawPlayer;
+        //    int vanityAddend = 10;
+        //    if (Player.armor[2 + vanityAddend] != null && Player.armor[2 + vanityAddend].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[2 + vanityAddend] != null && Player.armor[2 + vanityAddend].type > Main.maxItemTypes)
+        //        {
+        //            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Player.armor[2 + vanityAddend].modItem.Texture + "_Legs_Glow");
+        //            Vector2 drawPosition = drawInfo.position + new Vector2(-Player.bodyFrame.Width / 2 + (Player.width / 2), Player.height - Player.bodyFrame.Height + 10) + Player.headPosition + drawInfo.legOrigin;
+        //            DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), Player.legFrame, Color.White * (drawInfo.bodyColor.A / 255f), Player.legRotation, drawInfo.legOrigin, 1f, drawInfo.spriteEffects, 0);
+        //            Main.PlayerDrawData.Add(data);
+        //        }
+        //    }
+        //});
 
-        public static readonly PlayerLayer armsGlow = new PlayerLayer("TerrorbornMod", "Arms_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
-        {
-            Player player = drawInfo.drawPlayer;
-            if (player.armor[1] != null && player.armor[1].type > Main.maxItemTypes)
-            {
-                if (player.armor[1] != null && player.armor[1].type > Main.maxItemTypes)
-                {
-                    Texture2D texture = ModContent.GetTexture(player.armor[1].modItem.Texture + "_Arms_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10) + player.headPosition + drawInfo.bodyOrigin;
-                    DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
-                    Main.playerDrawData.Add(data);
-                }
-            }
-        });
+        //public static readonly PlayerLayer armsGlow = new PlayerLayer("TerrorbornMod", "Arms_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        //{
+        //    Player Player = drawInfo.drawPlayer;
+        //    if (Player.armor[1] != null && Player.armor[1].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[1] != null && Player.armor[1].type > Main.maxItemTypes)
+        //        {
+        //            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Player.armor[1].modItem.Texture + "_Arms_Glow");
+        //            Vector2 drawPosition = drawInfo.position + new Vector2(-Player.bodyFrame.Width / 2 + (Player.width / 2), Player.height - Player.bodyFrame.Height + 10) + Player.headPosition + drawInfo.bodyOrigin;
+        //            DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), Player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), Player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
+        //            Main.PlayerDrawData.Add(data);
+        //        }
+        //    }
+        //});
 
-        public static readonly PlayerLayer armsGlowVanity = new PlayerLayer("TerrorbornMod", "Arms_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
-        {
-            Player player = drawInfo.drawPlayer;
-            int vanityAddend = 10;
-            if (player.armor[1 + vanityAddend] != null && player.armor[1 + vanityAddend].type > Main.maxItemTypes)
-            {
-                if (player.armor[1 + vanityAddend] != null && player.armor[1 + vanityAddend].type > Main.maxItemTypes)
-                {
-                    Texture2D texture = ModContent.GetTexture(player.armor[1 + vanityAddend].modItem.Texture + "_Arms_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10) + player.headPosition + drawInfo.bodyOrigin;
-                    DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
-                    Main.playerDrawData.Add(data);
-                }
-            }
-        });
+        //public static readonly PlayerLayer armsGlowVanity = new PlayerLayer("TerrorbornMod", "Arms_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        //{
+        //    Player Player = drawInfo.drawPlayer;
+        //    int vanityAddend = 10;
+        //    if (Player.armor[1 + vanityAddend] != null && Player.armor[1 + vanityAddend].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[1 + vanityAddend] != null && Player.armor[1 + vanityAddend].type > Main.maxItemTypes)
+        //        {
+        //            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Player.armor[1 + vanityAddend].modItem.Texture + "_Arms_Glow");
+        //            Vector2 drawPosition = drawInfo.position + new Vector2(-Player.bodyFrame.Width / 2 + (Player.width / 2), Player.height - Player.bodyFrame.Height + 10) + Player.headPosition + drawInfo.bodyOrigin;
+        //            DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), Player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), Player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
+        //            Main.PlayerDrawData.Add(data);
+        //        }
+        //    }
+        //});
 
-        public static readonly PlayerLayer bodyGlow = new PlayerLayer("TerrorbornMod", "Body_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
-        {
-            Player player = drawInfo.drawPlayer;
-            if (player.armor[1] != null && player.armor[1].type > Main.maxItemTypes)
-            {
-                if (player.armor[1] != null && player.armor[1].type > Main.maxItemTypes)
-                {
-                    Texture2D texture = ModContent.GetTexture(player.armor[1].modItem.Texture + "_Body_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10) + player.headPosition + drawInfo.bodyOrigin;
-                    DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
-                    Main.playerDrawData.Add(data);
-                }
-            }
-        });
+        //public static readonly PlayerLayer bodyGlow = new PlayerLayer("TerrorbornMod", "Body_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        //{
+        //    Player Player = drawInfo.drawPlayer;
+        //    if (Player.armor[1] != null && Player.armor[1].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[1] != null && Player.armor[1].type > Main.maxItemTypes)
+        //        {
+        //            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Player.armor[1].modItem.Texture + "_Body_Glow");
+        //            Vector2 drawPosition = drawInfo.position + new Vector2(-Player.bodyFrame.Width / 2 + (Player.width / 2), Player.height - Player.bodyFrame.Height + 10) + Player.headPosition + drawInfo.bodyOrigin;
+        //            DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), Player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), Player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
+        //            Main.PlayerDrawData.Add(data);
+        //        }
+        //    }
+        //});
 
-        public static readonly PlayerLayer bodyGlowVanity = new PlayerLayer("TerrorbornMod", "Body_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
-        {
-            Player player = drawInfo.drawPlayer;
-            int vanityAddend = 10;
-            if (player.armor[1 + vanityAddend] != null && player.armor[1 + vanityAddend].type > Main.maxItemTypes)
-            {
-                if (player.armor[1 + vanityAddend] != null && player.armor[1 + vanityAddend].type > Main.maxItemTypes)
-                {
-                    Texture2D texture = ModContent.GetTexture(player.armor[1 + vanityAddend].modItem.Texture + "_Body_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10) + player.headPosition + drawInfo.bodyOrigin;
-                    DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
-                    Main.playerDrawData.Add(data);
-                }
-            }
-        });
+        //public static readonly PlayerLayer bodyGlowVanity = new PlayerLayer("TerrorbornMod", "Body_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        //{
+        //    Player Player = drawInfo.drawPlayer;
+        //    int vanityAddend = 10;
+        //    if (Player.armor[1 + vanityAddend] != null && Player.armor[1 + vanityAddend].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[1 + vanityAddend] != null && Player.armor[1 + vanityAddend].type > Main.maxItemTypes)
+        //        {
+        //            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Player.armor[1 + vanityAddend].modItem.Texture + "_Body_Glow");
+        //            Vector2 drawPosition = drawInfo.position + new Vector2(-Player.bodyFrame.Width / 2 + (Player.width / 2), Player.height - Player.bodyFrame.Height + 10) + Player.headPosition + drawInfo.bodyOrigin;
+        //            DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), Player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), Player.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
+        //            Main.PlayerDrawData.Add(data);
+        //        }
+        //    }
+        //});
 
-        public static readonly PlayerLayer headGlow = new PlayerLayer("TerrorbornMod", "Head_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
-        {
-            Player player = drawInfo.drawPlayer;
-            if (player.armor[0] != null && player.armor[0].type > Main.maxItemTypes)
-            {
-                if (player.armor[0] != null && player.armor[0].type > Main.maxItemTypes)
-                {
-                    Texture2D texture = ModContent.GetTexture(player.armor[0].modItem.Texture + "_Head_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10) + player.headPosition + drawInfo.bodyOrigin;
-                    DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.headRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
-                    Main.playerDrawData.Add(data);
-                }
-            }
-        });
+        //public static readonly PlayerLayer headGlow = new PlayerLayer("TerrorbornMod", "Head_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        //{
+        //    Player Player = drawInfo.drawPlayer;
+        //    if (Player.armor[0] != null && Player.armor[0].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[0] != null && Player.armor[0].type > Main.maxItemTypes)
+        //        {
+        //            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Player.armor[0].modItem.Texture + "_Head_Glow");
+        //            Vector2 drawPosition = drawInfo.position + new Vector2(-Player.bodyFrame.Width / 2 + (Player.width / 2), Player.height - Player.bodyFrame.Height + 10) + Player.headPosition + drawInfo.bodyOrigin;
+        //            DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), Player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), Player.headRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
+        //            Main.PlayerDrawData.Add(data);
+        //        }
+        //    }
+        //});
 
-        public static readonly PlayerLayer headGlowVanity = new PlayerLayer("TerrorbornMod", "Head_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
-        {
-            Player player = drawInfo.drawPlayer;
-            int vanityAddend = 10;
-            if (player.armor[0 + vanityAddend] != null && player.armor[0 + vanityAddend].type > Main.maxItemTypes)
-            {
-                if (player.armor[0 + vanityAddend] != null && player.armor[0 + vanityAddend].type > Main.maxItemTypes)
-                {
-                    Texture2D texture = ModContent.GetTexture(player.armor[0 + vanityAddend].modItem.Texture + "_Head_Glow");
-                    Vector2 drawPosition = drawInfo.position + new Vector2(-player.bodyFrame.Width / 2 + (player.width / 2), player.height - player.bodyFrame.Height + 10) + player.headPosition + drawInfo.bodyOrigin;
-                    DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), player.headRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
-                    Main.playerDrawData.Add(data);
-                }
-            }
-        });
+        //public static readonly PlayerLayer headGlowVanity = new PlayerLayer("TerrorbornMod", "Head_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        //{
+        //    Player Player = drawInfo.drawPlayer;
+        //    int vanityAddend = 10;
+        //    if (Player.armor[0 + vanityAddend] != null && Player.armor[0 + vanityAddend].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[0 + vanityAddend] != null && Player.armor[0 + vanityAddend].type > Main.maxItemTypes)
+        //        {
+        //            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Player.armor[0 + vanityAddend].modItem.Texture + "_Head_Glow");
+        //            Vector2 drawPosition = drawInfo.position + new Vector2(-Player.bodyFrame.Width / 2 + (Player.width / 2), Player.height - Player.bodyFrame.Height + 10) + Player.headPosition + drawInfo.bodyOrigin;
+        //            DrawData data = new DrawData(texture, new Vector2((int)(drawPosition.X - Main.screenPosition.X), (int)(drawPosition.Y - Main.screenPosition.Y) - 6), Player.bodyFrame, Color.White * (drawInfo.bodyColor.A / 255f), Player.headRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0);
+        //            Main.PlayerDrawData.Add(data);
+        //        }
+        //    }
+        //});
         #endregion
 
+        //public override void ModifyDrawLayers(List<PlayerLayer> layers)
+        //{
+        //    int vanityAddend = 10;
 
-        public override void ModifyDrawLayers(List<PlayerLayer> layers)
-        {
-            int vanityAddend = 10;
+        //    bool didDoVanity = false;
 
-            bool didDoVanity = false;
+        //    if (Player.armor[2 + vanityAddend] != null && Player.armor[2 + vanityAddend].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[2 + vanityAddend].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(Player.armor[2 + vanityAddend].modItem.Texture + "_Legs_Glow"))
+        //        {
+        //            didDoVanity = true;
+        //            int index = layers.FindIndex((pl) => pl.Name == "Legs");
+        //            layers.Insert(index + 1, legsGlowVanity);
+        //        }
+        //    }
 
-            if (player.armor[2 + vanityAddend] != null && player.armor[2 + vanityAddend].type > Main.maxItemTypes)
-            {
-                if (player.armor[2 + vanityAddend].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(player.armor[2 + vanityAddend].modItem.Texture + "_Legs_Glow"))
-                {
-                    didDoVanity = true;
-                    int index = layers.FindIndex((pl) => pl.Name == "Legs");
-                    layers.Insert(index + 1, legsGlowVanity);
-                }
-            }
+        //    if (Player.armor[2] != null && Player.armor[2].type > Main.maxItemTypes && !didDoVanity && Player.armor[2 + vanityAddend].IsAir)
+        //    {
+        //        if (Player.armor[2].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(Player.armor[2].modItem.Texture + "_Legs_Glow"))
+        //        {
+        //            int index = layers.FindIndex((pl) => pl.Name == "Legs");
+        //            layers.Insert(index + 1, legsGlow);
+        //        }
+        //    }
 
-            if (player.armor[2] != null && player.armor[2].type > Main.maxItemTypes && !didDoVanity && player.armor[2 + vanityAddend].IsAir)
-            {
-                if (player.armor[2].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(player.armor[2].modItem.Texture + "_Legs_Glow"))
-                {
-                    int index = layers.FindIndex((pl) => pl.Name == "Legs");
-                    layers.Insert(index + 1, legsGlow);
-                }
-            }
+        //    didDoVanity = false;
 
-            didDoVanity = false;
+        //    if (Player.armor[1 + vanityAddend] != null && Player.armor[1 + vanityAddend].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[1 + vanityAddend].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(Player.armor[1 + vanityAddend].modItem.Texture + "_Arms_Glow"))
+        //        {
+        //            didDoVanity = true;
+        //            int index = layers.FindIndex((pl) => pl.Name == "Arms");
+        //            layers.Insert(index + 1, armsGlowVanity);
+        //        }
+        //    }
 
-            if (player.armor[1 + vanityAddend] != null && player.armor[1 + vanityAddend].type > Main.maxItemTypes)
-            {
-                if (player.armor[1 + vanityAddend].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(player.armor[1 + vanityAddend].modItem.Texture + "_Arms_Glow"))
-                {
-                    didDoVanity = true;
-                    int index = layers.FindIndex((pl) => pl.Name == "Arms");
-                    layers.Insert(index + 1, armsGlowVanity);
-                }
-            }
+        //    if (Player.armor[1] != null && Player.armor[1].type > Main.maxItemTypes && !didDoVanity && Player.armor[1 + vanityAddend].IsAir)
+        //    {
+        //        if (Player.armor[1].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(Player.armor[1].modItem.Texture + "_Arms_Glow"))
+        //        {
+        //            int index = layers.FindIndex((pl) => pl.Name == "Arms");
+        //            layers.Insert(index + 1, armsGlow);
+        //        }
+        //    }
 
-            if (player.armor[1] != null && player.armor[1].type > Main.maxItemTypes && !didDoVanity && player.armor[1 + vanityAddend].IsAir)
-            {
-                if (player.armor[1].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(player.armor[1].modItem.Texture + "_Arms_Glow"))
-                {
-                    int index = layers.FindIndex((pl) => pl.Name == "Arms");
-                    layers.Insert(index + 1, armsGlow);
-                }
-            }
+        //    didDoVanity = false;
 
-            didDoVanity = false;
+        //    if (Player.armor[1 + vanityAddend] != null && Player.armor[1 + vanityAddend].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[1 + vanityAddend].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(Player.armor[1 + vanityAddend].modItem.Texture + "_Body_Glow"))
+        //        {
+        //            didDoVanity = true;
+        //            int index = layers.FindIndex((pl) => pl.Name == "Body");
+        //            layers.Insert(index + 1, bodyGlowVanity);
+        //        }
+        //    }
 
-            if (player.armor[1 + vanityAddend] != null && player.armor[1 + vanityAddend].type > Main.maxItemTypes)
-            {
-                if (player.armor[1 + vanityAddend].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(player.armor[1 + vanityAddend].modItem.Texture + "_Body_Glow"))
-                {
-                    didDoVanity = true;
-                    int index = layers.FindIndex((pl) => pl.Name == "Body");
-                    layers.Insert(index + 1, bodyGlowVanity);
-                }
-            }
+        //    if (Player.armor[1] != null && Player.armor[1].type > Main.maxItemTypes && !didDoVanity && Player.armor[1 + vanityAddend].IsAir)
+        //    {
+        //        if (Player.armor[1].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(Player.armor[1].modItem.Texture + "_Body_Glow"))
+        //        {
+        //            int index = layers.FindIndex((pl) => pl.Name == "Body");
+        //            layers.Insert(index + 1, bodyGlow);
+        //        }
+        //    }
 
-            if (player.armor[1] != null && player.armor[1].type > Main.maxItemTypes && !didDoVanity && player.armor[1 + vanityAddend].IsAir)
-            {
-                if (player.armor[1].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(player.armor[1].modItem.Texture + "_Body_Glow"))
-                {
-                    int index = layers.FindIndex((pl) => pl.Name == "Body");
-                    layers.Insert(index + 1, bodyGlow);
-                }
-            }
+        //    didDoVanity = false;
 
-            didDoVanity = false;
+        //    if (Player.armor[0 + vanityAddend] != null && Player.armor[0 + vanityAddend].type > Main.maxItemTypes)
+        //    {
+        //        if (Player.armor[0 + vanityAddend].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(Player.armor[0 + vanityAddend].modItem.Texture + "_Head_Glow"))
+        //        {
+        //            didDoVanity = true;
+        //            int index = layers.FindIndex((pl) => pl.Name == "Head");
+        //            layers.Insert(index + 1, headGlowVanity);
+        //        }
+        //    }
 
-            if (player.armor[0 + vanityAddend] != null && player.armor[0 + vanityAddend].type > Main.maxItemTypes)
-            {
-                if (player.armor[0 + vanityAddend].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(player.armor[0 + vanityAddend].modItem.Texture + "_Head_Glow"))
-                {
-                    didDoVanity = true;
-                    int index = layers.FindIndex((pl) => pl.Name == "Head");
-                    layers.Insert(index + 1, headGlowVanity);
-                }
-            }
-
-            if (player.armor[0] != null && player.armor[0].type > Main.maxItemTypes && !didDoVanity && player.armor[0 + vanityAddend].IsAir)
-            {
-                if (player.armor[0].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(player.armor[0].modItem.Texture + "_Head_Glow"))
-                {
-                    int index = layers.FindIndex((pl) => pl.Name == "Head");
-                    layers.Insert(index + 1, headGlow);
-                }
-            }
-        }
+        //    if (Player.armor[0] != null && Player.armor[0].type > Main.maxItemTypes && !didDoVanity && Player.armor[0 + vanityAddend].IsAir)
+        //    {
+        //        if (Player.armor[0].modItem.mod.Name == "TerrorbornMod" && ModContent.TextureExists(Player.armor[0].modItem.Texture + "_Head_Glow"))
+        //        {
+        //            int index = layers.FindIndex((pl) => pl.Name == "Head");
+        //            layers.Insert(index + 1, headGlow);
+        //        }
+        //    }
+        //}
 
         public void TriggerAbilityAnimation(string name, string description1, string description2, int animationType, string description3 = "You can equip terror abilities by using the 'Open/Close Terror Abilities Menu' hotkey.", int visibilityTime = 600)
         {
@@ -393,155 +385,120 @@ namespace TerrorbornMod
         }
 
         public int parryLightTime = 0;
-        public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+        public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-            if (MidShriek && drawInfo.position == player.position && ShriekTime > 0)
+            if (MidShriek && drawInfo.Position == Player.position && ShriekTime > 0)
             {
                 int effectTime = ShriekTime;
                 if (effectTime > 120)
                 {
                     effectTime = 120;
                 }
-                TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, player.Center - Main.screenPosition, (int)(TerrorPercent / 2 + 100 + effectTime / 2), Color.Black * (0.75f * (effectTime / 120f)));
+                TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Player.Center - Main.screenPosition, (int)(TerrorPercent / 2 + 100 + effectTime / 2), Color.Black * (0.75f * (effectTime / 120f)));
             }
 
-            if (drawInfo.position == player.position && parryLightTime > 0)
+            if (drawInfo.Position == Player.position && parryLightTime > 0)
             {
                 parryLightTime--;
-                TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, player.Center - Main.screenPosition, (int)(100 + parryLightTime * 2), parryColor * (0.75f * (parryLightTime / 20f)));
+                TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Player.Center - Main.screenPosition, (int)(100 + parryLightTime * 2), parryColor * (0.75f * (parryLightTime / 20f)));
             }
         }
 
-        int effectCounter = 60;
-        int progress = 0;
+        //int effectCounter = 60;
+        //int progress = 0;
         public bool twilight = false;
-        public override void UpdateBiomeVisuals()
+        //public override void UpdateBiomeVisuals()
+        //{
+        //    if (ZoneIncendiary)
+        //    {
+        //        effectCounter--;
+        //        if (effectCounter <= 0)
+        //        {
+        //            effectCounter = Main.rand.Next(3, 6);
+        //            int maxDistance = 1500;
+        //            ForegroundObject.NewForegroundObject(new Vector2(Main.rand.Next(-maxDistance, maxDistance), Main.rand.Next(-maxDistance, maxDistance)), new IncendiaryFog());
+        //        }
+        //    }
+
+        //    Player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>()));
+        //    Player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", ZoneDeimostone || ZoneICU);
+        //    Player.ManageSpecialBiomeVisuals("TerrorbornMod:BlandnessShader", ZoneICU && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
+        //    //Player.ManageSpecialBiomeVisuals("TerrorbornMod:IncarnateBoss", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
+        //    Player.ManageSpecialBiomeVisuals("TerrorbornMod:ColorlessShader", TimeFreezeTime > 0);
+        //    Player.ManageSpecialBiomeVisuals("TerrorbornMod:TwilightShaderNight", InTwilightOverload);
+
+        //    Player.ManageSpecialBiomeVisuals("TerrorbornMod:HexedMirage", HexedMirage);
+
+        //    //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseTargetPosition(new Vector2(0f, Main.rand.NextFloat(0f, 1f)));
+        //    //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseIntensity(Main.rand.NextFloat(-0.1f, 0.1f));
+        //    //switch (Main.rand.Next(3))
+        //    //{
+        //    //    case 0:
+        //    //        Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(1f, 0f, 0f);
+        //    //        break;
+        //    //    case 1:
+        //    //        Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(0f, 1f, 0f);
+        //    //        break;
+        //    //    case 2:
+        //    //        Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(0f, 0f, 1f);
+        //    //        break;
+        //    //    default:
+        //    //        Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(1f, 0f, 0f);
+        //    //        break;
+        //    //}
+
+        //    //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().Update(Main._drawInterfaceGameTime);
+        //    ////Filters.Scene["TerrorbornMod:GlitchShader"].Load();
+        //    //Player.ManageSpecialBiomeVisuals("TerrorbornMod:GlitchShader", true);
+        //}
+
+        //public override void UpdateBiomes()
+        //{
+        //    ZoneDeimostone = TerrorbornSystem.deimostoneTiles > 75;
+
+        //    Rectangle incendiaryBiomeRect = new Rectangle(0, 0, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
+        //    if (TerrorbornSystem.incendiaryIslandsSide == 1)
+        //    {
+        //        incendiaryBiomeRect = new Rectangle((Main.maxTilesX * 16) - (int)(Main.maxTilesX / 4f * 16) - 120 * 16, 0, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
+        //    }
+        //    ZoneIncendiary = incendiaryBiomeRect.Intersects(Player.getRect()) && Main.hardMode;
+
+        //    ZoneICU = Player.Distance(TerrorbornSystem.IIShrinePosition * 16 + new Vector2(0f, 140f) * 8) <= 1200 && Player.behindBackWall;
+        //}
+
+        public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
         {
-            if (ZoneIncendiary)
+            if (mediumCoreDeath)
             {
-                effectCounter--;
-                if (effectCounter <= 0)
+                return base.AddStartingItems(mediumCoreDeath);
+            }
+            else if (TerrorbornMod.StartingItems)
+            {
+                return new[]
                 {
-                    effectCounter = Main.rand.Next(3, 6);
-                    int maxDistance = 1500;
-                    ForegroundObject.NewForegroundObject(new Vector2(Main.rand.Next(-maxDistance, maxDistance), Main.rand.Next(-maxDistance, maxDistance)), new IncendiaryFog());
-                }
+                    new Item(ModContent.ItemType<Items.MysteriousCompass>()),
+                    new Item(ModContent.ItemType<Items.Weapons.Ranged.Stick>(), 150),
+                    new Item(ItemID.Torch, 15),
+                    new Item(ItemID.Glowstick, 10),
+                    new Item(ItemID.Bomb, 5),
+                    new Item(ItemID.Rope, 200),
+                    new Item(ItemID.SlimeCrown),
+                    new Item(ItemID.SpelunkerPotion, 2),
+                    new Item(ItemID.MiningPotion, 2),
+                    new Item(ItemID.Hook),
+                    new Item(ModContent.ItemType<Items.TwilightMatrix>())
+
+                };
             }
-
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>()));
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", ZoneDeimostone || ZoneICU);
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:BlandnessShader", ZoneICU && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
-            //player.ManageSpecialBiomeVisuals("TerrorbornMod:IncarnateBoss", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:ColorlessShader", TimeFreezeTime > 0);
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:TwilightShaderNight", InTwilightOverload);
-
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:HexedMirage", HexedMirage);
-
-            //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseTargetPosition(new Vector2(0f, Main.rand.NextFloat(0f, 1f)));
-            //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseIntensity(Main.rand.NextFloat(-0.1f, 0.1f));
-            //switch (Main.rand.Next(3))
-            //{
-            //    case 0:
-            //        Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(1f, 0f, 0f);
-            //        break;
-            //    case 1:
-            //        Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(0f, 1f, 0f);
-            //        break;
-            //    case 2:
-            //        Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(0f, 0f, 1f);
-            //        break;
-            //    default:
-            //        Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().UseColor(1f, 0f, 0f);
-            //        break;
-            //}
-
-            //Filters.Scene["TerrorbornMod:GlitchShader"].GetShader().Update(Main._drawInterfaceGameTime);
-            ////Filters.Scene["TerrorbornMod:GlitchShader"].Load();
-            //player.ManageSpecialBiomeVisuals("TerrorbornMod:GlitchShader", true);
-        }
-
-        public override void UpdateBiomes()
-        {
-            ZoneDeimostone = TerrorbornWorld.deimostoneTiles > 75;
-
-            Rectangle incendiaryBiomeRect = new Rectangle(0, 0, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
-            if (TerrorbornWorld.incendiaryIslandsSide == 1)
+            else
             {
-                incendiaryBiomeRect = new Rectangle((Main.maxTilesX * 16) - (int)(Main.maxTilesX / 4f * 16) - 120 * 16, 0, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
+                return new[]
+                {
+                    new Item(ModContent.ItemType<Items.MysteriousCompass>()),
+                    new Item(ModContent.ItemType<Items.TwilightMatrix>())
+
+                };
             }
-            ZoneIncendiary = incendiaryBiomeRect.Intersects(player.getRect()) && Main.hardMode;
-
-            ZoneICU = player.Distance(TerrorbornWorld.IIShrinePosition * 16 + new Vector2(0f, 140f) * 8) <= 1200 && player.behindBackWall;
-        }
-
-        public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
-        {
-            Item compass = new Item();
-            compass.SetDefaults(ModContent.ItemType<Items.MysteriousCompass>());
-            items.Add(compass);
-
-            if (TerrorbornMod.StartingItems)
-            {
-                //Extra starting weapons, accessories, etc.
-
-                Item item = new Item();
-
-                //sticks
-                item = new Item();
-                item.SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.Stick>());
-                item.stack = 150;
-                items.Add(item);
-
-                //torch
-                item = new Item();
-                item.SetDefaults(ItemID.Torch);
-                item.stack = 15;
-                items.Add(item);
-
-                //torch
-                item = new Item();
-                item.SetDefaults(ItemID.Glowstick);
-                item.stack = 10;
-                items.Add(item);
-
-                //bombs
-                item = new Item();
-                item.SetDefaults(ItemID.Bomb);
-                item.stack = 5;
-                items.Add(item);
-
-                //ropes
-                item = new Item();
-                item.SetDefaults(ItemID.Rope);
-                item.stack = 200;
-                items.Add(item);
-
-                //crown
-                item = new Item();
-                item.SetDefaults(ItemID.SlimeCrown);
-                items.Add(item);
-
-                //mining potions
-                item = new Item();
-                item.SetDefaults(ItemID.MiningPotion);
-                item.stack = 3;
-                items.Add(item);
-
-                //spelunker potions
-                item = new Item();
-                item.SetDefaults(ItemID.SpelunkerPotion);
-                item.stack = 3;
-                items.Add(item);
-
-                //shackle
-                item = new Item();
-                item.SetDefaults(ItemID.Hook);
-                items.Add(item);
-            }
-
-            Item matrix = new Item();
-            matrix.SetDefaults(ModContent.ItemType<Items.TwilightMatrix>());
-            items.Add(matrix);
         }
 
         float fusionHealCounter = 0f;
@@ -552,7 +509,7 @@ namespace TerrorbornMod
         {
             if (!(perSecond || silent))
             {
-                CombatText.NewText(player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), "-" + amount + "%", dot: smallerText);
+                CombatText.NewText(Player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), "-" + amount + "%", dot: smallerText);
             }
 
             if (FusionArmor)
@@ -575,18 +532,18 @@ namespace TerrorbornMod
 
                 if (healAmount > 0)
                 {
-                    player.HealEffect(healAmount);
-                    player.statLife += healAmount;
+                    Player.HealEffect(healAmount);
+                    Player.statLife += healAmount;
                 }
             }
 
-            if (TerrorbornWorld.TwilightMode && !perSecond)
+            if (TerrorbornSystem.TwilightMode && !perSecond)
             {
                 twilightHealCounter += amount;
 
                 int healAmount = 0;
                 float actualMaxHeal = maxTwilightHealCounter;
-                if (player.lifeRegen != 0) actualMaxHeal *= 1f / player.lifeRegen;
+                if (Player.lifeRegen != 0) actualMaxHeal *= 1f / Player.lifeRegen;
                 while (twilightHealCounter >= actualMaxHeal)
                 {
                     twilightHealCounter -= actualMaxHeal;
@@ -595,8 +552,8 @@ namespace TerrorbornMod
 
                 if (healAmount > 0)
                 {
-                    player.HealEffect(healAmount);
-                    player.statLife += healAmount;
+                    Player.HealEffect(healAmount);
+                    Player.statLife += healAmount;
                 }
 
                 if (!InTwilightOverload)
@@ -624,7 +581,7 @@ namespace TerrorbornMod
         {
             if (!(perSecond || silent))
             {
-                CombatText.NewText(player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), amount + "%", dot: smallerText);
+                CombatText.NewText(Player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), amount + "%", dot: smallerText);
             }
 
             if (FusionArmor)
@@ -647,8 +604,8 @@ namespace TerrorbornMod
 
                 if (healAmount > 0)
                 {
-                    player.HealEffect(healAmount);
-                    player.statLife += healAmount;
+                    Player.HealEffect(healAmount);
+                    Player.statLife += healAmount;
                 }
             }
 
@@ -706,9 +663,9 @@ namespace TerrorbornMod
             TwilightPowerMultiplier = 1f;
             ShriekOfHorrorMovement = 0f;
             CaneOfCurses = false;
-            if (TerrorbornWorld.TwilightMode)
+            if (TerrorbornSystem.TwilightMode)
             {
-                player.extraAccessorySlots++;
+                Player.extraAccessorySlots++;
             }
             TerrorTonic = false;
             if (CoreOfFear)
@@ -756,7 +713,7 @@ namespace TerrorbornMod
             TerrorPotionCooldown = 60 * 10;
             noAmmoConsumeChance = 0f;
 
-            player.statManaMax2 += 5 * MidnightFruit;
+            Player.statManaMax2 += 5 * MidnightFruit;
 
             Vector2 screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.UIScale;
             Rectangle mainRect = new Rectangle((int)screenCenter.X - 400, (int)screenCenter.Y - 400, 800, 300);
@@ -775,44 +732,44 @@ namespace TerrorbornMod
         {
             if (graniteSpark)
             {
-                if (player.controlLeft) player.velocity.X = -graniteSparkData.speed;
-                else if (player.controlRight) player.velocity.X = graniteSparkData.speed;
-                else player.velocity.X = 0;
+                if (Player.controlLeft) Player.velocity.X = -graniteSparkData.speed;
+                else if (Player.controlRight) Player.velocity.X = graniteSparkData.speed;
+                else Player.velocity.X = 0;
 
-                if (player.controlUp) player.velocity.Y = -graniteSparkData.speed;
-                else if (player.controlDown) player.velocity.Y = graniteSparkData.speed;
-                else player.velocity.Y = 0;
+                if (Player.controlUp) Player.velocity.Y = -graniteSparkData.speed;
+                else if (Player.controlDown) Player.velocity.Y = graniteSparkData.speed;
+                else Player.velocity.Y = 0;
             }
 
             if (astralSpark)
             {
                 float speedMultiplier = 1f;
 
-                if (player.controlJump) speedMultiplier = 5f;
+                if (Player.controlJump) speedMultiplier = 5f;
 
-                if (player.controlLeft) player.velocity.X = -astralSparkData.speed * speedMultiplier;
-                else if (player.controlRight) player.velocity.X = astralSparkData.speed * speedMultiplier;
-                else player.velocity.X = 0;
+                if (Player.controlLeft) Player.velocity.X = -astralSparkData.speed * speedMultiplier;
+                else if (Player.controlRight) Player.velocity.X = astralSparkData.speed * speedMultiplier;
+                else Player.velocity.X = 0;
 
-                if (player.controlUp) player.velocity.Y = -astralSparkData.speed * speedMultiplier;
-                else if (player.controlDown) player.velocity.Y = astralSparkData.speed * speedMultiplier;
-                else player.velocity.Y = 0;
+                if (Player.controlUp) Player.velocity.Y = -astralSparkData.speed * speedMultiplier;
+                else if (Player.controlDown) Player.velocity.Y = astralSparkData.speed * speedMultiplier;
+                else Player.velocity.Y = 0;
             }
 
             if (ShriekOfHorrorMovement == 0 && MidShriek)
             {
-                player.velocity = Vector2.Zero;
+                Player.velocity = Vector2.Zero;
             }
 
-            if (player.HeldItem != null && !player.HeldItem.IsAir && player.HeldItem.useStyle == ItemUseStyleID.SwingThrow && player.controlUseItem && player.HeldItem.createTile == -1 && player.HeldItem.createWall == -1 && player.HeldItem.shoot == ProjectileID.None)
+            if (Player.HeldItem != null && !Player.HeldItem.IsAir && Player.HeldItem.useStyle == ItemUseStyleID.Swing && Player.controlUseItem && Player.HeldItem.createTile == -1 && Player.HeldItem.createWall == -1 && Player.HeldItem.shoot == ProjectileID.None)
             {
-                if (Main.MouseWorld.X > player.Center.X)
+                if (Main.MouseWorld.X > Player.Center.X)
                 {
-                    player.direction = 1;
+                    Player.direction = 1;
                 }
                 else
                 {
-                    player.direction = -1;
+                    Player.direction = -1;
                 }
             }
         }
@@ -831,11 +788,11 @@ namespace TerrorbornMod
             {
                 finalMult *= placeSpeed;
             }
-            if (item.magic)
+            if (item.DamageType == DamageClass.Magic)
             {
                 finalMult *= magicUseSpeed;
             }
-            if (item.ranged)
+            if (item.DamageType == DamageClass.Ranged)
             {
                 finalMult *= rangedUseSpeed;
             }
@@ -936,18 +893,14 @@ namespace TerrorbornMod
             }
         }
 
-        public override void OnHitByNPC(NPC npc, int damage, bool crit)
+        public override void OnHitByNPC(NPC NPC, int damage, bool crit)
         {
-            OnHitByAnything(npc, damage, crit);
+            OnHitByAnything(NPC, damage, crit);
         }
 
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
             OnHitByAnything(proj, damage, crit);
-        }
-
-        public override void UpdateVanityAccessories()
-        {
         }
 
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
@@ -968,7 +921,7 @@ namespace TerrorbornMod
 
         public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
         {
-            if (TerrorbornWorld.TwilightMode)
+            if (TerrorbornSystem.TwilightMode)
             {
                 TwilightHPCap += healValue;
             }
@@ -976,11 +929,11 @@ namespace TerrorbornMod
 
         public override void PostUpdateEquips()
         {
-            player.wingTimeMax = (int)(player.wingTimeMax * flightTimeMultiplier);
+            Player.wingTimeMax = (int)(Player.wingTimeMax * flightTimeMultiplier);
 
             if (Aerodynamic)
             {
-                player.wingTimeMax *= 2;
+                Player.wingTimeMax *= 2;
             }
 
             if (TimeFreezeTime > 0)
@@ -990,36 +943,36 @@ namespace TerrorbornMod
 
             if (Glooped)
             {
-                player.wingTimeMax /= 4;
+                Player.wingTimeMax /= 4;
             }
 
             if (VoidBlinkTime > 0)
             {
                 allUseSpeed *= 1.3f;
-                player.accRunSpeed *= 2;
+                Player.accRunSpeed *= 2;
             }
 
-            if (TerrorbornWorld.TwilightMode && TwilightPower > 0f)
+            if (TerrorbornSystem.TwilightMode && TwilightPower > 0f)
             {
-                player.lifeRegen += (int)MathHelper.Lerp(1f, 5f, TwilightPower);
+                Player.lifeRegen += (int)MathHelper.Lerp(1f, 5f, TwilightPower);
             }
 
             if (InTwilightOverload)
             {
                 allUseSpeed *= 1.3f;
-                player.accRunSpeed *= 2;
-                player.jumpSpeedBoost += 3f;
+                Player.accRunSpeed *= 2;
+                Player.jumpSpeedBoost += 3f;
             }
 
-            for (int i = 0; i < player.armor.Length; i++)
+            for (int i = 0; i < Player.armor.Length; i++)
             {
-                if (i >= player.armor.Length)
+                if (i >= Player.armor.Length)
                 {
                     break;
                 }
-                else if (player.armor[i] != null && !player.armor[i].IsAir)
+                else if (Player.armor[i] != null && !Player.armor[i].IsAir)
                 {
-                    Item item = player.armor[i];
+                    Item item = Player.armor[i];
                     TerrorbornItem modItem = TerrorbornItem.modItem(item);
                     if (modItem.meterColor != Color.White)
                     {
@@ -1057,7 +1010,7 @@ namespace TerrorbornMod
 
             Main.screenPosition = Vector2.Lerp(Main.screenPosition, TerrorbornMod.screenFollowPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), TerrorbornMod.currentScreenLerp);
 
-            Vector2 ScreenOffset = new Vector2(Main.rand.NextFloat(-TerrorbornMod.screenShaking, TerrorbornMod.screenShaking), Main.rand.NextFloat(-TerrorbornMod.screenShaking, TerrorbornMod.screenShaking));
+            Vector2 ScreenOffset = new Vector2(Main.rand.NextFloat(-TerrorbornSystem.screenShaking, TerrorbornSystem.screenShaking), Main.rand.NextFloat(-TerrorbornSystem.screenShaking, TerrorbornSystem.screenShaking));
             Main.screenPosition += ScreenOffset;
         }
 
@@ -1065,7 +1018,7 @@ namespace TerrorbornMod
         {
             Item currentItem = null;
             float currentTerror = 0f;
-            foreach (Item item in player.inventory)
+            foreach (Item item in Player.inventory)
             {
                 if (item != null)
                 {
@@ -1088,8 +1041,8 @@ namespace TerrorbornMod
 
                 for (int i = 0; i < 200; i++)
                 {
-                    NPC npc = Main.npc[i];
-                    if (!npc.friendly && npc.Distance(player.Center) <= range + (npc.height + npc.width) / 4 && npc.active && npc.type != NPCID.TargetDummy)
+                    NPC NPC = Main.npc[i];
+                    if (!NPC.friendly && NPC.Distance(Player.Center) <= range + (NPC.height + NPC.width) / 4 && NPC.active && NPC.type != NPCID.TargetDummy)
                     {
                         GainTerror(modItem.terrorPotionTerror, false, false, true);
                     }
@@ -1097,11 +1050,11 @@ namespace TerrorbornMod
 
                 currentItem.stack--;
 
-                Main.PlaySound(SoundID.Item3, player.Center);
-                player.velocity = Vector2.Zero;
-                DustCircle(player.Center, 180, range, 63, -5, 3f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item3, Player.Center);
+                Player.velocity = Vector2.Zero;
+                DustCircle(Player.Center, 180, range, 63, -5, 3f);
 
-                player.AddBuff(ModContent.BuffType<Buffs.Debuffs.TerrorSickness>(), TerrorPotionCooldown);
+                Player.AddBuff(ModContent.BuffType<Buffs.Debuffs.TerrorSickness>(), TerrorPotionCooldown);
             }
         }
 
@@ -1127,7 +1080,7 @@ namespace TerrorbornMod
         int timeSincePressed = 0;
         public void UpdateShriekOfHorror()
         {
-            bool darkblood = player.HasBuff(ModContent.BuffType<Buffs.Darkblood>());
+            bool darkblood = Player.HasBuff(ModContent.BuffType<Buffs.Darkblood>());
 
             if (TerrorbornMod.ShriekOfHorror.JustPressed)
             {
@@ -1139,16 +1092,16 @@ namespace TerrorbornMod
                 timeSincePressed++;
             }
 
-            if (TerrorbornMod.ShriekOfHorror.JustReleased && timeSincePressed <= 10 && !player.HasBuff(ModContent.BuffType<Buffs.Debuffs.TerrorSickness>()) && TerrorbornWorld.obtainedShriekOfHorror)
+            if (TerrorbornMod.ShriekOfHorror.JustReleased && timeSincePressed <= 10 && !Player.HasBuff(ModContent.BuffType<Buffs.Debuffs.TerrorSickness>()) && TerrorbornSystem.obtainedShriekOfHorror)
             {
                 ConsumeTerrorPotion();
             }
 
-            if (TerrorbornMod.ShriekOfHorror.Current && (player.velocity.Y == 0 || ShriekOfHorrorMovement > 0) && (player.itemTime <= 0 || darkblood) && TimeFreezeTime <= 0 && VoidBlinkTime <= 0 && BlinkDashTime <= 0)
+            if (TerrorbornMod.ShriekOfHorror.Current && (Player.velocity.Y == 0 || ShriekOfHorrorMovement > 0) && (Player.itemTime <= 0 || darkblood) && TimeFreezeTime <= 0 && VoidBlinkTime <= 0 && BlinkDashTime <= 0)
             {
                 MidShriek = true;
             }
-            if (!TerrorbornMod.ShriekOfHorror.Current || player.dead)
+            if (!TerrorbornMod.ShriekOfHorror.Current || Player.dead)
             {
                 MidShriek = false;
             }
@@ -1158,13 +1111,13 @@ namespace TerrorbornMod
             {
                 if (!(ShriekOfHorrorMovement == 0))
                 {
-                    if ((int)player.velocity.Y != 0)
+                    if ((int)Player.velocity.Y != 0)
                     {
-                        player.position -= player.velocity * (1 - ShriekOfHorrorMovement);
+                        Player.position -= Player.velocity * (1 - ShriekOfHorrorMovement);
                     }
                     else
                     {
-                        player.position.X -= player.velocity.X * (1 - ShriekOfHorrorMovement);
+                        Player.position.X -= Player.velocity.X * (1 - ShriekOfHorrorMovement);
                     }
                 }
 
@@ -1174,7 +1127,7 @@ namespace TerrorbornMod
                     ShriekCounter--;
                     if (!darkblood)
                     {
-                        player.bodyFrame.Y = 6 * player.bodyFrame.Height;
+                        Player.bodyFrame.Y = 6 * Player.bodyFrame.Height;
                     }
                 }
                 else
@@ -1183,23 +1136,23 @@ namespace TerrorbornMod
                     Shriek();
                     if (!darkblood)
                     {
-                        player.bodyFrame.Y = 5 * player.bodyFrame.Height;
+                        Player.bodyFrame.Y = 5 * Player.bodyFrame.Height;
                     }
                     SoundCounter--;
                     if (SoundCounter <= 0)
                     {
                         SoundCounter = 22;
-                        Main.PlaySound(SoundID.Item103, player.Center);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item103, Player.Center);
                     }
-                    Vector2 dustpos = player.Center;
+                    Vector2 dustpos = Player.Center;
                     dustpos.Y -= 13;
                     dustpos.X -= 3;
 
-                    dustpos.X += player.direction * 1;
+                    dustpos.X += Player.direction * 1;
 
                     int dust = Dust.NewDust(dustpos, 0, 0, 54);
-                    Main.dust[dust].velocity = player.velocity / 3;
-                    TerrorbornMod.ScreenShake(5);
+                    Main.dust[dust].velocity = Player.velocity / 3;
+                    TerrorbornSystem.ScreenShake(5);
                 }
             }
             else
@@ -1224,7 +1177,7 @@ namespace TerrorbornMod
             if (dustCounter <= 0)
             {
                 dustCounter = 15;
-                DustExplosion(player.Center, 0, 360, 45 * ShriekRangeMultiplier, 54, 1, true);
+                DustExplosion(Player.Center, 0, 360, 45 * ShriekRangeMultiplier, 54, 1, true);
             }
 
             float range = 375 * ShriekRangeMultiplier;
@@ -1232,10 +1185,10 @@ namespace TerrorbornMod
             for (int i = 0; i < 200; i++)
             {
                 NPC target = Main.npc[i];
-                if (target.Distance(player.Center) < range && !target.friendly && target.active && target.lifeMax > 5)
+                if (target.Distance(Player.Center) < range && !target.friendly && target.active && target.lifeMax > 5)
                 {
                     NPCsInRange++;
-                    //target.velocity -= target.DirectionTo(player.Center) * ((range - target.Distance(player.Center)) / 400) * target.knockBackResist * ShriekKnockback;
+                    //target.velocity -= target.DirectionTo(Player.Center) * ((range - target.Distance(Player.Center)) / 400) * target.knockBackResist * ShriekKnockback;
                 }
             }
             if (NPCsInRange > 0)
@@ -1249,23 +1202,23 @@ namespace TerrorbornMod
         {
             if (abilityAnimationType == 0)
             {
-                player.velocity = Vector2.Zero;
-                player.velocity.Y -= 1;
+                Player.velocity = Vector2.Zero;
+                Player.velocity.Y -= 1;
                 abilityAnimationCounter2--;
                 if (abilityAnimationCounter2 <= 0)
                 {
                     abilityAnimationCounter1--;
                     if (abilityAnimationCounter1 <= 0)
                     {
-                        DustExplosion(player.Center, 0, 360, 40, 66, 1, true);
-                        Main.PlaySound(SoundID.Item103, player.Center);
-                        TerrorbornMod.ScreenShake(30);
+                        DustExplosion(Player.Center, 0, 360, 40, 66, 1, true);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item103, Player.Center);
+                        TerrorbornSystem.ScreenShake(30);
                     }
                     else
                     {
-                        Main.PlaySound(SoundID.MaxMana, player.Center);
-                        TerrorbornMod.ScreenShake(5);
-                        DustExplosion(player.Center, 0, 360, 10, 66, 0.5f, true);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.MaxMana, Player.Center);
+                        TerrorbornSystem.ScreenShake(5);
+                        DustExplosion(Player.Center, 0, 360, 10, 66, 0.5f, true);
                         abilityAnimationCounter2 = 4;
                     }
                 }
@@ -1284,12 +1237,12 @@ namespace TerrorbornMod
             {
                 if (ShowTerrorAbilityMenu)
                 {
-                    Main.PlaySound(SoundID.MenuClose);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
                     ShowTerrorAbilityMenu = false;
                 }
                 else
                 {
-                    Main.PlaySound(SoundID.MenuOpen);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuOpen);
                     ShowTerrorAbilityMenu = true;
                 }
             }
@@ -1298,9 +1251,9 @@ namespace TerrorbornMod
         public void SuperBlinkDash()
         {
             BlinkDashTime = 0;
-            DustExplosion(player.Center, 0, 25, 45, 162, 2f, true);
-            Main.PlaySound(SoundID.Item72, player.Center);
-            player.velocity = BlinkDashVelocity * 1.5f;
+            DustExplosion(Player.Center, 0, 25, 45, 162, 2f, true);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, Player.Center);
+            Player.velocity = BlinkDashVelocity * 1.5f;
 
             blinkDashSpinRotation = 0f;
             blinkSpin = true;
@@ -1310,10 +1263,10 @@ namespace TerrorbornMod
             }
             else
             {
-                blinkDashDirection = player.direction;
+                blinkDashDirection = Player.direction;
             }
-            Main.PlaySound(SoundID.Item62, player.Center);
-            TerrorbornMod.ScreenShake(10f);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, Player.Center);
+            TerrorbornSystem.ScreenShake(10f);
         }
 
         public void TwilightOverload()
@@ -1321,7 +1274,15 @@ namespace TerrorbornMod
             InTwilightOverload = true;
             bleepWait = 0;
             bleepsLeft = 3;
-            Main.PlaySound(SoundID.Zombie, (int)player.Center.X, (int)player.Center.Y, 104, 1, 2f);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)Player.Center.X, (int)Player.Center.Y, 104, 1, 2f);
+        }
+
+        public override void ModifyWeaponDamage(Item item, ref StatModifier damage, ref float flat)
+        {
+            if (TerrorbornSystem.TwilightMode && TerrorPercent <= 3f)
+            {
+                damage.Scale(0.75f);
+            }
         }
 
         float parryEffectProgress = 0;
@@ -1342,26 +1303,25 @@ namespace TerrorbornMod
                 inCombat = false;
             }
 
-            if (TerrorbornWorld.TwilightMode)
+            if (TerrorbornSystem.TwilightMode)
             {
+                LoseTerror(0.5f, true, true);
                 if (TerrorPercent <= 3f)
                 {
-                    if (player.statLife < TwilightHPCap)
+                    if (Player.statLife < TwilightHPCap)
                     {
-                        TwilightHPCap = player.statLife;
+                        TwilightHPCap = Player.statLife;
                     }
-                    if (player.statLife > TwilightHPCap)
+                    if (Player.statLife > TwilightHPCap)
                     {
-                        player.statLife = TwilightHPCap;
+                        Player.statLife = TwilightHPCap;
                     }
-                    player.statDefense /= 2;
-                    player.allDamage *= 0.75f;
-                    player.AddBuff(ModContent.BuffType<Buffs.Debuffs.TwilightWarning>(), 2);
+                    Player.statDefense /= 2;
+                    Player.AddBuff(ModContent.BuffType<Buffs.Debuffs.TwilightWarning>(), 2);
                 }
                 else
                 {
-                    TwilightHPCap = player.statLifeMax2;
-                    LoseTerror(0.5f, true, true);
+                    TwilightHPCap = Player.statLifeMax2;
                 }
 
                 if (TwilightPower > 1f)
@@ -1392,11 +1352,11 @@ namespace TerrorbornMod
 
             if (InTwilightOverload)
             {
-                TerrorbornMod.ScreenShake(1.5f);
+                TerrorbornSystem.ScreenShake(1.5f);
                 bleepWait--;
                 if (bleepWait <= 0)
                 {
-                    ModContent.GetSound("TerrorbornMod/Sounds/Effects/undertalewarning").Play(Main.soundVolume, 0f, 0f);
+                    ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/undertalewarning").Value.Play(Main.soundVolume, 0f, 0f);
                     bleepsLeft--;
                     if (bleepsLeft <= 0)
                     {
@@ -1412,10 +1372,10 @@ namespace TerrorbornMod
 
             for (int i = 0; i < Main.npc.Length; i++)
             {
-                NPC npc = Main.npc[i];
-                if (npc.active && npc != null)
+                NPC NPC = Main.npc[i];
+                if (NPC.active && NPC != null)
                 {
-                    if (npc.Distance(player.Center) <= 550 && !npc.friendly && npc.lifeMax > 15)
+                    if (NPC.Distance(Player.Center) <= 550 && !NPC.friendly && NPC.lifeMax > 15)
                     {
                         if (combatTime < 600)
                         {
@@ -1433,10 +1393,10 @@ namespace TerrorbornMod
                     {
                         break;
                     }
-                    NPC npc = deimosChained[i];
-                    if (!npc.active)
+                    NPC NPC = deimosChained[i];
+                    if (!NPC.active)
                     {
-                        deimosChained.Remove(npc);
+                        deimosChained.Remove(NPC);
                     }
                 }
             }
@@ -1444,12 +1404,12 @@ namespace TerrorbornMod
             if (blinkSpin)
             {
                 blinkDashSpinRotation += MathHelper.ToRadians(15f) * blinkDashDirection;
-                player.fullRotation = blinkDashSpinRotation;
-                player.fullRotationOrigin = new Vector2(player.width / 2, player.height / 2);
+                Player.fullRotation = blinkDashSpinRotation;
+                Player.fullRotationOrigin = new Vector2(Player.width / 2, Player.height / 2);
                 if (Math.Abs(blinkDashSpinRotation) >= MathHelper.ToRadians(360))
                 {
                     blinkSpin = false;
-                    player.fullRotation = 0f;
+                    Player.fullRotation = 0f;
                 }
             }
 
@@ -1458,15 +1418,15 @@ namespace TerrorbornMod
                 HeadHunterCritCooldown--;
             }
 
-            Main.manaTexture = ModContent.GetTexture("Terraria/Mana");
-            if (MidnightFruit == 20)
-            {
-                Main.manaTexture = ModContent.GetTexture("TerrorbornMod/MidnightMana");
-            }
+            //Main.manaTexture = (Texture2D)ModContent.Request<Texture2D>("Terraria/Mana");
+            //if (MidnightFruit == 20)
+            //{
+            //    Main.manaTexture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/MidnightMana");
+            //}
 
             if (ParryTime > 0)
             {
-                player.bodyFrame.Y = 6 * player.bodyFrame.Height;
+                Player.bodyFrame.Y = 6 * Player.bodyFrame.Height;
                 canUseItems = false;
                 ParryTime--;
             }
@@ -1487,20 +1447,20 @@ namespace TerrorbornMod
                 ParryCooldown--;
                 if (ParryCooldown <= 0)
                 {
-                    Main.PlaySound(SoundID.MaxMana, (int)(player.Center.X), (int)(player.Center.Y), 0);
-                    CombatText.NewText(player.getRect(), parryColor, "Parry Recharged", false, true);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MaxMana, (int)(Player.Center.X), (int)(Player.Center.Y), 0);
+                    CombatText.NewText(Player.getRect(), parryColor, "Parry Recharged", false, true);
                 }
             }
 
-            if (TerrorbornWorld.incendiaryRitual)
+            if (TerrorbornSystem.incendiaryRitual)
             {
-                player.AddBuff(ModContent.BuffType<Buffs.Debuffs.IncendiaryCurse>(), 2);
+                Player.AddBuff(ModContent.BuffType<Buffs.Debuffs.IncendiaryCurse>(), 2);
             }
 
             if (GelatinArmorTime > 0)
             {
                 GelatinArmorTime--;
-                int dust = Dust.NewDust(player.position, player.width, player.height, DustID.t_Slime);
+                int dust = Dust.NewDust(Player.position, Player.width, Player.height, DustID.t_Slime);
                 Main.dust[dust].color = Color.LightBlue;
                 Main.dust[dust].velocity /= 2;
                 Main.dust[dust].alpha = 255 / 2;
@@ -1517,15 +1477,15 @@ namespace TerrorbornMod
                 VoidBlinkTime--;
                 if (VoidBlinkTime == 0)
                 {
-                    DustExplosion(player.Center, 0, 25, 15, 27, 1.5f, true);
-                    Main.PlaySound(SoundID.Item72, player.Center);
+                    DustExplosion(Player.Center, 0, 25, 15, 27, 1.5f, true);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, Player.Center);
                 }
                 if (VoidBlinkTime == 60)
                 {
-                    DustExplosion(player.Center, 0, 25, 7.5f, 27, 1.5f, true);
-                    Main.PlaySound(SoundID.MaxMana, player.Center);
+                    DustExplosion(Player.Center, 0, 25, 7.5f, 27, 1.5f, true);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MaxMana, Player.Center);
                 }
-                player.immuneAlpha = 255 / 2;
+                Player.immuneAlpha = 255 / 2;
             }
 
             if (BlinkDashCooldown > 0)
@@ -1535,28 +1495,28 @@ namespace TerrorbornMod
 
             if (BlinkDashTime > 0)
             {
-                player.noFallDmg = true;
+                Player.noFallDmg = true;
                 BlinkDashCooldown = 30;
-                player.velocity = BlinkDashVelocity;
-                foreach (NPC npc in Main.npc)
+                Player.velocity = BlinkDashVelocity;
+                foreach (NPC NPC in Main.npc)
                 {
-                    if (npc.active && npc.Distance(player.Center) <= 100 && !npc.friendly)
+                    if (NPC.active && NPC.Distance(Player.Center) <= 100 && !NPC.friendly)
                     {
-                        npc.AddBuff(BuffID.Confused, 60 * 3);
+                        NPC.AddBuff(BuffID.Confused, 60 * 3);
                     }
                 }
                 BlinkDashTime--;
                 if (BlinkDashTime == 0)
                 {
-                    DustExplosion(player.Center, 0, 15, 30, 162, 1.5f, true);
-                    Main.PlaySound(SoundID.Item72, player.Center);
-                    player.velocity /= 2;
+                    DustExplosion(Player.Center, 0, 15, 30, 162, 1.5f, true);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, Player.Center);
+                    Player.velocity /= 2;
                 }
                 if (BlinkDashTime <= 5 && (TerrorbornMod.PrimaryTerrorAbility.JustPressed || TerrorbornMod.SecondaryTerrorAbility.JustPressed))
                 {
                     SuperBlinkDash();
                 }
-                player.immuneAlpha = 255;
+                Player.immuneAlpha = 255;
             }
             if (TimeFreezeTime > 0)
             {
@@ -1567,12 +1527,12 @@ namespace TerrorbornMod
             {
                 if (ShowTerrorAbilityMenu)
                 {
-                    Main.PlaySound(SoundID.MenuClose);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
                     ShowTerrorAbilityMenu = false;
                 }
                 else
                 {
-                    Main.PlaySound(SoundID.MenuOpen);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuOpen);
                     ShowTerrorAbilityMenu = true;
                 }
             }
@@ -1597,29 +1557,29 @@ namespace TerrorbornMod
                 usingSecondary = false;
             }
 
-            if (primaryAbility.HeldDown() && TerrorPercent >= primaryAbility.Cost() / 60 && primaryAbility.canUse(player) && TerrorbornMod.PrimaryTerrorAbility.Current)
+            if (primaryAbility.HeldDown() && TerrorPercent >= primaryAbility.Cost() / 60 && primaryAbility.canUse(Player) && TerrorbornMod.PrimaryTerrorAbility.Current)
             {
-                primaryAbility.OnUse(player);
+                primaryAbility.OnUse(Player);
                 LoseTerror(primaryAbility.Cost(), true, true, false);
 
             }
 
-            if (!primaryAbility.HeldDown() && TerrorPercent >= primaryAbility.Cost() && primaryAbility.canUse(player) && TerrorbornMod.PrimaryTerrorAbility.JustPressed)
+            if (!primaryAbility.HeldDown() && TerrorPercent >= primaryAbility.Cost() && primaryAbility.canUse(Player) && TerrorbornMod.PrimaryTerrorAbility.JustPressed)
             {
-                primaryAbility.OnUse(player);
+                primaryAbility.OnUse(Player);
                 LoseTerror(primaryAbility.Cost(), true, false, false);
             }
 
-            if (secondaryAbility.HeldDown() && TerrorPercent >= secondaryAbility.Cost() * 1.5f / 60 && secondaryAbility.canUse(player) && TerrorbornMod.SecondaryTerrorAbility.Current)
+            if (secondaryAbility.HeldDown() && TerrorPercent >= secondaryAbility.Cost() * 1.5f / 60 && secondaryAbility.canUse(Player) && TerrorbornMod.SecondaryTerrorAbility.Current)
             {
-                secondaryAbility.OnUse(player);
+                secondaryAbility.OnUse(Player);
                 LoseTerror(secondaryAbility.Cost() * 1.5f, true, true, false);
 
             }
 
-            if (!secondaryAbility.HeldDown() && TerrorPercent >= secondaryAbility.Cost() * 1.5f && secondaryAbility.canUse(player) && TerrorbornMod.SecondaryTerrorAbility.JustPressed)
+            if (!secondaryAbility.HeldDown() && TerrorPercent >= secondaryAbility.Cost() * 1.5f && secondaryAbility.canUse(Player) && TerrorbornMod.SecondaryTerrorAbility.JustPressed)
             {
-                secondaryAbility.OnUse(player);
+                secondaryAbility.OnUse(Player);
                 LoseTerror(secondaryAbility.Cost() * 1.5f, true, false, false);
             }
 
@@ -1633,7 +1593,7 @@ namespace TerrorbornMod
                 UpdateAbilityAnimations();
             }
 
-            if (TerrorbornWorld.obtainedShriekOfHorror)
+            if (TerrorbornSystem.obtainedShriekOfHorror)
             {
                 UpdateShriekOfHorror();
             }
@@ -1641,34 +1601,34 @@ namespace TerrorbornMod
             {
                 TerrorPercent = 100;
             }
-            if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.Dunestock>())) player.buffImmune[BuffID.WindPushed] = true;
+            if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.Dunestock>())) Player.buffImmune[BuffID.WindPushed] = true;
 
-            if (TerrorbornMod.quickVirus.JustPressed && player.HasItem(ModContent.ItemType<Items.AstralSpark>()))
+            if (TerrorbornMod.quickVirus.JustPressed && Player.HasItem(ModContent.ItemType<Items.AstralSpark>()))
             {
-                astralSparkData.Transform(player);
+                astralSparkData.Transform(Player);
             }
 
-            if (TerrorbornMod.quickVirus.JustPressed && player.HasItem(ModContent.ItemType<Items.graniteVirusSpark>()))
+            if (TerrorbornMod.quickVirus.JustPressed && Player.HasItem(ModContent.ItemType<Items.GraniteVirusSpark>()))
             {
-                graniteSparkData.Transform(player);
+                graniteSparkData.Transform(Player);
             }
 
             if (graniteSpark || astralSpark)
             {
-                player.wings = 0;
+                Player.wings = 0;
             }
 
             if (iFrames > 0)
             {
                 iFrames--;
-                player.immuneAlpha = 125;
+                Player.immuneAlpha = 125;
             }
 
             if (TenebrisDashTime > 0)
             {
                 TenebrisDashTime--;
-                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 74, 0f, 0f, 100, Scale: 1.5f);
-                player.velocity = TenebrisDashVelocity;
+                int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y), Player.width, Player.height, 74, 0f, 0f, 100, Scale: 1.5f);
+                Player.velocity = TenebrisDashVelocity;
             }
 
             if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.TownNPCs.SkeletonSheriff>()) && CombatPoints > 0)
@@ -1677,15 +1637,15 @@ namespace TerrorbornMod
             }
         }
 
-        public override void OnRespawn(Player player)
+        public override void OnRespawn(Player Player)
         {
             usingPrimary = false;
             combatTime = 0;
             inCombat = false;
-            if (TerrorbornWorld.TwilightMode)
+            if (TerrorbornSystem.TwilightMode)
             {
-                TwilightHPCap = player.statLifeMax2;
-                player.statLife = player.statLifeMax2;
+                TwilightHPCap = Player.statLifeMax2;
+                Player.statLife = Player.statLifeMax2;
                 TerrorPercent = 50f;
             }
         }
@@ -1695,14 +1655,14 @@ namespace TerrorbornMod
             if (Main.netMode != NetmodeID.Server && !Filters.Scene["ParryShockwave"].IsActive())
             {
                 parryEffectProgress = 0;
-                Filters.Scene.Activate("ParryShockwave", player.Center).GetShader().UseColor(1, 1, 10).UseTargetPosition(player.Center); //Ripple Count, Ripple Size, Ripple Speed
-                CombatText.NewText(player.getRect(), parryColor, "Successful Parry!", true, false);
+                Filters.Scene.Activate("ParryShockwave", Player.Center).GetShader().UseColor(1, 1, 10).UseTargetPosition(Player.Center); //Ripple Count, Ripple Size, Ripple Speed
+                CombatText.NewText(Player.getRect(), parryColor, "Successful Parry!", true, false);
             }
         }
 
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        public override void ModifyHitByNPC(NPC NPC, ref int damage, ref bool crit)
         {
-            if (TerrorbornWorld.TwilightMode)
+            if (TerrorbornSystem.TwilightMode)
             {
                 damage = (int)(damage * 1.5f);
             }
@@ -1712,7 +1672,7 @@ namespace TerrorbornMod
                 ParryTime = 0;
                 damage /= 4;
                 JustParried = true;
-                Main.PlaySound(SoundID.Item37, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item37, Player.Center);
                 ActivateParryEffect();
             }
 
@@ -1720,10 +1680,10 @@ namespace TerrorbornMod
             {
                 damage += GelatinPunishmentDamage;
                 GelatinPunishmentDamage = 0;
-                Main.PlaySound(SoundID.NPCDeath1, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath1, Player.Center);
                 for (int i = 0; i < 15; i++)
                 {
-                    int dust = Dust.NewDust(player.position, player.width, player.height, DustID.t_Slime);
+                    int dust = Dust.NewDust(Player.position, Player.width, Player.height, DustID.t_Slime);
                     Main.dust[dust].color = Color.LightBlue;
                     Main.dust[dust].velocity /= 2;
                     Main.dust[dust].alpha = 255 / 2;
@@ -1734,7 +1694,7 @@ namespace TerrorbornMod
             {
                 GelatinArmorTime = 0;
                 GelatinPunishmentDamage = damage / 3;
-                Main.PlaySound(SoundID.NPCHit1, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit1, Player.Center);
                 damage = 0;
             }
 
@@ -1746,7 +1706,7 @@ namespace TerrorbornMod
 
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-            if (TerrorbornWorld.TwilightMode)
+            if (TerrorbornSystem.TwilightMode)
             {
                 damage = (int)(damage * 1.35f);
             }
@@ -1756,7 +1716,7 @@ namespace TerrorbornMod
                 ParryTime = 0;
                 damage /= 4;
                 JustParried = true;
-                Main.PlaySound(SoundID.Item37, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item37, Player.Center);
                 ActivateParryEffect();
             }
 
@@ -1764,10 +1724,10 @@ namespace TerrorbornMod
             {
                 damage += GelatinPunishmentDamage;
                 GelatinPunishmentDamage = 0;
-                Main.PlaySound(SoundID.NPCDeath1, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath1, Player.Center);
                 for (int i = 0; i < 15; i++)
                 {
-                    int dust = Dust.NewDust(player.position, player.width, player.height, DustID.t_Slime);
+                    int dust = Dust.NewDust(Player.position, Player.width, Player.height, DustID.t_Slime);
                     Main.dust[dust].color = Color.LightBlue;
                     Main.dust[dust].velocity /= 2;
                     Main.dust[dust].alpha = 255 / 2;
@@ -1778,7 +1738,7 @@ namespace TerrorbornMod
             {
                 GelatinArmorTime = 0;
                 GelatinPunishmentDamage = damage / 3;
-                Main.PlaySound(SoundID.NPCHit1, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit1, Player.Center);
                 damage = 0;
             }
 
@@ -1819,15 +1779,15 @@ namespace TerrorbornMod
 
         public override void UpdateBadLifeRegen()
         {
-            if (player.HasBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>()))
+            if (Player.HasBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>()))
             {
-                if (player.lifeRegen > 0) player.lifeRegen = 0;
-                player.lifeRegen -= 10 + (int)((player.statDefense / 100f) * 18f);
+                if (Player.lifeRegen > 0) Player.lifeRegen = 0;
+                Player.lifeRegen -= 10 + (int)((Player.statDefense / 100f) * 18f);
             }
             if (badLifeRegen > 0)
             {
-                if (player.lifeRegen > 0) player.lifeRegen = 0;
-                player.lifeRegen -= badLifeRegen;
+                if (Player.lifeRegen > 0) Player.lifeRegen = 0;
+                Player.lifeRegen -= badLifeRegen;
             }
         }
 
@@ -1838,45 +1798,32 @@ namespace TerrorbornMod
                 int choice = Main.rand.Next(3);
                 if (choice == 0)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " was overloaded with fear.");
+                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was overloaded with fear.");
                 }
                 if (choice == 1)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " drained their own life.");
+                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " drained their own life.");
                 }
                 if (choice == 2)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " couldn't handle their power.");
+                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " couldn't handle their power.");
                 }
             }
 
             TerrorPercent = 0f;
 
-            if (SpecterLocket && !player.HasBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>()))
+            if (SpecterLocket && !Player.HasBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>()))
             {
-                CombatText.NewText(player.getRect(), Color.OrangeRed, "Revived!", true);
-                Main.PlaySound(SoundID.NPCDeath52, player.Center);
-                player.statLife = 25;
-                player.HealEffect(25);
-                player.AddBuff(ModContent.BuffType<Buffs.IncendiaryRevival>(), 60 * 4);
-                player.AddBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>(), 3600 * 3);
+                CombatText.NewText(Player.getRect(), Color.OrangeRed, "Revived!", true);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, Player.Center);
+                Player.statLife = 25;
+                Player.HealEffect(25);
+                Player.AddBuff(ModContent.BuffType<Buffs.IncendiaryRevival>(), 60 * 4);
+                Player.AddBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>(), 3600 * 3);
                 return false;
             }
 
             return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
-        }
-
-        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
-        {
-            ModPacket packet = mod.GetPacket();
-            packet.Write(CombatPoints);
-            packet.Write(EyeOfTheMenace);
-            packet.Write(GoldenTooth);
-            packet.Write(CoreOfFear);
-            packet.Write(AnekronianApple);
-            packet.Write(primaryAbilityInt);
-            packet.Write(secondaryAbilityInt);
-            packet.Send(toWho, fromWho);
         }
 
         public override void clientClone(ModPlayer clientClone)
@@ -1884,25 +1831,23 @@ namespace TerrorbornMod
             TerrorbornPlayer clone = clientClone as TerrorbornPlayer;
         }
 
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
-            return new TagCompound {
-                {"CombatPoints", CombatPoints},
-                {"EyeOfTheMenace", EyeOfTheMenace},
-                {"GoldenTooth", GoldenTooth},
-                {"CoreOfFear", CoreOfFear},
-                {"AnekronianApple", AnekronianApple},
-                {"DemonicLense", DemonicLense},
-                {"PrimaryAbility", primaryAbilityInt},
-                {"SecondaryAbility", secondaryAbilityInt},
-                {"unlockedAbilities", unlockedAbilities},
-                {"TerrorPercent", TerrorPercent},
-                {"MidnightFruit", MidnightFruit},
-                {"DarkEnergyStored", DarkEnergyStored}
-            };
+            tag.Add("CombatPoints", CombatPoints);
+            tag.Add("EyeOfTheMenace", EyeOfTheMenace);
+            tag.Add("GoldenTooth", GoldenTooth);
+            tag.Add("CoreOfFear", CoreOfFear);
+            tag.Add("AnekronianApple", AnekronianApple);
+            tag.Add("DemonicLense", DemonicLense);
+            tag.Add("PrimaryAbility", primaryAbilityInt);
+            tag.Add("SecondaryAbility", secondaryAbilityInt);
+            tag.Add("unlockedAbilities", unlockedAbilities);
+            tag.Add("TerrorPercent", TerrorPercent);
+            tag.Add("MidnightFruit", MidnightFruit);
+            tag.Add("DarkEnergyStored", DarkEnergyStored);
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             CombatPoints = tag.GetInt("CombatPoints");
             EyeOfTheMenace = tag.GetBool("EyeOfTheMenace");
@@ -1921,9 +1866,9 @@ namespace TerrorbornMod
             secondaryAbility = TerrorbornUtils.intToAbility(secondaryAbilityInt);
         }
 
-        public static TerrorbornPlayer modPlayer(Player player)
+        public static TerrorbornPlayer modPlayer(Player Player)
         {
-            return player.GetModPlayer<TerrorbornPlayer>();
+            return Player.GetModPlayer<TerrorbornPlayer>();
         }
     }
 }

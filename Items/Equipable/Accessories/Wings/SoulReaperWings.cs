@@ -9,13 +9,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12);
-            recipe.AddIngredient(ItemID.SoulofFlight, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18)
+                .AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12)
+                .AddIngredient(ItemID.SoulofFlight, 20)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -25,18 +24,18 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.wingTimeMax = (int)(60 * 3f);
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                if (npc.active && !npc.friendly && npc.Distance(player.Center) <= 300)
+                if (NPC.active && !NPC.friendly && NPC.Distance(player.Center) <= 300)
                 {
                     player.wingTime = player.wingTimeMax;
                 }

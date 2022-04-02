@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -20,7 +15,7 @@ namespace TerrorbornMod.Abilities
 
         public override Texture2D texture()
         {
-            return ModContent.GetTexture("TerrorbornMod/Abilities/TerrorWarp_Icon");
+            return (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Abilities/TerrorWarp_Icon");
         }
 
         public override float Cost()
@@ -67,11 +62,11 @@ namespace TerrorbornMod.Abilities
         }
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -115,7 +110,7 @@ namespace TerrorbornMod.Abilities
 
         public override Vector2 lockedPosition()
         {
-            return TerrorbornWorld.TerrorWarp * 16;
+            return TerrorbornSystem.TerrorWarp * 16;
         }
 
         public override Vector2 dimensions()
@@ -141,9 +136,9 @@ namespace TerrorbornMod.Abilities
 
         public override void ObtainAbility()
         {
-            projectile.active = false;
+            Projectile.active = false;
 
-            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)]);
+            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(Projectile.position, Projectile.width, Projectile.height)]);
             target.unlockedAbilities.Add(2);
             target.TriggerAbilityAnimation("Terror Warp", "Teleports you to your mouse cursor, but can't teleport you through tiles", "Costs 20% terror to use", 0, visibilityTime: 700);
         }

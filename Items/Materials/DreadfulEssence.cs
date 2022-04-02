@@ -1,7 +1,5 @@
 ﻿using Terraria.ID;
 using Terraria;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Materials
@@ -11,16 +9,16 @@ namespace TerrorbornMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("'The essence of an angel'");
-            ItemID.Sets.ItemNoGravity[item.type] = true;
-            ItemID.Sets.ItemIconPulse[item.type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+            ItemID.Sets.ItemIconPulse[Item.type] = true;
         }
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 0, 75, 0);
-            item.rare = 12;
-            item.width = 48;
-            item.height = 42;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 0, 75, 0);
+            Item.rare = 12;
+            Item.width = 48;
+            Item.height = 42;
         }
     }
 }

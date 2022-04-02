@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrorbornMod.TBUtils;
-using System.Collections.Generic;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Magic
 {
@@ -14,18 +11,16 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             int evilBars = 10;
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8);
-            recipe.AddIngredient(ItemID.CrimtaneBar, evilBars);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8);
-            recipe2.AddIngredient(ItemID.DemoniteBar, evilBars);
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8)
+                .AddIngredient(ItemID.CrimtaneBar, evilBars)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8)
+                .AddIngredient(ItemID.DemoniteBar, evilBars)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -36,31 +31,31 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.noMelee = true;
-            item.width = 52;
-            item.height = 52;
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 2.5f;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item28;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SpectralClock>();
-            item.shootSpeed = 5f;
-            item.mana = 3;
-            item.magic = true;
-            item.channel = true;
+            Item.damage = 50;
+            Item.noMelee = true;
+            Item.width = 52;
+            Item.height = 52;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 2.5f;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item28;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SpectralClock>();
+            Item.shootSpeed = 5f;
+            Item.mana = 3;
+            Item.DamageType = DamageClass.Magic;;
+            Item.channel = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position = Main.MouseWorld;
-            foreach (Projectile projectile in Main.projectile)
+            foreach (Projectile Projectile in Main.projectile)
             {
-                if (projectile.active && projectile.type == type)
+                if (Projectile.active && Projectile.type == type)
                 {
                     return false;
                 }
@@ -73,65 +68,65 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 20;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 20;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         float requiredSpeed = 15f;
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(10);
-            projectile.timeLeft = 20;
+            Projectile.rotation += MathHelper.ToRadians(10);
+            Projectile.timeLeft = 20;
 
-            if (projectile.alpha > (int)(255 * 0.25f))
+            if (Projectile.alpha > (int)(255 * 0.25f))
             {
-                projectile.alpha -= 15;
+                Projectile.alpha -= 15;
             }
 
-            if (!Main.player[projectile.owner].channel || Main.player[projectile.owner].statMana < Main.player[projectile.owner].HeldItem.mana * Main.player[projectile.owner].manaCost)
+            if (!Main.player[Projectile.owner].channel || Main.player[Projectile.owner].statMana < Main.player[Projectile.owner].HeldItem.mana * Main.player[Projectile.owner].manaCost)
             {
-                DustExplosion(projectile.Center, 10, 25f, 46f);
-                projectile.active = false;
+                DustExplosion(Projectile.Center, 10, 25f, 46f);
+                Projectile.active = false;
             }
 
-            if (projectile.Center != Main.MouseWorld)
+            if (Projectile.Center != Main.MouseWorld)
             {
-                projectile.velocity += projectile.DirectionTo(Main.MouseWorld) * 0.5f;
+                Projectile.velocity += Projectile.DirectionTo(Main.MouseWorld) * 0.5f;
             }
-            projectile.velocity *= 0.98f;
+            Projectile.velocity *= 0.98f;
 
-            if (projectile.velocity.Length() > requiredSpeed)
+            if (Projectile.velocity.Length() > requiredSpeed)
             {
-                Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 127)];
+                Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127)];
                 dust.noGravity = true;
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            TBUtils.Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, 75, Color.OrangeRed * 0.5f);
-            return base.PreDraw(spriteBatch, lightColor);
+            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, 75, Color.OrangeRed * 0.5f);
+            return true;
         }
 
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 10, 25f, 46f);
+            DustExplosion(Projectile.Center, 10, 25f, 46f);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.velocity.Length() > requiredSpeed)
+            if (Projectile.velocity.Length() > requiredSpeed)
             {
                 damage *= 5;
             }

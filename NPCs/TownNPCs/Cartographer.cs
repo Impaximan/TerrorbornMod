@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -31,31 +29,31 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 25;
-            NPCID.Sets.ExtraFramesCount[npc.type] = 10;
-            NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 700;
-            NPCID.Sets.AttackType[npc.type] = 0;
-            NPCID.Sets.AttackTime[npc.type] = 90;
-            NPCID.Sets.AttackAverageChance[npc.type] = 30;
-            NPCID.Sets.HatOffsetY[npc.type] = 4;
-            NPCID.Sets.SavesAndLoads[npc.type] = false;
+            Main.npcFrameCount[NPC.type] = 25;
+            NPCID.Sets.ExtraFramesCount[NPC.type] = 10;
+            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            NPCID.Sets.DangerDetectRange[NPC.type] = 700;
+            NPCID.Sets.AttackType[NPC.type] = 0;
+            NPCID.Sets.AttackTime[NPC.type] = 90;
+            NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+            NPCID.Sets.HatOffsetY[NPC.type] = 4;
+            NPCID.Sets.SavesAndLoads[NPC.type] = false;
         }
 
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.friendly = true;
-            npc.width = 18;
-            npc.height = 40;
-            npc.aiStyle = 7;
-            npc.damage = 10;
-            npc.lifeMax = 250;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.knockBackResist = 0f;
-            npc.dontTakeDamage = true;
-            npc.rarity = 1;
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.width = 18;
+            NPC.height = 40;
+            NPC.aiStyle = 7;
+            NPC.damage = 10;
+            NPC.lifeMax = 250;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0f;
+            NPC.dontTakeDamage = true;
+            NPC.rarity = 1;
             animationType = NPCID.Guide;
         }
 
@@ -66,7 +64,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            Player player = Main.player[Player.FindClosest(npc.Center, 0, 0)];
+            Player player = Main.player[Player.FindClosest(NPC.Center, 0, 0)];
 
             int biomeKeyCost = Item.buyPrice(3, 50, 0, 0);
 
@@ -291,11 +289,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (NPC.AnyNPCs(npc.type) || spawnInfo.player.ZoneUnderworldHeight || TerrorbornWorld.CartographerSpawnCooldown > 0 || spawnInfo.player.Distance(new Vector2(Main.spawnTileX * 16, Main.spawnTileY * 16)) <= 6000)
+            if (NPC.AnyNPCs(NPC.type) || spawnInfo.player.ZoneUnderworldHeight || TerrorbornSystem.CartographerSpawnCooldown > 0 || spawnInfo.player.Distance(new Vector2(Main.spawnTileX * 16, Main.spawnTileY * 16)) <= 6000)
             {
                 return 0f;
             }
-            if (spawnInfo.player.ZoneRockLayerHeight && !TerrorbornWorld.talkedToCartographer)
+            if (spawnInfo.player.ZoneRockLayerHeight && !TerrorbornSystem.talkedToCartographer)
             {
                 return 0.03f;
             }
@@ -314,15 +312,15 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life < 1)
+            if (NPC.life < 1)
             {
-                npc.life = 1;
+                NPC.life = 1;
             }
         }
 
         public override string TownNPCName()
         {
-            return TerrorbornWorld.CartographerName;
+            return TerrorbornSystem.CartographerName;
         }
 
         int currentOption1 = 0;
@@ -341,8 +339,8 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/ExclamationPoint");
-            Vector2 position = npc.Center - new Vector2(0, 65);
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/ExclamationPoint");
+            Vector2 position = NPC.Center - new Vector2(0, 65);
             if (doingDialogue)
             {
                 spriteBatch.Draw(texture, position: position - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, 0f, new Vector2(texture.Width / 2, texture.Height / 2), 1f, SpriteEffects.None, 0f);
@@ -352,28 +350,28 @@ namespace TerrorbornMod.NPCs.TownNPCs
         bool start = true;
         public override void PostAI()
         {
-            Player player = Main.player[Player.FindClosest(npc.Center, 0, 0)];
-            if (player.Distance(npc.Center) > 300)
+            Player player = Main.player[Player.FindClosest(NPC.Center, 0, 0)];
+            if (player.Distance(NPC.Center) > 300)
             {
                 showingLore = false;
                 loreText = 0;
                 currentOption1 = 0;
             }
 
-            if (player.Distance(npc.Center) > 2000)
+            if (player.Distance(NPC.Center) > 2000)
             {
-                npc.active = false;
+                NPC.active = false;
             }
 
             if (start)
             {
                 start = false;
-                npc.GivenName = TerrorbornWorld.CartographerName;
+                NPC.GivenName = TerrorbornSystem.CartographerName;
             }
 
-            if (TerrorbornWorld.talkedToCartographer)
+            if (TerrorbornSystem.talkedToCartographer)
             {
-                TerrorbornWorld.CartographerSpawnCooldown = 3600 * 36;
+                TerrorbornSystem.CartographerSpawnCooldown = 3600 * 36;
             }
         }
 
@@ -443,7 +441,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 if (dialogue.Count <= 0)
                 {
                     doingDialogue = false;
-                    TerrorbornWorld.talkedToCartographer = true;
+                    TerrorbornSystem.talkedToCartographer = true;
                 }
             }
             else
@@ -493,7 +491,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                             {
                                 player.BuyItem(Item.buyPrice(0, 2, 0, 0));
                                 TerrorbornUtils.RevealMapAroundPlayer(300, player);
-                                Main.PlaySound(SoundID.Coins, (int)npc.Center.X, (int)npc.Center.Y, -1);
+                                Terraria.Audio.SoundEngine.PlaySound(SoundID.Coins, (int)NPC.Center.X, (int)NPC.Center.Y, -1);
                                 CombatText.NewText(player.getRect(), Color.LightYellow, "Nearby area revealed!");
                                 hasRevealedMap = true;
 
@@ -556,14 +554,14 @@ namespace TerrorbornMod.NPCs.TownNPCs
             string shownDialogue = "h";
             if (doingDialogue) //First dialogue
             {
-                Player player = Main.player[Player.FindClosest(npc.Center, 0, 0)];
+                Player player = Main.player[Player.FindClosest(NPC.Center, 0, 0)];
                 TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-                if (!TerrorbornWorld.talkedToCartographer)
+                if (!TerrorbornSystem.talkedToCartographer)
                 {
                     dialogue = new List<string>()
                     {
                         { "Hello there! I don't believe we've talked before..." },
-                        { "...my name is " + npc.GivenName + ", and I'm a cartographer, with a magnified interest in the supernatural and ancient areas of this world."},
+                        { "...my name is " + NPC.GivenName + ", and I'm a cartographer, with a magnified interest in the supernatural and ancient areas of this world."},
                         { "If you wish, I can fill out the nearby area of your map to help you with your adventures- for a price, of course." },
                         { "Anyways, how can I help you?" }
                     };

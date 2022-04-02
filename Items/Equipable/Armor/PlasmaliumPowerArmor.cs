@@ -1,8 +1,5 @@
 ﻿using Terraria;
-using System;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.Armor
@@ -12,12 +9,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 10)
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 4)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -29,17 +25,17 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.allDamage *= 1.15f;
+            player.GetDamage(DamageClass.Generic) *= 1.15f;
             player.moveSpeed += 0.04f;
         }
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.defense = 15;
+            Item.width = 24;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.defense = 15;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -57,7 +53,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             {
                 modPlayer.PlasmaPower = 30;
             }
-            player.allDamage *= 1f + (modPlayer.PlasmaPower / 100f);
+            player.GetDamage(DamageClass.Generic) *= 1f + (modPlayer.PlasmaPower / 100f);
         }
     }
 
@@ -66,12 +62,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 10)
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 4)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -84,16 +79,16 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             player.statLifeMax2 += 50;
-            player.allDamage *= 1.05f;
+            player.GetDamage(DamageClass.Generic) *= 1.05f;
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 26;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.defense = 22;
+            Item.width = 22;
+            Item.height = 26;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.defense = 22;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -132,33 +127,30 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.allUseSpeed *= 1.07f;
-            player.allDamage *= 1.08f;
+            player.GetDamage(DamageClass.Generic) *= 1.08f;
             modPlayer.flightTimeMultiplier *= 1.5f;
             player.statLifeMax2 += 35;
+            ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
+            ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
+            ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 15)
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 7)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.defense = 20;
-        }
-
-        public override bool DrawBody()
-        {
-            return false;
+            Item.width = 30;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.defense = 20;
         }
     }
 
@@ -167,12 +159,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 8)
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 4)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -185,19 +176,16 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.allUseSpeed *= 1.08f;
-            player.thrownCrit += 10;
-            player.rangedCrit += 10;
-            player.magicCrit += 10;
-            player.meleeCrit += 10;
+            player.GetCritChance(DamageClass.Generic) += 10;
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.defense = 14;
+            Item.width = 26;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.defense = 14;
         }
     }
 }

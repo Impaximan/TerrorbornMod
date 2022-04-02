@@ -33,8 +33,8 @@ namespace TerrorbornMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Deimostone Chest");
 			AddMapEntry(new Color(80, 112, 109), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Containers };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Containers };
 			chest = "Deimostone Chest";
 			chestDrop = ModContent.ItemType<Items.Placeable.Furniture.DeimostoneChest>();
 		}
@@ -77,14 +77,14 @@ namespace TerrorbornMod.Tiles
 			}
 			if (player.sign >= 0)
 			{
-				Main.PlaySound(SoundID.MenuClose);
+				Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
 				player.sign = -1;
 				Main.editSign = false;
 				Main.npcChatText = "";
 			}
 			if (Main.editChest)
 			{
-				Main.PlaySound(SoundID.MenuTick);
+				Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuTick);
 				Main.editChest = false;
 				Main.npcChatText = "";
 			}
@@ -100,7 +100,7 @@ namespace TerrorbornMod.Tiles
 				{
 					player.chest = -1;
 					Recipe.FindRecipes();
-					Main.PlaySound(SoundID.MenuClose);
+					Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
 				}
 				else
 				{
@@ -117,7 +117,7 @@ namespace TerrorbornMod.Tiles
 					if (chest == player.chest)
 					{
 						player.chest = -1;
-						Main.PlaySound(SoundID.MenuClose);
+						Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
 					}
 					else
 					{
@@ -126,7 +126,7 @@ namespace TerrorbornMod.Tiles
 						Main.recBigList = false;
 						player.chestX = left;
 						player.chestY = top;
-						Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+						Terraria.Audio.SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
 					}
 					Recipe.FindRecipes();
 				}

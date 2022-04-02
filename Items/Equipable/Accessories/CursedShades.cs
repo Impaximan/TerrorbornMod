@@ -1,7 +1,6 @@
 ﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories
 {
@@ -9,11 +8,10 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Lens, 3);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Lens, 3)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -23,20 +21,18 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Blue;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.useAnimation = 5;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.useAnimation = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.critDamage += 0.2f;
-            player.magicCrit += 10;
-            player.meleeCrit += 10;
-            player.rangedCrit += 10;
+            player.GetCritChance(DamageClass.Generic) += 10;
         }
     }
 }

@@ -1,20 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
-using Terraria.Utilities;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 using TerrorbornMod.TBUtils;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
@@ -23,11 +11,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.NovagoldBar>());
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 75);
-            recipe.AddRecipe();
+            CreateRecipe(75)
+                .AddIngredient(ModContent.ItemType<Materials.NovagoldBar>())
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -37,24 +24,24 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.ranged = true;
-            item.consumable = true;
-            item.maxStack = 999;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 0f;
-            item.value = Item.sellPrice(0, 0, 0, 20);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.shootSpeed = 15;
-            item.shoot = ModContent.ProjectileType<ThrowingStarProjectile>();
-            item.width = 30;
-            item.height = 30;
+            Item.damage = 18;
+            Item.DamageType = DamageClass.Ranged;
+            Item.consumable = true;
+            Item.maxStack = 999;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 0f;
+            Item.value = Item.sellPrice(0, 0, 0, 20);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shootSpeed = 15;
+            Item.shoot = ModContent.ProjectileType<ThrowingStarProjectile>();
+            Item.width = 30;
+            Item.height = 30;
         }
     }
 
@@ -64,43 +51,43 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 60 * 10;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 60 * 10;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 15;
             height = 15;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
             if (timeUntilFall > 0)
             {
-                Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-                for (int i = 0; i < projectile.oldPos.Length; i++)
+                Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+                for (int i = 0; i < Projectile.oldPos.Length; i++)
                 {
-                    Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.LightSkyBlue) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                    Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(45f * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length)), color * 0.5f);
+                    Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.LightSkyBlue) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                    Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(45f * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length)), color * 0.5f);
                 }
             }
             return true;
@@ -110,11 +97,11 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override void AI()
         {
             int direction = 1;
-            if (projectile.velocity.X <= 0)
+            if (Projectile.velocity.X <= 0)
             {
                 direction = -1;
             }
-            projectile.rotation += MathHelper.ToRadians(projectile.velocity.Length() * 2 * direction);
+            Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.Length() * 2 * direction);
 
             if (timeUntilFall > 0)
             {
@@ -122,7 +109,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
             else
             {
-                projectile.velocity.Y += 0.2f;
+                Projectile.velocity.Y += 0.2f;
             }
         }
 
@@ -136,35 +123,35 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (timeUntilFall > 0)
             {
                 bool actuallyHappened = false;
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.position.X = projectile.position.X + projectile.velocity.X;
-                    projectile.velocity.X = -oldVelocity.X * 0.5f;
+                    Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                    Projectile.velocity.X = -oldVelocity.X * 0.5f;
                     actuallyHappened = true;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                    projectile.velocity.Y = -oldVelocity.Y * 0.5f;
+                    Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y * 0.5f;
                     actuallyHappened = true;
                 }
 
                 if (actuallyHappened)
                 {
-                    projectile.penetrate = 1;
-                    if (projectile.velocity.Y <= 1f && projectile.velocity.Y >= -5f)
+                    Projectile.penetrate = 1;
+                    if (Projectile.velocity.Y <= 1f && Projectile.velocity.Y >= -5f)
                     {
-                        projectile.velocity.Y = -5f;
+                        Projectile.velocity.Y = -5f;
                     }
-                    Main.PlaySound(SoundID.Item14, projectile.Center);
-                    TerrorbornMod.ScreenShake(1.5f);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+                    TerrorbornSystem.ScreenShake(1.5f);
                     timeUntilFall = 0;
-                    DustExplosion(projectile.Center, 20, 50f, 100f);
-                    foreach (NPC npc in Main.npc)
+                    DustExplosion(Projectile.Center, 20, 50f, 100f);
+                    foreach (NPC NPC in Main.npc)
                     {
-                        if (!npc.dontTakeDamage && !npc.friendly && npc.active && npc.knockBackResist != 0f && npc.Distance(projectile.Center) <= 300)
+                        if (!NPC.dontTakeDamage && !NPC.friendly && NPC.active && NPC.knockBackResist != 0f && NPC.Distance(Projectile.Center) <= 300)
                         {
-                            npc.velocity = projectile.DirectionFrom(npc.Center) * 10f * npc.knockBackResist;
+                            NPC.velocity = Projectile.DirectionFrom(NPC.Center) * 10f * NPC.knockBackResist;
                         }
                     }
                     return false;

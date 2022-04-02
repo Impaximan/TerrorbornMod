@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
-using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
-using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items.TestItems
 {
@@ -24,15 +13,15 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
         public override bool CanUseItem(Player player)
         {
-            TerrorbornWorld.TerrorMasterDialogue = 0;
+            TerrorbornSystem.TerrorMasterDialogue = 0;
             Main.NewText("Terror Master dialogue reset! You may now go through the sequences once more.");
             return base.CanUseItem(player);
         }

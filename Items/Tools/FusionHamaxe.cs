@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,30 +16,29 @@ namespace TerrorbornMod.Items.Tools
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 14);
-            recipe.AddIngredient(ItemID.LunarBar, 12);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 14)
+                .AddIngredient(ItemID.LunarBar, 12)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.melee = true;
-            item.width = 48;
-            item.height = 52;
-            item.useAnimation = 10;
-            item.useTime = 3;
-            item.hammer = 100;
-            item.axe = 150 / 5;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5.5f;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 60;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 48;
+            Item.height = 52;
+            Item.useAnimation = 10;
+            Item.useTime = 3;
+            Item.hammer = 100;
+            Item.axe = 150 / 5;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5.5f;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override bool CanUseItem(Player player)

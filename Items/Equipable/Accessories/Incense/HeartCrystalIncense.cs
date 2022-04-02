@@ -15,12 +15,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Incense
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 38;
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Green;
-            item.value = Item.sellPrice(0, 0, 80, 0);
+            Item.width = 42;
+            Item.height = 38;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(0, 0, 80, 0);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

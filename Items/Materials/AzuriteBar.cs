@@ -12,17 +12,16 @@ namespace TerrorbornMod.Items.Materials
         }
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 0, 35, 0);
-            item.rare = ItemRarityID.Green;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 0, 35, 0);
+            Item.rare = ItemRarityID.Green;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AzuriteOre", 3);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<AzuriteOre>(3)
+                .AddTile(TileID.Furnaces)
+                .Register();
         }
     }
 }

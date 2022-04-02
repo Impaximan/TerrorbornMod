@@ -1,21 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using TerrorbornMod.Abilities;
-using TerrorbornMod.ForegroundObjects;
-using Terraria.GameInput;
-using Microsoft.Xna.Framework.Input;
-using Extensions;
 
 
 namespace TerrorbornMod.ForegroundObjects
@@ -41,9 +26,9 @@ namespace TerrorbornMod.ForegroundObjects
         public int timeLeft;
         public override void AI()
         {
-            position.X += Main.windSpeed * 10;
+            position.X += Main.windSpeedCurrent * 10;
             spriteDirection = -1;
-            if (Main.windSpeed > 1)
+            if (Main.windSpeedCurrent > 1)
             {
                 spriteDirection = 1;
             }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,18 +10,18 @@ namespace TerrorbornMod.Items.Ammo
     {
         public override void SetDefaults()
         {
-            item.damage = 10;
-            item.ranged = true;
-            item.width = 8;
-            item.height = 16;
-            item.maxStack = 9999;
-            item.consumable = true;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 0, 0, 5);
-            item.shootSpeed = 20;
-            item.rare = ItemRarityID.Green;
-            item.shoot = mod.ProjectileType("AzuriteBulletProjectile");
-            item.ammo = AmmoID.Bullet;
+            Item.damage = 10;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 8;
+            Item.height = 16;
+            Item.maxStack = 9999;
+            Item.consumable = true;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 0, 0, 5);
+            Item.shootSpeed = 20;
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<AzuriteBulletProjectile>();
+            Item.ammo = AmmoID.Bullet;
         }
         public override void SetStaticDefaults()
         {
@@ -31,12 +30,11 @@ namespace TerrorbornMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.AzuriteBar>());
-            recipe.AddIngredient(ItemID.MusketBall, 111);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 111);
-            recipe.AddRecipe();
+            CreateRecipe(111)
+                .AddIngredient<Materials.AzuriteBar>()
+                .AddIngredient(ItemID.MusketBall, 111)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
     class AzuriteBulletProjectile : ModProjectile
@@ -45,23 +43,26 @@ namespace TerrorbornMod.Items.Ammo
         {
             DisplayName.SetDefault("Azurite Bullet");
         }
+
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 2;
-            projectile.ranged = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 28;
+            Projectile.height = 2;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 14;
             height = 14;
-            return true;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.Next(101) <= 20)
@@ -70,27 +71,27 @@ namespace TerrorbornMod.Items.Ammo
                 float speed = 5f;
                 Vector2 velocity = target.DirectionFrom(position) * speed;
 
-                int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.AzuriteShard>(), projectile.damage / 2, 0, Main.myPlayer, 0f, 0f);
-                Main.projectile[proj].ranged = true;
+                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.AzuriteShard>(), Projectile.damage / 2, 0, Main.myPlayer, 0f, 0f);
+                Main.projectile[proj].DamageType = DamageClass.Ranged;
             }
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
         }
 
         public override void Kill(int timeLeft)
         {
             if (timeLeft > 0)
             {
-                Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-                Main.PlaySound(SoundID.Dig, projectile.position);
+                Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
                 for (int i = 0; i < Main.rand.Next(2, 4); i++)
                 {
-                    int Num54 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0, 0, Scale: 1f, newColor: Color.Blue);
+                    int Num54 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, 0, 0, Scale: 1f, newColor: Color.Blue);
                     Main.dust[Num54].noGravity = true;
-                    Main.dust[Num54].velocity = projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(0.9f, 1.1f);
+                    Main.dust[Num54].velocity = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(0.9f, 1.1f);
                 }
             }
         }

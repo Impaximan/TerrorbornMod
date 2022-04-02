@@ -15,16 +15,16 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
         public override bool CanUseItem(Player player)
         {
-            TerrorbornWorld.TwilightMode = !TerrorbornWorld.TwilightMode;
-            Main.NewText(TerrorbornWorld.TwilightMode);
+            TerrorbornSystem.TwilightMode = !TerrorbornSystem.TwilightMode;
+            Main.NewText(TerrorbornSystem.TwilightMode);
             return base.CanUseItem(player);
         }
     }

@@ -1,22 +1,25 @@
-﻿using System.IO;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 using Terraria.Utilities;
 using System;
 using Microsoft.Xna.Framework;
 using Terraria.GameContent.Generation;
 using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.IO;
+using Terraria.UI;
+using TerrorbornMod.ForegroundObjects;
+using TerrorbornMod.UI.TerrorMeter;
+using TerrorbornMod.UI.TerrorAbilityUnlock;
+using TerrorbornMod.UI.TitleCard;
+using TerrorbornMod.UI.TwilightEmpowerment;
 
 namespace TerrorbornMod
 {
-    public class TerrorbornWorld : ModWorld
+    public class TerrorbornSystem : ModSystem
     {
         public static bool downedShadowcrawler;
         public static bool downedPrototypeI;
@@ -49,6 +52,21 @@ namespace TerrorbornMod
         public static int CartographerSpawnCooldown = 0;
         public static int incendiaryIslandsSide = 0;
 
+        internal UserInterface terrorMeterInterface;
+        internal TerrorMeterUI terrorMeterUI;
+
+        internal UserInterface twilightMeterInterface;
+        internal TwilightEmpowermentUI twilightEmpowermentUI;
+
+        internal UserInterface unlockInterface;
+        internal UnlockUI unlockUI;
+
+        internal UserInterface titleCardInterface;
+        internal TitleCardUI titleCardUI;
+
+        internal UserInterface terrorMenuInterface;
+        internal TerrorAbilityMenu terrorAbilityMenu;
+
         //TWILIGHT MODE
         public static bool TwilightMode;
 
@@ -63,43 +81,14 @@ namespace TerrorbornMod
 
         bool WasNight = false;
 
-        public override void Initialize()
-        {
-            TwilightMode = false;
-            CartographerSpawnCooldown = 3600 * 6;
-            downedShadowcrawler = false;
-            downedPrototypeI = false;
-            downedTidalTitan = false;
-            downedDunestock = false;
-            timeSinceFrightcrawlerSpawn = 0;
-            terrorRain = false;
-            downedTerrorRain = false;
-            downedFrightcrawler = false;
-            downedUndyingSpirit = false;
-            obtainedShriekOfHorror = false;
-            talkedToCartographer = false;
-            downedInfectedIncarnate = false;
-            downedIncendiaryBoss = false;
-            downedSlateBanshee = false;
-            talkedToHeretic = false;
-            downedDreadAngel = false;
-            downedDreadwind = false;
-            downedUriel = false;
-            TerrorMasterDialogue = 0;
-            SkeletonSheriffName = getSkeletonSheriffName();
-            CartographerName = getCartographerName();
-            VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f);
-            TerrorWarp = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.66f);
-        }
-
-        public override void PreUpdate()
+        public override void PreUpdateNPCs()
         {
             wormExtraSegmentCount = 0;
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                if (npc.active)
+                if (NPC.active)
                 {
-                    TerrorbornNPC globalNPC = TerrorbornNPC.modNPC(npc);
+                    TerrorbornNPC globalNPC = TerrorbornNPC.modNPC(NPC);
                     if (globalNPC.extraWormSegment)
                     {
                         wormExtraSegmentCount++;
@@ -115,16 +104,16 @@ namespace TerrorbornMod
             incendiaryTiles = 0;
         }
 
-        public override void TileCountsAvailable(int[] tileCounts)
-        {
-            deimostoneTiles = tileCounts[ModContent.TileType<Tiles.Deimostone>()];
+        //public override void TileCountsAvailable(System.ReadOnlySpan<int> tileCounts)
+        //{
+        //    deimostoneTiles = tileCounts[ModContent.TileType<Tiles.Deimostone>()];
 
-            incendiaryTiles = tileCounts[ModContent.TileType<Tiles.Incendiary.KindlingSoil>()];
-            incendiaryTiles += tileCounts[ModContent.TileType<Tiles.Incendiary.KindlingGrass>()];
-            incendiaryTiles += tileCounts[ModContent.TileType<Tiles.Incendiary.IncendiaryMachinery>()];
+        //    incendiaryTiles = tileCounts[ModContent.TileType<Tiles.Incendiary.KindlingSoil>()];
+        //    incendiaryTiles += tileCounts[ModContent.TileType<Tiles.Incendiary.KindlingGrass>()];
+        //    incendiaryTiles += tileCounts[ModContent.TileType<Tiles.Incendiary.IncendiaryMachinery>()];
 
-            incendiaryRitual = tileCounts[ModContent.TileType<Tiles.Incendiary.IncendiaryRitual>()] > 0;
-        }
+        //    incendiaryRitual = tileCounts[ModContent.TileType<Tiles.Incendiary.IncendiaryRitual>()] > 0;
+        //}
 
         public string getSkeletonSheriffName()
         {
@@ -147,6 +136,206 @@ namespace TerrorbornMod
                 default:
                     return "Liven't";
             }
+        }
+
+        public override void OnModLoad()
+        {
+            if (!Main.dedServ)
+            {
+                terrorMeterInterface = new UserInterface();
+                twilightMeterInterface = new UserInterface();
+                unlockInterface = new UserInterface();
+                terrorMenuInterface = new UserInterface();
+                titleCardInterface = new UserInterface();
+
+                terrorMeterUI = new TerrorMeterUI();
+                terrorMeterUI.Activate();
+
+                twilightEmpowermentUI = new TwilightEmpowermentUI();
+                twilightEmpowermentUI.Activate();
+
+                unlockUI = new UnlockUI();
+                unlockUI.Activate();
+
+                terrorAbilityMenu = new TerrorAbilityMenu();
+                terrorAbilityMenu.Activate();
+
+                titleCardUI = new TitleCardUI();
+                titleCardUI.Activate();
+            }
+        }
+        public static void TerrorThunder()
+        {
+            positionLightning = 1f;
+            //transitionColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
+            ScreenShake(10);
+            //ModContent.GetSound("TerrorbornMod/Sounds/Effects/ThunderAmbience").Play(Main.ambientVolume, Main.rand.NextFloat(-0.25f, 0.25f), Main.rand.NextFloat(-0.3f, 0.3f));
+        }
+
+        public static void p1Thunder()
+        {
+            if (timeSinceLightning > 10)
+            {
+                //ModContent.GetSound("TerrorbornMod/Sounds/Effects/ThunderAmbience").Play(Main.soundVolume * 0.75f, Main.rand.NextFloat(0.75f, 1f), Main.rand.NextFloat(-0.3f, 0.3f));
+            }
+            timeSinceLightning = 0;
+            positionLightningP1 = 1f;
+            //transitionColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
+            ScreenShake(15);
+        }
+
+        internal void ShowUI()
+        {
+            unlockInterface?.SetState(unlockUI);
+            terrorMenuInterface?.SetState(terrorAbilityMenu);
+            terrorMeterInterface?.SetState(terrorMeterUI);
+            twilightMeterInterface?.SetState(twilightEmpowermentUI);
+            titleCardInterface?.SetState(titleCardUI);
+        }
+
+        internal void HideUI()
+        {
+            unlockInterface?.SetState(null);
+            terrorMenuInterface?.SetState(null);
+            terrorMeterInterface?.SetState(null);
+            twilightMeterInterface?.SetState(null);
+            titleCardInterface?.SetState(null);
+        }
+
+        public static Color darkRainColor = Color.FromNonPremultiplied((int)(40f * 0.7f), (int)(55f * 0.7f), (int)(70f * 0.7f), 255);
+        public static Color incendiaryColor = Color.FromNonPremultiplied(191, 122, 122, 255);
+        public static Color transitionColor = Color.White;
+        public static Color lightningColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
+        public static Color p1LightningColor = Color.FromNonPremultiplied((int)(143f), (int)(255f), (int)(191f), 255);
+        public static float positionForward = 0f;
+        public static float positionBackward = 0f;
+        public static float positionLightning = 0f;
+        public static float transitionTime = 600f;
+        public static float positionLightningP1 = 0f;
+
+        public static Color bossColor;
+        public static float bossColorLerp = 0f;
+
+        public override void ModifyLightingBrightness(ref float scale)
+        {
+            if (TerrorbornSystem.terrorRain && Main.raining && Main.LocalPlayer.ZoneRain && !Main.dayTime)
+            {
+                scale *= 0.92f;
+            }
+        }
+
+        public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
+        {
+            Player player = Main.LocalPlayer;
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            if (TerrorbornSystem.terrorRain && Main.raining)
+            {
+                positionBackward = 0f;
+                if (positionForward < 1f)
+                {
+                    positionForward += 1f / transitionTime;
+                }
+                else
+                {
+                    positionForward = 1f;
+                }
+                transitionColor = Color.Lerp(transitionColor, darkRainColor, positionForward);
+                tileColor = tileColor.MultiplyRGBA(transitionColor);
+                backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
+            }
+            else if (transitionColor != Color.White)
+            {
+                positionForward = 0f;
+                if (positionBackward < 1f)
+                {
+                    positionBackward += 1f / transitionTime;
+                }
+                else
+                {
+                    positionBackward = 1f;
+                }
+                transitionColor = Color.Lerp(transitionColor, Color.White, positionBackward);
+                tileColor = tileColor.MultiplyRGBA(transitionColor);
+                backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
+            }
+
+            if (!Main.gameMenu && modPlayer.ZoneIncendiary)
+            {
+                positionBackward = 0f;
+                if (positionForward < 1f)
+                {
+                    positionForward += 1f / transitionTime;
+                }
+                else
+                {
+                    positionForward = 1f;
+                }
+                transitionColor = Color.Lerp(transitionColor, incendiaryColor, positionForward);
+                tileColor = tileColor.MultiplyRGBA(transitionColor);
+                backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
+                if (positionLightning > 0f)
+                {
+                    positionLightning -= 1f / 30f;
+                    backgroundColor = Color.Lerp(backgroundColor, lightningColor, positionLightning);
+                }
+            }
+            else if (transitionColor != Color.White)
+            {
+                positionForward = 0f;
+                if (positionBackward < 1f)
+                {
+                    positionBackward += 1f / transitionTime;
+                }
+                else
+                {
+                    positionBackward = 1f;
+                }
+                transitionColor = Color.Lerp(transitionColor, Color.White, positionBackward);
+                tileColor = tileColor.MultiplyRGBA(transitionColor);
+                backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
+            }
+
+            bool changingToBossColor = false;
+
+            if (positionLightning > 0f)
+            {
+                positionLightning -= 1f / 30f;
+                backgroundColor = Color.Lerp(backgroundColor, lightningColor, positionLightning);
+            }
+            if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>()))
+            {
+                changingToBossColor = true;
+                bossColor = Color.LightBlue;
+            }
+
+            if (changingToBossColor)
+            {
+                if (bossColorLerp < 1f)
+                {
+                    bossColorLerp += 1f / 60f;
+                }
+            }
+            else
+            {
+                if (bossColorLerp > 0f)
+                {
+                    bossColorLerp -= 1f / 60f;
+                }
+            }
+
+            backgroundColor = backgroundColor.MultiplyRGBA(Color.Lerp(Color.White, bossColor, bossColorLerp));
+
+            if (positionLightningP1 > 0f)
+            {
+                positionLightningP1 -= 1f / 30f;
+                backgroundColor = Color.Lerp(backgroundColor, p1LightningColor, positionLightningP1);
+            }
+
+            //if (!Main.gameMenu)
+            //{
+            //    Main.NewText(bossColorLerp);
+            //}
         }
 
         public string getCartographerName()
@@ -172,7 +361,7 @@ namespace TerrorbornMod
             }
         }
 
-        public override TagCompound Save()
+        public override void SaveWorldData(TagCompound tag)
         {
             var downed = new List<string>();
             if (downedShadowcrawler) downed.Add("Shadowcrawler");
@@ -190,26 +379,24 @@ namespace TerrorbornMod
             if (downedDreadwind) downed.Add("downedDreadwind");
             if (downedUriel) downed.Add("downedUriel");
 
-            return new TagCompound {
-                {"downed", downed},
-                {"CurrentBountyBiome", CurrentBountyBiome},
-                {"SkeletonSheriffName", SkeletonSheriffName},
-                {"CartographerName", CartographerName},
-                {"TerrorMasterDialogue", TerrorMasterDialogue},
-                {"VoidBlink", VoidBlink},
-                {"TerrorWarp", TerrorWarp},
-                {"terrorRain", terrorRain},
-                {"IIShrinePosition", IIShrinePosition},
-                {"talkedToCartographer", talkedToCartographer},
-                {"talkedToHeretic", talkedToHeretic},
-                {"TwilightMode", TwilightMode},
-                {"timeSinceFrightcrawlerSpawn", timeSinceFrightcrawlerSpawn},
-                {"CartographerSpawnCooldown", CartographerSpawnCooldown},
-                {"incendiaryIslandsSide", incendiaryIslandsSide}
-            };
-            
+            tag.Add("downed", downed);
+            tag.Add("CurrentBountyBiome", CurrentBountyBiome);
+            tag.Add("SkeletonSheriffName", SkeletonSheriffName);
+            tag.Add("CartographerName", CartographerName);
+            tag.Add("TerrorMasterDialogue", TerrorMasterDialogue);
+            tag.Add("VoidBlink", VoidBlink);
+            tag.Add("TerrorWarp", TerrorWarp);
+            tag.Add("terrorRain", terrorRain);
+            tag.Add("IIShrinePosition", IIShrinePosition);
+            tag.Add("talkedToCartographer", talkedToCartographer);
+            tag.Add("talkedToHeretic", talkedToHeretic);
+            tag.Add("TwilightMode", TwilightMode);
+            tag.Add("timeSinceFrightcrawlerSpawn", timeSinceFrightcrawlerSpawn);
+            tag.Add("CartographerSpawnCooldown", CartographerSpawnCooldown);
+            tag.Add("incendiaryIslandsSide", incendiaryIslandsSide);
         }
-        public override void Load(TagCompound tag)
+
+        public override void LoadWorldData(TagCompound tag)
         {
             var downed = tag.GetList<string>("downed");
             downedShadowcrawler = downed.Contains("Shadowcrawler");
@@ -240,20 +427,6 @@ namespace TerrorbornMod
             timeSinceFrightcrawlerSpawn = tag.GetInt("timeSinceFrightcrawlerSpawn");
             CartographerSpawnCooldown = tag.GetInt("CartographerSpawnCooldown");
             incendiaryIslandsSide = tag.GetInt("incendiaryIslandsSide");
-        }
-
-        public override void LoadLegacy(BinaryReader reader)
-        {
-            int loadVersion = reader.ReadInt32();
-            if (loadVersion == 0)
-            {
-                BitsByte flags = reader.ReadByte();
-                downedShadowcrawler = flags[0];
-            }
-            else
-            {
-                ErrorLogger.Log("Terrorborn Mod: Unknown loadVersion: " + loadVersion);
-            }
         }
 
         public static void CreateLineOfBlocksHorizontal(int LineX, int LineY, int Length, int Type, bool Right = true, bool forced = false, bool withWall = false, int wallType = WallID.Dirt)
@@ -322,6 +495,99 @@ namespace TerrorbornMod
                     }
                     WorldGen.PlaceWall(LineX, LineY + i, Type, true);
                 }
+            }
+        }
+
+        private GameTime _lastUpdateUiGameTime;
+        public override void UpdateUI(GameTime gameTime)
+        {
+            _lastUpdateUiGameTime = gameTime;
+            if (terrorMeterInterface?.CurrentState != null)
+            {
+                terrorMeterInterface.Update(gameTime);
+            }
+            if (twilightMeterInterface?.CurrentState != null)
+            {
+                twilightMeterInterface.Update(gameTime);
+            }
+            if (titleCardInterface?.CurrentState != null)
+            {
+                titleCardInterface.Update(gameTime);
+            }
+            if (unlockInterface?.CurrentState != null)
+            {
+                unlockInterface.Update(gameTime);
+            }
+            if (terrorMenuInterface?.CurrentState != null)
+            {
+                terrorMenuInterface.Update(gameTime);
+            }
+        }
+
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+        {
+            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            if (mouseTextIndex != -1)
+            {
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                    "TerrorbornMod: terrorMeterInterface",
+                    delegate
+                    {
+                        if (_lastUpdateUiGameTime != null && terrorMeterInterface?.CurrentState != null)
+                        {
+                            terrorMeterInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                        }
+                        return true;
+                    },
+                       InterfaceScaleType.UI));
+
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                    "TerrorbornMod: twilightMeterInterface",
+                    delegate
+                    {
+                        if (_lastUpdateUiGameTime != null && twilightMeterInterface?.CurrentState != null)
+                        {
+                            twilightMeterInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                        }
+                        return true;
+                    },
+                       InterfaceScaleType.UI));
+
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                    "TerrorbornMod: unlockInterface",
+                    delegate
+                    {
+                        if (_lastUpdateUiGameTime != null && unlockInterface?.CurrentState != null)
+                        {
+                            unlockInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                        }
+                        return true;
+                    },
+                       InterfaceScaleType.UI));
+
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                    "TerrorbornMod: terrorMenuInterface",
+                    delegate
+                    {
+                        if (_lastUpdateUiGameTime != null && terrorMenuInterface?.CurrentState != null)
+                        {
+                            terrorMenuInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                        }
+                        return true;
+                    },
+                       InterfaceScaleType.UI));
+
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                    "TerrorbornMod: titleCardInterface",
+                    delegate
+                    {
+                        if (_lastUpdateUiGameTime != null && titleCardInterface?.CurrentState != null)
+                        {
+                            titleCardInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                        }
+                        return true;
+                    },
+                       InterfaceScaleType.UI));
             }
         }
 
@@ -591,9 +857,9 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.type == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
+                        tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
                 }
             }
@@ -697,9 +963,9 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.type == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
+                        tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
                 }
             }
@@ -828,9 +1094,9 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.type == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
+                        tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
                 }
             }
@@ -1010,9 +1276,9 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.type == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
+                        tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
                 }
             }
@@ -1136,9 +1402,9 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.type == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
+                        tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
                 }
             }
@@ -1307,9 +1573,9 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.type == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
+                        tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
                 }
             }
@@ -1398,30 +1664,30 @@ namespace TerrorbornMod
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
             int genIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
-            tasks.Insert(genIndex + 1, new PassLegacy("Deimostone Chests", delegate (GenerationProgress progress)
+            tasks.Insert(genIndex + 1, new PassLegacy("Deimostone Chests", delegate (GenerationProgress progress, GameConfiguration config)
             {
                 progress.Message = "Generating Deimostone Chests";
                 GenerateDeimostoneChests();
             }));
-            tasks.Insert(genIndex + 2, new PassLegacy("Lavender Chests", delegate (GenerationProgress progress)
+            tasks.Insert(genIndex + 2, new PassLegacy("Lavender Chests", delegate (GenerationProgress progress, GameConfiguration config)
             {
                 progress.Message = "Generating Lavender Chests";
                 GenerateLavenderChests();
             }));
-            tasks.Insert(genIndex + 3, new PassLegacy("Terror Shrines", delegate (GenerationProgress progress)
+            tasks.Insert(genIndex + 3, new PassLegacy("Terror Shrines", delegate (GenerationProgress progress, GameConfiguration config)
             {
                 progress.Message = "Building the shrines";
                 GenerateShrineStructures();
             }));
             genIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Granite"));
-            tasks.Insert(genIndex + 1, new PassLegacy("Deimostone caves", delegate (GenerationProgress progress)
+            tasks.Insert(genIndex + 1, new PassLegacy("Deimostone caves", delegate (GenerationProgress progress, GameConfiguration config)
             {
                 deimostoneCaves.Clear();
                 progress.Message = "Darkening Deimostone";
                 GenerateDeimostoneCaves();
             }));
             genIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
-            tasks.Insert(genIndex + 1, new PassLegacy("Deimosteel Ore", delegate (GenerationProgress progress)
+            tasks.Insert(genIndex + 1, new PassLegacy("Deimosteel Ore", delegate (GenerationProgress progress, GameConfiguration config)
             {
                 progress.Message = "Generating Deimosteel";
                 GenerateDeimosteel();
@@ -1444,7 +1710,7 @@ namespace TerrorbornMod
         public static void GenerateLavenderChestShrine(int i, int j)
         {
             Vector2 currentPosition = new Vector2(i, j);
-            while (WorldGen.TileEmpty((int)currentPosition.X, (int)currentPosition.Y) && !Main.tileSolid[Main.tile[(int)currentPosition.X, (int)currentPosition.Y].type])
+            while (WorldGen.TileEmpty((int)currentPosition.X, (int)currentPosition.Y) && !Main.tileSolid[Main.tile[(int)currentPosition.X, (int)currentPosition.Y].TileType])
             {
                 if (currentPosition.Y > Main.maxTilesY - 300)
                 {
@@ -1452,7 +1718,7 @@ namespace TerrorbornMod
                 }
                 currentPosition.Y++;
             }
-            while (!WorldGen.TileEmpty((int)currentPosition.X, (int)currentPosition.Y) && Main.tileSolid[Main.tile[(int)currentPosition.X, (int)currentPosition.Y].type])
+            while (!WorldGen.TileEmpty((int)currentPosition.X, (int)currentPosition.Y) && Main.tileSolid[Main.tile[(int)currentPosition.X, (int)currentPosition.Y].TileType])
             {
                 if (currentPosition.Y < (int)WorldGen.rockLayerHigh)
                 {
@@ -1492,16 +1758,42 @@ namespace TerrorbornMod
             WorldGen.PlaceTile(x, y + 2, TileID.IridescentBrick);
             WorldGen.PlaceTile(x + 1, y + 2, TileID.IridescentBrick);
             WorldGen.PlaceTile(x, y + 1, (ushort)ModContent.TileType<Tiles.LavenderChest>());
-            Main.tile[x, y].frameX += 1 * 36;
-            Main.tile[x + 1, y].frameX += 1 * 36;
-            Main.tile[x + 1, y + 1].frameX += 1 * 36;
-            Main.tile[x, y + 1].frameX += 1 * 36;
+            Main.tile[x, y].TileFrameX += 1 * 36;
+            Main.tile[x + 1, y].TileFrameX += 1 * 36;
+            Main.tile[x + 1, y + 1].TileFrameX += 1 * 36;
+            Main.tile[x, y + 1].TileFrameX += 1 * 36;
         }
 
         List<Point16> deimostoneChests = new List<Point16>(500);
         List<Rectangle> deimostoneCaves = new List<Rectangle>();
         public override void PostWorldGen()
         {
+            TwilightMode = false;
+            CartographerSpawnCooldown = 3600 * 6;
+            downedShadowcrawler = false;
+            downedPrototypeI = false;
+            downedTidalTitan = false;
+            downedDunestock = false;
+            timeSinceFrightcrawlerSpawn = 0;
+            terrorRain = false;
+            downedTerrorRain = false;
+            downedFrightcrawler = false;
+            downedUndyingSpirit = false;
+            obtainedShriekOfHorror = false;
+            talkedToCartographer = false;
+            downedInfectedIncarnate = false;
+            downedIncendiaryBoss = false;
+            downedSlateBanshee = false;
+            talkedToHeretic = false;
+            downedDreadAngel = false;
+            downedDreadwind = false;
+            downedUriel = false;
+            TerrorMasterDialogue = 0;
+            SkeletonSheriffName = getSkeletonSheriffName();
+            CartographerName = getCartographerName();
+            VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f);
+            TerrorWarp = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.66f);
+
             for (int i = 0; i < 1000; i++)
             {
                 Chest chest = Main.chest[i];
@@ -1556,7 +1848,7 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 11 * 36 && Main.rand.NextFloat() <= 0.6f)
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 11 * 36 && Main.rand.NextFloat() <= 0.6f)
                 {
                     for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                     {
@@ -1594,7 +1886,7 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 11 * 36)
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 11 * 36)
                 {
                     if (Main.rand.Next(101) <= 50)
                     {
@@ -1617,7 +1909,7 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 2 * 36)
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 2 * 36)
                 {
                     if (Main.rand.Next(101) <= 60)
                     {
@@ -1645,7 +1937,7 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 13 * 36)
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 13 * 36)
                 {
                     if (Main.rand.Next(101) <= 65)
                     {
@@ -1660,7 +1952,7 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<Tiles.DeimostoneChestTile>())
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == ModContent.TileType<Tiles.DeimostoneChestTile>())
                 {
                     List<int> mainItems = new List<int>();
                     mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.ShriekersLung>());
@@ -1779,7 +2071,7 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<Tiles.LavenderChest>())
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == ModContent.TileType<Tiles.LavenderChest>())
                 {
                     List<int> mainItems = new List<int>();
                     mainItems.Add(ModContent.ItemType<Items.Weapons.Melee.PhoenixFlameSpear>());
@@ -1888,7 +2180,7 @@ namespace TerrorbornMod
                     chest.item[item].stack = WorldGen.genRand.Next(10, 15);
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.NextFloat() <= 0.4f) //Golden chest
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 1 * 36 && Main.rand.NextFloat() <= 0.4f) //Golden chest
                 {
                     for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                     {
@@ -1926,7 +2218,7 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.NextFloat() <= 0.25f) //Gold chest lore items
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 1 * 36 && Main.rand.NextFloat() <= 0.25f) //Gold chest lore items
                 {
                     for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                     {
@@ -1938,7 +2230,7 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 8 * 36 && Main.rand.NextFloat() <= 0.25f) //Jungle chest
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && Main.tile[chest.x, chest.y].TileFrameX == 8 * 36 && Main.rand.NextFloat() <= 0.25f) //Jungle chest
                 {
                     for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                     {
@@ -1976,7 +2268,7 @@ namespace TerrorbornMod
                     }
                 }
 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && (Main.tile[chest.x, chest.y].frameX == 32 * 36 || Main.tile[chest.x, chest.y].frameX == 50 * 36 || Main.tile[chest.x, chest.y].frameX == 51 * 36)) //Mushroom, granite, and marble chests
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers && (Main.tile[chest.x, chest.y].TileFrameX == 32 * 36 || Main.tile[chest.x, chest.y].TileFrameX == 50 * 36 || Main.tile[chest.x, chest.y].TileFrameX == 51 * 36)) //Mushroom, granite, and marble chests
                 {
                     for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                     {
@@ -2061,7 +2353,7 @@ namespace TerrorbornMod
             ShriekOfHorrorPosition.Y += 285 * sizeMultiplier;
             ShriekOfHorrorPosition.X -= 15;
 
-            Structures.StructureGenerator.GenerateSOHShrine(mod, new Point((int)ShriekOfHorrorPosition.X, (int)ShriekOfHorrorPosition.Y));
+            Structures.StructureGenerator.GenerateSOHShrine(Mod, new Point((int)ShriekOfHorrorPosition.X, (int)ShriekOfHorrorPosition.Y));
 
             int DungeonDirection = 1;
             if (Main.dungeonX < Main.spawnTileX)
@@ -2069,17 +2361,17 @@ namespace TerrorbornMod
                 DungeonDirection = -1;
             }
             Vector2 HorrificAdaptationPosition = new Vector2(Main.spawnTileX + (Main.maxTilesX / 4) * -DungeonDirection, Main.maxTilesY / 2);
-            Structures.StructureGenerator.GenerateHAShrine(mod, new Point((int)HorrificAdaptationPosition.X, (int)HorrificAdaptationPosition.Y));
+            Structures.StructureGenerator.GenerateHAShrine(Mod, new Point((int)HorrificAdaptationPosition.X, (int)HorrificAdaptationPosition.Y));
 
             bool foundIIShrinePosition = false;
             while (!foundIIShrinePosition)
             {
                 IIShrinePosition = new Vector2(WorldGen.genRand.Next(150, Main.maxTilesX - 150), 100);
-                while (!(Main.tileSolid[Main.tile[(int)IIShrinePosition.X, (int)IIShrinePosition.Y].type] || IIShrinePosition.Y >= Main.maxTilesY * 0.75f))
+                while (!(Main.tileSolid[Main.tile[(int)IIShrinePosition.X, (int)IIShrinePosition.Y].TileType] || IIShrinePosition.Y >= Main.maxTilesY * 0.75f))
                 {
                     IIShrinePosition.Y++;
                 }
-                if (Main.tile[(int)IIShrinePosition.X, (int)IIShrinePosition.Y].type == TileID.SnowBlock || Main.tile[(int)IIShrinePosition.X, (int)IIShrinePosition.Y].type == TileID.IceBlock)
+                if (Main.tile[(int)IIShrinePosition.X, (int)IIShrinePosition.Y].TileType == TileID.SnowBlock || Main.tile[(int)IIShrinePosition.X, (int)IIShrinePosition.Y].TileType == TileID.IceBlock)
                 {
                     foundIIShrinePosition = true;
                     break;
@@ -2092,13 +2384,13 @@ namespace TerrorbornMod
             {
                 IIShrinePosition.Y++;
             }
-            Structures.StructureGenerator.GenerateIIArena(mod, new Point((int)IIShrinePosition.X - 52, (int)IIShrinePosition.Y - 8));
+            Structures.StructureGenerator.GenerateIIArena(Mod, new Point((int)IIShrinePosition.X - 52, (int)IIShrinePosition.Y - 8));
 
             VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f);
-            Structures.StructureGenerator.GenerateVBShrine(mod, new Point((int)VoidBlink.X, (int)VoidBlink.Y));
+            Structures.StructureGenerator.GenerateVBShrine(Mod, new Point((int)VoidBlink.X, (int)VoidBlink.Y));
 
             TerrorWarp = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.66f);
-            Structures.StructureGenerator.GenerateTWShrine(mod, new Point((int)TerrorWarp.X, (int)TerrorWarp.Y));
+            Structures.StructureGenerator.GenerateTWShrine(Mod, new Point((int)TerrorWarp.X, (int)TerrorWarp.Y));
         }
 
         public override void PreWorldGen()
@@ -2159,7 +2451,7 @@ namespace TerrorbornMod
                 for (int j = -caveHeight; j < caveHeight; j++)
                 {
                     Point16 tilePosition = new Point16(position.X + i, position.Y + j);
-                    if (Main.tile[tilePosition.X, tilePosition.Y].type == ModContent.TileType<Tiles.Deimostone>())
+                    if (Main.tile[tilePosition.X, tilePosition.Y].TileType == ModContent.TileType<Tiles.Deimostone>())
                     {
                         dontGenerate = true;
                     }
@@ -2425,6 +2717,8 @@ namespace TerrorbornMod
             }
         }
 
+        bool wasRaining = true;
+        int thunderCounter = -69;
         void SetTerrorAbilityPositions()
         {
             ShriekOfHorror = new Vector2(Main.spawnTileX, Main.spawnTileY);
@@ -2455,21 +2749,59 @@ namespace TerrorbornMod
         Rectangle arena;
         void SetArenaPosition()
         {
-            Vector2 arenaPos = TerrorbornWorld.IIShrinePosition * 16;
+            Vector2 arenaPos = TerrorbornSystem.IIShrinePosition * 16;
             arenaPos += new Vector2(-37 * 16, 92 * 16);
             arena = new Rectangle((int)arenaPos.X, (int)arenaPos.Y, 75 * 16, 35 * 16);
         }
 
-        bool wasRaining = true;
-        int thunderCounter = -69;
-        public override void PostUpdate()
+        public static void UpdateForegroundObjects()
         {
+            foreach (ForegroundObject fObject in foregroundObjects)
+            {
+                if (fObject != null)
+                {
+                    fObject.Update();
+                }
+            }
+        }
+
+        public static void ScreenShake(float Intensity)
+        {
+            if (screenShaking < Intensity)
+            {
+                screenShaking = Intensity;
+            }
+        }
+
+        public const int foregroundObjectsCount = 500;
+        public static ForegroundObject[] foregroundObjects = new ForegroundObject[foregroundObjectsCount];
+
+        public static float screenShaking = 0f;
+        static int timeSinceLightning = 0;
+        public override void PostUpdateEverything()
+        {
+            if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>()))
+            {
+                timeSinceLightning++;
+            }
+            TerrorbornUtils.Update();
+
+            UpdateForegroundObjects();
+
+            ShowUI();
+
+            screenShaking *= 0.95f;
+            if ((int)Math.Round(screenShaking) == 0)
+            {
+                screenShaking = 0;
+            }
+
             SetArenaPosition();
             if (Main.LocalPlayer.Distance(arena.Center.ToVector2()) >= 3000f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()) && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.MemorialCoffin>()))
             {
                 if (!(IIShrinePosition == null || IIShrinePosition == Vector2.Zero))
                 {
-                    NPC.NewNPC(arena.Center.X, arena.Center.Y, ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.MemorialCoffin>());
+                    NPC.NewNPC(new EntitySource_WorldEvent(), arena.Center.X, arena.Center.Y, ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.MemorialCoffin>());
                 }
             }
 
@@ -2479,7 +2811,7 @@ namespace TerrorbornMod
             }
             if (terrorRain)
             {
-                Main.rainTexture = ModContent.GetTexture("TerrorbornMod/TerrorRain");
+                //Main.rain = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/TerrorRain");
 
                 if (NPC.AnyNPCs(ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>()))
                 {
@@ -2491,12 +2823,12 @@ namespace TerrorbornMod
                     timeSinceFrightcrawlerSpawn++;
                     if (timeSinceFrightcrawlerSpawn >= 3600 * 2)
                     {
-                        Main.PlaySound(SoundID.Roar, (int)Main.LocalPlayer.Center.X, (int)Main.LocalPlayer.Center.Y, 0, 1, -0.3f);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)Main.LocalPlayer.Center.X, (int)Main.LocalPlayer.Center.Y, 0, 1, -0.3f);
                         NPC.SpawnOnPlayer(Main.myPlayer, ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
                     }
                     else if (timeSinceFrightcrawlerSpawn >= 3600f * 1f && Main.rand.NextFloat() <= 0.0002f)
                     {
-                        Main.PlaySound(SoundID.Roar, (int)Main.LocalPlayer.Center.X, (int)Main.LocalPlayer.Center.Y, 0, 1, -0.3f);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)Main.LocalPlayer.Center.X, (int)Main.LocalPlayer.Center.Y, 0, 1, -0.3f);
                         NPC.SpawnOnPlayer(Main.myPlayer, ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
                     }
                 }
@@ -2505,12 +2837,12 @@ namespace TerrorbornMod
                 if (thunderCounter <= 0)
                 {
                     thunderCounter = Main.rand.Next(60 * 4, 60 * 45);
-                    TerrorbornMod.TerrorThunder();
+                    TerrorThunder();
                 }
             }
             else
             {
-                Main.rainTexture = ModContent.GetTexture("Terraria/Rain");
+                //Main.rainTexture = (Texture2D)ModContent.Request<Texture2D>("Terraria/Rain");
             }
 
             if (CartographerSpawnCooldown > 0)
@@ -2564,23 +2896,23 @@ namespace TerrorbornMod
             }
             if (SpawnShriek)
             {
-                Projectile.NewProjectile(ShriekOfHorror, Vector2.Zero, ModContent.ProjectileType<Abilities.ShriekOfHorror>(), 0, 0);
+                Projectile.NewProjectile(new EntitySource_WorldEvent(), ShriekOfHorror, Vector2.Zero, ModContent.ProjectileType<Abilities.ShriekOfHorror>(), 0, 0);
             }
             if (SpawnHA)
             {
-                Projectile.NewProjectile(HorrificAdaptation, Vector2.Zero, ModContent.ProjectileType<Abilities.HorrificAdaptation>(), 0, 0);
+                Projectile.NewProjectile(new EntitySource_WorldEvent(), HorrificAdaptation, Vector2.Zero, ModContent.ProjectileType<Abilities.HorrificAdaptation>(), 0, 0);
             }
             if (SpawnNC)
             {
-                Projectile.NewProjectile(HorrificAdaptation, Vector2.Zero, ModContent.ProjectileType<Abilities.NecromanticCurse>(), 0, 0);
+                Projectile.NewProjectile(new EntitySource_WorldEvent(), HorrificAdaptation, Vector2.Zero, ModContent.ProjectileType<Abilities.NecromanticCurse>(), 0, 0);
             }
             if (SpawnVB)
             {
-                Projectile.NewProjectile(VoidBlink, Vector2.Zero, ModContent.ProjectileType<Abilities.VoidBlink>(), 0, 0);
+                Projectile.NewProjectile(new EntitySource_WorldEvent(), VoidBlink, Vector2.Zero, ModContent.ProjectileType<Abilities.VoidBlink>(), 0, 0);
             }
             if (SpawnTW)
             {
-                Projectile.NewProjectile(TerrorWarp, Vector2.Zero, ModContent.ProjectileType<Abilities.TerrorWarp>(), 0, 0);
+                Projectile.NewProjectile(new EntitySource_WorldEvent(), TerrorWarp, Vector2.Zero, ModContent.ProjectileType<Abilities.TerrorWarp>(), 0, 0);
             }
 
             if (CurrentBountyBiome == 69)
@@ -2632,7 +2964,7 @@ namespace TerrorbornMod
             {
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int y = WorldGen.genRand.Next((int)WorldGen.worldSurfaceLow, Main.maxTilesY);
-                WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(4, 7), WorldGen.genRand.Next(3, 6), mod.TileType("Azurite"), false, 0f, 0f, false, true);
+                WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(4, 7), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.Azurite>(), false, 0f, 0f, false, true);
             }
         }
     }

@@ -1,20 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
-using Terraria.Utilities;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -27,23 +15,23 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.damage = 36;
-            item.ranged = true;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.shootSpeed = 22;
-            item.shoot = ModContent.ProjectileType<ThunderGrenadeProjectile>();
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            Item.width = 28;
+            Item.height = 32;
+            Item.damage = 36;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shootSpeed = 22;
+            Item.shoot = ModContent.ProjectileType<ThunderGrenadeProjectile>();
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.countAsThrown = true;
         }
     }
@@ -57,20 +45,20 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 20;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 18;
+            Projectile.height = 20;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(projectile.velocity.X);
-            projectile.velocity.Y += 0.18f;
+            Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X);
+            Projectile.velocity.Y += 0.18f;
         }
 
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
@@ -95,10 +83,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item89, projectile.Center);
-            DustExplosion(projectile.Center, 0, 12, 7, 62, 2f, true);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item89, Projectile.Center);
+            DustExplosion(Projectile.Center, 0, 12, 7, 62, 2f, true);
 
-            List<int> npcsTargeted = new List<int>();
+            List<int> NPCsTargeted = new List<int>();
             for (int i = 0; i < Main.rand.Next(3, 6); i++)
             {
                 bool foundSomething = false;
@@ -108,25 +96,25 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 float distance = 4000;
                 float preferredDistance = distance;
 
-                foreach (NPC npc in Main.npc)
+                foreach (NPC NPC in Main.npc)
                 {
-                    if (!npc.friendly && npc.CanBeChasedBy() && projectile.CanHit(npc))
+                    if (!NPC.friendly && NPC.CanBeChasedBy() && Projectile.CanHitWithOwnBody(NPC))
                     {
-                        if (npcsTargeted.Contains(npc.whoAmI))
+                        if (NPCsTargeted.Contains(NPC.whoAmI))
                         {
-                            if (npc.Distance(projectile.Center) < distance)
+                            if (NPC.Distance(Projectile.Center) < distance)
                             {
                                 foundAnything = true;
-                                distance = npc.Distance(projectile.Center);
-                                closest = npc;
+                                distance = NPC.Distance(Projectile.Center);
+                                closest = NPC;
                             }
                         }
-                        else if (npc.Distance(projectile.Center) < preferredDistance)
+                        else if (NPC.Distance(Projectile.Center) < preferredDistance)
                         {
                             foundAnything = true;
                             foundSomething = true;
-                            preferredDistance = npc.Distance(projectile.Center);
-                            preferred = npc;
+                            preferredDistance = NPC.Distance(Projectile.Center);
+                            preferred = NPC;
                         }
                     }
                 }
@@ -135,12 +123,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 {
                     if (foundSomething)
                     {
-                        npcsTargeted.Add(preferred.whoAmI);
+                        NPCsTargeted.Add(preferred.whoAmI);
                         SpawnLightning(preferred.whoAmI);
                     }
                     else
                     {
-                        npcsTargeted.Add(closest.whoAmI);
+                        NPCsTargeted.Add(closest.whoAmI);
                         SpawnLightning(closest.whoAmI);
                     }
                 }
@@ -152,8 +140,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
             float speed = Main.rand.NextFloat(10f, 25f);
 
-            int proj = Projectile.NewProjectile(projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.SoulLightning>(), projectile.damage / 2, 0.5f, projectile.owner);
-            Main.projectile[proj].ranged = true;
+            int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.SoulLightning>(), Projectile.damage / 2, 0.5f, Projectile.owner);
+            Main.projectile[proj].DamageType = DamageClass.Ranged;
             Main.projectile[proj].ai[0] = target;
         }
     }

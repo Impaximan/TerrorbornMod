@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -17,27 +18,27 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.3f;
-            item.damage = 25;
-            item.ranged = true;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.width = 112;
-            item.height = 46;
-            item.useTime = 6;
-            item.useAnimation = 6;
-            item.knockBack = 5;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Effects/CoolerMachineGun");
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.value = Item.sellPrice(0, 0, 25, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
-            item.scale = 0.75f;
-            item.channel = true;
-            item.reuseDelay = baseReuseDelay;
+            Item.damage = 25;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.width = 112;
+            Item.height = 46;
+            Item.useTime = 6;
+            Item.useAnimation = 6;
+            Item.knockBack = 5;
+            Item.UseSound = SoundID.Item11; //TODO: Make this a custom sound
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.value = Item.sellPrice(0, 0, 25, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.scale = 0.75f;
+            Item.channel = true;
+            Item.reuseDelay = baseReuseDelay;
         }
 
         public override Vector2? HoldoutOffset()
@@ -47,42 +48,40 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Megashark, 1);
-            recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<Materials.AzuriteBar>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<Materials.HellbornEssence>(), 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Megashark, 1)
+                .AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 12)
+                .AddIngredient(ModContent.ItemType<Materials.AzuriteBar>(), 12)
+                .AddIngredient(ModContent.ItemType<Materials.HellbornEssence>(), 4)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void UpdateInventory(Player player)
         {
             if (!player.channel)
             {
-                item.reuseDelay = baseReuseDelay;
+                Item.reuseDelay = baseReuseDelay;
             }
         }
 
         public override bool CanUseItem(Player player)
         {
-            if (item.reuseDelay > 0)
+            if (Item.reuseDelay > 0)
             {
-                item.reuseDelay--;
+                Item.reuseDelay--;
             }
             return base.CanUseItem(player);
         }
 
         int shots = 0;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             shots++;
-            Vector2 velocity = new Vector2(speedX, speedY);
             float rotationAmount = (float)Math.Sin((float)shots / 10f) * 25f;
-            Projectile.NewProjectile(position, velocity.RotatedBy(MathHelper.ToRadians(rotationAmount)), type, damage, knockBack, player.whoAmI);
-            Projectile.NewProjectile(position, velocity.RotatedBy(MathHelper.ToRadians(-rotationAmount)), type, damage, knockBack, player.whoAmI);
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(rotationAmount)), type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-rotationAmount)), type, damage, knockback, player.whoAmI);
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
     }
 }

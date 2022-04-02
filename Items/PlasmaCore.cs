@@ -9,45 +9,44 @@ namespace TerrorbornMod.Items
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SoulofNight, 15);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 30);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.HexingEssence>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.HellbornEssence>(), 3);
-            recipe.AddIngredient(ItemID.Ectoplasm, 20);
-            recipe.AddIngredient(ItemID.MartianConduitPlating, 100);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.SoulofNight, 15)
+                .AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 30)
+                .AddIngredient(ModContent.ItemType<Items.Materials.HexingEssence>(), 3)
+                .AddIngredient(ModContent.ItemType<Items.Materials.HellbornEssence>(), 3)
+                .AddIngredient(ItemID.Ectoplasm, 20)
+                .AddIngredient(ItemID.MartianConduitPlating, 100)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 3)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midnight Energy Core");
             Tooltip.SetDefault("Calls forth the first prototype, a failure to create control" +
                 "\nNot consumable");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 14));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 14));
         }
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 40;
-            item.value = 0;
-            item.rare = ItemRarityID.Yellow;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.noUseGraphic = true;
+            Item.width = 40;
+            Item.height = 40;
+            Item.value = 0;
+            Item.rare = ItemRarityID.Yellow;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.noUseGraphic = true;
         }
         public override bool CanUseItem(Player player)
         {
-            return !Main.dayTime && !NPC.AnyNPCs(mod.NPCType("PrototypeI"));
+            return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>());
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("PrototypeI"));
-            Main.PlaySound(SoundID.Roar, player.position, 0);
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>());
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }
     }

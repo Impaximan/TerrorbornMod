@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,34 +15,31 @@ namespace TerrorbornMod.Items.Dunestock
         }
         public override void SetDefaults()
         {
-            item.damage = 23;
-            item.ranged = true;
-            item.width = 26;
-            item.height = 56;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.DD2_BallistaTowerShot;
-            item.shoot = ProjectileID.GreenLaser;
-            item.autoReuse = true;
-            item.shootSpeed = 18f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 23;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 26;
+            Item.height = 56;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.DD2_BallistaTowerShot;
+            Item.shoot = ProjectileID.GreenLaser;
+            Item.autoReuse = true;
+            Item.shootSpeed = 18f;
+            Item.useAmmo = AmmoID.Arrow;
         }
-        public override bool CanUseItem(Player player)
-        {
-            return base.CanUseItem(player);
-        }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Player player)
         {
             return Main.rand.Next(101) <= 25f;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Claw>(), damage, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<Claw>(), damage, knockback, player.whoAmI);
             Main.projectile[proj].ai[0] = type;
             return false;
         }
@@ -54,34 +51,34 @@ namespace TerrorbornMod.Items.Dunestock
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.hostile = false;
-            projectile.ranged = true;
-            projectile.timeLeft = 45;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 45;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
@@ -89,44 +86,44 @@ namespace TerrorbornMod.Items.Dunestock
         int CollideCounter = 0;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
-            //Main.PlaySound(SoundID.Run, projectile.Center);
+            //Terraria.Audio.SoundEngine.PlaySound(SoundID.Run, Projectile.Center);
             CollideCounter += 1;
             if (CollideCounter >= 5)
             {
-                projectile.timeLeft = 0;
+                Projectile.timeLeft = 0;
             }
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item42, projectile.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, Projectile.Center);
             float speed = 15f;
-            Vector2 velocity = projectile.DirectionTo(Main.MouseWorld) * speed;
-            int proj = Projectile.NewProjectile(projectile.Center, velocity, (int)projectile.ai[0], projectile.damage, projectile.knockBack / 2, projectile.owner);
+            Vector2 velocity = Projectile.DirectionTo(Main.MouseWorld) * speed;
+            int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
             Main.projectile[proj].noDropItem = true;
-            proj = Projectile.NewProjectile(projectile.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), (int)projectile.ai[0], projectile.damage, projectile.knockBack / 2, projectile.owner);
+            proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
             Main.projectile[proj].noDropItem = true;
-            proj = Projectile.NewProjectile(projectile.Center, velocity.RotatedBy(MathHelper.ToRadians(-30)), (int)projectile.ai[0], projectile.damage, projectile.knockBack / 2, projectile.owner);
+            proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity.RotatedBy(MathHelper.ToRadians(-30)), (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
             Main.projectile[proj].noDropItem = true;
-            projectile.active = false;
+            Projectile.active = false;
         }
 
         int Direction = 1;
         int DirectionCounter = 5;
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
         }
     }
 }

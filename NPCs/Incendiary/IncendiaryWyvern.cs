@@ -1,23 +1,12 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 
 namespace TerrorbornMod.NPCs.Incendiary
 {
-	internal class IncendiaryWyvernHead : IncendiaryWyvern
+    internal class IncendiaryWyvernHead : IncendiaryWyvern
 	{
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
@@ -34,9 +23,9 @@ namespace TerrorbornMod.NPCs.Incendiary
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.width = 52;
-			npc.height = 86;
-			npc.aiStyle = -1;
+			NPC.width = 52;
+			NPC.height = 86;
+			NPC.aiStyle = -1;
 			head = true;
 		}
 
@@ -44,18 +33,18 @@ namespace TerrorbornMod.NPCs.Incendiary
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
-			if (npc.rotation <= MathHelper.ToRadians(0f) || npc.rotation >= MathHelper.ToRadians(180f))
+			if (NPC.rotation <= MathHelper.ToRadians(0f) || NPC.rotation >= MathHelper.ToRadians(180f))
 			{
 				effects = SpriteEffects.FlipHorizontally;
 			}
 
 			if (effects == SpriteEffects.None)
 			{
-				spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(33, 43), npc.scale, effects, 0);
+				spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(33, 43), NPC.scale, effects, 0);
 			}
 			else
 			{
-				spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(52 - 33, 43), npc.scale, effects, 0);
+				spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(52 - 33, 43), NPC.scale, effects, 0);
 			}
 			return false;
 		}
@@ -66,13 +55,13 @@ namespace TerrorbornMod.NPCs.Incendiary
 		int phaseTimeLeft = 60 * 5;
 		public override void actualAI()
 		{
-			npc.TargetClosest(false);
-			Player target = Main.player[npc.target];
-			npc.velocity = movementSpeed * movementDirection.ToRotationVector2();
+			NPC.TargetClosest(false);
+			Player target = Main.player[NPC.target];
+			NPC.velocity = movementSpeed * movementDirection.ToRotationVector2();
 			if (AIPhase == 0)
 			{
 				movementSpeed = MathHelper.Lerp(movementSpeed, 20f, 0.05f);
-				movementDirection = movementDirection.AngleLerp(npc.DirectionTo(target.Center).ToRotation(), 0.02f);
+				movementDirection = movementDirection.AngleLerp(NPC.DirectionTo(target.Center).ToRotation(), 0.02f);
 				phaseTimeLeft--;
 				if (phaseTimeLeft <= 0)
 				{
@@ -83,7 +72,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 			if (AIPhase == 1)
 			{
 				movementSpeed = MathHelper.Lerp(movementSpeed, 6f, 0.1f);
-				movementDirection = movementDirection.AngleLerp(npc.DirectionTo(target.Center).ToRotation(), 0.04f);
+				movementDirection = movementDirection.AngleLerp(NPC.DirectionTo(target.Center).ToRotation(), 0.04f);
 				phaseTimeLeft--;
 				if (phaseTimeLeft <= 0)
 				{
@@ -99,9 +88,9 @@ namespace TerrorbornMod.NPCs.Incendiary
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.aiStyle = -1;
-			npc.width = 64;
-			npc.height = 48;
+			NPC.aiStyle = -1;
+			NPC.width = 64;
+			NPC.height = 48;
 			body = true;
 		}
 
@@ -109,18 +98,18 @@ namespace TerrorbornMod.NPCs.Incendiary
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
-			if (npc.rotation <= MathHelper.ToRadians(0f) || npc.rotation >= MathHelper.ToRadians(180f))
+			if (NPC.rotation <= MathHelper.ToRadians(0f) || NPC.rotation >= MathHelper.ToRadians(180f))
 			{
 				effects = SpriteEffects.FlipHorizontally;
 			}
 
 			if (effects == SpriteEffects.None)
 			{
-				spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(19, 24), npc.scale, effects, 0);
+				spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
 			}
             else
 			{
-				spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(64 - 19, 24), npc.scale, effects, 0);
+				spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(64 - 19, 24), NPC.scale, effects, 0);
 			}
             return false;
         }
@@ -131,9 +120,9 @@ namespace TerrorbornMod.NPCs.Incendiary
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.aiStyle = -1;
-			npc.width = 38;
-			npc.height = 48;
+			NPC.aiStyle = -1;
+			NPC.width = 38;
+			NPC.height = 48;
 			body = true;
 		}
 
@@ -141,12 +130,12 @@ namespace TerrorbornMod.NPCs.Incendiary
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
-			if (npc.rotation <= MathHelper.ToRadians(0f) || npc.rotation >= MathHelper.ToRadians(180f))
+			if (NPC.rotation <= MathHelper.ToRadians(0f) || NPC.rotation >= MathHelper.ToRadians(180f))
 			{
 				effects = SpriteEffects.FlipHorizontally;
 			}
 
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(19, 24), npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
 			return false;
 		}
 	}
@@ -156,21 +145,21 @@ namespace TerrorbornMod.NPCs.Incendiary
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.aiStyle = -1;
-			npc.width = 36;
-			npc.height = 48;
+			NPC.aiStyle = -1;
+			NPC.width = 36;
+			NPC.height = 48;
 			body = true;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
-			if (npc.rotation <= MathHelper.ToRadians(0f) || npc.rotation >= MathHelper.ToRadians(180f))
+			if (NPC.rotation <= MathHelper.ToRadians(0f) || NPC.rotation >= MathHelper.ToRadians(180f))
 			{
 				effects = SpriteEffects.FlipHorizontally;
 			}
 
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(19, 24), npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
 			return false;
 		}
 	}
@@ -180,9 +169,9 @@ namespace TerrorbornMod.NPCs.Incendiary
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.aiStyle = -1;
-			npc.width = 32;
-			npc.height = 48;
+			NPC.aiStyle = -1;
+			NPC.width = 32;
+			NPC.height = 48;
 			body = true;
 		}
 
@@ -190,12 +179,12 @@ namespace TerrorbornMod.NPCs.Incendiary
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
-			if (npc.rotation <= MathHelper.ToRadians(0f) || npc.rotation >= MathHelper.ToRadians(180f))
+			if (NPC.rotation <= MathHelper.ToRadians(0f) || NPC.rotation >= MathHelper.ToRadians(180f))
 			{
 				effects = SpriteEffects.FlipHorizontally;
 			}
 
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(19, 24), npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
 			return false;
 		}
 	}
@@ -205,21 +194,21 @@ namespace TerrorbornMod.NPCs.Incendiary
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.aiStyle = -1;
-			npc.width = 24;
-			npc.height = 58;
+			NPC.aiStyle = -1;
+			NPC.width = 24;
+			NPC.height = 58;
 			tail = true;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
-			if (npc.rotation <= MathHelper.ToRadians(0f) || npc.rotation >= MathHelper.ToRadians(180f))
+			if (NPC.rotation <= MathHelper.ToRadians(0f) || NPC.rotation >= MathHelper.ToRadians(180f))
 			{
 				effects = SpriteEffects.FlipHorizontally;
 			}
 
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(19, 29), npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 29), NPC.scale, effects, 0);
 			return false;
 		}
 	}
@@ -251,20 +240,20 @@ namespace TerrorbornMod.NPCs.Incendiary
 			customBodyTypeList.Add(ModContent.NPCType<IncendiaryWyvernBody_3>());
 			bodySegmentCount++;
 			headType = ModContent.NPCType<IncendiaryWyvernHead>();
-			npc.lifeMax = 4500;
-			npc.HitSound = SoundID.NPCHit7;
-			npc.DeathSound = SoundID.NPCDeath8;
-			npc.damage = 40;
-			npc.friendly = false;
-			npc.noTileCollide = true;
-			npc.noGravity = true;
-			npc.defense = 25;
-			npc.knockBackResist = 0f;
+			NPC.lifeMax = 4500;
+			NPC.HitSound = SoundID.NPCHit7;
+			NPC.DeathSound = SoundID.NPCDeath8;
+			NPC.damage = 40;
+			NPC.friendly = false;
+			NPC.noTileCollide = true;
+			NPC.noGravity = true;
+			NPC.defense = 25;
+			NPC.knockBackResist = 0f;
 		}
 
 		public override void NPCLoot()
 		{
-			Item.NewItem(npc.getRect(), ItemID.SoulofFlight, Main.rand.Next(20, 42));
+			Item.NewItem(NPC.getRect(), ItemID.SoulofFlight, Main.rand.Next(20, 42));
 		}
 	}
 }

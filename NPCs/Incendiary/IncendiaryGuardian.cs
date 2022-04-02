@@ -1,19 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 
 namespace TerrorbornMod.NPCs.Incendiary
 {
@@ -21,36 +10,36 @@ namespace TerrorbornMod.NPCs.Incendiary
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 5;
         }
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.width = 48;
-            npc.height = 42;
-            npc.damage = 45;
-            npc.defense = 21;
-            npc.lifeMax = 750;
-            npc.HitSound = SoundID.NPCHit41;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.value = 250;
-            npc.knockBackResist = 0f;
-            npc.lavaImmune = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.width = 48;
+            NPC.height = 42;
+            NPC.damage = 45;
+            NPC.defense = 21;
+            NPC.lifeMax = 750;
+            NPC.HitSound = SoundID.NPCHit41;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.value = 250;
+            NPC.knockBackResist = 0f;
+            NPC.lavaImmune = true;
         }
 
         public override void NPCLoot()
         {
             if (Main.rand.NextFloat() <= 0.15f)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Summons.Sentry.GuardianStaff>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Summons.Sentry.GuardianStaff>());
             }
         }
 
         int frame = 0;
         public override void FindFrame(int frameHeight)
         {
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -60,7 +49,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                 int laserCount = 4;
                 for (int i = 0; i < laserCount; i++)
                 {
-                    Utils.DrawLine(spriteBatch, npc.Center + new Vector2(0, -15), npc.Center + new Vector2(0, -15) + rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i) * 100, Color.Red, Color.Transparent, 5);
+                    Utils.DrawLine(spriteBatch, NPC.Center + new Vector2(0, -15), NPC.Center + new Vector2(0, -15) + rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i) * 100, Color.Red, Color.Transparent, 5);
                 }
             }
         }
@@ -82,15 +71,15 @@ namespace TerrorbornMod.NPCs.Incendiary
         int soundCounter = 0;
         public override void AI()
         {
-            if (npc.life < npc.lifeMax)
+            if (NPC.life < NPC.lifeMax)
             {
                 if (frame < 4)
                 {
-                    npc.frameCounter--;
-                    if (npc.frameCounter <= 0)
+                    NPC.frameCounter--;
+                    if (NPC.frameCounter <= 0)
                     {
                         frame++;
-                        npc.frameCounter = 10;
+                        NPC.frameCounter = 10;
                     }
                 }
                 else
@@ -102,17 +91,17 @@ namespace TerrorbornMod.NPCs.Incendiary
                         if (soundCounter <= 0)
                         {
                             soundCounter = 10;
-                            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, Style: 15, 4, 0);
+                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, Style: 15, 4, 0);
                         }
 
                         rotation += MathHelper.ToRadians(1);
-                        TerrorbornMod.ScreenShake(2);
+                        TerrorbornSystem.ScreenShake(2);
                         int laserCount = 4;
                         for (int i = 0; i < laserCount; i++)
                         {
-                            Projectile projectile = Main.projectile[Projectile.NewProjectile(npc.Center, rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i), ModContent.ProjectileType<Projectiles.IncendiaryDeathray>(), 80 / 4, 0)];
-                            projectile.ai[0] = npc.whoAmI;
-                            projectile.ai[1] = -15;
+                            Projectile Projectile = Main.projectile[Projectile.NewProjectile(NPC.Center, rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i), ModContent.ProjectileType<Projectiles.IncendiaryDeathray>(), 80 / 4, 0)];
+                            Projectile.ai[0] = NPC.whoAmI;
+                            Projectile.ai[1] = -15;
                         }
                     }
                 }

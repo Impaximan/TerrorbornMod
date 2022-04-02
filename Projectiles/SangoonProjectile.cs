@@ -12,39 +12,39 @@ namespace TerrorbornMod.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sangoon");
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 5;
         }
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 30;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.friendly = true;
-            projectile.timeLeft = 900;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            Projectile.width = 46;
+            Projectile.height = 30;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 900;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
             
         }
 
         public float AI_State
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
 
         public float AI_Timer
         {
-            get => projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
 
 
         public float TargetIndex
         {
-            get => projectile.localAI[1];
-            set => projectile.localAI[1] = value;
+            get => Projectile.localAI[1];
+            set => Projectile.localAI[1] = value;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -64,25 +64,25 @@ namespace TerrorbornMod.Projectiles
         public void GradualTurnMovement(Vector2 TargetPosition, float MaxSpeed, float TurnResist)
         {
             float speed = MaxSpeed;
-            Vector2 move = TargetPosition -projectile.Center;
+            Vector2 move = TargetPosition -Projectile.Center;
             float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
             if (magnitude > speed)
             {
                 move *= speed / magnitude;
             }
-            float turnResistance = TurnResist; //the larger this is, the slower the npc will turn
-            move = (projectile.velocity * turnResistance + move) / (turnResistance + 1f);
+            float turnResistance = TurnResist; //the larger this is, the slower the NPC will turn
+            move = (Projectile.velocity * turnResistance + move) / (turnResistance + 1f);
             magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
             if (magnitude > speed)
             {
                 move *= speed / magnitude;
             }
-            projectile.velocity = move;
+            Projectile.velocity = move;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             NPC target;
 
             
@@ -112,14 +112,14 @@ namespace TerrorbornMod.Projectiles
                         AI_State = Attacking;
 
 
-                        //maxDistance = (target.Center - projectile.Center).Length();
+                        //maxDistance = (target.Center - Projectile.Center).Length();
                     }
 
                 }
 
-                if(Vector2.Distance(projectile.Center, player.Center)> 80f)
+                if(Vector2.Distance(Projectile.Center, player.Center)> 80f)
                 {
-                    GradualTurnMovement(player.Center, 5 + (Vector2.Distance(projectile.Center, player.Center) / 75f), 30 / ((Vector2.Distance(projectile.Center, player.Center) / 100f) + 1f));
+                    GradualTurnMovement(player.Center, 5 + (Vector2.Distance(Projectile.Center, player.Center) / 75f), 30 / ((Vector2.Distance(Projectile.Center, player.Center) / 100f) + 1f));
                 }
             }
 
@@ -129,17 +129,17 @@ namespace TerrorbornMod.Projectiles
                 {
                     AI_State = FindingTarget;
                 }
-                float distance = Vector2.Distance(target.Center, projectile.Center);
+                float distance = Vector2.Distance(target.Center, Projectile.Center);
                 if (distance > MaxAttackDistance)
                 {
                     GradualTurnMovement(target.Center, 15, 10);
                 }
                 else
                 {
-                    Vector2 dash01 = target.Center - projectile.Center;
+                    Vector2 dash01 = target.Center - Projectile.Center;
                     dash01.Normalize();
                     dash01 *= 24f;
-                    projectile.velocity = dash01;
+                    Projectile.velocity = dash01;
                     AI_State = AttackCooldown;
                     AI_Timer = 0;
                 }
@@ -160,23 +160,23 @@ namespace TerrorbornMod.Projectiles
 
             #region animation
 
-            projectile.frameCounter++;
+            Projectile.frameCounter++;
 
-            if (projectile.frameCounter > 6)
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-                if (projectile.frame > 4)
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+                if (Projectile.frame > 4)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
 
             #endregion
 
 
-            projectile.direction = (projectile.velocity.X <= 0).ToDirectionInt();
-            projectile.spriteDirection = projectile.direction;
+            Projectile.direction = (Projectile.velocity.X <= 0).ToDirectionInt();
+            Projectile.spriteDirection = Projectile.direction;
         }
 
     }

@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.Localization;
-using Terraria.World.Generation;
 using Terraria.ModLoader;
-using Terraria.UI;
-using TerrorbornMod;
-using Terraria.Map;
-using Terraria.GameContent.Dyes;
-using Terraria.GameContent.UI;
 using Terraria.ModLoader.IO;
 
 namespace TerrorbornMod.WeaponPossession
@@ -111,8 +100,8 @@ namespace TerrorbornMod.WeaponPossession
             if (possessType == PossessType.Light && crit)
             {
                 Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, player.whoAmI);
-                TerrorbornMod.ScreenShake(5f);
-                Main.PlaySound(SoundID.Item68, target.Center);
+                TerrorbornSystem.ScreenShake(5f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, target.Center);
             }
 
             if (possessType == PossessType.Night && crit)
@@ -124,7 +113,7 @@ namespace TerrorbornMod.WeaponPossession
 
         public static PossessedItem modItem(Item item)
         {
-            return item.GetGlobalItem<PossessedItem>();
+            return Item.GetGlobalItem<PossessedItem>();
         }
 
         //public override GlobalItem Clone(Item item, Item itemClone)
@@ -136,7 +125,7 @@ namespace TerrorbornMod.WeaponPossession
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            if (possessType == PossessType.None || item.accessory || item.damage <= 0 || item.consumable)
+            if (possessType == PossessType.None || Item.accessory || Item.damage <= 0 || Item.consumable)
             {
                 return;
             }
@@ -198,12 +187,12 @@ namespace TerrorbornMod.WeaponPossession
 
         public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            if (possessType == PossessType.None || item.accessory || item.damage <= 0 || item.consumable)
+            if (possessType == PossessType.None || Item.accessory || Item.damage <= 0 || Item.consumable)
             {
                 return;
             }
 
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/WeaponPossession/Icons/" + PossessType.ToString(possessType));
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/WeaponPossession/Icons/" + PossessType.ToString(possessType));
             spriteBatch.Draw(texture, position + new Vector2(frame.Width, frame.Height) * Main.UIScale * scale, null, Color.White, 0f, texture.Size(), 0.75f * Main.UIScale, SpriteEffects.None, 0f);
         }
     }

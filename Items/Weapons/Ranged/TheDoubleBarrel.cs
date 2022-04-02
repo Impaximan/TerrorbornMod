@@ -1,7 +1,7 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
@@ -17,28 +17,28 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.17f;
-            item.damage = 15;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 50;
-            item.height = 24;
-            item.useTime = 14;
-            item.useAnimation = 14;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.crit = 15;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.autoReuse = false;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
-            item.holdStyle = ItemHoldStyleID.HoldingOut;
+            Item.damage = 15;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 50;
+            Item.height = 24;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.crit = 15;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.autoReuse = false;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.holdStyle = ItemHoldStyleID.HoldFront;
         }
 
-        public override void HoldStyle(Player player)
+        public override void HoldStyle(Player player, Rectangle heldItemFrame)
         {
             player.itemLocation = player.position + new Vector2(-15, 10);
         }
@@ -54,15 +54,15 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             return shotsLeft > 0;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             useCounter = 35;
             shotsLeft--;
-            Main.PlaySound(SoundID.Item36, player.position);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item36, player.position);
             for (int i = 0; i < Main.rand.Next(4, 7); i++)
             {
-                Vector2 EditedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(8)) * Main.rand.NextFloat(0.7f, 1.3f);
-                Projectile.NewProjectile(position, EditedSpeed, type, damage, knockBack, item.owner);
+                Vector2 EditedSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(8)) * Main.rand.NextFloat(0.7f, 1.3f);
+                Projectile.NewProjectile(source, position, EditedSpeed, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
@@ -75,7 +75,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 if (useCounter <= 0)
                 {
                     CombatText.NewText(player.getRect(), Color.White, "Reloaded");
-                    TerrorbornMod.ScreenShake(1f);
+                    TerrorbornSystem.ScreenShake(1f);
                 }
             }
             else

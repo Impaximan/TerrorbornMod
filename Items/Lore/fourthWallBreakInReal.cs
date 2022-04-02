@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace TerrorbornMod.Items.Lore
 {
@@ -17,8 +16,8 @@ namespace TerrorbornMod.Items.Lore
         }
         public override void SetDefaults()
         {
-            item.value = 0;
-            item.rare = -11;
+            Item.value = 0;
+            Item.rare = -11;
         }
     }
 }

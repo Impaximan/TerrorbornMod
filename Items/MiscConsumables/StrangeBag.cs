@@ -1,10 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using System.Collections.Generic;
-using Terraria.Utilities;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.MiscConsumables
 {
@@ -17,11 +13,11 @@ namespace TerrorbornMod.Items.MiscConsumables
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 26;
-            item.height = 32;
-            item.rare = ItemRarityID.Orange;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 26;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override bool CanRightClick()
@@ -58,7 +54,7 @@ namespace TerrorbornMod.Items.MiscConsumables
                         break;
                 }
 
-                player.QuickSpawnItem(type, Main.rand.Next(2, 4));
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), type, Main.rand.Next(2, 4));
             }
         }
     }

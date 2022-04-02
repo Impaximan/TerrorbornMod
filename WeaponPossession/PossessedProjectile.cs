@@ -1,22 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.Localization;
-using Terraria.World.Generation;
 using Terraria.ModLoader;
-using Terraria.UI;
-using TerrorbornMod;
-using Terraria.Map;
-using Terraria.GameContent.Dyes;
-using Terraria.GameContent.UI;
-using Terraria.ModLoader.IO;
 using TerrorbornMod.TBUtils;
 
 namespace TerrorbornMod.WeaponPossession
@@ -25,12 +10,12 @@ namespace TerrorbornMod.WeaponPossession
     {
         public override bool InstancePerEntity => true;
 
-        public override void SetDefaults(Projectile projectile)
+        public override void SetDefaults(Projectile Projectile)
         {
 
         }
 
-        public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Projectile Projectile, NPC target, int damage, float knockback, bool crit)
         {
             if (originalItem != null)
             {
@@ -39,21 +24,21 @@ namespace TerrorbornMod.WeaponPossession
                     PossessedItem pItem = PossessedItem.modItem(originalItem);
                     if (pItem.possessType == PossessType.Fright)
                     {
-                        TerrorbornPlayer.modPlayer(Main.player[projectile.owner]).terrorDrainCounter = 30;
+                        TerrorbornPlayer.modPlayer(Main.player[Projectile.owner]).terrorDrainCounter = 30;
                     }
 
                     if (pItem.possessType == PossessType.Light && crit)
                     {
-                        int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, projectile.owner);
+                        int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, Projectile.owner);
                         Main.projectile[proj].ai[0] = target.whoAmI;
-                        TerrorbornMod.ScreenShake(5f);
-                        Main.PlaySound(SoundID.Item68, target.Center);
+                        TerrorbornSystem.ScreenShake(5f);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, target.Center);
                     }
 
                     if (pItem.possessType == PossessType.Night && crit)
                     {
-                        Main.player[projectile.owner].HealEffect(1);
-                        Main.player[projectile.owner].statLife++;
+                        Main.player[Projectile.owner].HealEffect(1);
+                        Main.player[Projectile.owner].statLife++;
                     }
                 }
             }
@@ -61,73 +46,73 @@ namespace TerrorbornMod.WeaponPossession
 
         Item originalItem = null;
         bool start = true;
-        public override bool PreAI(Projectile projectile)
+        public override bool PreAI(Projectile Projectile)
         {
-            if (projectile.owner == 255 || !projectile.friendly || projectile.damage == 0)
+            if (Projectile.owner == 255 || !Projectile.friendly || Projectile.damage == 0)
             {
-                return base.PreAI(projectile);
+                return base.PreAI(Projectile);
             }
-            if (Main.player[projectile.owner].HeldItem.IsAir)
+            if (Main.player[Projectile.owner].HeldItem.IsAir)
             {
-                return base.PreAI(projectile);
+                return base.PreAI(Projectile);
             }
             if (start)
             {
                 start = false;
                 originalItem = null;
-                if (Main.player[projectile.owner] != null && Main.player[projectile.owner].HeldItem != null && projectile.friendly && !projectile.hostile && !Main.gameMenu)
+                if (Main.player[Projectile.owner] != null && Main.player[Projectile.owner].HeldItem != null && Projectile.friendly && !Projectile.hostile && !Main.gameMenu)
                 {
-                    Player player = Main.player[projectile.owner];
+                    Player player = Main.player[Projectile.owner];
                     TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
                     if (player.HeldItem == null)
                     {
-                        return base.PreAI(projectile);
+                        return base.PreAI(Projectile);
                     }
                     Item item = player.HeldItem;
                     if (PossessedItem.modItem(item) == null)
                     {
-                        return base.PreAI(projectile);
+                        return base.PreAI(Projectile);
                     }
                     originalItem = item;
                     PossessedItem pItem = PossessedItem.modItem(item);
 
                     if (pItem.possessType == PossessType.Might)
                     {
-                        projectile.extraUpdates = projectile.extraUpdates * 2 + 1;
+                        Projectile.extraUpdates = Projectile.extraUpdates * 2 + 1;
                     }
 
                     if (pItem.possessType == PossessType.Flight)
                     {
-                        projectile.tileCollide = false;
-                        projectile.velocity *= 0.75f;
+                        Projectile.tileCollide = false;
+                        Projectile.velocity *= 0.75f;
                     }
 
                     if (pItem.possessType == PossessType.Sight)
                     {
-                        projectile.velocity *= 0.65f;
+                        Projectile.velocity *= 0.65f;
                     }
                 }
             }
-            return base.PreAI(projectile);
+            return base.PreAI(Projectile);
         }
 
-        public override void AI(Projectile projectile)
+        public override void AI(Projectile Projectile)
         {
-            base.AI(projectile);
+            base.AI(Projectile);
 
-            if (projectile.owner == 255 || !projectile.friendly || projectile.damage == 0)
+            if (Projectile.owner == 255 || !Projectile.friendly || Projectile.damage == 0)
             {
                 return;
             }
 
-            if (Main.player[projectile.owner].HeldItem.IsAir)
+            if (Main.player[Projectile.owner].HeldItem.IsAir)
             {
                 return;
             }
 
-            if (Main.player[projectile.owner] != null && projectile.friendly && !projectile.hostile && !Main.gameMenu && !projectile.minion && !projectile.sentry && originalItem != null && Main.player[projectile.owner].HeldItem != null)
+            if (Main.player[Projectile.owner] != null && Projectile.friendly && !Projectile.hostile && !Main.gameMenu && !Projectile.minion && !Projectile.sentry && originalItem != null && Main.player[Projectile.owner].HeldItem != null)
             {
-                Player player = Main.player[projectile.owner];
+                Player player = Main.player[Projectile.owner];
                 TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
                 if (originalItem.IsAir)
                 {
@@ -138,10 +123,10 @@ namespace TerrorbornMod.WeaponPossession
 
                 if (pItem.possessType == PossessType.Flight)
                 {
-                    projectile.tileCollide = false;
-                    if (projectile.Distance(player.Center) >= Main.screenWidth * 1.5f)
+                    Projectile.tileCollide = false;
+                    if (Projectile.Distance(player.Center) >= Main.screenWidth * 1.5f)
                     {
-                        projectile.timeLeft = 0;
+                        Projectile.timeLeft = 0;
                     }
                 }
 
@@ -152,17 +137,17 @@ namespace TerrorbornMod.WeaponPossession
                     bool Targeted = false;
                     for (int i = 0; i < 200; i++)
                     {
-                        if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                        if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                         {
                             targetNPC = Main.npc[i];
-                            Distance = Main.npc[i].Distance(projectile.Center);
+                            Distance = Main.npc[i].Distance(Projectile.Center);
                             Targeted = true;
                         }
                     }
                     if (Targeted)
                     {
                         //HOME IN
-                        projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(1f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
+                        Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(1f * (Projectile.velocity.Length() / 20))).ToRotationVector2() * Projectile.velocity.Length();
                     }
                 }
             }
@@ -178,30 +163,30 @@ namespace TerrorbornMod.WeaponPossession
         int currentSize = defaultSize;
         public override void SetDefaults()
         {
-            projectile.width = defaultSize;
-            projectile.height = defaultSize;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.localNPCHitCooldown = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.timeLeft = timeLeft;
+            Projectile.width = defaultSize;
+            Projectile.height = defaultSize;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.timeLeft = timeLeft;
         }
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.whoAmI == (int)projectile.ai[0])
+            if (target.whoAmI == (int)Projectile.ai[0])
             {
                 return false;
             }
             return base.CanHitNPC(target);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, currentSize, new Color(255, 212, 255));
-            return false;
+            Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, new Color(255, 212, 255));
+            return base.PreDraw(ref lightColor);
         }
 
         public override void AI()

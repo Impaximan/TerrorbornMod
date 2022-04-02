@@ -1,19 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 
 namespace TerrorbornMod.NPCs.TerrorRain
 {
@@ -21,31 +10,31 @@ namespace TerrorbornMod.NPCs.TerrorRain
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 3;
-            NPCID.Sets.TrailCacheLength[npc.type] = 1;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 3;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 1;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.aiStyle = -1;
-            npc.width = 38;
-            npc.height = 30;
-            npc.damage = 65;
-            npc.defense = 15;
-            npc.lifeMax = 450;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.value = 250;
-            npc.knockBackResist = 0f;
-            npc.lavaImmune = true;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.aiStyle = -1;
+            NPC.width = 38;
+            NPC.height = 30;
+            NPC.damage = 65;
+            NPC.defense = 15;
+            NPC.lifeMax = 450;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.value = 250;
+            NPC.knockBackResist = 0f;
+            NPC.lavaImmune = true;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornWorld.terrorRain && Main.raining && spawnInfo.player.ZoneRain)
+            if (TerrorbornSystem.terrorRain && Main.raining && spawnInfo.player.ZoneRain)
             {
                 return 0.8f;
             }
@@ -58,48 +47,48 @@ namespace TerrorbornMod.NPCs.TerrorRain
         public override void NPCLoot()
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            if (TerrorbornWorld.obtainedShriekOfHorror)
+            if (TerrorbornSystem.obtainedShriekOfHorror)
             {
                 if (modPlayer.DeimosteelCharm)
                 {
                     if (Main.rand.NextFloat() <= 0.3f)
                     {
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                     }
                 }
                 else
                 {
                     if (Main.rand.NextFloat() <= 0.15f)
                     {
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                     }
                 }
             }
 
             if (Main.rand.NextFloat() <= 0.4f)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.ThunderShard>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.ThunderShard>());
             }
 
             if (Main.rand.NextFloat() <= 0.05f)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Hooks.VenomTongue>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Hooks.VenomTongue>());
             }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects effects = new SpriteEffects();
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 drawOrigin = new Vector2(npc.width / 2, npc.height / 2);
-            for (int i = 0; i < npc.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(NPC.width / 2, NPC.height / 2);
+            for (int i = 0; i < NPC.oldPos.Length; i++)
             {
-                Vector2 drawPos = npc.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY) + new Vector2(0, 4);
-                Color color = npc.GetAlpha(Color.White) * ((float)(npc.oldPos.Length - i) / (float)npc.oldPos.Length);
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/NPCs/TerrorRain/VenomHopper_Glow"), drawPos, npc.frame, color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+                Vector2 drawPos = NPC.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY) + new Vector2(0, 4);
+                Color color = NPC.GetAlpha(Color.White) * ((float)(NPC.oldPos.Length - i) / (float)NPC.oldPos.Length);
+                spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/TerrorRain/VenomHopper_Glow"), drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
             }
         }
 
@@ -114,7 +103,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
             }
             else
             {
-                if (npc.velocity.Y == 0)
+                if (NPC.velocity.Y == 0)
                 {
                     frame = 0;
                 }
@@ -123,27 +112,27 @@ namespace TerrorbornMod.NPCs.TerrorRain
                     frame = 1;
                 }
             }
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void AI()
         {
-            npc.TargetClosest(false);
-            Player player = Main.player[npc.target];
-            if (Main.player[npc.target].Center.X > npc.Center.X)
+            NPC.TargetClosest(false);
+            Player player = Main.player[NPC.target];
+            if (Main.player[NPC.target].Center.X > NPC.Center.X)
             {
-                npc.spriteDirection = 1;
+                NPC.spriteDirection = 1;
             }
             else
             {
-                npc.spriteDirection = -1;
+                NPC.spriteDirection = -1;
             }
 
             attacking = false;
             for (int i = 0; i < 1000; i++)
             {
                 Projectile proj = Main.projectile[i];
-                if (proj.type == ModContent.ProjectileType<VenomTongueTip>() && proj.ai[0] == npc.whoAmI && proj.active)
+                if (proj.type == ModContent.ProjectileType<VenomTongueTip>() && proj.ai[0] == NPC.whoAmI && proj.active)
                 {
                     attacking = true;
                     break;
@@ -152,29 +141,29 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
             if (!attacking)
             {
-                if (npc.velocity.Y == 0)
+                if (NPC.velocity.Y == 0)
                 {
-                    npc.velocity.X *= 0.90f;
-                    npc.ai[0]--;
-                    if (npc.ai[0] <= 0)
+                    NPC.velocity.X *= 0.90f;
+                    NPC.ai[0]--;
+                    if (NPC.ai[0] <= 0)
                     {
-                        npc.ai[0] = 60;
-                        npc.ai[1]--;
-                        if (npc.ai[1] <= 0)
+                        NPC.ai[0] = 60;
+                        NPC.ai[1]--;
+                        if (NPC.ai[1] <= 0)
                         {
-                            npc.ai[1] = 3;
-                            Main.PlaySound(SoundID.Frog, (int)npc.Center.X, (int)npc.Center.Y, 0, 1.5f, -0.2f);
+                            NPC.ai[1] = 3;
+                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Frog, (int)NPC.Center.X, (int)NPC.Center.Y, 0, 1.5f, -0.2f);
                             float speed = 20;
-                            Vector2 velocity = npc.DirectionTo(player.Center) * speed;
-                            Vector2 positionOffset = new Vector2(npc.spriteDirection * 10, 0);
-                            int proj = Projectile.NewProjectile(npc.Center + positionOffset, velocity, ModContent.ProjectileType<VenomTongueTip>(), 75 / 4, 0);
-                            Main.projectile[proj].ai[0] = npc.whoAmI;
+                            Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
+                            Vector2 positionOffset = new Vector2(NPC.spriteDirection * 10, 0);
+                            int proj = Projectile.NewProjectile(NPC.Center + positionOffset, velocity, ModContent.ProjectileType<VenomTongueTip>(), 75 / 4, 0);
+                            Main.projectile[proj].ai[0] = NPC.whoAmI;
                             Main.projectile[proj].hostile = true;
                         }
                         else
                         {
-                            npc.velocity.Y = -10;
-                            npc.velocity.X = 5 * npc.spriteDirection;
+                            NPC.velocity.Y = -10;
+                            NPC.velocity.X = 5 * NPC.spriteDirection;
                         }
                     }
                 }
@@ -190,12 +179,12 @@ namespace TerrorbornMod.NPCs.TerrorRain
     {
         public override void SetStaticDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.timeLeft = 500;
-            projectile.tileCollide = false;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 500;
+            Projectile.tileCollide = false;
         }
 
         float speed;
@@ -204,23 +193,23 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
         public override void AI()
         {
-            NPC npc = Main.npc[(int)projectile.ai[0]];
-            originPoint = npc.Center + new Vector2(npc.spriteDirection * 10, 0);
+            NPC NPC = Main.npc[(int)Projectile.ai[0]];
+            originPoint = NPC.Center + new Vector2(NPC.spriteDirection * 10, 0);
 
-            projectile.active = npc.active;
+            Projectile.active = NPC.active;
 
             if (timeUntilReturn > 0)
             {
-                speed = projectile.velocity.Length();
+                speed = Projectile.velocity.Length();
                 timeUntilReturn--;
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
             }
             else
             {
-                projectile.velocity = projectile.DirectionTo(originPoint) * speed;
-                if (projectile.Distance(originPoint) <= speed)
+                Projectile.velocity = Projectile.DirectionTo(originPoint) * speed;
+                if (Projectile.Distance(originPoint) <= speed)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
         }
@@ -230,13 +219,13 @@ namespace TerrorbornMod.NPCs.TerrorRain
             target.AddBuff(BuffID.Venom, 60 * 3);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 center = projectile.Center;
-            Vector2 distToProj = originPoint - projectile.Center;
+            Vector2 center = Projectile.Center;
+            Vector2 distToProj = originPoint - Projectile.Center;
             float projRotation = distToProj.ToRotation() - 1.57f;
             float distance = distToProj.Length();
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/NPCs/TerrorRain/VenomTongueSegment");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/TerrorRain/VenomTongueSegment");
 
             while (distance > texture.Height && !float.IsNaN(distance))
             {
@@ -253,9 +242,9 @@ namespace TerrorbornMod.NPCs.TerrorRain
                     new Vector2(texture.Width * 0.5f, texture.Height * 0.5f), 1f, SpriteEffects.None, 0f);
             }
 
-            Texture2D texture2 = Main.projectileTexture[projectile.type];
-            Vector2 position = projectile.Center - Main.screenPosition;
-            Main.spriteBatch.Draw(texture2, new Rectangle((int)position.X, (int)position.Y, texture2.Width, texture2.Height), new Rectangle(0, 0, texture2.Width, texture2.Height), projectile.GetAlpha(Color.White), projectile.rotation, new Vector2(texture2.Width / 2, texture2.Height / 2), SpriteEffects.None, 0);
+            Texture2D texture2 = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 position = Projectile.Center - Main.screenPosition;
+            Main.spriteBatch.Draw(texture2, new Rectangle((int)position.X, (int)position.Y, texture2.Width, texture2.Height), new Rectangle(0, 0, texture2.Width, texture2.Height), Projectile.GetAlpha(Color.White), Projectile.rotation, new Vector2(texture2.Width / 2, texture2.Height / 2), SpriteEffects.None, 0);
             return false;
         }
     }

@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Incendius
 {
@@ -11,13 +10,12 @@ namespace TerrorbornMod.Items.Incendius
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(25 * TerrorbornMod.IncendiaryAlloyMultiplier));
-            recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Blocks.IncendiaryPipe>(), 5);
-            recipe.AddRecipeGroup("cobalt", 15);
-            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(25 * TerrorbornMod.IncendiaryAlloyMultiplier))
+                .AddIngredient(ModContent.ItemType<Items.Placeable.Blocks.IncendiaryPipe>(), 5)
+                .AddRecipeGroup("cobalt", 15)
+                .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -27,46 +25,46 @@ namespace TerrorbornMod.Items.Incendius
         }
         public override void SetDefaults()
         {
-            item.damage = 34;
-            item.ranged = true;
-            item.noMelee = true;
-            item.scale = 0.8f;
-            item.width = 58;
-            item.height = 32;
-            item.useTime = 4;
-            item.useAnimation = 12;
-            item.reuseDelay = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item61;
-            item.shoot = ProjectileID.Flames;
-            item.autoReuse = true;
-            item.shootSpeed = 10f;
-            item.useAmmo = AmmoID.Gel;
+            Item.damage = 34;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.scale = 0.8f;
+            Item.width = 58;
+            Item.height = 32;
+            Item.useTime = 4;
+            Item.useAnimation = 12;
+            Item.reuseDelay = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item61;
+            Item.shoot = ProjectileID.Flames;
+            Item.autoReuse = true;
+            Item.shootSpeed = 10f;
+            Item.useAmmo = AmmoID.Gel;
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Player player)
         {
             return Main.rand.NextFloat() >= .95f;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (Main.rand.NextFloat() <= .20f)
             {
                 float Multiplier = Main.rand.NextFloat(.4f, .6f);
-                Projectile.NewProjectile(position, new Vector2(speedX * Multiplier, speedY * Multiplier).RotatedByRandom(MathHelper.ToRadians(10)), mod.ProjectileType("FlameCloud"), damage / 2, 0, item.owner);
+                Projectile.NewProjectile(source, position, (velocity * Multiplier).RotatedByRandom(MathHelper.ToRadians(10)), ModContent.ProjectileType<FlameCloud>(), damage / 2, 0, player.whoAmI);
             }
-            if (speedX > 0)
+            if (velocity.X > 0)
             {
-                position += Vector2.Normalize(new Vector2(speedX, speedY)).RotatedBy(60) * 15f;
+                position += Vector2.Normalize(velocity).RotatedBy(60) * 15f;
             }
             else
             {
-                position += Vector2.Normalize(new Vector2(speedX, speedY)).RotatedBy(-60) * 15f;
+                position += Vector2.Normalize(new Vector2(velocity.X, velocity.Y)).RotatedBy(-60) * 15f;
             }
 
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI);
             Main.projectile[proj].usesLocalNPCImmunity = true;
             Main.projectile[proj].localNPCHitCooldown = -1;
             Main.projectile[proj].penetrate = -1;
@@ -82,17 +80,17 @@ namespace TerrorbornMod.Items.Incendius
         public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.ShadowBeamFriendly; } }
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            projectile.ranged = true;
-            projectile.hide = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
-            projectile.tileCollide = false;
+            Projectile.width = 40;
+            Projectile.height = 40;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.hide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.tileCollide = false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -100,9 +98,9 @@ namespace TerrorbornMod.Items.Incendius
         }
         public override void AI()
         {
-            int dust = Dust.NewDust(projectile.position, 25, 25, DustID.Fire, Scale: 1.5f);
+            int dust = Dust.NewDust(Projectile.position, 25, 25, 6, Scale: 1.5f);
             Main.dust[dust].noGravity = true;
-            projectile.velocity *= 0.96f;
+            Projectile.velocity *= 0.96f;
         }
     }
 }

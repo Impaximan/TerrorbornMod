@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -35,23 +34,23 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void restlessSetDefaults(TerrorbornItem modItem)
         {
-            item.damage = 24;
-            item.noMelee = true;
-            item.magic = true;
-            item.width = 56;
-            item.height = 38;
-            item.mana = 3;
-            item.useTime = 8;
-            item.useAnimation = 8;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 6;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.UseSound = SoundID.Item11;
-            item.shoot = ProjectileID.Bee;
-            item.shootSpeed = 12.5f;
-            item.crit = 7;
-            item.autoReuse = true;
+            Item.damage = 24;
+            Item.noMelee = true;
+            Item.DamageType = DamageClass.Magic;;
+            Item.width = 56;
+            Item.height = 38;
+            Item.mana = 3;
+            Item.useTime = 8;
+            Item.useAnimation = 8;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 6;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.UseSound = SoundID.Item11;
+            Item.shoot = ProjectileID.Bee;
+            Item.shootSpeed = 12.5f;
+            Item.crit = 7;
+            Item.autoReuse = true;
             modItem.restlessTerrorDrain = 3f;
             modItem.restlessChargeUpUses = 10;
         }
@@ -66,40 +65,39 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return base.RestlessCanUseItem(player);
         }
 
-        public override bool RestlessShoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool RestlessShoot(Player player, EntitySource_ItemUse_WithAmmo source, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(15)) * Main.rand.NextFloat(0.8f, 1.2f), type, damage, knockBack, player.whoAmI);
+                    int proj = Projectile.NewProjectile(position, new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(15)) * Main.rand.NextFloat(0.8f, 1.2f), type, damage, knockback, player.whoAmI);
                     Main.projectile[proj].usesLocalNPCImmunity = true;
                     Main.projectile[proj].localNPCHitCooldown = 5;
-                    Main.projectile[proj].magic = true;
+                    Main.projectile[proj].DamageType = DamageClass.Magic;;
                 }
             }
             else
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI);
                 Main.projectile[proj].usesIDStaticNPCImmunity = true;
                 Main.projectile[proj].idStaticNPCHitCooldown = 5;
-                Main.projectile[proj].magic = true;
+                Main.projectile[proj].DamageType = DamageClass.Magic;;
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Weapons.Magic.TarSwarm>());
-            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Materials.HellbornEssence>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 4);
-            recipe.AddIngredient(ItemID.SoulofFright, 15);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Weapons.Magic.TarSwarm>())
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 5)
+                .AddIngredient(ModContent.ItemType<Materials.HellbornEssence>(), 5)
+                .AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 4)
+                .AddIngredient(ItemID.SoulofFright, 15)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
     }
 }

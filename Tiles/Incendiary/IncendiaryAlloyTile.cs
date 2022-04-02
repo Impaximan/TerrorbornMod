@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -18,7 +16,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             Main.tileSpelunker[Type] = true;
             soundType = SoundID.Tink;
             soundStyle = 1;
-            dustType = DustID.Fire;
+            dustType = 6;
             minPick = 150;
             mineResist = 6f;
             drop = ModContent.ItemType<Items.Materials.IncendiusAlloy>();

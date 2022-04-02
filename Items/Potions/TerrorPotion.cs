@@ -17,24 +17,23 @@ namespace TerrorbornMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.value = Item.sellPrice(0, 0, 2, 0);
-            item.consumable = true;
-            item.rare = ItemRarityID.Blue;
-            item.maxStack = 999;
-            item.width = 20;
-            item.height = 26;
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            Item.value = Item.sellPrice(0, 0, 2, 0);
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.maxStack = 999;
+            Item.width = 20;
+            Item.height = 26;
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.terrorPotionTerror = terrorAmount;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LesserTerrorPotion>(), 3);
-            recipe.AddIngredient(ItemID.Deathweed, 1);
-            recipe.AddTile(TileID.Bottles);
-            recipe.SetResult(this, 3);
-            recipe.AddRecipe();
+            CreateRecipe(3)
+                .AddIngredient(ModContent.ItemType<LesserTerrorPotion>(), 3)
+                .AddIngredient(ItemID.Deathweed, 1)
+                .AddTile(TileID.Bottles)
+                .Register();
         }
     }
 }

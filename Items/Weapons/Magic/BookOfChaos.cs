@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.IO;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -19,22 +16,22 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.width = 32;
-            item.height = 38;
-            item.magic = true;
-            item.damage = 27;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.mana = 10;
-            item.rare = ItemRarityID.Green;
-            item.shoot = mod.ProjectileType("ChaosBall");
-            item.shootSpeed = 10;
-            item.UseSound = SoundID.Item20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0.1f;
-            item.autoReuse = true;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.width = 32;
+            Item.height = 38;
+            Item.DamageType = DamageClass.Magic;;
+            Item.damage = 27;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.mana = 10;
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<ChaosBall>();
+            Item.shootSpeed = 10;
+            Item.UseSound = SoundID.Item20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0.1f;
+            Item.autoReuse = true;
         }
     }
 
@@ -44,27 +41,27 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            NPC npc = new NPC();
-            npc.SetDefaults(NPCID.ChaosBall);
-            projectile.width = npc.width;
-            projectile.height = npc.height;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = 6;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.hide = false;
-            projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            NPC NPC = new NPC();
+            NPC.SetDefaults(NPCID.ChaosBall);
+            Projectile.width = NPC.width;
+            Projectile.height = NPC.height;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 6;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.ignoreWater = true;
+            Projectile.hide = false;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         List<NPC> alreadyHit = new List<NPC>();
         public override void AI()
         {
-            Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 27)];
+            Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 27)];
             dust.noGravity = true;
             dust.velocity = Vector2.Zero;
             dust.scale = 2f;
@@ -72,7 +69,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.NPCHit3, projectile.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit3, Projectile.Center);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -83,21 +80,21 @@ namespace TerrorbornMod.Items.Weapons.Magic
             NPC launchTo = Main.npc[0];
             float distance = 2000;
 
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                if (npc.active && npc.Distance(projectile.Center) < distance && !alreadyHit.Contains(npc) && projectile.CanHit(npc) && !npc.friendly && npc.CanBeChasedBy())
+                if (NPC.active && NPC.Distance(Projectile.Center) < distance && !alreadyHit.Contains(NPC) && Projectile.CanHitWithOwnBody(NPC) && !NPC.friendly && NPC.CanBeChasedBy())
                 {
-                    distance = npc.Distance(projectile.Center);
-                    launchTo = npc;
+                    distance = NPC.Distance(Projectile.Center);
+                    launchTo = NPC;
                     targeted = true;
                 }
             }
 
             if (targeted)
             {
-                float speed = projectile.velocity.Length();
-                Vector2 direction = projectile.DirectionTo(launchTo.Center);
-                projectile.velocity = speed * direction;
+                float speed = Projectile.velocity.Length();
+                Vector2 direction = Projectile.DirectionTo(launchTo.Center);
+                Projectile.velocity = speed * direction;
             }
 
             if (crit)

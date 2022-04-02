@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,35 +13,35 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 6;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 36;
-            item.height = 12;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = 101;
-            item.knockBack = 0.6f;
-            item.value = 0;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.rare = ItemRarityID.White;
-            item.UseSound = SoundID.Item63;
-            item.autoReuse = true;
-            item.shootSpeed = 11.25f;
-            item.useAmmo = AmmoID.Dart;
+            Item.damage = 6;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 36;
+            Item.height = 12;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = 101;
+            Item.knockBack = 0.6f;
+            Item.value = 0;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.rare = ItemRarityID.White;
+            Item.UseSound = SoundID.Item63;
+            Item.autoReuse = true;
+            Item.shootSpeed = 11.25f;
+            Item.useAmmo = AmmoID.Dart;
         }
         Vector2 offset = new Vector2(0, 0);
-        public override bool UseItemFrame(Player player)
+        public override void UseItemFrame(Player player)
         {
             player.bodyFrame.Y = 2 * player.bodyFrame.Height;
             player.itemLocation = player.Center + offset;
-            return true;
         }
         public override bool CanUseItem(Player player)
         {
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();
             if (player.direction == -1)
@@ -52,10 +50,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
             position = player.Center + offset;
             position.Y -= 3;
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             player.bodyFrame.Y = 56 * 2;
             player.itemAnimation = 2;
@@ -63,11 +60,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("Wood", 15);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddRecipeGroup("Wood", 15)
+                .AddTile(TileID.WorkBenches)
+                .Register();
         }
     }
 }

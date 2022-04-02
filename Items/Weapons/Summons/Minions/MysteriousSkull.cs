@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Terraria.World.Generation;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Summons.Minions
 {
@@ -16,12 +12,11 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 12);
-            recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 12)
+                .AddIngredient(ItemID.SoulofFright, 10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -30,21 +25,21 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         }
         public override void SetDefaults()
         {
-            item.mana = 10;
-            item.summon = true;
-            item.damage = 87;
-            item.width = 26;
-            item.height = 28;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item44;
-            item.shoot = ModContent.ProjectileType<MysteriousSkullMinion>();
-            item.shootSpeed = 10f;
-            item.value = Item.sellPrice(0, 10, 0, 0);
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Summon;
+            Item.damage = 87;
+            Item.width = 26;
+            Item.height = 28;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = ModContent.ProjectileType<MysteriousSkullMinion>();
+            Item.shootSpeed = 10f;
+            Item.value = Item.sellPrice(0, 10, 0, 0);
         }
 
         public override bool AltFunctionUse(Player player)
@@ -52,16 +47,16 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                player.MinionNPCTargetAim();
+                player.MinionNPCTargetAim(false);
             }
             return base.UseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -72,7 +67,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                         Main.projectile[i].active = false;
                     }
                 }
-                Projectile.NewProjectile(new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockBack, item.owner);
+                Projectile.NewProjectile(source, new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 if (player.slotsMinions <= player.maxMinions)
                 {
                     player.AddBuff(ModContent.BuffType<MysteriousSkullBuff>(), 60);
@@ -86,27 +81,28 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.Homing[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            Main.projFrames[projectile.type] = 8;
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            Main.projFrames[Projectile.type] = 8;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
         public override void SetDefaults()
         {
-            projectile.penetrate = -1;
-            projectile.width = 28;
-            projectile.height = 352 / 8;
-            projectile.tileCollide = false;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 360;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.minion = true;
-            projectile.minionSlots = 1;
+            Projectile.penetrate = -1;
+            Projectile.width = 28;
+            Projectile.height = 352 / 8;
+            Projectile.tileCollide = false;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 360;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.minion = true;
+Projectile.DamageType = DamageClass.Summon;
+            Projectile.minionSlots = 1;
         }
 
         int frame = 0;
@@ -127,24 +123,24 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
             if (charging)
             {
-                projectile.frame = frame + 4;
+                Projectile.frame = frame + 4;
             }
             else
             {
-                projectile.frame = frame;
+                Projectile.frame = frame;
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (charging)
             {
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
                 BezierCurve bezier = new BezierCurve();
                 bezier.Controls.Clear();
-                foreach (Vector2 pos in projectile.oldPos)
+                foreach (Vector2 pos in Projectile.oldPos)
                 {
                     if (pos != Vector2.Zero && pos != null)
                     {
@@ -158,22 +154,22 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                     for (int i = 0; i < positions.Count; i++)
                     {
                         float mult = (float)(positions.Count - i) / (float)positions.Count;
-                        Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                        Color color = projectile.GetAlpha(Color.Lerp(new Color(255, 194, 177), new Color(255, 194, 177), mult)) * mult;
-                        TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * mult), color);
+                        Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                        Color color = Projectile.GetAlpha(Color.Lerp(new Color(255, 194, 177), new Color(255, 194, 177), mult)) * mult;
+                        TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * mult), color);
                     }
                 }
 
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             }
-            return base.PreDraw(spriteBatch, lightColor);
+            return base.PreDraw(ref lightColor);
         }
 
 
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 0, 25, 7, 6, DustScale: 1f, NoGravity: true);
+            DustExplosion(Projectile.Center, 0, 25, 7, 6, DustScale: 1f, NoGravity: true);
         }
 
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
@@ -200,22 +196,22 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         int chargeTime = 0;
         public override void AI()
         {
-            projectile.timeLeft = 500;
-            if (projectile.velocity.X > 0)
+            Projectile.timeLeft = 500;
+            if (Projectile.velocity.X > 0)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
             else
             {
-                projectile.spriteDirection = 1;
+                Projectile.spriteDirection = 1;
             }
 
-            FindFrame(projectile.height);
+            FindFrame(Projectile.height);
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (!player.HasBuff(ModContent.BuffType<MysteriousSkullBuff>()))
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
 
             bool Targeted = false;
@@ -224,10 +220,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             float Distance = 1000;
             for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                 {
                     target = Main.npc[i];
-                    Distance = Main.npc[i].Distance(projectile.Center);
+                    Distance = Main.npc[i].Distance(Projectile.Center);
                     Targeted = true;
                 }
             }
@@ -237,7 +233,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 target = Main.npc[player.MinionAttackTargetNPC];
             }
 
-            if (!projectile.CanHit(player) || !Targeted || !projectile.CanHit(target))
+            if (!Projectile.CanHitWithOwnBody(player) || !Targeted || !Projectile.CanHitWithOwnBody(target))
             {
                 mode = 0;
             }
@@ -248,25 +244,25 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
             if (mode == 0)
             {
-                if (projectile.Distance(player.Center) > 100)
+                if (Projectile.Distance(player.Center) > 100)
                 {
                     float speed = 0.6f;
-                    projectile.velocity += projectile.DirectionTo(player.Center) * speed;
-                    projectile.velocity *= 0.98f;
+                    Projectile.velocity += Projectile.DirectionTo(player.Center) * speed;
+                    Projectile.velocity *= 0.98f;
                 }
-                if (projectile.Distance(player.Center) > 5000)
+                if (Projectile.Distance(player.Center) > 5000)
                 {
-                    projectile.position = player.Center - new Vector2(projectile.width / 2, projectile.height / 2);
+                    Projectile.position = player.Center - new Vector2(Projectile.width / 2, Projectile.height / 2);
                 }
             }
 
             if (mode == 1)
             {
-                if (projectile.Distance(target.Center) > 200)
+                if (Projectile.Distance(target.Center) > 200)
                 {
                     float speed = 0.6f;
-                    projectile.velocity += projectile.DirectionTo(target.Center) * speed;
-                    projectile.velocity *= 0.985f;
+                    Projectile.velocity += Projectile.DirectionTo(target.Center) * speed;
+                    Projectile.velocity *= 0.985f;
                     charging = false;
                 }
                 else
@@ -275,7 +271,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                     if (chargeTime <= 0)
                     {
                         float speed = 15f;
-                        projectile.velocity = projectile.DirectionTo(target.Center) * speed;
+                        Projectile.velocity = Projectile.DirectionTo(target.Center) * speed;
                         chargeTime = 20;
                     }
                     else
@@ -289,14 +285,14 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 charging = false;
             }
 
-            projectile.friendly = charging;
+            Projectile.friendly = charging;
         }
     }
 
 
     class MysteriousSkullBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mysterious Skull");
             Description.SetDefault("A strange skull shreds apart enemies at your will");
@@ -304,7 +300,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
 
         }
         public override void Update(Player player, ref int buffIndex)

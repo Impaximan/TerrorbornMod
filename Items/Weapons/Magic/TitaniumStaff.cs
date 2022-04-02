@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,30 +18,30 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetStaticDefaults()
         {
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
             Tooltip.SetDefault("Fires a titanium sawblade that slows down on hit to damage enemies multiple times");
         }
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.noMelee = true;
-            item.width = 44;
-            item.height = 44;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("TitaniumSawblade");
-            item.shootSpeed = 10f;
-            item.mana = 8;
-            item.magic = true;
+            Item.damage = 35;
+            Item.noMelee = true;
+            Item.width = 44;
+            Item.height = 44;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = mod.ProjectileType("TitaniumSawblade");
+            Item.shootSpeed = 10f;
+            Item.mana = 8;
+            Item.DamageType = DamageClass.Magic;;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position = player.Center + (player.DirectionTo(Main.MouseWorld) * 44);
             return true;
@@ -54,40 +52,40 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 SpriteEffects effects = SpriteEffects.None;
-                if (projectile.spriteDirection == -1)
+                if (Projectile.spriteDirection == -1)
                 {
                     effects = SpriteEffects.FlipHorizontally;
                 }
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(Color.White) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return false;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = 10;
-            projectile.magic = true;
-            projectile.hide = false;
-            projectile.tileCollide = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = 10;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.hide = false;
+            Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 5;
         }
 
         bool hasHit = false;
@@ -95,25 +93,25 @@ namespace TerrorbornMod.Items.Weapons.Magic
         {
             if (!hasHit)
             {
-                projectile.velocity.Normalize();
-                projectile.velocity *= 3f;
+                Projectile.velocity.Normalize();
+                Projectile.velocity *= 3f;
                 hasHit = true;
             }
         }
 
         public override void AI()
         {
-            projectile.spriteDirection = -1;
-            if (projectile.velocity.X <= 0)
+            Projectile.spriteDirection = -1;
+            if (Projectile.velocity.X <= 0)
             {
-                projectile.spriteDirection = 1;
+                Projectile.spriteDirection = 1;
             }
-            projectile.rotation += MathHelper.ToRadians(12) * -projectile.spriteDirection;
+            Projectile.rotation += MathHelper.ToRadians(12) * -Projectile.spriteDirection;
 
-            projectile.velocity = projectile.velocity.ToRotation().ToRotationVector2() * (projectile.velocity.Length() + 0.5f);
+            Projectile.velocity = Projectile.velocity.ToRotation().ToRotationVector2() * (Projectile.velocity.Length() + 0.5f);
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 14;
             height = 14;

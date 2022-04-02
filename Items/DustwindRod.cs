@@ -16,13 +16,13 @@ namespace TerrorbornMod.Items
         }
         public override void SetDefaults()
         {
-            item.expert = true;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.UseSound = SoundID.Item117;
-            item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.expert = true;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.UseSound = SoundID.Item117;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
         }
         public override bool CanUseItem(Player player)
         {

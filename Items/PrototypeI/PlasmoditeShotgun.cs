@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items.PrototypeI
@@ -11,12 +12,11 @@ namespace TerrorbornMod.Items.PrototypeI
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.PlasmaliumBar>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.PlasmaliumBar>(), 12)
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -25,32 +25,32 @@ namespace TerrorbornMod.Items.PrototypeI
         }
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 60;
-            item.height = 22;
-            item.useTime = 9;
-            item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 16, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.autoReuse = true;
-            item.shootSpeed = 4f;
-            item.UseSound = SoundID.Item61;
-            item.shoot = ModContent.ProjectileType<PlasmaCrystal>();
+            Item.damage = 35;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 60;
+            Item.height = 22;
+            Item.useTime = 9;
+            Item.useAnimation = 9;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 16, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.autoReuse = true;
+            Item.shootSpeed = 4f;
+            Item.UseSound = SoundID.Item61;
+            Item.shoot = ModContent.ProjectileType<PlasmaCrystal>();
         }
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < Main.rand.Next(5, 7); i++)
             {
-                Vector2 EditedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(13)) * Main.rand.NextFloat(0.8f, 1.3f);
-                Projectile.NewProjectile(position, EditedSpeed, type, damage, knockBack, item.owner);
+                Vector2 EditedSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(13)) * Main.rand.NextFloat(0.8f, 1.3f);
+                Projectile.NewProjectile(source, position, EditedSpeed, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
@@ -59,38 +59,38 @@ namespace TerrorbornMod.Items.PrototypeI
     {
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 18;
-            projectile.ranged = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.ignoreWater = false;
-            projectile.extraUpdates = 8;
+            Projectile.width = 26;
+            Projectile.height = 18;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = false;
+            Projectile.extraUpdates = 8;
         }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 16;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 16;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 SpriteEffects effects = SpriteEffects.None;
-                if (projectile.spriteDirection == -1)
+                if (Projectile.spriteDirection == -1)
                 {
                     effects = SpriteEffects.FlipHorizontally;
                 }
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(Color.White) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(mod.GetTexture("Items/PrototypeI/PlasmaCrystal_Glow"), drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("Items/PrototypeI/PlasmaCrystal_Glow"), drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
-            //spriteBatch.Draw(glowTexture, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, new Vector2(glowTexture.Width / 2, glowTexture.Height / 2), 1f, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            //spriteBatch.Draw(glowTexture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, new Vector2(glowTexture.Width / 2, glowTexture.Height / 2), 1f, Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             return false;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -99,11 +99,11 @@ namespace TerrorbornMod.Items.PrototypeI
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item27, projectile.position);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
         }
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - MathHelper.ToRadians(180);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) - MathHelper.ToRadians(180);
         }
     }
 }

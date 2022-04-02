@@ -6,14 +6,14 @@ namespace TerrorbornMod.Buffs.Debuffs
 {
     class ParryCooldown : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Parry Recharge");
             Description.SetDefault("You cannot currently parry");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
     }
 }

@@ -14,35 +14,34 @@ namespace TerrorbornMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 24;
-            item.rare = ItemRarityID.Orange;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
+            Item.width = 12;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneDesert && !NPC.AnyNPCs(mod.NPCType("Dunestock"));
+            return player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.Dunestock>());
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Dunestock"));
-            Main.PlaySound(SoundID.Roar, player.position, 0);
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<NPCs.Bosses.Dunestock>());
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Cobweb, 50);
-            recipe.AddIngredient(ItemID.AntlionMandible, 15);
-            recipe.AddIngredient(ItemID.Silk, 5);
-            recipe.AddIngredient(ModContent.ItemType<Materials.TarOfHunger>(), 75);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Cobweb, 50)
+                .AddIngredient(ItemID.AntlionMandible, 15)
+                .AddIngredient(ItemID.Silk, 5)
+                .AddIngredient(ModContent.ItemType<Materials.TarOfHunger>(), 75)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
@@ -16,22 +15,22 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 32;
-            item.ranged = true;
-            item.width = 22;
-            item.height = 42;
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2;
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 25f;
-            item.useAmmo = AmmoID.Arrow;
-            item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.damage = 32;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 22;
+            Item.height = 42;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 25f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
         }
 
         public override Vector2? HoldoutOffset()
@@ -39,11 +38,11 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             return new Vector2(2f, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 velocity = new Vector2(speedX, speedY);
-            Projectile projectile = Main.projectile[Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI)];
-            TerrorbornProjectile modProjectile = TerrorbornProjectile.modProjectile(projectile);
+            
+            Projectile Projectile = Main.projectile[Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI)];
+            TerrorbornProjectile modProjectile = TerrorbornProjectile.modProjectile(Projectile);
             modProjectile.Shadowflame = true;
             return false;
         }

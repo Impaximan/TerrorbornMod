@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,24 +14,25 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Costs 0.5% terror to use" +
                 "\nUses darts as ammo and fires 3-4 darts at once");
         }
+
         public override void SetDefaults()
         {
-            item.damage = 12;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 44;
-            item.height = 16;
-            item.useTime = 45;
-            item.useAnimation = 45;
-            item.useStyle = 101;
-            item.knockBack = 0.6f;
-            item.value = 0;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item64;
-            item.autoReuse = true;
-            item.shootSpeed = 11.25f;
-            item.useAmmo = AmmoID.Dart;
+            Item.damage = 12;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 44;
+            Item.height = 16;
+            Item.useTime = 45;
+            Item.useAnimation = 45;
+            Item.useStyle = 101;
+            Item.knockBack = 0.6f;
+            Item.value = 0;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item64;
+            Item.autoReuse = true;
+            Item.shootSpeed = 11.25f;
+            Item.useAmmo = AmmoID.Dart;
         }
 
         public override bool CanUseItem(Player player)
@@ -42,14 +42,13 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
 
         Vector2 offset = new Vector2(0, 1);
-        public override bool UseItemFrame(Player player)
+        public override void UseItemFrame(Player player)
         {
             player.bodyFrame.Y = 2 * player.bodyFrame.Height;
             player.itemLocation = player.Center + offset;
-            return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.LoseTerror(0.5f);
@@ -63,26 +62,24 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             int maxRotation = 15;
             for (int i = 0; i < Main.rand.Next(3, 5); i++)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(maxRotation)), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(maxRotation)), type, damage, knockback, player.whoAmI);
             }
             return false;
         }
-        public override bool UseItem(Player player)
+
+        public override bool? UseItem(Player player)
         {
             player.bodyFrame.Y = 56 * 2;
             player.itemAnimation = 2;
             return true;
         }
+    
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.CrimtaneBar, 8)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }
-
-
-

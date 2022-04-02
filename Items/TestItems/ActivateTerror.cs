@@ -1,21 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
-using Terraria.World.Generation;
 using Terraria.ModLoader;
-using Terraria.UI;
-using TerrorbornMod;
-using Terraria.Map;
-using Terraria.GameContent.Dyes;
-using Terraria.GameContent.UI;
 
 namespace TerrorbornMod.Items.TestItems
 {
@@ -31,24 +16,24 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
         public override bool CanUseItem(Player player)
         {
-            if (!TerrorbornWorld.obtainedShriekOfHorror)
+            if (!TerrorbornSystem.obtainedShriekOfHorror)
             {
-                TerrorbornWorld.obtainedShriekOfHorror = true;
+                TerrorbornSystem.obtainedShriekOfHorror = true;
 
                 TerrorbornPlayer target = TerrorbornPlayer.modPlayer(player);
                 target.TriggerAbilityAnimation("Shriek of Horror", "Hold the 'Shriek of Horror' mod hotkey to unleash a scream that generates terror while close to enemies.", "Doing so will slowly take away your health.", 0, "Special abilities and items will consume terror.");
             }
             else
             {
-                TerrorbornWorld.obtainedShriekOfHorror = false;
+                TerrorbornSystem.obtainedShriekOfHorror = false;
             }
             return base.CanUseItem(player);
         }

@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,12 +10,11 @@ namespace TerrorbornMod.Items.Shadowcrawler
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 18);
-            recipe.AddIngredient(ItemID.HallowedBar, 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 18)
+                .AddIngredient(ItemID.HallowedBar, 6)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -27,23 +25,23 @@ namespace TerrorbornMod.Items.Shadowcrawler
 
         public override void SetDefaults()
         {
-            item.damage = 22;
-            item.ranged = true;
-            item.width = 26;
-            item.height = 56;
-            item.useTime = 32;
-            item.useAnimation = 32;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.channel = true;
-            item.knockBack = 2;
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.DD2_BallistaTowerShot;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 18f;
-            item.useAmmo = AmmoID.Arrow;
-            item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.damage = 22;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 26;
+            Item.height = 56;
+            Item.useTime = 32;
+            Item.useAnimation = 32;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.channel = true;
+            Item.knockBack = 2;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.DD2_BallistaTowerShot;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 18f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
         }
 
         public override Vector2? HoldoutOffset()
@@ -52,13 +50,12 @@ namespace TerrorbornMod.Items.Shadowcrawler
         }
 
         int accuracy = 45;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < 8; i++)
             {
-                Vector2 velocity = new Vector2(speedX, speedY);
                 velocity = velocity.RotatedByRandom(MathHelper.ToRadians(accuracy));
-                Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             }
 
             if (accuracy > 10)

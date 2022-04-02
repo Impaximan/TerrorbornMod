@@ -13,25 +13,24 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 24;
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Blue;
-            item.value = Item.sellPrice(0, 1, 50, 0);
-            item.useAnimation = 5;
-            item.defense = 3;
+            Item.width = 26;
+            Item.height = 24;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.sellPrice(0, 1, 50, 0);
+            Item.useAnimation = 5;
+            Item.defense = 3;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Feather, 6);
-            recipe.AddIngredient(ItemID.Cloud, 20);
-            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 3);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Feather, 6)
+                .AddIngredient(ItemID.Cloud, 20)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 3)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -13,30 +12,30 @@ namespace TerrorbornMod.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -50,9 +49,9 @@ namespace TerrorbornMod.Projectiles
                 for (int i = 0; i < positions.Count; i++)
                 {
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.Lerp(Color.Crimson, new Color(255, 194, 177), mult)) * mult;
-                    Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * mult), color);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.Lerp(Color.Crimson, new Color(255, 194, 177), mult)) * mult;
+                    Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * mult), color);
                 }
             }
 
@@ -73,7 +72,7 @@ namespace TerrorbornMod.Projectiles
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
     }
 }

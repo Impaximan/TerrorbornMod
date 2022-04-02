@@ -2,9 +2,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 using System;
-using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -20,22 +19,22 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 63;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 58;
-            item.height = 26;
-            item.useTime = 25;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item61;
-            item.autoReuse = true;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Rocket;
+            Item.damage = 63;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 58;
+            Item.height = 26;
+            Item.useTime = 25;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item61;
+            Item.autoReuse = true;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Rocket;
         }
 
         public override Vector2? HoldoutOffset()
@@ -43,42 +42,37 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             type = ModContent.ProjectileType<BonezookaSkull>();
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
     }
 
     class BonezookaSkull : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.Homing[projectile.type] = true;
-        }
-
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 36;
-            projectile.ranged = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 18;
+            Projectile.height = 36;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
         }
 
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 0, 45, 15, 172, DustScale: 1f, NoGravity: true);
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            DustExplosion(Projectile.Center, 0, 45, 15, 172, DustScale: 1f, NoGravity: true);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int i = 0; i < 200; i++)
             {
-                NPC npc = Main.npc[i];
-                if (!npc.friendly && projectile.Distance(npc.Center) <= 100 + ((npc.width + npc.height) / 2) && !npc.dontTakeDamage)
+                NPC NPC = Main.npc[i];
+                if (!NPC.friendly && Projectile.Distance(NPC.Center) <= 100 + ((NPC.width + NPC.height) / 2) && !NPC.dontTakeDamage)
                 {
-                    npc.StrikeNPC(70, 0, 0, Main.rand.Next(101) <= Main.player[projectile.owner].rangedCrit);
+                    NPC.StrikeNPC(70, 0, 0, Main.rand.Next(101) <= Main.player[Projectile.owner].GetCritChance(DamageClass.Ranged));
                 }
             }
         }
@@ -105,20 +99,20 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AI()
         {
-            if (projectile.velocity.X <= 0)
+            if (Projectile.velocity.X <= 0)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(90);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.ToRadians(90);
             NPC targetNPC = Main.npc[0];
             float Distance = 500; //max distance away
             bool Targeted = false;
             for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                 {
                     targetNPC = Main.npc[i];
-                    Distance = Main.npc[i].Distance(projectile.Center);
+                    Distance = Main.npc[i].Distance(Projectile.Center);
                     Targeted = true;
                 }
             }
@@ -126,36 +120,36 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             {
                 //HOME IN
                 float speed = .6f;
-                Vector2 move = targetNPC.Center - projectile.Center;
+                Vector2 move = targetNPC.Center - Projectile.Center;
                 float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
                 move *= speed / magnitude;
-                projectile.velocity += move;
-                projectile.velocity *= 0.98f;
+                Projectile.velocity += move;
+                Projectile.velocity *= 0.98f;
             }
-            Dust dust = Dust.NewDustPerfect(projectile.Center, 172, Vector2.Zero, 0, Scale: 0.8f);
+            Dust dust = Dust.NewDustPerfect(Projectile.Center, 172, Vector2.Zero, 0, Scale: 0.8f);
             dust.noGravity = true;
         }
 
         int bouncesLeft = 3;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
 
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             bouncesLeft--;
             if (bouncesLeft <= 0)
             {
-                projectile.timeLeft = 0;
+                Projectile.timeLeft = 0;
             }
             return false;
         }

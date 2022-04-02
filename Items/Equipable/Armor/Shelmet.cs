@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.Armor
@@ -10,12 +9,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.ShellFragments>(), 12);
-            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 6);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.ShellFragments>(), 12)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 6)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -25,16 +23,16 @@ namespace TerrorbornMod.Items.Equipable.Armor
         }
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 9;
+            player.GetCritChance(DamageClass.Melee) += 9;
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 2, 0, 0);
-            item.defense = 6;
-            item.rare = ItemRarityID.Blue;
+            Item.width = 22;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.defense = 6;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

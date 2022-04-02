@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
-using System.IO;
 using System;
 using Terraria.DataStructures;
 
@@ -18,19 +17,19 @@ namespace TerrorbornMod.Items
             Tooltip.SetDefault("While this item is favorited in your inventory, dark energy will be stored in the tonic, up to a maximum of 5" +
                 "\nUse the item to consume all stored dark energy, granting you 15% terror per energy instead of 10%" +
                 "\nUsing this will also decrease your damage by 15% for 15 seconds");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(10, 6));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(10, 6));
         }
 
         public override void SetDefaults()
         {
-            item.expert = true;
-            item.width = 30;
-            item.height = 192 / 6;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.UseSound = SoundID.Item4;
-            item.noUseGraphic = true;
+            Item.expert = true;
+            Item.width = 30;
+            Item.height = 192 / 6;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.UseSound = SoundID.Item4;
+            Item.noUseGraphic = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -43,7 +42,7 @@ namespace TerrorbornMod.Items
         public override void UpdateInventory(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            if (item.favorited)
+            if (Item.favorited)
             {
                 modPlayer.TerrorTonic = true;
             }
@@ -69,13 +68,13 @@ namespace TerrorbornMod.Items
         {
             rotationTime++;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            frame = new Rectangle(0, item.height * itemFrame, item.width, item.height);
+            frame = new Rectangle(0, Item.height * itemFrame, Item.width, Item.height);
             if (modPlayer.DarkEnergyStored == 5)
             {
-                spriteBatch.Draw(ModContent.GetTexture(Texture), position + item.Size / 2 * scale, frame, drawColor, MathHelper.ToRadians((float)Math.Sin(rotationTime / 10) * 15f), item.Size / 2, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>(Texture), position + Item.Size / 2 * scale, frame, drawColor, MathHelper.ToRadians((float)Math.Sin(rotationTime / 10) * 15f), Item.Size / 2, scale, SpriteEffects.None, 0f);
                 return false;
             }
-            spriteBatch.Draw(ModContent.GetTexture(Texture), position + item.Size / 2 * scale, frame, drawColor, 0f, item.Size / 2, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>(Texture), position + Item.Size / 2 * scale, frame, drawColor, 0f, Item.Size / 2, scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -83,8 +82,8 @@ namespace TerrorbornMod.Items
         {
             rotationTime++;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            Rectangle frame = new Rectangle(0, item.height * itemFrame, item.width, item.height);
-            spriteBatch.Draw(ModContent.GetTexture(Texture), item.Center - Main.screenPosition, frame, lightColor, 0f, item.Size / 2, scale, SpriteEffects.None, 0f);
+            Rectangle frame = new Rectangle(0, Item.height * itemFrame, Item.width, Item.height);
+            spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>(Texture), Item.Center - Main.screenPosition, frame, lightColor, 0f, Item.Size / 2, scale, SpriteEffects.None, 0f);
             return false;
         }
     }

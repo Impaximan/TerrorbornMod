@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Projectiles
 {
-	abstract class Deathray : ModProjectile
+    abstract class Deathray : ModProjectile
 	{
 		public float MoveDistance = 20f;
 		public float RealMaxDistance = 2000f;
@@ -21,24 +20,24 @@ namespace TerrorbornMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.magic = true;
-			projectile.hide = true;
-			projectile.timeLeft = 1;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.DamageType = DamageClass.Magic;;
+			Projectile.hide = true;
+			Projectile.timeLeft = 1;
 		}
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			projectile.velocity = oldVelocity;
+			Projectile.velocity = oldVelocity;
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
 		{
-			DrawLaser(spriteBatch, Main.projectileTexture[projectile.type], Position(), projectile.velocity, bodyRect.Height, -1.57f, 1f, MaxDistance, (int)MoveDistance);
+			DrawLaser(spriteBatch, ModContent.Request<Texture2D>(Texture).Value, Position(), Projectile.velocity, bodyRect.Height, -1.57f, 1f, MaxDistance, (int)MoveDistance);
 			return false;
 		}
 
@@ -78,7 +77,7 @@ namespace TerrorbornMod.Projectiles
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
-			Vector2 unit = projectile.velocity;
+			Vector2 unit = Projectile.velocity;
 			float point = 0f;
 
 			return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Position(),
@@ -92,16 +91,16 @@ namespace TerrorbornMod.Projectiles
 			if (start)
             {
 				start = false;
-				ogPosition = projectile.Center;
+				ogPosition = Projectile.Center;
             }
 
-			projectile.position = Position() + projectile.velocity * MoveDistance;
+			Projectile.position = Position() + Projectile.velocity * MoveDistance;
 
 			SetLaserPosition();
 			SpawnDusts();
 			CastLights();
 
-			projectile.velocity.Normalize();
+			Projectile.velocity.Normalize();
 		}
 
 		public virtual Vector2 Position()
@@ -110,7 +109,7 @@ namespace TerrorbornMod.Projectiles
             {
 				return ogPosition;
 			}
-			return Main.player[projectile.owner].Center;
+			return Main.player[Projectile.owner].Center;
         }
 
 		public virtual void SpawnDusts()
@@ -120,7 +119,7 @@ namespace TerrorbornMod.Projectiles
 
 		public virtual void SetLaserPosition()
 		{
-			if (!projectile.tileCollide)
+			if (!Projectile.tileCollide)
             {
 				MaxDistance = RealMaxDistance;
             }
@@ -128,7 +127,7 @@ namespace TerrorbornMod.Projectiles
 			{
 				for (MaxDistance = MoveDistance; MaxDistance <= RealMaxDistance; MaxDistance += 5f)
 				{
-					var start = Position() + projectile.velocity * MaxDistance;
+					var start = Position() + Projectile.velocity * MaxDistance;
 					if (Collision.SolidCollision(start, 1, 1))
 					{
 						MaxDistance -= 5f;
@@ -148,8 +147,8 @@ namespace TerrorbornMod.Projectiles
 		public override void CutTiles()
 		{
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-			Vector2 unit = projectile.velocity;
-			Utils.PlotTileLine(projectile.Center, projectile.Center + unit * MaxDistance, (projectile.width + 16) * projectile.scale, DelegateMethods.CutTiles);
+			Vector2 unit = Projectile.velocity;
+			Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * MaxDistance, (Projectile.width + 16) * Projectile.scale, DelegateMethods.CutTiles);
 		}
 	}
 }

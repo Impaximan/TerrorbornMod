@@ -2,8 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Melee
 {
@@ -12,18 +11,16 @@ namespace TerrorbornMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             int evilBars = 10;
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8);
-            recipe.AddIngredient(ItemID.CrimtaneBar, evilBars);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8);
-            recipe2.AddIngredient(ItemID.DemoniteBar, evilBars);
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8)
+                .AddIngredient(ItemID.CrimtaneBar, evilBars)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 8)
+                .AddIngredient(ItemID.DemoniteBar, evilBars)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -34,32 +31,32 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 72;
-            item.melee = true;
-            item.width = 70;
-            item.height = 66;
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.MagicMissile;
+            Item.damage = 72;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 70;
+            Item.height = 66;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4f;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.MagicMissile;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float distance = 1000;
             NPC target = Main.npc[0];
             bool targetted = false;
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                if (!npc.friendly && npc.active && npc.Distance(player.Center) <= distance && npc.CanBeChasedBy())
+                if (!NPC.friendly && NPC.active && NPC.Distance(player.Center) <= distance && NPC.CanBeChasedBy())
                 {
-                    target = npc;
-                    distance = npc.Distance(player.Center);
+                    target = NPC;
+                    distance = NPC.Distance(player.Center);
                     targetted = true;
                 }
             }

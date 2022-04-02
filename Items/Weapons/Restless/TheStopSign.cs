@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
-using System.Collections.Generic;
 
 namespace TerrorbornMod.Items.Weapons.Restless
 {
@@ -19,22 +17,20 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.HellbornEssence>(), 4);
-            recipe.AddIngredient(ItemID.TitaniumBar, 15);
-            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 15);
-            recipe.AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 4);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.HellbornEssence>(), 4);
-            recipe2.AddIngredient(ItemID.AdamantiteBar, 15);
-            recipe2.AddRecipeGroup(RecipeGroupID.IronBar, 15);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 4);
-            recipe2.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HellbornEssence>(), 4)
+                .AddIngredient(ItemID.TitaniumBar, 15)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 15)
+                .AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 4)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HellbornEssence>(), 4)
+                .AddIngredient(ItemID.AdamantiteBar, 15)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 15)
+                .AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 4)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
 
         public override string defaultTooltip()
@@ -51,40 +47,40 @@ namespace TerrorbornMod.Items.Weapons.Restless
         public override void restlessSetDefaults(TerrorbornItem modItem)
         {
             modItem.critDamageMult = 1.2f;
-            item.damage = 160;
-            item.melee = true;
-            item.width = 128;
-            item.height = 128;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.UseSound = SoundID.DD2_MonkStaffSwing;
-            item.shoot = ModContent.ProjectileType<TheStopSoul>();
-            item.shootSpeed = 20;
-            item.crit = 7;
-            item.autoReuse = true;
-            item.noMelee = false;
-            item.noUseGraphic = false;
+            Item.damage = 160;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 128;
+            Item.height = 128;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.UseSound = SoundID.DD2_MonkStaffSwing;
+            Item.shoot = ModContent.ProjectileType<TheStopSoul>();
+            Item.shootSpeed = 20;
+            Item.crit = 7;
+            Item.autoReuse = true;
+            Item.noMelee = false;
+            Item.noUseGraphic = false;
             modItem.restlessTerrorDrain = 6f;
             modItem.restlessChargeUpUses = 5;
         }
 
-        public override bool RestlessShoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool RestlessShoot(Player player, EntitySource_ItemUse_WithAmmo source, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             return false;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())
             {
-                Main.PlaySound(SoundID.Item37, target.Center);
-                TerrorbornMod.ScreenShake(10f);
-                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<TheStopSoul>(), 1250, 0f, player.whoAmI);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item37, target.Center);
+                TerrorbornSystem.ScreenShake(10f);
+                Projectile.NewProjectile(player.GetProjectileSource_OnHit(target, ProjectileSourceID.None), target.Center, Vector2.Zero, ModContent.ProjectileType<TheStopSoul>(), 1250, 0f, player.whoAmI);
             }
         }
     }
@@ -98,21 +94,21 @@ namespace TerrorbornMod.Items.Weapons.Restless
         int currentSize = defaultSize;
         public override void SetDefaults()
         {
-            projectile.width = defaultSize;
-            projectile.height = defaultSize;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.melee = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.timeLeft = timeLeft;
+            Projectile.width = defaultSize;
+            Projectile.height = defaultSize;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.timeLeft = timeLeft;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            TBUtils.Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, currentSize, Color.Pink);
+            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, Color.Pink);
             return false;
         }
 

@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.MiscConsumables
 {
@@ -14,31 +13,31 @@ namespace TerrorbornMod.Items.MiscConsumables
         }
         public override void SetDefaults()
         {
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.maxStack = 30;
-            item.consumable = true;
-            item.rare = ItemRarityID.Blue;
-            item.autoReuse = false;
-            item.UseSound = SoundID.Item2;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.buffType = ModContent.BuffType<HorrificallyCheesed>();
-            item.buffTime = 3600 * 5;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.EatingUsing;
+            Item.maxStack = 30;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.autoReuse = false;
+            Item.UseSound = SoundID.Item2;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.buffType = ModContent.BuffType<HorrificallyCheesed>();
+            Item.buffTime = 3600 * 5;
         }
     }
 
     class HorrificallyCheesed : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Horrifically Cheesed");
             Description.SetDefault("Lose terror over time, granting you item use speed that scales with the amount of terror you have left");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {

@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -18,55 +18,55 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 "\n95% chance to not consume ammo" +
                 "\n'Shoots as fast as your fingers can click'");
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Player player)
         {
             return Main.rand.Next(100) <= 5;
         }
         public override void SetDefaults()
         {
-            item.damage = 16;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 36;
-            item.height = 22;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item41;
-            item.autoReuse = false;
-            item.shootSpeed = 16f;
-            item.shoot = mod.ProjectileType("CartilageRoundProjectile");
-            item.useAmmo = mod.ItemType("CartilageRound");
+            Item.damage = 16;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 36;
+            Item.height = 22;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item41;
+            Item.autoReuse = false;
+            Item.shootSpeed = 16f;
+            Item.shoot = ModContent.ProjectileType<CartilageRoundProjectile>();
+            Item.useAmmo = ModContent.ItemType<CartilageRound>();
         }
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 RotatedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(6));
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            Vector2 RotatedSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(6));
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
     }
     class CartilageRound : ModItem
     {
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.ranged = true;
-            item.width = 12;
-            item.height = 14;
-            item.maxStack = 9999;
-            item.consumable = true;
-            item.knockBack = 2;
-            item.value = 10;
-            item.shootSpeed = 20;
-            item.rare = ItemRarityID.Green;
-            item.shoot = mod.ProjectileType("CartilageRoundProjectile");
-            item.ammo = item.type;
+            Item.damage = 0;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 12;
+            Item.height = 14;
+            Item.maxStack = 9999;
+            Item.consumable = true;
+            Item.knockBack = 2;
+            Item.value = 10;
+            Item.shootSpeed = 20;
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<CartilageRoundProjectile>();
+            Item.ammo = Item.type;
         }
         public override void SetStaticDefaults()
         {
@@ -80,60 +80,60 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cartilage Round");
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 14;
-            projectile.ranged = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
-            projectile.penetrate = -1;
+            Projectile.width = 12;
+            Projectile.height = 14;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(90);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.ToRadians(90);
         }
         int BouncesLeft = 5;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
 
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             BouncesLeft--;
             if (BouncesLeft <= 0)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
             return false;
         }

@@ -4,6 +4,7 @@ using Terraria.ID;
 using TerrorbornMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -11,73 +12,72 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     {
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.2f;
-            item.damage = 15;
-            item.ranged = true;
-            item.width = 40;
-            item.height = 40;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.shootSpeed = 25;
-            item.shoot = ModContent.ProjectileType<PyroclasticKunaiProjectile>();
+            Item.damage = 15;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 40;
+            Item.height = 40;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shootSpeed = 25;
+            Item.shoot = ModContent.ProjectileType<PyroclasticKunaiProjectile>();
         }
 
         float maxRotation = MathHelper.ToRadians(10f);
         int kunaiCount = 5;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = -2; i <= 2; i++)
             {
-                Vector2 velocity = new Vector2(speedX, speedY).RotatedBy((maxRotation / kunaiCount) * i);
-                Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
+                velocity = velocity.RotatedBy((maxRotation / kunaiCount) * i);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PyroclasticGemstone>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<IncendiusAlloy>(), 10);
-            recipe.AddIngredient(ItemID.ThrowingKnife, 50);
-            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<PyroclasticGemstone>(), 15)
+                .AddIngredient(ModContent.ItemType<IncendiusAlloy>(), 10)
+                .AddIngredient(ItemID.ThrowingKnife, 50)
+                .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
+                .Register();
         }
     }
 
     class PyroclasticKunaiProjectile : ModProjectile
     {
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
-            Texture2D texture = ModContent.GetTexture(Texture + "Glow");
-            Vector2 position = projectile.Center - Main.screenPosition;
-            Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, projectile.width, projectile.height), Color.White * (1f - (projectile.alpha / 255f)), projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.scale, SpriteEffects.None, 0);
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture + "Glow");
+            Vector2 position = Projectile.Center - Main.screenPosition;
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, Projectile.width, Projectile.height), Color.White * (1f - (Projectile.alpha / 255f)), Projectile.rotation, new Vector2(Projectile.width / 2, Projectile.height / 2), Projectile.scale, SpriteEffects.None, 0);
         }
 
         int FallWait = 40;
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 38;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.ranged = true;
-            projectile.hide = false;
-            projectile.tileCollide = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.timeLeft = 3000;
+            Projectile.width = 14;
+            Projectile.height = 38;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.hide = false;
+            Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.timeLeft = 3000;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -85,9 +85,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (crit)
             {
                 bool spawnPortal = true;
-                foreach (Projectile projectile in Main.projectile)
+                foreach (Projectile Projectile in Main.projectile)
                 {
-                    if (projectile.type == ModContent.ProjectileType<PyroclasticPortal>() && projectile.active)
+                    if (Projectile.type == ModContent.ProjectileType<PyroclasticPortal>() && Projectile.active)
                     {
                         spawnPortal = false;
                         break;
@@ -96,17 +96,17 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
                 if (spawnPortal)
                 {
-                    Player player = Main.player[projectile.owner];
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<PyroclasticPortal>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    Player player = Main.player[Projectile.owner];
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, ProjectileSourceID.None), player.Center, Vector2.Zero, ModContent.ProjectileType<PyroclasticPortal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 15;
             height = 15;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -122,82 +122,82 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (FallWait > 0)
             {
                 FallWait--;
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
             }
             else
             {
-                projectile.velocity *= 0.9f;
-                projectile.alpha += 255 / 20;
-                if (projectile.alpha >= 255)
+                Projectile.velocity *= 0.9f;
+                Projectile.alpha += 255 / 20;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
         }
         public override void Kill(int timeLeft)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
         }
     }
 
     class PyroclasticPortal : ModProjectile
     {
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
-            Texture2D texture = ModContent.GetTexture(Texture + "Glow");
-            Vector2 position = projectile.Center - Main.screenPosition;
-            Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, projectile.width, projectile.height), Color.White * (1f - (projectile.alpha / 255f)), projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.scale, SpriteEffects.None, 0);
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture + "Glow");
+            Vector2 position = Projectile.Center - Main.screenPosition;
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, Projectile.width, Projectile.height), Color.White * (1f - (Projectile.alpha / 255f)), Projectile.rotation, new Vector2(Projectile.width / 2, Projectile.height / 2), Projectile.scale, SpriteEffects.None, 0);
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 44;
-            projectile.height = 44;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.ranged = true;
-            projectile.hide = false;
-            projectile.tileCollide = false;
-            projectile.timeLeft = trueTimeLeft + 300;
+            Projectile.width = 44;
+            Projectile.height = 44;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.hide = false;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = trueTimeLeft + 300;
         }
 
         float maxRotation = MathHelper.ToRadians(10f);
         int kunaiCount = 3;
         int trueTimeLeft = 120;
-        int projectileWait = 30;
+        int ProjectileWait = 30;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
-            projectile.rotation -= MathHelper.ToRadians(5f);
+            Projectile.rotation -= MathHelper.ToRadians(5f);
 
             if (trueTimeLeft > 0)
             {
                 trueTimeLeft--;
                 if (player.itemTime > 0)
                 {
-                    projectileWait--;
-                    if (projectileWait <= 0)
+                    ProjectileWait--;
+                    if (ProjectileWait <= 0)
                     {
-                        projectileWait = 30;
+                        ProjectileWait = 30;
                         for (int i = -1; i <= 1; i++)
                         {
-                            Vector2 velocity = (projectile.DirectionTo(Main.MouseWorld) * 25).RotatedBy((maxRotation / kunaiCount) * i);
-                            Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PyroclasticKunaiProjectile>(), projectile.damage, projectile.knockBack, player.whoAmI);
+                            Vector2 velocity = (Projectile.DirectionTo(Main.MouseWorld) * 25).RotatedBy((maxRotation / kunaiCount) * i);
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PyroclasticKunaiProjectile>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
                         }
                     }
                 }
             }
             else
             {
-                projectile.alpha += 15;
-                if (projectile.alpha >= 255)
+                Projectile.alpha += 15;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
-                projectile.scale -= 0.02f;
+                Projectile.scale -= 0.02f;
             }
         }
     }

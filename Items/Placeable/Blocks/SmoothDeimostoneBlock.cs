@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace TerrorbornMod.Items.Placeable.Blocks
 {
@@ -9,40 +8,38 @@ namespace TerrorbornMod.Items.Placeable.Blocks
     {
         public override void SetStaticDefaults()
         {
-            ItemID.Sets.ExtractinatorMode[item.type] = item.type;
+            ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 18;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.SmoothDeimostone>();
+            Item.width = 16;
+            Item.height = 18;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.SmoothDeimostone>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DeimostoneBlock>());
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(this);
-            recipe2.AddTile(TileID.WorkBenches);
-            recipe2.SetResult(ModContent.ItemType<Walls.SmoothDeimostoneWall>(), 4);
-            recipe2.AddRecipe();
-            ModRecipe recipe3 = new ModRecipe(mod);
-            recipe3.AddIngredient(ModContent.ItemType<Walls.SmoothDeimostoneWall>(), 4);
-            recipe3.AddTile(TileID.WorkBenches);
-            recipe3.SetResult(this);
-            recipe3.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<DeimostoneBlock>())
+                .AddTile(TileID.WorkBenches)
+                .Register();
+            Recipe recipe2 = CreateRecipe()
+                .AddIngredient(this)
+                .AddTile(TileID.WorkBenches);
+            recipe2.ReplaceResult(ModContent.ItemType<Walls.SmoothDeimostoneWall>(), 4);
+            recipe2.Register();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Walls.SmoothDeimostoneWall>(), 4)
+                .AddTile(TileID.WorkBenches)
+                .Register();
         }
     }
 }

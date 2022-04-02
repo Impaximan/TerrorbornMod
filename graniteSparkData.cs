@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.DataStructures;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.GameInput;
-using Microsoft.Xna.Framework.Input;
-using Extensions;
 
 namespace TerrorbornMod
 {
@@ -23,7 +13,7 @@ namespace TerrorbornMod
             {
                 player.AddBuff(ModContent.BuffType<Buffs.GraniteSpark>(), 60 * 5);
                 player.AddBuff(ModContent.BuffType<Buffs.Debuffs.GraniteSparkCooldown>(), 60 * 35);
-                Main.PlaySound(SoundID.Item72, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, player.Center);
             }
         }
     }
@@ -37,7 +27,7 @@ namespace TerrorbornMod
             {
                 player.AddBuff(ModContent.BuffType<Buffs.AstralSparkBuff>(), 60 * 5);
                 player.AddBuff(ModContent.BuffType<Buffs.Debuffs.AstralSparkCooldown>(), 60 * 20);
-                Main.PlaySound(SoundID.Item72, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, player.Center);
             }
         }
     }

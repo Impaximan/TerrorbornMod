@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,14 +8,13 @@ namespace TerrorbornMod.Items.Tools
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 8);
-            recipe.AddIngredient(ItemID.SoulofNight, 3);
-            recipe.AddIngredient(ItemID.SoulofLight, 3);
-            recipe.AddIngredient(ItemID.SoulofFlight, 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 8)
+                .AddIngredient(ItemID.SoulofNight, 3)
+                .AddIngredient(ItemID.SoulofLight, 3)
+                .AddIngredient(ItemID.SoulofFlight, 3)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -26,19 +24,19 @@ namespace TerrorbornMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 32;
-            item.melee = true;
-            item.width = 56;
-            item.height = 54;
-            item.useAnimation = 15;
-            item.useTime = 5;
-            item.axe = 175 / 5;
-            item.pick = 210;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6;
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 32;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 56;
+            Item.height = 54;
+            Item.useAnimation = 15;
+            Item.useTime = 5;
+            Item.axe = 175 / 5;
+            Item.pick = 210;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -50,17 +48,17 @@ namespace TerrorbornMod.Items.Tools
         {
             if (player.altFunctionUse == 2)
             {
-                item.autoReuse = false;
-                item.axe = 0;
-                item.hammer = 100;
-                item.pick = 0;
+                Item.autoReuse = false;
+                Item.axe = 0;
+                Item.hammer = 100;
+                Item.pick = 0;
             }
             else
             {
-                item.autoReuse = true;
-                item.axe = 175 / 5;
-                item.hammer = 0;
-                item.pick = 210;
+                Item.autoReuse = true;
+                Item.axe = 175 / 5;
+                Item.hammer = 0;
+                Item.pick = 210;
             }
             return base.CanUseItem(player);
         }

@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -21,7 +19,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             soundStyle = 1;
             //Main.soundDig[Type] =  21;
 
-            dustType = DustID.Fire;
+            dustType = 6;
 
             minPick = 150;
             mineResist = 8;
@@ -32,7 +30,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
         public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
         {
-            dustType = DustID.Fire;
+            dustType = 6;
             makeDust = true;
         }
 

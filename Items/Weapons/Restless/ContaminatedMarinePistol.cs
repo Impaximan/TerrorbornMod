@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -31,50 +27,52 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void restlessSetDefaults(TerrorbornItem modItem)
         {
-            item.damage = 27;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 38;
-            item.height = 18;
-            item.useTime = 14;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 1;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shootSpeed = 16f;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 27;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 38;
+            Item.height = 18;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 1;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shootSpeed = 16f;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useAmmo = AmmoID.Bullet;
             modItem.restlessChargeUpUses = 10;
             modItem.restlessTerrorDrain = 8;
         }
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
-        public override bool RestlessShoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        public override bool RestlessShoot(Player player, EntitySource_ItemUse_WithAmmo source, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates = Main.projectile[proj].extraUpdates * 2 + 1;
                 Main.projectile[proj].GetGlobalProjectile<TerrorbornProjectile>().ContaminatedMarine = true;
                 return false;
             }
-            return base.RestlessShoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return base.RestlessShoot(player, source, ref position, ref velocity, ref type, ref damage, ref knockback);
         }
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 22);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 6);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 22)
+                .AddIngredient(ItemID.HallowedBar, 10)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 6)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
     }
 
@@ -83,15 +81,15 @@ namespace TerrorbornMod.Items.Weapons.Restless
         public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.timeLeft = 60;
-            projectile.penetrate = 5;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.hide = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 60;
+            Projectile.penetrate = 5;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.hide = true;
         }
 
         int moveCounter = 10;
@@ -100,14 +98,14 @@ namespace TerrorbornMod.Items.Weapons.Restless
             if (moveCounter > 0)
             {
                 moveCounter--;
-                projectile.position -= projectile.velocity;
+                Projectile.position -= Projectile.velocity;
             }
             else
             {
-                int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 74, 0f, 0f, 100, Scale: 1.5f);
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 74, 0f, 0f, 100, Scale: 1.5f);
                 Main.dust[dust].noGravity = true;
-                Main.dust[dust].velocity = projectile.velocity;
-                projectile.velocity.Y += 0.2f;
+                Main.dust[dust].velocity = Projectile.velocity;
+                Projectile.velocity.Y += 0.2f;
             }
         }
     }

@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -20,7 +15,7 @@ namespace TerrorbornMod.Abilities
 
         public override Texture2D texture()
         {
-            return ModContent.GetTexture("TerrorbornMod/Abilities/BlinkDash_Icon");
+            return (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Abilities/BlinkDash_Icon");
         }
 
         public override float Cost()
@@ -59,7 +54,7 @@ namespace TerrorbornMod.Abilities
             modPlayer.BlinkDashTime = 20;
             float speed = 15f;
 
-            Main.PlaySound(SoundID.Item72, player.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, player.Center);
             DustExplosion(player.Center, 0, 15, 30, 162, 1.5f, true);
 
             if (player.controlRight)
@@ -122,11 +117,11 @@ namespace TerrorbornMod.Abilities
         }
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -197,9 +192,9 @@ namespace TerrorbornMod.Abilities
 
         public override void ObtainAbility()
         {
-            projectile.active = false;
+            Projectile.active = false;
 
-            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)]);
+            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(Projectile.position, Projectile.width, Projectile.height)]);
             target.unlockedAbilities.Add(8);
             target.TriggerAbilityAnimation("Blink Dash", "Performs a blink dash for 10% terror, allowing you to warp past foes and confuse them", "The direction of the dash depends on your movement keys", 0, visibilityTime: 900);
         }

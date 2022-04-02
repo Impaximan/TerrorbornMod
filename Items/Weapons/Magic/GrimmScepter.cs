@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Magic
 {
@@ -11,53 +12,51 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 8);
-            recipe.AddIngredient(ItemID.TissueSample, 5);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 12);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe2.AddIngredient(ItemID.ShadowScale, 5);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 12);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.CrimtaneBar, 8)
+                .AddIngredient(ItemID.TissueSample, 5)
+                .AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 12)
+                .AddTile(TileID.Anvils)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.DemoniteBar, 8)
+                .AddIngredient(ItemID.ShadowScale, 5)
+                .AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 12)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
             Tooltip.SetDefault("On crits enemies will release collectable Grimm Orbs that heal you for 2 health");
         }
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.3f;
-            item.damage = 11;
-            item.noMelee = true;
-            item.width = 52;
-            item.height = 52;
-            item.useTime = 16;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item72;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("GrimmRay");
-            item.shootSpeed = 15f;
-            item.mana = 4;
-            item.magic = true;
+            Item.damage = 11;
+            Item.noMelee = true;
+            Item.width = 52;
+            Item.height = 52;
+            Item.useTime = 16;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item72;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<GrimmRay>();
+            Item.shootSpeed = 15f;
+            Item.mana = 4;
+            Item.DamageType = DamageClass.Magic;;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position = player.Center + (player.DirectionTo(Main.MouseWorld) * 40);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, 1);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, -1);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, 1);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, -1);
             return false;
         }
     }
@@ -70,33 +69,33 @@ namespace TerrorbornMod.Items.Weapons.Magic
         //private bool GravDown = true;
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = 5;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.timeLeft = 350;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 5;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.timeLeft = 350;
         }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -110,14 +109,14 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 for (int i = 0; i < positions.Count; i++)
                 {
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.Lerp(Color.Crimson, Color.Red, mult)) * mult;
-                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * mult), color);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.Lerp(Color.Crimson, Color.Red, mult)) * mult;
+                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * mult), color);
                 }
             }
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return false;
         }
 
@@ -126,7 +125,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override void AI()
         {
             int RotatationSpeed = 4;
-            projectile.velocity = projectile.velocity.RotatedBy(MathHelper.ToRadians(RotatationSpeed * Direction * projectile.ai[0]));
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(RotatationSpeed * Direction * Projectile.ai[0]));
             DirectionCounter--;
             if (DirectionCounter <= 0)
             {
@@ -138,7 +137,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         {
             if (crit)
             {
-                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<GrimmOrb>(), 0, 0, projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<GrimmOrb>(), 0, 0, Projectile.owner);
             }
         }
     }
@@ -150,32 +149,32 @@ namespace TerrorbornMod.Items.Weapons.Magic
         //private bool GravDown = true;
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.timeLeft = 300;
-            projectile.damage = 0;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.timeLeft = 300;
+            Projectile.damage = 0;
         }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -189,28 +188,28 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 for (int i = 0; i < positions.Count; i++)
                 {
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.Lerp(Color.Crimson, Color.Red, mult)) * mult;
-                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(15f * mult), color);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.Lerp(Color.Crimson, Color.Red, mult)) * mult;
+                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(15f * mult), color);
                 }
             }
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return false;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             int speed = 8;
-            projectile.velocity = projectile.DirectionTo(player.Center) * speed;
-            if (projectile.Distance(player.Center) <= speed)
+            Projectile.velocity = Projectile.DirectionTo(player.Center) * speed;
+            if (Projectile.Distance(player.Center) <= speed)
             {
                 int healAmount = 2;
                 player.HealEffect(healAmount);
                 player.statLife += healAmount;
-                projectile.active = false;
+                Projectile.active = false;
             }
         }
     }

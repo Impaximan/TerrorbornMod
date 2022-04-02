@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.Armor
@@ -17,17 +16,17 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 2, 0, 0);
-            item.defense = 4;
-            item.rare = ItemRarityID.Blue;
+            Item.width = 22;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.defense = 4;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer.modPlayer(player).magicUseSpeed *= 1.1f;
-            player.magicCrit += 6;
+            player.GetCritChance(DamageClass.Magic) += 6;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

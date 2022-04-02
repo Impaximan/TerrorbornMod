@@ -10,21 +10,21 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Generates a shield that rotates around you" +
-                "\nThis shield can block a projectile once every 5 seconds" +
+                "\nThis shield can block a Projectile once every 5 seconds" +
                 "\nAdditionally, the shield will hit enemies it passes through dealing 50 damage" +
-                "\nBlocking a projectile or hitting an enemy with the shield grants you the 'panic' buff for 5 seconds");
+                "\nBlocking a Projectile or hitting an enemy with the shield grants you the 'panic' buff for 5 seconds");
         }
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 34;
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Green;
-            item.defense = 4;
-            item.value = Item.sellPrice(0, 2, 0, 0);
-            item.useAnimation = 5;
+            Item.width = 32;
+            Item.height = 34;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 4;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.useAnimation = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -35,15 +35,15 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             bool AntlionShellShieldActive = true;
             for (int i = 0; i < 1000; i++)
             {
-                Projectile projectile = Main.projectile[i];
-                if (projectile.type == ModContent.ProjectileType<AntlionShellShield>() && projectile.active)
+                Projectile Projectile = Main.projectile[i];
+                if (Projectile.type == ModContent.ProjectileType<AntlionShellShield>() && Projectile.active)
                 {
                     AntlionShellShieldActive = false;
                 }
             }
             if (AntlionShellShieldActive)
             {
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AntlionShellShield>(), 50, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<AntlionShellShield>(), 50, 0, player.whoAmI);
             }
         }
     }
@@ -52,21 +52,21 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.width = 20;
-            projectile.height = 38;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 120;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.width = 20;
+            Projectile.height = 38;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 120;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             player.AddBuff(BuffID.Panic, 60 * 5);
         }
 
@@ -79,27 +79,27 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         int cooldown = 60 * 5;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer superiorPlayer = TerrorbornPlayer.modPlayer(player);
             if (!superiorPlayer.AntlionShell)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
             else
             {
-                projectile.timeLeft = 60;
+                Projectile.timeLeft = 60;
             }
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 5;
+                Projectile.alpha -= 5;
             }
-            projectile.velocity = Vector2.Zero;
+            Projectile.velocity = Vector2.Zero;
 
             int distance = 100;
-            projectile.position = direction.ToRotationVector2() * distance + player.Center;
-            projectile.position.X -= projectile.width / 2;
-            projectile.position.Y -= projectile.height / 2;
-            projectile.rotation = direction + MathHelper.ToRadians(180);
+            Projectile.position = direction.ToRotationVector2() * distance + player.Center;
+            Projectile.position.X -= Projectile.width / 2;
+            Projectile.position.Y -= Projectile.height / 2;
+            Projectile.rotation = direction + MathHelper.ToRadians(180);
 
             direction += MathHelper.ToRadians(1f);
 
@@ -108,20 +108,20 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 for (int i = 0; i < 1000; i++)
                 {
                     Projectile target = Main.projectile[i];
-                    if (target.hostile && target.getRect().Intersects(projectile.getRect()))
+                    if (target.hostile && target.getRect().Intersects(Projectile.getRect()))
                     {
                         target.penetrate = 0;
                         player.AddBuff(BuffID.Panic, 60 * 5);
-                        CombatText.NewText(projectile.getRect(), Color.LightYellow, "Projectile blocked", true, true);
+                        CombatText.NewText(Projectile.getRect(), Color.LightYellow, "Projectile blocked", true, true);
                         cooldown = 60 * 5;
-                        Main.PlaySound(SoundID.DD2_SkeletonHurt);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt);
                     }
                 }
             }
             else
             {
                 cooldown--;
-                projectile.alpha = 125;
+                Projectile.alpha = 125;
             }
         }
     }

@@ -9,30 +9,30 @@ namespace TerrorbornMod.Items.Weapons.Melee
 	{
 		public override void SetStaticDefaults()
 		{
-			ItemID.Sets.Yoyo[item.type] = true;
-			ItemID.Sets.GamepadExtraRange[item.type] = 15;
-			ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+			ItemID.Sets.Yoyo[Item.type] = true;
+			ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+			ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
 			Tooltip.SetDefault("Hitting an enemy causes the yoyo to emit light for the rest of its duration");
 		}
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.width = 26;
-			item.height = 40;
-			item.useAnimation = 25;
-			item.useTime = 25;
-			item.shootSpeed = 17f;
-			item.shoot = ModContent.ProjectileType<NightLightProjectile>();
-			item.knockBack = 2.5f;
-			item.damage = 10;
-			item.rare = ItemRarityID.Blue;
-			item.melee = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.value = Item.sellPrice(silver: 1);
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.width = 26;
+			Item.height = 40;
+			Item.useAnimation = 25;
+			Item.useTime = 25;
+			Item.shootSpeed = 17f;
+			Item.shoot = ModContent.ProjectileType<NightLightProjectile>();
+			Item.knockBack = 2.5f;
+			Item.damage = 10;
+			Item.rare = ItemRarityID.Blue;
+			Item.DamageType = DamageClass.Melee;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.value = Item.sellPrice(silver: 1);
 		}
 
 		private static readonly int[] unwantedPrefixes = new int[] { PrefixID.Terrible, PrefixID.Dull, PrefixID.Shameful, PrefixID.Annoying, PrefixID.Broken, PrefixID.Damaged, PrefixID.Shoddy };
@@ -50,24 +50,24 @@ namespace TerrorbornMod.Items.Weapons.Melee
 	{
 		public override void SetStaticDefaults()
 		{
-			ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 7f;
-			ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 225f;
-			ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 14f;
+			ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 7f;
+			ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 225f;
+			ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 14f;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 99;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.melee = true;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = 99;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.DamageType = DamageClass.Melee;
 		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			projectile.light = 1f;
+			Projectile.light = 1f;
         }
     }
 }

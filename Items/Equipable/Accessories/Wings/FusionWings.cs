@@ -9,13 +9,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 14);
-            recipe.AddIngredient(ItemID.LunarBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 2);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 14)
+                .AddIngredient(ItemID.LunarBar, 10)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 2)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -25,18 +24,18 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.accessory = true;
+            Item.width = 30;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.wingTimeMax = (int)(60 * 4f);
         }
 
-        public override void UpdateVanity(Player player, EquipType type)
+        public override void UpdateVanity(Player player)
         {
             player.armorEffectDrawShadow = true;
         }

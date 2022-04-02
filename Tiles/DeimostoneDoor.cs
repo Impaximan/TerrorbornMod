@@ -62,8 +62,8 @@ namespace TerrorbornMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("DeimostoneDoor Door");
 			AddMapEntry(new Color(80, 112, 109), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.OpenDoor };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.OpenDoor };
 			closeDoorID = ModContent.TileType<DeimostoneDoorClosed>();
 		}
 
@@ -119,8 +119,8 @@ namespace TerrorbornMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Deimostone Door");
 			AddMapEntry(new Color(80, 112, 109), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.ClosedDoor };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.ClosedDoor };
 			openDoorID = ModContent.TileType<DeimostoneDoorOpen>();
 		}
 

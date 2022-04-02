@@ -9,29 +9,29 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SoulOfPlight>(), 15);
-            recipe.AddIngredient(ItemID.Chain, 3);
-            recipe.AddIngredient(ItemID.Glass, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.HallowedBar, 5)
+                .AddIngredient(ModContent.ItemType<Materials.SoulOfPlight>(), 15)
+                .AddIngredient(ItemID.Chain, 3)
+                .AddIngredient(ItemID.Glass, 10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Hitting enemies has a chance to cause you to fire an extra projectile towards them" +
-                "\nThe behavior of this projectile depends on the damage type" +
+            Tooltip.SetDefault("Hitting enemies has a chance to cause you to fire an extra Projectile towards them" +
+                "\nThe behavior of this Projectile depends on the damage type" +
                 "\n8% increased item use speed");
         }
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Yellow;
-            item.value = Item.sellPrice(0, 8, 0, 0);
-            item.useAnimation = 5;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = Item.sellPrice(0, 8, 0, 0);
+            Item.useAnimation = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -48,17 +48,17 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.hostile = false;
-            projectile.hide = true;
-            projectile.timeLeft = 300;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.hostile = false;
+            Projectile.hide = true;
+            Projectile.timeLeft = 300;
         }
 
         bool start = true;
@@ -66,46 +66,46 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         int returnWait = 30;
         public override void AI()
         {
-            int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 61, 0f, 0f, 100, Color.Lime, 1.5f);
+            int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 61, 0f, 0f, 100, Color.Lime, 1.5f);
             Main.dust[dust].noGravity = true;
-            Main.dust[dust].velocity = projectile.velocity;
+            Main.dust[dust].velocity = Projectile.velocity;
 
             if (start)
             {
                 start = false;
 
 
-                maxSpeed = projectile.velocity.Length();
+                maxSpeed = Projectile.velocity.Length();
 
-                if (projectile.magic)
+                if (Projectile.DamageType == DamageClass.Magic)
                 {
                     maxSpeed *= 0.65f;
                 }
 
-                if (projectile.melee)
+                if (Projectile.DamageType == DamageClass.Melee)
                 {
-                    projectile.penetrate = -1;
-                    projectile.timeLeft = 60 * 3;
-                    projectile.damage = (int)(projectile.damage * 0.65f);
+                    Projectile.penetrate = -1;
+                    Projectile.timeLeft = 60 * 3;
+                    Projectile.damage = (int)(Projectile.damage * 0.65f);
                 }
 
-                if (projectile.ranged)
+                if (Projectile.DamageType == DamageClass.Ranged)
                 {
-                    projectile.extraUpdates = 2;
+                    Projectile.extraUpdates = 2;
                 }
             }
 
-            if (projectile.magic)
+            if (Projectile.DamageType == DamageClass.Magic)
             {
                 NPC targetNPC = Main.npc[0];
                 float Distance = 1000; //max distance away
                 bool Targeted = false;
                 for (int i = 0; i < 200; i++)
                 {
-                    if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                    if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                     {
                         targetNPC = Main.npc[i];
-                        Distance = Main.npc[i].Distance(projectile.Center);
+                        Distance = Main.npc[i].Distance(Projectile.Center);
                         Targeted = true;
                     }
                 }
@@ -113,18 +113,18 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 {
                     //HOME IN
                     float speed = 1f;
-                    Vector2 direction = projectile.DirectionTo(targetNPC.Center);
-                    projectile.velocity += speed * direction;
-                    projectile.velocity *= 0.98f;
+                    Vector2 direction = Projectile.DirectionTo(targetNPC.Center);
+                    Projectile.velocity += speed * direction;
+                    Projectile.velocity *= 0.98f;
 
-                    if (projectile.velocity.Length() > maxSpeed)
+                    if (Projectile.velocity.Length() > maxSpeed)
                     {
-                        projectile.velocity *= maxSpeed / projectile.velocity.Length();
+                        Projectile.velocity *= maxSpeed / Projectile.velocity.Length();
                     }
                 }
             }
 
-            if (projectile.melee)
+            if (Projectile.DamageType == DamageClass.Melee)
             {
                 if (returnWait > 0)
                 {
@@ -133,13 +133,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 else
                 {
                     float speed = 1f;
-                    Vector2 direction = projectile.DirectionTo(Main.player[projectile.owner].Center);
-                    projectile.velocity += speed * direction;
-                    projectile.velocity *= 0.98f;
+                    Vector2 direction = Projectile.DirectionTo(Main.player[Projectile.owner].Center);
+                    Projectile.velocity += speed * direction;
+                    Projectile.velocity *= 0.98f;
 
-                    if (projectile.velocity.Length() > maxSpeed)
+                    if (Projectile.velocity.Length() > maxSpeed)
                     {
-                        projectile.velocity *= maxSpeed / projectile.velocity.Length();
+                        Projectile.velocity *= maxSpeed / Projectile.velocity.Length();
                     }
                 }
             }

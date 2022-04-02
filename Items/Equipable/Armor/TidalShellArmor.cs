@@ -1,5 +1,4 @@
 ﻿using Terraria;
-using System;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -18,22 +17,19 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.defense = 8;
+            Item.width = 26;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 8;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.04f;
-        }
-        public override bool DrawBody()
-        {
-            return false;
+            player.GetDamage(DamageClass.Melee) *= 1.04f;
         }
     }
+
     [AutoloadEquip(EquipType.Legs)]
     public class TidalShellLegwear : ModItem
     {
@@ -46,19 +42,20 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 12;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.defense = 4;
+            Item.width = 20;
+            Item.height = 12;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 4;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.04f;
+            player.GetDamage(DamageClass.Melee) *= 1.04f;
         }
         
     }
+
     [AutoloadEquip(EquipType.Head)]
     public class TidalShellHeadplate : ModItem
     {
@@ -70,16 +67,16 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.defense = 5;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 5;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("TidalShellChestplate") && legs.type == mod.ItemType("TidalShellLegwear");
+            return body.type == ModContent.ItemType<TidalShellChestplate>() && legs.type == ModContent.ItemType<TidalShellLegwear>();
         }
 
         public override void UpdateArmorSet(Player player)
@@ -94,7 +91,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.04f;
+            player.GetDamage(DamageClass.Melee) *= 1.04f;
         }
     }
     class TideFireFriendly : ModProjectile
@@ -102,22 +99,22 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override string Texture => "TerrorbornMod/NPCs/Bosses/TumblerNeedle";
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.hostile = false;
-            projectile.melee = true;
-            projectile.friendly = true;
-            projectile.hide = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 30;
-            projectile.alpha = 255;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.friendly = true;
+            Projectile.hide = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 30;
+            Projectile.alpha = 255;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
         public override void AI()
         {
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88, 0, 0, Scale: 2, newColor: Color.SkyBlue);
+            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 88, 0, 0, Scale: 2, newColor: Color.SkyBlue);
             Main.dust[dust].noGravity = true;
         }
     }

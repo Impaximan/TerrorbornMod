@@ -1,7 +1,6 @@
 ﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories
 {
@@ -9,12 +8,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TorturedEssence>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.TorturedEssence>(), 5)
+                .AddIngredient(ItemID.LunarBar, 5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -25,12 +23,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Yellow;
-            item.value = Item.sellPrice(0, 8, 0, 0);
-            item.useAnimation = 12;
-            item.defense = 12;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = Item.sellPrice(0, 8, 0, 0);
+            Item.useAnimation = 12;
+            Item.defense = 12;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

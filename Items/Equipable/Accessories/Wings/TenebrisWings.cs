@@ -9,13 +9,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 10);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddIngredient(ItemID.SoulofFlight, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 10)
+                .AddIngredient(ItemID.HallowedBar, 5)
+                .AddIngredient(ItemID.SoulofFlight, 20)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+
         }
         public override void SetStaticDefaults()
         {
@@ -25,11 +25,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -41,7 +41,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
             }
         }
 
-        public override void UpdateVanity(Player player, EquipType type)
+        public override void UpdateVanity(Player player)
         {
             player.armorEffectDrawShadow = true;
         }

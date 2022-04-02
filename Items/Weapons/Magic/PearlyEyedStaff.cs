@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrorbornMod.Projectiles;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Magic
 {
@@ -11,33 +11,33 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
             Tooltip.SetDefault("Casts a light orb that follows the cursor" +
                 "\nThe orb will explode into powerful beams of light after 2 seconds");
         }
         public override void SetDefaults()
         {
-            item.damage = 24;
-            item.noMelee = true;
-            item.width = 46;
-            item.height = 46;
-            item.useTime = 32;
-            item.useAnimation = 32;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LightSingularity>();
-            item.shootSpeed = 1f;
-            item.mana = 8;
-            item.magic = true;
+            Item.damage = 24;
+            Item.noMelee = true;
+            Item.width = 46;
+            Item.height = 46;
+            Item.useTime = 32;
+            Item.useAnimation = 32;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<LightSingularity>();
+            Item.shootSpeed = 1f;
+            Item.mana = 8;
+            Item.DamageType = DamageClass.Magic;;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position = player.Center + (player.DirectionTo(Main.MouseWorld) * 50);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, 1);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, 1);
             return false;
         }
     }
@@ -48,21 +48,21 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = false;
-            projectile.friendly = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.timeLeft = 2;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = false;
+            Projectile.friendly = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.timeLeft = 2;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            TBUtils.Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, (int)(30 * projectile.scale), Color.White);
+            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, (int)(30 * Projectile.scale), Color.White);
             return false;
         }
 
@@ -75,32 +75,32 @@ namespace TerrorbornMod.Items.Weapons.Magic
         int DirectionCounter = 5;
         public override void AI()
         {
-            projectile.timeLeft = 2;
+            Projectile.timeLeft = 2;
             if (trueTimeLeft > 10)
             {
                 trueTimeLeft--;
-                projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(6)).ToRotationVector2() * projectile.velocity.Length();
+                Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(6)).ToRotationVector2() * Projectile.velocity.Length();
                 if (trueTimeLeft == 10)
                 {
                     for (int i = 0; i < Main.rand.Next(2, 4); i++)
                     {
-                        Vector2 velocity = projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15));
+                        Vector2 velocity = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15));
                         velocity.Normalize();
-                        Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<LightBlast>(), projectile.damage, projectile.knockBack, projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<LightBlast>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
-                    projectile.scale = 3f;
-                    Main.PlaySound(SoundID.Item68, projectile.Center);
+                    Projectile.scale = 3f;
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, Projectile.Center);
                 }
             }
             else if (trueTimeLeft > 0)
             {
                 trueTimeLeft--;
-                projectile.velocity = Vector2.Zero;
-                projectile.scale -= 3f / 10f;
+                Projectile.velocity = Vector2.Zero;
+                Projectile.scale -= 3f / 10f;
             }
             else
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
         }
     }
@@ -111,17 +111,17 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/LightBlast";
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.hide = false;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.timeLeft = timeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.hide = false;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.timeLeft = timeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
             MoveDistance = 20f;
             RealMaxDistance = 2000f;
             bodyRect = new Rectangle(0, 0, 10, 10);

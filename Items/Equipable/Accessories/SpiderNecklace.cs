@@ -15,30 +15,29 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 32;
-            item.accessory = true;
-            item.noMelee = true;
-            item.lifeRegen = 5;
-            item.rare = ItemRarityID.Pink;
-            item.value = Item.sellPrice(0, 1, 50, 0);
-            item.useAnimation = 5;
+            Item.width = 32;
+            Item.height = 32;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.lifeRegen = 5;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.sellPrice(0, 1, 50, 0);
+            Item.useAnimation = 5;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpiderFang, 8);
-            recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddIngredient(ItemID.Cobweb, 100);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.SpiderFang, 8)
+                .AddIngredient(ItemID.SoulofFright, 10)
+                .AddIngredient(ItemID.Cobweb, 100)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statDefense -= 10;
             player.maxMinions++;
-            player.minionDamage += 0.1f;
+            player.GetDamage(DamageClass.Summon) *= 1.1f;
         }
     }
 }

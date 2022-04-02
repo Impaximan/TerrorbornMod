@@ -1,22 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.ModLoader;
 using Terraria.UI;
-using TerrorbornMod;
-using Terraria.Map;
-using Terraria.GameContent.Dyes;
-using Terraria.GameContent.UI;
-using System.Runtime.InteropServices;
 using ReLogic.Graphics;
 
 namespace TerrorbornMod.UI.TitleCard

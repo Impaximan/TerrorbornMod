@@ -1,10 +1,7 @@
-﻿using System.IO;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.NPCs
 {
@@ -12,49 +9,49 @@ namespace TerrorbornMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.CloneDefaults(NPCID.BlueSlime);
-            npc.width = 64;
-            npc.height = 52;
-            npc.damage = 75;
-            npc.defense = 22;
-            npc.lifeMax = 3500;
-            npc.value *= 50;
-            npc.knockBackResist = 0f;
-            npc.lavaImmune = true;
-            npc.color = Color.White;
+            NPC.CloneDefaults(NPCID.BlueSlime);
+            NPC.width = 64;
+            NPC.height = 52;
+            NPC.damage = 75;
+            NPC.defense = 22;
+            NPC.lifeMax = 3500;
+            NPC.value *= 50;
+            NPC.knockBackResist = 0f;
+            NPC.lavaImmune = true;
+            NPC.color = Color.White;
             animationType = NPCID.BlueSlime;
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem(npc.getRect(), ItemID.Gel, Main.rand.Next(7, 15));
-            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.DarkEnergy>());
+            Item.NewItem(NPC.getRect(), ItemID.Gel, Main.rand.Next(7, 15));
+            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.DarkEnergy>());
 
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
             if (modPlayer.DeimosteelCharm)
             {
                 if (Main.rand.NextFloat() <= 0.7f)
                 {
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
+                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                 }
             }
             else
             {
                 if (Main.rand.NextFloat() <= 0.35f)
                 {
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
+                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                 }
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!TerrorbornWorld.obtainedShriekOfHorror)
+            if (!TerrorbornSystem.obtainedShriekOfHorror)
             {
                 return 0f;
             }

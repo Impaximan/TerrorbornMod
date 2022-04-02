@@ -14,9 +14,9 @@ namespace TerrorbornMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Cyan;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
         }
 
         public override void UpdateInventory(Player player)

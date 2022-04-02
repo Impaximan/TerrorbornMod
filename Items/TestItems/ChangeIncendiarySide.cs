@@ -1,21 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
-using Terraria.World.Generation;
 using Terraria.ModLoader;
-using Terraria.UI;
-using TerrorbornMod;
-using Terraria.Map;
-using Terraria.GameContent.Dyes;
-using Terraria.GameContent.UI;
 
 namespace TerrorbornMod.Items.TestItems
 {
@@ -30,11 +15,11 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -45,11 +30,11 @@ namespace TerrorbornMod.Items.TestItems
             TerrorbornPlayer tPlayer = TerrorbornPlayer.modPlayer(player);
             if (player.altFunctionUse != 2)
             {
-                TerrorbornWorld.incendiaryIslandsSide = -1;
+                TerrorbornSystem.incendiaryIslandsSide = -1;
             }
             else
             {
-                TerrorbornWorld.incendiaryIslandsSide = 1;
+                TerrorbornSystem.incendiaryIslandsSide = 1;
             }
             return base.CanUseItem(player);
         }

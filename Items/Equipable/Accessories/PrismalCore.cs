@@ -1,7 +1,6 @@
 ﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories
 {
@@ -9,12 +8,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrystalShard, 25);
-            recipe.AddIngredient(ItemID.SoulofLight, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.CrystalShard, 25)
+                .AddIngredient(ItemID.SoulofLight, 10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -25,11 +23,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.LightRed;
-            item.value = Item.sellPrice(0, 4, 50, 0);
-            item.useAnimation = 5;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.LightRed;
+            Item.value = Item.sellPrice(0, 4, 50, 0);
+            Item.useAnimation = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

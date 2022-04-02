@@ -4,7 +4,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,36 +29,36 @@ namespace TerrorbornMod.NPCs.TownNPCs
         }
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 23;
-            NPCID.Sets.ExtraFramesCount[npc.type] = 10;
-            NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 250;
-            NPCID.Sets.AttackType[npc.type] = 0;
-            NPCID.Sets.AttackTime[npc.type] = 5;
-            NPCID.Sets.AttackAverageChance[npc.type] = 30;
-            NPCID.Sets.HatOffsetY[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 23;
+            NPCID.Sets.ExtraFramesCount[NPC.type] = 10;
+            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            NPCID.Sets.DangerDetectRange[NPC.type] = 250;
+            NPCID.Sets.AttackType[NPC.type] = 0;
+            NPCID.Sets.AttackTime[NPC.type] = 5;
+            NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+            NPCID.Sets.HatOffsetY[NPC.type] = 4;
         }
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.friendly = true;
-            npc.width = 18;
-            npc.height = 40;
-            npc.aiStyle = 7;
-            npc.damage = 10;
-            npc.defense = 45;
-            npc.lifeMax = 250;
-            npc.HitSound = SoundID.NPCHit54;
-            npc.DeathSound = SoundID.NPCDeath52;
-            npc.knockBackResist = 0f;
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.width = 18;
+            NPC.height = 40;
+            NPC.aiStyle = 7;
+            NPC.damage = 10;
+            NPC.defense = 45;
+            NPC.lifeMax = 250;
+            NPC.HitSound = SoundID.NPCHit54;
+            NPC.DeathSound = SoundID.NPCDeath52;
+            NPC.knockBackResist = 0f;
             animationType = NPCID.Guide;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life < 1)
+            if (NPC.life < 1)
             {
-                npc.life = 1;
+                NPC.life = 1;
             }
         }
 
@@ -70,7 +69,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
-            return TerrorbornWorld.downedIncendiaryBoss;
+            return TerrorbornSystem.downedIncendiaryBoss;
         }
         public override bool CheckConditions(int left, int right, int top, int bottom)
         {
@@ -201,7 +200,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 if (dialogue.Count <= 0)
                 {
                     doingDialogue = false;
-                    TerrorbornWorld.talkedToHeretic = true;
+                    TerrorbornSystem.talkedToHeretic = true;
                 }
             }
             else
@@ -268,14 +267,14 @@ namespace TerrorbornMod.NPCs.TownNPCs
                             return;
                         }
 
-                        if (item.IsAir)
+                        if (Item.IsAir)
                         {
                             Main.npcChatText = "Uh, I can't possess nothing. Sorry. (Make sure you're holding the weapon you want to possess.)";
                             possessingItem = false;
                             return;
                         }
 
-                        if (item.summon || item.maxStack != 1 || item.damage == 0 || item.accessory)
+                        if (Item.summon || Item.maxStack != 1 || Item.damage == 0 || Item.accessory)
                         {
                             Main.npcChatText = "Sorry, I can't possess that item!";
                             possessingItem = false;
@@ -330,11 +329,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
                             }
                         }
 
-                        Main.PlaySound(SoundID.NPCDeath52, player.Center);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, player.Center);
 
                         possessingItem = false;
-                        item.prefix = (byte)0;
-                        Main.npcChatText = "Alright! Your " + item.Name + " has been successfully enhanced. Enjoy it... or something... idk.";
+                        Item.prefix = (byte)0;
+                        Main.npcChatText = "Alright! Your " + Item.Name + " has been successfully enhanced. Enjoy it... or something... idk.";
                         return;
                     }
                     if (currentOption1 == 0) //Possess
@@ -348,7 +347,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         {
                             possessingItem = true;
                             soulIndex = 0;
-                            Main.npcChatText = "Looking to possess your items eh? Hold the weapon you want to possess and choose a soul type. You need at least 5 of a soul type to possess an item." +
+                            Main.npcChatText = "Looking to possess your items eh? Hold the weapon you want to possess and choose a soul type. You need at least 5 of a soul type to possess an Item." +
                                 "\n\nItems cannot be reforged and possessed at the same time.";
                         }
                     }
@@ -396,7 +395,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
                         if (soulIndex == 0)
                         {
-                            Main.npcChatText = "Looking to possess your items eh? Hold the weapon you want to possess and choose a soul type. You need at least 5 of a soul type to possess an item." +
+                            Main.npcChatText = "Looking to possess your items eh? Hold the weapon you want to possess and choose a soul type. You need at least 5 of a soul type to possess an Item." +
                                 "\n\nItems cannot be reforged and possessed at the same time.";
                             return;
                         }
@@ -481,33 +480,33 @@ namespace TerrorbornMod.NPCs.TownNPCs
             for (int i = 0; i < player.inventory.Count(); i++)
             {
                 Item item = player.inventory[i];
-                if (item.type == ItemID.SoulofLight)
+                if (Item.type == ItemID.SoulofLight)
                 {
-                    stackLight += item.stack;
+                    stackLight += Item.stack;
                 }
-                if (item.type == ItemID.SoulofNight)
+                if (Item.type == ItemID.SoulofNight)
                 {
-                    stackNight += item.stack;
+                    stackNight += Item.stack;
                 }
-                if (item.type == ItemID.SoulofFlight)
+                if (Item.type == ItemID.SoulofFlight)
                 {
-                    stackFlight += item.stack;
+                    stackFlight += Item.stack;
                 }
-                if (item.type == ItemID.SoulofFright)
+                if (Item.type == ItemID.SoulofFright)
                 {
-                    stackFright += item.stack;
+                    stackFright += Item.stack;
                 }
-                if (item.type == ItemID.SoulofMight)
+                if (Item.type == ItemID.SoulofMight)
                 {
-                    stackMight += item.stack;
+                    stackMight += Item.stack;
                 }
-                if (item.type == ItemID.SoulofSight)
+                if (Item.type == ItemID.SoulofSight)
                 {
-                    stackSight += item.stack;
+                    stackSight += Item.stack;
                 }
-                if (item.type == ModContent.ItemType<Items.Materials.SoulOfPlight>())
+                if (Item.type == ModContent.ItemType<Items.Materials.SoulOfPlight>())
                 {
-                    stackPlight += item.stack;
+                    stackPlight += Item.stack;
                 }
             }
 
@@ -549,8 +548,8 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/ExclamationPoint");
-            Vector2 position = npc.Center - new Vector2(0, 65);
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/ExclamationPoint");
+            Vector2 position = NPC.Center - new Vector2(0, 65);
             if (doingDialogue)
             {
                 spriteBatch.Draw(texture, position: position - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, 0f, new Vector2(texture.Width / 2, texture.Height / 2), 1f, SpriteEffects.None, 0f);
@@ -563,12 +562,12 @@ namespace TerrorbornMod.NPCs.TownNPCs
             Player player = Main.player[Main.myPlayer];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            if (!TerrorbornWorld.talkedToHeretic)
+            if (!TerrorbornSystem.talkedToHeretic)
             {
                 doingDialogue = true;
             }
 
-            if (npc.Distance(player.Center) >= 500)
+            if (NPC.Distance(player.Center) >= 500)
             {
                 showingLore = false;
                 possessingItem = false;
@@ -586,7 +585,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 dialogue.Clear();
                 shownDialogue = "HEY, YOU! Do you own this place!? This is nuts. Unspeakable. Faithful. Impossible! Faithful. Faithful.";
                 dialogue.Add("I mean, look at this place. I'm noticing an EXTREME lack of heresy and overall sinning. How could somebody so powerful be so non-evil!");
-                dialogue.Add("Oh yeah... I suppose I should explain myself. I'm " + npc.GivenName + " the enthusiastic heretic. I've been working since I was born to get the #1 most painful spot in hell just for bragging rights.");
+                dialogue.Add("Oh yeah... I suppose I should explain myself. I'm " + NPC.GivenName + " the enthusiastic heretic. I've been working since I was born to get the #1 most painful spot in hell just for bragging rights.");
                 dialogue.Add("I saw you fighting the orumian constructor we over there had hexed and realized that you're an incredibly powerful leader capable of gathering many souls. As such, I quickly tracked down your base.");
                 dialogue.Add("Trade offer:\nYou get: to gather souls for me and upgrade your weapons. I get: to use them for unspeakable crimes against the light and also to make your weapons more powerful. Deal? Deal. Good.");
                 dialogue.Add("No you may not refuse, you're stuck with me now.");

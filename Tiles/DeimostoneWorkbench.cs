@@ -23,8 +23,8 @@ namespace TerrorbornMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Deimostone Workbench");
 			AddMapEntry(new Color(80, 112, 109), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.WorkBenches };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.WorkBenches };
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)

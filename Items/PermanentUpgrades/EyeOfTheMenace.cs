@@ -14,29 +14,29 @@ namespace TerrorbornMod.Items.PermanentUpgrades
         }
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.Green;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.UseSound = SoundID.Item29;
-            item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = true;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.UseSound = SoundID.Item29;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
         }
         public override bool CanUseItem(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             return !modPlayer.EyeOfTheMenace;
         }
-        public override bool UseItem(Player player)
+        public override void OnConsumeItem(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (!modPlayer.EyeOfTheMenace)
             {
-                item.stack--;
+                Item.stack--;
                 CombatText.NewText(new Rectangle((int)(player.Center.X - 50), (int)(player.Center.Y - 50), 100, 10), Color.Red, "Shriek of Horror terror drain increased by 50%", true, false);
                 modPlayer.EyeOfTheMenace = true;
             }
-            return base.UseItem(player);
+            base.OnConsumeItem(player);
         }
     }
 }

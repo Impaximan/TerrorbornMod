@@ -1,8 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories
 {
@@ -17,11 +15,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 34;
-            item.accessory = true;
-            item.rare = ItemRarityID.Blue;
-            item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.width = 40;
+            Item.height = 34;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
         }
 
         public override void UpdateEquip(Player player)

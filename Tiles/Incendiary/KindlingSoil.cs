@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.DataStructures;
 
 namespace TerrorbornMod.Tiles.Incendiary
 {
@@ -81,7 +78,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
             Main.tileMerge[Type][ModContent.TileType<KindlingSoil>()] = true;
 
-            dustType = DustID.Fire;
+            dustType = 6;
 
             minPick = 0;
             mineResist = 4.5f;
@@ -91,7 +88,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
         public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
         {
-            dustType = DustID.Fire;
+            dustType = 6;
             makeDust = true;
         }
 
@@ -104,13 +101,13 @@ namespace TerrorbornMod.Tiles.Incendiary
         //        zero = Vector2.Zero;
         //    }
         //    int height = tile.frameY == 36 ? 18 : 16;
-        //    Main.spriteBatch.Draw(mod.GetTexture("Tiles/Incendiary/KindlingGrass_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+        //    Main.spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("Tiles/Incendiary/KindlingGrass_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         //}
 
         public override void RandomUpdate(int i, int j)
         {
             Vector2 position = new Vector2(i * 16, j * 16);
-            Dust dust = Dust.NewDustPerfect(position, DustID.Fire);
+            Dust dust = Dust.NewDustPerfect(position, 6);
             dust.velocity = new Vector2(0, -3);
             dust.noGravity = true;
             dust.scale = 1.5f;

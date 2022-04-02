@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Terraria.World.Generation;
 
 namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 {
@@ -17,30 +16,29 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Feather, 3);
-            recipe.AddIngredient(ItemID.SunplateBlock, 10);
-            recipe.AddIngredient(ItemID.Cloud, 15);
-            recipe.AddIngredient(ItemID.RainCloud, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Feather, 3)
+                .AddIngredient(ItemID.SunplateBlock, 10)
+                .AddIngredient(ItemID.Cloud, 15)
+                .AddIngredient(ItemID.RainCloud, 5)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = ItemRarityID.Green;
-            item.defense = 5;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.useAnimation = 5;
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 5;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.useAnimation = 5;
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.burstJump = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 60 * 3, item, player, new Vector2(15, -10), Color.Azure, SoundID.Item14);
+            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 60 * 3, Item, player, new Vector2(15, -10), Color.Azure, SoundID.Item14);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.BurstJumpTime > 0)
             {

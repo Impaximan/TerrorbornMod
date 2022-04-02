@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -11,12 +10,11 @@ namespace TerrorbornMod.Items.Incendius
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(25 * TerrorbornMod.IncendiaryAlloyMultiplier));
-            recipe.AddRecipeGroup("cobalt", 15);
-            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(25 * TerrorbornMod.IncendiaryAlloyMultiplier))
+                .AddRecipeGroup("cobalt", 15)
+                .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -26,75 +24,75 @@ namespace TerrorbornMod.Items.Incendius
         }
         public override void SetDefaults()
         {
-            item.damage = 25;
-            item.width = 54;
-            item.height = 54;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.rare = ItemRarityID.LightRed;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
-            item.value = Item.sellPrice(0, 0, 60, 0);
-            item.shootSpeed = 35;
-            item.shoot = ModContent.ProjectileType<IncendiusChakram_projectile>();
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.melee = true;
-            item.noMelee = true;
+            Item.damage = 25;
+            Item.width = 54;
+            Item.height = 54;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.rare = ItemRarityID.LightRed;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item1;
+            Item.value = Item.sellPrice(0, 0, 60, 0);
+            Item.shootSpeed = 35;
+            Item.shoot = ModContent.ProjectileType<IncendiusChakram_Projectile>();
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
         }
     }
-    class IncendiusChakram_projectile : ModProjectile
+    class IncendiusChakram_Projectile : ModProjectile
     {
         public override string Texture { get { return "TerrorbornMod/Items/Incendius/IncendiusChakram"; } }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 SpriteEffects effects = SpriteEffects.None;
-                if (projectile.spriteDirection == -1)
+                if (Projectile.spriteDirection == -1)
                 {
                     effects = SpriteEffects.FlipHorizontally;
                 }
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                 if (homing)
                 {
-                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, 60, Color.OrangeRed * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length) * 0.5f);
+                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, 60, Color.OrangeRed * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length) * 0.5f);
                 }
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return false;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 30;
             height = 30;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = 54;
-            projectile.height = 54;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = false;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = 54;
+            Projectile.height = 54;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         NPC firstEnemy;
@@ -107,8 +105,8 @@ namespace TerrorbornMod.Items.Incendius
                 if (target == firstEnemy && !homing)
                 {
                     homing = true;
-                    projectile.tileCollide = false;
-                    projectile.penetrate = 3;
+                    Projectile.tileCollide = false;
+                    Projectile.penetrate = 3;
                 }
             }
             else
@@ -120,18 +118,18 @@ namespace TerrorbornMod.Items.Incendius
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(SoundID.Dig, projectile.position); //Sound for when it hits a block
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position); //Sound for when it hits a block
 
             // B O U N C E
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }
@@ -139,29 +137,29 @@ namespace TerrorbornMod.Items.Incendius
         int TimeUntilReturn = 15;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            projectile.spriteDirection = player.direction * -1;
-            projectile.rotation += 0.5f * player.direction;
+            Projectile.spriteDirection = player.direction * -1;
+            Projectile.rotation += 0.5f * player.direction;
             if (homing)
             {
                 Vector2 targetPosition = firstEnemy.Center;
                 float speed = 1f;
-                projectile.velocity += projectile.DirectionTo(targetPosition) * speed;
-                projectile.velocity *= 0.98f;
+                Projectile.velocity += Projectile.DirectionTo(targetPosition) * speed;
+                Projectile.velocity *= 0.98f;
                 if (firstEnemy.active == false)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
             else if (TimeUntilReturn <= 0)
             {
-                projectile.tileCollide = false;
-                Vector2 targetPosition = Main.player[projectile.owner].Center;
-                projectile.velocity = (projectile.velocity.Length() + 1) * projectile.DirectionTo(targetPosition);
-                if (Main.player[projectile.owner].Distance(projectile.Center) <= projectile.velocity.Length())
+                Projectile.tileCollide = false;
+                Vector2 targetPosition = Main.player[Projectile.owner].Center;
+                Projectile.velocity = (Projectile.velocity.Length() + 1) * Projectile.DirectionTo(targetPosition);
+                if (Main.player[Projectile.owner].Distance(Projectile.Center) <= Projectile.velocity.Length())
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
             else
@@ -169,7 +167,7 @@ namespace TerrorbornMod.Items.Incendius
                 TimeUntilReturn--;
                 if (TimeUntilReturn <= 0)
                 {
-                    projectile.velocity = Vector2.Zero;
+                    Projectile.velocity = Vector2.Zero;
                 }
             }
         }

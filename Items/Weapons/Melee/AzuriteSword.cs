@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Melee
 {
@@ -15,22 +16,22 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            item.damage = 27;
-            item.melee = true;
-            item.width = 36;
-            item.height = 48;
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 9f;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shootSpeed = 23;
-            item.shoot = mod.ProjectileType("AzuriteSlash");
+            Item.damage = 27;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 36;
+            Item.height = 48;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 9f;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 23;
+            Item.shoot = ModContent.ProjectileType<AzuriteSlash>();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             counter = 0;
             return false;
@@ -40,69 +41,68 @@ namespace TerrorbornMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             Vector2 direction = player.itemRotation.ToRotationVector2();
-            Vector2 velocity = item.shootSpeed * direction;
+            Vector2 velocity = Item.shootSpeed * direction;
             velocity *= player.direction;
             counter--;
             if (counter <= 0)
             {
-                Projectile.NewProjectile(player.Center + direction * 15, velocity, item.shoot, (int)(item.damage * 0.65f), item.knockBack, player.whoAmI);
+                Projectile.NewProjectile(player.GetProjectileSource_Item(Item), player.Center + direction * 15, velocity, Item.shoot, (int)(Item.damage * 0.65f), Item.knockBack, player.whoAmI);
                 counter = 3;
             }
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("AzuriteBar"), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.AzuriteBar>(10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
     class AzuriteSlash : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.melee = true;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 1000;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 30;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 1000;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
         int timeUntilFade = 60;
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(90);
-            projectile.velocity *= 0.98f;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.ToRadians(90);
+            Projectile.velocity *= 0.98f;
             timeUntilFade--;
             if (timeUntilFade <= 0)
             {
-                projectile.alpha += 15;
-                if (projectile.alpha >= 255)
+                Projectile.alpha += 15;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
         }

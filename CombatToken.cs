@@ -36,11 +36,11 @@ namespace TerrorbornMod
         }
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.width = 28;
-            item.height = 30;
-            item.value = 100;
-            item.rare = -11;
+            Item.maxStack = 999;
+            Item.width = 28;
+            Item.height = 30;
+            Item.value = 100;
+            Item.rare = -11;
         }
     }
 }

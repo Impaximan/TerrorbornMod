@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,26 +15,26 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.15f;
-            item.damage = 42;
-            item.ranged = true;
-            item.width = 58;
-            item.height = 58;
-            item.consumable = true;
-            item.maxStack = 999;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 0, 5, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.shootSpeed = 35;
-            item.shoot = mod.ProjectileType("ThunderJavelinProjectile");
+            Item.damage = 42;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 58;
+            Item.height = 58;
+            Item.consumable = true;
+            Item.maxStack = 999;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 0, 5, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shootSpeed = 35;
+            Item.shoot = ModContent.ProjectileType<ThunderJavelinProjectile>();
         }
 
         public override void HoldItem(Player player)
@@ -46,12 +44,11 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 225);
-            recipe.AddRecipe();
+            CreateRecipe(225)
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 3)
+                .AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 2)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 
@@ -59,21 +56,21 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     {
         public override void SetDefaults()
         {
-            projectile.width = 74;
-            projectile.height = 74;
-            projectile.ranged = true;
-            projectile.timeLeft = 3600;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.extraUpdates = 4;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.arrow = true;
+            Projectile.width = 74;
+            Projectile.height = 74;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 3600;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.extraUpdates = 4;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.arrow = true;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 14;
             height = 14;
@@ -84,17 +81,17 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             if (!stuck)
             {
-                Main.PlaySound(SoundID.Dig, projectile.position);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
                 stuck = true;
                 stuckNPC = target;
-                offset = target.position - projectile.position;
+                offset = target.position - Projectile.position;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
         }
 
         public override bool? CanHitNPC(NPC target)
@@ -122,47 +119,47 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         int stuckTimeLeft = 180;
         Vector2 offset;
         bool start = true;
-        int projectileCounter = 0;
+        int ProjectileCounter = 0;
         public override void AI()
         {
             if (start)
             {
                 start = false;
-                projectile.velocity /= projectile.extraUpdates + 1;
-                stuckTimeLeft *= projectile.extraUpdates + 1;
-                projectile.timeLeft *= projectile.extraUpdates + 1;
+                Projectile.velocity /= Projectile.extraUpdates + 1;
+                stuckTimeLeft *= Projectile.extraUpdates + 1;
+                Projectile.timeLeft *= Projectile.extraUpdates + 1;
             }
 
             if (stuck)
             {
-                projectile.tileCollide = false;
-                projectile.position = stuckNPC.position - offset;
+                Projectile.tileCollide = false;
+                Projectile.position = stuckNPC.position - offset;
                 if (!stuckNPC.active)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
 
                 stuckTimeLeft--;
                 if (stuckTimeLeft <= 0)
                 {
-                    projectile.timeLeft = 1;
+                    Projectile.timeLeft = 1;
                 }
 
-                projectileCounter--;
-                if (projectileCounter <= 0)
+                ProjectileCounter--;
+                if (ProjectileCounter <= 0)
                 {
-                    projectileCounter = 50 * (projectile.extraUpdates + 1);
+                    ProjectileCounter = 50 * (Projectile.extraUpdates + 1);
 
                     NPC target = Main.npc[0];
                     bool foundTarget = false;
                     float distance = 2000;
 
-                    foreach (NPC npc in Main.npc)
+                    foreach (NPC NPC in Main.npc)
                     {
-                        if (npc.whoAmI != stuckNPC.whoAmI && npc.Distance(stuckNPC.Center) <= distance && npc.CanBeChasedBy() && projectile.CanHit(npc) && !npc.friendly)
+                        if (NPC.whoAmI != stuckNPC.whoAmI && NPC.Distance(stuckNPC.Center) <= distance && NPC.CanBeChasedBy() && Projectile.CanHitWithOwnBody(NPC) && !NPC.friendly)
                         {
-                            distance = npc.Distance(stuckNPC.Center);
-                            target = npc;
+                            distance = NPC.Distance(stuckNPC.Center);
+                            target = NPC;
                             foundTarget = true;
                         }
                     }
@@ -176,14 +173,14 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                     float speed = Main.rand.NextFloat(10f, 25f);
 
-                    int proj = Projectile.NewProjectile(projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.SoulLightning>(), projectile.damage / 3, 0.5f, projectile.owner);
-                    Main.projectile[proj].ranged = true;
+                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.SoulLightning>(), Projectile.damage / 3, 0.5f, Projectile.owner);
+                    Main.projectile[proj].DamageType = DamageClass.Ranged;
                     Main.projectile[proj].ai[0] = target.whoAmI;
                 }
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135);
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(135);
             }
         }
     }

@@ -1,9 +1,6 @@
 ﻿using Terraria.ModLoader;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria;
 using Microsoft.Xna.Framework;
 
@@ -19,31 +16,31 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.width = 60;
-            item.height = 60;
-            item.damage = 14;
-            item.melee = true;
-            item.noMelee = true;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.shootSpeed = 5f;
-            item.knockBack = 1;
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item1;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PhoenixFlameSpearProjectile>();
-            item.crit = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.width = 60;
+            Item.height = 60;
+            Item.damage = 14;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.shootSpeed = 5f;
+            Item.knockBack = 1;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PhoenixFlameSpearProjectile>();
+            Item.crit = 10;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool fireFeathers = true;
-            foreach (Projectile projectile in Main.projectile)
+            foreach (Projectile Projectile in Main.projectile)
             {
-                if (projectile.type == ModContent.ProjectileType<PhoenixFeather>() && projectile.active)
+                if (Projectile.type == ModContent.ProjectileType<PhoenixFeather>() && Projectile.active)
                 {
                     fireFeathers = false;
                 }
@@ -51,20 +48,20 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
             if (fireFeathers)
             {
-                Main.PlaySound(SoundID.Item102, player.Center);
-                TerrorbornMod.ScreenShake(1.5f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item102, player.Center);
+                TerrorbornSystem.ScreenShake(1.5f);
                 for (int i = 0; i < Main.rand.Next(3, 6); i++)
                 {
-                    Vector2 velocity = new Vector2(speedX, speedY).ToRotation().ToRotationVector2().RotatedByRandom(MathHelper.ToRadians(15f)) * 25f;
-                    Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<PhoenixFeather>(), (int)(damage * 0.65f), 0f, player.whoAmI);
+                    velocity = velocity.ToRotation().ToRotationVector2().RotatedByRandom(MathHelper.ToRadians(15f)) * 25f;
+                    Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<PhoenixFeather>(), (int)(damage * 0.65f), 0f, player.whoAmI);
                 }
             }
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
 
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[item.shoot] < 1;
+            return player.ownedProjectileCounts[Item.shoot] < 1;
         }
     }
 
@@ -72,36 +69,36 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetDefaults()
         {
-            projectile.width = 90;
-            projectile.height = 90;
-            projectile.aiStyle = 19;
-            projectile.penetrate = -1;
-            projectile.scale = 1.3f;
-            projectile.alpha = 0;
-            projectile.hide = true;
-            projectile.ownerHitCheck = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            Projectile.width = 90;
+            Projectile.height = 90;
+            Projectile.aiStyle = 19;
+            Projectile.penetrate = -1;
+            Projectile.scale = 1.3f;
+            Projectile.alpha = 0;
+            Projectile.hide = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            foreach (Projectile projectile in Main.projectile)
+            foreach (Projectile Projectile in Main.projectile)
             {
-                if (projectile.type == ModContent.ProjectileType<PhoenixFeather>())
+                if (Projectile.type == ModContent.ProjectileType<PhoenixFeather>())
                 {
-                    projectile.ai[0] = 1;
+                    Projectile.ai[0] = 1;
                 }
             }
         }
 
         public float movementFactor
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
 
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
@@ -117,19 +114,19 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void AI()
         {
-            Player projOwner = Main.player[projectile.owner];
+            Player projOwner = Main.player[Projectile.owner];
             Vector2 ownerMountedCenter = projOwner.RotatedRelativePoint(projOwner.MountedCenter, true);
-            projectile.direction = projOwner.direction;
-            projOwner.heldProj = projectile.whoAmI;
+            Projectile.direction = projOwner.direction;
+            projOwner.heldProj = Projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
-            projectile.position.X = ownerMountedCenter.X - (float)(projectile.width / 2);
-            projectile.position.Y = ownerMountedCenter.Y - (float)(projectile.height / 2);
+            Projectile.position.X = ownerMountedCenter.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = ownerMountedCenter.Y - (float)(Projectile.height / 2);
             if (!projOwner.frozen)
             {
                 if (movementFactor == 0f)
                 {
                     movementFactor = 3f;
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
                 if (projOwner.itemAnimation < projOwner.itemAnimationMax / 3)
                 {
@@ -140,19 +137,19 @@ namespace TerrorbornMod.Items.Weapons.Melee
                     movementFactor += 2.1f;
                 }
             }
-            projectile.position += projectile.velocity * movementFactor;
+            Projectile.position += Projectile.velocity * movementFactor;
             if (projOwner.itemAnimation == 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
             if (projOwner.direction == 1)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
-                projectile.rotation -= MathHelper.ToRadians(90f);
+                Projectile.rotation -= MathHelper.ToRadians(90f);
             }
         }
     }
@@ -161,21 +158,21 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 38;
-            projectile.ranged = true;
-            projectile.timeLeft = 3600;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.extraUpdates = 4;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.arrow = true;
+            Projectile.width = 14;
+            Projectile.height = 38;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 3600;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.extraUpdates = 4;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.arrow = true;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 8;
             height = 8;
@@ -184,7 +181,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity = Vector2.Zero;
+            Projectile.velocity = Vector2.Zero;
             return false;
         }
 
@@ -192,17 +189,17 @@ namespace TerrorbornMod.Items.Weapons.Melee
         {
             if (!stuck)
             {
-                Main.PlaySound(SoundID.Dig, projectile.position);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
                 stuck = true;
                 stuckNPC = target;
-                offset = target.position - projectile.position;
+                offset = target.position - Projectile.position;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
         }
 
         public override bool? CanHitNPC(NPC target)
@@ -229,52 +226,52 @@ namespace TerrorbornMod.Items.Weapons.Melee
         NPC stuckNPC;
         Vector2 offset;
         bool start = true;
-        int projectileCounter = 0;
+        int ProjectileCounter = 0;
         public override void AI()
         {
             if (start)
             {
                 start = false;
-                projectile.velocity /= projectile.extraUpdates + 1;
-                projectile.timeLeft *= projectile.extraUpdates + 1;
+                Projectile.velocity /= Projectile.extraUpdates + 1;
+                Projectile.timeLeft *= Projectile.extraUpdates + 1;
             }
 
-            if (projectile.Distance(Main.player[projectile.owner].Center) >= 1500f)
+            if (Projectile.Distance(Main.player[Projectile.owner].Center) >= 1500f)
             {
-                projectile.ai[0] = 1;
+                Projectile.ai[0] = 1;
             }
 
-            if (projectile.Distance(Main.player[projectile.owner].Center) >= 3000f)
+            if (Projectile.Distance(Main.player[Projectile.owner].Center) >= 3000f)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
 
-            if (stuck && projectile.ai[0] == 0)
+            if (stuck && Projectile.ai[0] == 0)
             {
-                projectile.tileCollide = false;
-                projectile.position = stuckNPC.position - offset;
+                Projectile.tileCollide = false;
+                Projectile.position = stuckNPC.position - offset;
                 if (!stuckNPC.active)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
-            else if (projectile.ai[0] == 1)
+            else if (Projectile.ai[0] == 1)
             {
                 stuck = false;
-                projectile.tileCollide = false;
-                projectile.velocity = projectile.DirectionTo(Main.player[projectile.owner].Center) * 25f;
-                projectile.velocity /= projectile.extraUpdates + 1;
-                projectile.rotation = projectile.velocity.ToRotation() - MathHelper.ToRadians(90);
-                if (projectile.Distance(Main.player[projectile.owner].Center) <= 15f)
+                Projectile.tileCollide = false;
+                Projectile.velocity = Projectile.DirectionTo(Main.player[Projectile.owner].Center) * 25f;
+                Projectile.velocity /= Projectile.extraUpdates + 1;
+                Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.ToRadians(90);
+                if (Projectile.Distance(Main.player[Projectile.owner].Center) <= 15f)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
             else
             {
-                if (projectile.velocity != Vector2.Zero)
+                if (Projectile.velocity != Vector2.Zero)
                 {
-                    projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
+                    Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
                 }
             }
         }

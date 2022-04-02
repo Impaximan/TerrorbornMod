@@ -1,9 +1,4 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+﻿using Terraria.ModLoader;
 
 namespace TerrorbornMod.Sounds.Effects
 {

@@ -2,7 +2,6 @@
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using Terraria.Graphics.Effects;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -14,18 +13,16 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void AddRecipes()
         {
             int evilBars = 8;
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4);
-            recipe.AddIngredient(ItemID.CrimtaneBar, evilBars);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4);
-            recipe2.AddIngredient(ItemID.DemoniteBar, evilBars);
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4)
+                .AddIngredient(ItemID.CrimtaneBar, evilBars)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4)
+                .AddIngredient(ItemID.DemoniteBar, evilBars)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -36,11 +33,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.defense = 18;
-            item.rare = ItemRarityID.Pink;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.defense = 18;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -68,14 +65,14 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
             if (spawnArms)
             {
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HexedArms>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetProjectileSource_SetBonus(player.whoAmI), player.Center, Vector2.Zero, ModContent.ProjectileType<HexedArms>(), 0, 0, player.whoAmI);
             }
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.05f;
-            player.meleeCrit += 4;
+            player.GetDamage(DamageClass.Melee) *= 1.05f;
+            player.GetCritChance(DamageClass.Melee) += 4;
         }
     }
 
@@ -85,43 +82,39 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void AddRecipes()
         {
             int evilBars = 12;
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 6);
-            recipe.AddIngredient(ItemID.CrimtaneBar, evilBars);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 6);
-            recipe2.AddIngredient(ItemID.DemoniteBar, evilBars);
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 6)
+                .AddIngredient(ItemID.CrimtaneBar, evilBars)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 6)
+                .AddIngredient(ItemID.DemoniteBar, evilBars)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("7% increased melee damage" +
                 "\n5% increased melee speed");
+            ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
+            ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
+            ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 20;
-            item.defense = 24;
-            item.rare = ItemRarityID.Pink;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-        }
-
-        public override bool DrawBody()
-        {
-            return false;
+            Item.width = 34;
+            Item.height = 20;
+            Item.defense = 24;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.07f;
+            player.GetDamage(DamageClass.Melee) *= 1.07f;
             player.meleeSpeed += 0.05f;
         }
     }
@@ -132,18 +125,16 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void AddRecipes()
         {
             int evilBars = 8;
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4);
-            recipe.AddIngredient(ItemID.CrimtaneBar, evilBars);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4);
-            recipe2.AddIngredient(ItemID.DemoniteBar, evilBars);
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4)
+                .AddIngredient(ItemID.CrimtaneBar, evilBars)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 4)
+                .AddIngredient(ItemID.DemoniteBar, evilBars)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -154,30 +145,30 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 12;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.defense = 14;
-            item.rare = ItemRarityID.Pink;
+            Item.width = 20;
+            Item.height = 12;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.defense = 14;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.06f;
-            player.meleeCrit += 2;
+            player.GetDamage(DamageClass.Melee) *= 1.06f;
+            player.GetCritChance(DamageClass.Melee) += 2;
         }
     }
 
     public class HexedMeleeSpeed : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hexed Melee Speed");
             Description.SetDefault("Increased melee speed");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
 
         public override void Update(Player player, ref int buffIndex)
@@ -193,29 +184,29 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            projectile.width = 1;
-            projectile.height = 1;
-            projectile.friendly = false;
-            projectile.hostile = false;
-            projectile.timeLeft = 5;
-            projectile.tileCollide = false;
+            Projectile.width = 1;
+            Projectile.height = 1;
+            Projectile.friendly = false;
+            Projectile.hostile = false;
+            Projectile.timeLeft = 5;
+            Projectile.tileCollide = false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //26 up from bottom for long
             //8 up from bottom for short
 
             if (rightTime)
             {
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Items/Equipable/Armor/HexDefenderArmLong"), projectile.Center - Main.screenPosition, null, Color.White * 1f, longHandRotation, new Vector2(7, 50), 1.2f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Items/Equipable/Armor/HexDefenderArmShort"), projectile.Center - Main.screenPosition, null, Color.White * 1f, shortHandRotation, new Vector2(7, 34), 1.2f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("TerrorbornMod/Items/Equipable/Armor/HexDefenderArmLong").Value, Projectile.Center - Main.screenPosition, null, Color.White * 1f, longHandRotation, new Vector2(7, 50), 1.2f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("TerrorbornMod/Items/Equipable/Armor/HexDefenderArmShort").Value, Projectile.Center - Main.screenPosition, null, Color.White * 1f, shortHandRotation, new Vector2(7, 34), 1.2f, SpriteEffects.None, 0f);
                 return false;
             }
             else
             {
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Items/Equipable/Armor/HexDefenderArmLong"), projectile.Center - Main.screenPosition, null, Color.White * 0.25f, longHandRotation, new Vector2(7, 50), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Items/Equipable/Armor/HexDefenderArmShort"), projectile.Center - Main.screenPosition, null, Color.White * 0.25f, shortHandRotation, new Vector2(7, 34), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("TerrorbornMod/Items/Equipable/Armor/HexDefenderArmLong").Value, Projectile.Center - Main.screenPosition, null, Color.White * 0.25f, longHandRotation, new Vector2(7, 50), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("TerrorbornMod/Items/Equipable/Armor/HexDefenderArmShort").Value, Projectile.Center - Main.screenPosition, null, Color.White * 0.25f, shortHandRotation, new Vector2(7, 34), 1f, SpriteEffects.None, 0f);
                 return false;
             }
         }
@@ -225,14 +216,14 @@ namespace TerrorbornMod.Items.Equipable.Armor
         bool rightTime = false;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            projectile.timeLeft = 5;
+            Projectile.timeLeft = 5;
 
             if (!modPlayer.HexDefender)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
 
             float timeMult = 10f;
@@ -251,11 +242,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
             if (rightTime && TerrorbornMod.ArmorAbility.JustPressed)
             {
                 player.AddBuff(ModContent.BuffType<HexedMeleeSpeed>(), 5 * 60);
-                TerrorbornMod.ScreenShake(5f);
-                Main.PlaySound(SoundID.Item67, player.Center);
+                TerrorbornSystem.ScreenShake(5f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item67, player.Center);
             }
 
-            projectile.position = Vector2.Lerp(projectile.position, player.Center + new Vector2(0, -100), 0.2f);
+            Projectile.position = Vector2.Lerp(Projectile.position, player.Center + new Vector2(0, -100), 0.2f);
         }
     }
 }

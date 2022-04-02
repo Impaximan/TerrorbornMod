@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using TerrorbornMod.TBUtils;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Magic
 {
@@ -13,74 +13,70 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HallowedBar, 12);
-            recipe.AddIngredient(ItemID.Lens, 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.HallowedBar, 12)
+                .AddIngredient(ItemID.Lens, 3)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
         {
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
             Tooltip.SetDefault("Causes enemies near your cursor to burst into light");
         }
         public override void SetDefaults()
         {
-            item.damage = 51;
-            item.noMelee = true;
-            item.width = 52;
-            item.height = 52;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<InnerLightProjectile>();
-            item.shootSpeed = 25f;
-            item.mana = 5;
-            item.magic = true;
+            Item.damage = 51;
+            Item.noMelee = true;
+            Item.width = 52;
+            Item.height = 52;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<InnerLightProjectile>();
+            Item.shootSpeed = 25f;
+            Item.mana = 5;
+            Item.DamageType = DamageClass.Magic;;
         }
 
-        List<NPC> alreadyTargetted = new List<NPC>();
-        int usesUntilReset = 0;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        bool targetted = false;
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             usesUntilReset--;
             if (usesUntilReset >= 4)
             {
                 usesUntilReset = 0;
                 alreadyTargetted.Clear();
-            }
-
-            Vector2 velocity = new Vector2(speedX, speedY);
+            };
 
             float distance = 500;
-            bool targetted = false;
             bool firstChoiceOnly = true;
             NPC target = Main.npc[0];
             NPC firstChoice = Main.npc[0];
+            targetted = false;
 
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                if (!npc.friendly && npc.Distance(Main.MouseWorld) <= distance && npc.active && !npc.dontTakeDamage)
+                if (!NPC.friendly && NPC.Distance(Main.MouseWorld) <= distance && NPC.active && !NPC.dontTakeDamage)
                 {
-                    if (alreadyTargetted.Contains(npc))
+                    if (alreadyTargetted.Contains(NPC))
                     {
-                        distance = npc.Distance(Main.MouseWorld);
+                        distance = NPC.Distance(Main.MouseWorld);
                         targetted = true;
-                        firstChoice = npc;
+                        firstChoice = NPC;
                     }
                     else
                     {
                         firstChoiceOnly = false;
                         targetted = true;
-                        distance = npc.Distance(Main.MouseWorld);
-                        target = npc;
+                        distance = NPC.Distance(Main.MouseWorld);
+                        target = NPC;
                     }
                 }
             }
@@ -98,16 +94,24 @@ namespace TerrorbornMod.Items.Weapons.Magic
                     alreadyTargetted.Add(target);
                 }
                 velocity = player.DirectionTo(position) * velocity.Length();
-                speedX = velocity.X;
-                speedY = velocity.Y;
-                TerrorbornMod.ScreenShake(2.5f);
-                Main.PlaySound(SoundID.Item68, player.Center);
-                return true;
+                velocity.X = velocity.X;
+                velocity.Y = velocity.Y;
+                TerrorbornSystem.ScreenShake(2.5f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, player.Center);
+                alreadyTargetted.Clear();
             }
+        }
 
-
-            alreadyTargetted.Clear();
-            return false;
+        List<NPC> alreadyTargetted = new List<NPC>();
+        int usesUntilReset = 0;
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (targetted)
+            {
+                TerrorbornSystem.ScreenShake(2.5f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, player.Center);
+            }
+            return targetted;
         }
     }
 
@@ -120,21 +124,21 @@ namespace TerrorbornMod.Items.Weapons.Magic
         int currentSize = defaultSize;
         public override void SetDefaults()
         {
-            projectile.magic = true;
-            projectile.width = defaultSize;
-            projectile.height = defaultSize;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.localNPCHitCooldown = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.timeLeft = timeLeft;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.width = defaultSize;
+            Projectile.height = defaultSize;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.timeLeft = timeLeft;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, currentSize, Color.LightYellow);
+            Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, Color.LightYellow);
             return false;
         }
 

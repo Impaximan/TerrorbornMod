@@ -12,36 +12,33 @@ namespace TerrorbornMod.Items.Potions
         }
         public override void SetDefaults()
         {
-            item.useTime = 32;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.maxStack = 30;
-            item.consumable = true;
-            item.rare = ItemRarityID.Green;
-            item.autoReuse = false;
-            item.UseSound = SoundID.Item3;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.buffType = ModContent.BuffType<Buffs.Vampirism>();
-            item.buffTime = 3600 * 5;
+            Item.useTime = 32;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.maxStack = 30;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Green;
+            Item.autoReuse = false;
+            Item.UseSound = SoundID.Item3;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.buffType = ModContent.BuffType<Buffs.Vampirism>();
+            Item.buffTime = 3600 * 5;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe1 = new ModRecipe(mod);
-            recipe1.AddIngredient(ItemID.VilePowder, 10);
-            recipe1.AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 3);
-            recipe1.AddIngredient(ItemID.BottledWater);
-            recipe1.AddTile(TileID.Bottles);
-            recipe1.SetResult(this);
-            recipe1.AddRecipe();
-
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.ViciousPowder, 10);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 3);
-            recipe2.AddIngredient(ItemID.BottledWater);
-            recipe2.AddTile(TileID.Bottles);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.VilePowder, 10)
+                .AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 3)
+                .AddIngredient(ItemID.BottledWater)
+                .AddTile(TileID.Bottles)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.ViciousPowder, 10)
+                .AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 3)
+                .AddIngredient(ItemID.BottledWater)
+                .AddTile(TileID.Bottles)
+                .Register();
         }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using Terraria;
-using System;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.Armor
@@ -23,11 +20,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Blue;
-            item.defense = 6;
+            Item.width = 22;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 6;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -61,11 +58,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Blue;
-            item.defense = 7;
+            Item.width = 26;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 7;
         }
 
         //public override bool DrawBody()
@@ -90,11 +87,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Blue;
-            item.defense = 6;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 6;
         }
     }
 }

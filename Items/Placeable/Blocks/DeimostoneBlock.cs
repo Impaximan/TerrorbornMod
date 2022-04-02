@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace TerrorbornMod.Items.Placeable.Blocks
 {
@@ -10,35 +9,35 @@ namespace TerrorbornMod.Items.Placeable.Blocks
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Stone infused with terror after many years of intense exposure");
-            ItemID.Sets.ExtractinatorMode[item.type] = item.type;
+            ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 18;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.Deimostone>();
+            Item.width = 16;
+            Item.height = 18;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.Deimostone>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(this);
-            recipe2.AddTile(TileID.WorkBenches);
-            recipe2.SetResult(ModContent.ItemType<Walls.DeimostoneWall>(), 4);
-            recipe2.AddRecipe();
-            ModRecipe recipe3 = new ModRecipe(mod);
-            recipe3.AddIngredient(ModContent.ItemType<Walls.DeimostoneWall>(), 4);
-            recipe3.AddTile(TileID.WorkBenches);
-            recipe3.SetResult(this);
-            recipe3.AddRecipe();
+            Recipe wall = CreateRecipe()
+                .AddIngredient(this)
+                .AddTile(TileID.WorkBenches);
+            wall.ReplaceResult(ModContent.ItemType<Walls.DeimostoneWall>(), 4);
+            wall.Register();
+
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Walls.DeimostoneWall>(), 4)
+                .AddTile(TileID.WorkBenches)
+                .Register();
         }
 
         public override void ExtractinatorUse(ref int resultType, ref int resultStack)

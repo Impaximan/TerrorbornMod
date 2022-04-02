@@ -13,24 +13,24 @@ namespace TerrorbornMod.Items.Placeable.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 18;
-			item.maxStack = 99;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.createTile = ModContent.TileType<Tiles.DeimostoneWorkbench>();
+			Item.width = 32;
+			Item.height = 18;
+			Item.maxStack = 99;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.createTile = ModContent.TileType<Tiles.DeimostoneWorkbench>();
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Blocks.SmoothDeimostoneBlock>(), 10);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ModContent.ItemType<Blocks.SmoothDeimostoneBlock>(), 10)
+				.AddTile(TileID.WorkBenches)
+				.Register();
 		}
     }
 }

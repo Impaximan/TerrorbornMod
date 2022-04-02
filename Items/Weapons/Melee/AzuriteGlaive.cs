@@ -1,8 +1,4 @@
 ﻿using Terraria.ModLoader;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria;
 using Microsoft.Xna.Framework;
@@ -18,74 +14,73 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("AzuriteBar"), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.AzuriteBar>(10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
         public override void SetDefaults()
         {
-			item.useStyle = ItemUseStyleID.HoldingOut;
-            item.width = 48;
-            item.height = 50;
-            item.damage = 28;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTime = 24;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.useAnimation = 18;
-            item.shootSpeed = 4;
-            item.knockBack = 4;
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item1;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AzuriteGlaiveProjectile");
+			Item.useStyle = ItemUseStyleID.Shoot;
+            Item.width = 48;
+            Item.height = 50;
+            Item.damage = 28;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTime = 24;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.useAnimation = 18;
+            Item.shootSpeed = 4;
+            Item.knockBack = 4;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AzuriteGlaiveProjectile>();
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[item.shoot] < 1;
+            return player.ownedProjectileCounts[Item.shoot] < 1;
         }
     }
     class AzuriteGlaiveProjectile : ModProjectile
     {
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.aiStyle = 19;
-            projectile.penetrate = -1;
-            projectile.scale = 1.3f;
-            projectile.alpha = 0;
-            projectile.hide = true;
-            projectile.ownerHitCheck = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.aiStyle = 19;
+            Projectile.penetrate = -1;
+            Projectile.scale = 1.3f;
+            Projectile.alpha = 0;
+            Projectile.hide = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
         }
         public float movementFactor
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         bool HasFiredBolt = false;
         public override void AI()
         {
 
-            Player projOwner = Main.player[projectile.owner];
+            Player projOwner = Main.player[Projectile.owner];
             Vector2 ownerMountedCenter = projOwner.RotatedRelativePoint(projOwner.MountedCenter, true);
-            projectile.direction = projOwner.direction;
-            projOwner.heldProj = projectile.whoAmI;
+            Projectile.direction = projOwner.direction;
+            projOwner.heldProj = Projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
-            projectile.position.X = ownerMountedCenter.X - (float)(projectile.width / 2);
-            projectile.position.Y = ownerMountedCenter.Y - (float)(projectile.height / 2);
+            Projectile.position.X = ownerMountedCenter.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = ownerMountedCenter.Y - (float)(Projectile.height / 2);
             if (!projOwner.frozen)
             {
                 if (movementFactor == 0f)
                 {
                     movementFactor = 3f;
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
                 if (projOwner.itemAnimation < projOwner.itemAnimationMax / 3)
                 {
@@ -93,14 +88,14 @@ namespace TerrorbornMod.Items.Weapons.Melee
                     if (!HasFiredBolt)
                     {
                         float Speed = 27;
-                        Vector2 ProjectileVelocity = (projectile.rotation - (MathHelper.ToRadians(135f))).ToRotationVector2() * Speed;
-                        if (projectile.spriteDirection == -1)
+                        Vector2 ProjectileVelocity = (Projectile.rotation - (MathHelper.ToRadians(135f))).ToRotationVector2() * Speed;
+                        if (Projectile.spriteDirection == -1)
                         {
-                            ProjectileVelocity = (projectile.rotation - (MathHelper.ToRadians(45f))).ToRotationVector2() * Speed;
+                            ProjectileVelocity = (Projectile.rotation - (MathHelper.ToRadians(45f))).ToRotationVector2() * Speed;
                         }
-                        Projectile.NewProjectile(projectile.Center + (ProjectileVelocity / Speed) * 100, ProjectileVelocity, mod.ProjectileType("AquaRay"), projectile.damage, projectile.knockBack, projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + (ProjectileVelocity / Speed) * 100, ProjectileVelocity, ModContent.ProjectileType<AquaRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         HasFiredBolt = true;
-                        Main.PlaySound(SoundID.Item60, projectile.Center);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
                     }
                 }
                 else
@@ -108,19 +103,19 @@ namespace TerrorbornMod.Items.Weapons.Melee
                     movementFactor += 2.1f;
                 }
             }
-            projectile.position += projectile.velocity * movementFactor;
+            Projectile.position += Projectile.velocity * movementFactor;
             if (projOwner.itemAnimation == 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
             if (projOwner.direction == 1)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
-                projectile.rotation -= MathHelper.ToRadians(90f);
+                Projectile.rotation -= MathHelper.ToRadians(90f);
             }
         }
     }
@@ -129,22 +124,22 @@ namespace TerrorbornMod.Items.Weapons.Melee
         public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.ShadowBeamFriendly; } }
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 1000;
-            projectile.penetrate = 2;
-            projectile.hide = true;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 1000;
+            Projectile.penetrate = 2;
+            Projectile.hide = true;
         }
         public override void AI()
         {
-            projectile.velocity.Y += 0.2f;
+            Projectile.velocity.Y += 0.2f;
             for (int i = 0; i < 4; i++)
             {
-                int dust = Dust.NewDust(projectile.position - (projectile.velocity * i / 4), 1, 1, 88, 0, 0, Scale: 2, newColor: Color.SkyBlue);
+                int dust = Dust.NewDust(Projectile.position - (Projectile.velocity * i / 4), 1, 1, 88, 0, 0, Scale: 2, newColor: Color.SkyBlue);
                 Main.dust[dust].noGravity = true;
             }
         }

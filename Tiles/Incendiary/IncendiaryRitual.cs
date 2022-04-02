@@ -1,16 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace TerrorbornMod.Tiles.Incendiary
 {
-	class IncendiaryRitual : ModTile
+    class IncendiaryRitual : ModTile
 	{
 		public override void SetDefaults()
 		{
@@ -29,8 +26,8 @@ namespace TerrorbornMod.Tiles.Incendiary
 			name.SetDefault("Incendiary Ritual");
 			mineResist = 10;
 			AddMapEntry(new Color(92 / 2, 111 / 2, 126 / 2), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { Type };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { Type };
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)

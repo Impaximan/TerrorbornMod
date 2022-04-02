@@ -1,7 +1,5 @@
 ﻿using Terraria;
-using System;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.DeveloperSets
@@ -17,15 +15,11 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 25;
-            item.rare = ItemRarityID.Cyan;
-            item.vanity = true;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-        }
-        public override bool DrawBody()
-        {
-            return false;
+            Item.width = 26;
+            Item.height = 25;
+            Item.rare = ItemRarityID.Cyan;
+            Item.vanity = true;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
         }
     }
     [AutoloadEquip(EquipType.Legs)]
@@ -39,11 +33,11 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 12;
-            item.rare = ItemRarityID.Cyan;
-            item.vanity = true;
-            item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.width = 20;
+            Item.height = 12;
+            Item.rare = ItemRarityID.Cyan;
+            Item.vanity = true;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
         }
     }
     [AutoloadEquip(EquipType.Head)]
@@ -57,11 +51,11 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.rare = ItemRarityID.Cyan;
-            item.vanity = true;
-            item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.width = 18;
+            Item.height = 18;
+            Item.rare = ItemRarityID.Cyan;
+            Item.vanity = true;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
         }
     }
 }

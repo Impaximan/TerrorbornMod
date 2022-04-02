@@ -14,24 +14,24 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.ranged = true;
-            item.width = 56;
-            item.height = 56;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 0, 2, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item1;
-            item.consumable = true;
-            item.maxStack = 9999;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.shootSpeed = 30f;
-            item.shoot = ModContent.ProjectileType<CursedJavelinProjectile>();
+            Item.damage = 35;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 56;
+            Item.height = 56;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 0, 2, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item1;
+            Item.consumable = true;
+            Item.maxStack = 9999;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shootSpeed = 30f;
+            Item.shoot = ModContent.ProjectileType<CursedJavelinProjectile>();
         }
     }
 
@@ -41,24 +41,24 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         int FallWait = 40;
         public override void SetDefaults()
         {
-            projectile.width = 56;
-            projectile.height = 56;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = 4;
-            projectile.ranged = true;
-            projectile.hide = false;
-            projectile.tileCollide = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.timeLeft = 3000;
+            Projectile.width = 56;
+            Projectile.height = 56;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = 4;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.hide = false;
+            Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.timeLeft = 3000;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 15;
             height = 15;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
@@ -74,8 +74,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, new Vector2(1, 0), ModContent.ProjectileType<JavelinDeathray>(), projectile.damage / 3, projectile.knockBack, projectile.owner);
-            Projectile.NewProjectile(target.Center, new Vector2(-1, 0), ModContent.ProjectileType<JavelinDeathray>(), projectile.damage / 3, projectile.knockBack, projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, new Vector2(1, 0), ModContent.ProjectileType<JavelinDeathray>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, new Vector2(-1, 0), ModContent.ProjectileType<JavelinDeathray>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -88,13 +88,13 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
         }
 
         public override void Kill(int timeLeft)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
         }
     }
 
@@ -104,17 +104,17 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/LightBlast";
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.hide = false;
-            projectile.hostile = false;
-            projectile.ranged = true;
-            projectile.friendly = true;
-            projectile.timeLeft = timeLeft;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 5;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.hide = false;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.friendly = true;
+            Projectile.timeLeft = timeLeft;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 5;
             MoveDistance = 0f;
             RealMaxDistance = 2000f;
             bodyRect = new Rectangle(0, 0, 10, 10);
@@ -127,7 +127,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override void PostAI()
         {
             deathrayWidth -= 1f / (float)timeLeft;
-            projectile.velocity.Normalize();
+            Projectile.velocity.Normalize();
         }
     }
 }

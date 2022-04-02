@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,29 +16,28 @@ namespace TerrorbornMod.Items.Tools
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 10);
-            recipe.AddRecipeGroup(RecipeGroupID.Wood, 4);
-            recipe.AddIngredient(ModContent.ItemType<Materials.TerrorSample>());
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 10)
+                .AddRecipeGroup(RecipeGroupID.Wood, 4)
+                .AddIngredient(ModContent.ItemType<Materials.TerrorSample>())
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
 
         public override void SetDefaults()
         {
-            item.damage = 4;
-            item.melee = true;
-            item.width = 64;
-            item.height = 64;
-            item.useAnimation = 15;
-            item.useTime = 5;
-            item.pick = 60;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6;
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 4;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 64;
+            Item.height = 64;
+            Item.useAnimation = 15;
+            Item.useTime = 5;
+            Item.pick = 60;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override bool CanUseItem(Player player)

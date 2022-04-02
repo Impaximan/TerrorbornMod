@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Armor
 {
@@ -10,12 +9,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(18 * TerrorbornMod.IncendiaryAlloyMultiplier));
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.PyroclasticGemstone>(), 8);
-            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(18 * TerrorbornMod.IncendiaryAlloyMultiplier))
+                .AddIngredient(ModContent.ItemType<Items.Materials.PyroclasticGemstone>(), 8)
+                .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -26,11 +24,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.defense = 12;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.defense = 12;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -41,20 +39,20 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "6% increased critical strike chance with thrown weapons" +
-                "\nDealing a critical hit will cause your next thrown projectile to be a 'superthrow'" +
-                "\nSuperthrown projectiles will move twice as fast and explode on enemy hits" +
+                "\nDealing a critical hit will cause your next thrown Projectile to be a 'superthrow'" +
+                "\nSuperthrown Projectiles will move twice as fast and explode on enemy hits" +
                 "\nThe explosion inflicts a random type of fire";
 
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.PyroclasticShinobiBonus = true;
-            player.thrownCrit += 6;
+            player.GetCritChance(DamageClass.Throwing) += 6;
         }
 
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.thrownDamage += 0.06f;
-            player.thrownCrit += 12;
+            player.GetDamage(DamageClass.Throwing) *= 1.06f;
+            player.GetCritChance(DamageClass.Throwing) += 12;
         }
 
     }
@@ -64,12 +62,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(25 * TerrorbornMod.IncendiaryAlloyMultiplier));
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.PyroclasticGemstone>(), 12);
-            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(25 * TerrorbornMod.IncendiaryAlloyMultiplier))
+                .AddIngredient(ModContent.ItemType<Items.Materials.PyroclasticGemstone>(), 12)
+                .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -81,22 +78,17 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.defense = 18;
-        }
-
-        public override bool DrawBody()
-        {
-            return false;
+            Item.width = 26;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.defense = 18;
         }
 
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.thrownDamage += 0.1f;
+            player.GetDamage(DamageClass.Throwing) *= 1.1f;
             modPlayer.flightTimeMultiplier *= 1.25f;
         }
     }
@@ -106,12 +98,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(17 * TerrorbornMod.IncendiaryAlloyMultiplier));
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.PyroclasticGemstone>(), 4);
-            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(17 * TerrorbornMod.IncendiaryAlloyMultiplier))
+                .AddIngredient(ModContent.ItemType<Items.Materials.PyroclasticGemstone>(), 4)
+                .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -122,17 +113,17 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 12;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.defense = 12;
+            Item.width = 20;
+            Item.height = 12;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.defense = 12;
         }
 
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.thrownDamage += 0.06f;
+            player.GetDamage(DamageClass.Throwing) *= 1.06f;
 
             if (player.velocity.X != 0)
             {

@@ -1,6 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,17 +9,17 @@ namespace TerrorbornMod.Items.Ammo
     {
         public override void SetDefaults()
         {
-            item.damage = 8;
-            item.ranged = true;
-            item.width = 14;
-            item.height = 28;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 1;
-            item.shootSpeed = 3;
-            item.rare = ItemRarityID.White;
-            item.shoot = mod.ProjectileType("SilverDartProjectile");
-            item.ammo = AmmoID.Dart;
+            Item.damage = 8;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 14;
+            Item.height = 28;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 1;
+            Item.shootSpeed = 3;
+            Item.rare = ItemRarityID.White;
+            Item.shoot = ModContent.ProjectileType<SilverDartProjectile>();
+            Item.ammo = AmmoID.Dart;
         }
         //public override bool HoldItemFrame(Player player)
         //{
@@ -30,11 +28,10 @@ namespace TerrorbornMod.Items.Ammo
         //}
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SilverBar);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 111);
-            recipe.AddRecipe();
+            CreateRecipe(111)
+                .AddIngredient(ItemID.SilverBar)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
     class SilverDartProjectile : ModProjectile
@@ -46,27 +43,27 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.ranged = true;
-            projectile.timeLeft = 1000;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 1000;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
         }
         public override void AI()
         {
-            projectile.velocity.Y += 0.05f;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            Projectile.velocity.Y += 0.05f;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
         }
         public override void Kill(int timeLeft)
         {
             if (Main.rand.Next(101) <= 20)
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("SilverDart"));
+                Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<SilverDart>());
             }
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
         }
     }
 }

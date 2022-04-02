@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,28 +11,28 @@ namespace TerrorbornMod.Projectiles
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 3);
-            projectile.timeLeft = 1;
+            Projectile.timeLeft = 1;
         }
         //private bool HasGravity = true;
         private bool Spawn = true;
         //private bool GravDown = true;
         public override void SetDefaults()
         {
-            projectile.width = 34;
-            projectile.height = 40;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 69;
+            Projectile.width = 34;
+            Projectile.height = 40;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 69;
         }
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, 65, Color.LimeGreen * 0.5f);
+            Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, 65, Color.LimeGreen * 0.5f);
             return true;
         }
 
@@ -44,42 +42,42 @@ namespace TerrorbornMod.Projectiles
             if (start)
             {
                 start = false;
-                projectile.timeLeft = (int)projectile.ai[0];
+                Projectile.timeLeft = (int)Projectile.ai[0];
             }
 
-            projectile.rotation += MathHelper.ToRadians(5);
-            Lighting.AddLight(projectile.Center, Color.Green.ToVector3() * 0.80f * Main.essScale);
+            Projectile.rotation += MathHelper.ToRadians(5);
+            Lighting.AddLight(Projectile.Center, Color.Green.ToVector3() * 0.80f * Main.essScale);
 
-            //int dust = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), 0, 0, 74);
-            //Main.dust[dust].velocity = projectile.velocity;
+            //int dust = Dust.NewDust(new Vector2(Projectile.Center.X, Projectile.Center.Y), 0, 0, 74);
+            //Main.dust[dust].velocity = Projectile.velocity;
 
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 74);
+            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 74);
             Main.dust[dust].noGravity = true;
             Main.dust[dust].noLight = true;
-            Main.dust[dust].velocity = projectile.velocity;
+            Main.dust[dust].velocity = Projectile.velocity;
 
 
-            if (projectile.velocity != Vector2.Zero)
+            if (Projectile.velocity != Vector2.Zero)
             {
-                projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)].Center).ToRotation(), MathHelper.ToRadians(projectile.ai[1] * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
+                Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(Main.player[Player.FindClosest(Projectile.position, Projectile.width, Projectile.height)].Center).ToRotation(), MathHelper.ToRadians(Projectile.ai[1] * (Projectile.velocity.Length() / 20))).ToRotationVector2() * Projectile.velocity.Length();
             }
 
-            projectile.frameCounter--;
-            if (projectile.frameCounter <= 0)
+            Projectile.frameCounter--;
+            if (Projectile.frameCounter <= 0)
             {
-                projectile.frameCounter = 5;
-                projectile.frame++;
-                if (projectile.frame >= 4)
+                Projectile.frameCounter = 5;
+                Projectile.frame++;
+                if (Projectile.frame >= 4)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 0, 12, 7, 74, 2f, true);
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            DustExplosion(Projectile.Center, 0, 12, 7, 74, 2f, true);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
         }
 
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph

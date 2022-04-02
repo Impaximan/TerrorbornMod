@@ -1,7 +1,5 @@
 ﻿using Terraria;
-using System;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.Vanity.BossMasks
@@ -16,8 +14,8 @@ namespace TerrorbornMod.Items.Equipable.Vanity.BossMasks
 
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.Blue;
-            item.vanity = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.vanity = true;
         }
     }
 }

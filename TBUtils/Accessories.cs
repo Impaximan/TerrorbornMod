@@ -1,24 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using ReLogic.Graphics;
 using Terraria.ModLoader;
-using Terraria.Graphics.Effects;
-using Terraria.ModLoader.IO;
-using TerrorbornMod.Abilities;
-using Terraria.Graphics.Shaders;
-using TerrorbornMod.ForegroundObjects;
-using Terraria.GameInput;
-using Microsoft.Xna.Framework.Input;
-using Extensions;
 
 namespace TerrorbornMod.TBUtils
 {
@@ -84,20 +67,20 @@ namespace TerrorbornMod.TBUtils
                 modPlayer.ParryCooldown = parryCooldown;
                 player.AddBuff(ModContent.BuffType<Buffs.Debuffs.ParryCooldown>(), parryCooldown);
                 modPlayer.parryLightTime = 20;
-                Main.PlaySound(SoundID.Item8, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item8, player.Center);
             }
 
             if (modPlayer.JustParried)
             {
-                foreach (NPC npc in Main.npc)
+                foreach (NPC NPC in Main.npc)
                 {
-                    if (npc.Distance(player.Center) <= 200 && !npc.friendly && npc.knockBackResist > 0f)
+                    if (NPC.Distance(player.Center) <= 200 && !NPC.friendly && NPC.knockBackResist > 0f)
                     {
-                        npc.velocity = npc.DirectionFrom(player.Center) * npc.knockBackResist * item.knockBack * 2f;
+                        NPC.velocity = NPC.DirectionFrom(player.Center) * NPC.knockBackResist * Item.knockBack * 2f;
                     }
                 }
                 modPlayer.iFrames = 60;
-                TerrorbornMod.ScreenShake(5f);
+                TerrorbornSystem.ScreenShake(5f);
                 modPlayer.JustParried = false;
             }
         }
@@ -113,9 +96,9 @@ namespace TerrorbornMod.TBUtils
                 {
                     if (!fullyCharged)
                     {
-                        CombatText.NewText(player.getRect(), textColor, item.Name + " charged...", true, false);
+                        CombatText.NewText(player.getRect(), textColor, Item.Name + " charged...", true, false);
                         fullyCharged = true;
-                        Main.PlaySound(SoundID.Item37, player.Center);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item37, player.Center);
                     }
                     player.armorEffectDrawOutlines = true;
                 }
@@ -136,9 +119,9 @@ namespace TerrorbornMod.TBUtils
                     player.velocity = velocity;
                     modPlayer.BurstJumpTime = effectTime;
                     modPlayer.JustBurstJumped = true;
-                    CombatText.NewText(player.getRect(), textColor, "..." + item.Name + " activated!", true, false);
-                    Main.PlaySound(sound, player.Center);
-                    TerrorbornMod.ScreenShake(5);
+                    CombatText.NewText(player.getRect(), textColor, "..." + Item.Name + " activated!", true, false);
+                    Terraria.Audio.SoundEngine.PlaySound(sound, player.Center);
+                    TerrorbornSystem.ScreenShake(5);
                     player.fallStart = (int)player.position.Y;
                     player.jumpAgainSandstorm = true;
                     player.jumpAgainSail = true;

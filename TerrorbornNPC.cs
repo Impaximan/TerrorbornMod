@@ -2,11 +2,11 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 using System.Collections.Generic;
 using System;
 using TerrorbornMod.UI.TitleCard;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent.ItemDropRules;
 
 namespace TerrorbornMod
 {
@@ -43,9 +43,9 @@ namespace TerrorbornMod
 
         public float damageResist = 1f;
 
-        public void ImprovedFighterAI(NPC npc, float maxSpeed, float accelleration, float decelleration, float jumpSpeed, bool faceDirection = true, int jumpCooldown = 0, int stillTimeUntilTurnaround = 120, int wanderTime = 90)
+        public void ImprovedFighterAI(NPC NPC, float maxSpeed, float accelleration, float decelleration, float jumpSpeed, bool faceDirection = true, int jumpCooldown = 0, int stillTimeUntilTurnaround = 120, int wanderTime = 90)
         {
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
 
             if (fighter_TargetPlayerCounter > 0)
             {
@@ -53,16 +53,16 @@ namespace TerrorbornMod
             }
             else
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
 
-            if (Math.Abs(npc.velocity.X) < maxSpeed - accelleration)
+            if (Math.Abs(NPC.velocity.X) < maxSpeed - accelleration)
             {
                 fighter_StillTime++;
                 if (fighter_StillTime > stillTimeUntilTurnaround)
                 {
                     fighter_TargetPlayerCounter = wanderTime;
-                    npc.direction *= -1;
+                    NPC.direction *= -1;
                     fighter_StillTime = 0;
                 }
             }
@@ -71,27 +71,27 @@ namespace TerrorbornMod
                 fighter_StillTime = 0;
             }
 
-            if (npc.direction == 1 && npc.velocity.X < maxSpeed)
+            if (NPC.direction == 1 && NPC.velocity.X < maxSpeed)
             {
-                npc.velocity.X += accelleration;
+                NPC.velocity.X += accelleration;
             }
 
-            if (npc.direction == -1 && npc.velocity.X > -maxSpeed)
+            if (NPC.direction == -1 && NPC.velocity.X > -maxSpeed)
             {
-                npc.velocity.X -= accelleration;
+                NPC.velocity.X -= accelleration;
             }
 
-            if (npc.velocity.Y == 0)
+            if (NPC.velocity.Y == 0)
             {
                 if (fighter_JumpCooldown > 0)
                 {
                     fighter_JumpCooldown--;
                 }
-                else if (!Collision.SolidCollision(npc.position + new Vector2(npc.width * npc.direction, npc.height), npc.width, 17) || Collision.SolidCollision(npc.position + new Vector2(npc.width * npc.direction, 0), npc.width, npc.height) || (MathHelper.Distance(player.Center.X, npc.Center.X) < npc.width && player.position.Y + player.width < npc.position.Y))
+                else if (!Collision.SolidCollision(NPC.position + new Vector2(NPC.width * NPC.direction, NPC.height), NPC.width, 17) || Collision.SolidCollision(NPC.position + new Vector2(NPC.width * NPC.direction, 0), NPC.width, NPC.height) || (MathHelper.Distance(player.Center.X, NPC.Center.X) < NPC.width && player.position.Y + player.width < NPC.position.Y))
                 {
-                    if (player.Center.Y < npc.position.Y + npc.height || Math.Abs(player.Center.X - npc.Center.X) > 150)
+                    if (player.Center.Y < NPC.position.Y + NPC.height || Math.Abs(player.Center.X - NPC.Center.X) > 150)
                     {
-                        npc.velocity.Y -= jumpSpeed;
+                        NPC.velocity.Y -= jumpSpeed;
                         fighter_JumpCooldown = jumpCooldown;
                     }
                 }
@@ -99,51 +99,51 @@ namespace TerrorbornMod
 
             if (faceDirection)
             {
-                npc.spriteDirection = npc.direction;
+                NPC.spriteDirection = NPC.direction;
             }
         }
 
-        public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
+        public override bool CanHitPlayer(NPC NPC, Player target, ref int cooldownSlot)
         {
             TerrorbornPlayer player = TerrorbornPlayer.modPlayer(target);
             if (player.iFrames > 0 || player.VoidBlinkTime > 0 || player.BlinkDashTime > 0)
             {
                 return false;
             }
-            return base.CanHitPlayer(npc, target, ref cooldownSlot);
+            return base.CanHitPlayer(NPC, target, ref cooldownSlot);
         }
 
-        public override bool PreAI(NPC npc)
+        public override bool PreAI(NPC NPC)
         {
             Player player = Main.LocalPlayer;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.TimeFreezeTime > 0)
             {
-                npc.position -= npc.velocity;
+                NPC.position -= NPC.velocity;
                 return false;
             }
-            return base.PreAI(npc);
+            return base.PreAI(NPC);
         }
 
-        public override void SetDefaults(NPC npc)
+        public override void SetDefaults(NPC NPC)
         {
-            ogKnockbackResist = npc.knockBackResist;
+            ogKnockbackResist = NPC.knockBackResist;
 
-            if (npc.type == NPCID.KingSlime)
+            if (NPC.type == NPCID.KingSlime)
             {
                 BossTitle = "King Slime";
                 BossSubtitle = "Gelatinous Monarch";
                 BossTitleColor = Color.SkyBlue;
             }
 
-            if (npc.type == NPCID.EyeofCthulhu)
+            if (NPC.type == NPCID.EyeofCthulhu)
             {
                 BossTitle = "Eye of Cthulhu";
                 BossSubtitle = "Bloodshot Watcher";
                 BossTitleColor = new Color(255, 123, 123);
             }
 
-            if (npc.type == NPCID.EaterofWorldsHead && !NPC.AnyNPCs(NPCID.EaterofWorldsBody) && !NPC.AnyNPCs(NPCID.EaterofWorldsTail))
+            if (NPC.type == NPCID.EaterofWorldsHead && !NPC.AnyNPCs(NPCID.EaterofWorldsBody) && !NPC.AnyNPCs(NPCID.EaterofWorldsTail))
             {
                 getsTitleCard = true;
                 BossTitle = "Eater of Worlds";
@@ -151,98 +151,98 @@ namespace TerrorbornMod
                 BossTitleColor = Color.Purple;
             }
 
-            if (npc.type == NPCID.BrainofCthulhu)
+            if (NPC.type == NPCID.BrainofCthulhu)
             {
                 BossTitle = "The Brain of Cthulhu";
                 BossSubtitle = "Bloodthirsty Mastermind";
                 BossTitleColor = Color.Crimson;
             }
 
-            if (npc.type == NPCID.QueenBee)
+            if (NPC.type == NPCID.QueenBee)
             {
                 BossTitle = "The Queen Bee";
                 BossSubtitle = "Protector of the hive";
                 BossTitleColor = Color.Yellow;
             }
 
-            if (npc.type == NPCID.SkeletronHead)
+            if (NPC.type == NPCID.SkeletronHead)
             {
                 BossTitle = "Skeletron";
                 BossSubtitle = "Accursed Guardian of the Dungeon";
                 BossTitleColor = Color.Beige;
             }
 
-            if (npc.type == NPCID.WallofFlesh)
+            if (NPC.type == NPCID.WallofFlesh)
             {
                 BossTitle = "The Wall of Flesh";
                 BossSubtitle = "The Seal of Terror; Guardian of the Underworld";
                 BossTitleColor = Color.Red;
             }
 
-            if (npc.type == NPCID.SkeletronPrime)
+            if (NPC.type == NPCID.SkeletronPrime)
             {
                 BossTitle = "Skeletron Prime";
                 BossSubtitle = "Construct of Fright";
                 BossTitleColor = Color.OrangeRed;
             }
 
-            if (npc.type == NPCID.TheDestroyer)
+            if (NPC.type == NPCID.TheDestroyer)
             {
                 BossTitle = "The Destroyer";
                 BossSubtitle = "Construct of Might";
                 BossTitleColor = Color.RoyalBlue;
             }
 
-            if (npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+            if (NPC.type == NPCID.Spazmatism || NPC.type == NPCID.Retinazer)
             {
                 BossTitle = "The Twins";
                 BossSubtitle = "Constructs of Sight";
                 BossTitleColor = Color.LightGreen;
             }
 
-            if (npc.type == NPCID.Plantera)
+            if (NPC.type == NPCID.Plantera)
             {
                 BossTitle = "Plantera";
                 BossSubtitle = "Southern Plantkill";
                 BossTitleColor = Color.LimeGreen;
             }
 
-            if (npc.type == NPCID.Golem)
+            if (NPC.type == NPCID.Golem)
             {
                 BossTitle = "Golem";
                 BossSubtitle = "Protector of the Lihzahrd Tribe";
                 BossTitleColor = Color.SaddleBrown;
             }
 
-            if (npc.type == NPCID.CultistBoss)
+            if (NPC.type == NPCID.CultistBoss)
             {
                 BossTitle = "Lunatic Cultist";
                 BossSubtitle = "Messenger of Armaggeddon";
                 BossTitleColor = Color.Blue;
             }
 
-            if (npc.type == NPCID.MoonLordCore || npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
+            if (NPC.type == NPCID.MoonLordCore || NPC.type == NPCID.MoonLordHand || NPC.type == NPCID.MoonLordHead)
             {
                 BossTitle = "The Moon Lord";
                 BossSubtitle = "Monarch of the Pillars";
                 BossTitleColor = Color.PaleTurquoise;
             }
 
-            if (npc.type == NPCID.DD2DarkMageT1)
+            if (NPC.type == NPCID.DD2DarkMageT1)
             {
                 getsTitleCard = true;
                 BossTitle = "The Dark Mage";
                 BossSubtitle = "Commander of the Dead";
             }
 
-            if (npc.type == NPCID.DD2OgreT2)
+            if (NPC.type == NPCID.DD2OgreT2)
             {
                 getsTitleCard = true;
                 BossTitle = "Shrek (not actually)";
                 BossSubtitle = "Ogre of the Ages";
             }
 
-            if (npc.type == NPCID.DD2Betsy)
+            if (NPC.type == NPCID.DD2Betsy)
             {
                 getsTitleCard = true;
                 BossTitle = "Betsy";
@@ -250,14 +250,14 @@ namespace TerrorbornMod
                 BossTitleColor = Color.OrangeRed;
             }
 
-            if (npc.type == NPCID.MartianSaucer)
+            if (NPC.type == NPCID.MartianSaucer)
             {
                 getsTitleCard = true;
                 BossTitle = "Martian Saucer";
                 BossSubtitle = "Otherwordly Battleship";
             }
 
-            if (npc.type == NPCID.PirateShip)
+            if (NPC.type == NPCID.PirateShip)
             {
                 getsTitleCard = true;
                 BossTitle = "Flying Dutchman";
@@ -273,10 +273,10 @@ namespace TerrorbornMod
                 nextSlot++;
             }
         }
-        public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(NPC NPC, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            if (modPlayer.LiesOfNourishment && npc.life >= npc.lifeMax)
+            if (modPlayer.LiesOfNourishment && NPC.life >= NPC.lifeMax)
             {
                 crit = true;
             }
@@ -301,28 +301,13 @@ namespace TerrorbornMod
             }
         }
 
-        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(NPC NPC, Projectile Projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            if (modPlayer.LiesOfNourishment && npc.life >= npc.lifeMax)
+            if (modPlayer.LiesOfNourishment && NPC.life >= NPC.lifeMax)
             {
                 crit = true;
-            }
-
-            if (player.HeldItem != null)
-            {
-                if (!player.HeldItem.IsAir)
-                {
-                    if (player.HeldItem.GetGlobalItem<TerrorbornItem>().countAsThrown)
-                    {
-                        modPlayer.currentThrownCritState *= -1;
-                        if (modPlayer.currentThrownCritState == 1)
-                        {
-                            crit = Main.rand.Next(101) <= player.HeldItem.crit + player.thrownCrit;
-                        }
-                    }
-                }
             }
             if (CumulusEmpowermentTime > 0)
             {
@@ -344,7 +329,7 @@ namespace TerrorbornMod
             }
         }
 
-        public override void UpdateLifeRegen(NPC npc, ref int damage)
+        public override void UpdateLifeRegen(NPC NPC, ref int damage)
         {
             if (gloveTime > 0)
             {
@@ -367,24 +352,24 @@ namespace TerrorbornMod
                 }
 
                 damage += (int)gloveDamage;
-                npc.lifeRegen -= (int)gloveDoTTotal;
+                NPC.lifeRegen -= (int)gloveDoTTotal;
             }
 
-            if (npc.friendly && gloveDoT.Count > 0)
+            if (NPC.friendly && gloveDoT.Count > 0)
             {
                 gloveDoT.Clear();
             }
         }
 
         bool start = true;
-        public override void PostAI(NPC npc)
+        public override void PostAI(NPC NPC)
         {
             if (start)
             {
                 start = false;
-                ogKnockbackResist = npc.knockBackResist;
+                ogKnockbackResist = NPC.knockBackResist;
 
-                if (getsTitleCard || npc.boss)
+                if (getsTitleCard || NPC.boss)
                 {
                     TitleCardUI.bossName = BossTitle;
                     TitleCardUI.bossSubtitle = BossSubtitle;
@@ -398,8 +383,8 @@ namespace TerrorbornMod
                 soulSplitTime--;
                 if (soulSplitTime <= 0)
                 {
-                    CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), Color.LightCyan, "Soul Regained");
-                    Main.PlaySound(SoundID.NPCDeath39, npc.Center);
+                    CombatText.NewText(new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height), Color.LightCyan, "Soul Regained");
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath39, NPC.Center);
                 }
             }
 
@@ -413,22 +398,22 @@ namespace TerrorbornMod
                 mindSpearheadTime--;
                 if (mindSpearheadTime <= 0)
                 {
-                    CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(80, 112, 109), "Spearhead Dropped!", false, true);
+                    CombatText.NewText(new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height), new Color(80, 112, 109), "Spearhead Dropped!", false, true);
                 }
             }
 
             if (CumulusEmpowermentTime > 0)
             {
                 CumulusEmpowermentTime--;
-                int d = Dust.NewDust(npc.position, npc.width, npc.height, 21);
+                int d = Dust.NewDust(NPC.position, NPC.width, NPC.height, 21);
                 Main.dust[d].noGravity = true;
-                Main.dust[d].velocity = npc.velocity;
+                Main.dust[d].velocity = NPC.velocity;
             }
         }
 
-        public static TerrorbornNPC modNPC(NPC npc)
+        public static TerrorbornNPC modNPC(NPC NPC)
         {
-            return npc.GetGlobalNPC<TerrorbornNPC>();
+            return NPC.GetGlobalNPC<TerrorbornNPC>();
         }
 
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
@@ -443,7 +428,7 @@ namespace TerrorbornMod
                 }
             }
 
-            if (player.ZoneRain && TerrorbornWorld.terrorRain && maxSpawns != 0) //Checks current maxSpawns specifically so it works with HERO's mod's spawn thingy
+            if (player.ZoneRain && TerrorbornSystem.terrorRain && maxSpawns != 0) //Checks current maxSpawns specifically so it works with HERO's mod's spawn thingy
             {
                 if (Main.dayTime)
                 {
@@ -479,7 +464,7 @@ namespace TerrorbornMod
             Player player = spawnInfo.player;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            if (player.ZoneRain && TerrorbornWorld.terrorRain)
+            if (player.ZoneRain && TerrorbornSystem.terrorRain)
             {
                 pool.Clear();
 
@@ -524,75 +509,75 @@ namespace TerrorbornMod
 
         public bool CheckBountyBiome(Player player)
         {
-            if (TerrorbornWorld.CurrentBountyBiome == 0 && player.ZoneUndergroundDesert)
+            if (TerrorbornSystem.CurrentBountyBiome == 0 && player.ZoneUndergroundDesert)
             {
                 return true;
             }
-            if (TerrorbornWorld.CurrentBountyBiome == 1 && player.ZoneSnow && player.ZoneRockLayerHeight)
+            if (TerrorbornSystem.CurrentBountyBiome == 1 && player.ZoneSnow && player.ZoneRockLayerHeight)
             {
                 return true;
             }
-            if (TerrorbornWorld.CurrentBountyBiome == 2 && player.ZoneUnderworldHeight)
+            if (TerrorbornSystem.CurrentBountyBiome == 2 && player.ZoneUnderworldHeight)
             {
                 return true;
             }
-            if (TerrorbornWorld.CurrentBountyBiome == 3 && player.ZoneJungle && !player.ZoneRockLayerHeight)
+            if (TerrorbornSystem.CurrentBountyBiome == 3 && player.ZoneJungle && !player.ZoneRockLayerHeight)
             {
                 return true;
             }
-            if (TerrorbornWorld.CurrentBountyBiome == 4 && player.ZoneJungle && player.ZoneRockLayerHeight)
+            if (TerrorbornSystem.CurrentBountyBiome == 4 && player.ZoneJungle && player.ZoneRockLayerHeight)
             {
                 return true;
             }
-            if (TerrorbornWorld.CurrentBountyBiome == 5 && (player.ZoneCorrupt || player.ZoneCrimson) && !player.ZoneRockLayerHeight)
+            if (TerrorbornSystem.CurrentBountyBiome == 5 && (player.ZoneCorrupt || player.ZoneCrimson) && !player.ZoneRockLayerHeight)
             {
                 return true;
             }
-            if (TerrorbornWorld.CurrentBountyBiome == 6 && player.ZoneSnow)
+            if (TerrorbornSystem.CurrentBountyBiome == 6 && player.ZoneSnow)
             {
                 return true;
             }
-            if (TerrorbornWorld.CurrentBountyBiome == 7 && player.ZoneHoly && !player.ZoneRockLayerHeight)
+            if (TerrorbornSystem.CurrentBountyBiome == 7 && player.ZoneHallow && !player.ZoneRockLayerHeight)
             {
                 return true;
             }
-            if (TerrorbornWorld.CurrentBountyBiome == 8 && player.ZoneHoly && player.ZoneRockLayerHeight)
+            if (TerrorbornSystem.CurrentBountyBiome == 8 && player.ZoneHallow && player.ZoneRockLayerHeight)
             {
                 return true;
             }
-            if (TerrorbornWorld.CurrentBountyBiome == 9 && (player.ZoneCorrupt || player.ZoneCrimson) && player.ZoneRockLayerHeight)
+            if (TerrorbornSystem.CurrentBountyBiome == 9 && (player.ZoneCorrupt || player.ZoneCrimson) && player.ZoneRockLayerHeight)
             {
                 return true;
             }
             return false;
         }
 
-        void SpawnGeyser(int originalDamage, NPC npc, Player player)
+        void SpawnGeyser(int originalDamage, NPC NPC, Player player)
         {
-            if (Main.rand.NextFloat() > 0.15f && npc.life > 0)
+            if (Main.rand.NextFloat() > 0.15f && NPC.life > 0)
             {
                 return;
             }
             for (int i = 0; i < Main.rand.Next(2, 5); i++)
             {
-                Vector2 position = npc.Center;
+                Vector2 position = NPC.Center;
                 if (i != 1)
                 {
                     position.X += Main.rand.Next(-200, 200);
                 }
                 while (!WorldUtils.Find(position.ToTileCoordinates(), Searches.Chain(new Searches.Down(1), new GenCondition[]
                     {
-        new Conditions.IsSolid()
+        new Terraria.WorldBuilding.Conditions.IsSolid()
                     }), out _))
                 {
                     position.Y++;
                 }
-                Projectile.NewProjectile(position, new Vector2(0, -20), ModContent.ProjectileType<Items.Equipable.Armor.TideFireFriendly>(), originalDamage / 2, 0f, player.whoAmI);
+                if (player.HeldItem != null && !player.HeldItem.IsAir) Projectile.NewProjectile(player.GetProjectileSource_Item(player.HeldItem), position, new Vector2(0, -20), ModContent.ProjectileType<Items.Equipable.Armor.TideFireFriendly>(), originalDamage / 2, 0f, player.whoAmI); ;
             }
-            Main.PlaySound(SoundID.Item88, npc.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item88, NPC.Center);
         }
 
-        void SpawnAzuriteShard(int originalDamage, NPC npc, Player player)
+        void SpawnAzuriteShard(int originalDamage, NPC NPC, Player player)
         {
             if (Main.rand.NextFloat() > 0.25f)
             {
@@ -600,22 +585,22 @@ namespace TerrorbornMod
             }
             Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
             float speed = Main.rand.Next(15, 25);
-            Projectile.NewProjectile(npc.Center, direction * speed, ModContent.ProjectileType<Projectiles.AzuriteShard>(), originalDamage / 2, 0f, player.whoAmI);
-            Main.PlaySound(SoundID.Item118, npc.Center);
+            if (player.HeldItem != null && !player.HeldItem.IsAir) Projectile.NewProjectile(player.GetProjectileSource_Item(player.HeldItem), NPC.Center, direction * speed, ModContent.ProjectileType<Projectiles.AzuriteShard>(), originalDamage / 2, 0f, player.whoAmI);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item118, NPC.Center);
         }
 
-        public void SinducementExplosion(NPC npc, int damage, bool death = true)
+        public void SinducementExplosion(NPC NPC, int damage, bool death = true)
         {
             for (int i = 0; i < 4; i++)
             {
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                 float speed = Main.rand.NextFloat(10f, 20f);
                 int projDamage = damage / 2;
-                if (death && !npc.boss)
+                if (death && !NPC.boss)
                 {
-                    projDamage = npc.lifeMax / 3;
+                    projDamage = NPC.lifeMax / 3;
                 }
-                Projectile.NewProjectile(npc.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), projDamage, 0.5f, Main.LocalPlayer.whoAmI);
+                if (Main.LocalPlayer.HeldItem != null && !Main.LocalPlayer.HeldItem.IsAir) Projectile.NewProjectile(Main.LocalPlayer.GetProjectileSource_Item(Main.LocalPlayer.HeldItem), NPC.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), projDamage, 0.5f, Main.LocalPlayer.whoAmI);
             }
 
             if (death)
@@ -623,22 +608,22 @@ namespace TerrorbornMod
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                 float speed = Main.rand.NextFloat(10f, 20f);
                 int projDamage = damage / 2;
-                Projectile.NewProjectile(npc.Center, direction * speed, ModContent.ProjectileType<SinducementSoul>(), projDamage, 0.5f, Main.LocalPlayer.whoAmI);
+                if (Main.LocalPlayer.HeldItem != null && !Main.LocalPlayer.HeldItem.IsAir) Projectile.NewProjectile(Main.LocalPlayer.GetProjectileSource_Item(Main.LocalPlayer.HeldItem), NPC.Center, direction * speed, ModContent.ProjectileType<SinducementSoul>(), projDamage, 0.5f, Main.LocalPlayer.whoAmI);
             }
         }
 
-        public override void HitEffect(NPC npc, int hitDirection, double damage)
+        public override void HitEffect(NPC NPC, int hitDirection, double damage)
         {
             Player player = Main.LocalPlayer;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             fighter_TargetPlayerCounter = 0;
 
-            if (npc.life <= 0 && !npc.SpawnedFromStatue)
+            if (NPC.life <= 0 && !NPC.SpawnedFromStatue)
             {
                 if (modPlayer.SoulEater)
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<TerrorOrb>(), 0, 0, player.whoAmI);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TerrorOrb>(), 0, 0, player.whoAmI);
                 }
                 if (modPlayer.TorturersTalisman)
                 {
@@ -646,23 +631,23 @@ namespace TerrorbornMod
                 }
             }
 
-            if (modPlayer.SoulEater && npc.boss)
+            if (modPlayer.SoulEater && NPC.boss)
             {
                 SoulEaterTotalDamageTaken += (int)damage;
-                while (SoulEaterTotalDamageTaken > npc.lifeMax * 0.075f)
+                while (SoulEaterTotalDamageTaken > NPC.lifeMax * 0.075f)
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<TerrorOrb>(), 0, 0, player.whoAmI);
-                    SoulEaterTotalDamageTaken -= (int)(npc.lifeMax * 0.075f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TerrorOrb>(), 0, 0, player.whoAmI);
+                    SoulEaterTotalDamageTaken -= (int)(NPC.lifeMax * 0.075f);
                 }
             }
 
-            if (modPlayer.SoulReaperArmorBonus && npc.boss)
+            if (modPlayer.SoulReaperArmorBonus && NPC.boss)
             {
                 SoulReaperTotalDamageTaken += (int)damage;
-                while (SoulReaperTotalDamageTaken > npc.lifeMax * 0.075f)
+                while (SoulReaperTotalDamageTaken > NPC.lifeMax * 0.075f)
                 {
-                    Item.NewItem(npc.Center, ModContent.ItemType<Items.Equipable.Armor.ThunderSoul>());
-                    SoulReaperTotalDamageTaken -= (int)(npc.lifeMax * 0.075f);
+                    Item.NewItem(NPC.GetItemSource_Loot(), NPC.Center, ModContent.ItemType<Items.Equipable.Armor.ThunderSoul>());
+                    SoulReaperTotalDamageTaken -= (int)(NPC.lifeMax * 0.075f);
                 }
             }
 
@@ -676,59 +661,59 @@ namespace TerrorbornMod
             }
         }
 
-        public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+        public override void OnHitByItem(NPC NPC, Player player, Item item, int damage, float knockback, bool crit)
         {
             if (soulSplitTime > 0)
             {
                 if (soulOrbCooldown <= 0)
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SoulOrb>(), 0, 0, player.whoAmI);
-                    Main.PlaySound(SoundID.NPCHit36, npc.Center);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<SoulOrb>(), 0, 0, player.whoAmI);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit36, NPC.Center);
                     soulOrbCooldown = 3;
                 }
             }
 
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            if (item.melee && modPlayer.TidalShellArmorBonus)
+            if (item.DamageType == DamageClass.Melee && modPlayer.TidalShellArmorBonus)
             {
-                SpawnGeyser(damage, npc, player);
+                SpawnGeyser(damage, NPC, player);
             }
 
             if (modPlayer.AzuriteBrooch)
             {
-                SpawnAzuriteShard(damage, npc, player);
+                SpawnAzuriteShard(damage, NPC, player);
             }
 
             if (NPC.AnyNPCs(ModContent.NPCType<NPCs.TownNPCs.SkeletonSheriff>()))
             {
-                if (npc.life <= 0)
+                if (NPC.life <= 0)
                 {
                     if (CheckBountyBiome(player))
                     {
-                        modPlayer.CombatPoints += npc.lifeMax;
+                        modPlayer.CombatPoints += NPC.lifeMax;
                     }
                 }
             }
 
-            if (item.melee && modPlayer.IncendiaryShield)
+            if (item.DamageType == DamageClass.Melee && modPlayer.IncendiaryShield)
             {
-                if (Main.rand.Next(101) <= 8 + player.meleeCrit / 2)
+                if (Main.rand.Next(101) <= 8 + player.GetCritChance(DamageClass.Melee) / 2)
                 {
-                    DustExplosion(npc.Center, 0, 45, 30, DustID.Fire, DustScale: 1f, NoGravity: true);
-                    Main.PlaySound(SoundID.Item14, npc.Center);
+                    DustExplosion(NPC.Center, 0, 45, 30, 6, DustScale: 1f, NoGravity: true);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
                     for (int i = 0; i < 200; i++)
                     {
                         NPC target = Main.npc[i];
-                        if (!target.friendly && npc.Distance(target.Center) <= 200 + (target.width + target.height) / 2 && !target.dontTakeDamage)
+                        if (!target.friendly && NPC.Distance(target.Center) <= 200 + (target.width + target.height) / 2 && !target.dontTakeDamage)
                         {
                             if (target.type == NPCID.TheDestroyerBody)
                             {
-                                target.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                                target.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.GetCritChance(DamageClass.Melee));
                             }
                             else
                             {
-                                target.StrikeNPC(damage / 2, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                                target.StrikeNPC(damage / 2, 0, 0, Main.rand.Next(101) <= player.GetCritChance(DamageClass.Melee));
                             }
 
                             int choice = Main.rand.Next(4);
@@ -757,9 +742,9 @@ namespace TerrorbornMod
             {
                 if (modPlayer.HeadHunterCritCooldown <= 0)
                 {
-                    if ((modPlayer.HeadhunterClass == 0 && item.magic) || 
-                        (modPlayer.HeadhunterClass == 1 && item.melee) ||
-                        (modPlayer.HeadhunterClass == 2 && item.ranged) ||
+                    if ((modPlayer.HeadhunterClass == 0 && item.DamageType == DamageClass.Magic) || 
+                        (modPlayer.HeadhunterClass == 1 && item.DamageType == DamageClass.Melee) ||
+                        (modPlayer.HeadhunterClass == 2 && item.DamageType == DamageClass.Ranged) ||
                         (modPlayer.HeadhunterClass == 3))
                     {
                         modPlayer.HeadHunterCritCooldown = 60;
@@ -781,76 +766,76 @@ namespace TerrorbornMod
             }
         }
 
-        public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(NPC NPC, Projectile Projectile, int damage, float knockback, bool crit)
         {
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.player[projectile.owner]);
-            Player player = Main.player[projectile.owner];
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.player[Projectile.owner]);
+            Player player = Main.player[Projectile.owner];
 
-            if (projectile.melee && modPlayer.TidalShellArmorBonus)
+            if (Projectile.DamageType == DamageClass.Melee && modPlayer.TidalShellArmorBonus)
             {
-                SpawnGeyser(damage, npc, player);
+                SpawnGeyser(damage, NPC, player);
             }
 
 
-            if (modPlayer.PrismalCore && Main.rand.NextFloat() <= 0.15f && projectile.magic)
+            if (modPlayer.PrismalCore && Main.rand.NextFloat() <= 0.15f && Projectile.DamageType == DamageClass.Magic)
             {
-                npc.StrikeNPC(damage, 0, 0, crit);
+                NPC.StrikeNPC(damage, 0, 0, crit);
             }
 
-            if (npc.life <= 0 && !npc.SpawnedFromStatue)
+            if (NPC.life <= 0 && !NPC.SpawnedFromStatue)
             {
                 if (player.HasBuff(ModContent.BuffType<Buffs.Sinducement>()))
                 {
-                    SinducementExplosion(npc, (int)damage, true);
-                    TerrorbornMod.ScreenShake(2.5f);
-                    Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, npc.Center);
+                    SinducementExplosion(NPC, (int)damage, true);
+                    TerrorbornSystem.ScreenShake(2.5f);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, NPC.Center);
                 }
             }
 
             if (modPlayer.AzuriteBrooch)
             {
-                SpawnAzuriteShard(damage, npc, player);
+                SpawnAzuriteShard(damage, NPC, player);
             }
 
             if (soulSplitTime > 0)
             {
                 if (soulOrbCooldown <= 0)
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SoulOrb>(), 0, 0, player.whoAmI);
-                    Main.PlaySound(SoundID.NPCHit36, npc.Center);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<SoulOrb>(), 0, 0, player.whoAmI);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit36, NPC.Center);
                     soulOrbCooldown = 3;
                 }
             }
 
             if (NPC.AnyNPCs(ModContent.NPCType<NPCs.TownNPCs.SkeletonSheriff>()))
             {
-                if (npc.life <= 0)
+                if (NPC.life <= 0)
                 {
-                    if (CheckBountyBiome(Main.player[projectile.owner]))
+                    if (CheckBountyBiome(Main.player[Projectile.owner]))
                     {
-                        modPlayer.CombatPoints += npc.lifeMax;
+                        modPlayer.CombatPoints += NPC.lifeMax;
                     }
                 }
             }
 
-            if (projectile.melee && modPlayer.IncendiaryShield)
+            if (Projectile.DamageType == DamageClass.Melee && modPlayer.IncendiaryShield)
             {
-                if (Main.rand.Next(101) <= 8 + player.meleeCrit / 2)
+                if (Main.rand.Next(101) <= 8 + player.GetCritChance(DamageClass.Melee) / 2)
                 {
-                    DustExplosion(npc.Center, 0, 45, 30, DustID.Fire, DustScale: 1f, NoGravity: true);
-                    Main.PlaySound(SoundID.Item14, npc.Center);
+                    DustExplosion(NPC.Center, 0, 45, 30, 6, DustScale: 1f, NoGravity: true);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
                     for (int i = 0; i < 200; i++)
                     {
                         NPC target = Main.npc[i];
-                        if (!target.friendly && npc.Distance(target.Center) <= 200 + (target.width + target.height) / 2 && !target.dontTakeDamage)
+                        if (!target.friendly && NPC.Distance(target.Center) <= 200 + (target.width + target.height) / 2 && !target.dontTakeDamage)
                         {
                             if (target.type == NPCID.TheDestroyerBody)
                             {
-                                target.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                                target.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.GetCritChance(DamageClass.Melee));
                             }
                             else
                             {
-                                target.StrikeNPC(damage / 2, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                                target.StrikeNPC(damage / 2, 0, 0, Main.rand.Next(101) <= player.GetCritChance(DamageClass.Melee));
                             }
 
                             int choice = Main.rand.Next(4);
@@ -881,9 +866,9 @@ namespace TerrorbornMod
             {
                 if (modPlayer.HeadHunterCritCooldown <= 0)
                 {
-                    if ((modPlayer.HeadhunterClass == 0 && projectile.magic) ||
-                        (modPlayer.HeadhunterClass == 1 && projectile.melee) ||
-                        (modPlayer.HeadhunterClass == 2 && projectile.ranged) ||
+                    if ((modPlayer.HeadhunterClass == 0 && Projectile.DamageType == DamageClass.Magic) ||
+                        (modPlayer.HeadhunterClass == 1 && Projectile.DamageType == DamageClass.Melee) ||
+                        (modPlayer.HeadhunterClass == 2 && Projectile.DamageType == DamageClass.Ranged) ||
                         (modPlayer.HeadhunterClass == 3))
                     {
                         modPlayer.HeadHunterCritCooldown = 60;
@@ -923,10 +908,95 @@ namespace TerrorbornMod
                 }
             }
         }
-        public override void NPCLoot(NPC npc)
+
+        public override void OnKill(NPC NPC)
         {
-            Player player = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
+            Player player = Main.LocalPlayer;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            if (modPlayer.SoulReaperArmorBonus)
+            {
+                Item.NewItem(NPC.GetItemSource_Loot(), NPC.Center, ModContent.ItemType<Items.Equipable.Armor.ThunderSoul>());
+            }
+
+            if (TerrorbornSystem.terrorRain && player.ZoneRain && Main.rand.NextFloat() <= 0.5f)
+            {
+                int type = ItemID.DirtBlock;
+                switch (Main.rand.Next(3))
+                {
+                    case 0:
+                        type = ItemID.SoulofNight;
+                        break;
+                    case 1:
+                        type = ItemID.SoulofLight;
+                        break;
+                    case 2:
+                        type = ItemID.SoulofFlight;
+                        break;
+                }
+                Item.NewItem(NPC.GetItemSource_Loot(), NPC.getRect(), type);
+            }
+
+            float ExpertBoost = 1;
+            if (Main.expertMode)
+            {
+                ExpertBoost = 2;
+            }
+            if (Main.masterMode)
+            {
+                ExpertBoost = 3;
+            }
+
+            if (player.ZoneDungeon)
+            {
+                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
+                {
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.MiscConsumables.StrangeBag>());
+                }
+            }
+
+            if (modPlayer.ZoneIncendiary)
+            {
+                if (Main.rand.NextFloat() <= 0.02f)
+                {
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.IncendiaryLockbox>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.02f && NPC.downedGolemBoss)
+                {
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.SkullmoundLockbox>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.015f * ExpertBoost)
+                {
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.MiscConsumables.HotMilk>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
+                {
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Vanity.IncendiaryBreastplate>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
+                {
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Vanity.IncendiaryLeggings>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
+                {
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Vanity.IncendiaryVisor>());
+                }
+
+                if (Main.rand.NextFloat() <= 0.25f && NPC.downedGolemBoss)
+                {
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Materials.HellbornEssence>());
+                }
+            }
+
+            if (NPC.type == NPCID.MoonLordCore)
+            {
+                modPlayer.TerrorPercent = 0f;
+            }
 
             List<int> extraDarkEnergyIDs = new List<int>();
             extraDarkEnergyIDs.Add(NPCID.SkeletronHand);
@@ -953,189 +1023,44 @@ namespace TerrorbornMod
             extraDarkEnergyIDs.Add(ModContent.NPCType<NPCs.UndyingSpirit>());
             extraDarkEnergyIDs.Add(ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
 
-            if (modPlayer.SoulReaperArmorBonus)
-            {
-                Item.NewItem(npc.Center, ModContent.ItemType<Items.Equipable.Armor.ThunderSoul>());
-            }
-
-            if (TerrorbornWorld.terrorRain && player.ZoneRain && Main.rand.NextFloat() <= 0.5f)
-            {
-                int type = ItemID.DirtBlock;
-                switch (Main.rand.Next(3))
-                {
-                    case 0: type = ItemID.SoulofNight;
-                        break;
-                    case 1: type = ItemID.SoulofLight;
-                        break;
-                    case 2: type = ItemID.SoulofFlight;
-                        break;
-                }
-                Item.NewItem(npc.getRect(), type);
-            }
-
-
-            if (NPCID.Sets.ProjectileNPC[npc.type])
-            {
-                return;
-            }
-
-
-            float ExpertBoost = 1;
-            if (Main.expertMode)
-            {
-                ExpertBoost = 2;
-            }
-
-            if (player.ZoneDungeon)
-            {
-                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.MiscConsumables.StrangeBag>());
-                }
-            }
-
-            if (npc.type == NPCID.LunarTowerSolar || npc.type == NPCID.LunarTowerNebula || npc.type == NPCID.LunarTowerStardust || npc.type == NPCID.LunarTowerVortex)
-            {
-                for (int i = 0; i < Main.rand.Next(5, 21); i++)
-                {
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.FusionFragment>(), 1);
-                }
-            }
-
-            if (modPlayer.ZoneIncendiary)
-            {
-                if (Main.rand.NextFloat() <= 0.02f)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.IncendiaryLockbox>());
-                }
-
-                if (Main.rand.NextFloat() <= 0.02f && NPC.downedGolemBoss)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.SkullmoundLockbox>());
-                }
-
-                if (Main.rand.NextFloat() <= 0.015f * ExpertBoost)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.MiscConsumables.HotMilk>());
-                }
-
-                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Vanity.IncendiaryBreastplate>());
-                }
-
-                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Vanity.IncendiaryLeggings>());
-                }
-
-                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Vanity.IncendiaryVisor>());
-                }
-
-                if (Main.rand.NextFloat() <= 0.25f && NPC.downedGolemBoss)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Materials.HellbornEssence>());
-                }
-            }
-
-            if (npc.type == NPCID.GoblinSorcerer)
-            {
-                if (Main.rand.NextFloat() <= 0.14f * ExpertBoost)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapons.Magic.BookOfChaos>());
-                }
-            }
-
-            if (npc.type == NPCID.GoblinArcher)
-            {
-                if (Main.rand.NextFloat() <= 0.04f * ExpertBoost)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapons.Ranged.WarBow>());
-                }
-            }
-
-            if (npc.type == NPCID.TacticalSkeleton || npc.type == NPCID.SkeletonCommando || npc.type == NPCID.SkeletonSniper)
-            {
-                if (Main.rand.NextFloat() <= 0.35f)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Accessories.TacticalCommlink>());
-                }
-            }
-
-            if (npc.type == NPCID.EyeofCthulhu)
-            {
-                Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.EyeOfTheMenace>());
-                Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Minions.OpticCane>());
-            }
-
-            if (npc.type == NPCID.KingSlime)
-            {
-                Item.NewItem(npc.Center, ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.CompressedGelatin>());
-            }
-
-            if (npc.type == NPCID.MoonLordCore)
-            {
-                modPlayer.TerrorPercent = 0f;
-            }
-
-            if (extraDarkEnergyIDs.Contains(npc.type) || npc.boss)
+            if (extraDarkEnergyIDs.Contains(NPC.type) || NPC.boss)
             {
                 for (int i = 0; i < Main.rand.Next(3, 5); i++)
                 {
-                    Item.NewItem(npc.Center, ModContent.ItemType<Items.DarkEnergy>());
+                    Item.NewItem(NPC.GetItemSource_Loot(), NPC.Center, ModContent.ItemType<Items.DarkEnergy>());
                 }
             }
 
-            if (npc.type == NPCID.WallofFlesh)
+            if (Main.rand.Next(12) == 0 && modPlayer.TerrorPercent < 100 && TerrorbornSystem.obtainedShriekOfHorror)
             {
-                Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.DemonicLense>());
+                Item.NewItem(NPC.GetItemSource_Loot(), NPC.Center, ModContent.ItemType<Items.DarkEnergy>());
             }
 
-            if (npc.type == NPCID.Mothron && Main.rand.NextFloat() <= 0.33f)
+            if (modPlayer.LiesOfNourishment && Main.rand.Next(5) == 0)
             {
-                Item.NewItem(npc.Center, ModContent.ItemType<Items.Weapons.Summons.Other.Armagrenade>());
+                Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
 
-            if (npc.type == NPCID.MartianSaucerCore)
+            if (player.HasBuff(ModContent.BuffType<Buffs.Vampirism>()) && NPC.Distance(player.Center) <= 350)
             {
-                Item.NewItem(npc.Center, ModContent.ItemType<Items.Equipable.Accessories.Wings.MartianBoosters>());
-            }
-
-            if (npc.type == NPCID.SkeletronHead)
-            {
-                Item.NewItem(npc.Center, ModContent.ItemType<Items.PermanentUpgrades.CoreOfFear>());
-            }
-
-            if (npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem)
-            {
-                if (Main.rand.NextFloat(101) <= 0.45 * ExpertBoost)
+                if (Main.rand.NextFloat() <= 0.2f)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.graniteVirusSpark>());
+                    Item.NewItem(NPC.GetItemSource_Loot(), NPC.getRect(), ItemID.Heart);
                 }
-            }
 
-            if (npc.type == NPCID.Antlion || npc.type == NPCID.FlyingAntlion || npc.type == NPCID.WalkingAntlion)
-            {
-                if (Main.rand.NextFloat() <= 0.01f * ExpertBoost)
+                if (Main.rand.NextFloat() <= 0.2f)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Accessories.AntsMandible>());
+                    Item.NewItem(NPC.GetItemSource_Loot(), NPC.getRect(), ModContent.ItemType<Items.DarkEnergy>());
                 }
             }
 
-            if (player.ZoneBeach && Main.rand.NextFloat() <= 0.02f)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.LunarRitual>());
-            }
-
-            if (npc.type == NPCID.KingSlime)
+            if (NPC.type == NPCID.KingSlime)
             {
                 bool spawnGA = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(6);
                 for (int i = 0; i < 1000; i++)
                 {
-                    Projectile projectile = Main.projectile[i];
-                    if (projectile.active && projectile.type == ModContent.ProjectileType<Abilities.GelatinArmor>())
+                    Projectile Projectile = Main.projectile[i];
+                    if (Projectile.active && Projectile.type == ModContent.ProjectileType<Abilities.GelatinArmor>())
                     {
                         spawnGA = false;
                     }
@@ -1143,31 +1068,84 @@ namespace TerrorbornMod
 
                 if (spawnGA)
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Abilities.GelatinArmor>(), 0, 0, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Abilities.GelatinArmor>(), 0, 0, Main.myPlayer);
                 }
             }
+        }
 
-            if (modPlayer.LiesOfNourishment && Main.rand.Next(5) == 0)
+        public override void ModifyGlobalLoot(GlobalLoot globalLoot)
+        {
+            Player player = Main.LocalPlayer;
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+        }
+
+        public override void ModifyNPCLoot(NPC NPC, NPCLoot NPCLoot)
+        {
+
+            if (NPCID.Sets.ProjectileNPC[NPC.type])
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+                return;
             }
 
-            if (Main.rand.Next(12) == 0 && modPlayer.TerrorPercent < 100 && TerrorbornWorld.obtainedShriekOfHorror)
+
+            if (NPC.type == NPCID.LunarTowerSolar || NPC.type == NPCID.LunarTowerNebula || NPC.type == NPCID.LunarTowerStardust || NPC.type == NPCID.LunarTowerVortex)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DarkEnergy>());
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.FusionFragment>(), minimumDropped: 5, maximumDropped: 20));
             }
 
-            if (player.HasBuff(ModContent.BuffType<Buffs.Vampirism>()) && npc.Distance(player.Center) <= 350)
-            {
-                if (Main.rand.NextFloat() <= 0.2f)
-                {
-                    Item.NewItem(npc.getRect(), ItemID.Heart);
-                }
 
-                if (Main.rand.NextFloat() <= 0.2f)
-                {
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.DarkEnergy>());
-                }
+            if (NPC.type == NPCID.GoblinSorcerer)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.BookOfChaos>(), 7));
+            }
+
+            if (NPC.type == NPCID.GoblinArcher)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Ranged.WarBow>(), 9));
+            }
+
+            if (NPC.type == NPCID.TacticalSkeleton || NPC.type == NPCID.SkeletonCommando || NPC.type == NPCID.SkeletonSniper)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Accessories.TacticalCommlink>(), 3));
+            }
+
+            if (NPC.type == NPCID.EyeofCthulhu)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.PermanentUpgrades.EyeOfTheMenace>()));
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Summons.Minions.OpticCane>()));
+            }
+
+            if (NPC.type == NPCID.KingSlime)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Accessories.BurstJumps.CompressedGelatin>()));
+            }
+
+            if (NPC.type == NPCID.WallofFlesh)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.PermanentUpgrades.DemonicLense>()));
+            }
+
+            NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Summons.Other.Armagrenade>(), 3));
+
+            if (NPC.type == NPCID.MartianSaucerCore)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Accessories.Wings.MartianBoosters>()));
+            }
+
+            if (NPC.type == NPCID.SkeletronHead)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.PermanentUpgrades.CoreOfFear>()));
+            }
+
+            if (NPC.type == NPCID.GraniteFlyer || NPC.type == NPCID.GraniteGolem)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.GraniteVirusSpark>(), 100));
+            }
+
+            if (NPC.type == NPCID.Antlion || NPC.type == NPCID.FlyingAntlion || NPC.type == NPCID.WalkingAntlion)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Accessories.AntsMandible>(), 50));
             }
         }
     }
@@ -1181,31 +1159,30 @@ namespace TerrorbornMod
         //private bool GravDown = true;
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.hide = true;
-            projectile.timeLeft = 300;
-            projectile.damage = 0;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = false;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.hide = true;
+            Projectile.timeLeft = 300;
+            Projectile.damage = 0;
         }
 
         int Direction = 1;
         int DirectionCounter = 5;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             int type = 132;
             if (modPlayer.SanguineSetBonus) type = 130;
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, type);
-            Main.dust[dust].velocity = projectile.velocity;
-            if (modPlayer.SanguineSetBonus) Main.dust[dust].velocity = projectile.velocity / 4;
+            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, type);
+            Main.dust[dust].velocity = Projectile.velocity;
+            if (modPlayer.SanguineSetBonus) Main.dust[dust].velocity = Projectile.velocity / 4;
             Main.dust[dust].scale = 1f;
             Main.dust[dust].alpha = 255 / 2;
             Main.dust[dust].noGravity = true;
@@ -1214,13 +1191,13 @@ namespace TerrorbornMod
 
             int speed = 8;
             if (modPlayer.SanguineSetBonus) speed = 25;
-            projectile.velocity = projectile.DirectionTo(player.Center) * speed;
-            if (projectile.Distance(player.Center) <= speed)
+            Projectile.velocity = Projectile.DirectionTo(player.Center) * speed;
+            if (Projectile.Distance(player.Center) <= speed)
             {
                 int healAmount = 1;
                 player.HealEffect(healAmount);
                 player.statLife += healAmount;
-                projectile.active = false;
+                Projectile.active = false;
             }
         }
     }
@@ -1233,28 +1210,27 @@ namespace TerrorbornMod
         //private bool GravDown = true;
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.hide = true;
-            projectile.timeLeft = 300;
-            projectile.damage = 0;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = false;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.hide = true;
+            Projectile.timeLeft = 300;
+            Projectile.damage = 0;
         }
 
         int Direction = 1;
         int DirectionCounter = 5;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             int type = 54;
-            int dust = Dust.NewDust(projectile.Center, 0, 0, type);
+            int dust = Dust.NewDust(Projectile.Center, 0, 0, type);
             Main.dust[dust].velocity = Vector2.Zero;
             Main.dust[dust].scale = 1f;
             Main.dust[dust].alpha = 255 / 2;
@@ -1263,11 +1239,11 @@ namespace TerrorbornMod
 
 
             int speed = 25;
-            projectile.velocity = projectile.DirectionTo(player.Center) * speed;
-            if (projectile.Distance(player.Center) <= speed)
+            Projectile.velocity = Projectile.DirectionTo(player.Center) * speed;
+            if (Projectile.Distance(player.Center) <= speed)
             {
                 modPlayer.GainTerror(2f, false);
-                projectile.active = false;
+                Projectile.active = false;
             }
         }
     }
@@ -1276,8 +1252,8 @@ namespace TerrorbornMod
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
         public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
@@ -1286,24 +1262,24 @@ namespace TerrorbornMod
         //private bool GravDown = true;
         public override void SetDefaults()
         {
-            projectile.width = 15;
-            projectile.height = 15;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = 10;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
-            projectile.hostile = false;
-            projectile.extraUpdates = 2;
-            projectile.timeLeft = 120 * (projectile.extraUpdates + 1);
+            Projectile.width = 15;
+            Projectile.height = 15;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.hostile = false;
+            Projectile.extraUpdates = 2;
+            Projectile.timeLeft = 120 * (Projectile.extraUpdates + 1);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -1316,9 +1292,9 @@ namespace TerrorbornMod
                 List<Vector2> positions = bezier.GetPoints(15);
                 for (int i = 0; i < positions.Count; i++)
                 {
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.LightGray) * ((float)(positions.Count - i) / (float)positions.Count);
-                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * ((float)(positions.Count - i) / (float)positions.Count)), color);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.LightGray) * ((float)(positions.Count - i) / (float)positions.Count);
+                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * ((float)(positions.Count - i) / (float)positions.Count)), color);
                 }
             }
             return false;
@@ -1326,7 +1302,7 @@ namespace TerrorbornMod
 
         public override void AI()
         {
-            projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(5f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
+            Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(5f * (Projectile.velocity.Length() / 20))).ToRotationVector2() * Projectile.velocity.Length();
         }
     }
 }

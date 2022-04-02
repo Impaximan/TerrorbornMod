@@ -1,11 +1,6 @@
-﻿using System.Linq;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.Utilities;
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -20,15 +15,15 @@ namespace TerrorbornMod.Items
 
         public override void SetDefaults()
         {
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<PearlOfDarknessProjectile>();
-            item.maxStack = 999;
-            item.noUseGraphic = true;
-            item.consumable = true;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.shoot = ModContent.ProjectileType<PearlOfDarknessProjectile>();
+            Item.maxStack = 999;
+            Item.noUseGraphic = true;
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
@@ -37,7 +32,7 @@ namespace TerrorbornMod.Items
             for (int i = 0; i < 1000; i++)
             {
                 Projectile proj = Main.projectile[i];
-                if (proj.type == item.shoot && proj.active)
+                if (proj.type == Item.shoot && proj.active)
                 {
                     canSpawn = false;
                     break;
@@ -51,20 +46,20 @@ namespace TerrorbornMod.Items
     {
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 26;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.timeLeft = 60 * 10;
-            projectile.tileCollide = false;
+            Projectile.width = 22;
+            Projectile.height = 26;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.timeLeft = 60 * 10;
+            Projectile.tileCollide = false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Vector2 position = projectile.Center - Main.screenPosition;
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 position = Projectile.Center - Main.screenPosition;
             position.Y += 4;
-            Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, projectile.width, projectile.height), new Rectangle(0, 0, projectile.width, projectile.height), Color.White, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, Projectile.width, Projectile.height), new Rectangle(0, 0, Projectile.width, Projectile.height), Color.White, Projectile.rotation, new Vector2(Projectile.width / 2, Projectile.height / 2), SpriteEffects.None, 0);
             return false;
         }
 
@@ -129,11 +124,11 @@ namespace TerrorbornMod.Items
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            projectile.position = player.Center + new Vector2(0, -50);
-            projectile.position -= new Vector2(projectile.width / 2, projectile.height / 2);
+            Projectile.position = player.Center + new Vector2(0, -50);
+            Projectile.position -= new Vector2(Projectile.width / 2, Projectile.height / 2);
 
             if (targetPosition() == Vector2.Zero)
             {
@@ -141,7 +136,7 @@ namespace TerrorbornMod.Items
             }
             else
             {
-                projectile.rotation = projectile.DirectionTo(targetPosition()).ToRotation() + MathHelper.ToRadians(90);
+                Projectile.rotation = Projectile.DirectionTo(targetPosition()).ToRotation() + MathHelper.ToRadians(90);
             }
         }
     }

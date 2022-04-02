@@ -6,14 +6,14 @@ namespace TerrorbornMod.Buffs.Debuffs
 {
     class TerrorSickness : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terror Sickness");
             Description.SetDefault("Cannot consume any more terror potions");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using Terraria;
-using System;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.Armor
@@ -12,11 +9,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 8);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 8)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
+
         }
 
         public override void SetStaticDefaults()
@@ -32,11 +29,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 22;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Blue;
-            item.defense = 5;
+            Item.width = 24;
+            Item.height = 22;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 5;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -72,27 +69,24 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicCrit += 6;
-            player.rangedCrit += 6;
-            player.meleeCrit += 6;
+            player.GetCritChance(DamageClass.Generic) += 6;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 10);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 10)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Blue;
-            item.defense = 6;
+            Item.width = 30;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 6;
         }
 
         //public override bool DrawBody()
@@ -105,11 +99,10 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 7);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 7)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -125,11 +118,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Blue;
-            item.defense = 5;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 5;
         }
     }
 }

@@ -16,31 +16,30 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.damage = 5;
-            item.ranged = true;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.rare = ItemRarityID.White;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.autoReuse = false;
-            item.width = 30;
-            item.height = 30;
-            item.shoot = ModContent.ProjectileType<StickThrown>();
-            item.shootSpeed = 15f;
-            item.knockBack = 2f;
+            Item.maxStack = 999;
+            Item.damage = 5;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.rare = ItemRarityID.White;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.autoReuse = false;
+            Item.width = 30;
+            Item.height = 30;
+            Item.shoot = ModContent.ProjectileType<StickThrown>();
+            Item.shootSpeed = 15f;
+            Item.knockBack = 2f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup(RecipeGroupID.Wood);
-            recipe.SetResult(this, 15);
-            recipe.AddRecipe();
+            CreateRecipe(15)
+                .AddRecipeGroup(RecipeGroupID.Wood)
+                .Register();
         }
     }
 
@@ -50,36 +49,36 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = false;
-            projectile.ranged = true;
-            projectile.timeLeft = 300;
-            projectile.penetrate = 3;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 300;
+            Projectile.penetrate = 3;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 15;
             height = 15;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         int timeAlive = 0;
         public override void AI()
         {
-            projectile.spriteDirection = Math.Sign(projectile.velocity.X);
-            projectile.rotation += projectile.spriteDirection * MathHelper.ToRadians(projectile.velocity.Length() * 1.5f);
+            Projectile.spriteDirection = Math.Sign(Projectile.velocity.X);
+            Projectile.rotation += Projectile.spriteDirection * MathHelper.ToRadians(Projectile.velocity.Length() * 1.5f);
             timeAlive++;
             if (timeAlive >= 15)
             {
-                projectile.velocity.Y += 0.4f;
-                projectile.velocity.X *= 0.95f;
+                Projectile.velocity.Y += 0.4f;
+                Projectile.velocity.X *= 0.95f;
             }
         }
     }

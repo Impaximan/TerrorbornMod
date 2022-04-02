@@ -1,8 +1,5 @@
 ﻿using Terraria;
-using System;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.Armor
@@ -12,13 +9,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 8);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddIngredient(ItemID.GlowingMushroom, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 8)
+                .AddIngredient(ItemID.SoulofNight, 5)
+                .AddIngredient(ItemID.GlowingMushroom, 10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -31,18 +27,18 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.rangedCrit += 15;
+            player.GetCritChance(DamageClass.Ranged) += 15;
             modPlayer.noAmmoConsumeChance += 0.25f;
-            player.rangedDamage += 0.1f;
+            player.GetDamage(DamageClass.Ranged) *= 1.1f;
         }
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 20;
+            Item.width = 24;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 20;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -59,10 +55,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             modPlayer.HeadHunter = true;
             modPlayer.HeadhunterClass = 2;
 
-            player.magicCrit += modPlayer.HeadHunterCritBonus;
-            player.rangedCrit += modPlayer.HeadHunterCritBonus;
-            player.thrownCrit += modPlayer.HeadHunterCritBonus;
-            player.meleeCrit += modPlayer.HeadHunterCritBonus;
+            player.GetCritChance(DamageClass.Generic) += modPlayer.HeadHunterCritBonus;
         }
     }
 
@@ -71,13 +64,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 8);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddIngredient(ItemID.BeetleHusk, 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 8)
+                .AddIngredient(ItemID.SoulofNight, 5)
+                .AddIngredient(ItemID.BeetleHusk, 3)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -90,18 +82,18 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.meleeCrit += 15;
+            player.GetCritChance(DamageClass.Melee) += 15;
             player.meleeSpeed += 0.15f;
             player.meleeSpeed += 0.1f;
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 26;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 28;
+            Item.width = 22;
+            Item.height = 26;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 28;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -118,10 +110,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             modPlayer.HeadHunter = true;
             modPlayer.HeadhunterClass = 1;
 
-            player.magicCrit += modPlayer.HeadHunterCritBonus;
-            player.rangedCrit += modPlayer.HeadHunterCritBonus;
-            player.thrownCrit += modPlayer.HeadHunterCritBonus;
-            player.meleeCrit += modPlayer.HeadHunterCritBonus;
+            player.GetCritChance(DamageClass.Generic) += modPlayer.HeadHunterCritBonus;
         }
     }
 
@@ -130,13 +119,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 8);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddIngredient(ItemID.Ectoplasm, 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 8)
+                .AddIngredient(ItemID.SoulofNight, 5)
+                .AddIngredient(ItemID.Ectoplasm, 6)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -149,18 +137,18 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.magicCrit += 15;
+            player.GetCritChance(DamageClass.Magic) += 15;
             player.statManaMax2 += 100;
-            player.magicDamage += 0.1f;
+            player.GetDamage(DamageClass.Magic) *= 1.1f;
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 22;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 12;
+            Item.width = 30;
+            Item.height = 22;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 12;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -177,10 +165,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             modPlayer.HeadHunter = true;
             modPlayer.HeadhunterClass = 0;
 
-            player.magicCrit += modPlayer.HeadHunterCritBonus;
-            player.rangedCrit += modPlayer.HeadHunterCritBonus;
-            player.thrownCrit += modPlayer.HeadHunterCritBonus;
-            player.meleeCrit += modPlayer.HeadHunterCritBonus;
+            player.GetCritChance(DamageClass.Generic) += modPlayer.HeadHunterCritBonus;
         }
     }
 
@@ -192,6 +177,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
             Tooltip.SetDefault("Increases item/weapon use speed by 12%" +
                 "\nIncreases flight time by 50%" +
                 "\n50% increased Shriek of Horror range");
+            ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
+            ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
+            ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
         }
 
         public override void UpdateEquip(Player player)
@@ -204,26 +192,21 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 12);
-            recipe.AddIngredient(ItemID.SoulofFlight, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 12)
+                .AddIngredient(ItemID.SoulofFlight, 10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 18;
-        }
-
-        public override bool DrawBody()
-        {
-            return false;
+            Item.width = 30;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 18;
         }
     }
 
@@ -232,12 +215,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 8);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 8)
+                .AddIngredient(ItemID.SoulofLight, 6)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -249,31 +231,31 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.allDamage += 0.08f;
+            player.GetDamage(DamageClass.Generic) += 0.08f;
             player.accRunSpeed *= 1.25f;
             player.maxRunSpeed *= 1.25f;
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 12;
+            Item.width = 26;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 12;
         }
     }
 
     public class HeadhunterFrenzy : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Headhunter's Frenzy");
             Description.SetDefault("You have been sent into a state of chaos!");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {

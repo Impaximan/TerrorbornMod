@@ -1,6 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,17 +9,17 @@ namespace TerrorbornMod.Items.Ammo
     {
         public override void SetDefaults()
         {
-            item.damage = 5;
-            item.ranged = true;
-            item.width = 14;
-            item.height = 22;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 1;
-            item.shootSpeed = 0;
-            item.rare = ItemRarityID.White;
-            item.shoot = mod.ProjectileType("FrostburnDartProjectile");
-            item.ammo = AmmoID.Dart;
+            Item.damage = 5;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 14;
+            Item.height = 22;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 1;
+            Item.shootSpeed = 0;
+            Item.rare = ItemRarityID.White;
+            Item.shoot = ModContent.ProjectileType<FrostburnDartProjectile>();
+            Item.ammo = AmmoID.Dart;
         }
         //public override bool HoldItemFrame(Player player)
         //{
@@ -30,12 +28,11 @@ namespace TerrorbornMod.Items.Ammo
         //}
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<WoodDart>(), 10);
-            recipe.AddIngredient(ItemID.IceTorch);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 10);
-            recipe.AddRecipe();
+            CreateRecipe(10)
+                .AddIngredient(ModContent.ItemType<WoodDart>(), 10)
+                .AddIngredient(ItemID.IceBlock, 2)
+                .AddTile(TileID.WorkBenches)
+                .Register();
         }
     }
     class FrostburnDartProjectile : ModProjectile
@@ -47,13 +44,13 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 22;
-            projectile.ranged = true;
-            projectile.timeLeft = 1000;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
+            Projectile.width = 14;
+            Projectile.height = 22;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 1000;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
         }
         int DustCooldown = 69;
         public override void AI()
@@ -62,14 +59,14 @@ namespace TerrorbornMod.Items.Ammo
             {
                 DustCooldown = Main.rand.Next(5, 10);
             }
-            projectile.velocity.Y += 0.1f;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            Projectile.velocity.Y += 0.1f;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
             DustCooldown--;
             if (DustCooldown <= 0)
             {
                 DustCooldown = Main.rand.Next(5, 10);
-                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135);
-                Main.dust[dust].velocity = projectile.velocity;
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 135);
+                Main.dust[dust].velocity = Projectile.velocity;
                 Main.dust[dust].noGravity = true;
             }
         }
@@ -84,10 +81,10 @@ namespace TerrorbornMod.Items.Ammo
         {
             if (Main.rand.Next(101) <= 20)
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("FrostburnDart"));
+                Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<FrostburnDart>());
             }
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
         }
     }
 }

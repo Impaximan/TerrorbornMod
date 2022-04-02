@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Magic
 {
@@ -11,30 +12,30 @@ namespace TerrorbornMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Bubble Wand");
             Tooltip.SetDefault("Rapidly fires bubbles that vary in speed");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.Green;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.magic = true;
-            item.UseSound = SoundID.Item13;
-            item.mana = 2;
-            item.damage = 8;
-            item.shootSpeed = 10;
-            item.knockBack = 1;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.shoot = mod.ProjectileType("MagicBubble");
-            item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.DamageType = DamageClass.Magic;;
+            Item.UseSound = SoundID.Item13;
+            Item.mana = 2;
+            Item.damage = 8;
+            Item.shootSpeed = 10;
+            Item.knockBack = 1;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shoot = ModContent.ProjectileType<MagicBubble>();
+            Item.value = Item.sellPrice(0, 1, 0, 0);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < 2; i++)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX * Main.rand.NextFloat(1, 2.5f), speedY * Main.rand.NextFloat(1, 2.5f)).RotatedByRandom(MathHelper.ToRadians(5)), type, item.damage, knockBack, Owner: item.owner);
+                Projectile.NewProjectile(source, position, new Vector2(velocity.X * Main.rand.NextFloat(1, 2.5f), velocity.Y * Main.rand.NextFloat(1, 2.5f)).RotatedByRandom(MathHelper.ToRadians(5)), type, Item.damage, knockback, Owner: player.whoAmI);
             }
             return false;
         }
@@ -44,17 +45,17 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override string Texture => "TerrorbornMod/Items/Bubble";
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.timeLeft = 60;
-            projectile.penetrate = 1;
-            projectile.hide = false;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.timeLeft = 60;
+            Projectile.penetrate = 1;
+            Projectile.hide = false;
         }
         public override void AI()
         {
-            projectile.velocity *= 0.98f;
+            Projectile.velocity *= 0.98f;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -62,7 +63,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item54, projectile.position);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item54, Projectile.position);
         }
     }
 }

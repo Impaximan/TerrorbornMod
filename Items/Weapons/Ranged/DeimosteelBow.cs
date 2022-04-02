@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,21 +14,21 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 13;
-            item.ranged = true;
-            item.width = 18;
-            item.height = 36;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2;
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 18f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 13;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 18;
+            Item.height = 36;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 18f;
+            Item.useAmmo = AmmoID.Arrow;
         }
 
         //public override Vector2? HoldoutOffset()
@@ -40,20 +38,18 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 7);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 7)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             if (type == ProjectileID.WoodenArrowFriendly)
             {
                 type = ModContent.ProjectileType<DarkBeam>();
             }
-            return true;
         }
     }
 
@@ -61,30 +57,30 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     {
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.extraUpdates = 2;
-            projectile.timeLeft = 30 * (projectile.extraUpdates + 1);
-            projectile.penetrate = 3;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.width = 4;
-            projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.extraUpdates = 2;
+            Projectile.timeLeft = 30 * (Projectile.extraUpdates + 1);
+            Projectile.penetrate = 3;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.width = 4;
+            Projectile.height = 4;
         }
 
         public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.ShadowBeamFriendly; } }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }
@@ -92,12 +88,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.damage = (int)(projectile.damage * 0.8);
+            Projectile.damage = (int)(Projectile.damage * 0.8);
         }
 
         public override void AI()
         {
-            Dust dust = Dust.NewDustPerfect(projectile.Center, 54);
+            Dust dust = Dust.NewDustPerfect(Projectile.Center, 54);
             dust.noGravity = true;
         }
     }

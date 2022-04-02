@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -12,13 +11,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 15)
+                .AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 10)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -30,11 +28,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 12;
+            Item.width = 28;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 12;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -49,9 +47,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
                 "\n10% increased critical strike chance" +
                 "\n+10 max life";
             player.statLifeMax2 += 10;
-            player.magicCrit += 10;
-            player.rangedCrit += 10;
-            player.meleeCrit += 10;
+            player.GetCritChance(DamageClass.Generic) += 10;
 
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.SoulReaperArmorBonus = true;
@@ -62,11 +58,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             player.statLifeMax2 += 10;
             modPlayer.restlessDamage += 0.10f;
-            float otherDamageIncrease = 0.05f;
-            player.magicDamage += otherDamageIncrease;
-            player.rangedDamage += otherDamageIncrease;
-            player.meleeDamage += otherDamageIncrease;
-            player.minionDamage += otherDamageIncrease;
+            player.GetDamage(DamageClass.Generic) *= 1.05f;
         }
     }
 
@@ -75,13 +67,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 24);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 16);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 24)
+                .AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 16)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -93,16 +84,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 14;
-        }
-
-        public override bool DrawBody()
-        {
-            return false;
+            Item.width = 34;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 14;
         }
 
         public override void UpdateEquip(Player player)
@@ -110,11 +96,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             player.statLifeMax2 += 20;
             modPlayer.restlessNonChargedUseSpeed *= 1.3f;
-            float otherDamageIncrease = 0.05f;
-            player.magicDamage += otherDamageIncrease;
-            player.rangedDamage += otherDamageIncrease;
-            player.meleeDamage += otherDamageIncrease;
-            player.minionDamage += otherDamageIncrease;
+            player.GetDamage(DamageClass.Generic) *= 1.05f;
         }
     }
 
@@ -123,13 +105,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 12)
+                .AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 8)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -141,11 +122,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 10;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 10;
         }
 
         public override void UpdateEquip(Player player)
@@ -153,11 +134,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             player.statLifeMax2 += 10;
             modPlayer.restlessChargedUseSpeed *= 1.1f;
-            float otherDamageIncrease = 0.05f;
-            player.magicDamage += otherDamageIncrease;
-            player.rangedDamage += otherDamageIncrease;
-            player.meleeDamage += otherDamageIncrease;
-            player.minionDamage += otherDamageIncrease;
+            player.GetDamage(DamageClass.Generic) *= 1.05f;
         }
     }
 
@@ -165,21 +142,21 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 30;
+            Item.width = 28;
+            Item.height = 30;
         }
 
         public override void SetStaticDefaults()
         {
-            ItemID.Sets.ItemNoGravity[item.type] = true;
-            ItemID.Sets.ItemIconPulse[item.type] = true;
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+            ItemID.Sets.ItemIconPulse[Item.type] = true;
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
         }
 
         public override bool OnPickup(Player player)
         {
             player.AddBuff(ModContent.BuffType<Buffs.SoulManiac>(), 60 * 5);
-            Main.PlaySound(SoundID.Item4, player.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item4, player.Center);
             CombatText.NewText(player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), "Soul Maniac!");
             return false;
         }

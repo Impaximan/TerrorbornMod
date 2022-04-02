@@ -12,16 +12,16 @@ namespace TerrorbornMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("'It seems to run from you...'");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 8));
-            ItemID.Sets.ItemNoGravity[item.type] = true;
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.width = 18;
-            item.height = 26;
-            item.rare = ItemRarityID.Blue;
+            Item.maxStack = 999;
+            Item.width = 18;
+            Item.height = 26;
+            Item.rare = ItemRarityID.Blue;
         }
 
         Color restlessColor = Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255);
@@ -43,12 +43,12 @@ namespace TerrorbornMod.Items.Materials
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            Player player = Main.player[Player.FindClosest(item.position, item.width, item.height)];
-            if (item.Distance(player.Center) <= 75)
+            Player player = Main.player[Player.FindClosest(Item.position, Item.width, Item.height)];
+            if (Item.Distance(player.Center) <= 75)
             {
-                item.velocity += item.DirectionTo(player.Center) * -0.135f;
+                Item.velocity += Item.DirectionTo(player.Center) * -0.135f;
             }
-            item.velocity = Collision.TileCollision(item.position, item.velocity, item.width, item.height);
+            Item.velocity = Collision.TileCollision(Item.position, Item.velocity, Item.width, Item.height);
         }
     }
 }

@@ -44,67 +44,67 @@ namespace TerrorbornMod
 
         public bool Intimidated = false;
 
-        public override bool CanHitPlayer(Projectile projectile, Player target)
+        public override bool CanHitPlayer(Projectile Projectile, Player target)
         {
             TerrorbornPlayer player = TerrorbornPlayer.modPlayer(target);
-            if (player.iFrames > 0 || player.VoidBlinkTime > 0 || (player.TimeFreezeTime > 0 && projectile.hostile) || player.BlinkDashTime > 0)
+            if (player.iFrames > 0 || player.VoidBlinkTime > 0 || (player.TimeFreezeTime > 0 && Projectile.hostile) || player.BlinkDashTime > 0)
             {
                 return false;
             }
-            return base.CanHitPlayer(projectile, target);
+            return base.CanHitPlayer(Projectile, target);
         }
 
-        public override bool? CanHitNPC(Projectile projectile, NPC target)
+        public override bool? CanHitNPC(Projectile Projectile, NPC target)
         {
-            TerrorbornPlayer player = TerrorbornPlayer.modPlayer(Main.player[projectile.owner]);
-            if (player.TimeFreezeTime > 0 && projectile.hostile)
+            TerrorbornPlayer player = TerrorbornPlayer.modPlayer(Main.player[Projectile.owner]);
+            if (player.TimeFreezeTime > 0 && Projectile.hostile)
             {
                 return false;
             }
-            return base.CanHitNPC(projectile, target);
+            return base.CanHitNPC(Projectile, target);
         }
 
-        public override void SetDefaults(Projectile projectile)
+        public override void SetDefaults(Projectile Projectile)
         {
-            if (projectile.type == ProjectileID.JestersArrow || projectile.type == ProjectileID.UnholyArrow)
+            if (Projectile.type == ProjectileID.JestersArrow || Projectile.type == ProjectileID.UnholyArrow)
             {
-                projectile.usesLocalNPCImmunity = true;
-                projectile.localNPCHitCooldown = -1;
+                Projectile.usesLocalNPCImmunity = true;
+                Projectile.localNPCHitCooldown = -1;
             }
-            if (projectile.type == ProjectileID.MeteorShot)
+            if (Projectile.type == ProjectileID.MeteorShot)
             {
-                projectile.usesLocalNPCImmunity = true;
-                projectile.localNPCHitCooldown = 15;
+                Projectile.usesLocalNPCImmunity = true;
+                Projectile.localNPCHitCooldown = 15;
             }
         }
 
-        public override bool PreAI(Projectile projectile)
+        public override bool PreAI(Projectile Projectile)
         {
             Player player = Main.LocalPlayer;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            if (modPlayer.TimeFreezeTime > 0 && projectile.hostile)
+            if (modPlayer.TimeFreezeTime > 0 && Projectile.hostile)
             {
-                projectile.position -= projectile.velocity;
-                projectile.timeLeft++;
+                Projectile.position -= Projectile.velocity;
+                Projectile.timeLeft++;
                 return false;
             }
-            return base.PreAI(projectile);
+            return base.PreAI(Projectile);
         }
 
-        public static TerrorbornProjectile modProjectile(Projectile projectile)
+        public static TerrorbornProjectile modProjectile(Projectile Projectile)
         {
-            return projectile.GetGlobalProjectile<TerrorbornProjectile>();
+            return Projectile.GetGlobalProjectile<TerrorbornProjectile>();
         }
 
-        public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(Projectile Projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
         }
 
-        public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Projectile Projectile, NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             if (modPlayer.combatTime < 300)
@@ -124,7 +124,7 @@ namespace TerrorbornMod
 
             if (player.HeldItem != null && player != null)
             {
-                if (modPlayer.PyroclasticShinobiBonus && crit && TerrorbornItem.modItem(player.HeldItem).countAsThrown && projectile.friendly)
+                if (modPlayer.PyroclasticShinobiBonus && crit && TerrorbornItem.modItem(player.HeldItem).countAsThrown && Projectile.friendly)
                 {
                     modPlayer.SuperthrowNext = true;
                 }
@@ -137,39 +137,39 @@ namespace TerrorbornMod
 
             if (superthrow && !bannedTypes.Contains(target.type))
             {
-                DustExplosion(projectile.Center, 0, 45, 30, DustID.Fire, DustScale: 1f, NoGravity: true);
-                Main.PlaySound(SoundID.Item14, projectile.Center);
-                TerrorbornMod.ScreenShake(1.5f);
+                DustExplosion(Projectile.Center, 0, 45, 30, 6, DustScale: 1f, NoGravity: true);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+                TerrorbornSystem.ScreenShake(1.5f);
                 for (int i = 0; i < 200; i++)
                 {
-                    NPC npc = Main.npc[i];
-                    if (!npc.friendly && projectile.Distance(npc.Center) <= 200 + (npc.width + npc.height) / 2 && !npc.dontTakeDamage)
+                    NPC NPC = Main.npc[i];
+                    if (!NPC.friendly && Projectile.Distance(NPC.Center) <= 200 + (NPC.width + NPC.height) / 2 && !NPC.dontTakeDamage)
                     {
-                        if (npc.type == NPCID.TheDestroyerBody)
+                        if (NPC.type == NPCID.TheDestroyerBody)
                         {
-                            npc.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                            NPC.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.GetCritChance(DamageClass.Melee));
                         }
                         else
                         {
-                            npc.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.meleeCrit);
+                            NPC.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.GetCritChance(DamageClass.Melee));
                         }
 
                         int choice = Main.rand.Next(4);
                         if (choice == 0)
                         {
-                            npc.AddBuff(BuffID.OnFire, 60 * 5);
+                            NPC.AddBuff(BuffID.OnFire, 60 * 5);
                         }
                         if (choice == 1)
                         {
-                            npc.AddBuff(BuffID.Frostburn, 60 * 5);
+                            NPC.AddBuff(BuffID.Frostburn, 60 * 5);
                         }
                         if (choice == 2)
                         {
-                            npc.AddBuff(BuffID.CursedInferno, 60 * 5);
+                            NPC.AddBuff(BuffID.CursedInferno, 60 * 5);
                         }
                         if (choice == 3)
                         {
-                            npc.AddBuff(BuffID.ShadowFlame, 60 * 5);
+                            NPC.AddBuff(BuffID.ShadowFlame, 60 * 5);
                         }
                     }
                 }
@@ -178,24 +178,24 @@ namespace TerrorbornMod
 
             if (VeinBurster)
             {
-                Main.PlaySound(SoundID.NPCDeath21, target.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath21, target.Center);
                 for (int i = 0; i < Main.rand.Next(3, 5); i++)
                 {
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                     float speed = Main.rand.Next(25, 35);
-                    int proj = Projectile.NewProjectile(target.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), damage, 0f, player.whoAmI);
-                    Main.projectile[proj].ranged = true;
+                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), target.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), damage, 0f, player.whoAmI);
+                    Main.projectile[proj].DamageType = DamageClass.Ranged;
                 }
             }
 
             if (ContaminatedMarine)
             {
-                Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, target.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, target.Center);
                 for (int i = 0; i < Main.rand.Next(7, 9); i++)
                 {
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                     float speed = Main.rand.Next(25, 35);
-                    Projectile.NewProjectile(target.Center, direction * speed, ModContent.ProjectileType<Items.Weapons.Restless.NightmareBoilRanged>(), damage, 0f, player.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), target.Center, direction * speed, ModContent.ProjectileType<Items.Weapons.Restless.NightmareBoilRanged>(), damage, 0f, player.whoAmI);
                 }
             }
 
@@ -204,45 +204,43 @@ namespace TerrorbornMod
                 target.AddBuff(BuffID.ShadowFlame, 60 * 3);
             }
 
-            if (modPlayer.TacticalCommlink && projectile.ranged && Main.rand.NextFloat() <= .1f)
+            if (modPlayer.TacticalCommlink && Projectile.DamageType == DamageClass.Ranged && Main.rand.NextFloat() <= .1f)
             {
                 Vector2 position = new Vector2(target.Center.X, target.position.Y - 750);
                 position.X += Main.rand.Next(-150, 150);
                 Vector2 direction = target.DirectionFrom(position);
                 float speed = 30f;
-                Projectile newProj = Main.projectile[Projectile.NewProjectile(position, direction * speed, ProjectileID.RocketI, damage, 2f, projectile.owner)];
+                Projectile newProj = Main.projectile[Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), position, direction * speed, ProjectileID.RocketI, damage, 2f, Projectile.owner)];
                 newProj.localNPCHitCooldown = -1;
                 newProj.usesLocalNPCImmunity = true;
                 newProj.tileCollide = false;
                 newProj.timeLeft = 60 * 3;
             }
 
-            if (modPlayer.ShadowAmulet && Main.rand.NextFloat() <= .35f && projectile.type != ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>())
+            if (modPlayer.ShadowAmulet && Main.rand.NextFloat() <= .35f && Projectile.type != ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>())
             {
                 Vector2 direction = player.DirectionTo(target.Center);
                 float speed = 15f;
-                Projectile newProj = Main.projectile[Projectile.NewProjectile(player.Center, direction * speed, ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>(), (int)(projectile.damage * 0.65f), 2f, projectile.owner)];
-                newProj.melee = projectile.melee;
-                newProj.ranged = projectile.ranged;
-                newProj.magic = projectile.magic;
+                Projectile newProj = Main.projectile[Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), player.Center, direction * speed, ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>(), (int)(Projectile.damage * 0.65f), 2f, Projectile.owner)];
+                newProj.DamageType = Projectile.DamageType;
             }
 
-            if (BeatStopper && projectile.type != ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>())
+            if (BeatStopper && Projectile.type != ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>())
             {
-                Main.PlaySound(SoundID.DD2_BallistaTowerShot, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_BallistaTowerShot, player.Center);
                 for (int i = 0; i < 2; i++)
                 {
                     float speed = Main.rand.NextFloat(12f, 20f);
                     Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * speed;
-                    Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>(), damage / 5, 1, player.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), player.Center, velocity, ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>(), damage / 5, 1, player.whoAmI);
                 }
             }
         }
 
         bool superthrow = false;
-        public void OnSpawn(Projectile projectile)
+        public void OnSpawn(Projectile Projectile)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             List<int> bannedProjectiles = new List<int>
@@ -255,9 +253,9 @@ namespace TerrorbornMod
 
             if (player.HeldItem != null && player != null)
             {
-                if (modPlayer.SuperthrowNext && TerrorbornItem.modItem(player.HeldItem).countAsThrown && projectile.friendly)
+                if (modPlayer.SuperthrowNext && TerrorbornItem.modItem(player.HeldItem).countAsThrown && Projectile.friendly)
                 {
-                    projectile.extraUpdates = (projectile.extraUpdates * 2) + 1;
+                    Projectile.extraUpdates = (Projectile.extraUpdates * 2) + 1;
                     superthrow = true;
                     modPlayer.SuperthrowNext = false;
                 }
@@ -265,35 +263,35 @@ namespace TerrorbornMod
         }
 
         int hellfireCooldown = 120;
-        public override void AI(Projectile projectile)
+        public override void AI(Projectile Projectile)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             if (Start)
             {
                 Start = false;
-                OnSpawn(projectile);
+                OnSpawn(Projectile);
 
-                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Ranged.Beatstopper>() && projectile.Distance(player.Center) <= 100)
+                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Ranged.Beatstopper>() && Projectile.Distance(player.Center) <= 100)
                 {
                     BeatStopper = true;
                 }
             }
 
-            if (projectile.friendly)
+            if (Projectile.friendly)
             {
-                if (player.HasBuff(mod.BuffType("HuntersMark")) && projectile.ranged)
+                if (player.HasBuff(ModContent.BuffType<Items.Equipable.Armor.HuntersMark>()) && Projectile.DamageType == DamageClass.Ranged)
                 {
                     NPC targetNPC = Main.npc[0];
                     float Distance = 375; //max distance away
                     bool Targeted = false;
                     for (int i = 0; i < 200; i++)
                     {
-                        if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                        if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                         {
                             targetNPC = Main.npc[i];
-                            Distance = Main.npc[i].Distance(projectile.Center);
+                            Distance = Main.npc[i].Distance(Projectile.Center);
                             Targeted = true;
                         }
                     }
@@ -301,17 +299,17 @@ namespace TerrorbornMod
                     {
                         //HOME IN
                         float speed = .35f;
-                        Vector2 move = targetNPC.Center - projectile.Center;
+                        Vector2 move = targetNPC.Center - Projectile.Center;
                         float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
                         move *= speed / magnitude;
-                        projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(2.5f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
+                        Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(2.5f * (Projectile.velocity.Length() / 20))).ToRotationVector2() * Projectile.velocity.Length();
                     }
                 }
             }
 
             if (superthrow)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, 235);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 235);
                 dust.noGravity = true;
                 dust.velocity = Vector2.Zero;
                 dust.scale = 2f;
@@ -319,7 +317,7 @@ namespace TerrorbornMod
 
             if (Shadowflame)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, 27);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 27);
                 dust.noGravity = true;
                 dust.velocity = Vector2.Zero;
                 dust.scale = 2f;

@@ -18,19 +18,19 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = ItemRarityID.Blue;
-            item.defense = 4;
-            item.knockBack = knockback;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            TerrorbornItem.modItem(item).parryShield = true;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 4;
+            Item.knockBack = knockback;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            TerrorbornItem.modItem(Item).parryShield = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.parryColor = Color.SaddleBrown;
-            TBUtils.Accessories.UpdateParryShield(cooldown, item, player);
+            TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);
         }
     }
 }

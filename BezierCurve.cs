@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod
 {
-	public class BezierCurve // Bezier Curve Method, made by Seraph
+    public class BezierCurve // Bezier Curve Method, made by Seraph
 	{
 		public List<Vector2> Controls; // the points used for the "verticies" of the curver
 		public BezierCurve(params Vector2[] controlPoints)

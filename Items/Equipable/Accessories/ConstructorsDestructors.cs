@@ -19,14 +19,14 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 34;
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Pink;
-            item.defense = 8;
-            item.value = Item.sellPrice(0, 15, 0, 0);
-            item.expert = true;
+            Item.width = 32;
+            Item.height = 34;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 8;
+            Item.value = Item.sellPrice(0, 15, 0, 0);
+            Item.expert = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -37,17 +37,17 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             bool destructorActive = true;
             for (int i = 0; i < 1000; i++)
             {
-                Projectile projectile = Main.projectile[i];
-                if (projectile.type == ModContent.ProjectileType<ConstructorsDestructorsClaw>() && projectile.active)
+                Projectile Projectile = Main.projectile[i];
+                if (Projectile.type == ModContent.ProjectileType<ConstructorsDestructorsClaw>() && Projectile.active)
                 {
                     destructorActive = false;
                 }
             }
             if (destructorActive)
             {
-                int proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ConstructorsDestructorsClaw>(), 50, 0, player.whoAmI);
+                int proj = Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ConstructorsDestructorsClaw>(), 50, 0, player.whoAmI);
                 Main.projectile[proj].ai[0] = 1;
-                proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ConstructorsDestructorsClaw>(), 50, 0, player.whoAmI);
+                proj = Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ConstructorsDestructorsClaw>(), 50, 0, player.whoAmI);
                 Main.projectile[proj].ai[0] = -1;
             }
         }
@@ -57,39 +57,39 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.friendly = false;
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.width = 78;
-            projectile.height = 76;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.friendly = false;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.width = 78;
+            Projectile.height = 76;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            if (projectile.frame == 2)
+            if (Projectile.frame == 2)
             {
-                spriteBatch.Draw(ModContent.GetTexture(Texture), projectile.Center - Main.screenPosition, new Rectangle(0, projectile.frame * projectile.height, projectile.width, projectile.height), Color.White, projectile.rotation, new Vector2(projectile.width / 2, 42), projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * Projectile.height, Projectile.width, Projectile.height), Color.White, Projectile.rotation, new Vector2(Projectile.width / 2, 42), Projectile.scale, SpriteEffects.None, 0f);
             }
             else
             {
-                spriteBatch.Draw(ModContent.GetTexture(Texture), projectile.Center - Main.screenPosition, new Rectangle(0, projectile.frame * projectile.height, projectile.width, projectile.height), Color.White, projectile.rotation, new Vector2(projectile.width / 2, 45), projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * Projectile.height, Projectile.width, Projectile.height), Color.White, Projectile.rotation, new Vector2(Projectile.width / 2, 45), Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
         }
 
         public override bool? CanHitNPC(NPC target)
@@ -99,10 +99,10 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public void HoverAroundPlayer(Player player)
         {
-            projectile.frame = 2;
-            projectile.rotation += MathHelper.ToRadians(15f) * -projectile.ai[0];
-            Vector2 targetPosition = player.Center + new Vector2(250 * projectile.ai[0], 0).RotatedBy(Math.Sin(projectile.ai[1] / 25f) * MathHelper.ToRadians(35f));
-            projectile.velocity = (targetPosition - projectile.Center) / 5f;
+            Projectile.frame = 2;
+            Projectile.rotation += MathHelper.ToRadians(15f) * -Projectile.ai[0];
+            Vector2 targetPosition = player.Center + new Vector2(250 * Projectile.ai[0], 0).RotatedBy(Math.Sin(Projectile.ai[1] / 25f) * MathHelper.ToRadians(35f));
+            Projectile.velocity = (targetPosition - Projectile.Center) / 5f;
         }
 
         float direction = 0f;
@@ -116,8 +116,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         float rotationAmount = 0f;
         public override void AI()
         {
-            projectile.ai[1]++;
-            Player player = Main.player[projectile.owner];
+            Projectile.ai[1]++;
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer superiorPlayer = TerrorbornPlayer.modPlayer(player);
             Item item = player.HeldItem;
 
@@ -132,38 +132,32 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                     }
                     else
                     {
-                        projectile.friendly = false;
-                        if (item.melee)
+                        Projectile.friendly = false;
+                        if (item.DamageType == DamageClass.Melee)
                         {
-                            projectile.friendly = true;
+                            Projectile.friendly = true;
                             AIPhase = 1;
                             attackCounter1 = 0;
                             attackCounter2 = 0;
-                            projectile.damage = (int)(40 * player.meleeDamage * player.allDamageMult);
-                            projectile.melee = true;
-                            projectile.magic = false;
-                            projectile.ranged = false;
-                            projectile.localNPCHitCooldown = 25;
+                            Projectile.damage = (int)(40 * player.GetDamage(DamageClass.Melee).Multiplicative * player.GetDamage(DamageClass.Generic).Multiplicative);
+                            Projectile.DamageType = DamageClass.Melee;
+                            Projectile.localNPCHitCooldown = 25;
                         }
-                        else if (item.magic)
+                        else if (item.DamageType == DamageClass.Magic)
                         {
                             AIPhase = 2;
                             attackCounter1 = 0;
                             attackCounter2 = 0;
-                            projectile.melee = false;
-                            projectile.magic = true;
-                            projectile.ranged = false;
-                            attackDirection = projectile.DirectionTo(Main.MouseWorld);
-                            Main.PlaySound(SoundID.Zombie, (int)projectile.Center.X, (int)projectile.Center.Y, 104, 0.5f, 2f);
+                            Projectile.DamageType = DamageClass.Magic;
+                            attackDirection = Projectile.DirectionTo(Main.MouseWorld);
+                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.Center.X, (int)Projectile.Center.Y, 104, 0.5f, 2f);
                         }
-                        else if (item.ranged)
+                        else if (item.DamageType == DamageClass.Ranged)
                         {
                             AIPhase = 3;
-                            projectile.melee = false;
-                            projectile.magic = false;
-                            projectile.ranged = true;
+                            Projectile.DamageType = DamageClass.Ranged;
                             attackCounter1 = 0;
-                            currentOffset = projectile.Center - player.Center;
+                            currentOffset = Projectile.Center - player.Center;
                             attackCounter2 = 0;
                             lerpAmount = 0f;
                         }
@@ -173,51 +167,51 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 {
                     if (attackCounter2 == 0)
                     {
-                        projectile.velocity = projectile.DirectionTo(Main.MouseWorld) * projectile.Distance(Main.MouseWorld) / 10f;
-                        projectile.rotation = projectile.DirectionTo(Main.MouseWorld).RotatedBy(MathHelper.ToRadians(90)).ToRotation();
-                        projectile.frame = 0;
+                        Projectile.velocity = Projectile.DirectionTo(Main.MouseWorld) * Projectile.Distance(Main.MouseWorld) / 10f;
+                        Projectile.rotation = Projectile.DirectionTo(Main.MouseWorld).RotatedBy(MathHelper.ToRadians(90)).ToRotation();
+                        Projectile.frame = 0;
                         attackCounter2++;
                     }
                     else if (attackCounter2 == 1)
                     {
-                        projectile.rotation = projectile.rotation.AngleLerp(projectile.DirectionTo(Main.MouseWorld).RotatedBy(MathHelper.ToRadians(90)).ToRotation(), 0.1f);
+                        Projectile.rotation = Projectile.rotation.AngleLerp(Projectile.DirectionTo(Main.MouseWorld).RotatedBy(MathHelper.ToRadians(90)).ToRotation(), 0.1f);
                         attackCounter1++;
                         if (attackCounter1 > 25)
                         {
                             AIPhase = 0;
                             cooldownTime = (int)(Main.rand.Next(25, 35) / player.meleeSpeed / superiorPlayer.allUseSpeed);
                         }
-                        projectile.velocity *= 0.95f;
+                        Projectile.velocity *= 0.95f;
                     }
                 }
                 else if (AIPhase == 2)
                 {
-                    projectile.rotation += MathHelper.ToRadians(25f) * -projectile.ai[0];
-                    projectile.velocity *= 0.98f;
+                    Projectile.rotation += MathHelper.ToRadians(25f) * -Projectile.ai[0];
+                    Projectile.velocity *= 0.98f;
                     attackCounter1++;
                     if (attackCounter1 > 60)
                     {
                         AIPhase = 0;
                         cooldownTime = (int)(120 / superiorPlayer.magicUseSpeed / superiorPlayer.allUseSpeed);
                     }
-                    attackDirection = attackDirection.ToRotation().AngleLerp(projectile.DirectionTo(Main.MouseWorld).ToRotation(), 0.1f).ToRotationVector2();
-                    int proj = Projectile.NewProjectile(projectile.Center, attackDirection, ModContent.ProjectileType<ClockworkDeathrayFriendly>(), (int)(50 * player.magicDamage * player.allDamageMult), 0.1f, projectile.owner);
-                    Main.projectile[proj].ai[0] = projectile.whoAmI;
-                    TerrorbornMod.ScreenShake(1.5f);
+                    attackDirection = attackDirection.ToRotation().AngleLerp(Projectile.DirectionTo(Main.MouseWorld).ToRotation(), 0.1f).ToRotationVector2();
+                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, attackDirection, ModContent.ProjectileType<ClockworkDeathrayFriendly>(), (int)(50 * player.GetDamage(DamageClass.Magic).Multiplicative * player.GetDamage(DamageClass.Generic).Multiplicative), 0.1f, Projectile.owner);
+                    Main.projectile[proj].ai[0] = Projectile.whoAmI;
+                    TerrorbornSystem.ScreenShake(1.5f);
                 }
                 else if (AIPhase == 3)
                 {
-                    rotationAmount = (float)Math.Sin(projectile.ai[1] / 20f) * 50f;
+                    rotationAmount = (float)Math.Sin(Projectile.ai[1] / 20f) * 50f;
                     attackDirection = player.DirectionTo(Main.MouseWorld);
-                    Vector2 targetOffset = attackDirection.RotatedBy(MathHelper.ToRadians(rotationAmount * projectile.ai[0])) * 150f;
+                    Vector2 targetOffset = attackDirection.RotatedBy(MathHelper.ToRadians(rotationAmount * Projectile.ai[0])) * 150f;
                     if (lerpAmount < 1f)
                     {
                         lerpAmount += 1f / 60f;
                     }
                     currentOffset = Vector2.Lerp(currentOffset, targetOffset, lerpAmount);
-                    projectile.position = player.Center + currentOffset - projectile.Size / 2;
-                    projectile.rotation = attackDirection.RotatedBy(MathHelper.ToRadians(rotationAmount * projectile.ai[0] + 90f)).ToRotation();
-                    projectile.frame = 1;
+                    Projectile.position = player.Center + currentOffset - Projectile.Size / 2;
+                    Projectile.rotation = attackDirection.RotatedBy(MathHelper.ToRadians(rotationAmount * Projectile.ai[0] + 90f)).ToRotation();
+                    Projectile.frame = 1;
                     if (player.itemTime <= 0)
                     {
                         AIPhase = 0;
@@ -226,8 +220,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                     if (attackCounter1 >= 15 / superiorPlayer.rangedUseSpeed / superiorPlayer.allUseSpeed)
                     {
                         attackCounter1 = 0;
-                        Main.PlaySound(SoundID.Item125, projectile.Center);
-                        Projectile.NewProjectile(projectile.Center, attackDirection.RotatedBy(MathHelper.ToRadians(rotationAmount * projectile.ai[0])) * 25f, ModContent.ProjectileType<HellbornLaserFriendly>(), (int)(35 * player.rangedDamage * player.allDamageMult), 0.1f, projectile.owner);
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item125, Projectile.Center);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, attackDirection.RotatedBy(MathHelper.ToRadians(rotationAmount * Projectile.ai[0])) * 25f, ModContent.ProjectileType<HellbornLaserFriendly>(), (int)(35 * player.GetDamage(DamageClass.Ranged).Multiplicative * player.GetDamage(DamageClass.Generic).Multiplicative), 0.1f, Projectile.owner);
                     }
                 }
             }
@@ -239,15 +233,15 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
             if (!superiorPlayer.ConstructorsDestructors)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
             else
             {
-                projectile.timeLeft = 60;
+                Projectile.timeLeft = 60;
             }
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 5;
+                Projectile.alpha -= 5;
             }
 
             direction += MathHelper.ToRadians(1f);
@@ -258,17 +252,17 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override string Texture => "TerrorbornMod/Projectiles/IncendiaryDeathray";
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 22;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.hide = false;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.timeLeft = 2;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 13;
+            Projectile.width = 18;
+            Projectile.height = 22;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.hide = false;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.timeLeft = 2;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 13;
             MoveDistance = 20f;
             RealMaxDistance = 2500f;
             bodyRect = new Rectangle(0, 24, 18, 22);
@@ -278,7 +272,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override Vector2 Position()
         {
-            return Main.projectile[(int)projectile.ai[0]].Center;
+            return Main.projectile[(int)Projectile.ai[0]].Center;
         }
     }
 
@@ -288,33 +282,33 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = false;
-            projectile.penetrate = 5;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.ranged = true;
-            projectile.timeLeft = 240;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = 5;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 240;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -328,14 +322,14 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 for (int i = 0; i < positions.Count; i++)
                 {
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.Lerp(Color.Crimson, new Color(255, 194, 177), mult)) * mult;
-                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * mult), color);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.Lerp(Color.Crimson, new Color(255, 194, 177), mult)) * mult;
+                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * mult), color);
                 }
             }
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return false;
         }
 
@@ -351,7 +345,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
     }
 }

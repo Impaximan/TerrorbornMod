@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
@@ -18,27 +19,28 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.3f;
-            item.damage = 115;
-            item.ranged = true;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.width = 112;
-            item.height = 46;
-            item.useTime = 4;
-            item.useAnimation = 4;
-            item.knockBack = 1f;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Effects/CoolerMachineGun");
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.value = Item.sellPrice(0, 25, 0, 0);
-            item.rare = 12;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
-            item.scale = 1f;
-            item.channel = true;
-            item.reuseDelay = baseReuseDelay;
+            Item.damage = 115;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.width = 112;
+            Item.height = 46;
+            Item.useTime = 4;
+            Item.useAnimation = 4;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item11; //TODO: Make this a custom sound
+
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.value = Item.sellPrice(0, 25, 0, 0);
+            Item.rare = 12;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.scale = 1f;
+            Item.channel = true;
+            Item.reuseDelay = baseReuseDelay;
         }
 
         public override Vector2? HoldoutOffset()
@@ -48,78 +50,72 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 3);
-            recipe.AddIngredient(ItemID.LunarBar, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 3)
+                .AddIngredient(ItemID.LunarBar, 10)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void UpdateInventory(Player player)
         {
             if (!player.channel)
             {
-                item.reuseDelay = baseReuseDelay;
+                Item.reuseDelay = baseReuseDelay;
             }
         }
 
         bool nextShotIsNuke = false;
         public override bool CanUseItem(Player player)
         {
-            TerrorbornMod.ScreenShake(0.5f);
-            item.reuseDelay -= 2;
-            if (item.reuseDelay <= 0)
+            TerrorbornSystem.ScreenShake(0.5f);
+            Item.reuseDelay -= 2;
+            if (Item.reuseDelay <= 0)
             {
-                item.reuseDelay = baseReuseDelay;
+                Item.reuseDelay = baseReuseDelay;
                 nextShotIsNuke = true;
-                TerrorbornMod.ScreenShake(1.5f);
+                TerrorbornSystem.ScreenShake(1.5f);
             }
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (nextShotIsNuke)
             {
                 nextShotIsNuke = false;
-                Main.PlaySound(SoundID.Item61, player.Center);
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<MiniNuke>(), damage * 2, knockBack * 5f, player.whoAmI);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item61, player.Center);
+                Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), ModContent.ProjectileType<MiniNuke>(), damage * 2, knockback * 5f, player.whoAmI);
             }
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
     }
 
     class MiniNuke : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.Homing[projectile.type] = true;
-        }
-
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 34;
-            projectile.ranged = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 18;
+            Projectile.height = 34;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
         }
 
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 0, 50, 25, DustID.GoldFlame, DustScale: 1.5f, NoGravity: true);
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            DustExplosion(Projectile.Center, 0, 50, 25, DustID.GoldFlame, DustScale: 1.5f, NoGravity: true);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int i = 0; i < 200; i++)
             {
-                NPC npc = Main.npc[i];
-                if (!npc.friendly && projectile.Distance(npc.Center) <= 200 + ((npc.width + npc.height) / 2) && !npc.dontTakeDamage)
+                NPC NPC = Main.npc[i];
+                if (!NPC.friendly && Projectile.Distance(NPC.Center) <= 200 + ((NPC.width + NPC.height) / 2) && !NPC.dontTakeDamage)
                 {
-                    npc.StrikeNPC(projectile.damage, 0, 0, Main.rand.Next(101) <= Main.player[projectile.owner].rangedCrit);
-                    npc.AddBuff(BuffID.Daybreak, 60 * 10);
+                    NPC.StrikeNPC(Projectile.damage, 0, 0, Main.rand.Next(101) <= Main.player[Projectile.owner].GetCritChance(DamageClass.Ranged));
+                    NPC.AddBuff(BuffID.Daybreak, 60 * 10);
                 }
             }
         }
@@ -146,20 +142,20 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AI()
         {
-            if (projectile.velocity.X <= 0)
+            if (Projectile.velocity.X <= 0)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(90);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.ToRadians(90);
             NPC targetNPC = Main.npc[0];
             float Distance = 500; //max distance away
             bool Targeted = false;
             for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                 {
                     targetNPC = Main.npc[i];
-                    Distance = Main.npc[i].Distance(projectile.Center);
+                    Distance = Main.npc[i].Distance(Projectile.Center);
                     Targeted = true;
                 }
             }
@@ -167,33 +163,33 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             {
                 //HOME IN
                 float speed = 1.2f;
-                projectile.velocity += projectile.DirectionTo(targetNPC.Center) * speed;
-                projectile.velocity *= 0.95f;
+                Projectile.velocity += Projectile.DirectionTo(targetNPC.Center) * speed;
+                Projectile.velocity *= 0.95f;
             }
-            Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.GoldFlame, Vector2.Zero, 0, Scale: 1f);
+            Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.GoldFlame, Vector2.Zero, 0, Scale: 1f);
             dust.noGravity = true;
         }
 
         int bouncesLeft = 3;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
 
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             bouncesLeft--;
             if (bouncesLeft <= 0)
             {
-                projectile.timeLeft = 0;
+                Projectile.timeLeft = 0;
             }
             return false;
         }

@@ -2,8 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Melee
 {
@@ -17,22 +16,22 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.1f;
-            item.damage = 16;
-            item.melee = true;
-            item.width = 34;
-            item.height = 36;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shootSpeed = 15f;
-            item.shoot = ModContent.ProjectileType<NighEndThrown>();
+            Item.damage = 16;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 34;
+            Item.height = 36;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4f;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<NighEndThrown>();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
@@ -49,9 +48,9 @@ namespace TerrorbornMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                item.noUseGraphic = true;
-                item.autoReuse = false;
-                item.noMelee = true;
+                Item.noUseGraphic = true;
+                Item.autoReuse = false;
+                Item.noMelee = true;
                 if (TerrorbornPlayer.modPlayer(player).TerrorPercent < 25f)
                 {
                     return false;
@@ -60,14 +59,14 @@ namespace TerrorbornMod.Items.Weapons.Melee
             }
             else
             {
-                item.noUseGraphic = false;
-                item.autoReuse = true;
-                item.noMelee = false;
+                Item.noUseGraphic = false;
+                Item.autoReuse = true;
+                Item.noMelee = false;
             }
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -82,47 +81,47 @@ namespace TerrorbornMod.Items.Weapons.Melee
         public override string Texture => "TerrorbornMod/Items/Weapons/Melee/NighEndSaber";
         public override void SetDefaults()
         {
-            projectile.width = 34;
-            projectile.height = 36;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.melee = true;
-            projectile.hide = false;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.timeLeft = 3000;
+            Projectile.width = 34;
+            Projectile.height = 36;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.hide = false;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.timeLeft = 3000;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 originalPosition = player.Center;
             player.position = target.Center - player.Size / 2;
             target.position = originalPosition - target.Size / 2;
-            Main.PlaySound(SoundID.Item6, player.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item6, player.Center);
         }
 
         public override void AI()
         {
-            if (projectile.velocity.X > 0)
+            if (Projectile.velocity.X > 0)
             {
-                projectile.spriteDirection = 1;
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+                Projectile.spriteDirection = 1;
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             }
             else
             {
-                projectile.spriteDirection = -1;
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
+                Projectile.spriteDirection = -1;
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Tink, projectile.position, 0);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Tink, Projectile.position, 0);
         }
     }
 }

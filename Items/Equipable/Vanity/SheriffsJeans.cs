@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Vanity
 {
@@ -16,11 +15,11 @@ namespace TerrorbornMod.Items.Equipable.Vanity
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.vanity = true;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.vanity = true;
         }
     }
 }

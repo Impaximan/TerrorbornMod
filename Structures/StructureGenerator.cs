@@ -11,7 +11,7 @@ namespace TerrorbornMod.Structures
         internal static void GenerateHAShrine(Mod mod, Point point)
         {
             GenerationSample sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/HAShrine"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/HAShrine"));
             sample.SetFlag(SamplingKey.Placement);
             sample.SetPosition(point);
             int tileType = ModContent.TileType<Tiles.MemorialBrick>(); // a random tile type that doesn't have Main.frameImportant flagged
@@ -25,7 +25,7 @@ namespace TerrorbornMod.Structures
             sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/HAShrine_Walls")); // creates background walls
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/HAShrine_Walls")); // creates background walls
             sample.SetFlag(SamplingKey.Walls);
             sample.SetPosition(point);
             sample.SetSamplingValues(
@@ -34,7 +34,7 @@ namespace TerrorbornMod.Structures
             sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_FrameImportant")); // places frame important tiles
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_FrameImportant")); // places frame important tiles
             //sample.SetFlag(SamplingKey.FrameImportantTiles);
             //sample.SetPosition(point);
             //sample.SetSamplingValues(
@@ -43,25 +43,25 @@ namespace TerrorbornMod.Structures
             //sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_Water"));
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_Water"));
             //sample.SetFlag(SamplingKey.LiquidWater);
             //sample.SetPosition(point);
             //sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_Lava"));
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_Lava"));
             //sample.SetFlag(SamplingKey.LiquidLava);
             //sample.SetPosition(point);
             //sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_Honey"));
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_Honey"));
             //sample.SetFlag(SamplingKey.LiquidHoney);
             //sample.SetPosition(point);
             //sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_HalfBrick"));
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_HalfBrick"));
             //sample.SetFlag(SamplingKey.HalfBrick);
             //sample.SetPosition(point);
             //sample.Apply();
@@ -70,7 +70,7 @@ namespace TerrorbornMod.Structures
         internal static void GenerateTWShrine(Mod mod, Point point)
         {
             GenerationSample sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/TWShrine"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/TWShrine"));
             sample.SetFlag(SamplingKey.Placement);
             sample.SetPosition(point);
             int tileType = ModContent.TileType<Tiles.MemorialBrick>(); // a random tile type that doesn't have Main.frameImportant flagged
@@ -85,7 +85,7 @@ namespace TerrorbornMod.Structures
             sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/TWShrine_Walls")); // creates background walls
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/TWShrine_Walls")); // creates background walls
             sample.SetFlag(SamplingKey.Walls);
             sample.SetPosition(point);
             sample.SetSamplingValues(
@@ -94,7 +94,7 @@ namespace TerrorbornMod.Structures
             sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_FrameImportant")); // places frame important tiles
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_FrameImportant")); // places frame important tiles
             //sample.SetFlag(SamplingKey.FrameImportantTiles);
             //sample.SetPosition(point);
             //sample.SetSamplingValues(
@@ -103,25 +103,25 @@ namespace TerrorbornMod.Structures
             //sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_Water"));
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_Water"));
             //sample.SetFlag(SamplingKey.LiquidWater);
             //sample.SetPosition(point);
             //sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_Lava"));
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_Lava"));
             //sample.SetFlag(SamplingKey.LiquidLava);
             //sample.SetPosition(point);
             //sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_Honey"));
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_Honey"));
             //sample.SetFlag(SamplingKey.LiquidHoney);
             //sample.SetPosition(point);
             //sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_HalfBrick"));
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_HalfBrick"));
             //sample.SetFlag(SamplingKey.HalfBrick);
             //sample.SetPosition(point);
             //sample.Apply();
@@ -130,7 +130,7 @@ namespace TerrorbornMod.Structures
         internal static void GenerateVBShrine(Mod mod, Point point)
         {
             GenerationSample sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/VBShrine"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/VBShrine"));
             sample.SetFlag(SamplingKey.Placement);
             sample.SetPosition(point);
             int tileType = ModContent.TileType<Tiles.MemorialBrick>(); // a random tile type that doesn't have Main.frameImportant flagged
@@ -146,7 +146,7 @@ namespace TerrorbornMod.Structures
             sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/VBShrine_Walls")); // creates background walls
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/VBShrine_Walls")); // creates background walls
             sample.SetFlag(SamplingKey.Walls);
             sample.SetPosition(point);
             sample.SetSamplingValues(
@@ -155,7 +155,7 @@ namespace TerrorbornMod.Structures
             sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_FrameImportant")); // places frame important tiles
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_FrameImportant")); // places frame important tiles
             //sample.SetFlag(SamplingKey.FrameImportantTiles);
             //sample.SetPosition(point);
             //sample.SetSamplingValues(
@@ -164,25 +164,25 @@ namespace TerrorbornMod.Structures
             //sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_Water"));
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_Water"));
             //sample.SetFlag(SamplingKey.LiquidWater);
             //sample.SetPosition(point);
             //sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/VBShrine_Lava"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/VBShrine_Lava"));
             sample.SetFlag(SamplingKey.LiquidLava);
             sample.SetPosition(point);
             sample.Apply();
 
             //sample = new GenerationSample();
-            //sample.SetSample(mod.GetTexture("Structures/StructureTest_Honey"));
+            //sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/StructureTest_Honey"));
             //sample.SetFlag(SamplingKey.LiquidHoney);
             //sample.SetPosition(point);
             //sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/VBShrine_HalfBrick"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/VBShrine_HalfBrick"));
             sample.SetFlag(SamplingKey.HalfBrick);
             sample.SetPosition(point);
             sample.Apply();
@@ -191,7 +191,7 @@ namespace TerrorbornMod.Structures
         internal static void GenerateSOHShrine(Mod mod, Point point)
         {
             GenerationSample sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/SOHShrine"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/SOHShrine"));
             sample.SetFlag(SamplingKey.Placement);
             sample.SetPosition(point);
             int tileType = ModContent.TileType<Tiles.MemorialBrick>();
@@ -207,7 +207,7 @@ namespace TerrorbornMod.Structures
             sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/SOHShrine_Walls"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/SOHShrine_Walls"));
             sample.SetFlag(SamplingKey.Walls);
             sample.SetPosition(point);
             sample.SetSamplingValues(
@@ -216,19 +216,19 @@ namespace TerrorbornMod.Structures
             sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/SOHShrine_HalfBrick"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/SOHShrine_HalfBrick"));
             sample.SetFlag(SamplingKey.HalfBrick);
             sample.SetPosition(point);
             sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/SOHShrine_SlopeDownRight"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/SOHShrine_SlopeDownRight"));
             sample.SetFlag(SamplingKey.SlopeDownLeft);
             sample.SetPosition(point);
             sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/SOHShrine_SlopeDownLeft"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/SOHShrine_SlopeDownLeft"));
             sample.SetFlag(SamplingKey.SlopeDownRight); //Already Tried: Slope Down Left, Slope Down Right, Slope Up Left, Slope Up Right (apparently one of the last 2)
             sample.SetPosition(point);
             sample.Apply();
@@ -237,7 +237,7 @@ namespace TerrorbornMod.Structures
         internal static void GenerateIIArena(Mod mod, Point point)
         {
             GenerationSample sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/IIArena"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/IIArena"));
             sample.SetFlag(SamplingKey.Placement);
             sample.SetPosition(point);
             int tileType = ModContent.TileType<Tiles.MemorialBrick>();
@@ -254,13 +254,13 @@ namespace TerrorbornMod.Structures
             sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/IIArena_Water"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/IIArena_Water"));
             sample.SetFlag(SamplingKey.LiquidWater);
             sample.SetPosition(point);
             sample.Apply();
 
             sample = new GenerationSample();
-            sample.SetSample(mod.GetTexture("Structures/IIArena_Walls"));
+            sample.SetSample((Texture2D)ModContent.Request<Texture2D>("Structures/IIArena_Walls"));
             sample.SetFlag(SamplingKey.Walls);
             sample.SetPosition(point);
             sample.SetSamplingValues(

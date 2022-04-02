@@ -1,19 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 
 namespace TerrorbornMod.NPCs
 {
@@ -21,45 +10,45 @@ namespace TerrorbornMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 5;
-            NPCID.Sets.TrailCacheLength[npc.type] = 3;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.width = 42;
-            npc.height = 48;
-            npc.damage = 20;
-            npc.lifeMax = 52;
-            npc.HitSound = SoundID.NPCHit36;
-            npc.DeathSound = SoundID.NPCDeath39;
-            npc.value = 250;
-            npc.knockBackResist = 0.2f;
-            npc.lavaImmune = true;
-            npc.buffImmune[BuffID.Confused] = false;
-            npc.aiStyle = 22;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.width = 42;
+            NPC.height = 48;
+            NPC.damage = 20;
+            NPC.lifeMax = 52;
+            NPC.HitSound = SoundID.NPCHit36;
+            NPC.DeathSound = SoundID.NPCDeath39;
+            NPC.value = 250;
+            NPC.knockBackResist = 0.2f;
+            NPC.lavaImmune = true;
+            NPC.buffImmune[BuffID.Confused] = false;
+            NPC.aiStyle = 22;
         }
 
         public override void NPCLoot()
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            if (TerrorbornWorld.obtainedShriekOfHorror)
+            if (TerrorbornSystem.obtainedShriekOfHorror)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.DarkEnergy>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.DarkEnergy>());
                 if (modPlayer.DeimosteelCharm)
                 {
                     if (Main.rand.NextFloat() <= 0.666f)
                     {
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                     }
                 }
                 else
                 {
                     if (Main.rand.NextFloat() <= 0.333f)
                     {
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                     }
                 }
             }
@@ -73,7 +62,7 @@ namespace TerrorbornMod.NPCs
             }
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile Projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (invulnerable)
             {
@@ -84,16 +73,16 @@ namespace TerrorbornMod.NPCs
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects effects = new SpriteEffects();
-            if (npc.direction == 1)
+            if (NPC.direction == 1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 drawOrigin = new Vector2(npc.width / 2, npc.height / 2);
-            for (int i = 0; i < npc.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(NPC.width / 2, NPC.height / 2);
+            for (int i = 0; i < NPC.oldPos.Length; i++)
             {
-                Vector2 drawPos = npc.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY) + new Vector2(0, 4);
-                Color color = npc.GetAlpha(Color.White) * ((float)(npc.oldPos.Length - i) / (float)npc.oldPos.Length);
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/NPCs/Bleak_Glow"), drawPos, npc.frame, color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+                Vector2 drawPos = NPC.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY) + new Vector2(0, 4);
+                Color color = NPC.GetAlpha(Color.White) * ((float)(NPC.oldPos.Length - i) / (float)NPC.oldPos.Length);
+                spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/Bleak_Glow"), drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
             }
         }
         int frame = 0;
@@ -103,22 +92,22 @@ namespace TerrorbornMod.NPCs
             if (invulnerable)
             {
                 frame = 4;
-                npc.frameCounter = 0;
+                NPC.frameCounter = 0;
             }
             else
             {
-                npc.frameCounter--;
-                if (npc.frameCounter <= 0)
+                NPC.frameCounter--;
+                if (NPC.frameCounter <= 0)
                 {
                     frame++;
-                    npc.frameCounter = 4;
+                    NPC.frameCounter = 4;
                 }
                 if (frame >= 4)
                 {
                     frame = 0;
                 }
             }
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -145,12 +134,12 @@ namespace TerrorbornMod.NPCs
         int invulCounter = 90;
         public override void AI()
         {
-            Player player = Main.player[npc.target];
-            npc.TargetClosest();
+            Player player = Main.player[NPC.target];
+            NPC.TargetClosest();
             if (invulnerable)
             {
-                npc.noTileCollide = false;
-                npc.knockBackResist = 0.8f;
+                NPC.noTileCollide = false;
+                NPC.knockBackResist = 0.8f;
                 invulCounter--;
                 if (invulCounter <= 0)
                 {
@@ -160,10 +149,10 @@ namespace TerrorbornMod.NPCs
             }
             else
             {
-                npc.noTileCollide = true;
-                npc.knockBackResist = 0.01f;
+                NPC.noTileCollide = true;
+                NPC.knockBackResist = 0.01f;
                 base.AI();
-                if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+                if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                 {
                     invulCounter--;
                 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Dunestock
@@ -17,22 +15,22 @@ namespace TerrorbornMod.Items.Dunestock
 
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.3f;
-            item.damage = 55;
-            item.width = 66;
-            item.height = 72;
-            item.melee = true;
-            item.channel = true;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = 100;
-            item.knockBack = 6f;
-            item.value = Item.sellPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.shoot = ModContent.ProjectileType<HungryWhirlwindProjectile>();
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.damage = 55;
+            Item.width = 66;
+            Item.height = 72;
+            Item.DamageType = DamageClass.Melee;
+            Item.channel = true;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = 100;
+            Item.knockBack = 6f;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<HungryWhirlwindProjectile>();
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
         }
     }
 
@@ -42,45 +40,45 @@ namespace TerrorbornMod.Items.Dunestock
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            hitDirection = projectile.spriteDirection;
+            hitDirection = Projectile.spriteDirection;
         }
 
         public override void SetDefaults()
         {
-            projectile.idStaticNPCHitCooldown = 6;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.width = 66;
-            projectile.height = 72;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.melee = true;
+            Projectile.idStaticNPCHitCooldown = 6;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.width = 66;
+            Projectile.height = 72;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         bool Start = true;
         int DeflectCounter = 120;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                if (npc.active && npc.Distance(projectile.Center) <= 1000 && !npc.friendly && Collision.CanHitLine(projectile.Center, 1, 1, npc.Center, 1, 1))
+                if (NPC.active && NPC.Distance(Projectile.Center) <= 1000 && !NPC.friendly && Collision.CanHitLine(Projectile.Center, 1, 1, NPC.Center, 1, 1))
                 {
-                    npc.velocity += npc.DirectionTo(projectile.Center) * 0.3f * npc.knockBackResist;
+                    NPC.velocity += NPC.DirectionTo(Projectile.Center) * 0.3f * NPC.knockBackResist;
                 }
             }
 
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 vector2000 = Main.MouseWorld - vector;
             vector2000.Normalize();
-            projectile.soundDelay--;
-            if (projectile.soundDelay <= 0)
+            Projectile.soundDelay--;
+            if (Projectile.soundDelay <= 0)
             {
-                Main.PlaySound(SoundID.Item71, (int)projectile.Center.X, (int)projectile.Center.Y);
-                projectile.soundDelay = 25;
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                Projectile.soundDelay = 25;
 
             }
 
@@ -89,36 +87,36 @@ namespace TerrorbornMod.Items.Dunestock
             {
                 if (modPlayer.TerrorPercent < TerrorbornItem.modItem(player.HeldItem).TerrorCost / 60f)
                 {
-                    projectile.active = false;
-                    projectile.timeLeft = 0;
+                    Projectile.active = false;
+                    Projectile.timeLeft = 0;
                     return;
                 }
                 modPlayer.LoseTerror(TerrorbornItem.modItem(player.HeldItem).TerrorCost, true, true);
             }
 
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 if (!player.channel || player.noItems || player.CCed)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
 
-            Dust dust = Dust.NewDustPerfect(projectile.Center + projectile.rotation.ToRotationVector2() * 33, DustID.GoldFlame);
+            Dust dust = Dust.NewDustPerfect(Projectile.Center + Projectile.rotation.ToRotationVector2() * 33, DustID.GoldFlame);
             dust.noGravity = true;
             dust.scale = 1.5f;
-            dust.velocity = projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(90 * projectile.spriteDirection)) * 5;
-            //Lighting.AddLight(projectile.Center, 0.5f, 0.5f, 0.7f);
-            projectile.Center = player.MountedCenter;
-            projectile.position.X += player.width / 2 * player.direction;
-            projectile.spriteDirection = player.direction;
+            dust.velocity = Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(90 * Projectile.spriteDirection)) * 5;
+            //Lighting.AddLight(Projectile.Center, 0.5f, 0.5f, 0.7f);
+            Projectile.Center = player.MountedCenter;
+            Projectile.position.X += player.width / 2 * player.direction;
+            Projectile.spriteDirection = player.direction;
             player.ChangeDir((int)(vector2000.X / (float)Math.Abs(vector2000.X)));
-            player.heldProj = projectile.whoAmI;
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
             player.bodyFrame.Y = 3 * player.bodyFrame.Height;
-            projectile.rotation += MathHelper.ToRadians(25f) * projectile.spriteDirection;
+            Projectile.rotation += MathHelper.ToRadians(25f) * Projectile.spriteDirection;
         }
     }
 }

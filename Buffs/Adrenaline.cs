@@ -6,14 +6,14 @@ namespace TerrorbornMod.Buffs
 {
     class Adrenaline : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Adrenaline");
             Description.SetDefault("Increased attack speed at low health");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
 
         public override void Update(Player player, ref int buffIndex)

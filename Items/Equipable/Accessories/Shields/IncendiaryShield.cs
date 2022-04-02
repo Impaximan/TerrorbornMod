@@ -17,12 +17,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = ItemRarityID.LightRed;
-            item.defense = 8;
-            item.knockBack = knockback;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            TerrorbornItem.modItem(item).parryShield = true;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.LightRed;
+            Item.defense = 8;
+            Item.knockBack = knockback;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            TerrorbornItem.modItem(Item).parryShield = true;
         }
 
         int dashTime = 0;
@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
                 player.ClearBuff(ModContent.BuffType<Buffs.Debuffs.ParryCooldown>());
                 modPlayer.ParryCooldown = 5;
             }
-            TBUtils.Accessories.UpdateParryShield(cooldown, item, player);
+            TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);
         }
     }
 }

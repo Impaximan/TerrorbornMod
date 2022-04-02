@@ -1,20 +1,12 @@
-﻿using System.IO;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
 using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
 using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod
 {
-    class BossProgressMessages : ModWorld
+    class BossProgressMessages : ModSystem
     {
         public static bool TarMessageSent;
         public static bool TideMessageSent;
@@ -26,7 +18,7 @@ namespace TerrorbornMod
         public static bool PostShadowcrawlerMessagesSent;
         public static bool PostMoonLordMessagesSent;
 
-        public override void Initialize()
+        public override void PostWorldGen()
         {
             TarMessageSent = false;
             TideMessageSent = false;
@@ -38,7 +30,8 @@ namespace TerrorbornMod
             PostShadowcrawlerMessagesSent = false;
             PostMoonLordMessagesSent = false;
         }
-        public override TagCompound Save()
+
+        public override void SaveWorldData(TagCompound tag)
         {
             var messages = new List<string>();
             if (TarMessageSent) messages.Add("tar");
@@ -50,13 +43,10 @@ namespace TerrorbornMod
             if (PostPlanteraMessagesSent) messages.Add("postplant");
             if (PostShadowcrawlerMessagesSent) messages.Add("postshadowcrawler");
             if (PostMoonLordMessagesSent) messages.Add("postmoonlord");
-
-            return new TagCompound {
-                {"messages", messages}
-            };
-
+            tag.Add("messages", messages);
         }
-        public override void Load(TagCompound tag)
+
+        public override void LoadWorldData(TagCompound tag)
         {
             var messages = tag.GetList<string>("messages");
             TarMessageSent = messages.Contains("tar");
@@ -70,14 +60,14 @@ namespace TerrorbornMod
             PostMoonLordMessagesSent = messages.Contains("postmoonlord");
         }
 
-        public override void PostUpdate()
+        public override void PostUpdateEverything()
         {
             if (NPC.downedBoss3 && !TarMessageSent)
             {
                 TarMessageSent = true;
                 Main.NewText("Tar flows through the sandy caverns", 87, 63, 135);
             }
-            if (NPC.downedBoss2 && !TideMessageSent && !TerrorbornWorld.downedTidalTitan)
+            if (NPC.downedBoss2 && !TideMessageSent && !TerrorbornSystem.downedTidalTitan)
             {
                 TideMessageSent = true;
                 Main.NewText("The moon pulls on the ocean ever stronger", 94, 116, 227);
@@ -106,7 +96,7 @@ namespace TerrorbornMod
             {
                 HardmodeMessagesSent = true;
                 Main.NewText("A hellish curse invades the heavens!", 236, 165, 133);
-                TerrorbornWorld.GenerateIncendiaryBiome(density: 1.5f);
+                TerrorbornSystem.GenerateIncendiaryBiome(density: 1.5f);
                 Main.NewText("The souls released from the wall begin to condense in the sky...", Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255));
                 Main.NewText("The Skeleton Sheriff has new items in his shop!", Color.Yellow);
             }
@@ -117,7 +107,7 @@ namespace TerrorbornMod
                 Main.NewText("The Skeleton Sheriff has new items in his shop!", Color.Yellow);
             }
 
-            if (TerrorbornWorld.downedShadowcrawler && !PostShadowcrawlerMessagesSent)
+            if (TerrorbornSystem.downedShadowcrawler && !PostShadowcrawlerMessagesSent)
             {
                 PostShadowcrawlerMessagesSent = true;
                 Main.NewText("With the predator defeated, Midnight Fruit flourishes throughout the world!", Color.LimeGreen);

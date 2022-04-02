@@ -19,15 +19,15 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 32;
-            item.accessory = true;
-            item.noMelee = true;
-            item.lifeRegen = 8;
-            item.rare = ItemRarityID.Pink;
-            item.expert = true;
-            item.value = Item.sellPrice(0, 1, 50, 0);
-            item.useAnimation = 5;
+            Item.width = 32;
+            Item.height = 32;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.lifeRegen = 8;
+            Item.rare = ItemRarityID.Pink;
+            Item.expert = true;
+            Item.value = Item.sellPrice(0, 1, 50, 0);
+            Item.useAnimation = 5;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -36,16 +36,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             player.statLifeMax2 -= 50;
             if (player.statLife <= 250)
             {
-                player.magicCrit += 15;
-                player.meleeCrit += 15;
-                player.rangedCrit += 15;
+                player.GetCritChance(DamageClass.Generic) += 15;
                 modPlayer.allUseSpeed *= 1.2f;
             }
             if (player.statLife <= 75)
             {
-                player.magicCrit += 30;
-                player.meleeCrit += 30;
-                player.rangedCrit += 30;
+                player.GetCritChance(DamageClass.Generic) += 30;
                 modPlayer.allUseSpeed *= 1.4f;
             }
         }

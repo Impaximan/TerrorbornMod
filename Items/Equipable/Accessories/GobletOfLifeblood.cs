@@ -17,24 +17,23 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 36;
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.LightRed;
-            item.value = Item.sellPrice(gold: 4, silver: 25);
-            item.useAnimation = 5;
+            Item.width = 36;
+            Item.height = 36;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.LightRed;
+            Item.value = Item.sellPrice(gold: 4, silver: 25);
+            Item.useAnimation = 5;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe1 = new ModRecipe(mod);
-            recipe1.AddIngredient(mod.ItemType("SanguineFang"), 4);
-            recipe1.AddIngredient(ModContent.ItemType<Items.Equipable.Accessories.SangoonBand>());
-            recipe1.AddIngredient(ModContent.ItemType<Items.Equipable.Accessories.TheLiesOfNourishment>());
-            recipe1.AddIngredient(ItemID.SoulofNight, 5);
-            recipe1.AddTile(TileID.TinkerersWorkbench);
-            recipe1.SetResult(this);
-            recipe1.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.SanguineFang>(4)
+                .AddIngredient(ModContent.ItemType<Items.Equipable.Accessories.SangoonBand>())
+                .AddIngredient(ModContent.ItemType<Items.Equipable.Accessories.TheLiesOfNourishment>())
+                .AddIngredient(ItemID.SoulofNight, 5)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

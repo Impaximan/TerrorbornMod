@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrorbornMod.TBUtils;
+using Terraria.DataStructures;
 using System.Collections.Generic;
 
 namespace TerrorbornMod.Items.Weapons.Magic
@@ -13,38 +13,37 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
             Tooltip.SetDefault("Creates a flower at your cursor that explodes into numerous seeds");
         }
 
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.33f;
-            item.damage = 11;
-            item.noMelee = true;
-            item.width = 52;
-            item.height = 52;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 2.5f;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item73;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("IncendiaryFlower");
-            item.shootSpeed = 5f;
-            item.mana = 10;
-            item.magic = true;
+            Item.damage = 11;
+            Item.noMelee = true;
+            Item.width = 52;
+            Item.height = 52;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 2.5f;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item73;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<IncendiaryFlower>();
+            Item.shootSpeed = 5f;
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Magic;;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position = Main.MouseWorld;
-            speedX = 0;
-            speedY = 0;
-            return true;
+            velocity.X = 0;
+            velocity.Y = 0;
         }
     }
 
@@ -52,40 +51,40 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 46;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = false;
-            projectile.friendly = false;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 20;
+            Projectile.width = 46;
+            Projectile.height = 46;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = false;
+            Projectile.friendly = false;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 20;
         }
 
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(10);
-            //projectile.scale += 0.5f / 45f;
+            Projectile.rotation += MathHelper.ToRadians(10);
+            //Projectile.scale += 0.5f / 45f;
             
-            if (projectile.alpha > (int)(255 * 0.25f))
+            if (Projectile.alpha > (int)(255 * 0.25f))
             {
-                projectile.alpha -= 15;
+                Projectile.alpha -= 15;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.DD2_FlameburstTowerShot, projectile.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot, Projectile.Center);
             for (int i = 0; i < Main.rand.Next(4, 7); i++)
             {
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                 float speed = Main.rand.Next(10, 15);
-                int proj = Projectile.NewProjectile(projectile.Center, direction * speed, ModContent.ProjectileType<IncendiarySeed>(), projectile.damage, projectile.knockBack, projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<IncendiarySeed>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
-            DustExplosion(projectile.Center, 10, 25f, 46f);
+            DustExplosion(Projectile.Center, 10, 25f, 46f);
         }
 
         public void DustExplosion(Vector2 position, int dustAmount, float minDistance, float maxDistance)
@@ -106,18 +105,18 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -130,42 +129,42 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 List<Vector2> positions = bezier.GetPoints(25);
                 for (int i = 0; i < positions.Count; i++)
                 {
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(new Color(247, 84, 37)) * ((float)(positions.Count - i) / (float)positions.Count);
-                    Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(35f * ((float)(positions.Count - i) / (float)positions.Count)), color * 0.5f);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(new Color(247, 84, 37)) * ((float)(positions.Count - i) / (float)positions.Count);
+                    Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(35f * ((float)(positions.Count - i) / (float)positions.Count)), color * 0.5f);
                 }
             }
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 18;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.hostile = false;
-            projectile.timeLeft = 110;
+            Projectile.width = 28;
+            Projectile.height = 18;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.hostile = false;
+            Projectile.timeLeft = 110;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 15;
             height = 15;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 10, 5f, 10f);
+            DustExplosion(Projectile.Center, 10, 5f, 10f);
         }
 
         public void DustExplosion(Vector2 position, int dustAmount, float minDistance, float maxDistance)
@@ -183,9 +182,9 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void AI()
         {
-            projectile.velocity.Y += 0.2f;
-            //Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Fire);
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.velocity.Y += 0.2f;
+            //Dust dust = Dust.NewDustPerfect(Projectile.Center, 6);
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
     }
 }

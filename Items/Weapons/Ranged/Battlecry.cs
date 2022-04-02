@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 
@@ -21,23 +21,23 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 14;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 50;
-            item.height = 30;
-            item.useTime = 7;
-            item.useAnimation = 7;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item11;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.autoReuse = true;
-            item.scale = 0.75f;
-            item.shootSpeed = 10f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 14;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 50;
+            Item.height = 30;
+            Item.useTime = 7;
+            Item.useAnimation = 7;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item11;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.autoReuse = true;
+            Item.scale = 0.75f;
+            Item.shootSpeed = 10f;
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -51,18 +51,18 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (player.altFunctionUse == 2)
             {
-                item.reuseDelay = 0;
+                Item.reuseDelay = 0;
                 return modPlayer.TerrorPercent > percentCost;
             }
             else
             {
-                item.reuseDelay = 7;
+                Item.reuseDelay = 7;
             }
             return base.CanUseItem(player);
         }
 
         // 33% chance not to consume ammo
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Player player)
         {
             return Main.rand.NextFloat() >= .33f;
         }
@@ -74,36 +74,32 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe1 = new ModRecipe(mod);
-            //recipe.AddIngredient(ItemID.DirtBlock, 10);
-            recipe1.AddIngredient(ItemID.DemoniteBar, 15);
-            recipe1.AddIngredient(ItemID.IllegalGunParts);
-            recipe1.AddTile(TileID.Anvils);
-            recipe1.SetResult(this);
-            recipe1.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            //recipe.AddIngredient(ItemID.DirtBlock, 10);
-            recipe2.AddIngredient(ItemID.CrimtaneBar, 15);
-            recipe2.AddIngredient(ItemID.IllegalGunParts);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.DemoniteBar, 15)
+                .AddIngredient(ItemID.IllegalGunParts)
+                .AddTile(TileID.Anvils)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.CrimtaneBar, 15)
+                .AddIngredient(ItemID.IllegalGunParts)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (player.altFunctionUse == 2)
             {
-                Vector2 rotatedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(15));
-                speedX = rotatedSpeed.X;
-                speedY = rotatedSpeed.Y;
+                Vector2 rotatedSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(15));
+                velocity.X = rotatedSpeed.X;
+                velocity.Y = rotatedSpeed.Y;
                 modPlayer.LoseTerror(percentCost, false, false, true);
             }
             else
             {
                 type = ModContent.ProjectileType<BattleBullet>();
-                position = player.Center + (player.DirectionTo(Main.MouseWorld) * 25 * item.scale);
+                position = player.Center + (player.DirectionTo(Main.MouseWorld) * 25 * Item.scale);
             }
             return true;
         }
@@ -117,34 +113,34 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         //private bool GravDown = true;
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.hostile = false;
-            projectile.ranged = true;
-            projectile.hide = false;
-            projectile.timeLeft = 250;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.hide = false;
+            Projectile.timeLeft = 250;
         }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -158,14 +154,14 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 for (int i = 0; i < positions.Count; i++)
                 {
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.Lerp(Color.MediumPurple, Color.LightPink, mult)) * mult;
-                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(12.5f * mult), color);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.Lerp(Color.MediumPurple, Color.LightPink, mult)) * mult;
+                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(12.5f * mult), color);
                 }
             }
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return false;
         }
 
@@ -176,22 +172,22 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             bool Targeted = false;
             for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                 {
                     targetNPC = Main.npc[i];
-                    Distance = Main.npc[i].Distance(projectile.Center);
+                    Distance = Main.npc[i].Distance(Projectile.Center);
                     Targeted = true;
                 }
             }
             if (Targeted)
             {
                 //HOME IN
-                projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(2.5f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
+                Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(2.5f * (Projectile.velocity.Length() / 20))).ToRotationVector2() * Projectile.velocity.Length();
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.GainTerror(0.5f, false, false, true);
         }

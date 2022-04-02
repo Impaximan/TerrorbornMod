@@ -1,23 +1,11 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 
 namespace TerrorbornMod
 {
-	public abstract class BaseWorm : ModNPC
+    public abstract class BaseWorm : ModNPC
     {
         public override bool CheckActive()
         {
@@ -43,18 +31,18 @@ namespace TerrorbornMod
 
         public override void AI()
 		{
-			touchingTiles = Collision.SolidCollision(npc.position, npc.width, npc.height);
+			touchingTiles = Collision.SolidCollision(NPC.position, NPC.width, NPC.height);
 			actualAI();
 
 			if (head)
 			{
-				npc.rotation = npc.velocity.ToRotation() + MathHelper.ToRadians(90f);
+				NPC.rotation = NPC.velocity.ToRotation() + MathHelper.ToRadians(90f);
 				bool hasSegments = false;
 				for (int i = 0; i < Main.npc.Length; i++)
 				{
 					bool isPart = false;
 					NPC thingy = Main.npc[i];
-					if ((thingy.type == bodyType || customBodyTypeList.Contains(thingy.type)) && bodySegments.Contains(thingy.whoAmI) && thingy.ai[0] == npc.whoAmI && thingy.active)
+					if ((thingy.type == bodyType || customBodyTypeList.Contains(thingy.type)) && bodySegments.Contains(thingy.whoAmI) && thingy.ai[0] == NPC.whoAmI && thingy.active)
 					{
 						isPart = true;
 						thingy.velocity = Vector2.Zero;
@@ -62,25 +50,25 @@ namespace TerrorbornMod
 						NPC latchedNPC = Main.npc[0];
 						if (index == 0)
                         {
-							latchedNPC = npc;
+							latchedNPC = NPC;
                         }
                         else
                         {
 							latchedNPC = Main.npc[bodySegments[index - 1]];
                         }
-                        if (latchedNPC == npc)
+                        if (latchedNPC == NPC)
 						{
-							thingy.position += (thingy.Distance(latchedNPC.Center) - (thingy.height / 2 + latchedNPC.height / 2) + npc.velocity.Length()) * thingy.DirectionTo(latchedNPC.Center);
+							thingy.position += (thingy.Distance(latchedNPC.Center) - (thingy.height / 2 + latchedNPC.height / 2) + NPC.velocity.Length()) * thingy.DirectionTo(latchedNPC.Center);
 						}
                         else
                         {
 							thingy.position += (thingy.Distance(latchedNPC.Center) - (thingy.height / 2 + latchedNPC.height / 2)) * thingy.DirectionTo(latchedNPC.Center);
 						}
                         thingy.rotation = thingy.DirectionTo(latchedNPC.Center).ToRotation() + MathHelper.ToRadians(90f);
-						thingy.life = npc.life;
+						thingy.life = NPC.life;
 					}
 
-					if (thingy.type == tailType && thingy.ai[0] == npc.whoAmI && thingy.active)
+					if (thingy.type == tailType && thingy.ai[0] == NPC.whoAmI && thingy.active)
 					{
 						isPart = true;
 						hasSegments = true;
@@ -89,7 +77,7 @@ namespace TerrorbornMod
 						NPC latchedNPC = Main.npc[bodySegments[bodySegments.Count - 1]];
 						thingy.position += (thingy.Distance(latchedNPC.Center) - (thingy.height / 2 + latchedNPC.height / 2)) * thingy.DirectionTo(latchedNPC.Center);
 						thingy.rotation = thingy.DirectionTo(latchedNPC.Center).ToRotation() + MathHelper.ToRadians(90f);
-						thingy.life = npc.life;
+						thingy.life = NPC.life;
 					}
 				}
 
@@ -99,10 +87,10 @@ namespace TerrorbornMod
 					{
 						for (int i = 0; i < customBodyTypeList.Count; i++)
 						{
-							int thingy = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, customBodyTypeList[i]);
-							Main.npc[thingy].ai[0] = npc.whoAmI;
+							int thingy = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, customBodyTypeList[i]);
+							Main.npc[thingy].ai[0] = NPC.whoAmI;
 							Main.npc[thingy].ai[1] = i;
-							Main.npc[thingy].realLife = npc.whoAmI;
+							Main.npc[thingy].realLife = NPC.whoAmI;
 							Main.npc[thingy].dontCountMe = true;
 							bodySegments.Add(thingy);
 						}
@@ -111,29 +99,29 @@ namespace TerrorbornMod
 					{
 						for (int i = 0; i < bodySegmentCount; i++)
 						{
-							int thingy = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, bodyType);
-							Main.npc[thingy].ai[0] = npc.whoAmI;
+							int thingy = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, bodyType);
+							Main.npc[thingy].ai[0] = NPC.whoAmI;
 							Main.npc[thingy].ai[1] = i;
-							Main.npc[thingy].realLife = npc.whoAmI;
+							Main.npc[thingy].realLife = NPC.whoAmI;
 							Main.npc[thingy].dontCountMe = true;
 							bodySegments.Add(thingy);
 						}
 					}
-					int tail = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, tailType);
-					Main.npc[tail].ai[0] = npc.whoAmI;
+					int tail = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, tailType);
+					Main.npc[tail].ai[0] = NPC.whoAmI;
 					Main.npc[tail].ai[1] = bodySegmentCount;
-					Main.npc[tail].realLife = npc.whoAmI;
+					Main.npc[tail].realLife = NPC.whoAmI;
 					Main.npc[tail].dontCountMe = true;
 				}
 			}
             else
             {
-				NPC headNPC = Main.npc[(int)npc.ai[0]];
+				NPC headNPC = Main.npc[(int)NPC.ai[0]];
 				if (headNPC.type != headType || !headNPC.active)
                 {
-					npc.active = false;
+					NPC.active = false;
 				}
-				TerrorbornNPC globalNPC = TerrorbornNPC.modNPC(npc);
+				TerrorbornNPC globalNPC = TerrorbornNPC.modNPC(NPC);
 				globalNPC.extraWormSegment = true;
 			}
         }

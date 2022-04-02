@@ -1,20 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
-using Terraria.Utilities;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -22,12 +9,11 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.ShellFragments>(), 2);
-            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 1);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100)
+                .AddIngredient(ModContent.ItemType<Materials.ShellFragments>(), 2)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 1)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -37,24 +23,24 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.25f;
-            item.damage = 13;
-            item.ranged = true;
-            item.consumable = true;
-            item.maxStack = 999;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 10;
-            item.value = Item.sellPrice(0, 0, 0, 20);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            item.noMelee = true;
-            item.shootSpeed = 10;
-            item.shoot = ModContent.ProjectileType<ShrapnadeProjectile>();
+            Item.damage = 13;
+            Item.DamageType = DamageClass.Ranged;
+            Item.consumable = true;
+            Item.maxStack = 999;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 10;
+            Item.value = Item.sellPrice(0, 0, 0, 20);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = false;
+            Item.noMelee = true;
+            Item.shootSpeed = 10;
+            Item.shoot = ModContent.ProjectileType<ShrapnadeProjectile>();
         }
     }
 
@@ -63,53 +49,53 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override string Texture => "TerrorbornMod/Items/Weapons/Ranged/Shrapnade";
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 18;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 60 * 3;
+            Projectile.width = 12;
+            Projectile.height = 18;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 60 * 3;
         }
 
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(projectile.velocity.X * 4);
-            projectile.velocity.Y += 0.2f;
+            Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X * 4);
+            Projectile.velocity.Y += 0.2f;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int i = 0; i < Main.rand.Next(3, 6); i++)
             {
                 float Speed = Main.rand.Next(7, 10);
                 Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
-                Projectile.NewProjectile(projectile.Center, ProjectileSpeed, ModContent.ProjectileType<Shrapnel>(), (int)(projectile.damage * 0.75f), 0, projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<Shrapnel>(), (int)(Projectile.damage * 0.75f), 0, Projectile.owner);
             }
             
             for (int i = 0; i < Main.rand.Next(3, 5); i++)
             {
                 float Speed = Main.rand.Next(2, 5);
                 Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
-                Gore.NewGore(projectile.Center, ProjectileSpeed, Main.rand.Next(825, 828));
+                Gore.NewGore(Projectile.Center, ProjectileSpeed, Main.rand.Next(825, 828));
             }
-            TerrorbornMod.ScreenShake(1f);
+            TerrorbornSystem.ScreenShake(1f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X * 0.5f;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X * 0.5f;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y * 0.5f;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y * 0.5f;
             }
             return false;
         }
@@ -119,48 +105,48 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 16;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.hostile = false;
-            projectile.ranged = true;
-            projectile.timeLeft = 600;
-            projectile.frame = Main.rand.Next(3);
+            Projectile.width = 8;
+            Projectile.height = 16;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 600;
+            Projectile.frame = Main.rand.Next(3);
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 8;
             height = 8;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override void AI()
         {
-            projectile.velocity.Y += 0.2f;
+            Projectile.velocity.Y += 0.2f;
 
-            if (projectile.velocity.X > 0)
+            if (Projectile.velocity.X > 0)
             {
-                projectile.rotation += MathHelper.ToRadians(projectile.velocity.Length());
+                Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.Length());
             }
             else
             {
-                projectile.rotation -= MathHelper.ToRadians(projectile.velocity.Length());
+                Projectile.rotation -= MathHelper.ToRadians(Projectile.velocity.Length());
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             return true;
         }
     }

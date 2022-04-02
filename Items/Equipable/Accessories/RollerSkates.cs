@@ -19,9 +19,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = ItemRarityID.Blue;
-            item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
         }
 
         bool heldDown = false;
@@ -40,7 +40,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             if (player.velocity.Y != 0 && !spinning)
             {
-                Main.PlaySound(SoundID.Item44, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item44, player.Center);
                 spinDir = Math.Sign(player.velocity.X);
                 if (player.velocity.X == 0)
                 {
@@ -73,8 +73,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 {
                     player.velocity.X += spinDir * 7.5f;
                     spinning = false;
-                    Main.PlaySound(SoundID.Item8, player.Center);
-                    TerrorbornMod.ScreenShake(3f);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item8, player.Center);
+                    TerrorbornSystem.ScreenShake(3f);
                     List<string> textOptions = new List<string>(){
                         { "Nice!" },
                         { "Rad!" },

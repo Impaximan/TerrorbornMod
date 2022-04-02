@@ -1,8 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.MiscConsumables
 {
@@ -16,8 +14,8 @@ namespace TerrorbornMod.Items.MiscConsumables
 
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.Blue;
-            item.maxStack = 1;
+            Item.rare = ItemRarityID.Blue;
+            Item.maxStack = 1;
         }
     }
 }

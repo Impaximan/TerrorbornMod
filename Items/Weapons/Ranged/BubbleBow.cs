@@ -1,10 +1,8 @@
-﻿using System.IO;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
-using Terraria.ModLoader.Exceptions;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -18,25 +16,25 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 17;
-            item.ranged = true;
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 20f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 17;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 20f;
+            Item.useAmmo = AmmoID.Arrow;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            type = mod.ProjectileType("BubbleArrow");
-            return true;
+            type = ModContent.ProjectileType<BubbleArrow>();
+            base.ModifyShootStats(player, ref position, ref velocity, ref type, ref damage, ref knockback);
         }
     }
     class BubbleArrow : ModProjectile
@@ -44,22 +42,22 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         int BubbleWait = 3;
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            //projectile.extraUpdates = 100;
-            projectile.timeLeft = 200;
-            projectile.penetrate = 1;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            //Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 200;
+            Projectile.penetrate = 1;
         }
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - 1.57f;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) - 1.57f;
             BubbleWait--;
             if (BubbleWait <= 0)
             {
                 BubbleWait = 3;
-                Projectile.NewProjectile(projectile.Center, new Vector2(0, 0), mod.ProjectileType("Bubble"), projectile.damage / 4, 0, projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<Bubble>(), Projectile.damage / 4, 0, Projectile.owner);
             }
         }
         public override void Kill(int timeLeft)
@@ -68,7 +66,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             {
                 for (int i = 0; i < Main.rand.Next(3, 6); i++)
                 {
-                    Projectile.NewProjectile(projectile.Center - projectile.velocity, new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)), mod.ProjectileType("Bubble"), (int)(projectile.damage / 3), 0, projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center - Projectile.velocity, new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)), ModContent.ProjectileType<Bubble>(), (int)(Projectile.damage / 3), 0, Projectile.owner);
                 }
             }
         }
@@ -78,18 +76,18 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override string Texture => "TerrorbornMod/Items/Bubble";
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            //projectile.extraUpdates = 100;
-            projectile.timeLeft = 60;
-            projectile.penetrate = 1;
-            projectile.hide = false;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            //Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 60;
+            Projectile.penetrate = 1;
+            Projectile.hide = false;
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item54, projectile.position);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item54, Projectile.position);
         }
     }
 }

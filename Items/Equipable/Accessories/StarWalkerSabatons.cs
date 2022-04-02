@@ -19,41 +19,48 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 26;
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Red;
-            item.value = Item.sellPrice(0, 10, 0, 0);
-            item.defense = 8;
-            item.useAnimation = 5;
+            Item.width = 34;
+            Item.height = 26;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Red;
+            Item.value = Item.sellPrice(0, 10, 0, 0);
+            Item.defense = 8;
+            Item.useAnimation = 5;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AeroSabatons>());
-            recipe.AddIngredient(ItemID.LightningBoots);
-            recipe.AddRecipeGroup("fragment", 4);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<Materials.NovagoldBar>(), 6);
-            recipe.AddIngredient(ItemID.HallowedBar, 6);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<AeroSabatons>());
-            recipe2.AddIngredient(ItemID.FrostsparkBoots);
-            recipe2.AddRecipeGroup("fragment", 4);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 6);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 6);
-            recipe2.AddIngredient(ModContent.ItemType<Materials.NovagoldBar>(), 6);
-            recipe2.AddIngredient(ItemID.HallowedBar, 6);
-            recipe2.AddTile(TileID.TinkerersWorkbench);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<AeroSabatons>())
+                .AddIngredient(ItemID.LightningBoots)
+                .AddRecipeGroup("fragment", 4)
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 6)
+                .AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 6)
+                .AddIngredient(ModContent.ItemType<Materials.NovagoldBar>(), 6)
+                .AddIngredient(ItemID.HallowedBar, 6)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<AeroSabatons>())
+                .AddIngredient(ItemID.FrostsparkBoots)
+                .AddRecipeGroup("fragment", 4)
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 6)
+                .AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 6)
+                .AddIngredient(ModContent.ItemType<Materials.NovagoldBar>(), 6)
+                .AddIngredient(ItemID.HallowedBar, 6)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<AeroSabatons>())
+                .AddIngredient(ItemID.TerrasparkBoots)
+                .AddRecipeGroup("fragment", 4)
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 6)
+                .AddIngredient(ModContent.ItemType<Materials.PlasmaliumBar>(), 6)
+                .AddIngredient(ModContent.ItemType<Materials.NovagoldBar>(), 6)
+                .AddIngredient(ItemID.HallowedBar, 6)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

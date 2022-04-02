@@ -1,16 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace TerrorbornMod.Tiles
 {
-	class MeldingStation : ModTile
+    class MeldingStation : ModTile
 	{
 		public override void SetDefaults()
 		{
@@ -24,8 +20,8 @@ namespace TerrorbornMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Melding Station");
 			AddMapEntry(new Color(80, 112, 109), name); 
-			disableSmartCursor = true;
-			adjTiles = new int[] { Type };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { Type };
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)

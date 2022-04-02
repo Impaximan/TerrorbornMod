@@ -1,10 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 using System.Collections.Generic;
-using Terraria.Utilities;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items
 {
@@ -17,11 +14,11 @@ namespace TerrorbornMod.Items
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 30;
-            item.height = 32;
-            item.rare = ItemRarityID.Yellow;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 30;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override bool CanRightClick()
@@ -54,11 +51,11 @@ namespace TerrorbornMod.Items
             souls.Add(ItemID.SoulofMight);
             souls.Add(ModContent.ItemType<Materials.SoulOfPlight>());
 
-            player.QuickSpawnItem(Main.rand.Next(souls), Main.rand.Next(6, 12));
+            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), Main.rand.Next(souls), Main.rand.Next(6, 12));
 
-            player.QuickSpawnItem(ModContent.ItemType<Materials.SkullmoundOre>(), Main.rand.Next(20, 35));
-            player.QuickSpawnItem(ModContent.ItemType<Materials.HellbornEssence>(), Main.rand.Next(2, 4));
-            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(15, 25));
+            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Materials.SkullmoundOre>(), Main.rand.Next(20, 35));
+            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Materials.HellbornEssence>(), Main.rand.Next(2, 4));
+            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ItemID.GoldCoin, Main.rand.Next(15, 25));
         }
     }
 }

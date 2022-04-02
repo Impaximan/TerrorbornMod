@@ -1,11 +1,5 @@
-﻿using System.Linq;
-using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
+﻿using Terraria;
 using Terraria.ModLoader;
-using Terraria.Utilities;
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -21,8 +15,8 @@ namespace TerrorbornMod.Items
 
         public override void SetDefaults()
         {
-            item.rare = -11;
-            item.accessory = true;
+            Item.rare = -11;
+            Item.accessory = true;
         }
 
         public override void HoldItem(Player player)
@@ -32,8 +26,8 @@ namespace TerrorbornMod.Items
             bool arrowExists = false;
             for (int i = 0; i < 1000; i++)
             {
-                Projectile projectile = Main.projectile[i];
-                if (projectile.type == ModContent.ProjectileType<CompassPointer>() && projectile.active)
+                Projectile Projectile = Main.projectile[i];
+                if (Projectile.type == ModContent.ProjectileType<CompassPointer>() && Projectile.active)
                 {
                     arrowExists = true;
                     break;
@@ -41,7 +35,7 @@ namespace TerrorbornMod.Items
             }
             if (!arrowExists)
             {
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CompassPointer>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<CompassPointer>(), 0, 0, player.whoAmI);
             }
         }
 
@@ -52,8 +46,8 @@ namespace TerrorbornMod.Items
             bool arrowExists = false;
             for (int i = 0; i < 1000; i++)
             {
-                Projectile projectile = Main.projectile[i];
-                if (projectile.type == ModContent.ProjectileType<CompassPointer>() && projectile.active)
+                Projectile Projectile = Main.projectile[i];
+                if (Projectile.type == ModContent.ProjectileType<CompassPointer>() && Projectile.active)
                 {
                     arrowExists = true;
                     break;
@@ -61,7 +55,7 @@ namespace TerrorbornMod.Items
             }
             if (!arrowExists)
             {
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CompassPointer>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<CompassPointer>(), 0, 0, player.whoAmI);
             }
         }
     }
@@ -70,43 +64,43 @@ namespace TerrorbornMod.Items
     {
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 36;
-            projectile.friendly = false;
-            projectile.hostile = false;
-            projectile.timeLeft = 500;
-            projectile.tileCollide = false;
+            Projectile.width = 26;
+            Projectile.height = 36;
+            Projectile.friendly = false;
+            Projectile.hostile = false;
+            Projectile.timeLeft = 500;
+            Projectile.tileCollide = false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Vector2 position = projectile.Center - Main.screenPosition;
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 position = Projectile.Center - Main.screenPosition;
             position.Y += 4;
-            Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, projectile.width, projectile.height), new Rectangle(0, 0, projectile.width, projectile.height), Color.White, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, Projectile.width, Projectile.height), new Rectangle(0, 0, Projectile.width, Projectile.height), Color.White, Projectile.rotation, new Vector2(Projectile.width / 2, Projectile.height / 2), SpriteEffects.None, 0);
             return false;
         }
 
         Vector2 targetPosition()
         {
-            return TerrorbornWorld.ShriekOfHorror;
+            return TerrorbornSystem.ShriekOfHorror;
         }
 
 
         public override void AI()
         {
-            projectile.timeLeft = 500;
+            Projectile.timeLeft = 500;
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             if (!modPlayer.MysteriousCompass)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
 
-            projectile.position = player.Center + new Vector2(0, -65);
-            projectile.position -= new Vector2(projectile.width / 2, projectile.height / 2);
+            Projectile.position = player.Center + new Vector2(0, -65);
+            Projectile.position -= new Vector2(Projectile.width / 2, Projectile.height / 2);
 
             if (targetPosition() == Vector2.Zero)
             {
@@ -114,7 +108,7 @@ namespace TerrorbornMod.Items
             }
             else
             {
-                projectile.rotation = projectile.DirectionTo(targetPosition()).ToRotation() + MathHelper.ToRadians(90);
+                Projectile.rotation = Projectile.DirectionTo(targetPosition()).ToRotation() + MathHelper.ToRadians(90);
             }
         }
     }

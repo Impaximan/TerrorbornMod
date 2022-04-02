@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,29 +16,28 @@ namespace TerrorbornMod.Items.Tools
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 12);
-            recipe.AddIngredient(ItemID.LunarBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 12)
+                .AddIngredient(ItemID.LunarBar, 10)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 2)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.melee = true;
-            item.width = 44;
-            item.height = 44;
-            item.useAnimation = 6;
-            item.useTime = 2;
-            item.pick = 225;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5.5f;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 44;
+            Item.height = 44;
+            Item.useAnimation = 6;
+            Item.useTime = 2;
+            Item.pick = 225;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5.5f;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override bool CanUseItem(Player player)

@@ -9,12 +9,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.DreadfulEssence>(5)
+                .AddIngredient(ItemID.LunarBar, 5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -24,19 +23,19 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = 12;
-            item.defense = 10;
-            item.value = Item.sellPrice(0, 15, 0, 0);
-            item.useAnimation = 5;
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = 12;
+            Item.defense = 10;
+            Item.value = Item.sellPrice(0, 15, 0, 0);
+            Item.useAnimation = 5;
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.burstJump = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1f), 45, item, player, new Vector2(25, -5), Color.LightGoldenrodYellow, SoundID.Item14);
+            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1f), 45, Item, player, new Vector2(25, -5), Color.LightGoldenrodYellow, SoundID.Item14);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.JustBurstJumped)
             {
@@ -58,14 +57,14 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
     class BottledWeepingCooldown : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Released Weeping");
             Description.SetDefault("Bottled weeping immunity on cooldown");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
     }
 }

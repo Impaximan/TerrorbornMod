@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,13 +8,12 @@ namespace TerrorbornMod.Items
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<graniteVirusSpark>());
-            recipe.AddIngredient(ModContent.ItemType<Materials.NoxiousScale>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 25);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<GraniteVirusSpark>())
+                .AddIngredient(ModContent.ItemType<Materials.NoxiousScale>(), 15)
+                .AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 25)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -32,19 +26,19 @@ namespace TerrorbornMod.Items
         }
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.Pink;
-            item.useTime = 1;
-            item.useAnimation = 1;
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.noUseGraphic = true;
-            item.autoReuse = false;
-            item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.useTime = 1;
+            Item.useAnimation = 1;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noUseGraphic = true;
+            Item.autoReuse = false;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
         }
 
-        public override bool UseItem(Player player)
+        public override bool CanUseItem(Player player)
         {
             astralSparkData.Transform(player);
-            return base.UseItem(player);
+            return base.CanUseItem(player);
         }
     }
 }

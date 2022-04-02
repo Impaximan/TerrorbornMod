@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace TerrorbornMod.Items.Placeable.Furniture
 {
@@ -9,25 +8,24 @@ namespace TerrorbornMod.Items.Placeable.Furniture
 	{
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 32;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.consumable = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.createTile = ModContent.TileType<Tiles.DeimostoneChestTile>();
+			Item.width = 32;
+			Item.height = 32;
+			Item.maxStack = 999;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.createTile = ModContent.TileType<Tiles.DeimostoneChestTile>();
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Blocks.SmoothDeimostoneBlock>(), 8);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ModContent.ItemType<Blocks.SmoothDeimostoneBlock>(), 8)
+				.AddTile(TileID.WorkBenches)
+				.Register();
 		}
 	}
 }

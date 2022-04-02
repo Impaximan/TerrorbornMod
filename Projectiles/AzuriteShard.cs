@@ -1,5 +1,4 @@
-﻿using Terraria.ID;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
@@ -10,27 +9,27 @@ namespace TerrorbornMod.Projectiles
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
-            projectile.hide = true;
-            projectile.timeLeft = 180;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
+            Projectile.hide = true;
+            Projectile.timeLeft = 180;
         }
         public override void AI()
         {
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88, Scale: 1.35f, newColor: Color.SkyBlue);
+            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 88, Scale: 1.35f, newColor: Color.SkyBlue);
             Main.dust[dust].noGravity = true;
-            Main.dust[dust].velocity = projectile.velocity / 3;
+            Main.dust[dust].velocity = Projectile.velocity / 3;
 
-            projectile.velocity.Y += 1.5f;
-            projectile.velocity.X *= 0.98f;
+            Projectile.velocity.Y += 1.5f;
+            Projectile.velocity.X *= 0.98f;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -40,15 +39,15 @@ namespace TerrorbornMod.Projectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y * 0.9f;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y * 0.9f;
             }
             return false;
         }

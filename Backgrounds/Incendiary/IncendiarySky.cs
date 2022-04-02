@@ -9,7 +9,7 @@
 //using Terraria.Graphics.Shaders;
 //using Terraria.ID;
 //using Terraria.Localization;
-//using Terraria.World.Generation;
+//using Terraria.WorldBuilding;
 //using Terraria.ModLoader;
 //using Terraria.UI;
 //using TerrorbornMod;

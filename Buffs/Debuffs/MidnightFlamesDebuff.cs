@@ -6,14 +6,14 @@ namespace TerrorbornMod.Buffs.Debuffs
 {
     class MidnightFlamesDebuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midnight Flames");
             Description.SetDefault("Spiritual flames tear at your skin, decreasing your defense and damaging you over time");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {

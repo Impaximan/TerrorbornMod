@@ -18,21 +18,20 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = ItemRarityID.Blue;
-            item.defense = 3;
-            item.knockBack = knockback;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            TerrorbornItem.modItem(item).parryShield = true;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 3;
+            Item.knockBack = knockback;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            TerrorbornItem.modItem(Item).parryShield = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 7);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 7)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -43,7 +42,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
             {
                 modPlayer.GainTerror(20f, false);
             }
-            TBUtils.Accessories.UpdateParryShield(cooldown, item, player);
+            TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);
         }
     }
 }

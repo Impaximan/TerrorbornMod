@@ -12,28 +12,26 @@ namespace TerrorbornMod.Items.Potions
         }
         public override void SetDefaults()
         {
-            item.useTime = 28;
-            item.useAnimation = 32;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.maxStack = 30;
-            item.consumable = true;
-            item.rare = ItemRarityID.Blue;
-            item.autoReuse = false;
-            item.UseSound = SoundID.Item3;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.buffType = ModContent.BuffType<Buffs.Starpower>();
-            item.buffTime = 18000;
+            Item.useTime = 28;
+            Item.useAnimation = 32;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.maxStack = 30;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.autoReuse = false;
+            Item.UseSound = SoundID.Item3;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.buffType = ModContent.BuffType<Buffs.Starpower>();
+            Item.buffTime = 18000;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe1 = new ModRecipe(mod);
-            recipe1.AddIngredient(ItemID.FallenStar, 3);
-            //recipe1.AddIngredient(ModContent.ItemType<Materials.NovagoldOre>(), 2);
-            recipe1.AddIngredient(ItemID.BottledWater);
-            recipe1.AddTile(TileID.Bottles);
-            recipe1.SetResult(this);
-            recipe1.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.FallenStar, 3)
+                .AddIngredient(ItemID.BottledWater)
+                .AddTile(TileID.Bottles)
+                .Register();
         }
     }
 }

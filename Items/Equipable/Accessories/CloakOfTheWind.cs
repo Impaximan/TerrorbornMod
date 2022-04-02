@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System;
 using Microsoft.Xna.Framework;
 
 
@@ -12,16 +11,16 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Double tap left or right to dash" +
-                "\nDashing right as a projectile or enemy is near you increases your weapon" +
+                "\nDashing right as a Projectile or enemy is near you increases your weapon" +
                 "\nuse speed by 10% for 3 seconds");
         }
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = ItemRarityID.Orange;
-            item.value = Item.sellPrice(0, 2, 0, 0);
-            item.defense = 5;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.defense = 5;
         }
 
         bool heldRight = false;
@@ -45,7 +44,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public void Dash(int direction, Player player)
         {
             player.velocity.X = 11.5f * direction;
-            Main.PlaySound(SoundID.DD2_FlameburstTowerShot, player.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot, player.Center);
 
             Rectangle closeRectangle = player.getRect();
             int extraWidth = 240;
@@ -58,16 +57,16 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             bool intersects = false;
             for (int i = 0; i < 200; i++)
             {
-                NPC npc = Main.npc[i];
-                if (!npc.friendly && npc.damage > 0 && npc.getRect().Intersects(closeRectangle) && npc.active)
+                NPC NPC = Main.npc[i];
+                if (!NPC.friendly && NPC.damage > 0 && NPC.getRect().Intersects(closeRectangle) && NPC.active)
                 {
                     intersects = true;
                 }
             }
             for (int i = 0; i < Main.projectile.GetUpperBound(0); i++)
             {
-                Projectile projectile = Main.projectile[i];
-                if (projectile.hostile && projectile.getRect().Intersects(closeRectangle) && projectile.active && projectile.damage > 0)
+                Projectile Projectile = Main.projectile[i];
+                if (Projectile.hostile && Projectile.getRect().Intersects(closeRectangle) && Projectile.active && Projectile.damage > 0)
                 {
                     intersects = true;
                 }
@@ -174,14 +173,14 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
     public class Windspeed : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Windspeed");
             Description.SetDefault("10% increased weapon use speed");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
 
         public override void Update(Player player, ref int buffIndex)

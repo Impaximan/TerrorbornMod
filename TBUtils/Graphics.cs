@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using TerrorbornMod.TBUtils;
 
 
 namespace TerrorbornMod.TBUtils
@@ -14,7 +11,7 @@ namespace TerrorbornMod.TBUtils
 
         public static void DrawGlow_1(SpriteBatch spriteBatch, Rectangle originalRect, int extraSize, Color color)
         {
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/Effects/Textures/Glow_1");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Effects/Textures/Glow_1");
 
             Rectangle rect = originalRect;
             rect.X -= extraSize;
@@ -27,13 +24,13 @@ namespace TerrorbornMod.TBUtils
 
         public static void DrawGlow_1(SpriteBatch spriteBatch, Vector2 position, float scale, Color color)
         {
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/Effects/Textures/Glow_1");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Effects/Textures/Glow_1");
             spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height), color, 0f, texture.Size() / 2, scale, SpriteEffects.None, 0f);
         }
 
         public static void DrawGlow_1(SpriteBatch spriteBatch, Vector2 position, int size, Color color)
         {
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/Effects/Textures/Glow_1");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Effects/Textures/Glow_1");
             float scale = (float)size / texture.Width;
             spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height), color, 0f, texture.Size() / 2, scale, SpriteEffects.None, 0f);
         }

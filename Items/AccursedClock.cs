@@ -14,13 +14,13 @@ namespace TerrorbornMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 32;
-            item.rare = ItemRarityID.Pink;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
+            Item.width = 22;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Pink;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -28,23 +28,22 @@ namespace TerrorbornMod.Items
             return TerrorbornPlayer.modPlayer(player).ZoneIncendiary && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedConstructor>());
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedConstructor>());
-            Main.PlaySound(SoundID.Roar, player.position, 0);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.IncendiusAlloy>(), 15);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddIngredient(ItemID.Wire, 25);
-            recipe.AddIngredient(ItemID.SoulofFlight, 25);
-            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.IncendiusAlloy>(), 15)
+                .AddIngredient(ItemID.HallowedBar, 10)
+                .AddIngredient(ItemID.Wire, 25)
+                .AddIngredient(ItemID.SoulofFlight, 25)
+                .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
+                .Register();
         }
     }
 }

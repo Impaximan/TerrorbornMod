@@ -15,22 +15,22 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 2;
-            item.ranged = true;
-            item.width = 38;
-            item.height = 38;
-            item.useTime = 17;
-            item.noUseGraphic = true;
-            item.useAnimation = 17;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.shootSpeed = 15;
-            item.shoot = ModContent.ProjectileType<MindPiercerProjectile>();
+            Item.damage = 2;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 38;
+            Item.height = 38;
+            Item.useTime = 17;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 17;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shootSpeed = 15;
+            Item.shoot = ModContent.ProjectileType<MindPiercerProjectile>();
         }
     }
     class MindPiercerProjectile : ModProjectile
@@ -39,24 +39,24 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         int FallWait = 40;
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 38;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.ranged = true;
-            projectile.hide = false;
-            projectile.tileCollide = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.timeLeft = 3000;
+            Projectile.width = 38;
+            Projectile.height = 38;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.hide = false;
+            Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.timeLeft = 3000;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 15;
             height = 15;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -66,7 +66,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (modTarget.mindSpearheadTime <= 0)
             {
                 modTarget.mindSpearheadTime = 60 * 3;
-                int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<MindSpearhead>(), 50, 0, projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, ProjectileSourceID.None), target.Center, Vector2.Zero, ModContent.ProjectileType<MindSpearhead>(), 50, 0, Projectile.owner);
                 Main.projectile[proj].ai[0] = target.whoAmI;
             }
         }
@@ -84,33 +84,33 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (FallWait > 0)
             {
                 FallWait--;
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
 
-                if (projectile.velocity.X > 0)
+                if (Projectile.velocity.X > 0)
                 {
-                    projectile.spriteDirection = 1;
-                    projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+                    Projectile.spriteDirection = 1;
+                    Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
                 }
                 else
                 {
-                    projectile.spriteDirection = -1;
-                    projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
+                    Projectile.spriteDirection = -1;
+                    Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
                 }
             }
             else
             {
-                projectile.velocity *= 0.9f;
-                projectile.alpha += 255 / 20;
-                if (projectile.alpha >= 255)
+                Projectile.velocity *= 0.9f;
+                Projectile.alpha += 255 / 20;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
         }
         public override void Kill(int timeLeft)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
         }
     }
 
@@ -118,15 +118,15 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     {
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.ranged = true;
-            projectile.hide = false;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 3000;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.hide = false;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 3000;
         }
 
         bool fallen = false;
@@ -135,12 +135,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override bool? CanHitNPC(NPC target)
         {
             TerrorbornNPC modTarget = TerrorbornNPC.modNPC(target);
-            return target.whoAmI == projectile.ai[0] && fallen;
+            return target.whoAmI == Projectile.ai[0] && fallen;
         }
 
         public override void AI()
         {
-            NPC target = Main.npc[(int)projectile.ai[0]];
+            NPC target = Main.npc[(int)Projectile.ai[0]];
             TerrorbornNPC modTarget = TerrorbornNPC.modNPC(target);
 
             if (modTarget.mindSpearheadTime <= 0)
@@ -150,7 +150,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
             if (!target.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
 
             if (fallen)
@@ -163,11 +163,11 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
             else
             {
-                projectile.rotation = projectile.DirectionTo(target.Center).ToRotation() + MathHelper.ToRadians(45);
+                Projectile.rotation = Projectile.DirectionTo(target.Center).ToRotation() + MathHelper.ToRadians(45);
             }
 
-            projectile.position = new Vector2(target.Center.X, target.position.Y - distance);
-            projectile.position -= new Vector2(projectile.width, projectile.height) / 2;
+            Projectile.position = new Vector2(target.Center.X, target.position.Y - distance);
+            Projectile.position -= new Vector2(Projectile.width, Projectile.height) / 2;
         }
     }
 }

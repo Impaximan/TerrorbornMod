@@ -1,8 +1,5 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Prefixes.Weapons
 {
@@ -25,12 +22,12 @@ namespace TerrorbornMod.Prefixes.Weapons
         public override void Apply(Item item)
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(item);
-            modItem.TerrorCost += item.useAnimation * 0.22f;
+            modItem.TerrorCost += Item.useAnimation * 0.22f;
         }
 
         public override bool CanRoll(Item item)
         {
-            if (TerrorbornWorld.obtainedShriekOfHorror)
+            if (TerrorbornSystem.obtainedShriekOfHorror)
             {
                 return base.CanRoll(item);
             }

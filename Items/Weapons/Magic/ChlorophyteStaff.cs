@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Magic
 {
@@ -11,47 +12,46 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.ChlorophyteBar, 12)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
             Tooltip.SetDefault("Fires many chlorphyte beams with varying arcs");
         }
         public override void SetDefaults()
         {
-            item.damage = 58;
-            item.noMelee = true;
-            item.width = 50;
-            item.height = 50;
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 10;
-            item.value = Item.sellPrice(0, 4, 80, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item43;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ChlorophyteBeam");
-            item.shootSpeed = 10f;
-            item.mana = 10;
-            item.magic = true;
+            Item.damage = 58;
+            Item.noMelee = true;
+            Item.width = 50;
+            Item.height = 50;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 10;
+            Item.value = Item.sellPrice(0, 4, 80, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item43;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ChlorophyteBeam>();
+            Item.shootSpeed = 10f;
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Magic;;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position = player.Center + (player.DirectionTo(Main.MouseWorld) * 50);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, -3);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, -2);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, -1);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, 0);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, 1);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, 2);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, 3);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, -3);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, -2);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, -1);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, 0);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, 1);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, 2);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, 3);
             return false;
         }
     }
@@ -59,8 +59,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 20;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
         public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
@@ -69,29 +69,29 @@ namespace TerrorbornMod.Items.Weapons.Magic
         //private bool GravDown = true;
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = 10;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 5;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.hide = false;
-            projectile.timeLeft = 300;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 10;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 5;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.hide = false;
+            Projectile.timeLeft = 300;
         }
 
         int timeLeft = 180;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -105,33 +105,33 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 for (int i = 0; i < positions.Count; i++)
                 {
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.Lerp(Color.Lime, Color.Lime, mult)) * mult;
-                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * mult), color);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.Lerp(Color.Lime, Color.Lime, mult)) * mult;
+                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * mult), color);
                 }
             }
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return false;
         }
 
         public override void AI()
         {
-            //int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 44, 0f, 0f, 100, Scale: 1.5f);
+            //int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 44, 0f, 0f, 100, Scale: 1.5f);
             //Main.dust[dust].noGravity = true;
-            //Main.dust[dust].velocity = projectile.velocity;
+            //Main.dust[dust].velocity = Projectile.velocity;
 
             timeLeft--;
             if (timeLeft <= 0)
             {
-                projectile.alpha += 15;
-                if (projectile.alpha >= 255)
+                Projectile.alpha += 15;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
-            projectile.velocity = projectile.velocity.RotatedBy(MathHelper.ToRadians(projectile.ai[0]));
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.ai[0]));
         }
     }
 }

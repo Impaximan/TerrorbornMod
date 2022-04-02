@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,22 +27,22 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void restlessSetDefaults(TerrorbornItem modItem)
         {
-            item.damage = 10;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 38;
-            item.height = 18;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 1;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shootSpeed = 16f;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 10;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 38;
+            Item.height = 18;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 1;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shootSpeed = 16f;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useAmmo = AmmoID.Bullet;
             modItem.restlessChargeUpUses = 5;
             modItem.restlessTerrorDrain = 8;
         }
@@ -54,36 +50,34 @@ namespace TerrorbornMod.Items.Weapons.Restless
         {
             return new Vector2(-5, 0);
         }
-        public override bool RestlessShoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool RestlessShoot(Player player, EntitySource_ItemUse_WithAmmo source, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates = Main.projectile[proj].extraUpdates * 2 + 1;
                 Main.projectile[proj].GetGlobalProjectile<TerrorbornProjectile>().VeinBurster = true;
                 return false;
             }
-            return base.RestlessShoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return true;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 10);
-            recipe.AddIngredient(ItemID.TissueSample, 5);
-            recipe.AddIngredient(mod.ItemType("SanguineFang"), 12);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 5);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.DemoniteBar, 10);
-            recipe2.AddIngredient(ItemID.ShadowScale, 5);
-            recipe2.AddIngredient(mod.ItemType("SanguineFang"), 12);
-            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 5);
-            recipe2.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.CrimtaneBar, 10)
+                .AddIngredient(ItemID.TissueSample, 5)
+                .AddIngredient<Materials.SanguineFang>(12)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 5)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.DemoniteBar, 10)
+                .AddIngredient(ItemID.ShadowScale, 5)
+                .AddIngredient<Materials.SanguineFang>(12)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 5)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
     }
 }

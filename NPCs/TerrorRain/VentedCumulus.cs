@@ -1,19 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 
 namespace TerrorbornMod.NPCs.TerrorRain
 {
@@ -21,95 +10,95 @@ namespace TerrorbornMod.NPCs.TerrorRain
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 5;
-            NPCID.Sets.TrailCacheLength[npc.type] = 1;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 1;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.aiStyle = -1;
-            npc.width = 56;
-            npc.height = 260 / 5;
-            npc.damage = 0;
-            npc.defense = 25;
-            npc.lifeMax = 750;
-            npc.HitSound = SoundID.NPCHit30;
-            npc.DeathSound = SoundID.NPCDeath33;
-            npc.value = 250;
-            npc.knockBackResist = 0.25f;
-            npc.lavaImmune = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.aiStyle = -1;
+            NPC.width = 56;
+            NPC.height = 260 / 5;
+            NPC.damage = 0;
+            NPC.defense = 25;
+            NPC.lifeMax = 750;
+            NPC.HitSound = SoundID.NPCHit30;
+            NPC.DeathSound = SoundID.NPCDeath33;
+            NPC.value = 250;
+            NPC.knockBackResist = 0.25f;
+            NPC.lavaImmune = true;
         }
 
         public override void NPCLoot()
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            if (TerrorbornWorld.obtainedShriekOfHorror)
+            if (TerrorbornSystem.obtainedShriekOfHorror)
             {
                 if (modPlayer.DeimosteelCharm)
                 {
                     if (Main.rand.NextFloat() <= 0.4f)
                     {
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                     }
                 }
                 else
                 {
                     if (Main.rand.NextFloat() <= 0.2f)
                     {
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                     }
                 }
             }
 
             if (Main.rand.NextFloat() <= 0.75f)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.ThunderShard>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.ThunderShard>());
             }
 
             if (Main.rand.NextFloat() <= 0.125f)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Ranged.ThunderGrenade>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Ranged.ThunderGrenade>());
             }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects effects = new SpriteEffects();
-            if (npc.direction == 1)
+            if (NPC.direction == 1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 drawOrigin = new Vector2(npc.width / 2, npc.height / 2);
-            for (int i = 0; i < npc.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(NPC.width / 2, NPC.height / 2);
+            for (int i = 0; i < NPC.oldPos.Length; i++)
             {
-                Vector2 drawPos = npc.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY) + new Vector2(0, 4);
-                Color color = npc.GetAlpha(Color.White) * ((float)(npc.oldPos.Length - i) / (float)npc.oldPos.Length);
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/NPCs/TerrorRain/VentedCumulus_Glow"), drawPos, npc.frame, color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+                Vector2 drawPos = NPC.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY) + new Vector2(0, 4);
+                Color color = NPC.GetAlpha(Color.White) * ((float)(NPC.oldPos.Length - i) / (float)NPC.oldPos.Length);
+                spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/TerrorRain/VentedCumulus_Glow"), drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
             }
         }
 
         int frame = 0;
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter--;
-            if (npc.frameCounter <= 0)
+            NPC.frameCounter--;
+            if (NPC.frameCounter <= 0)
             {
                 frame++;
-                npc.frameCounter = 3;
+                NPC.frameCounter = 3;
             }
             if (frame >= 5)
             {
                 frame = 0;
             }
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornWorld.terrorRain && Main.raining && spawnInfo.player.ZoneRain)
+            if (TerrorbornSystem.terrorRain && Main.raining && spawnInfo.player.ZoneRain)
             {
                 return 0.35f;
             }
@@ -119,69 +108,69 @@ namespace TerrorbornMod.NPCs.TerrorRain
             }
         }
 
-        int projectileWait = 5;
+        int ProjectileWait = 5;
         NPC targetNPC;
         public override void AI()
         {
-            npc.TargetClosest(true);
-            npc.spriteDirection = npc.direction;
-            Player player = Main.player[npc.target];
-            if (npc.ai[0] == 0)
+            NPC.TargetClosest(true);
+            NPC.spriteDirection = NPC.direction;
+            Player player = Main.player[NPC.target];
+            if (NPC.ai[0] == 0)
             {
-                npc.velocity *= 0.98f;
+                NPC.velocity *= 0.98f;
 
                 Vector2 target = player.Center + new Vector2(0, -200);
                 float speed = 0.3f;
-                Vector2 velocityIncrease = speed * npc.DirectionTo(target);
-                npc.velocity += velocityIncrease;
+                Vector2 velocityIncrease = speed * NPC.DirectionTo(target);
+                NPC.velocity += velocityIncrease;
 
-                npc.ai[1]++;
-                if (npc.ai[1] > 420)
+                NPC.ai[1]++;
+                if (NPC.ai[1] > 420)
                 {
-                    npc.ai[1] = 0;
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<VentedCumulusRaincloud>(), 75 / 4, 0);
+                    NPC.ai[1] = 0;
+                    Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<VentedCumulusRaincloud>(), 75 / 4, 0);
 
                     float Distance = 3500; //max distance away
                     bool Targeted = false;
                     for (int i = 0; i < 200; i++)
                     {
-                        if (Main.npc[i].Distance(npc.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].type != ModContent.NPCType<FrightcrawlerBody>() && Main.npc[i].type != ModContent.NPCType<FrightcrawlerTail>() && Main.npc[i].active && Main.npc[i].type != npc.type)
+                        if (Main.npc[i].Distance(NPC.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].type != ModContent.NPCType<FrightcrawlerBody>() && Main.npc[i].type != ModContent.NPCType<FrightcrawlerTail>() && Main.npc[i].active && Main.npc[i].type != NPC.type)
                         {
                             targetNPC = Main.npc[i];
-                            Distance = Main.npc[i].Distance(npc.Center);
+                            Distance = Main.npc[i].Distance(NPC.Center);
                             Targeted = true;
                         }
                     }
                     if (Targeted)
                     {
-                        npc.ai[0] = 1;
+                        NPC.ai[0] = 1;
                     }
                 }
             }
-            if (npc.ai[0] == 1)
+            if (NPC.ai[0] == 1)
             {
                 Vector2 target = new Vector2(targetNPC.Center.X, targetNPC.position.Y - 50);
-                target.X -= npc.width / 2;
-                target.Y -= npc.height / 2;
+                target.X -= NPC.width / 2;
+                target.Y -= NPC.height / 2;
 
-                npc.velocity = (target - npc.position) / 10 + targetNPC.velocity;
+                NPC.velocity = (target - NPC.position) / 10 + targetNPC.velocity;
 
-                projectileWait--;
-                if (projectileWait <= 0)
+                ProjectileWait--;
+                if (ProjectileWait <= 0)
                 {
-                    projectileWait = 7;
-                    Vector2 position = new Vector2(Main.rand.Next((int)npc.position.X, (int)npc.position.X + npc.width), npc.position.Y + npc.height);
+                    ProjectileWait = 7;
+                    Vector2 position = new Vector2(Main.rand.Next((int)NPC.position.X, (int)NPC.position.X + NPC.width), NPC.position.Y + NPC.height);
                     Projectile.NewProjectile(position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), 50 / 4, 0);
                 }
 
                 TerrorbornNPC globalNPC = TerrorbornNPC.modNPC(targetNPC);
                 globalNPC.CumulusEmpowermentTime = 600;
 
-                npc.ai[1]++;
-                if (npc.ai[1] > 180)
+                NPC.ai[1]++;
+                if (NPC.ai[1] > 180)
                 {
-                    npc.ai[1] = 0;
-                    npc.ai[0] = 0;
+                    NPC.ai[1] = 0;
+                    NPC.ai[0] = 0;
                 }
             }
         }
@@ -193,40 +182,40 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
         public override void SetDefaults()
         {
-            projectile.width = 54;
-            projectile.height = 24;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.timeLeft = 10000;
-            projectile.tileCollide = false;
+            Projectile.width = 54;
+            Projectile.height = 24;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 10000;
+            Projectile.tileCollide = false;
         }
 
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         void FindFrame()
         {
-            projectile.frameCounter--;
-            if (projectile.frameCounter <= 0)
+            Projectile.frameCounter--;
+            if (Projectile.frameCounter <= 0)
             {
-                projectile.frame++;
-                projectile.frameCounter = 4;
+                Projectile.frame++;
+                Projectile.frameCounter = 4;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             base.PostDraw(spriteBatch, lightColor);
-            Texture2D texture = ModContent.GetTexture(Texture + "_Glow");
-            Vector2 position = projectile.position - Main.screenPosition;
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture + "_Glow");
+            Vector2 position = Projectile.position - Main.screenPosition;
             //position.Y += 4;
-            Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, projectile.width, projectile.height), new Rectangle(0, projectile.frame * projectile.height, projectile.width, projectile.height), projectile.GetAlpha(Color.White), projectile.rotation, new Vector2(0, 0), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, Projectile.width, Projectile.height), new Rectangle(0, Projectile.frame * Projectile.height, Projectile.width, Projectile.height), Projectile.GetAlpha(Color.White), Projectile.rotation, new Vector2(0, 0), SpriteEffects.None, 0);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -234,17 +223,17 @@ namespace TerrorbornMod.NPCs.TerrorRain
             target.AddBuff(BuffID.Venom, 60 * 4);
         }
 
-        int projectileWait = 5;
+        int ProjectileWait = 5;
         public override void AI()
         {
             FindFrame();
 
-            projectileWait--;
-            if (projectileWait <= 0)
+            ProjectileWait--;
+            if (ProjectileWait <= 0)
             {
-                projectileWait = 7;
-                Vector2 position = new Vector2(Main.rand.Next((int)projectile.position.X, (int)projectile.position.X + projectile.width), projectile.position.Y + projectile.height);
-                Projectile.NewProjectile(position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), projectile.damage, 0);
+                ProjectileWait = 7;
+                Vector2 position = new Vector2(Main.rand.Next((int)Projectile.position.X, (int)Projectile.position.X + Projectile.width), Projectile.position.Y + Projectile.height);
+                Projectile.NewProjectile(position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), Projectile.damage, 0);
             }
 
             if (trueTimeLeft > 0)
@@ -253,11 +242,11 @@ namespace TerrorbornMod.NPCs.TerrorRain
             }
             else
             {
-                projectileWait = 10;
-                projectile.alpha += 255 / 60;
-                if (projectile.alpha >= 255)
+                ProjectileWait = 10;
+                Projectile.alpha += 255 / 60;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
         }

@@ -1,20 +1,19 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Buffs
 {
     class GraniteSpark : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Granite Spark");
             Description.SetDefault("You are transformed into a highly manueverable spark!");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {

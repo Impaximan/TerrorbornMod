@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.Graphics.Effects;
-using TerrorbornMod.Abilities;
-using TerrorbornMod.ForegroundObjects;
-using Terraria.Graphics.Shaders;
-using Terraria.GameInput;
-using Microsoft.Xna.Framework.Input;
-using Extensions;
 using Terraria.Utilities;
 using TerrorbornMod.Projectiles;
 using TerrorbornMod.TBUtils;
@@ -30,12 +21,12 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Vector2 originPoint = npc.Center;
+            Vector2 originPoint = NPC.Center;
             Vector2 center = arena.Center.ToVector2().findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>());
             Vector2 distToProj = originPoint - center;
             float projRotation = distToProj.ToRotation() - 1.57f;
             float distance = distToProj.Length();
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/NPCs/Bosses/InfectedIncarnate/Chainlink");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/Bosses/InfectedIncarnate/Chainlink");
 
             while (distance > texture.Height && !float.IsNaN(distance))
             {
@@ -56,20 +47,20 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
         public override void SetDefaults()
         {
-            npc.width = 48;
-            npc.height = 74;
-            npc.friendly = false;
-            npc.dontTakeDamage = true;
-            npc.damage = 0;
-            npc.lifeMax = 5;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
+            NPC.width = 48;
+            NPC.height = 74;
+            NPC.friendly = false;
+            NPC.dontTakeDamage = true;
+            NPC.damage = 0;
+            NPC.lifeMax = 5;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
         }
 
         Rectangle arena;
         void SetArenaPosition()
         {
-            Vector2 arenaPos = TerrorbornWorld.IIShrinePosition * 16;
+            Vector2 arenaPos = TerrorbornSystem.IIShrinePosition * 16;
             arenaPos += new Vector2(-37 * 16, 92 * 16);
             arena = new Rectangle((int)arenaPos.X, (int)arenaPos.Y, 75 * 16, 35 * 16);
         }
@@ -86,8 +77,8 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             timeAlive++;
             float rotation = MathHelper.ToRadians(94f + (float)Math.Sin(timeAlive / 50) * 4f);
 
-            npc.position = arena.Center.ToVector2().findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + rotation.ToRotationVector2() * arena.Height / 2;
-            npc.rotation = rotation - MathHelper.ToRadians(94f);
+            NPC.position = arena.Center.ToVector2().findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + rotation.ToRotationVector2() * arena.Height / 2;
+            NPC.rotation = rotation - MathHelper.ToRadians(94f);
 
             if (TerrorbornPlayer.modPlayer(Main.LocalPlayer).ShriekTime > 0 && arena.Contains(Main.LocalPlayer.getRect()) && !spawningAnimation)
             {
@@ -103,17 +94,17 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 {
                     shakeCounter = 0;
                     shakesLeft--;
-                    TerrorbornMod.ScreenShake(10f);
+                    TerrorbornSystem.ScreenShake(10f);
                     if (shakesLeft == 1)
                     {
-                        TerrorbornMod.ScreenShake(15f);
+                        TerrorbornSystem.ScreenShake(15f);
                     }
-                    Main.PlaySound(SoundID.Item62, npc.Center);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
 
                     if (shakesLeft <= 0)
                     {
-                        npc.active = false;
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<InfectedIncarnate>());
+                        NPC.active = false;
+                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<InfectedIncarnate>());
                     }
                 }
             }
@@ -124,8 +115,8 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
     {
         public override void SetStaticDefaults()
         {
-            NPCID.Sets.MustAlwaysDraw[npc.type] = true;
-            Main.npcFrameCount[npc.type] = 26;
+            NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
+            Main.npcFrameCount[NPC.type] = 26;
         }
 
         public override bool CheckActive()
@@ -141,19 +132,19 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
         public override void SetDefaults()
         {
-            npc.width = 25;
-            npc.height = 48;
-            npc.damage = 30;
-            npc.defense = 5;
-            npc.friendly = false;
-            npc.boss = true;
-            npc.lifeMax = 1750;
+            NPC.width = 25;
+            NPC.height = 48;
+            NPC.damage = 30;
+            NPC.defense = 5;
+            NPC.friendly = false;
+            NPC.boss = true;
+            NPC.lifeMax = 1750;
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/InfectedIncarnate");
-            npc.knockBackResist = 0f;
-            npc.aiStyle = -1;
-            npc.HitSound = SoundID.NPCHit18;
+            NPC.knockBackResist = 0f;
+            NPC.aiStyle = -1;
+            NPC.HitSound = SoundID.NPCHit18;
 
-            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
+            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.BossTitle = "Infected Incarnate";
             modNPC.BossSubtitle = "Prototype III";
             modNPC.BossTitleColor = new Color(255, 116, 39);
@@ -167,22 +158,22 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
         public override void NPCLoot()
         {
-            foreach (Projectile projectile in Main.projectile)
+            foreach (Projectile Projectile in Main.projectile)
             {
-                if (player.heldProj != projectile.whoAmI && !projectile.minion && !projectile.sentry)
+                if (player.heldProj != Projectile.whoAmI && !Projectile.minion && !Projectile.sentry)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
-            TerrorbornWorld.downedInfectedIncarnate = true;
+            TerrorbornSystem.downedInfectedIncarnate = true;
             TerrorbornMod.ScreenDarknessAlpha = 0f;
 
 
             bool spawnBD = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(8);
             for (int i = 0; i < 1000; i++)
             {
-                Projectile projectile = Main.projectile[i];
-                if (projectile.active && projectile.type == ModContent.ProjectileType<Abilities.BlinkDash>())
+                Projectile Projectile = Main.projectile[i];
+                if (Projectile.active && Projectile.type == ModContent.ProjectileType<Abilities.BlinkDash>())
                 {
                     spawnBD = false;
                 }
@@ -196,38 +187,38 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
             if (Main.rand.Next(10) == 0)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Placeable.Furniture.InfectedIncarnateTrophy>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Placeable.Furniture.InfectedIncarnateTrophy>());
             }
 
             if (Main.expertMode)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.TreasureBags.II_TreasureBag>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.TreasureBags.II_TreasureBag>());
             }
             else
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentHelmet>());
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentBreastplate>());
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentGreaves>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentHelmet>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentBreastplate>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Armor.SilentGreaves>());
 
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
                         break;
                     case 1:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
                         break;
                     case 2:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
+                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
                         break;
                 }
 
                 if (Main.rand.Next(7) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>());
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>());
                 }
             }
         }
@@ -247,14 +238,14 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             teleportPlayer = !(playerPosition == Vector2.Zero);
 
             teleportCounter = 15;
-            npcTeleportPos = NPCPosition;
+            NPCTeleportPos = NPCPosition;
             playerTeleportPos = playerPosition;
 
-            foreach (Projectile projectile in Main.projectile)
+            foreach (Projectile Projectile in Main.projectile)
             {
-                if (player.heldProj != projectile.whoAmI && !projectile.minion && !projectile.sentry)
+                if (player.heldProj != Projectile.whoAmI && !Projectile.minion && !Projectile.sentry)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
 
@@ -266,21 +257,21 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects effects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
             Vector2 offset = new Vector2(0, -4);
-            spriteBatch.Draw(ModContent.GetTexture(Texture), npc.Center - Main.screenPosition + offset, npc.frame, drawColor, npc.rotation, new Vector2(80, 62) / 2, npc.scale, effects, 0f);
-            spriteBatch.Draw(ModContent.GetTexture(Texture + "_Glow"), npc.Center - Main.screenPosition + offset, npc.frame, Color.White, npc.rotation, new Vector2(80, 62) / 2, npc.scale, effects, 0f);
-            spriteBatch.Draw(ModContent.GetTexture(Texture + "_Sword"), npc.Center - Main.screenPosition + offset, npc.frame, Color.White, npc.rotation, new Vector2(80, 62) / 2, npc.scale, effects, 0f);
+            spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>(Texture), NPC.Center - Main.screenPosition + offset, NPC.frame, drawColor, NPC.rotation, new Vector2(80, 62) / 2, NPC.scale, effects, 0f);
+            spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>(Texture + "_Glow"), NPC.Center - Main.screenPosition + offset, NPC.frame, Color.White, NPC.rotation, new Vector2(80, 62) / 2, NPC.scale, effects, 0f);
+            spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>(Texture + "_Sword"), NPC.Center - Main.screenPosition + offset, NPC.frame, Color.White, NPC.rotation, new Vector2(80, 62) / 2, NPC.scale, effects, 0f);
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             for (float i = 1f; i < 1.2f; i += 0.05f)
             {
-                spriteBatch.Draw(ModContent.GetTexture(Texture + "_Glow"), npc.Center - Main.screenPosition + offset, npc.frame, Color.White * 0.5f, npc.rotation, new Vector2(80, 62) / 2, npc.scale * i, effects, 0f);
+                spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>(Texture + "_Glow"), NPC.Center - Main.screenPosition + offset, NPC.frame, Color.White * 0.5f, NPC.rotation, new Vector2(80, 62) / 2, NPC.scale * i, effects, 0f);
             }
 
             spriteBatch.End();
@@ -297,8 +288,8 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
                 for (int i = 0; i < rings.Count; i++)
                 {
-                    Texture2D texture = ModContent.GetTexture("TerrorbornMod/Effects/Textures/Ring1");
-                    spriteBatch.Draw(texture, npc.Center - Main.screenPosition, null, Color.Orange * 0.25f, 0f, texture.Size() / 2, rings[i] / texture.Width, SpriteEffects.None, 0f);
+                    Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Effects/Textures/Ring1");
+                    spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, null, Color.Orange * 0.25f, 0f, texture.Size() / 2, rings[i] / texture.Width, SpriteEffects.None, 0f);
 
                     rings[i] -= 150f;
                     if (rings[i] <= 0f)
@@ -328,7 +319,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
         void SetArenaPosition()
         {
-            Vector2 arenaPos = TerrorbornWorld.IIShrinePosition * 16;
+            Vector2 arenaPos = TerrorbornSystem.IIShrinePosition * 16;
             arenaPos += new Vector2(-37 * 16, 92 * 16);
             arena = new Rectangle((int)arenaPos.X, (int)arenaPos.Y, 75 * 16, 35 * 16);
         }
@@ -337,7 +328,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         public override void FindFrame(int frameHeight)
         {
             TerrorbornMod.screenFollowTime = 2;
-            npc.frame.Y = frameHeight * frame;
+            NPC.frame.Y = frameHeight * frame;
         }
 
         List<int> NextAttacks = new List<int>();
@@ -374,7 +365,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         int teleportCounter;
         bool teleportNPC;
         bool teleportPlayer;
-        Vector2 npcTeleportPos;
+        Vector2 NPCTeleportPos;
         Vector2 playerTeleportPos;
         bool start = true;
 
@@ -393,13 +384,13 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 DecideNextAttack();
             }
 
-            npc.TargetClosest(false);
-            player = Main.player[npc.target];
+            NPC.TargetClosest(false);
+            player = Main.player[NPC.target];
 
             if (teleportCounter > 0)
             {
                 teleportCounter--;
-                npc.position -= npc.velocity;
+                NPC.position -= NPC.velocity;
                 player.velocity = Vector2.Zero;
                 TerrorbornMod.ScreenDarknessAlpha = 1f;
 
@@ -407,7 +398,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 {
                     if (teleportNPC)
                     {
-                        npc.position = npcTeleportPos - npc.Size / 2;
+                        NPC.position = NPCTeleportPos - NPC.Size / 2;
                     }
                     if (teleportPlayer)
                     {
@@ -415,16 +406,16 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                     }
                     if (player.dead || player.active == false)
                     {
-                        npc.active = false;
+                        NPC.active = false;
                         TerrorbornMod.ScreenDarknessAlpha = 0f;
                     }
                 }
 
-                foreach (Projectile projectile in Main.projectile)
+                foreach (Projectile Projectile in Main.projectile)
                 {
-                    if (player.heldProj != projectile.whoAmI && !projectile.minion && !projectile.sentry)
+                    if (player.heldProj != Projectile.whoAmI && !Projectile.minion && !Projectile.sentry)
                     {
-                        projectile.active = false;
+                        Projectile.active = false;
                     }
                 }
 
@@ -451,13 +442,13 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                         ShriekOfHorror(60 * 3);
                         break;
                     case 3:
-                        if (npc.life >= npc.lifeMax * 0.66f) TeleportingSlashes(4, 60);
-                        else if (npc.life >= npc.lifeMax * 0.33f) TeleportingSlashes(5, 45);
+                        if (NPC.life >= NPC.lifeMax * 0.66f) TeleportingSlashes(4, 60);
+                        else if (NPC.life >= NPC.lifeMax * 0.33f) TeleportingSlashes(5, 45);
                         else TeleportingSlashes(7, 30);
                         break;
                     case 4:
-                        if (npc.life >= npc.lifeMax * 0.66f) VerticalDashes(7, 34f);
-                        else if (npc.life >= npc.lifeMax * 0.25f) VerticalDashes(8, 34f);
+                        if (NPC.life >= NPC.lifeMax * 0.66f) VerticalDashes(7, 34f);
+                        else if (NPC.life >= NPC.lifeMax * 0.25f) VerticalDashes(8, 34f);
                         else VerticalDashes(10, 42f);
                         break;
                     default:
@@ -466,7 +457,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
                 if (teleportCounter > 0)
                 {
-                    npc.position -= npc.velocity;
+                    NPC.position -= NPC.velocity;
                     TerrorbornMod.ScreenDarknessAlpha = 1f;
                     player.velocity = Vector2.Zero;
                     player.noFallDmg = true;
@@ -478,29 +469,29 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         {
             if (phaseStart)
             {
-                npc.noGravity = false;
-                npc.noTileCollide = true;
+                NPC.noGravity = false;
+                NPC.noTileCollide = true;
                 int direction = 1;
                 if (Main.rand.NextBool()) direction = -1;
                 Teleport(new Vector2(arena.Center.X + arena.Width / 10 * direction, arena.Y + 60), arena.Center().findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
-                npc.velocity = new Vector2(2 * direction, -10);
+                NPC.velocity = new Vector2(2 * direction, -10);
                 attackCounter1 = delay;
                 frame = 23;
-                npc.rotation = 0f;
+                NPC.rotation = 0f;
                 attackCounter2 = 0;
                 phaseStart = false;
             }
             if (attackCounter1 > 0)
             {
-                npc.spriteDirection = Math.Sign(npc.Center.X - player.Center.X);
+                NPC.spriteDirection = Math.Sign(NPC.Center.X - player.Center.X);
 
-                if (npc.life <= npc.lifeMax * 0.5f)
+                if (NPC.life <= NPC.lifeMax * 0.5f)
                 {
                     if ((int)attackCounter1 == (int)(delay / 2))
                     {
-                        Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<TeleportLight>(), 0, 0f);
-                        npc.position.X = npc.position.X + (arena.Center.X - npc.Center.X) * 2;
-                        Main.PlaySound(SoundID.Item6, npc.Center);
+                        Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<TeleportLight>(), 0, 0f);
+                        NPC.position.X = NPC.position.X + (arena.Center.X - NPC.Center.X) * 2;
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item6, NPC.Center);
                     }
                 }
 
@@ -508,15 +499,15 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 if (attackCounter1 <= 0)
                 {
                     attackCounter2 = timeUntilTeleport;
-                    npc.velocity = npc.DirectionTo(player.Center) * speed;
-                    npc.rotation = npc.DirectionTo(player.Center).ToRotation();
-                    if (npc.spriteDirection == 1)
+                    NPC.velocity = NPC.DirectionTo(player.Center) * speed;
+                    NPC.rotation = NPC.DirectionTo(player.Center).ToRotation();
+                    if (NPC.spriteDirection == 1)
                     {
-                        npc.rotation = npc.DirectionTo(player.Center).ToRotation() + MathHelper.ToRadians(180);
+                        NPC.rotation = NPC.DirectionTo(player.Center).ToRotation() + MathHelper.ToRadians(180);
                     }
-                    Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 71, 2.5f, -0.25f);
+                    Terraria.Audio.SoundEngine.PlaySound(2, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, -0.25f);
                     meleeOn = true;
-                    npc.noGravity = true;
+                    NPC.noGravity = true;
                     frame = 24;
                 }
             }
@@ -558,34 +549,34 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 int direction = 1;
                 if (Main.rand.NextBool()) direction = -1;
                 int distanceFromCenter = 250;
-                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, npc.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
-                npc.noTileCollide = false;
-                npc.noGravity = false;
-                npc.rotation = 0f;
+                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, NPC.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
+                NPC.noTileCollide = false;
+                NPC.noGravity = false;
+                NPC.rotation = 0f;
                 frame = 2;
                 attackCounter1 = time;
                 meleeOn = false;
                 attackCounter2 = 0;
                 phaseStart = false;
-                npc.velocity = Vector2.Zero;
+                NPC.velocity = Vector2.Zero;
             }
 
-            npc.spriteDirection = Math.Sign(npc.Center.X - player.Center.X);
-            npc.velocity.X += acceleration * -npc.spriteDirection;
+            NPC.spriteDirection = Math.Sign(NPC.Center.X - player.Center.X);
+            NPC.velocity.X += acceleration * -NPC.spriteDirection;
 
-            if (npc.velocity.X > maxSpeed)
+            if (NPC.velocity.X > maxSpeed)
             {
-                npc.velocity.X = maxSpeed;
+                NPC.velocity.X = maxSpeed;
             }
 
-            if (npc.velocity.X < -maxSpeed)
+            if (NPC.velocity.X < -maxSpeed)
             {
-                npc.velocity.X = -maxSpeed;
+                NPC.velocity.X = -maxSpeed;
             }
 
-            WalkAnimation(Math.Abs(npc.velocity.X));
+            WalkAnimation(Math.Abs(NPC.velocity.X));
 
-            if (npc.life <= npc.lifeMax * 0.65f)
+            if (NPC.life <= NPC.lifeMax * 0.65f)
             {
                 attackCounter2++;
                 if (attackCounter2 >= 60)
@@ -614,11 +605,11 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 int direction = 1;
                 if (Main.rand.NextBool()) direction = -1;
                 int distanceFromCenter = 100;
-                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, npc.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
-                npc.noTileCollide = false;
-                npc.noGravity = false;
-                npc.rotation = 0f;
-                npc.velocity = Vector2.Zero;
+                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, NPC.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
+                NPC.noTileCollide = false;
+                NPC.noGravity = false;
+                NPC.rotation = 0f;
+                NPC.velocity = Vector2.Zero;
                 frame = 16;
                 attackCounter1 = time;
                 meleeOn = false;
@@ -631,7 +622,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             if (teleportCounter <= 0 && !spawnedProjectile)
             {
                 spawnedProjectile = true;
-                int projCount = 7 + (int)(5f * (1f - ((float)npc.life / (float)npc.lifeMax)));
+                int projCount = 7 + (int)(5f * (1f - ((float)NPC.life / (float)NPC.lifeMax)));
                 float offset = Main.rand.NextFloat(0f, 360f / projCount);
                 for (float i = 0f; i < 1f; i += 1f / (float)projCount)
                 {
@@ -639,10 +630,10 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                     float distance = 1000f;
                     float speed = distance / (float)time;
                     Vector2 velocity = -speed * direction;
-                    Vector2 position = npc.Center + distance * direction;
+                    Vector2 position = NPC.Center + distance * direction;
                     Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<IncarnateLaser>(), 40 / 4, 0f);
                 }
-                CombatText.NewText(npc.getRect(), new Color(255, 116, 39), "Shriek of Horror");
+                CombatText.NewText(NPC.getRect(), new Color(255, 116, 39), "Shriek of Horror");
             }
 
             shriekFrameCounter--;
@@ -663,13 +654,13 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             if (shriekSoundCounter <= 0 && teleportCounter <= 0)
             {
                 shriekSoundCounter = 22;
-                Main.PlaySound(SoundID.Item103, npc.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item103, NPC.Center);
             }
 
-            player.position.X += Math.Sign(npc.Center.X - player.Center.X) * 1.5f;
+            player.position.X += Math.Sign(NPC.Center.X - player.Center.X) * 1.5f;
 
-            npc.spriteDirection = Math.Sign(npc.Center.X - player.Center.X);
-            TerrorbornMod.ScreenShake(2f);
+            NPC.spriteDirection = Math.Sign(NPC.Center.X - player.Center.X);
+            TerrorbornSystem.ScreenShake(2f);
             TerrorbornPlayer.modPlayer(player).LoseTerror(2f, true, true);
 
             attackCounter1--;
@@ -687,28 +678,28 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 int direction = 1;
                 if (Main.rand.NextBool()) direction = -1;
                 int distanceFromCenter = 200;
-                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + new Vector2(0, npc.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
-                npc.noTileCollide = false;
-                npc.noGravity = true;
-                npc.rotation = 0f;
-                npc.velocity = Vector2.Zero;
+                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + new Vector2(0, NPC.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
+                NPC.noTileCollide = false;
+                NPC.noGravity = true;
+                NPC.rotation = 0f;
+                NPC.velocity = Vector2.Zero;
                 frame = 18;
                 attackCounter1 = amount;
                 meleeOn = false;
                 attackCounter2 = 0;
                 phaseStart = false;
                 slashingFrameCounter = 0;
-                npc.spriteDirection = -Math.Sign(npc.Center.X - player.Center.X);
-                npc.rotation = MathHelper.ToRadians(180);
+                NPC.spriteDirection = -Math.Sign(NPC.Center.X - player.Center.X);
+                NPC.rotation = MathHelper.ToRadians(180);
             }
 
-            if (npc.position.Y > arena.Center.Y)
+            if (NPC.position.Y > arena.Center.Y)
             {
-                npc.spriteDirection = Math.Sign(npc.Center.X - player.Center.X);
+                NPC.spriteDirection = Math.Sign(NPC.Center.X - player.Center.X);
             }
             else
             {
-                npc.spriteDirection = -Math.Sign(npc.Center.X - player.Center.X);
+                NPC.spriteDirection = -Math.Sign(NPC.Center.X - player.Center.X);
             }
 
             slashingFrameCounter++;
@@ -721,9 +712,9 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             if (frame == 20 && slashingFrameCounter == 0)
             {
                 float speed = 10f;
-                Vector2 velocity = npc.DirectionTo(player.Center) * speed;
-                Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<SlashAttack>(), 50 / 4, 0f);
-                Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 71, 2.5f, 0.25f);
+                Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
+                Projectile.NewProjectile(NPC.Center, velocity, ModContent.ProjectileType<SlashAttack>(), 50 / 4, 0f);
+                Terraria.Audio.SoundEngine.PlaySound(2, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, 0.25f);
 
             }
 
@@ -736,7 +727,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 }
                 else
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<TeleportLight>(), 0, 0f);
+                    Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<TeleportLight>(), 0, 0f);
 
                     Vector2 position = FindTeleportPosition(350);
 
@@ -747,18 +738,18 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
                     if (position.Y > arena.Center.Y)
                     {
-                        npc.position = position - new Vector2(npc.width / 2, npc.height);
-                        npc.spriteDirection = Math.Sign(npc.Center.X - player.Center.X);
-                        npc.rotation = 0f;
+                        NPC.position = position - new Vector2(NPC.width / 2, NPC.height);
+                        NPC.spriteDirection = Math.Sign(NPC.Center.X - player.Center.X);
+                        NPC.rotation = 0f;
                     }
                     else
                     {
-                        npc.position = position - new Vector2(npc.width / 2, -6);
-                        npc.spriteDirection = -Math.Sign(npc.Center.X - player.Center.X);
-                        npc.rotation = MathHelper.ToRadians(180);
+                        NPC.position = position - new Vector2(NPC.width / 2, -6);
+                        NPC.spriteDirection = -Math.Sign(NPC.Center.X - player.Center.X);
+                        NPC.rotation = MathHelper.ToRadians(180);
                     }
                     frame = 18;
-                    Main.PlaySound(SoundID.Item6, npc.Center);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item6, NPC.Center);
                 }
             }
         }
@@ -788,10 +779,10 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 teleportDirection = 1;
                 if (Main.rand.NextBool()) teleportDirection = -1;
                 int distanceFromCenter = 200;
-                Teleport((arena.Center() + new Vector2(distanceFromCenter * teleportDirection, 0)).findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + new Vector2(0, npc.height / 2), (arena.Center().findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2)));
-                npc.noTileCollide = true;
-                npc.noGravity = true;
-                npc.rotation = 0f;
+                Teleport((arena.Center() + new Vector2(distanceFromCenter * teleportDirection, 0)).findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + new Vector2(0, NPC.height / 2), (arena.Center().findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2)));
+                NPC.noTileCollide = true;
+                NPC.noGravity = true;
+                NPC.rotation = 0f;
                 frame = 24;
                 attackCounter1 = amount;
                 attackCounter2 = 0;
@@ -799,9 +790,9 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 meleeOn = false;
                 phaseStart = false;
                 slashingFrameCounter = 0;
-                npc.spriteDirection = -1;
-                npc.rotation = MathHelper.ToRadians(90);
-                npc.velocity = new Vector2(0, 18f);
+                NPC.spriteDirection = -1;
+                NPC.rotation = MathHelper.ToRadians(90);
+                NPC.velocity = new Vector2(0, 18f);
                 bottom = true;
                 hasStartedYet = false;
             }
@@ -809,8 +800,8 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             if (teleportCounter <= 0 && !hasStartedYet)
             {
                 hasStartedYet = true;
-                Projectile.NewProjectile(npc.Center + new Vector2(0, 2000), new Vector2(0, -1), ModContent.ProjectileType<InfectedSlash>(), 65 / 4, 0f);
-                Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 71, 2.5f, -0.25f);
+                Projectile.NewProjectile(NPC.Center + new Vector2(0, 2000), new Vector2(0, -1), ModContent.ProjectileType<InfectedSlash>(), 65 / 4, 0f);
+                Terraria.Audio.SoundEngine.PlaySound(2, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, -0.25f);
                 targetPosition = player.Center;
             }
 
@@ -827,25 +818,25 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 {
                     Projectile.NewProjectile(targetPosition + new Vector2(-5, 2000), new Vector2(0, -1), ModContent.ProjectileType<InfectedSlash>(), 40 / 4, 0f);
                     attackCounter2 = 0;
-                    npc.position.X = targetPosition.X - npc.width / 2;
+                    NPC.position.X = targetPosition.X - NPC.width / 2;
                     if (bottom)
                     {
                         bottom = false;
-                        npc.rotation = MathHelper.ToRadians(-90);
-                        npc.velocity = new Vector2(0, -speed);
-                        npc.position.Y = arena.Center.Y + 1000f;
+                        NPC.rotation = MathHelper.ToRadians(-90);
+                        NPC.velocity = new Vector2(0, -speed);
+                        NPC.position.Y = arena.Center.Y + 1000f;
                     }
                     else
                     {
                         bottom = true;
-                        npc.rotation = MathHelper.ToRadians(90);
-                        npc.velocity = new Vector2(0, speed);
-                        npc.position.Y = arena.Center.Y - 1000f;
+                        NPC.rotation = MathHelper.ToRadians(90);
+                        NPC.velocity = new Vector2(0, speed);
+                        NPC.position.Y = arena.Center.Y - 1000f;
                     }
-                    Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 71, 2.5f, -0.25f);
+                    Terraria.Audio.SoundEngine.PlaySound(2, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, -0.25f);
 
                     targetPosition = player.Center;
-                    if (attackCounter1 == (int)(amount * 0.65f) && npc.life <= npc.lifeMax * 0.75f)
+                    if (attackCounter1 == (int)(amount * 0.65f) && NPC.life <= NPC.lifeMax * 0.75f)
                     {
                         targetPosition.X += -teleportDirection * 200;
                     }
@@ -858,27 +849,27 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
     {
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.timeLeft = 500;
-            projectile.tileCollide = false;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 500;
+            Projectile.tileCollide = false;
         }
 
         int timeUntilCollide = 20;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Vector2 position = projectile.Center - Main.screenPosition;
-            Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, projectile.width, projectile.height), projectile.GetAlpha(Color.White), projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), 1f, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 position = Projectile.Center - Main.screenPosition;
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, Projectile.width, Projectile.height), Projectile.GetAlpha(Color.White), Projectile.rotation, new Vector2(Projectile.width / 2, Projectile.height / 2), 1f, SpriteEffects.None, 0);
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             for (float i = 1f; i < 1.2f; i += 0.05f)
             {
-                Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, projectile.width, projectile.height), projectile.GetAlpha(Color.White) * 0.5f, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), i, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, Projectile.width, Projectile.height), Projectile.GetAlpha(Color.White) * 0.5f, Projectile.rotation, new Vector2(Projectile.width / 2, Projectile.height / 2), i, SpriteEffects.None, 0);
             }
 
             spriteBatch.End();
@@ -891,23 +882,23 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         {
             if (start)
             {
-                projectile.rotation = MathHelper.ToRadians(Main.rand.Next(360));
+                Projectile.rotation = MathHelper.ToRadians(Main.rand.Next(360));
                 start = false;
             }
-            projectile.rotation += MathHelper.ToRadians(5f);
+            Projectile.rotation += MathHelper.ToRadians(5f);
 
             timeUntilCollide--;
             if (timeUntilCollide <= 0)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<TeleportLight>(), 0, 0);
-            Main.PlaySound(SoundID.Item14, projectile.Center);
-            TerrorbornMod.ScreenShake(3f);
+            Projectile.NewProjectile(Projectile.Center, Projectile.velocity, ModContent.ProjectileType<TeleportLight>(), 0, 0);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            TerrorbornSystem.ScreenShake(3f);
         }
     }
 
@@ -917,30 +908,30 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -954,9 +945,9 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 for (int i = 0; i < positions.Count; i++)
                 {
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.Lerp(Color.OrangeRed, Color.Orange, mult)) * mult;
-                    Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(25f * mult), color);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.Lerp(Color.OrangeRed, Color.Orange, mult)) * mult;
+                    Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * mult), color);
                 }
             }
 
@@ -977,7 +968,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
     }
 
@@ -985,38 +976,38 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(Color.White) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 42;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            Projectile.width = 46;
+            Projectile.height = 42;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
         }
     }
 
@@ -1029,20 +1020,20 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         int currentSize = defaultSize;
         public override void SetDefaults()
         {
-            projectile.width = defaultSize;
-            projectile.height = defaultSize;
-            projectile.friendly = false;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.localNPCHitCooldown = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.timeLeft = timeLeft;
+            Projectile.width = defaultSize;
+            Projectile.height = defaultSize;
+            Projectile.friendly = false;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.timeLeft = timeLeft;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, currentSize, Color.Orange);
+            Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, Color.Orange);
             return false;
         }
 
@@ -1059,14 +1050,14 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/LightBlast";
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.hide = false;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.timeLeft = 3600;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.hide = false;
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            Projectile.timeLeft = 3600;
             MoveDistance = 20f;
             RealMaxDistance = 4000f;
             bodyRect = new Rectangle(0, 0, 10, 10);

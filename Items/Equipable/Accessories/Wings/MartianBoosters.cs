@@ -18,11 +18,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 8, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 8, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.accessory = true;
         }
 
         int soundDelay = 10;
@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
                     player.wingTime = 0;
                     downCounter = -1;
                     CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height), Color.Cyan, "Flight fuel disposed", true);
-                    Main.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 72, 1.5f, -0.6f);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 72, 1.5f, -0.6f);
                 }
                 else
                 {
@@ -51,7 +51,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
             }
         }
 
-        public override void UpdateVanity(Player player, EquipType type)
+        public override void UpdateVanity(Player player)
         {
             if (player.velocity.Y != 0)
             {
@@ -67,13 +67,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
                 if (soundDelay <= 0)
                 {
                     soundDelay = 10;
-                    Main.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 24, 1, 1);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 24, 1, 1);
                 }
                 int dust = Dust.NewDust(new Vector2(player.Center.X - 20 + (-17.5f * player.direction), player.Center.Y - 10), 40, 40, 226);
                 Main.dust[dust].velocity = new Vector2(0, 3);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].noLight = true;
-                Main.dust[dust].color = item.color;
+                Main.dust[dust].color = Item.color;
                 Main.dust[dust].scale = 0.5f;
             }
         }

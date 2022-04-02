@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,42 +14,42 @@ namespace TerrorbornMod.NPCs.Incendiary
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.aiStyle = -1;
-            npc.width = 40;
-            npc.height = 28;
-            npc.damage = 45;
-            npc.defense = 20;
-            npc.lifeMax = 425;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.value = 250;
-            npc.knockBackResist = 0f;
-            npc.lavaImmune = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.aiStyle = -1;
+            NPC.width = 40;
+            NPC.height = 28;
+            NPC.damage = 45;
+            NPC.defense = 20;
+            NPC.lifeMax = 425;
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.value = 250;
+            NPC.knockBackResist = 0f;
+            NPC.lavaImmune = true;
         }
 
         int frame = 0;
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter--;
-            if (npc.frameCounter <= 0)
+            NPC.frameCounter--;
+            if (NPC.frameCounter <= 0)
             {
                 frame++;
-                npc.frameCounter = 3;
+                NPC.frameCounter = 3;
             }
-            if (frame >= Main.npcFrameCount[npc.type])
+            if (frame >= Main.npcFrameCount[NPC.type])
             {
                 frame = 0;
             }
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void NPCLoot()
         {
             if (Main.rand.NextFloat() <= 0.066f)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Magic.IncendiaryGazeblaster>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Magic.IncendiaryGazeblaster>());
             }
         }
 
@@ -68,49 +66,49 @@ namespace TerrorbornMod.NPCs.Incendiary
         }
 
         bool start = true;
-        int projectileWait = -1;
+        int ProjectileWait = -1;
         public override void AI()
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+            NPC.TargetClosest(true);
+            Player player = Main.player[NPC.target];
 
             if (start)
             {
                 start = false;
-                projectileWait = 60;
+                ProjectileWait = 60;
             }
 
-            if ((Collision.CanHitLine(npc.position, npc.width, npc.height, player.position, player.width, player.height) || npc.life <= npc.lifeMax * 0.25f) && npc.Distance(player.Center) < 1000)
+            if ((Collision.CanHitLine(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height) || NPC.life <= NPC.lifeMax * 0.25f) && NPC.Distance(player.Center) < 1000)
             {
-                projectileWait--;
-                if (projectileWait <= 0)
+                ProjectileWait--;
+                if (ProjectileWait <= 0)
                 {
-                    projectileWait = 30 + (int)(30f / ((float)npc.lifeMax / (float)npc.life));
+                    ProjectileWait = 30 + (int)(30f / ((float)NPC.lifeMax / (float)NPC.life));
                     float speed = 15f;
-                    Vector2 velocity = npc.DirectionTo(player.Center + player.velocity * (npc.Distance(player.Center) / speed)) * speed;
-                    npc.velocity += npc.DirectionFrom(player.Center) * 3;
-                    Main.PlaySound(SoundID.Item33, npc.Center);
-                    Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<IncendiaryProbeLaser>(), 90 / 4, 0);
+                    Vector2 velocity = NPC.DirectionTo(player.Center + player.velocity * (NPC.Distance(player.Center) / speed)) * speed;
+                    NPC.velocity += NPC.DirectionFrom(player.Center) * 3;
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
+                    Projectile.NewProjectile(NPC.Center, velocity, ModContent.ProjectileType<IncendiaryProbeLaser>(), 90 / 4, 0);
                 }
             }
             else
             {
                 float moveSpeed = 0.2f;
-                npc.velocity += npc.DirectionTo(player.Center) * moveSpeed;
+                NPC.velocity += NPC.DirectionTo(player.Center) * moveSpeed;
             }
 
-            if (player.Center.X > npc.Center.X)
+            if (player.Center.X > NPC.Center.X)
             {
-                npc.spriteDirection = 1;
+                NPC.spriteDirection = 1;
             }
             else
             {
-                npc.spriteDirection = -1;
+                NPC.spriteDirection = -1;
             }
 
-            npc.rotation = MathHelper.ToRadians(npc.velocity.X * 1.5f);
+            NPC.rotation = MathHelper.ToRadians(NPC.velocity.X * 1.5f);
 
-            npc.velocity *= 0.96f;
+            NPC.velocity *= 0.96f;
         }
     }
 
@@ -118,14 +116,14 @@ namespace TerrorbornMod.NPCs.Incendiary
     {
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 6;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 22;
+            Projectile.height = 6;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -135,8 +133,8 @@ namespace TerrorbornMod.NPCs.Incendiary
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
-            Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Fire, Vector2.Zero);
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Dust dust = Dust.NewDustPerfect(Projectile.Center, 6, Vector2.Zero);
             dust.noGravity = true;
 
         }

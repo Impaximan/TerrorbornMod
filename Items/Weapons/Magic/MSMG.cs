@@ -1,12 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using System.Collections.Generic;
 using TerrorbornMod.Projectiles;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Magic
 {
@@ -14,12 +11,11 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 20);
-            recipe.AddIngredient(ModContent.ItemType<Materials.NovagoldBar>(), 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.MeteoriteBar, 20)
+                .AddIngredient(ModContent.ItemType<Materials.NovagoldBar>(), 2)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -31,24 +27,24 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.45f;
-            item.damage = 8;
-            item.noMelee = true;
-            item.width = 48;
-            item.height = 28;
-            item.useTime = 6;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.crit = 14;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.shootSpeed = 1f;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SpaceLaser>();
-            item.mana = 3;
-            item.magic = true;
+            Item.damage = 8;
+            Item.noMelee = true;
+            Item.width = 48;
+            Item.height = 28;
+            Item.useTime = 6;
+            Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.crit = 14;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.shootSpeed = 1f;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SpaceLaser>();
+            Item.mana = 3;
+            Item.DamageType = DamageClass.Magic;;
         }
 
         public override Vector2? HoldoutOffset()
@@ -56,17 +52,16 @@ namespace TerrorbornMod.Items.Weapons.Magic
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            TerrorbornMod.ScreenShake(1f);
-            Main.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 125, 1, 1);
-            Vector2 shootSpeed = new Vector2(speedX, speedY);
+            TerrorbornSystem.ScreenShake(1f);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 125, 1, 1);
+            Vector2 shootSpeed = new Vector2(velocity.X, velocity.Y);
             shootSpeed.Normalize();
             position += shootSpeed * 22;
             shootSpeed = shootSpeed.RotatedByRandom(MathHelper.ToRadians(3));
-            speedX = shootSpeed.X;
-            speedY = shootSpeed.Y;
-            return true;
+            velocity.X = shootSpeed.X;
+            velocity.Y = shootSpeed.Y;
         }
     }
 
@@ -76,17 +71,17 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/LightBlast";
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.hide = false;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.timeLeft = timeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.hide = false;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.timeLeft = timeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
             MoveDistance = 20f;
             RealMaxDistance = 2000f;
             bodyRect = new Rectangle(0, 0, 10, 10);

@@ -13,11 +13,11 @@ namespace TerrorbornMod.Items.TreasureBags
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.expert = true;
         }
 
         public override bool CanRightClick()
@@ -29,42 +29,42 @@ namespace TerrorbornMod.Items.TreasureBags
         {
             if (Main.rand.Next(7) == 0)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.ShadowcrawlerMask>());
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.ShadowcrawlerMask>());
             }
-            player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Accessories.DarkAbdomen>());
-            player.QuickSpawnItem(ModContent.ItemType<Items.Materials.SoulOfPlight>(), Main.rand.Next(25, 41));
+            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Accessories.DarkAbdomen>());
+            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Materials.SoulOfPlight>(), Main.rand.Next(25, 41));
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Shadowcrawler.BladeOfShade>());
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Shadowcrawler.BladeOfShade>());
             }
             else if (choice == 1)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Shadowcrawler.Nightbrood>());
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Shadowcrawler.Nightbrood>());
             }
             else if (choice == 2)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Shadowcrawler.BoiledBarrageWand>());
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Shadowcrawler.BoiledBarrageWand>());
             }
             int armorChoice = Main.rand.Next(3);
             if (armorChoice == 0)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Armor.TenebrisMask>());
-                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Armor.TenebrisChestplate>());
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisMask>());
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisChestplate>());
             }
             if (armorChoice == 1)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>());
-                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Armor.TenebrisChestplate>());
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>());
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisChestplate>());
             }
             if (armorChoice == 2)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Armor.TenebrisMask>());
-                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>());
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisMask>());
+                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>());
             }
         }
 
-        public override int BossBagNPC => mod.NPCType("Shadowcrawler");
+        public override int BossBagNPC => ModContent.NPCType<NPCs.Bosses.Shadowcrawler>();
     }
 }
 

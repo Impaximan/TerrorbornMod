@@ -14,19 +14,19 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Blue;
-            item.defense = 2;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.useAnimation = 5;
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 2;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.useAnimation = 5;
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.burstJump = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 45, item, player, new Vector2(8, -20), Color.White, SoundID.Item14);
+            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 45, Item, player, new Vector2(8, -20), Color.White, SoundID.Item14);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.BurstJumpTime > 0)
             {

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Terraria.World.Generation;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
 using TerrorbornMod.Projectiles;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Summons.Sentry
 {
@@ -22,22 +16,22 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
 
         public override void SetDefaults()
         {
-            item.mana = 10;
-            item.summon = true;
-            item.damage = 22;
-            item.width = 44;
-            item.height = 44;
-            item.sentry = true;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item44;
-            item.shoot = ModContent.ProjectileType<IncendiaryGuardianSummon>();
-            item.shootSpeed = 10f;
-            item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Summon;
+            Item.damage = 22;
+            Item.width = 44;
+            Item.height = 44;
+            Item.sentry = true;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = ModContent.ProjectileType<IncendiaryGuardianSummon>();
+            Item.shootSpeed = 10f;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
         }
 
         public override bool AltFunctionUse(Player player)
@@ -45,7 +39,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -61,16 +55,16 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
                         }
                     }
                 }
-                Projectile.NewProjectile(new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockBack, item.owner);
+                Projectile.NewProjectile(source, new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                player.MinionNPCTargetAim();
+                player.MinionNPCTargetAim(false);
             }
             return base.UseItem(player);
         }
@@ -92,41 +86,41 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
 
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 5;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.Homing[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 5;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 62;
-            projectile.height = 70;
-            projectile.friendly = false;
-            projectile.sentry = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 10;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.scale = 1f;
+            Projectile.netImportant = true;
+            Projectile.width = 62;
+            Projectile.height = 70;
+            Projectile.friendly = false;
+            Projectile.sentry = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 10;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale = 1f;
         }
 
         void FindFrame(int FrameHeight)
         {
-            projectile.frame = 3;
+            Projectile.frame = 3;
         }
 
-        int projectileWait = 0;
+        int ProjectileWait = 0;
         public override void AI()
         {
-            FindFrame(projectile.height);
-            projectile.timeLeft = 10;
+            FindFrame(Projectile.height);
+            Projectile.timeLeft = 10;
             bool Targeted = false;
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             NPC target = Main.npc[0];
-            if (player.HasMinionAttackTargetNPC && Main.npc[player.MinionAttackTargetNPC].Distance(projectile.Center) < 1500)
+            if (player.HasMinionAttackTargetNPC && Main.npc[player.MinionAttackTargetNPC].Distance(Projectile.Center) < 1500)
             {
                 target = Main.npc[player.MinionAttackTargetNPC];
                 Targeted = true;
@@ -136,10 +130,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
                 float Distance = 1000;
                 for (int i = 0; i < 200; i++)
                 {
-                    if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                    if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                     {
                         target = Main.npc[i];
-                        Distance = Main.npc[i].Distance(projectile.Center);
+                        Distance = Main.npc[i].Distance(Projectile.Center);
                         Targeted = true;
                     }
                 }
@@ -147,14 +141,14 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
 
             if (Targeted)
             {
-                projectileWait++;
-                if (projectileWait > 25)
+                ProjectileWait++;
+                if (ProjectileWait > 25)
                 {
-                    projectileWait = 0;
-                    Vector2 position = projectile.Center + new Vector2(0, -10);
+                    ProjectileWait = 0;
+                    Vector2 position = Projectile.Center + new Vector2(0, -10);
                     Vector2 velocity = target.DirectionFrom(position);
-                    Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<GuardianSummonLaser>(), projectile.damage, projectile.knockBack, projectile.owner);
-                    Main.PlaySound(SoundID.Item33, position);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), position, velocity, ModContent.ProjectileType<GuardianSummonLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, position);
                 }
             }
         }
@@ -166,16 +160,16 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/LightBlast";
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.hide = false;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.timeLeft = timeLeft;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 5;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.hide = false;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.timeLeft = timeLeft;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 5;
             MoveDistance = 20f;
             RealMaxDistance = 2000f;
             bodyRect = new Rectangle(0, 0, 10, 10);
@@ -188,7 +182,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
         public override void PostAI()
         {
             deathrayWidth -= 1f / (float)timeLeft;
-            projectile.velocity.Normalize();
+            Projectile.velocity.Normalize();
         }
     }
 }

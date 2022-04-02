@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -17,34 +16,33 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 44;
-            item.height = 16;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = 101;
-            item.knockBack = 0.6f;
-            item.value = 0;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item64;
-            item.autoReuse = true;
-            item.shootSpeed = 11.25f;
-            item.useAmmo = AmmoID.Dart;
+            Item.damage = 15;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 44;
+            Item.height = 16;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = 101;
+            Item.knockBack = 0.6f;
+            Item.value = 0;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item64;
+            Item.autoReuse = true;
+            Item.shootSpeed = 11.25f;
+            Item.useAmmo = AmmoID.Dart;
         }
 
         Vector2 offset = new Vector2(0, 1);
-        public override bool UseItemFrame(Player player)
+        public override void UseItemFrame(Player player)
         {
             player.bodyFrame.Y = 2 * player.bodyFrame.Height;
             player.itemLocation = player.Center + offset;
-            return true;
         }
 
         int twoCounter = 3;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position = player.Center + offset;
             position.Y -= 3;
@@ -62,16 +60,16 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 float cost = 1f;
                 if (modPlayer.TerrorPercent >= cost)
                 {
-                    Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(maxRotation)), type, damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(maxRotation)), type, damage, knockback, player.whoAmI);
                     modPlayer.LoseTerror(cost);
                 }
             }
-            Vector2 newSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(maxRotation));
-            speedX = newSpeed.X;
-            speedY = newSpeed.Y;
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            Vector2 newSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(maxRotation));
+            velocity.X = newSpeed.X;
+            velocity.Y = newSpeed.Y;
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             player.bodyFrame.Y = 56 * 2;
             player.itemAnimation = 2;
@@ -79,11 +77,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.DemoniteBar, 8)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

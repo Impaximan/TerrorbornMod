@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,36 +27,36 @@ namespace TerrorbornMod.NPCs.TownNPCs
         }
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 25;
-            NPCID.Sets.ExtraFramesCount[npc.type] = 10;
-            NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 250;
-            NPCID.Sets.AttackType[npc.type] = 0;
-            NPCID.Sets.AttackTime[npc.type] = 5;
-            NPCID.Sets.AttackAverageChance[npc.type] = 30;
-            NPCID.Sets.HatOffsetY[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 25;
+            NPCID.Sets.ExtraFramesCount[NPC.type] = 10;
+            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            NPCID.Sets.DangerDetectRange[NPC.type] = 250;
+            NPCID.Sets.AttackType[NPC.type] = 0;
+            NPCID.Sets.AttackTime[NPC.type] = 5;
+            NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+            NPCID.Sets.HatOffsetY[NPC.type] = 4;
         }
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.friendly = true;
-            npc.width = 18;
-            npc.height = 40;
-            npc.aiStyle = 7;
-            npc.damage = 10;
-            npc.defense = 45;
-            npc.lifeMax = 250;
-            npc.HitSound = SoundID.NPCHit54;
-            npc.DeathSound = SoundID.NPCDeath52;
-            npc.knockBackResist = 0f;
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.width = 18;
+            NPC.height = 40;
+            NPC.aiStyle = 7;
+            NPC.damage = 10;
+            NPC.defense = 45;
+            NPC.lifeMax = 250;
+            NPC.HitSound = SoundID.NPCHit54;
+            NPC.DeathSound = SoundID.NPCDeath52;
+            NPC.knockBackResist = 0f;
             animationType = NPCID.Guide;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life < 1)
+            if (NPC.life < 1)
             {
-                npc.life = 1;
+                NPC.life = 1;
             }
         }
 
@@ -69,7 +67,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
-            return TerrorbornWorld.obtainedShriekOfHorror;
+            return TerrorbornSystem.obtainedShriekOfHorror;
         }
         public override bool CheckConditions(int left, int right, int top, int bottom)
         {
@@ -149,11 +147,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 if (dialogue.Count <= 0)
                 {
                     doingDialogue = false;
-                    TerrorbornWorld.TerrorMasterDialogue++;
+                    TerrorbornSystem.TerrorMasterDialogue++;
                 }
-                if (TerrorbornWorld.TerrorMasterDialogue == 6)
+                if (TerrorbornSystem.TerrorMasterDialogue == 6)
                 {
-                    player.QuickSpawnItem(ModContent.ItemType<Items.Lore.fourthWallBreakInReal>());
+                    player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Lore.fourthWallBreakInReal>());
                 }
             }
             else
@@ -240,8 +238,8 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/ExclamationPoint");
-            Vector2 position = npc.Center - new Vector2(0, 65);
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/ExclamationPoint");
+            Vector2 position = NPC.Center - new Vector2(0, 65);
             if (doingDialogue)
             {
                 spriteBatch.Draw(texture, position: position - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, 0f, new Vector2(texture.Width / 2, texture.Height / 2), 1f, SpriteEffects.None, 0f);
@@ -251,11 +249,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
         public override void PostAI()
         {
             base.PostAI();
-            int dialogueState = TerrorbornWorld.TerrorMasterDialogue; //For ease of access
+            int dialogueState = TerrorbornSystem.TerrorMasterDialogue; //For ease of access
             Player player = Main.player[Main.myPlayer];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            if (player.Distance(npc.Center) > 300)
+            if (player.Distance(NPC.Center) > 300)
             {
                 showingLore = false;
                 loreText = 0;
@@ -280,7 +278,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 {
                     doingDialogue = true;
                 }
-                if (dialogueState == 5 && TerrorbornWorld.downedUriel)
+                if (dialogueState == 5 && TerrorbornSystem.downedUriel)
                 {
                     doingDialogue = true;
                 }
@@ -290,7 +288,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override string GetChat()
         {
-            int dialogueState = TerrorbornWorld.TerrorMasterDialogue; //For ease of access
+            int dialogueState = TerrorbornSystem.TerrorMasterDialogue; //For ease of access
             string shownDialogue = "I'm bugged :D";
             if (doingDialogue)
             {
@@ -423,19 +421,19 @@ namespace TerrorbornMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.LesserTerrorPotion>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 3, 0);
             nextSlot++;
-            if (TerrorbornWorld.downedInfectedIncarnate)
+            if (TerrorbornSystem.downedInfectedIncarnate)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.TerrorPotion>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 10, 0);
                 nextSlot++;
             }
-            if (TerrorbornWorld.downedDunestock)
+            if (TerrorbornSystem.downedDunestock)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.GreaterTerrorPotion>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
                 nextSlot++;
             }
-            if (TerrorbornWorld.downedShadowcrawler)
+            if (TerrorbornSystem.downedShadowcrawler)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.SuperTerrorPotion>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 50, 0);

@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using System.Collections.Generic;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Weapons.Magic
@@ -13,11 +11,10 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 13);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.AdamantiteBar, 13)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -27,23 +24,23 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.noMelee = true;
-            item.width = 66;
-            item.height = 34;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.crit = 14;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item33;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AdamantiteLaser");
-            item.shootSpeed = 10f;
-            item.mana = 4;
-            item.magic = true;
+            Item.damage = 20;
+            Item.noMelee = true;
+            Item.width = 66;
+            Item.height = 34;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.crit = 14;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item33;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AdamantiteLaser>();
+            Item.shootSpeed = 10f;
+            Item.mana = 4;
+            Item.DamageType = DamageClass.Magic;;
         }
 
         public override Vector2? HoldoutOffset()
@@ -51,10 +48,9 @@ namespace TerrorbornMod.Items.Weapons.Magic
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position = player.Center + (player.DirectionTo(Main.MouseWorld) * 66);
-            return true;
         }
     }
 
@@ -64,47 +60,47 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 12;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.hide = true;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 350;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 12;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.hide = true;
+            Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 350;
         }
 
         public override void AI()
         {
-            Dust dust = Dust.NewDustPerfect(projectile.Center, 60);
+            Dust dust = Dust.NewDustPerfect(Projectile.Center, 60);
             dust.noGravity = true;
             dust.noLight = true;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            for (int i = 0; i < projectile.localNPCImmunity.Length; i++)
+            for (int i = 0; i < Projectile.localNPCImmunity.Length; i++)
             {
-                if (projectile.localNPCImmunity[i] < 0 || projectile.localNPCImmunity[i] > 5)
+                if (Projectile.localNPCImmunity[i] < 0 || Projectile.localNPCImmunity[i] > 5)
                 {
-                    projectile.localNPCImmunity[i] = 5;
+                    Projectile.localNPCImmunity[i] = 5;
                 }
             }
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }
@@ -122,21 +118,21 @@ namespace TerrorbornMod.Items.Weapons.Magic
             NPC launchTo = Main.npc[0];
             float distance = 2000;
 
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                if (npc.active && npc.Distance(projectile.Center) < distance && !alreadyHit.Contains(npc) && projectile.CanHit(npc) && !npc.friendly && npc.CanBeChasedBy())
+                if (NPC.active && NPC.Distance(Projectile.Center) < distance && !alreadyHit.Contains(NPC) && Projectile.CanHitWithOwnBody(NPC) && !NPC.friendly && NPC.CanBeChasedBy())
                 {
-                    distance = npc.Distance(projectile.Center);
-                    launchTo = npc;
+                    distance = NPC.Distance(Projectile.Center);
+                    launchTo = NPC;
                     targeted = true;
                 }
             }
 
             if (targeted)
             {
-                float speed = projectile.velocity.Length();
-                Vector2 direction = projectile.DirectionTo(launchTo.Center);
-                projectile.velocity = speed * direction;
+                float speed = Projectile.velocity.Length();
+                Vector2 direction = Projectile.DirectionTo(launchTo.Center);
+                Projectile.velocity = speed * direction;
             }
         }
     }

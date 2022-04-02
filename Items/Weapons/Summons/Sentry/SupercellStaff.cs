@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Terraria.World.Generation;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Summons.Sentry
 {
@@ -16,12 +10,11 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18)
+                .AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -31,22 +24,22 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
 
         public override void SetDefaults()
         {
-            item.mana = 10;
-            item.summon = true;
-            item.damage = 55;
-            item.width = 54;
-            item.height = 58;
-            item.sentry = true;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item44;
-            item.shoot = ModContent.ProjectileType<Supercell>();
-            item.shootSpeed = 10f;
-            item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Summon;
+            Item.damage = 55;
+            Item.width = 54;
+            Item.height = 58;
+            Item.sentry = true;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = ModContent.ProjectileType<Supercell>();
+            Item.shootSpeed = 10f;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
         }
 
         public override bool AltFunctionUse(Player player)
@@ -54,7 +47,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -70,16 +63,16 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
                         }
                     }
                 }
-                Projectile.NewProjectile(new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockBack, item.owner);
+                Projectile.NewProjectile(source, new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                player.MinionNPCTargetAim();
+                player.MinionNPCTargetAim(false);
             }
             return base.UseItem(player);
         }
@@ -97,35 +90,35 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
         }
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.Homing[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true; //This is necessary for right-click targeting
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true; //This is necessary for right-click targeting
         }
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 52;
-            projectile.height = 50;
-            projectile.friendly = true;
-            projectile.sentry = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 10;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
+            Projectile.netImportant = true;
+            Projectile.width = 52;
+            Projectile.height = 50;
+            Projectile.friendly = true;
+            Projectile.sentry = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 10;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
         }
 
         void FindFrame(int FrameHeight)
         {
-            projectile.frameCounter--;
-            if (projectile.frameCounter <= 0)
+            Projectile.frameCounter--;
+            if (Projectile.frameCounter <= 0)
             {
-                projectile.frame++;
-                projectile.frameCounter = 4;
+                Projectile.frame++;
+                Projectile.frameCounter = 4;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
@@ -133,14 +126,14 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
         int PinRoundsLeft = 2;
         public override void AI()
         {
-            FindFrame(projectile.height);
-            projectile.timeLeft = 10;
+            FindFrame(Projectile.height);
+            Projectile.timeLeft = 10;
             bool Targeted = false;
-            //projectile.velocity.Y = 50;
-            //projectile.velocity.X = 0;
-            Player player = Main.player[projectile.owner];
+            //Projectile.velocity.Y = 50;
+            //Projectile.velocity.X = 0;
+            Player player = Main.player[Projectile.owner];
             NPC target = Main.npc[0];
-            if (player.HasMinionAttackTargetNPC && Main.npc[player.MinionAttackTargetNPC].Distance(projectile.Center) < 1500)
+            if (player.HasMinionAttackTargetNPC && Main.npc[player.MinionAttackTargetNPC].Distance(Projectile.Center) < 1500)
             {
                 target = Main.npc[player.MinionAttackTargetNPC];
                 Targeted = true;
@@ -150,10 +143,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
                 float Distance = 750;
                 for (int i = 0; i < 200; i++)
                 {
-                    if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                    if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                     {
                         target = Main.npc[i];
-                        Distance = Main.npc[i].Distance(projectile.Center);
+                        Distance = Main.npc[i].Distance(Projectile.Center);
                         Targeted = true;
                     }
                 }
@@ -169,13 +162,12 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             }
         }
 
-
         public void SpawnLightning(int target)
         {
             Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
             float speed = Main.rand.NextFloat(10f, 25f);
 
-            int proj = Projectile.NewProjectile(projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.SoulLightning>(), projectile.damage, 0.5f, projectile.owner);
+            int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.SoulLightning>(), Projectile.damage, 0.5f, Projectile.owner);
             Main.projectile[proj].ai[0] = target;
         }
     }

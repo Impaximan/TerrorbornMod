@@ -2,8 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Melee
 {
@@ -16,32 +15,32 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.5f;
-            item.damage = 25;
-            item.melee = true;
-            item.width = 60;
-            item.height = 56;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7.5f;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.DD2_MonkStaffSwing;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("KnockedBone");
+            Item.damage = 25;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 60;
+            Item.height = 56;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7.5f;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.DD2_MonkStaffSwing;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<KnockedBone>();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             return false;
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            Main.PlaySound(SoundID.DD2_SkeletonHurt, target.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt, target.Center);
             if (crit)
             {
-                Main.PlaySound(SoundID.DD2_SkeletonDeath);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_SkeletonDeath);
             }
 
             for (int i = 0; i < Main.rand.Next(2, 4); i++)
@@ -49,7 +48,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                 float speed = Main.rand.Next(10, 23);
                 Vector2 velocity = direction * speed;
-                Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<KnockedBone>(), item.damage / 2, 1f, player.whoAmI);
+                Projectile.NewProjectile(player.GetProjectileSource_OnHit(target, ProjectileSourceID.None), target.Center, velocity, ModContent.ProjectileType<KnockedBone>(), Item.damage / 2, 1f, player.whoAmI);
             }
         }
     }
@@ -58,32 +57,32 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.melee = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.penetrate = -1;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.penetrate = -1;
         }
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(projectile.velocity.X * 2);
-            projectile.velocity.Y += 0.2f;
+            Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X * 2);
+            Projectile.velocity.Y += 0.2f;
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.NPCHit2, projectile.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit2, Projectile.Center);
 
             for (int i = 0; i < Main.rand.Next(2, 4); i++)
             {
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                 float speed = Main.rand.Next(7, 16);
                 Vector2 velocity = direction * speed;
-                Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<KnockedBonePiece>(), projectile.damage, 1f, projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<KnockedBonePiece>(), Projectile.damage, 1f, Projectile.owner);
             }
         }
     }
@@ -92,19 +91,19 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.melee = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.penetrate = 1;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.penetrate = 1;
         }
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(projectile.velocity.X * 2);
-            projectile.velocity.Y += 0.1f;
+            Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X * 2);
+            Projectile.velocity.Y += 0.1f;
         }
     }
 }

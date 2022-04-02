@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.MiscConsumables
 {
@@ -17,41 +16,41 @@ namespace TerrorbornMod.Items.MiscConsumables
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.rare = ItemRarityID.Green;
-            item.maxStack = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.rare = ItemRarityID.Green;
+            Item.maxStack = 20;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SoulofNight, 3);
-            recipe.AddIngredient(ItemID.SoulofLight, 3);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 2);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.SoulofNight, 3)
+                .AddIngredient(ItemID.SoulofLight, 3)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 2)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
+
         }
 
         public override bool CanUseItem(Player player)
         {
             if (Main.raining)
             {
-                if (TerrorbornWorld.terrorRain)
+                if (TerrorbornSystem.terrorRain)
                 {
                     Main.NewText("The sky begins to brighten up again...", Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255));
-                    TerrorbornWorld.terrorRain = false;
-                    Main.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
+                    TerrorbornSystem.terrorRain = false;
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
                 }
                 else
                 {
                     Main.NewText("Dark rain begins to fall from the sky!", Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255));
-                    TerrorbornWorld.terrorRain = true;
-                    Main.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
+                    TerrorbornSystem.terrorRain = true;
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
                 }
-                item.stack--;
+                Item.stack--;
             }
             else
             {

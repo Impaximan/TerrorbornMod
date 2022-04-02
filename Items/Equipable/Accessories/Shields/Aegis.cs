@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using TerrorbornMod.TBUtils;
 
 namespace TerrorbornMod.Items.Equipable.Accessories.Shields
@@ -20,22 +19,21 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = ItemRarityID.Pink;
-            item.defense = 8;
-            item.knockBack = knockback;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            TerrorbornItem.modItem(item).parryShield = true;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 8;
+            Item.knockBack = knockback;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            TerrorbornItem.modItem(Item).parryShield = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HallowedBar, 12);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.HallowedBar, 12)
+                .AddIngredient(ItemID.SoulofLight, 5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -44,11 +42,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
             modPlayer.parryColor = Color.LightGoldenrodYellow;
             if (modPlayer.JustParried)
             {
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AegisLight>(), 1000, 0f, player.whoAmI);
-                TerrorbornMod.ScreenShake(25f);
-                Main.PlaySound(SoundID.Item68, player.Center);
+                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<AegisLight>(), 1000, 0f, player.whoAmI);
+                TerrorbornSystem.ScreenShake(25f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, player.Center);
             }
-            TBUtils.Accessories.UpdateParryShield(cooldown, item, player);
+            TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);
         }
     }
 
@@ -61,20 +59,20 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
         int currentSize = defaultSize;
         public override void SetDefaults()
         {
-            projectile.width = defaultSize;
-            projectile.height = defaultSize;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.localNPCHitCooldown = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.timeLeft = timeLeft;
+            Projectile.width = defaultSize;
+            Projectile.height = defaultSize;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.timeLeft = timeLeft;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Graphics.DrawGlow_1(spriteBatch, projectile.Center - Main.screenPosition, currentSize, Color.LightYellow);
+            Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, Color.LightYellow);
             return false;
         }
 

@@ -6,7 +6,7 @@
 //using Terraria.ID;
 //using Terraria.Localization;
 //using Terraria.ModLoader;
-//using Terraria.World.Generation;
+//using Terraria.WorldBuilding;
 //using Microsoft.Xna.Framework;
 //using Terraria.GameContent.Generation;
 //using Terraria.ModLoader.IO;
@@ -25,11 +25,11 @@
 //        }
 //        public override void SetDefaults()
 //        {
-//            item.rare = -12;
-//            item.autoReuse = false;
-//            item.useStyle = ItemUseStyleID.HoldingUp;
-//            item.useTime = 20;
-//            item.useAnimation = 20;
+//            Item.rare = -12;
+//            Item.autoReuse = false;
+//            Item.useStyle = ItemUseStyleID.HoldUp;
+//            Item.useTime = 20;
+//            Item.useAnimation = 20;
 //        }
 //        public override bool CanUseItem(Player player)
 //        {

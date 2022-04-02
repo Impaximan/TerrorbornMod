@@ -1,19 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 
 namespace TerrorbornMod.NPCs
 {
@@ -21,54 +9,54 @@ namespace TerrorbornMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.noTileCollide = false;
-            npc.width = 20;
-            npc.height = 40;
-            npc.damage = 45;
-            npc.defense = 3;
-            npc.lifeMax = 130;
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath25;
-            npc.knockBackResist = 0f;
+            NPC.noGravity = true;
+            NPC.noTileCollide = false;
+            NPC.width = 20;
+            NPC.height = 40;
+            NPC.damage = 45;
+            NPC.defense = 3;
+            NPC.lifeMax = 130;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath25;
+            NPC.knockBackResist = 0f;
         }
         
         float ChargeWait = 60;
         public override void AI()
         {
-            npc.rotation = MathHelper.ToRadians(npc.velocity.X);
-            npc.TargetClosest(false);
-            Player targetPlayer = Main.player[npc.target];
+            NPC.rotation = MathHelper.ToRadians(NPC.velocity.X);
+            NPC.TargetClosest(false);
+            Player targetPlayer = Main.player[NPC.target];
             
-            if (targetPlayer.wet || !npc.wet)
+            if (targetPlayer.wet || !NPC.wet)
             {
-                npc.velocity.Y += 0.1f;
+                NPC.velocity.Y += 0.1f;
             }
             else
             {
-                npc.velocity.Y *= 0.8f;
+                NPC.velocity.Y *= 0.8f;
             }
 
-            if (npc.wet && targetPlayer.wet)
+            if (NPC.wet && targetPlayer.wet)
             {
-                npc.noTileCollide = false;
+                NPC.noTileCollide = false;
                 ChargeWait--;
-                if (Collision.CanHit(npc.position, npc.width, npc.height, targetPlayer.position, targetPlayer.width, targetPlayer.height) && targetPlayer.position.Y < npc.position.Y && ChargeWait <= 0)
+                if (Collision.CanHit(NPC.position, NPC.width, NPC.height, targetPlayer.position, targetPlayer.width, targetPlayer.height) && targetPlayer.position.Y < NPC.position.Y && ChargeWait <= 0)
                 {
                     ChargeWait = Main.rand.Next(15, 75);
-                    npc.velocity.Y -= 10;
+                    NPC.velocity.Y -= 10;
                     float XSpeed = 6;
-                    if (targetPlayer.position.X < npc.position.X)
+                    if (targetPlayer.position.X < NPC.position.X)
                     {
-                        npc.velocity.X -= XSpeed;
+                        NPC.velocity.X -= XSpeed;
                     }
                     else
                     {
-                        npc.velocity.X += XSpeed;
+                        NPC.velocity.X += XSpeed;
                     }
                 }
             }
@@ -76,14 +64,14 @@ namespace TerrorbornMod.NPCs
             {
 
             }
-            npc.velocity.Y *= 0.98f;
+            NPC.velocity.Y *= 0.98f;
         }
 
         public override void NPCLoot()
         {
             if (Main.rand.Next(9) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrackedShell"), 1);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, mod.ItemType("CrackedShell"), 1);
             }
         }
 
@@ -91,22 +79,22 @@ namespace TerrorbornMod.NPCs
         float TrueVelocityX = 0;
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter--;
-            if (npc.frameCounter <= 0)
+            NPC.frameCounter--;
+            if (NPC.frameCounter <= 0)
             {
                 frame++;
-                npc.frameCounter = 6;
+                NPC.frameCounter = 6;
             }
             if (frame >= 3)
             {
                 frame = 0;
             }
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornWorld.downedTidalTitan && Main.raining)
+            if (TerrorbornSystem.downedTidalTitan && Main.raining)
             {
                 return SpawnCondition.Ocean.Chance * 0.9f;
             }

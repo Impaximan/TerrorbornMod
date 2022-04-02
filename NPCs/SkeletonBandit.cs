@@ -12,42 +12,42 @@ namespace TerrorbornMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 20;
-            NPCID.Sets.TrailCacheLength[npc.type] = 3;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 20;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.aiStyle = -1;
-            npc.width = 20; //44
-            npc.height = 48;
-            npc.damage = 15;
-            npc.defense = 5;
-            npc.lifeMax = 120;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.aiStyle = -1;
+            NPC.width = 20; //44
+            NPC.height = 48;
+            NPC.damage = 15;
+            NPC.defense = 5;
+            NPC.lifeMax = 120;
             if (Main.hardMode)
             {
-                npc.lifeMax = 300;
+                NPC.lifeMax = 300;
             }
-            npc.HitSound = SoundID.DD2_SkeletonHurt;
-            npc.DeathSound = SoundID.DD2_SkeletonDeath;
-            npc.value = Item.buyPrice(0, 0, 75, 0);
-            npc.knockBackResist = 1f;
-            npc.lavaImmune = true;
+            NPC.HitSound = SoundID.DD2_SkeletonHurt;
+            NPC.DeathSound = SoundID.DD2_SkeletonDeath;
+            NPC.value = Item.buyPrice(0, 0, 75, 0);
+            NPC.knockBackResist = 1f;
+            NPC.lavaImmune = true;
         }
 
         public override void NPCLoot()
         {
             if (Main.rand.NextFloat() <= 0.075f)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Accessories.BanditGlove>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Accessories.BanditGlove>());
             }
 
             if (Main.rand.NextFloat() <= 0.02f)
             {
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Vanity.BFCap>());
+                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Vanity.BFCap>());
             }
         }
 
@@ -56,7 +56,7 @@ namespace TerrorbornMod.NPCs
         {
             if (shooting)
             {
-                float direction = Math.Abs(MathHelper.ToDegrees(npc.DirectionTo(Main.LocalPlayer.Center).RotatedBy(-1.57f).ToRotation()));
+                float direction = Math.Abs(MathHelper.ToDegrees(NPC.DirectionTo(Main.LocalPlayer.Center).RotatedBy(-1.57f).ToRotation()));
                 if (direction < 22.5f)
                 {
                     frame = 4;
@@ -78,25 +78,25 @@ namespace TerrorbornMod.NPCs
                     frame = 0;
                 }
 
-                npc.frame.Y = frame * frameHeight;
+                NPC.frame.Y = frame * frameHeight;
                 return;
             }
 
             if (frame >= 5)
             {
-                if (npc.velocity.Y == 0)
+                if (NPC.velocity.Y == 0)
                 {
-                    npc.frameCounter--;
-                    if (npc.frameCounter <= 0)
+                    NPC.frameCounter--;
+                    if (NPC.frameCounter <= 0)
                     {
                         frame++;
                         if (hasSeenPlayer)
                         {
-                            npc.frameCounter = 2;
+                            NPC.frameCounter = 2;
                         }
                         else
                         {
-                            npc.frameCounter = 3;
+                            NPC.frameCounter = 3;
                         }
                     }
                     if (frame >= 20)
@@ -110,7 +110,7 @@ namespace TerrorbornMod.NPCs
                 }
             }
 
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -140,23 +140,23 @@ namespace TerrorbornMod.NPCs
             return SpawnCondition.Cavern.Chance * 0.05f * chanceMultiplier;
         }
 
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(Projectile Projectile, int damage, float knockback, bool crit)
         {
             if (!hasSeenPlayer)
             {
                 ambientCounter = Main.rand.Next(360, 1600);
 
                 hasSeenPlayer = true;
-                Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
                 WeightedRandom<string> voiceLines = new WeightedRandom<string>();
 
                 voiceLines.Add("Who's there!?");
                 voiceLines.Add("Wh... where did that come from!?");
                 voiceLines.Add("Hello?");
-                voiceLines.Add(TerrorbornWorld.SkeletonSheriffName + "... is that you?", 0.25f);
+                voiceLines.Add(TerrorbornSystem.SkeletonSheriffName + "... is that you?", 0.25f);
 
-                CombatText.NewText(npc.getRect(), Color.Red, voiceLines, true);
+                CombatText.NewText(NPC.getRect(), Color.Red, voiceLines, true);
             }
         }
 
@@ -165,7 +165,7 @@ namespace TerrorbornMod.NPCs
             ambientCounter = Main.rand.Next(360, 1600);
 
             hasSeenPlayer = true;
-            Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
             WeightedRandom<string> voiceLines = new WeightedRandom<string>();
 
@@ -176,40 +176,40 @@ namespace TerrorbornMod.NPCs
             voiceLines.Add("Woohoo, target practice!");
             voiceLines.Add("HEY! You aren't the taco delivery guy!", 0.5f);
 
-            CombatText.NewText(npc.getRect(), Color.Red, voiceLines, true);
+            CombatText.NewText(NPC.getRect(), Color.Red, voiceLines, true);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects effects = new SpriteEffects();
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
             Vector2 drawOrigin = new Vector2(44 / 2, 48 / 2);
-            for (int i = 0; i < npc.oldPos.Length; i++)
+            for (int i = 0; i < NPC.oldPos.Length; i++)
             {
-                Vector2 drawPos = npc.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(-12, 4) + npc.visualOffset;
-                Color color = npc.GetAlpha(Color.White) * ((float)(npc.oldPos.Length - i) / (float)npc.oldPos.Length);
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/NPCs/SkeletonBandit_Glow"), drawPos, npc.frame, color, npc.rotation, drawOrigin, 1f, effects, 0f);
+                Vector2 drawPos = NPC.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(-12, 4) + NPC.visualOffset;
+                Color color = NPC.GetAlpha(Color.White) * ((float)(NPC.oldPos.Length - i) / (float)NPC.oldPos.Length);
+                spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/SkeletonBandit_Glow"), drawPos, NPC.frame, color, NPC.rotation, drawOrigin, 1f, effects, 0f);
             }
         }
 
         bool shooting = false;
         bool hasSeenPlayer = false;
-        int projectileCounter = 45;
+        int ProjectileCounter = 45;
         int ambientCounter = -1;
         public override void AI()
         {
             Player player = Main.LocalPlayer;
-            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
+            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
 
-            if (Collision.CanHitLine(npc.position, npc.width, npc.height, player.position, player.width, player.height) && !hasSeenPlayer)
+            if (Collision.CanHitLine(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height) && !hasSeenPlayer)
             {
                 ambientCounter = Main.rand.Next(360, 1600);
 
                 hasSeenPlayer = true;
-                Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
                 WeightedRandom<string> voiceLines = new WeightedRandom<string>();
 
@@ -220,11 +220,11 @@ namespace TerrorbornMod.NPCs
                 voiceLines.Add("Woohoo, target practice!");
                 voiceLines.Add("HEY! You aren't the taco delivery guy!", 0.5f);
 
-                CombatText.NewText(npc.getRect(), Color.Red, voiceLines, true);
+                CombatText.NewText(NPC.getRect(), Color.Red, voiceLines, true);
             }
 
             shooting = false;
-            if (Collision.CanHitLine(npc.position, npc.width, npc.height, player.position, player.width, player.height) && npc.Distance(player.Center) > 120 && npc.Distance(player.Center) < 600)
+            if (Collision.CanHitLine(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height) && NPC.Distance(player.Center) > 120 && NPC.Distance(player.Center) < 600)
             {
                 shooting = true;
             }
@@ -238,7 +238,7 @@ namespace TerrorbornMod.NPCs
             if (ambientCounter <= 0)
             {
                 ambientCounter = Main.rand.Next(360, 1600);
-                Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
                 WeightedRandom<string> voiceLines = new WeightedRandom<string>();
                 if (shooting)
@@ -252,15 +252,15 @@ namespace TerrorbornMod.NPCs
                 {
                     voiceLines.Add("*yawn* I'm getting kinda bored....");
                     voiceLines.Add("...I could really use a taco right now.", 0.5f);
-                    voiceLines.Add("Hey, at least I don't have " + TerrorbornWorld.SkeletonSheriffName + " chasing after me anymore!");
+                    voiceLines.Add("Hey, at least I don't have " + TerrorbornSystem.SkeletonSheriffName + " chasing after me anymore!");
                     voiceLines.Add("Some human flesh would be a very nice treat right now.");
                     voiceLines.Add("Is there anybody around?");
                     voiceLines.Add("Cookies for sale! (but only if you're a skeleton)");
-                    voiceLines.Add("Y'know, I wonder if " + TerrorbornWorld.SkeletonSheriffName + " was right all along... nah!");
+                    voiceLines.Add("Y'know, I wonder if " + TerrorbornSystem.SkeletonSheriffName + " was right all along... nah!");
                 }
                 else
                 {
-                    if (npc.Distance(player.Center) > 120)
+                    if (NPC.Distance(player.Center) > 120)
                     {
                         voiceLines.Add("HEY! Get back here!");
                         voiceLines.Add("Get over here!");
@@ -275,56 +275,56 @@ namespace TerrorbornMod.NPCs
                 }
                 voiceLines.Add("Grahh...");
 
-                CombatText.NewText(npc.getRect(), Color.Red, voiceLines, true);
+                CombatText.NewText(NPC.getRect(), Color.Red, voiceLines, true);
             }
 
             if (shooting)
             {
-                npc.velocity.X *= 0.93f;
-                npc.direction = 1;
-                if (player.Center.X < npc.Center.X)
+                NPC.velocity.X *= 0.93f;
+                NPC.direction = 1;
+                if (player.Center.X < NPC.Center.X)
                 {
-                    npc.direction = -1;
+                    NPC.direction = -1;
                 }
 
-                projectileCounter--;
-                if (projectileCounter <= 0)
+                ProjectileCounter--;
+                if (ProjectileCounter <= 0)
                 {
-                    projectileCounter = 20;
+                    ProjectileCounter = 20;
                     float speed = 15f;
                     float recoil = 1f;
-                    Vector2 velocity = speed * npc.DirectionTo(player.Center);
+                    Vector2 velocity = speed * NPC.DirectionTo(player.Center);
                     int damage = 25;
                     if (Main.hardMode)
                     {
                         damage = 70;
                     }
-                    Projectile.NewProjectile(npc.Center, velocity, ProjectileID.BulletDeadeye, damage / 4, 0);
+                    Projectile.NewProjectile(NPC.Center, velocity, ProjectileID.BulletDeadeye, damage / 4, 0);
 
-                    npc.velocity += new Vector2(npc.spriteDirection * recoil, 0);
+                    NPC.velocity += new Vector2(NPC.spriteDirection * recoil, 0);
                 }
             }
             else
             {
-                projectileCounter = 45;
+                ProjectileCounter = 45;
                 if (frame >= 5)
                 {
                     if (hasSeenPlayer)
                     {
-                        modNPC.ImprovedFighterAI(npc, 3, 0.2f, 0.95f, 6, false, 0);
+                        modNPC.ImprovedFighterAI(NPC, 3, 0.2f, 0.95f, 6, false, 0);
                     }
                     else
                     {
-                        modNPC.ImprovedFighterAI(npc, 2, 0.1f, 0.95f, 6, false, 0, wanderTime: 180);
+                        modNPC.ImprovedFighterAI(NPC, 2, 0.1f, 0.95f, 6, false, 0, wanderTime: 180);
                     }
                 }
                 else
                 {
-                    npc.frameCounter--;
-                    if (npc.frameCounter <= 0)
+                    NPC.frameCounter--;
+                    if (NPC.frameCounter <= 0)
                     {
                         frame++;
-                        npc.frameCounter = 5;
+                        NPC.frameCounter = 5;
                     }
 
                     if (frame == 5)
@@ -334,13 +334,13 @@ namespace TerrorbornMod.NPCs
                 }
             }
 
-            npc.spriteDirection = npc.direction * -1;
-            npc.visualOffset = new Vector2(6 * -npc.spriteDirection, 0);
+            NPC.spriteDirection = NPC.direction * -1;
+            NPC.visualOffset = new Vector2(6 * -NPC.spriteDirection, 0);
         }
 
         //public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         //{
-        //    position = new Vector2(npc.Center.X, position.Y);
+        //    position = new Vector2(NPC.Center.X, position.Y);
         //    return base.DrawHealthBar(hbPosition, ref scale, ref position);
         //}
     }

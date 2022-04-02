@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrorbornMod.Projectiles;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -17,22 +16,22 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.ranged = true;
-            item.width = 32;
-            item.height = 54;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2;
-            item.rare = 12;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 20f;
-            item.useAmmo = AmmoID.Arrow;
-            item.value = Item.sellPrice(0, 35, 0, 0);
+            Item.damage = 60;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 32;
+            Item.height = 54;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2;
+            Item.rare = 12;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 20f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.value = Item.sellPrice(0, 35, 0, 0);
         }
 
         public override Vector2? HoldoutOffset()
@@ -40,13 +39,13 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             return new Vector2(2f, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY).ToRotation().ToRotationVector2(), ModContent.ProjectileType<TragicBeam>(), damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y).ToRotation().ToRotationVector2(), ModContent.ProjectileType<TragicBeam>(), damage, knockback, player.whoAmI);
 
             for (float i = 0f; i < 1000f; i += 80)
             {
-                Vector2 arrowPos = position + new Vector2(speedX, speedY).ToRotation().ToRotationVector2() * i;
+                Vector2 arrowPos = position + new Vector2(velocity.X, velocity.Y).ToRotation().ToRotationVector2() * i;
 
                 if (!Collision.CanHitLine(player.Center, 1, 1, arrowPos, 1, 1))
                 {
@@ -67,7 +66,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 }
                 if (Targeted)
                 {
-                    int proj = Projectile.NewProjectile(arrowPos, targetNPC.DirectionFrom(arrowPos) * new Vector2(speedX, speedY).Length(), type, damage / 3, knockBack, player.whoAmI);
+                    int proj = Projectile.NewProjectile(source, arrowPos, targetNPC.DirectionFrom(arrowPos) * new Vector2(velocity.X, velocity.Y).Length(), type, damage / 3, knockback, player.whoAmI);
                     Main.projectile[proj].noDropItem = true;
                 }
             }
@@ -82,18 +81,18 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/LightBlast";
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.hide = false;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.timeLeft = timeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.arrow = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.hide = false;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = timeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.arrow = true;
             MoveDistance = 20f;
             RealMaxDistance = 1000f;
             bodyRect = new Rectangle(0, 0, 10, 10);
@@ -106,7 +105,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override void PostAI()
         {
             deathrayWidth -= 1f / (float)timeLeft;
-            projectile.velocity.Normalize();
+            Projectile.velocity.Normalize();
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
@@ -16,33 +15,34 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 42;
-            item.height = 14;
-            item.useTime = 5;
-            item.useAnimation = item.useTime * 2;
-            item.reuseDelay = 20;
-            item.useStyle = 101;
-            item.knockBack = 0.6f;
-            item.value = 0;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.rare = ItemRarityID.Lime;
-            item.autoReuse = true;
-            item.shootSpeed = 16;
-            item.useAmmo = AmmoID.Dart;
+            Item.damage = 35;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 42;
+            Item.height = 14;
+            Item.useTime = 5;
+            Item.useAnimation = Item.useTime * 2;
+            Item.reuseDelay = 20;
+            Item.useStyle = 101;
+            Item.knockBack = 0.6f;
+            Item.value = 0;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.rare = ItemRarityID.Lime;
+            Item.autoReuse = true;
+            Item.shootSpeed = 16;
+            Item.useAmmo = AmmoID.Dart;
         }
+
         Vector2 offset = new Vector2(0, 0);
-        public override bool UseItemFrame(Player player)
+        public override void UseItemFrame(Player player)
         {
             player.bodyFrame.Y = 2 * player.bodyFrame.Height;
             player.itemLocation = player.Center + offset;
-            return true;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Main.PlaySound(SoundID.Item63, player.Center);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item63, player.Center);
             player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();
             if (player.direction == -1)
             {
@@ -50,12 +50,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
             position = player.Center + offset;
             position.Y -= 3;
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI);
             Main.projectile[proj].usesLocalNPCImmunity = true;
             Main.projectile[proj].localNPCHitCooldown = 10;
             return false;
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             player.bodyFrame.Y = 56 * 2;
             player.itemAnimation = 2;
@@ -63,11 +63,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.ChlorophyteBar, 12)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

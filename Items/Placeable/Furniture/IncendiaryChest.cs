@@ -1,25 +1,23 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace TerrorbornMod.Items.Placeable.Furniture
 {
-	class IncendiaryChest : ModItem
+    class IncendiaryChest : ModItem
 	{
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 32;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.consumable = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.createTile = ModContent.TileType<Tiles.Incendiary.IncendiaryChest>();
+			Item.width = 32;
+			Item.height = 32;
+			Item.maxStack = 999;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.createTile = ModContent.TileType<Tiles.Incendiary.IncendiaryChest>();
 		}
 	}
 }
-

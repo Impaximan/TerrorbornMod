@@ -1,8 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories
 {
@@ -16,11 +14,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 34;
-            item.accessory = true;
-            item.rare = ItemRarityID.Blue;
-            item.value = Item.sellPrice(0, 0, 75, 0);
+            Item.width = 40;
+            Item.height = 34;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.sellPrice(0, 0, 75, 0);
         }
 
         public override void UpdateEquip(Player player)
@@ -31,13 +29,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(this);
-            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 3);
-            recipe.AddIngredient(ItemID.Silk, 10);
-            recipe.AddTile(TileID.Loom);
-            recipe.SetResult(ItemID.HermesBoots);
-            recipe.AddRecipe();
+            Recipe recipe = CreateRecipe()
+                .AddIngredient(this)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 3)
+                .AddIngredient(ItemID.Silk, 10)
+                .AddTile(TileID.Loom);
+            recipe.ReplaceResult(ItemID.HermesBoots);
+            recipe.Register();
         }
     }
 }

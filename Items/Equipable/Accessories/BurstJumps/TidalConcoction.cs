@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 {
@@ -16,29 +16,28 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.AzuriteOre>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Materials.CrackedShell>(), 2);
-            recipe.AddTile(TileID.Bottles);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.AzuriteOre>(), 15)
+                .AddIngredient(ModContent.ItemType<Materials.CrackedShell>(), 2)
+                .AddTile(TileID.Bottles)
+                .Register();
         }
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.damage = 60;
-            item.rare = ItemRarityID.Green;
-            item.defense = 5;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.useAnimation = 5;
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            Item.accessory = true;
+            Item.damage = 60;
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 5;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.useAnimation = 5;
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.burstJump = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 60 * 1, item, player, new Vector2(20, -15), Color.Azure, SoundID.Item14);
+            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 60 * 1, Item, player, new Vector2(20, -15), Color.Azure, SoundID.Item14);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.BurstJumpTime > 0)
             {
@@ -63,10 +62,10 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
                     {
                         position.Y++;
                     }
-                    int proj = Projectile.NewProjectile(position, new Vector2(0, -20), ModContent.ProjectileType<Items.Equipable.Armor.TideFireFriendly>(), item.damage, 0f, player.whoAmI);
+                    int proj = Projectile.NewProjectile(position, new Vector2(0, -20), ModContent.ProjectileType<Items.Equipable.Armor.TideFireFriendly>(), Item.damage, 0f, player.whoAmI);
                     Main.projectile[proj].melee = false;
                 }
-                Main.PlaySound(SoundID.Item88, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item88, player.Center);
             }
         }
     }

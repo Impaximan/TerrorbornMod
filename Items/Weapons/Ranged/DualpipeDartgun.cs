@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -15,23 +14,23 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 44;
-            item.height = 16;
-            item.useTime = 13;
-            item.useAnimation = 13;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 0.6f;
-            item.value = 0;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item98;
-            item.autoReuse = false;
-            item.shootSpeed = 20f;
-            item.scale = 0.85f;
-            item.useAmmo = AmmoID.Dart;
+            Item.damage = 18;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 44;
+            Item.height = 16;
+            Item.useTime = 13;
+            Item.useAnimation = 13;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 0.6f;
+            Item.value = 0;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item98;
+            Item.autoReuse = false;
+            Item.shootSpeed = 20f;
+            Item.scale = 0.85f;
+            Item.useAmmo = AmmoID.Dart;
         }
 
         public override Vector2? HoldoutOffset()
@@ -39,14 +38,14 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int spread = 4;
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(-spread)), type, damage, knockBack, player.whoAmI);
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(spread)), type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y).RotatedBy(MathHelper.ToRadians(-spread)), type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y).RotatedBy(MathHelper.ToRadians(spread)), type, damage, knockback, player.whoAmI);
             return false;
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             player.bodyFrame.Y = 56 * 2;
             player.itemAnimation = 2;

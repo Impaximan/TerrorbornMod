@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,7 +23,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             mineResist = 5f;
             minPick = 100;
 
-            dustType = DustID.Fire;
+            dustType = 6;
 
             Main.tileLighted[Type] = true;
             ModTranslation name = CreateMapEntryName();

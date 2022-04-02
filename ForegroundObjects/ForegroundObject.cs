@@ -1,25 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using TerrorbornMod.Abilities;
-using TerrorbornMod.ForegroundObjects;
-using Terraria.GameInput;
-using Microsoft.Xna.Framework.Input;
-using Extensions;
 
 namespace TerrorbornMod.ForegroundObjects
 {
-    abstract class ForegroundObject
+    public abstract class ForegroundObject
     {
         public ForegroundObject type;
         public int whoAmI;
@@ -69,8 +56,8 @@ namespace TerrorbornMod.ForegroundObjects
 
         public void Kill()
         {
-            TerrorbornMod.foregroundObjects[whoAmI].type = null;
-            TerrorbornMod.foregroundObjects[whoAmI] = null;
+            TerrorbornSystem.foregroundObjects[whoAmI].type = null;
+            TerrorbornSystem.foregroundObjects[whoAmI] = null;
         }
 
         public virtual void OnKill()
@@ -81,20 +68,20 @@ namespace TerrorbornMod.ForegroundObjects
         public static int NewForegroundObject(Vector2 position, ForegroundObject type)
         {
             int index = 0;
-            for (int i = 0; i < TerrorbornMod.foregroundObjectsCount; i++)
+            for (int i = 0; i < TerrorbornSystem.foregroundObjectsCount; i++)
             {
-                if (TerrorbornMod.foregroundObjects[i] == null)
+                if (TerrorbornSystem.foregroundObjects[i] == null)
                 {
                     index = i;
                     break;
                 }
             }
-            TerrorbornMod.foregroundObjects[index] = type;
-            TerrorbornMod.foregroundObjects[index].type = type;
-            TerrorbornMod.foregroundObjects[index].position = position;
-            TerrorbornMod.foregroundObjects[index].whoAmI = index;
-            TerrorbornMod.foregroundObjects[index].SetDefaults();
-            TerrorbornMod.foregroundObjects[index].texture = ModContent.GetTexture(TerrorbornMod.foregroundObjects[index].textures[Main.rand.Next(TerrorbornMod.foregroundObjects[index].textures.Count)]);
+            TerrorbornSystem.foregroundObjects[index] = type;
+            TerrorbornSystem.foregroundObjects[index].type = type;
+            TerrorbornSystem.foregroundObjects[index].position = position;
+            TerrorbornSystem.foregroundObjects[index].whoAmI = index;
+            TerrorbornSystem.foregroundObjects[index].SetDefaults();
+            TerrorbornSystem.foregroundObjects[index].texture = (Texture2D)ModContent.Request<Texture2D>(TerrorbornSystem.foregroundObjects[index].textures[Main.rand.Next(TerrorbornSystem.foregroundObjects[index].textures.Count)]);
             return index;
         }
 

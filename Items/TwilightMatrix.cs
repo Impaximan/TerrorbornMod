@@ -3,7 +3,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items
 {
@@ -26,24 +25,24 @@ namespace TerrorbornMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.height = 56;
-            item.rare = -12;
-            item.useTime = 60;
-            item.useAnimation = 60;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
+            Item.width = 44;
+            Item.height = 56;
+            Item.rare = -12;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
         }
 
         public override bool CanUseItem(Player player)
         {
-            if (!TerrorbornWorld.TwilightMode)
+            if (!TerrorbornSystem.TwilightMode)
             {
                 //if (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || NPC.downedSlimeKing || NPC.downedQueenBee || NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3 || TerrorbornWorld.downedInfectedIncarnate || TerrorbornWorld.downedTidalTitan || TerrorbornWorld.downedDunestock || TerrorbornWorld.downedShadowcrawler || TerrorbornWorld.downedPrototypeI || TerrorbornWorld.obtainedShriekOfHorror)
                 //{
                 //    return false;
                 //}
-                TerrorbornWorld.TwilightMode = true;
+                TerrorbornSystem.TwilightMode = true;
                 TerrorbornMod.TerrorThunder();
                 Main.NewText("Terrific power fills your foes...", new Color(148, 56, 255));
                 Main.NewText("The twilight matrix transforms into something new...", new Color(148 / 2, 56 / 2, 255 / 2));
@@ -56,8 +55,8 @@ namespace TerrorbornMod.Items
                 }
                 TerrorbornPlayer.modPlayer(player).TwilightPower += TerrorbornPlayer.modPlayer(player).TerrorPercent / 125f;
                 TerrorbornPlayer.modPlayer(player).TerrorPercent = 0f;
-                Main.PlaySound(SoundID.Item67, player.Center);
-                TerrorbornMod.ScreenShake(5f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item67, player.Center);
+                TerrorbornSystem.ScreenShake(5f);
                 player.statLife -= (int)(player.statLifeMax2 * 0.15f);
                 player.HealEffect((int)(player.statLifeMax2 * -0.15f));
             }
@@ -66,7 +65,7 @@ namespace TerrorbornMod.Items
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            if (TerrorbornWorld.TwilightMode)
+            if (TerrorbornSystem.TwilightMode)
             {
                 for (int i = 0; i < tooltips.Count; i++)
                 {

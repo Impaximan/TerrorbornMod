@@ -3,8 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Melee
 {
@@ -18,30 +17,30 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 67;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.melee = true;
-            item.width = 25;
-            item.height = 25;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 3f;
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.DD2_MonkStaffSwing;
-            item.autoReuse = true;
-            item.shootSpeed = 0f;
-            item.shoot = mod.ProjectileType("HurricaneDisc");
+            Item.damage = 67;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 25;
+            Item.height = 25;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 3f;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.DD2_MonkStaffSwing;
+            Item.autoReuse = true;
+            Item.shootSpeed = 0f;
+            Item.shoot = ModContent.ProjectileType<HurricaneDisc>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool spawnProjectile = true;
-            foreach (Projectile projectile in Main.projectile)
+            foreach (Projectile Projectile in Main.projectile)
             {
-                if (projectile.type == type && projectile.active)
+                if (Projectile.type == type && Projectile.active)
                 {
                     spawnProjectile = false;
                     break;
@@ -50,8 +49,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
             if (spawnProjectile)
             {
-                Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-                int proj = Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 Main.projectile[proj].ai[0] = 1;
             }
 
@@ -60,12 +59,11 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18)
+                .AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 
@@ -73,36 +71,36 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 360 / 15;
-            projectile.extraUpdates = 2;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 360 / 15;
+            Projectile.extraUpdates = 2;
         }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(Color.White) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
@@ -116,19 +114,19 @@ namespace TerrorbornMod.Items.Weapons.Melee
             {
                 start = false;
                 rotationFromPlayer = 0f;
-                if (projectile.ai[0] == 1)
+                if (Projectile.ai[0] == 1)
                 {
                     rotationFromPlayer += MathHelper.ToRadians(180);
                 }
                 distance = 0f;
             }
 
-            Player player = Main.player[projectile.owner];
-            projectile.rotation += MathHelper.ToRadians(45) * player.direction / (projectile.extraUpdates + 1);
-            rotationFromPlayer += MathHelper.ToRadians(15) * player.direction / (projectile.extraUpdates + 1) * player.meleeSpeed;
-            projectile.spriteDirection = player.direction;
-            projectile.active = player.channel;
-            projectile.timeLeft = 300;
+            Player player = Main.player[Projectile.owner];
+            Projectile.rotation += MathHelper.ToRadians(45) * player.direction / (Projectile.extraUpdates + 1);
+            rotationFromPlayer += MathHelper.ToRadians(15) * player.direction / (Projectile.extraUpdates + 1) * player.meleeSpeed;
+            Projectile.spriteDirection = player.direction;
+            Projectile.active = player.channel;
+            Projectile.timeLeft = 300;
 
             float targetDistance = player.Distance(Main.MouseWorld);
             if (targetDistance < 125)
@@ -141,8 +139,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
             }
             distance = MathHelper.Lerp(distance, targetDistance, 0.02f);
 
-            projectile.position = player.Center + distance * rotationFromPlayer.ToRotationVector2();
-            projectile.position -= new Vector2(projectile.width / 2, projectile.height / 2);
+            Projectile.position = player.Center + distance * rotationFromPlayer.ToRotationVector2();
+            Projectile.position -= new Vector2(Projectile.width / 2, Projectile.height / 2);
         }
     }
 }

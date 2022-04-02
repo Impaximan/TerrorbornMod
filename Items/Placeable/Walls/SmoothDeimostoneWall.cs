@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace TerrorbornMod.Items.Placeable.Walls
 {
@@ -9,21 +8,21 @@ namespace TerrorbornMod.Items.Placeable.Walls
     {
         public override void SetStaticDefaults()
         {
-            ItemID.Sets.ExtractinatorMode[item.type] = item.type;
+            ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 18;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 7;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createWall = ModContent.WallType<Tiles.SmoothDeimostoneWallTile>();
+            Item.width = 16;
+            Item.height = 18;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 7;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createWall = ModContent.WallType<Tiles.SmoothDeimostoneWallTile>();
         }
     }
 }

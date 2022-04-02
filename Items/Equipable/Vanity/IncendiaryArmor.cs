@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Vanity
 {
@@ -16,11 +15,11 @@ namespace TerrorbornMod.Items.Equipable.Vanity
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.vanity = true;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.vanity = true;
         }
 
     }
@@ -37,16 +36,11 @@ namespace TerrorbornMod.Items.Equipable.Vanity
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.vanity = true;
-        }
-
-        public override bool DrawBody()
-        {
-            return false;
+            Item.width = 26;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.vanity = true;
         }
     }
 
@@ -61,11 +55,11 @@ namespace TerrorbornMod.Items.Equipable.Vanity
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 12;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.vanity = true;
+            Item.width = 20;
+            Item.height = 12;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.vanity = true;
         }
     }
 }

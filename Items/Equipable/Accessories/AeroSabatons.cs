@@ -19,27 +19,25 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 24;
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Pink;
-            item.value = Item.sellPrice(0, 3, 50, 0);
-            item.defense = 8;
-            item.useAnimation = 5;
+            Item.width = 26;
+            Item.height = 24;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.sellPrice(0, 3, 50, 0);
+            Item.defense = 8;
+            Item.useAnimation = 5;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HarpyBoots>());
-            recipe.AddIngredient(ModContent.ItemType<MeteorSabatons>());
-            recipe.AddIngredient(ModContent.ItemType<BoostRelic>());
-            recipe.AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<Materials.NoxiousScale>(), 13);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<HarpyBoots>())
+                .AddIngredient(ModContent.ItemType<MeteorSabatons>())
+                .AddIngredient(ModContent.ItemType<BoostRelic>())
+                .AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 20)
+                .AddIngredient(ModContent.ItemType<Materials.NoxiousScale>(), 13)
+                .AddTile(TileID.TinkerersWorkbench);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -69,13 +67,6 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             }
 
             return;
-            player.accRunSpeed = 9f;
-            player.runSoundDelay = (int)(player.runSoundDelay * 0.75f);
-            if (player.velocity.Y == 0)
-            {
-                player.accRunSpeed *= 1.2f;
-                player.runAcceleration += 0.15f;
-            }
         }
     }
 }

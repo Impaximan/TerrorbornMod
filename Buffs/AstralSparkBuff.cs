@@ -1,13 +1,12 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Buffs
 {
     class AstralSparkBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Spark");
             Description.SetDefault("You are transformed into a highly manueverable spark!" +
@@ -15,7 +14,7 @@ namespace TerrorbornMod.Buffs
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
 
         public override void Update(Player player, ref int buffIndex)

@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -20,7 +15,7 @@ namespace TerrorbornMod.Abilities
 
         public override Texture2D texture()
         {
-            return ModContent.GetTexture("TerrorbornMod/Abilities/HorrificAdaptation_Icon");
+            return (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Abilities/HorrificAdaptation_Icon");
         }
 
         public override float Cost()
@@ -51,7 +46,7 @@ namespace TerrorbornMod.Abilities
             if (noiseCooldown <= 0)
             {
                 noiseCooldown = 20;
-                Main.PlaySound(SoundID.Item72, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, player.Center);
                 player.HealEffect(5);
                 player.statLife += 5;
             }
@@ -70,11 +65,11 @@ namespace TerrorbornMod.Abilities
         }
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -119,7 +114,7 @@ namespace TerrorbornMod.Abilities
 
         public override Vector2 lockedPosition()
         {
-            return TerrorbornWorld.HorrificAdaptation;
+            return TerrorbornSystem.HorrificAdaptation;
         }
 
         public override Vector2 dimensions()
@@ -141,15 +136,15 @@ namespace TerrorbornMod.Abilities
         {
             Float(1.5f, 0.1f);
             UpdateObtainablity(32);
-            //Vector2 textVector = projectile.position - Main.player[Main.myPlayer].position;
+            //Vector2 textVector = Projectile.position - Main.player[Main.myPlayer].position;
             //Main.NewText(textVector.X + ", " + textVector.Y);
         }
 
         public override void ObtainAbility()
         {
-            projectile.active = false;
+            Projectile.active = false;
 
-            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)]);
+            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(Projectile.position, Projectile.width, Projectile.height)]);
             target.unlockedAbilities.Add(1);
             target.TriggerAbilityAnimation("Horrific Adaptation", "Heals you over time while being used", "Costs 30% terror per second of use", 0);
         }

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Terraria.World.Generation;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Summons.Minions
 {
@@ -20,21 +15,21 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         }
         public override void SetDefaults()
         {
-            item.mana = 5;
-            item.summon = true;
-            item.damage = 8;
-            item.width = 34;
-            item.height = 34;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item44;
-            item.shoot = mod.ProjectileType("NatureSpirit");
-            item.shootSpeed = 10f;
-            item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.mana = 5;
+            Item.DamageType = DamageClass.Summon;
+            Item.damage = 8;
+            Item.width = 34;
+            Item.height = 34;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = ModContent.ProjectileType<NatureSpirit>();
+            Item.shootSpeed = 10f;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
         }
 
         public override bool AltFunctionUse(Player player)
@@ -44,28 +39,27 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup(RecipeGroupID.Wood, 25);
-            recipe.AddIngredient(ItemID.Emerald, 2);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.Anvils);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddRecipeGroup(RecipeGroupID.Wood, 25)
+                .AddIngredient(ItemID.Emerald, 2)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                player.MinionNPCTargetAim();
+                player.MinionNPCTargetAim(false);
             }
             return base.UseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
-                int proj = Projectile.NewProjectile(new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockBack, item.owner);
+                int proj = Projectile.NewProjectile(source, new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 int minionNumber = 1;
                 for (int i = 0; i < 1000; i++)
                 {
@@ -80,11 +74,11 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                     }
                 }
                 Main.projectile[proj].ai[0] = minionNumber;
-                foreach (Projectile projectile in Main.projectile)
+                foreach (Projectile Projectile in Main.projectile)
                 {
-                    if (projectile.type == type && projectile.active)
+                    if (Projectile.type == type && Projectile.active)
                     {
-                        projectile.ai[1] = minionNumber - 1;
+                        Projectile.ai[1] = minionNumber - 1;
                     }
                 }
                 if (player.slotsMinions <= player.maxMinions)
@@ -100,24 +94,25 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.Homing[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.penetrate = -1;
-            projectile.width = 26;
-            projectile.height = 36;
-            projectile.tileCollide = false;
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 360;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.minion = true;
-            projectile.minionSlots = 1;
+            Projectile.penetrate = -1;
+            Projectile.width = 26;
+            Projectile.height = 36;
+            Projectile.tileCollide = false;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 360;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.minion = true;
+Projectile.DamageType = DamageClass.Summon;
+            Projectile.minionSlots = 1;
         }
 
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
@@ -133,31 +128,31 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
         void FindFrame(int FrameHeight)
         {
-            projectile.frameCounter--;
-            if (projectile.frameCounter <= 0)
+            Projectile.frameCounter--;
+            if (Projectile.frameCounter <= 0)
             {
-                projectile.frame++;
-                projectile.frameCounter = 5;
+                Projectile.frame++;
+                Projectile.frameCounter = 5;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 0, 25, 7, DustID.t_LivingWood, DustScale: 1f, NoGravity: true);
+            DustExplosion(Projectile.Center, 0, 25, 7, DustID.t_LivingWood, DustScale: 1f, NoGravity: true);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 originPoint = Main.player[projectile.owner].Center;
-            Vector2 center = projectile.Center;
-            Vector2 distToProj = originPoint - projectile.Center;
+            Vector2 originPoint = Main.player[Projectile.owner].Center;
+            Vector2 center = Projectile.Center;
+            Vector2 distToProj = originPoint - Projectile.Center;
             float projRotation = distToProj.ToRotation() - 1.57f;
             float distance = distToProj.Length();
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/Items/Weapons/Summons/Minions/NatureSpiritVine");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/Weapons/Summons/Minions/NatureSpiritVine");
 
             while (distance > texture.Height && !float.IsNaN(distance))
             {
@@ -168,11 +163,11 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 distance = distToProj.Length();
 
                 //Draw chain
-                spriteBatch.Draw(texture, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                Main.spriteBatch.Draw(texture, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
                     new Rectangle(0, 0, texture.Width, texture.Height), lightColor, projRotation,
                     new Vector2(texture.Width * 0.5f, texture.Height * 0.5f), 1f, SpriteEffects.None, 0f);
             }
-            return base.PreDraw(spriteBatch, lightColor);
+            return true;
         }
 
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
@@ -205,23 +200,23 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         float rotation = 0f;
         public override void AI()
         {
-            projectile.timeLeft = 500;
-            if (projectile.velocity.X > 0)
+            Projectile.timeLeft = 500;
+            if (Projectile.velocity.X > 0)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
             else
             {
-                projectile.spriteDirection = 1;
+                Projectile.spriteDirection = 1;
             }
 
-            FindFrame(projectile.height);
+            FindFrame(Projectile.height);
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (!player.HasBuff(ModContent.BuffType<NatureSpiritBuff>()))
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
 
             bool Targeted = false;
@@ -230,10 +225,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             float Distance = 1000;
             for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                 {
                     target = Main.npc[i];
-                    Distance = Main.npc[i].Distance(projectile.Center);
+                    Distance = Main.npc[i].Distance(Projectile.Center);
                     Targeted = true;
                 }
             }
@@ -243,7 +238,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 target = Main.npc[player.MinionAttackTargetNPC];
             }
 
-            if (!projectile.CanHit(player) || !Targeted || !projectile.CanHit(target))
+            if (!Projectile.CanHitWithOwnBody(player) || !Targeted || !Projectile.CanHitWithOwnBody(target))
             {
                 mode = 0;
             }
@@ -252,28 +247,28 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 mode = 1;
             }
 
-            rotation = modPlayer.NatureSpiritRotation + MathHelper.ToRadians(360f * projectile.ai[0] / projectile.ai[1]);
+            rotation = modPlayer.NatureSpiritRotation + MathHelper.ToRadians(360f * Projectile.ai[0] / Projectile.ai[1]);
 
             if (mode == 0)
             {
                 distance = MathHelper.Lerp(distance, 100f, 0.1f);
-                projectile.friendly = false;
+                Projectile.friendly = false;
             }
 
             if (mode == 1)
             {
                 distance = MathHelper.Lerp(distance, player.Distance(target.Center), 0.1f);
-                projectile.friendly = true;
+                Projectile.friendly = true;
             }
 
-            projectile.position = player.Center + rotation.ToRotationVector2() * distance - projectile.Size / 2;
-            projectile.rotation = rotation - MathHelper.ToRadians(90f);
+            Projectile.position = player.Center + rotation.ToRotationVector2() * distance - Projectile.Size / 2;
+            Projectile.rotation = rotation - MathHelper.ToRadians(90f);
         }
     }
 
     class NatureSpiritBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nature Spirit");
             Description.SetDefault("A nature spirit is fighting for you!");
@@ -281,7 +276,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
 
         }
         public override void Update(Player player, ref int buffIndex)

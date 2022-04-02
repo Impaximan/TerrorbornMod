@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Terraria.World.Generation;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -16,12 +12,11 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 3);
-            recipe.AddIngredient(ItemID.LunarBar, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 3)
+                .AddIngredient(ItemID.LunarBar, 10)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -33,21 +28,21 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.height = 60;
-            item.mana = 10;
-            item.summon = true;
-            item.damage = 19;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.rare = 12;
-            item.UseSound = SoundID.Item44;
-            item.shoot = ModContent.ProjectileType<DreadSoul>();
-            item.shootSpeed = 10f;
-            item.value = Item.sellPrice(0, 25, 0, 0);
+            Item.width = 64;
+            Item.height = 60;
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Summon;
+            Item.damage = 19;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.rare = 12;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = ModContent.ProjectileType<DreadSoul>();
+            Item.shootSpeed = 10f;
+            Item.value = Item.sellPrice(0, 25, 0, 0);
         }
 
         public override bool AltFunctionUse(Player player)
@@ -55,16 +50,16 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                player.MinionNPCTargetAim();
+                player.MinionNPCTargetAim(false);
             }
             return base.UseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -75,7 +70,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                         Main.projectile[i].active = false;
                     }
                 }
-                Projectile.NewProjectile(new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockBack, item.owner);
+                Projectile.NewProjectile(source, new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 if (player.slotsMinions <= player.maxMinions)
                 {
                     player.AddBuff(ModContent.BuffType<DreadSoulBuff>(), 60);
@@ -91,11 +86,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.Homing[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override bool? CanHitNPC(NPC target)
@@ -105,28 +99,29 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
         public override void SetDefaults()
         {
-            projectile.penetrate = -1;
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.tileCollide = false;
-            projectile.friendly = false;
-            projectile.hostile = false;
-            projectile.minion = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 2;
-            projectile.timeLeft = 360;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.penetrate = -1;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.tileCollide = false;
+            Projectile.friendly = false;
+            Projectile.hostile = false;
+            Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 2;
+            Projectile.timeLeft = 360;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -140,20 +135,20 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 for (int i = 0; i < positions.Count; i++)
                 {
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.Lerp(Color.Goldenrod, Color.LightGoldenrodYellow, mult)) * mult;
-                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(30f * mult), color);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.Lerp(Color.Goldenrod, Color.LightGoldenrodYellow, mult)) * mult;
+                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(30f * mult), color);
                 }
             }
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 0, 25, 7, DustID.Fire, DustScale: 1f, NoGravity: true);
+            DustExplosion(Projectile.Center, 0, 25, 7, 6, DustScale: 1f, NoGravity: true);
         }
 
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
@@ -180,23 +175,23 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         int fireCounter = 10;
         public override void AI()
         {
-            projectile.timeLeft = 500;
+            Projectile.timeLeft = 500;
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
             if (!player.HasBuff(ModContent.BuffType<DreadSoulBuff>()))
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
 
-            projectile.position = player.Center - new Vector2(0, 100) - projectile.Size / 2;
-            projectile.velocity = player.velocity;
+            Projectile.position = player.Center - new Vector2(0, 100) - Projectile.Size / 2;
+            Projectile.velocity = player.velocity;
         }
     }
 
     class DreadSoulBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dread Soul");
             Description.SetDefault("A dreadful soul increases your max life");
@@ -204,7 +199,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
 
         }
         public override void Update(Player player, ref int buffIndex)

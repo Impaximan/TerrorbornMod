@@ -11,12 +11,11 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.ShellFragments>(), 4);
-            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.ShellFragments>(), 4)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 2)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -27,23 +26,23 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 13;
-            item.width = 20;
-            item.height = 34;
-            item.useTime = 16;
-            item.useAnimation = 16;
-            item.rare = ItemRarityID.Blue;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.shootSpeed = 20;
-            item.shoot = ModContent.ProjectileType<Armorang_projectile>();
-            item.noUseGraphic = true;
-            item.autoReuse = false;
-            item.maxStack = 3;
-            item.melee = true;
-            item.noMelee = true;
+            Item.damage = 13;
+            Item.width = 20;
+            Item.height = 34;
+            Item.useTime = 16;
+            Item.useAnimation = 16;
+            Item.rare = ItemRarityID.Blue;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item1;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.shootSpeed = 20;
+            Item.shoot = ModContent.ProjectileType<Armorang_Projectile>();
+            Item.noUseGraphic = true;
+            Item.autoReuse = false;
+            Item.maxStack = 3;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
         }
 
         public override bool CanUseItem(Player player)
@@ -51,76 +50,76 @@ namespace TerrorbornMod.Items.Weapons.Melee
             int CrescentCount = 1;
             for (int i = 0; i < 300; i++)
             {
-                if (Main.projectile[i].type == item.shoot && Main.projectile[i].active)
+                if (Main.projectile[i].type == Item.shoot && Main.projectile[i].active)
                 {
                     CrescentCount++;
                 }
             }
-            return CrescentCount <= item.stack;
+            return CrescentCount <= Item.stack;
         }
     }
 
-    class Armorang_projectile : ModProjectile
+    class Armorang_Projectile : ModProjectile
     {
         public override string Texture { get { return "TerrorbornMod/Items/Weapons/Melee/Armorang"; } }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 SpriteEffects effects = SpriteEffects.None;
-                if (projectile.spriteDirection == -1)
+                if (Projectile.spriteDirection == -1)
                 {
                     effects = SpriteEffects.FlipHorizontally;
                 }
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(Color.White) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Items/Weapons/Melee/Armorang_Glow"), drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/Weapons/Melee/Armorang_Glow"), drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
         }
 
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = 18;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = false;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = 18;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 18;
             height = 18;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
 
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
 
             TimeUntilReturn = 0;
@@ -132,23 +131,23 @@ namespace TerrorbornMod.Items.Weapons.Melee
         int TimeUntilReturn = 25;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            projectile.spriteDirection = player.direction * -1;
-            projectile.rotation += 0.5f * player.direction;
+            Projectile.spriteDirection = player.direction * -1;
+            Projectile.rotation += 0.5f * player.direction;
             if (TimeUntilReturn <= 0)
             {
-                projectile.tileCollide = false;
-                Vector2 targetPosition = Main.player[projectile.owner].Center;
+                Projectile.tileCollide = false;
+                Vector2 targetPosition = Main.player[Projectile.owner].Center;
                 float speed = 3.4f;
-                Vector2 move = targetPosition - projectile.Center;
+                Vector2 move = targetPosition - Projectile.Center;
                 float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
                 move *= speed / magnitude;
-                projectile.velocity += move;
-                projectile.velocity *= 0.90f;
-                if (Main.player[projectile.owner].Distance(projectile.Center) <= 30)
+                Projectile.velocity += move;
+                Projectile.velocity *= 0.90f;
+                if (Main.player[Projectile.owner].Distance(Projectile.Center) <= 30)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
             else
@@ -169,21 +168,21 @@ namespace TerrorbornMod.Items.Weapons.Melee
             NPC launchTo = Main.npc[0];
             float distance = 2000;
 
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                if (npc.active && npc.Distance(projectile.Center) < distance && projectile.CanHit(npc) && !npc.friendly && npc.CanBeChasedBy() && !(npc == target))
+                if (NPC.active && NPC.Distance(Projectile.Center) < distance && Projectile.CanHitWithOwnBody(NPC) && !NPC.friendly && NPC.CanBeChasedBy() && !(NPC == target))
                 {
-                    distance = npc.Distance(projectile.Center);
-                    launchTo = npc;
+                    distance = NPC.Distance(Projectile.Center);
+                    launchTo = NPC;
                     targeted = true;
                 }
             }
 
             if (targeted)
             {
-                float speed = projectile.velocity.Length();
-                Vector2 direction = projectile.DirectionTo(launchTo.Center);
-                projectile.velocity = speed * direction;
+                float speed = Projectile.velocity.Length();
+                Vector2 direction = Projectile.DirectionTo(launchTo.Center);
+                Projectile.velocity = speed * direction;
             }
         }
     }

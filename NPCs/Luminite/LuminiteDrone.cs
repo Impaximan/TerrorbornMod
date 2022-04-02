@@ -11,62 +11,62 @@ namespace TerrorbornMod.NPCs.Luminite
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 3;
-            NPCID.Sets.TrailCacheLength[npc.type] = 3;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 3;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects effects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
-            spriteBatch.Draw(ModContent.GetTexture(Texture + "_Glow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.Size / 2, npc.scale, effects, 0f);
+            spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>(Texture + "_Glow"), NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0f);
         }
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.aiStyle = -1;
-            npc.width = 60;
-            npc.height = 50;
-            npc.damage = 90;
-            npc.defense = 35;
-            npc.lifeMax = 7500;
-            npc.HitSound = SoundID.NPCHit42;
-            npc.DeathSound = SoundID.NPCDeath56;
-            npc.value = Item.buyPrice(0, 15, 0, 0);
-            npc.knockBackResist = 0f;
-            npc.lavaImmune = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.aiStyle = -1;
+            NPC.width = 60;
+            NPC.height = 50;
+            NPC.damage = 90;
+            NPC.defense = 35;
+            NPC.lifeMax = 7500;
+            NPC.HitSound = SoundID.NPCHit42;
+            NPC.DeathSound = SoundID.NPCDeath56;
+            NPC.value = Item.buyPrice(0, 15, 0, 0);
+            NPC.knockBackResist = 0f;
+            NPC.lavaImmune = true;
         }
 
         int frame = 0;
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter--;
-            if (npc.frameCounter <= 0)
+            NPC.frameCounter--;
+            if (NPC.frameCounter <= 0)
             {
                 frame++;
-                npc.frameCounter = 5;
+                NPC.frameCounter = 5;
             }
             if (frame >= 3)
             {
                 frame = 0;
             }
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem(npc.getRect(), ItemID.LunarOre, Main.rand.Next(15, 25));
-            Item.NewItem(npc.getRect(), ItemID.FragmentSolar, Main.rand.Next(6));
-            Item.NewItem(npc.getRect(), ItemID.FragmentVortex, Main.rand.Next(6));
-            Item.NewItem(npc.getRect(), ItemID.FragmentStardust, Main.rand.Next(6));
-            Item.NewItem(npc.getRect(), ItemID.FragmentNebula, Main.rand.Next(6));
-            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.FusionFragment>(), Main.rand.Next(4));
+            Item.NewItem(NPC.getRect(), ItemID.LunarOre, Main.rand.Next(15, 25));
+            Item.NewItem(NPC.getRect(), ItemID.FragmentSolar, Main.rand.Next(6));
+            Item.NewItem(NPC.getRect(), ItemID.FragmentVortex, Main.rand.Next(6));
+            Item.NewItem(NPC.getRect(), ItemID.FragmentStardust, Main.rand.Next(6));
+            Item.NewItem(NPC.getRect(), ItemID.FragmentNebula, Main.rand.Next(6));
+            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.FusionFragment>(), Main.rand.Next(4));
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -79,51 +79,51 @@ namespace TerrorbornMod.NPCs.Luminite
         }
 
         float speed = 0.2f;
-        int projectileWait = 0;
+        int ProjectileWait = 0;
         public override void AI()
         {
             Player player = Main.LocalPlayer;
-            Vector2 groundPosition = npc.Center.findGroundUnder();
+            Vector2 groundPosition = NPC.Center.findGroundUnder();
 
-            speed = MathHelper.Lerp(0.4f, 0.2f, (float)npc.life / (float)npc.lifeMax);
+            speed = MathHelper.Lerp(0.4f, 0.2f, (float)NPC.life / (float)NPC.lifeMax);
 
-            if (npc.life <= npc.lifeMax * 0.5f)
+            if (NPC.life <= NPC.lifeMax * 0.5f)
             {
-                projectileWait++;
-                if (projectileWait > MathHelper.Lerp(45f, 90f, (float)npc.life * 2f / (float)npc.lifeMax))
+                ProjectileWait++;
+                if (ProjectileWait > MathHelper.Lerp(45f, 90f, (float)NPC.life * 2f / (float)NPC.lifeMax))
                 {
-                    projectileWait = 0;
+                    ProjectileWait = 0;
                     float projSpeed = 10f;
-                    Vector2 velocity = npc.DirectionTo(player.Center + player.velocity * npc.Distance(player.Center) / projSpeed) * projSpeed;
-                    Projectile.NewProjectile(npc.Center, velocity / 2, ProjectileID.PhantasmalBolt, npc.damage / 6, 0f);
+                    Vector2 velocity = NPC.DirectionTo(player.Center + player.velocity * NPC.Distance(player.Center) / projSpeed) * projSpeed;
+                    Projectile.NewProjectile(NPC.Center, velocity / 2, ProjectileID.PhantasmalBolt, NPC.damage / 6, 0f);
                 }
             }
 
-            if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) || npc.life < npc.lifeMax)
+            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height) || NPC.life < NPC.lifeMax)
             {
-                int yDirection = Math.Sign(player.Center.Y - npc.Center.Y);
-                if (npc.Distance(groundPosition) > 500)
+                int yDirection = Math.Sign(player.Center.Y - NPC.Center.Y);
+                if (NPC.Distance(groundPosition) > 500)
                 {
                     yDirection = 1;
                 }
-                npc.velocity.Y += speed * yDirection;
+                NPC.velocity.Y += speed * yDirection;
 
-                int xDirection = Math.Sign(player.Center.X - npc.Center.X);
-                npc.velocity.X += speed * xDirection;
-                npc.spriteDirection = xDirection;
+                int xDirection = Math.Sign(player.Center.X - NPC.Center.X);
+                NPC.velocity.X += speed * xDirection;
+                NPC.spriteDirection = xDirection;
             }
             else
             {
                 int yDirection = -1;
-                if (npc.Distance(groundPosition) > 200)
+                if (NPC.Distance(groundPosition) > 200)
                 {
                     yDirection = 1;
                 }
-                npc.velocity.Y += speed * yDirection;
+                NPC.velocity.Y += speed * yDirection;
             }
 
-            npc.rotation = MathHelper.ToRadians(npc.velocity.X * 2);
-            npc.velocity *= 0.98f;
+            NPC.rotation = MathHelper.ToRadians(NPC.velocity.X * 2);
+            NPC.velocity *= 0.98f;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System;
 using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories
@@ -12,17 +11,17 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Intimidation Aura");
-            Tooltip.SetDefault("Closely dodging hostile enemies and projectiles will grant you terror" +
+            Tooltip.SetDefault("Closely dodging hostile enemies and Projectiles will grant you terror" +
                 "\nGetting hit will cause you to lose a fourth of the terror you have");
         }
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 34;
-            item.accessory = true;
-            item.rare = ItemRarityID.Blue;
-            item.value = Item.sellPrice(0, 4, 0, 0);
+            Item.width = 40;
+            Item.height = 34;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.sellPrice(0, 4, 0, 0);
         }
         int Cooldown = 60 / 6;
         public override void UpdateEquip(Player player)
@@ -45,8 +44,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
             for (int i = 0; i < 200; i++)
             {
-                NPC npc = Main.npc[i];
-                if (!npc.friendly && npc.damage > 0 && npc.Distance(player.Center) <= range + (npc.height + npc.width) / 4 && npc.active && Cooldown <= 0)
+                NPC NPC = Main.npc[i];
+                if (!NPC.friendly && NPC.damage > 0 && NPC.Distance(player.Center) <= range + (NPC.height + NPC.width) / 4 && NPC.active && Cooldown <= 0)
                 {
                     CreateDust = true;
                     modPlayer.GainTerror(2f, false, false, true);
@@ -55,19 +54,19 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
             for (int i = 0; i < Main.projectile.GetUpperBound(0); i++)
             {
-                Projectile projectile = Main.projectile[i];
-                if (projectile.hostile && projectile.Distance(player.Center) <= range + (projectile.height + projectile.width) / 4 && projectile.active && projectile.damage > 0 && !TerrorbornProjectile.modProjectile(projectile).Intimidated && projectile.timeLeft > 2)
+                Projectile Projectile = Main.projectile[i];
+                if (Projectile.hostile && Projectile.Distance(player.Center) <= range + (Projectile.height + Projectile.width) / 4 && Projectile.active && Projectile.damage > 0 && !TerrorbornProjectile.modProjectile(Projectile).Intimidated && Projectile.timeLeft > 2)
                 {
                     CreateDust = true;
                     modPlayer.GainTerror(0.75f, false, false, true);
-                    TerrorbornProjectile.modProjectile(projectile).Intimidated = true;
+                    TerrorbornProjectile.modProjectile(Projectile).Intimidated = true;
                 }
             }
 
             if (CreateDust)
             {
                 Cooldown = 60 / 6;
-                Main.PlaySound(SoundID.MaxMana, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.MaxMana, player.Center);
                 DustCircle(player.Center, 180, range, 63, -5, 3f);
             }
         }

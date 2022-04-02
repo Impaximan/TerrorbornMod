@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
@@ -18,23 +19,23 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.reuseDelay = 45;
-            item.damage = 32;
-            item.ranged = true;
-            item.width = 64;
-            item.height = 36;
-            item.channel = true;
-            item.useTime = 6;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2;
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 18f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.reuseDelay = 45;
+            Item.damage = 32;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 64;
+            Item.height = 36;
+            Item.channel = true;
+            Item.useTime = 6;
+            Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 18f;
+            Item.useAmmo = AmmoID.Arrow;
         }
 
         public override Vector2? HoldoutOffset()
@@ -44,12 +45,11 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18)
+                .AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         int shotsLeft = 0;
@@ -62,18 +62,18 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 {
                     shotsLeft = 8;
                 }
-                item.shoot = ProjectileID.None;
-                item.autoReuse = true;
-                item.reuseDelay = 5;
-                item.UseSound = SoundID.Item56;
+                Item.shoot = ProjectileID.None;
+                Item.autoReuse = true;
+                Item.reuseDelay = 5;
+                Item.UseSound = SoundID.Item56;
                 CombatText.NewText(player.getRect(), Color.White, shotsLeft, shotsLeft == 8, true);
                 return base.CanUseItem(player);
             }
 
-            item.shoot = ProjectileID.PurificationPowder;
-            item.autoReuse = true;
-            item.reuseDelay = 0;
-            item.UseSound = SoundID.Item5;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.autoReuse = true;
+            Item.reuseDelay = 0;
+            Item.UseSound = SoundID.Item5;
             return shotsLeft > 0;
         }
 
@@ -82,7 +82,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
@@ -90,12 +90,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
             if (shotsLeft == 8)
             {
-                Main.PlaySound(SoundID.Item92, position);
-                TerrorbornMod.ScreenShake(3.5f);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item92, position);
+                TerrorbornSystem.ScreenShake(3.5f);
                 for (int i = 0; i < Main.rand.Next(5, 7); i++)
                 {
-                    Vector2 velocity = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(20)) * Main.rand.NextFloat(2f, 3f);
-                    Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LightningBolt>(), damage, knockBack, player.whoAmI);
+                    velocity = velocity.RotatedByRandom(MathHelper.ToRadians(20)) * Main.rand.NextFloat(2f, 3f);
+                    Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LightningBolt>(), damage, knockback, player.whoAmI);
                 }
                 shotsLeft -= 3;
             }
@@ -103,14 +103,14 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             {
                 shotsLeft--;
             }
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
 
         public override void UpdateInventory(Player player)
         {
             if (!player.channel)
             {
-                item.reuseDelay = 45;
+                Item.reuseDelay = 45;
             }
         }
     }
@@ -120,37 +120,37 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(Color.White) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 8;
-            projectile.ranged = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 4;
+            Projectile.width = 30;
+            Projectile.height = 8;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 4;
         }
 
         bool start = true;
@@ -159,9 +159,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (start)
             {
                 start = false;
-                projectile.velocity /= projectile.extraUpdates + 1;
+                Projectile.velocity /= Projectile.extraUpdates + 1;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
         }
     }
 }

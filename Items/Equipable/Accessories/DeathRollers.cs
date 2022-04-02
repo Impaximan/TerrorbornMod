@@ -20,19 +20,18 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RollerSkates>());
-            recipe.AddIngredient(ItemID.Bone, 35);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<RollerSkates>())
+                .AddIngredient(ItemID.Bone, 35)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = ItemRarityID.Orange;
-            item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
         }
 
         bool heldDown = false;
@@ -51,7 +50,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             if (player.velocity.Y != 0 && !spinning)
             {
-                Main.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, player.Center);
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, player.Center);
                 spinDir = Math.Sign(player.velocity.X);
                 if (player.velocity.X == 0)
                 {
@@ -84,8 +83,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 {
                     player.velocity.X += spinDir * 12f;
                     spinning = false;
-                    Main.PlaySound(SoundID.DD2_SkeletonHurt, player.Center);
-                    TerrorbornMod.ScreenShake(3f);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt, player.Center);
+                    TerrorbornSystem.ScreenShake(3f);
                     List<string> textOptions = new List<string>(){
                         { "Terrific!" },
                         { "Anarchic!" },

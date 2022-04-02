@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using System.Collections.Generic;
 using TerrorbornMod.Projectiles;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Weapons.Magic
@@ -20,23 +17,23 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 17;
-            item.noMelee = true;
-            item.width = 46;
-            item.height = 26;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.crit = 14;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item33;
-            item.shootSpeed = 1f;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<IncendiaryGazeblast>();
-            item.mana = 6;
-            item.magic = true;
+            Item.damage = 17;
+            Item.noMelee = true;
+            Item.width = 46;
+            Item.height = 26;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.crit = 14;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item33;
+            Item.shootSpeed = 1f;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<IncendiaryGazeblast>();
+            Item.mana = 6;
+            Item.DamageType = DamageClass.Magic;;
         }
 
         public override Vector2? HoldoutOffset()
@@ -44,12 +41,12 @@ namespace TerrorbornMod.Items.Weapons.Magic
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 shootSpeed = new Vector2(speedX, speedY);
+            Vector2 shootSpeed = new Vector2(velocity.X, velocity.Y);
             shootSpeed.Normalize();
-            speedX = shootSpeed.X;
-            speedY = shootSpeed.Y;
+            velocity.X = shootSpeed.X;
+            velocity.Y = shootSpeed.Y;
             return true;
         }
     }
@@ -60,17 +57,17 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override string Texture => "TerrorbornMod/Projectiles/IncendiaryDeathray";
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 22;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.hide = false;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.timeLeft = timeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 18;
+            Projectile.height = 22;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.hide = false;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.timeLeft = timeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
             MoveDistance = 20f;
             RealMaxDistance = 2000f;
             bodyRect = new Rectangle(0, 24, 18, 22);
@@ -80,7 +77,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override Vector2 Position()
         {
-            return Main.player[projectile.owner].Center;
+            return Main.player[Projectile.owner].Center;
         }
 
         public override void PostAI()

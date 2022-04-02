@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Restless
 {
@@ -29,72 +29,71 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void restlessSetDefaults(TerrorbornItem modItem)
         {
-            item.damage = 80;
-            item.melee = true;
-            item.width = 56;
-            item.height = 56;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item71;
-            item.shoot = ModContent.ProjectileType<EnergyOrbProjectile>();
-            item.shootSpeed = 20;
-            item.crit = 7;
-            item.autoReuse = true;
-            item.noMelee = false;
-            item.noUseGraphic = false;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 56;
+            Item.height = 56;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item71;
+            Item.shoot = ModContent.ProjectileType<EnergyOrbProjectile>();
+            Item.shootSpeed = 20;
+            Item.crit = 7;
+            Item.autoReuse = true;
+            Item.noMelee = false;
+            Item.noUseGraphic = false;
             modItem.restlessTerrorDrain = 8f;
             modItem.restlessChargeUpUses = 6;
         }
 
         public override bool RestlessCanUseItem(Player player)
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())
             {
-                item.noUseGraphic = true;
-                item.noMelee = true;
+                Item.noUseGraphic = true;
+                Item.noMelee = true;
             }
             else
             {
-                item.noUseGraphic = false;
-                item.noMelee = false;
+                Item.noUseGraphic = false;
+                Item.noMelee = false;
             }
             return base.RestlessCanUseItem(player);
         }
 
-        public override bool RestlessShoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool RestlessShoot(Player player, EntitySource_ItemUse_WithAmmo source, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())
             {
-                item.noUseGraphic = true;
-                item.noMelee = true;
+                Item.noUseGraphic = true;
+                Item.noMelee = true;
                 type = ModContent.ProjectileType<AtomReaperThrown>();
-                speedX *= 2;
-                speedY *= 2;
+                velocity.X *= 2;
+                velocity.Y *= 2;
             }
             else
             {
-                item.noUseGraphic = false;
-                item.noMelee = false;
+                Item.noUseGraphic = false;
+                Item.noMelee = false;
                 type = ModContent.ProjectileType<EnergyOrbProjectile>();
             }
-            return base.RestlessShoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return base.RestlessShoot(player, source, ref position, ref velocity, ref type, ref damage, ref knockback);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 20);
-            recipe.AddIngredient(ItemID.FragmentSolar, 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 20)
+                .AddIngredient(ItemID.FragmentSolar, 10)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 
@@ -106,57 +105,57 @@ namespace TerrorbornMod.Items.Weapons.Restless
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/AtomReaper";
         public override void SetDefaults()
         {
-            projectile.width = 58;
-            projectile.height = 62;
-            projectile.melee = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = false;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
-            projectile.timeLeft = 600;
+            Projectile.width = 58;
+            Projectile.height = 62;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+            Projectile.timeLeft = 600;
         }
 
         float speed;
-        int projectileWait = 0;
+        int ProjectileWait = 0;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
-            projectileWait--;
-            if (projectileWait <= 0)
+            ProjectileWait--;
+            if (ProjectileWait <= 0)
             {
-                projectileWait = 10;
-                Projectile.NewProjectile(projectile.Center, projectile.velocity / 2, ModContent.ProjectileType<EnergyOrbProjectile>(), projectile.damage, 1, projectile.owner);
+                ProjectileWait = 10;
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity / 2, ModContent.ProjectileType<EnergyOrbProjectile>(), Projectile.damage, 1, Projectile.owner);
             }
 
             if (timeUntilReturn <= 0)
             {
-                projectile.rotation += 0.5f * player.direction;
-                projectile.tileCollide = false;
-                Vector2 direction = projectile.DirectionTo(player.Center);
-                projectile.velocity = direction * speed;
+                Projectile.rotation += 0.5f * player.direction;
+                Projectile.tileCollide = false;
+                Vector2 direction = Projectile.DirectionTo(player.Center);
+                Projectile.velocity = direction * speed;
 
-                if (Main.player[projectile.owner].Distance(projectile.Center) <= speed)
+                if (Main.player[Projectile.owner].Distance(Projectile.Center) <= speed)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
             else
             {
-                projectile.direction = player.direction;
-                projectile.spriteDirection = player.direction;
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135);
-                if (projectile.spriteDirection == 1)
+                Projectile.direction = player.direction;
+                Projectile.spriteDirection = player.direction;
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(135);
+                if (Projectile.spriteDirection == 1)
                 {
-                    projectile.rotation -= MathHelper.ToRadians(90f);
+                    Projectile.rotation -= MathHelper.ToRadians(90f);
                 }
                 timeUntilReturn--;
                 if (timeUntilReturn <= 0)
                 {
-                    speed = projectile.velocity.Length();
+                    speed = Projectile.velocity.Length();
                 }
             }
         }
@@ -169,19 +168,19 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             BezierCurve bezier = new BezierCurve();
             bezier.Controls.Clear();
-            foreach (Vector2 pos in projectile.oldPos)
+            foreach (Vector2 pos in Projectile.oldPos)
             {
                 if (pos != Vector2.Zero && pos != null)
                 {
@@ -195,63 +194,63 @@ namespace TerrorbornMod.Items.Weapons.Restless
                 for (int i = 0; i < positions.Count; i++)
                 {
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
-                    Vector2 drawPos = positions[i] - Main.screenPosition + projectile.Size / 2;
-                    Color color = projectile.GetAlpha(Color.Lerp(Color.MediumPurple, Color.LightPink, mult)) * mult;
-                    TBUtils.Graphics.DrawGlow_1(spriteBatch, drawPos, (int)(50f * mult), color);
+                    Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
+                    Color color = Projectile.GetAlpha(Color.Lerp(Color.MediumPurple, Color.LightPink, mult)) * mult;
+                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(50f * mult), color);
                 }
             }
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
             return false;
         }
 
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/AtomReaper";
         public override void SetDefaults()
         {
-            projectile.width = 56;
-            projectile.height = 56;
-            projectile.melee = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = false;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
-            projectile.timeLeft = 600;
+            Projectile.width = 56;
+            Projectile.height = 56;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+            Projectile.timeLeft = 600;
         }
 
         float speed;
-        int projectileWait = 0;
+        int ProjectileWait = 0;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
-            projectile.rotation += 0.5f * player.direction;
+            Projectile.rotation += 0.5f * player.direction;
 
             if (timeUntilReturn <= 0)
             {
-                Vector2 direction = projectile.DirectionTo(player.Center);
-                projectile.velocity = direction * speed;
+                Vector2 direction = Projectile.DirectionTo(player.Center);
+                Projectile.velocity = direction * speed;
 
-                if (Main.player[projectile.owner].Distance(projectile.Center) <= speed)
+                if (Main.player[Projectile.owner].Distance(Projectile.Center) <= speed)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
 
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 21);
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 21);
                 Main.dust[d].noGravity = true;
-                Main.dust[d].velocity = projectile.velocity;
+                Main.dust[d].velocity = Projectile.velocity;
                 Main.dust[d].noLight = true;
             }
             else
             {
-                projectile.spriteDirection = player.direction;
+                Projectile.spriteDirection = player.direction;
                 timeUntilReturn--;
                 if (timeUntilReturn <= 0)
                 {
-                    speed = projectile.velocity.Length();
+                    speed = Projectile.velocity.Length();
                 }
             }
         }

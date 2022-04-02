@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework.Audio;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.Armor
@@ -11,12 +10,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 18);
-            recipe.AddIngredient(ItemID.HallowedBar, 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 18)
+                .AddIngredient(ItemID.HallowedBar, 6)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -29,11 +27,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 10;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 10;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -54,7 +52,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
                 {
                     blackoutTime = 7;
                     player.position = Main.MouseWorld - player.Size / 2;
-                    ModContent.GetSound("TerrorbornMod/Sounds/Effects/undertalewarning").Play(Main.soundVolume, 0.5f, 0f);
+                    ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/undertalewarning").Value.Play(Main.soundVolume, 0.5f, 0f);
                 }
             }
 
@@ -72,8 +70,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.meleeDamage += 0.06f;
-            player.meleeCrit += 16;
+            player.GetDamage(DamageClass.Melee) *= 1.06f;
+            player.GetCritChance(DamageClass.Melee) += 16;
             player.statLifeMax2 += 15;
         }
     }
@@ -83,12 +81,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 18);
-            recipe.AddIngredient(ItemID.HallowedBar, 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 18)
+                .AddIngredient(ItemID.HallowedBar, 6)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -99,22 +96,17 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 16;
-        }
-
-        public override bool DrawBody()
-        {
-            return false;
+            Item.width = 26;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 16;
         }
 
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.meleeDamage += 0.06f;
+            player.GetDamage(DamageClass.Melee) *= 1.06f;
             modPlayer.ShriekTerrorMultiplier *= 1.35f;
             player.statLifeMax2 += 20;
         }
@@ -125,12 +117,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 18);
-            recipe.AddIngredient(ItemID.HallowedBar, 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.SoulOfPlight>(), 18)
+                .AddIngredient(ItemID.HallowedBar, 6)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -142,17 +133,17 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 12;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 10;
+            Item.width = 20;
+            Item.height = 12;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 10;
         }
 
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.meleeDamage += 0.06f;
+            player.GetDamage(DamageClass.Melee) *= 1.06f;
             player.runAcceleration *= 1.3f;
             player.statLifeMax2 += 15;
         }

@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.MiscConsumables
 {
@@ -16,31 +15,31 @@ namespace TerrorbornMod.Items.MiscConsumables
         }
         public override void SetDefaults()
         {
-            item.useTime = 24;
-            item.useAnimation = 36;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.maxStack = 30;
-            item.consumable = true;
-            item.rare = ItemRarityID.Blue;
-            item.autoReuse = false;
-            item.UseSound = SoundID.Item2;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.buffType = ModContent.BuffType<HorrificallyNourished>();
-            item.buffTime = 3600 * 5;
+            Item.useTime = 24;
+            Item.useAnimation = 36;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.maxStack = 30;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.autoReuse = false;
+            Item.UseSound = SoundID.Item2;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.buffType = ModContent.BuffType<HorrificallyNourished>();
+            Item.buffTime = 3600 * 5;
         }
     }
 
     class HorrificallyNourished : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Horifically Nourished");
             Description.SetDefault("Grants you life regen that scales with how much terror you have, but you will lose terror over time");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Terraria.World.Generation;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Summons.Minions
 {
@@ -20,35 +14,35 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         }
         public override void SetDefaults()
         {
-            item.mana = 5;
-            item.summon = true;
-            item.damage = 12;
-            item.width = 38;
-            item.height = 40;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item44;
-            item.shoot = mod.ProjectileType("OpticDemon");
-            item.shootSpeed = 10f;
-            item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.mana = 5;
+            Item.DamageType = DamageClass.Summon;
+            Item.damage = 12;
+            Item.width = 38;
+            Item.height = 40;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = mod.ProjectileType("OpticDemon");
+            Item.shootSpeed = 10f;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
         }
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                player.MinionNPCTargetAim();
+                player.MinionNPCTargetAim(false);
             }
             return base.UseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -59,7 +53,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                         Main.projectile[i].active = false;
                     }
                 }
-                Projectile.NewProjectile(new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockBack, item.owner);
+                Projectile.NewProjectile(source, new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 if (player.slotsMinions <= player.maxMinions)
                 {
                     player.AddBuff(ModContent.BuffType<OpticDemonBuff>(), 60);
@@ -73,10 +67,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.Homing[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            Main.projFrames[projectile.type] = 7;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            Main.projFrames[Projectile.type] = 7;
         }
 
         public override bool? CanHitNPC(NPC target)
@@ -85,35 +79,36 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         }
         public override void SetDefaults()
         {
-            projectile.penetrate = -1;
-            projectile.width = 60;
-            projectile.height = 42;
-            projectile.tileCollide = false;
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 360;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.minion = true;
-            projectile.minionSlots = 1;
+            Projectile.penetrate = -1;
+            Projectile.width = 60;
+            Projectile.height = 42;
+            Projectile.tileCollide = false;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 360;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.minion = true;
+Projectile.DamageType = DamageClass.Summon;
+            Projectile.minionSlots = 1;
         }
         void FindFrame(int FrameHeight)
         {
-            projectile.frameCounter--;
-            if (projectile.frameCounter <= 0)
+            Projectile.frameCounter--;
+            if (Projectile.frameCounter <= 0)
             {
-                projectile.frame++;
-                projectile.frameCounter = 5;
+                Projectile.frame++;
+                Projectile.frameCounter = 5;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 0, 25, 7, DustID.Blood, DustScale: 1f, NoGravity: true);
+            DustExplosion(Projectile.Center, 0, 25, 7, DustID.Blood, DustScale: 1f, NoGravity: true);
         }
 
 
@@ -141,22 +136,22 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         int bloodCounter = 10;
         public override void AI()
         {
-            projectile.timeLeft = 500;
-            if (projectile.velocity.X > 0)
+            Projectile.timeLeft = 500;
+            if (Projectile.velocity.X > 0)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
             else
             {
-                projectile.spriteDirection = 1;
+                Projectile.spriteDirection = 1;
             }
 
-            FindFrame(projectile.height);
+            FindFrame(Projectile.height);
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (!player.HasBuff(ModContent.BuffType<OpticDemonBuff>()))
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
 
             bool Targeted = false;
@@ -165,10 +160,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             float Distance = 1000;
             for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                 {
                     target = Main.npc[i];
-                    Distance = Main.npc[i].Distance(projectile.Center);
+                    Distance = Main.npc[i].Distance(Projectile.Center);
                     Targeted = true;
                 }
             }
@@ -178,7 +173,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 target = Main.npc[player.MinionAttackTargetNPC];
             }
 
-            if (!projectile.CanHit(player) || !Targeted || !projectile.CanHit(target))
+            if (!Projectile.CanHitWithOwnBody(player) || !Targeted || !Projectile.CanHitWithOwnBody(target))
             {
                 mode = 0;
             }
@@ -189,25 +184,25 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
             if (mode == 0)
             {
-                if (projectile.Distance(player.Center) > 100)
+                if (Projectile.Distance(player.Center) > 100)
                 {
                     float speed = 0.6f;
-                    projectile.velocity += projectile.DirectionTo(player.Center) * speed;
-                    projectile.velocity *= 0.98f;
+                    Projectile.velocity += Projectile.DirectionTo(player.Center) * speed;
+                    Projectile.velocity *= 0.98f;
                 }
-                if (projectile.Distance(player.Center) > 5000)
+                if (Projectile.Distance(player.Center) > 5000)
                 {
-                    projectile.position = player.Center - new Vector2(projectile.width / 2, projectile.height / 2);
+                    Projectile.position = player.Center - new Vector2(Projectile.width / 2, Projectile.height / 2);
                 }
             }
 
             if (mode == 1)
             {
-                if (projectile.Distance(target.Center) > 100)
+                if (Projectile.Distance(target.Center) > 100)
                 {
                     float speed = 0.6f;
-                    projectile.velocity += projectile.DirectionTo(target.Center) * speed;
-                    projectile.velocity *= 0.985f;
+                    Projectile.velocity += Projectile.DirectionTo(target.Center) * speed;
+                    Projectile.velocity *= 0.985f;
                 }
 
                 bloodCounter--;
@@ -215,8 +210,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                 {
                     bloodCounter = 25;
                     float speed = 25;
-                    Vector2 velocity = projectile.DirectionTo(target.Center) * speed;
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<OpticBlood>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    Vector2 velocity = Projectile.DirectionTo(target.Center) * speed;
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<OpticBlood>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }
@@ -226,17 +221,17 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.hostile = false;
-            projectile.hide = true;
-            projectile.timeLeft = 100;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.hostile = false;
+            Projectile.hide = true;
+            Projectile.timeLeft = 100;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
 
@@ -245,22 +240,22 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         {
             if (tileCollideCounter <= 0)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
             else
             {
                 tileCollideCounter--;
             }
 
-            int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 115, 0f, 0f, 100, Color.Red, 1.5f);
+            int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 115, 0f, 0f, 100, Color.Red, 1.5f);
             Main.dust[dust].noGravity = true;
-            Main.dust[dust].velocity = projectile.velocity;
+            Main.dust[dust].velocity = Projectile.velocity;
         }
     }
 
     class OpticDemonBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Optic Demon");
             Description.SetDefault("An optic demon is fighting for you!");
@@ -268,7 +263,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
 
         }
         public override void Update(Player player, ref int buffIndex)

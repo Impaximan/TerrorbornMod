@@ -1,25 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil;
-using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using ReLogic.Graphics;
 using Terraria.ModLoader;
-using Terraria.Graphics.Effects;
-using Terraria.ModLoader.IO;
-using TerrorbornMod.Abilities;
-using Terraria.Graphics.Shaders;
 using TerrorbornMod.ForegroundObjects;
-using Terraria.GameInput;
-using Microsoft.Xna.Framework.Input;
-using Extensions;
-using System.Reflection;
 
 namespace TerrorbornMod.TBUtils
 {
@@ -129,7 +115,7 @@ namespace TerrorbornMod.TBUtils
 
             if (TerrorbornMod.ScreenDarknessAlpha > 0f)
             {
-                Main.spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/WhitePixel"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * TerrorbornMod.ScreenDarknessAlpha);
+                Main.spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/WhitePixel"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * TerrorbornMod.ScreenDarknessAlpha);
             }
 
             Main.spriteBatch.End();
@@ -165,21 +151,21 @@ namespace TerrorbornMod.TBUtils
 
             if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedConstructor>()))
             {
-                NPC npc = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedConstructor>())];
+                NPC NPC = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedConstructor>())];
                 foreach (NPC claw in Main.npc)
                 {
                     if (claw.type == ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedClaw>() && claw.active)
                     {
-                        NPCs.Bosses.HexedConstructor.HexedConstructor.DrawWire(Main.spriteBatch, Color.White, ModContent.GetTexture("TerrorbornMod/NPCs/Bosses/HexedConstructor/HexedWire"), ModContent.GetTexture("TerrorbornMod/NPCs/Bosses/HexedConstructor/HexedWireEnd"), npc.Center - new Vector2(0, 20), claw.Center, (int)(Math.Abs(Math.Sin((double)(npc.ai[0] / 60f))) * 50) + 20, 25);
+                        NPCs.Bosses.HexedConstructor.HexedConstructor.DrawWire(Main.spriteBatch, Color.White, (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/Bosses/HexedConstructor/HexedWire"), (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/Bosses/HexedConstructor/HexedWireEnd"), NPC.Center - new Vector2(0, 20), claw.Center, (int)(Math.Abs(Math.Sin((double)(NPC.ai[0] / 60f))) * 50) + 20, 25);
                     }
                 }
             }
 
-            foreach (Projectile projectile in Main.projectile)
+            foreach (Projectile Projectile in Main.projectile)
             {
-                if (projectile.active && projectile.type == ModContent.ProjectileType<Items.Equipable.Accessories.ConstructorsDestructorsClaw>())
+                if (Projectile.active && Projectile.type == ModContent.ProjectileType<Items.Equipable.Accessories.ConstructorsDestructorsClaw>())
                 {
-                    DrawWireFriendly(Main.spriteBatch, Color.White, ModContent.GetTexture("TerrorbornMod/Items/Equipable/Accessories/ConstructorsDestructorsWire"), ModContent.GetTexture("TerrorbornMod/Items/Equipable/Accessories/ConstructorsDestructorsWireEnd"), Main.player[projectile.owner].Center, projectile.Center, 30, 35);
+                    DrawWireFriendly(Main.spriteBatch, Color.White, (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/Equipable/Accessories/ConstructorsDestructorsWire"), (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/Equipable/Accessories/ConstructorsDestructorsWireEnd"), Main.player[Projectile.owner].Center, Projectile.Center, 30, 35);
                 }
             }
 
@@ -196,7 +182,7 @@ namespace TerrorbornMod.TBUtils
                     Vector2 distToProj = originPoint - center;
                     float projRotation = distToProj.ToRotation() - 1.57f;
                     float distance = distToProj.Length();
-                    Texture2D texture = ModContent.GetTexture("TerrorbornMod/Items/Weapons/Restless/DeimosChain");
+                    Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/Weapons/Restless/DeimosChain");
 
                     while (distance > texture.Height && !float.IsNaN(distance))
                     {

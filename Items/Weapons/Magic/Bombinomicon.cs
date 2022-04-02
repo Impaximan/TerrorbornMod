@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,21 +14,21 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.width = 24;
-            item.height = 26;
-            item.magic = true;
-            item.damage = 60;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.mana = 20;
-            item.rare = ItemRarityID.LightRed;
-            item.shoot = ProjectileID.Bomb;
-            item.shootSpeed = 10;
-            item.UseSound = SoundID.Item117;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 8;
-            item.autoReuse = true;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.width = 24;
+            Item.height = 26;
+            Item.DamageType = DamageClass.Magic;;
+            Item.damage = 60;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.mana = 20;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ProjectileID.Bomb;
+            Item.shootSpeed = 10;
+            Item.UseSound = SoundID.Item117;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 8;
+            Item.autoReuse = true;
         }
         public override bool CanUseItem(Player player)
         {
@@ -39,46 +36,46 @@ namespace TerrorbornMod.Items.Weapons.Magic
             int subtypeChoice = Main.rand.Next(2);
             if (choice == 0)
             {
-                item.shoot = ProjectileID.Grenade;
+                Item.shoot = ProjectileID.Grenade;
                 if (Main.rand.Next(4) == 0)
                 {
                     if (subtypeChoice == 0)
                     {
-                        item.shoot = ProjectileID.StickyGrenade;
+                        Item.shoot = ProjectileID.StickyGrenade;
                     }
                     else
                     {
-                        item.shoot = ProjectileID.BouncyGrenade;
+                        Item.shoot = ProjectileID.BouncyGrenade;
                     }
                 }
             }
             if (choice == 1)
             {
-                item.shoot = ProjectileID.Bomb;
+                Item.shoot = ProjectileID.Bomb;
                 if (Main.rand.Next(4) == 0)
                 {
                     if (subtypeChoice == 0)
                     {
-                        item.shoot = ProjectileID.StickyBomb;
+                        Item.shoot = ProjectileID.StickyBomb;
                     }
                     else
                     {
-                        item.shoot = ProjectileID.BouncyBomb;
+                        Item.shoot = ProjectileID.BouncyBomb;
                     }
                 }
             }
             if (choice == 2)
             {
-                item.shoot = ProjectileID.Dynamite;
+                Item.shoot = ProjectileID.Dynamite;
                 if (Main.rand.Next(4) == 0)
                 {
                     if (subtypeChoice == 0)
                     {
-                        item.shoot = ProjectileID.StickyDynamite;
+                        Item.shoot = ProjectileID.StickyDynamite;
                     }
                     else
                     {
-                        item.shoot = ProjectileID.BouncyDynamite;
+                        Item.shoot = ProjectileID.BouncyDynamite;
                     }
                 }
             }

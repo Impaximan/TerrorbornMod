@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using System;
@@ -14,33 +13,33 @@ namespace TerrorbornMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
         public override void SetDefaults()
         {
-            npc.width = 56;
-            npc.height = 54;
-            npc.damage = 100;
-            npc.defense = 70;
-            npc.lifeMax = 7000;
-            npc.value *= 2;
-            npc.knockBackResist = 0f;
-            npc.lavaImmune = true;
-            npc.noTileCollide = true;
-            npc.noGravity = true;
-            npc.HitSound = new LegacySoundStyle(SoundID.Tink, 0);
-            npc.aiStyle = -1;
+            NPC.width = 56;
+            NPC.height = 54;
+            NPC.damage = 100;
+            NPC.defense = 70;
+            NPC.lifeMax = 7000;
+            NPC.value *= 2;
+            NPC.knockBackResist = 0f;
+            NPC.lavaImmune = true;
+            NPC.noTileCollide = true;
+            NPC.noGravity = true;
+            NPC.HitSound = new LegacySoundStyle(SoundID.Tink, 0);
+            NPC.aiStyle = -1;
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TorturedEssence>());
+            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TorturedEssence>());
         }
 
         public override void FindFrame(int frameHeight)
         {
-            if (enraged) npc.frame.Y = frameHeight;
-            else npc.frame.Y = 0;
+            if (enraged) NPC.frame.Y = frameHeight;
+            else NPC.frame.Y = 0;
         }
 
         List<Vector2> legs = new List<Vector2>();
@@ -49,7 +48,7 @@ namespace TerrorbornMod.NPCs
         {
             foreach (Vector2 leg in legs)
             {
-                Utils.DrawLine(spriteBatch, npc.Center, leg, Color.White * 0.25f, Color.White * 0.15f, 5);
+                Utils.DrawLine(spriteBatch, NPC.Center, leg, Color.White * 0.25f, Color.White * 0.15f, 5);
                 Utils.DrawLine(spriteBatch, leg, leg.findGroundUnder(), Color.White * 0.15f, Color.Transparent, 5);
             }
             return base.PreDraw(spriteBatch, drawColor);
@@ -66,7 +65,7 @@ namespace TerrorbornMod.NPCs
                 start = false;
                 for (int i = 0; i < 5; i++)
                 {
-                    legs.Add(new Vector2(npc.Center.X + Main.rand.NextFloat(-100f, 100f), npc.Center.Y + Main.rand.NextFloat(-100f, 100f)));
+                    legs.Add(new Vector2(NPC.Center.X + Main.rand.NextFloat(-100f, 100f), NPC.Center.Y + Main.rand.NextFloat(-100f, 100f)));
                 }
             }
 
@@ -81,9 +80,9 @@ namespace TerrorbornMod.NPCs
                         canMove = false;
                     }
                 }
-                if (npc.Distance(leg) > 200 && canMove)
+                if (NPC.Distance(leg) > 200 && canMove)
                 {
-                    movingLegs.Add(new Tuple<int, Vector2>(i, leg.RotatedBy(MathHelper.ToRadians(Main.rand.Next(160, 200)), npc.Center)));
+                    movingLegs.Add(new Tuple<int, Vector2>(i, leg.RotatedBy(MathHelper.ToRadians(Main.rand.Next(160, 200)), NPC.Center)));
                 }
             }
 
@@ -102,19 +101,19 @@ namespace TerrorbornMod.NPCs
             }
 
             Player player = Main.LocalPlayer;
-            Vector2 groundPosition = npc.Center.findGroundUnder();
-            if (npc.life <= npc.lifeMax / 2 && Main.expertMode)
+            Vector2 groundPosition = NPC.Center.findGroundUnder();
+            if (NPC.life <= NPC.lifeMax / 2 && Main.expertMode)
             {
                 enraged = true;
             }
-            npc.spriteDirection = Math.Sign(player.Center.X - npc.Center.X);
-            if (npc.spriteDirection == 1)
+            NPC.spriteDirection = Math.Sign(player.Center.X - NPC.Center.X);
+            if (NPC.spriteDirection == 1)
             {
-                npc.rotation = npc.DirectionTo(player.Center).ToRotation();
+                NPC.rotation = NPC.DirectionTo(player.Center).ToRotation();
             }
             else
             {
-                npc.rotation = npc.DirectionTo(player.Center).ToRotation() - MathHelper.ToRadians(180);
+                NPC.rotation = NPC.DirectionTo(player.Center).ToRotation() - MathHelper.ToRadians(180);
             }
 
             if (firing)
@@ -122,8 +121,8 @@ namespace TerrorbornMod.NPCs
                 attackCounter1++;
                 if (attackCounter1 % 5 == 4)
                 {
-                    Projectile.NewProjectile(npc.Center, npc.DirectionTo(player.Center) * 20f, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 80 / 4, 0f);
-                    Main.PlaySound(SoundID.Item33, npc.Center);
+                    Projectile.NewProjectile(NPC.Center, NPC.DirectionTo(player.Center) * 20f, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 80 / 4, 0f);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                 }
                 if (attackCounter1 >= 30)
                 {
@@ -134,7 +133,7 @@ namespace TerrorbornMod.NPCs
             else
             {
                 attackCounter1++;
-                if (attackCounter1 >= MathHelper.Lerp(60, 120, (float)npc.life / (float)npc.lifeMax))
+                if (attackCounter1 >= MathHelper.Lerp(60, 120, (float)NPC.life / (float)NPC.lifeMax))
                 {
                     firing = !firing;
                     attackCounter1 = 0;
@@ -146,21 +145,21 @@ namespace TerrorbornMod.NPCs
             {
                 speed *= 2;
             }
-            int yDirection = Math.Sign(player.Center.Y - npc.Center.Y);
+            int yDirection = Math.Sign(player.Center.Y - NPC.Center.Y);
             int maxGroundDistance = 100;
             if (enraged)
             {
                 maxGroundDistance *= 3;
             }
-            if (npc.Distance(groundPosition) > maxGroundDistance)
+            if (NPC.Distance(groundPosition) > maxGroundDistance)
             {
                 yDirection = 1;
             }
-            npc.velocity.Y += speed * yDirection;
+            NPC.velocity.Y += speed * yDirection;
 
-            int xDirection = Math.Sign(player.Center.X - npc.Center.X);
-            npc.velocity.X += speed * xDirection;
-            npc.velocity *= 0.95f;
+            int xDirection = Math.Sign(player.Center.X - NPC.Center.X);
+            NPC.velocity.X += speed * xDirection;
+            NPC.velocity *= 0.95f;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

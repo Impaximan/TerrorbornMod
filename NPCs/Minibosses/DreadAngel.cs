@@ -12,27 +12,27 @@ namespace TerrorbornMod.NPCs.Minibosses
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 20;
-            NPCID.Sets.TrailCacheLength[npc.type] = 1;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 20;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 1;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.width = 60;
-            npc.height = 90;
-            npc.damage = 75;
-            npc.defense = 70;
-            npc.lifeMax = 35000;
-            npc.HitSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Effects/DreadAngelHurt");
-            npc.DeathSound = SoundID.NPCDeath39;
-            npc.value = Item.buyPrice(0, 20, 0, 0);
-            npc.aiStyle = -1;
-            npc.knockBackResist = 0f;
-            npc.lavaImmune = true;
-            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(npc);
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.width = 60;
+            NPC.height = 90;
+            NPC.damage = 75;
+            NPC.defense = 70;
+            NPC.lifeMax = 35000;
+            NPC.HitSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Effects/DreadAngelHurt");
+            NPC.DeathSound = SoundID.NPCDeath39;
+            NPC.value = Item.buyPrice(0, 20, 0, 0);
+            NPC.aiStyle = -1;
+            NPC.knockBackResist = 0f;
+            NPC.lavaImmune = true;
+            TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.getsTitleCard = true;
             modNPC.BossTitle = "Dread Angel";
             modNPC.BossSubtitle = "Servant of Uriel";
@@ -41,17 +41,17 @@ namespace TerrorbornMod.NPCs.Minibosses
 
         public override void NPCLoot()
         {
-            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.DreadfulEssence>(), Main.rand.Next(5, 10));
+            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.DreadfulEssence>(), Main.rand.Next(5, 10));
             switch (Main.rand.Next(2))
             {
                 case 0:
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Ranged.TaleOfTragedy>());
+                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Ranged.TaleOfTragedy>());
                     break;
                 case 1:
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Magic.PhoenixConjuration>());
+                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Magic.PhoenixConjuration>());
                     break;
             }
-            TerrorbornWorld.downedDreadAngel = true;
+            TerrorbornSystem.downedDreadAngel = true;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -76,10 +76,10 @@ namespace TerrorbornMod.NPCs.Minibosses
             {
                 if (hasWeapon)
                 {
-                    npc.frameCounter++;
-                    if (npc.frameCounter > 4)
+                    NPC.frameCounter++;
+                    if (NPC.frameCounter > 4)
                     {
-                        npc.frameCounter = 0;
+                        NPC.frameCounter = 0;
                         frame++;
                     }
                     if (frame >= 5)
@@ -89,10 +89,10 @@ namespace TerrorbornMod.NPCs.Minibosses
                 }
                 else
                 {
-                    npc.frameCounter++;
-                    if (npc.frameCounter > 4)
+                    NPC.frameCounter++;
+                    if (NPC.frameCounter > 4)
                     {
-                        npc.frameCounter = 0;
+                        NPC.frameCounter = 0;
                         frame++;
                     }
                     if (frame < 14 || frame >= 20)
@@ -101,14 +101,14 @@ namespace TerrorbornMod.NPCs.Minibosses
                     }
                 }
             }
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (spawningLaser)
             {
-                TBUtils.Graphics.DrawGlow_1(spriteBatch, npc.Center - Main.screenPosition, 200, Color.LightPink * 0.5f);
+                TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, NPC.Center - Main.screenPosition, 200, Color.LightPink * 0.5f);
                 Utils.DrawLine(spriteBatch, laserPosition + new Vector2(0, -3000), laserPosition + new Vector2(0, 3000), Color.LightPink * 0.5f);
             }
             return base.PreDraw(spriteBatch, drawColor);
@@ -125,14 +125,14 @@ namespace TerrorbornMod.NPCs.Minibosses
         {
             if (start)
             {
-                npc.TargetClosest();
-                player = Main.player[npc.target];
+                NPC.TargetClosest();
+                player = Main.player[NPC.target];
                 start = false;
                 spawningLaser = true;
                 laserPosition = player.Center;
             }
 
-            npc.spriteDirection = Math.Sign(player.Center.X - npc.Center.X);
+            NPC.spriteDirection = Math.Sign(player.Center.X - NPC.Center.X);
 
             aliveCounter++;
             if (aliveCounter == 60 * 3)
@@ -143,7 +143,7 @@ namespace TerrorbornMod.NPCs.Minibosses
                 messages.Add("Though shall repent, incarnate, though shall repent.");
                 messages.Add("Thine end has come!");
                 messages.Add("Is your software running slow?");
-                CombatText.NewText(npc.getRect(), Color.Gold, messages, true);
+                CombatText.NewText(NPC.getRect(), Color.Gold, messages, true);
             }
             if (aliveCounter % 600 == 599)
             {
@@ -153,7 +153,7 @@ namespace TerrorbornMod.NPCs.Minibosses
                 messages.Add("We remember you, incarnate, we remember you.");
                 messages.Add("Thine end has come!");
                 messages.Add("May your woes be many!");
-                CombatText.NewText(npc.getRect(), Color.Gold, messages, true);
+                CombatText.NewText(NPC.getRect(), Color.Gold, messages, true);
             }
 
             if (AIPhase == 0)
@@ -162,8 +162,8 @@ namespace TerrorbornMod.NPCs.Minibosses
 
                 if (attackCounter % 45 == 44)
                 {
-                    Main.PlaySound(SoundID.Item68, laserPosition);
-                    TerrorbornMod.ScreenShake(10);
+                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, laserPosition);
+                    TerrorbornSystem.ScreenShake(10);
                     Projectile proj = Main.projectile[Projectile.NewProjectile(laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<Incendiary.AngelBeam>(), 120 / 4, 0f)];
                     proj.velocity.Normalize();
                     laserPosition = player.Center + player.velocity * 45;
@@ -172,16 +172,16 @@ namespace TerrorbornMod.NPCs.Minibosses
                 spawningLaser = true;
                 attacking = false;
                 hasWeapon = true;
-                float speed = MathHelper.Lerp(0.5f, 0.3f, (float)npc.life / (float)npc.lifeMax);
+                float speed = MathHelper.Lerp(0.5f, 0.3f, (float)NPC.life / (float)NPC.lifeMax);
 
-                int yDirection = Math.Sign(player.Center.Y - npc.Center.Y);
-                npc.velocity.Y += speed * yDirection;
+                int yDirection = Math.Sign(player.Center.Y - NPC.Center.Y);
+                NPC.velocity.Y += speed * yDirection;
 
-                int xDirection = Math.Sign(player.Center.X - npc.Center.X);
-                npc.velocity.X += speed * xDirection;
-                npc.spriteDirection = xDirection;
+                int xDirection = Math.Sign(player.Center.X - NPC.Center.X);
+                NPC.velocity.X += speed * xDirection;
+                NPC.spriteDirection = xDirection;
 
-                npc.velocity *= 0.99f;
+                NPC.velocity *= 0.99f;
 
                 if (attackCounter >= 45 * 5)
                 {
@@ -192,7 +192,7 @@ namespace TerrorbornMod.NPCs.Minibosses
             }
             else if (AIPhase == 1)
             {
-                npc.velocity *= 0.95f;
+                NPC.velocity *= 0.95f;
                 attackCounter++;
 
                 if (attackCounter > 120)
@@ -201,29 +201,29 @@ namespace TerrorbornMod.NPCs.Minibosses
                     attackCounter = 0;
                     attacking = true;
                     frame = 6;
-                    npc.frameCounter = 0;
+                    NPC.frameCounter = 0;
                 }
             }
             else if (AIPhase == 2)
             {
-                npc.velocity *= 0.98f;
-                npc.frameCounter++;
-                if (npc.frameCounter > 4)
+                NPC.velocity *= 0.98f;
+                NPC.frameCounter++;
+                if (NPC.frameCounter > 4)
                 {
-                    npc.frameCounter = 0;
+                    NPC.frameCounter = 0;
                     frame++;
 
                     if (frame == 8)
                     {
-                        Main.PlaySound(SoundID.Item71, npc.Center);
-                        npc.velocity = npc.DirectionTo(player.Center) * 15f;
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
+                        NPC.velocity = NPC.DirectionTo(player.Center) * 15f;
                     }
 
                     if (frame == 13)
                     {
-                        Main.PlaySound(SoundID.Item71, npc.Center);
-                        int proj = Projectile.NewProjectile(npc.Center + new Vector2(20 * npc.spriteDirection, -40), npc.velocity * 3, ModContent.ProjectileType<DreadScytheHostile>(), 140 / 4, 0f);
-                        Main.projectile[proj].spriteDirection = -npc.spriteDirection;
+                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
+                        int proj = Projectile.NewProjectile(NPC.Center + new Vector2(20 * NPC.spriteDirection, -40), NPC.velocity * 3, ModContent.ProjectileType<DreadScytheHostile>(), 140 / 4, 0f);
+                        Main.projectile[proj].spriteDirection = -NPC.spriteDirection;
                     }
 
                     if (frame == 14)
@@ -237,24 +237,24 @@ namespace TerrorbornMod.NPCs.Minibosses
             }
             else if ( AIPhase == 3)
             {
-                float speed = MathHelper.Lerp(0.5f, 0.3f, (float)npc.life / (float)npc.lifeMax);
+                float speed = MathHelper.Lerp(0.5f, 0.3f, (float)NPC.life / (float)NPC.lifeMax);
 
-                int yDirection = Math.Sign(player.Center.Y - npc.Center.Y);
-                npc.velocity.Y += speed * yDirection;
+                int yDirection = Math.Sign(player.Center.Y - NPC.Center.Y);
+                NPC.velocity.Y += speed * yDirection;
 
-                int xDirection = Math.Sign(player.Center.X - npc.Center.X);
-                npc.velocity.X += speed * xDirection;
-                npc.spriteDirection = xDirection;
+                int xDirection = Math.Sign(player.Center.X - NPC.Center.X);
+                NPC.velocity.X += speed * xDirection;
+                NPC.spriteDirection = xDirection;
 
-                npc.velocity *= 0.99f;
+                NPC.velocity *= 0.99f;
 
                 attackCounter++;
 
                 bool hasScytheOut = false;
 
-                foreach (Projectile projectile in Main.projectile)
+                foreach (Projectile Projectile in Main.projectile)
                 {
-                    if (projectile.type == ModContent.ProjectileType<DreadScytheHostile>() && projectile.active)
+                    if (Projectile.type == ModContent.ProjectileType<DreadScytheHostile>() && Projectile.active)
                     {
                         hasScytheOut = true;
                         break;
@@ -276,39 +276,39 @@ namespace TerrorbornMod.NPCs.Minibosses
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 74;
-            projectile.aiStyle = -1;
-            projectile.penetrate = 5;
-            projectile.hostile = true;
-            projectile.hide = false;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 3000;
+            Projectile.width = 40;
+            Projectile.height = 74;
+            Projectile.aiStyle = -1;
+            Projectile.penetrate = 5;
+            Projectile.hostile = true;
+            Projectile.hide = false;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 3000;
         }
 
         public override void AI()
         {
             if (!NPC.AnyNPCs(ModContent.NPCType<DreadAngel>()))
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
 
-            projectile.rotation += MathHelper.ToRadians(30f) * -projectile.spriteDirection;
+            Projectile.rotation += MathHelper.ToRadians(30f) * -Projectile.spriteDirection;
 
             if (trueTimeLeft > 0)
             {
-                projectile.velocity += projectile.DirectionTo(Main.LocalPlayer.Center) * 1.4f;
-                projectile.velocity *= 0.97f;
+                Projectile.velocity += Projectile.DirectionTo(Main.LocalPlayer.Center) * 1.4f;
+                Projectile.velocity *= 0.97f;
                 trueTimeLeft--;
             }
             else
             {
-                projectile.velocity = projectile.DirectionTo(Main.npc[NPC.FindFirstNPC(ModContent.NPCType<DreadAngel>())].Center) * 30f;
-                projectile.hostile = false;
-                if (projectile.Distance(Main.npc[NPC.FindFirstNPC(ModContent.NPCType<DreadAngel>())].Center) <= 30f)
+                Projectile.velocity = Projectile.DirectionTo(Main.npc[NPC.FindFirstNPC(ModContent.NPCType<DreadAngel>())].Center) * 30f;
+                Projectile.hostile = false;
+                if (Projectile.Distance(Main.npc[NPC.FindFirstNPC(ModContent.NPCType<DreadAngel>())].Center) <= 30f)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
         }

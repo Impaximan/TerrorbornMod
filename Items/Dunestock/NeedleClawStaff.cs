@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items.Dunestock
@@ -13,36 +13,36 @@ namespace TerrorbornMod.Items.Dunestock
         {
             DisplayName.SetDefault("Needle Staff");
             Tooltip.SetDefault("Rapidly fires inaccurate needles");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.5f;
-            item.damage = 18;
-            item.noMelee = true;
-            item.width = 54;
-            item.height = 56;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 2, 0, 0);
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item42;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MagicNeedle>();
-            item.shootSpeed = 15f;
-            item.mana = 2;
-            item.magic = true;
+            Item.damage = 18;
+            Item.noMelee = true;
+            Item.width = 54;
+            Item.height = 56;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item42;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<MagicNeedle>();
+            Item.shootSpeed = 15f;
+            Item.mana = 2;
+            Item.DamageType = DamageClass.Magic;;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
             position = player.Center + (player.DirectionTo(mouse) * 65);
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(25)), type, damage, knockBack, item.owner);
+            int proj = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(25)), type, damage, knockBack, player.whoAmI);
             Main.projectile[proj].ai[1] = 5;
             return false;
         }
@@ -54,42 +54,42 @@ namespace TerrorbornMod.Items.Dunestock
         bool Stick = false;
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.magic = true;
-            projectile.ignoreWater = false;
-            projectile.tileCollide = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 12000;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.ignoreWater = false;
+            Projectile.tileCollide = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 12000;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            fallThrough = projectile.Center.Y < Main.MouseWorld.Y;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            fallThrough = Projectile.Center.Y < Main.MouseWorld.Y;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -100,23 +100,23 @@ namespace TerrorbornMod.Items.Dunestock
 
         public override void AI()
         {
-            if (projectile.ai[1] <= 0)
+            if (Projectile.ai[1] <= 0)
             {
-                projectile.alpha += 15;
-                if (projectile.alpha >= 255)
+                Projectile.alpha += 15;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
 
             if (Stick)
             {
-                projectile.velocity *= 0;
-                projectile.ai[1]--;
+                Projectile.velocity *= 0;
+                Projectile.ai[1]--;
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
             }
         }
     }

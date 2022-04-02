@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
@@ -16,29 +15,28 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 38;
-            item.height = 12;
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.useStyle = 101;
-            item.knockBack = 0.6f;
-            item.value = 0;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.rare = ItemRarityID.White;
-            item.UseSound = SoundID.Item63;
-            item.autoReuse = true;
-            item.shootSpeed = 11.25f;
-            item.useAmmo = AmmoID.Dart;
+            Item.damage = 18;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 38;
+            Item.height = 12;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.useStyle = 101;
+            Item.knockBack = 0.6f;
+            Item.value = 0;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.rare = ItemRarityID.White;
+            Item.UseSound = SoundID.Item63;
+            Item.autoReuse = true;
+            Item.shootSpeed = 11.25f;
+            Item.useAmmo = AmmoID.Dart;
         }
         Vector2 offset = new Vector2(0, 1);
-        public override bool UseItemFrame(Player player)
+        public override void UseItemFrame(Player player)
         {
             player.bodyFrame.Y = 2 * player.bodyFrame.Height;
             player.itemLocation = player.Center + offset;
-            return true;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -48,20 +46,20 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                item.reuseDelay = 10;
+                Item.reuseDelay = 10;
             }
             else
             {
-                item.reuseDelay = 0;
+                Item.reuseDelay = 0;
             }
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-                speedX *= 2;
-                speedY *= 2;
+                velocity.X *= 2;
+                velocity.Y *= 2;
                 damage = (int)(damage * 1.05f);
             }
             player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();
@@ -71,9 +69,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
             position = player.Center + offset;
             position.Y -= 3;
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             player.bodyFrame.Y = 56 * 2;
             player.itemAnimation = 2;
@@ -81,11 +79,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.GoldBar, 7);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.GoldBar, 7)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

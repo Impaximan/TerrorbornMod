@@ -14,19 +14,18 @@ namespace TerrorbornMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 0, 18, 0);
-            item.rare = ItemRarityID.Blue;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 0, 18, 0);
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<NovagoldOre>(), 6);
-            recipe.AddIngredient(ItemID.FallenStar, 1);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
+            CreateRecipe(2)
+                .AddIngredient(ModContent.ItemType<NovagoldOre>(), 6)
+                .AddIngredient(ItemID.FallenStar, 1)
+                .AddTile(TileID.Furnaces)
+                .Register();
         }
     }
 }

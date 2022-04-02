@@ -1,7 +1,7 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
@@ -15,23 +15,23 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
-            item.damage = 9;
-            item.ranged = true;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.width = 56;
-            item.height = 20;
-            item.useTime = 8;
-            item.useAnimation = 8;
-            item.knockBack = 5;
-            item.UseSound = SoundID.Item5;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.value = Item.sellPrice(0, 0, 25, 0);
-            item.rare = ItemRarityID.Blue;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Arrow;
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
+            Item.damage = 9;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.width = 56;
+            Item.height = 20;
+            Item.useTime = 8;
+            Item.useAnimation = 8;
+            Item.knockBack = 5;
+            Item.UseSound = SoundID.Item5;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.value = Item.sellPrice(0, 0, 25, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Arrow;
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,13 +41,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup(RecipeGroupID.Wood, 20);
-            recipe.AddRecipeGroup(RecipeGroupID.IronBar, 7);
-            recipe.AddIngredient(ItemID.Cobweb, 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddRecipeGroup(RecipeGroupID.Wood, 20)
+                .AddRecipeGroup(RecipeGroupID.IronBar, 7)
+                .AddIngredient(ItemID.Cobweb, 15)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
 
         public override bool AltFunctionUse(Player player)
@@ -65,29 +64,29 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 {
                     shotsLeft = 5;
                 }
-                item.shoot = ProjectileID.None;
-                item.autoReuse = true;
-                item.reuseDelay = 10;
-                item.UseSound = SoundID.Item56;
+                Item.shoot = ProjectileID.None;
+                Item.autoReuse = true;
+                Item.reuseDelay = 10;
+                Item.UseSound = SoundID.Item56;
                 CombatText.NewText(player.getRect(), Color.White, shotsLeft, shotsLeft == 5, true);
                 return base.CanUseItem(player);
             }
 
-            item.shoot = ProjectileID.PurificationPowder;
-            item.autoReuse = true;
-            item.reuseDelay = 0;
-            item.UseSound = SoundID.Item5;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.autoReuse = true;
+            Item.reuseDelay = 0;
+            Item.UseSound = SoundID.Item5;
             return shotsLeft > 0;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
                 return false;
             }
             shotsLeft--;
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
     }
 }

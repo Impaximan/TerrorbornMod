@@ -13,31 +13,30 @@ namespace TerrorbornMod.Items.Potions
         }
         public override void SetDefaults()
         {
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.maxStack = 30;
-            item.consumable = true;
-            item.rare = ItemRarityID.LightRed;
-            item.autoReuse = false;
-            item.UseSound = SoundID.Item3;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.buffType = ModContent.BuffType<Buffs.Sinducement>();
-            item.buffTime = 3600 * 4;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.maxStack = 30;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.LightRed;
+            Item.autoReuse = false;
+            Item.UseSound = SoundID.Item3;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.buffType = ModContent.BuffType<Buffs.Sinducement>();
+            Item.buffTime = 3600 * 4;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<PyroclasticGemstone>(), 5);
-            recipe.AddIngredient(ItemID.AshBlock, 10);
-            recipe.AddIngredient(ItemID.Fireblossom);
-            recipe.AddTile(TileID.Bottles);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.BottledWater)
+                .AddIngredient(ModContent.ItemType<PyroclasticGemstone>(), 5)
+                .AddIngredient(ItemID.AshBlock, 10)
+                .AddIngredient(ItemID.Fireblossom)
+                .AddTile(TileID.Bottles)
+                .Register();
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace TerrorbornMod.Items.Weapons.Melee
 {
@@ -16,21 +13,21 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.5f;
-            item.crit = 10;
-            item.damage = 13;
-            item.melee = true;
-            item.width = 70;
-            item.height = 66;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.value = Item.sellPrice(0, 0, 15, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item71;
-            item.autoReuse = true;
+            Item.crit = 10;
+            Item.damage = 13;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 70;
+            Item.height = 66;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4f;
+            Item.value = Item.sellPrice(0, 0, 15, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item71;
+            Item.autoReuse = true;
         }
 
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)

@@ -8,7 +8,7 @@ namespace TerrorbornMod.Tiles
 {
 	public class DeimostonePlatformTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileLighted[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -29,9 +29,9 @@ namespace TerrorbornMod.Tiles
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			AddMapEntry(new Color(80, 112, 109));
-			drop = ModContent.ItemType<Items.Placeable.Furniture.DeimostonePlatform>();
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Platforms };
+			ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.DeimostonePlatform>();
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Platforms };
 		}
 
 		public override void PostSetDefaults()

@@ -9,13 +9,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Incense
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Diamond, 2);
-            recipe.AddIngredient(ModContent.ItemType<Materials.TerrorSample>());
-            recipe.AddIngredient(ItemID.Bottle);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Diamond, 2)
+                .AddIngredient(ModContent.ItemType<Materials.TerrorSample>())
+                .AddIngredient(ItemID.Bottle)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -24,12 +23,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Incense
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Green;
-            item.value = Item.sellPrice(gold: 1, silver: 25);
-            item.vanity = true;
-            TerrorbornItem.modItem(item).meterColor = new Color(255, 255, 255, 255 / 2);
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(gold: 1, silver: 25);
+            Item.vanity = true;
+            TerrorbornItem.modItem(Item).meterColor = new Color(255, 255, 255, 255 / 2);
         }
     }
 }

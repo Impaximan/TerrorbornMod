@@ -8,11 +8,11 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 0, 15, 0);
-            item.width = 22;
-            item.height = 20;
-            item.rare = ItemRarityID.Blue;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 0, 15, 0);
+            Item.width = 22;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Blue;
         }
     }
 }

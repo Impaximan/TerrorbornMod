@@ -12,9 +12,9 @@ namespace TerrorbornMod.Items.Materials
         }
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 0, 65, 0);
-            item.rare = ItemRarityID.Yellow;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 0, 65, 0);
+            Item.rare = ItemRarityID.Yellow;
         }
         public override void AddRecipes()
         {
@@ -25,6 +25,11 @@ namespace TerrorbornMod.Items.Materials
             recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this, barCount);
             recipe.AddRecipe();
+            CreateRecipe(barCount)
+                .AddIngredient(ModContent.ItemType<SkullmoundOre>(), 3 * barCount)
+                .AddIngredient(ModContent.ItemType<HellbornEssence>())
+                .AddTile(TileID.AdamantiteForge)
+                .Register();
         }
     }
 }

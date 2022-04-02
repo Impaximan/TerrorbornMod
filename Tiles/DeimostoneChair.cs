@@ -28,8 +28,8 @@ namespace TerrorbornMod.Tiles
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Deimostone Chair");
 			AddMapEntry(new Color(80, 112, 109), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Chairs };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Chairs };
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)

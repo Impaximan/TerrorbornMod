@@ -1,8 +1,5 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.Armor
@@ -12,13 +9,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 10);
-            recipe.AddIngredient(ItemID.LunarBar, 8);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 10)
+                .AddIngredient(ItemID.LunarBar, 8)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -31,11 +27,11 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 28;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.defense = 15;
+            Item.width = 26;
+            Item.height = 28;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.defense = 15;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -59,11 +55,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.allDamage += 0.12f;
-            player.thrownCrit += 5;
-            player.magicCrit += 5;
-            player.rangedCrit += 5;
-            player.meleeCrit += 5;
+            player.GetDamage(DamageClass.Generic) += 0.12f;
+            player.GetCritChance(DamageClass.Generic) += 5;
             modPlayer.ShriekTerrorMultiplier *= 1.35f;
         }
     }
@@ -73,13 +66,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 20);
-            recipe.AddIngredient(ItemID.LunarBar, 16);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 2);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 20)
+                .AddIngredient(ItemID.LunarBar, 16)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 2)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -88,30 +80,25 @@ namespace TerrorbornMod.Items.Equipable.Armor
                 "\n15% increased restless damage" +
                 "\nIncreased non-charged restless use speed" +
                 "\nIncreased item use speed");
+            ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
+            ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
+            ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.defense = 20;
-        }
-
-        public override bool DrawBody()
-        {
-            return false;
+            Item.width = 34;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.defense = 20;
         }
 
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.allDamage += 0.08f;
-            player.thrownCrit += 8;
-            player.magicCrit += 8;
-            player.rangedCrit += 8;
-            player.meleeCrit += 8;
+            player.GetDamage(DamageClass.Generic) += 0.08f;
+            player.GetCritChance(DamageClass.Generic) += 8;
             modPlayer.restlessNonChargedUseSpeed *= 1.35f;
             modPlayer.restlessDamage += 0.15f;
             modPlayer.allUseSpeed *= 1.06f;
@@ -123,13 +110,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 15);
-            recipe.AddIngredient(ItemID.LunarBar, 12);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.FusionFragment>(), 15)
+                .AddIngredient(ItemID.LunarBar, 12)
+                .AddIngredient(ModContent.ItemType<Items.Materials.TerrorSample>(), 1)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -141,21 +127,18 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.defense = 15;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.defense = 15;
         }
 
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.allDamage += 0.1f;
-            player.thrownCrit += 10;
-            player.magicCrit += 10;
-            player.rangedCrit += 10;
-            player.meleeCrit += 10;
+            player.GetDamage(DamageClass.Generic) += 0.1f;
+            player.GetCritChance(DamageClass.Generic) += 10;
             modPlayer.ShriekSpeed *= 0.6f;
             modPlayer.allUseSpeed *= 1.06f;
         }

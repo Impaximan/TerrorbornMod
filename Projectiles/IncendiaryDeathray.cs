@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.Enums;
-using Terraria.ModLoader;
 
 namespace TerrorbornMod.Projectiles
 {
@@ -11,14 +7,14 @@ namespace TerrorbornMod.Projectiles
     {
 		public override void SetDefaults()
 		{
-			projectile.width = 18;
-			projectile.height = 22;
-			projectile.penetrate = -1;
-			projectile.tileCollide = true;
-			projectile.hide = false;
-			projectile.hostile = true;
-			projectile.friendly = false;
-			projectile.timeLeft = 2;
+			Projectile.width = 18;
+			Projectile.height = 22;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = true;
+			Projectile.hide = false;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
+			Projectile.timeLeft = 2;
 			MoveDistance = 20f;
 			RealMaxDistance = 1000f;
 			bodyRect = new Rectangle(0, 24, 18, 22);
@@ -28,7 +24,7 @@ namespace TerrorbornMod.Projectiles
 
         public override Vector2 Position()
         {
-            return Main.npc[(int)projectile.ai[0]].Center + new Vector2(0, projectile.ai[1]);
+            return Main.npc[(int)Projectile.ai[0]].Center + new Vector2(0, Projectile.ai[1]);
         }
 	}
 }

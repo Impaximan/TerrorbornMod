@@ -1,10 +1,7 @@
-﻿using System.IO;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.NPCs
 {
@@ -12,66 +9,66 @@ namespace TerrorbornMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
         public override void SetDefaults()
         {
-            npc.CloneDefaults(NPCID.BlueSlime);
-            npc.width = 32;
-            npc.height = 26;
-            npc.damage = 13;
-            npc.defense = 2;
-            npc.lifeMax = 35;
-            npc.value *= 2;
-            npc.knockBackResist = 0f;
-            npc.lavaImmune = true;
-            npc.color = Color.White;
+            NPC.CloneDefaults(NPCID.BlueSlime);
+            NPC.width = 32;
+            NPC.height = 26;
+            NPC.damage = 13;
+            NPC.defense = 2;
+            NPC.lifeMax = 35;
+            NPC.value *= 2;
+            NPC.knockBackResist = 0f;
+            NPC.lavaImmune = true;
+            NPC.color = Color.White;
             animationType = NPCID.BlueSlime;
             if (Main.hardMode)
             {
-                npc.defense = 5;
-                npc.lifeMax = 160;
-                npc.damage = 34;
+                NPC.defense = 5;
+                NPC.lifeMax = 160;
+                NPC.damage = 34;
             }
             if (NPC.downedPlantBoss)
             {
-                npc.defense = 8;
-                npc.lifeMax = 190;
-                npc.damage = 38;
+                NPC.defense = 8;
+                NPC.lifeMax = 190;
+                NPC.damage = 38;
             }
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem(npc.getRect(), ItemID.Gel, Main.rand.Next(1, 3));
-            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.DarkEnergy>());
+            Item.NewItem(NPC.getRect(), ItemID.Gel, Main.rand.Next(1, 3));
+            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.DarkEnergy>());
 
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
             if (modPlayer.DeimosteelCharm)
             {
                 if (Main.rand.NextFloat() <= 0.7f)
                 {
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
+                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                 }
             }
             else
             {
                 if (Main.rand.NextFloat() <= 0.35f)
                 {
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
+                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
                 }
             }
         }
         //int frame = 0;
         //public override void FindFrame(int frameHeight)
         //{
-        //    if (npc.velocity.Y == 0)
+        //    if (NPC.velocity.Y == 0)
         //    {
-        //        npc.frameCounter--;
-        //        if (npc.frameCounter <= 0)
+        //        NPC.frameCounter--;
+        //        if (NPC.frameCounter <= 0)
         //        {
         //            frame++;
-        //            npc.frameCounter = 30;
+        //            NPC.frameCounter = 30;
         //        }
         //        if (frame >= 2)
         //        {
@@ -82,11 +79,11 @@ namespace TerrorbornMod.NPCs
         //    {
         //        frame = 1;
         //    }
-        //    npc.frame.Y = frame * frameHeight;
+        //    NPC.frame.Y = frame * frameHeight;
         //}
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!TerrorbornWorld.obtainedShriekOfHorror)
+            if (!TerrorbornSystem.obtainedShriekOfHorror)
             {
                 return 0f;
             }

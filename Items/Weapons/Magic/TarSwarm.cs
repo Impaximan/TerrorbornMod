@@ -2,7 +2,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace TerrorbornMod.Items.Weapons.Magic
@@ -18,35 +17,35 @@ namespace TerrorbornMod.Items.Weapons.Magic
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(item);
             modItem.critDamageMult = 1.15f;
-            item.damage = 8;
-            item.noMelee = true;
-            item.width = 52;
-            item.height = 40;
-            item.useTime = 5;
-            item.scale = 0.8f;
-            item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AntlionLarva");
-            item.shootSpeed = 15f;
-            item.mana = 4;
-            item.magic = true;
+            Item.damage = 8;
+            Item.noMelee = true;
+            Item.width = 52;
+            Item.height = 40;
+            Item.useTime = 5;
+            Item.scale = 0.8f;
+            Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = mod.ProjectileType("AntlionLarva");
+            Item.shootSpeed = 15f;
+            Item.mana = 4;
+            Item.DamageType = DamageClass.Magic;;
         }
 
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < 2; i++)
             {
-                Vector2 rotatedVelocity = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(7));
-                Projectile.NewProjectile(position, rotatedVelocity, type, damage, knockBack, item.owner);
+                Vector2 rotatedVelocity = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(7));
+                Projectile.NewProjectile(position, rotatedVelocity, type, damage, knockBack, player.whoAmI);
             }
             return false;
         }
@@ -69,74 +68,74 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetStaticDefaults()
         {
-            //ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 4;
-            //ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
-            Main.projFrames[projectile.type] = 3;
+            //ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 4;
+            //ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            Main.projFrames[Projectile.type] = 3;
         }
         void FindFrame(int FrameHeight)
         {
-            projectile.frameCounter--;
-            if (projectile.frameCounter <= 0)
+            Projectile.frameCounter--;
+            if (Projectile.frameCounter <= 0)
             {
-                projectile.frame++;
-                projectile.frameCounter = 1;
+                Projectile.frame++;
+                Projectile.frameCounter = 1;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
-        //public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        //public override bool PreDraw(ref Color lightColor)
         //{
         //    //Thanks to Seraph for afterimage code.
-        //    Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-        //    for (int i = 0; i < projectile.oldPos.Length; i++)
+        //    Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+        //    for (int i = 0; i < Projectile.oldPos.Length; i++)
         //    {
-        //        Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-        //        Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-        //        spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+        //        Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+        //        Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+        //        spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
         //    }
         //    return false;
         //}
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            Projectile.width = 24;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }
         public override void AI()
         {
-            FindFrame(projectile.height);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(90);
+            FindFrame(Projectile.height);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.ToRadians(90);
             NPC targetNPC = Main.npc[0];
             float Distance = 375; //max distance away
             bool Targeted = false;
             for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                 {
                     targetNPC = Main.npc[i];
-                    Distance = Main.npc[i].Distance(projectile.Center);
+                    Distance = Main.npc[i].Distance(Projectile.Center);
                     Targeted = true;
                 }
             }
@@ -144,9 +143,9 @@ namespace TerrorbornMod.Items.Weapons.Magic
             {
                 //HOME IN
                 float speed = .6f;
-                Vector2 direction = projectile.DirectionTo(targetNPC.Center);
-                projectile.velocity += speed * direction;
-                projectile.velocity *= 0.98f;
+                Vector2 direction = Projectile.DirectionTo(targetNPC.Center);
+                Projectile.velocity += speed * direction;
+                Projectile.velocity *= 0.98f;
             }
         }
     }

@@ -2,8 +2,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace TerrorbornMod.Items.Weapons.Melee
 {
@@ -16,28 +14,27 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.melee = true;
-            item.width = 36;
-            item.height = 36;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 3f;
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            item.shootSpeed = 10f;
-            item.shoot = mod.ProjectileType("DeimoWave");
+            Item.damage = 18;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 36;
+            Item.height = 36;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 3f;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = false;
+            Item.shootSpeed = 10f;
+            Item.shoot = ModContent.ProjectileType<DeimoWave>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 7);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 7)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
     }
 
@@ -46,28 +43,28 @@ namespace TerrorbornMod.Items.Weapons.Melee
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/ShriekWave";
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 14;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.hostile = false;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 24;
+            Projectile.height = 14;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
-            projectile.velocity *= 0.95f;
-            projectile.alpha += 255 / 30;
-            if (projectile.alpha >= 255)
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
+            Projectile.velocity *= 0.95f;
+            Projectile.alpha += 255 / 30;
+            if (Projectile.alpha >= 255)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
         }
     }

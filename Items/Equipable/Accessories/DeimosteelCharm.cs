@@ -1,8 +1,6 @@
 ﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Equipable.Accessories
 {
@@ -16,13 +14,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 34;
-            item.accessory = true;
-            item.noMelee = true;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.useAnimation = 5;
-            item.rare = ItemRarityID.Blue;
+            Item.width = 32;
+            Item.height = 34;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.useAnimation = 5;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -33,12 +31,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 1);
-            recipe.AddTile(ModContent.TileType<Tiles.MeldingStation>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.DeimosteelBar>(), 4)
+                .AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 1)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
         }
     }
 }

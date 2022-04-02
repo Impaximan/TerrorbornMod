@@ -8,15 +8,14 @@ namespace TerrorbornMod.Items
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("bugs", 2);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddIngredient(ItemID.SoulofFright);
-            recipe.AddIngredient(ItemID.SoulofSight);
-            recipe.AddIngredient(ItemID.SoulofMight);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddRecipeGroup("bugs", 5)
+                .AddIngredient(ItemID.SoulofNight, 5)
+                .AddIngredient(ItemID.SoulofFright, 5)
+                .AddIngredient(ItemID.SoulofSight, 5)
+                .AddIngredient(ItemID.SoulofMight, 5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         int Shadowcrawler = ModContent.NPCType<NPCs.Bosses.Shadowcrawler>();
         public override void SetStaticDefaults()
@@ -25,24 +24,24 @@ namespace TerrorbornMod.Items
         }
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 26;
-            item.maxStack = 20;
-            item.rare = ItemRarityID.Lime;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
-            item.useAnimation = 30;
-            item.useTime = 30;
+            Item.width = 34;
+            Item.height = 26;
+            Item.maxStack = 1;
+            Item.rare = ItemRarityID.Lime;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
         }
         public override bool CanUseItem(Player player)
         {
             return !Main.dayTime && !NPC.AnyNPCs(Shadowcrawler);
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             NPC.SpawnOnPlayer(player.whoAmI, Shadowcrawler);
-            Main.PlaySound(SoundID.Roar, player.position, 0);
-            TerrorbornMod.ScreenShake(50);
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
+            TerrorbornSystem.ScreenShake(50);
             return true;
         }
     }

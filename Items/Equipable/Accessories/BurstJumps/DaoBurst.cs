@@ -16,38 +16,35 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddIngredient(ItemID.DarkShard, 1);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.SoulofLight, 5);
-            recipe2.AddIngredient(ItemID.SoulofNight, 5);
-            recipe2.AddIngredient(ItemID.LightShard, 1);
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.SoulofLight, 5)
+                .AddIngredient(ItemID.SoulofNight, 5)
+                .AddIngredient(ItemID.DarkShard)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.SoulofLight, 5)
+                .AddIngredient(ItemID.SoulofNight, 5)
+                .AddIngredient(ItemID.LightShard)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Pink;
-            item.defense = 8;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.useAnimation = 5;
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 8;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.useAnimation = 5;
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.burstJump = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            TBUtils.Accessories.UpdateBurstJump(60, 60 * 1, item, player, new Vector2(10, 30), Color.MediumPurple, SoundID.Item14);
+            TBUtils.Accessories.UpdateBurstJump(60, 60 * 1, Item, player, new Vector2(10, 30), Color.MediumPurple, SoundID.Item14);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             if (modPlayer.BurstJumpTime > 0)

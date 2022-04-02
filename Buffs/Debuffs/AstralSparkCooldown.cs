@@ -6,14 +6,14 @@ namespace TerrorbornMod.Buffs.Debuffs
 {
     class AstralSparkCooldown : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spark Cooldown");
             Description.SetDefault("You cannot transform into an astral spark again");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
     }
 }

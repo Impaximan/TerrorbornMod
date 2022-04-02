@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
-using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
-using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items.TestItems
 {
@@ -27,11 +16,11 @@ namespace TerrorbornMod.Items.TestItems
 
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -91,32 +80,32 @@ namespace TerrorbornMod.Items.TestItems
             {
                 if (currentType == 0)
                 {
-                    TerrorbornWorld.GenerateIncendiaryIsland_Normal((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1f, 2f));
+                    TerrorbornSystem.GenerateIncendiaryIsland_Normal((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1f, 2f));
                 }
 
                 if (currentType == 1)
                 {
-                    TerrorbornWorld.GenerateIncendiaryIsland_Main((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1f, 1.2f));
+                    TerrorbornSystem.GenerateIncendiaryIsland_Main((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1f, 1.2f));
                 }
 
                 if (currentType == 2)
                 {
-                    TerrorbornWorld.GenerateIncendiaryIsland_Mechanical((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
+                    TerrorbornSystem.GenerateIncendiaryIsland_Mechanical((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
                 }
 
                 if (currentType == 3)
                 {
-                    TerrorbornWorld.GenerateIncendiaryIsland_Skullmound((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
+                    TerrorbornSystem.GenerateIncendiaryIsland_Skullmound((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
                 }
 
                 if (currentType == 4)
                 {
-                    TerrorbornWorld.GenerateIncendiaryIsland_Ritual((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
+                    TerrorbornSystem.GenerateIncendiaryIsland_Ritual((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
                 }
 
                 if (currentType == 5)
                 {
-                    TerrorbornWorld.GenerateIncendiaryIsland_Chest((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
+                    TerrorbornSystem.GenerateIncendiaryIsland_Chest((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16, Main.rand.NextFloat(1.5f, 2.25f));
                 }
             }
             return base.CanUseItem(player);
@@ -134,11 +123,11 @@ namespace TerrorbornMod.Items.TestItems
 
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 40;
-            item.useAnimation = 40;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 40;
+            Item.useAnimation = 40;
         }
 
         const int typeCount = 3;
@@ -148,7 +137,7 @@ namespace TerrorbornMod.Items.TestItems
         //2 = mechanical
         public override bool CanUseItem(Player player)
         {
-            TerrorbornWorld.GenerateIncendiaryBiome(density: 1.5f);
+            TerrorbornSystem.GenerateIncendiaryBiome(density: 1.5f);
             return base.CanUseItem(player);
         }
     }

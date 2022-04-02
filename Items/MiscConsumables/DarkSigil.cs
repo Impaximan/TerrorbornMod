@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.MiscConsumables
 {
@@ -17,25 +16,23 @@ namespace TerrorbornMod.Items.MiscConsumables
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.rare = ItemRarityID.Green;
-            item.maxStack = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.rare = ItemRarityID.Green;
+            Item.maxStack = 20;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ShadowScale, 15);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.TissueSample, 15);
-            recipe2.AddTile(TileID.DemonAltar);
-            recipe2.SetResult(this, 1);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.ShadowScale, 15)
+                .AddTile(TileID.DemonAltar)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.TissueSample, 15)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
 
         public override bool CanUseItem(Player player)
@@ -44,8 +41,8 @@ namespace TerrorbornMod.Items.MiscConsumables
             {
                 Main.NewText("The sky begins to bleed...", Color.FromNonPremultiplied(175, 75, 255, 255));
                 Main.bloodMoon = true;
-                Main.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
-                item.stack--;
+                Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
+                Item.stack--;
             }
             else
             {
