@@ -22,11 +22,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 return "TerrorbornMod/NPCs/TownNPCs/Heretic";
             }
         }
-        public override bool Autoload(ref string name)
-        {
-            name = "Heretic";
-            return mod.Properties.Autoload;
-        }
+
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 23;
@@ -37,6 +33,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
             NPCID.Sets.AttackTime[NPC.type] = 5;
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
             NPCID.Sets.HatOffsetY[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Velocity = 1f,
+                Direction = 1
+            };
         }
         public override void SetDefaults()
         {
@@ -267,14 +268,14 @@ namespace TerrorbornMod.NPCs.TownNPCs
                             return;
                         }
 
-                        if (Item.IsAir)
+                        if (item.IsAir)
                         {
                             Main.npcChatText = "Uh, I can't possess nothing. Sorry. (Make sure you're holding the weapon you want to possess.)";
                             possessingItem = false;
                             return;
                         }
 
-                        if (Item.summon || Item.maxStack != 1 || Item.damage == 0 || Item.accessory)
+                        if (item.DamageType == DamageClass.Summon || item.maxStack != 1 || item.damage == 0 || item.accessory)
                         {
                             Main.npcChatText = "Sorry, I can't possess that item!";
                             possessingItem = false;
@@ -332,8 +333,8 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, player.Center);
 
                         possessingItem = false;
-                        Item.prefix = (byte)0;
-                        Main.npcChatText = "Alright! Your " + Item.Name + " has been successfully enhanced. Enjoy it... or something... idk.";
+                        item.prefix = (byte)0;
+                        Main.npcChatText = "Alright! Your " + item.Name + " has been successfully enhanced. Enjoy it... or something... idk.";
                         return;
                     }
                     if (currentOption1 == 0) //Possess
@@ -480,33 +481,33 @@ namespace TerrorbornMod.NPCs.TownNPCs
             for (int i = 0; i < player.inventory.Count(); i++)
             {
                 Item item = player.inventory[i];
-                if (Item.type == ItemID.SoulofLight)
+                if (item.type == ItemID.SoulofLight)
                 {
-                    stackLight += Item.stack;
+                    stackLight += item.stack;
                 }
-                if (Item.type == ItemID.SoulofNight)
+                if (item.type == ItemID.SoulofNight)
                 {
-                    stackNight += Item.stack;
+                    stackNight += item.stack;
                 }
-                if (Item.type == ItemID.SoulofFlight)
+                if (item.type == ItemID.SoulofFlight)
                 {
-                    stackFlight += Item.stack;
+                    stackFlight += item.stack;
                 }
-                if (Item.type == ItemID.SoulofFright)
+                if (item.type == ItemID.SoulofFright)
                 {
-                    stackFright += Item.stack;
+                    stackFright += item.stack;
                 }
-                if (Item.type == ItemID.SoulofMight)
+                if (item.type == ItemID.SoulofMight)
                 {
-                    stackMight += Item.stack;
+                    stackMight += item.stack;
                 }
-                if (Item.type == ItemID.SoulofSight)
+                if (item.type == ItemID.SoulofSight)
                 {
-                    stackSight += Item.stack;
+                    stackSight += item.stack;
                 }
-                if (Item.type == ModContent.ItemType<Items.Materials.SoulOfPlight>())
+                if (item.type == ModContent.ItemType<Items.Materials.SoulOfPlight>())
                 {
-                    stackPlight += Item.stack;
+                    stackPlight += item.stack;
                 }
             }
 

@@ -42,7 +42,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Killing enemies or taking away 7.5% of a boss's health causes them to drop a thunder soul" +
+            player.setBonus = "Killing enemies or taking away 7.5% of a boss's health causes them to Drop a thunder soul" +
                 "\nPicking up a thunder soul grants you the Soul Maniac buff for 5 seconds, increasing restless weapon stats" +
                 "\n10% increased critical strike chance" +
                 "\n+10 max life";

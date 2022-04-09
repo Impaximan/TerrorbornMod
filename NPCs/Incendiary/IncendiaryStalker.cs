@@ -2,6 +2,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.Incendiary
 {
@@ -45,12 +48,18 @@ namespace TerrorbornMod.NPCs.Incendiary
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override void NPCLoot()
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            if (Main.rand.NextFloat() <= 0.066f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Magic.IncendiaryGazeblaster>());
-            }
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("A former Orumian bodyguard, converted and ruined by the Sisyphean Islands and then reinforced with Skullmound Alloy.")
+            });
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.IncendiaryGazeblaster>(), 15));
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -89,9 +98,9 @@ namespace TerrorbornMod.NPCs.Incendiary
                     NPC.velocity += NPC.DirectionFrom(player.Center) * 3;
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                     float offset = MathHelper.ToRadians(30);
-                    Projectile.NewProjectile(NPC.Center, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
-                    Projectile.NewProjectile(NPC.Center, velocity.RotatedBy(offset), ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
-                    Projectile.NewProjectile(NPC.Center, velocity.RotatedBy(-offset), ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(offset), ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(-offset), ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
                 }
             }
             else

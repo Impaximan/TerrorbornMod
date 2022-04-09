@@ -4,6 +4,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrorbornMod.Projectiles;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
+using Terraria.ModLoader.Utilities;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.NPCs.Incendiary
 {
@@ -13,6 +17,14 @@ namespace TerrorbornMod.NPCs.Incendiary
         {
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("An angel that used to guard the depths of the underworld, which has been cursed and converted by the Sisyphean Islands.")
+            });
         }
 
         public override void SetDefaults()
@@ -60,22 +72,18 @@ namespace TerrorbornMod.NPCs.Incendiary
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (Main.rand.NextFloat() <= 0.2f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Ranged.CursedJavelin>(), Main.rand.Next(125, 176));
-            }
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Ranged.CursedJavelin>(), 5, 125, 175));
         }
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (spawningLaser)
             {
                 TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, NPC.Center - Main.screenPosition, 200, Color.LightPink * 0.5f);
                 Utils.DrawLine(spriteBatch, laserPosition + new Vector2(0, -3000), laserPosition + new Vector2(0, 3000), Color.LightPink * 0.5f);
             }
-            return base.PreDraw(spriteBatch, drawColor);
+            return base.PreDraw(spriteBatch, screenPos, drawColor);
         }
 
         float direction = 0f;
@@ -107,7 +115,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                     spawningLaser = false;
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, laserPosition);
                     TerrorbornSystem.ScreenShake(10);
-                    Projectile proj = Main.projectile[Projectile.NewProjectile(laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<AngelBeam>(), 120 / 4, 0f)];
+                    Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<AngelBeam>(), 120 / 4, 0f)];
                     proj.velocity.Normalize();
                 }
             }
@@ -143,9 +151,9 @@ namespace TerrorbornMod.NPCs.Incendiary
                     Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, NPC.Center);
                     float rotation = MathHelper.ToRadians(30);
-                    Projectile.NewProjectile(NPC.Center, velocity, ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
-                    Projectile.NewProjectile(NPC.Center, velocity.RotatedBy(rotation), ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
-                    Projectile.NewProjectile(NPC.Center, velocity.RotatedBy(-rotation), ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(rotation), ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(-rotation), ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
                 }
             }
         }

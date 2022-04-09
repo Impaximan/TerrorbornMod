@@ -3,11 +3,21 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.TerrorRain
 {
     internal class FrightcrawlerHead : Frightcrawler
 	{
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Rain,
+				new FlavorTextBestiaryInfoElement("A massive worm, which has presumably consumed many, many souls, making it incredibly powerful.")
+			});
+		}
+
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
@@ -56,7 +66,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 					Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
 					float speed = 17f;
 					Vector2 velocity = (NPC.rotation - MathHelper.ToRadians(90)).ToRotationVector2() * speed;
-					Projectile.NewProjectile(NPC.Center, velocity, ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
+					Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
                 }
             }
 			if (AIPhase == 1)
@@ -90,9 +100,9 @@ namespace TerrorbornMod.NPCs.TerrorRain
 					Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
 					float speed = 20f;
 					Vector2 velocity = NPC.DirectionTo(target.Center + target.velocity * (NPC.Distance(target.Center) / speed)) * speed;
-					Projectile.NewProjectile(NPC.Center, velocity, ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
-					Projectile.NewProjectile(NPC.Center, velocity.RotatedBy(-MathHelper.ToRadians(30)), ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
-					Projectile.NewProjectile(NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
+					Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
+					Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(-MathHelper.ToRadians(30)), ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
+					Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
 				}
 			}
 		}
@@ -100,6 +110,14 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
 	internal class FrightcrawlerBody : Frightcrawler
 	{
+		public override void SetStaticDefaults()
+		{
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Hide = true
+			};
+		}
+
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
@@ -123,6 +141,14 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
 	internal class FrightcrawlerTail : Frightcrawler
 	{
+		public override void SetStaticDefaults()
+		{
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Hide = true
+			};
+		}
+
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
@@ -194,29 +220,16 @@ namespace TerrorbornMod.NPCs.TerrorRain
 			}
 		}
 
-		public override void NPCLoot()
+        public override void OnKill()
 		{
 			TerrorbornSystem.downedFrightcrawler = true;
+			base.OnKill();
+        }
 
-			TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-			if (TerrorbornSystem.obtainedShriekOfHorror)
-			{
-				if (modPlayer.DeimosteelCharm)
-				{
-					Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.NoxiousScale>(), Main.rand.Next(8, 13));
-				}
-				else
-				{
-					Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>(), Main.rand.Next(4, 7));
-				}
-			}
-
-			Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.NoxiousScale>(), Main.rand.Next(15, 21));
-
-			if (Main.rand.NextFloat() <= 0.5f)
-			{
-				Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Accessories.SoulEater>());
-			}
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.NoxiousScale>(), 1, 15, 20));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Accessories.SoulEater>(), 3, 15, 20));
 		}
     }
 }

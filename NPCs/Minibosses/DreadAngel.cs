@@ -5,11 +5,22 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.Minibosses
 {
     class DreadAngel : ModNPC
     {
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("A servant of Uriel, whose true motivations are mysterious. As brutal foes in combat, they won't pull any punches.")
+            });
+        }
+
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 20;
@@ -26,7 +37,7 @@ namespace TerrorbornMod.NPCs.Minibosses
             NPC.damage = 75;
             NPC.defense = 70;
             NPC.lifeMax = 35000;
-            NPC.HitSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Effects/DreadAngelHurt");
+            NPC.HitSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Effects/DreadAngelHurt");
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.value = Item.buyPrice(0, 20, 0, 0);
             NPC.aiStyle = -1;
@@ -39,19 +50,18 @@ namespace TerrorbornMod.NPCs.Minibosses
             modNPC.BossTitleColor = Color.Goldenrod;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.DreadfulEssence>(), Main.rand.Next(5, 10));
-            switch (Main.rand.Next(2))
-            {
-                case 0:
-                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Ranged.TaleOfTragedy>());
-                    break;
-                case 1:
-                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Magic.PhoenixConjuration>());
-                    break;
-            }
             TerrorbornSystem.downedDreadAngel = true;
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.DreadfulEssence>(),
+                minimumDropped: 5,
+                maximumDropped: 10));
+            npcLoot.Add(ItemDropRule.OneFromOptions(1, ModContent.ItemType<Items.Weapons.Ranged.TaleOfTragedy>(),
+                ModContent.ItemType<Items.Weapons.Magic.PhoenixConjuration>()));
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -104,14 +114,14 @@ namespace TerrorbornMod.NPCs.Minibosses
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (spawningLaser)
             {
                 TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, NPC.Center - Main.screenPosition, 200, Color.LightPink * 0.5f);
                 Utils.DrawLine(spriteBatch, laserPosition + new Vector2(0, -3000), laserPosition + new Vector2(0, 3000), Color.LightPink * 0.5f);
             }
-            return base.PreDraw(spriteBatch, drawColor);
+            return base.PreDraw(spriteBatch, screenPos, drawColor);
         }
 
         bool spawningLaser = false;
@@ -164,7 +174,7 @@ namespace TerrorbornMod.NPCs.Minibosses
                 {
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, laserPosition);
                     TerrorbornSystem.ScreenShake(10);
-                    Projectile proj = Main.projectile[Projectile.NewProjectile(laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<Incendiary.AngelBeam>(), 120 / 4, 0f)];
+                    Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<Incendiary.AngelBeam>(), 120 / 4, 0f)];
                     proj.velocity.Normalize();
                     laserPosition = player.Center + player.velocity * 45;
                 }
@@ -222,7 +232,7 @@ namespace TerrorbornMod.NPCs.Minibosses
                     if (frame == 13)
                     {
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
-                        int proj = Projectile.NewProjectile(NPC.Center + new Vector2(20 * NPC.spriteDirection, -40), NPC.velocity * 3, ModContent.ProjectileType<DreadScytheHostile>(), 140 / 4, 0f);
+                        int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + new Vector2(20 * NPC.spriteDirection, -40), NPC.velocity * 3, ModContent.ProjectileType<DreadScytheHostile>(), 140 / 4, 0f);
                         Main.projectile[proj].spriteDirection = -NPC.spriteDirection;
                     }
 

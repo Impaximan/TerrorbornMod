@@ -72,7 +72,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    int proj = Projectile.NewProjectile(position, new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(15)) * Main.rand.NextFloat(0.8f, 1.2f), type, damage, knockback, player.whoAmI);
+                    int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(15)) * Main.rand.NextFloat(0.8f, 1.2f), type, damage, knockback, player.whoAmI);
                     Main.projectile[proj].usesLocalNPCImmunity = true;
                     Main.projectile[proj].localNPCHitCooldown = 5;
                     Main.projectile[proj].DamageType = DamageClass.Magic;;

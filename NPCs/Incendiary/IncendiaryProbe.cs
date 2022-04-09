@@ -2,6 +2,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.Incendiary
 {
@@ -45,14 +48,18 @@ namespace TerrorbornMod.NPCs.Incendiary
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            if (Main.rand.NextFloat() <= 0.066f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Magic.IncendiaryGazeblaster>());
-            }
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("A former Orumian bodyguard, converted and ruined by the Sisyphean Islands.")
+            });
         }
 
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.IncendiaryGazeblaster>(), 15));
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && !NPC.downedGolemBoss)
@@ -88,7 +95,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                     Vector2 velocity = NPC.DirectionTo(player.Center + player.velocity * (NPC.Distance(player.Center) / speed)) * speed;
                     NPC.velocity += NPC.DirectionFrom(player.Center) * 3;
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
-                    Projectile.NewProjectile(NPC.Center, velocity, ModContent.ProjectileType<IncendiaryProbeLaser>(), 90 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<IncendiaryProbeLaser>(), 90 / 4, 0);
                 }
             }
             else

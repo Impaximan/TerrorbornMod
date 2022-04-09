@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 
 namespace TerrorbornMod.Structures
 {
@@ -69,11 +70,11 @@ namespace TerrorbornMod.Structures
                                 if (color.R == tileValues[k].Item1 && color.G == tileValues[k].Item2 && color.B == tileValues[k].Item3)
                                 {
                                     WorldGen.PlaceTile(WorldPosition.X + i, WorldPosition.Y + j, tileValues[k].Item4, mute, forced);
-                                    Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).slope(Tile.Type_Solid);
+                                    Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).Slope = SlopeType.Solid;
                                 }
                                 else if (color.R == airColor.Item1 && color.G == airColor.Item2 && color.B == airColor.Item3)
                                 {
-                                    Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).active(active: false);
+                                    Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).ClearTile();
                                 }
                             }
                         }
@@ -99,9 +100,9 @@ namespace TerrorbornMod.Structures
                                 {
                                     int x = WorldPosition.X + i;
                                     int y = WorldPosition.Y + j;
-                                    if (Framing.GetTileSafely(x, y).wall > 0)
+                                    if (Framing.GetTileSafely(x, y).WallType > 0)
                                     {
-                                        Main.tile[x, y].wall = (ushort)wallValues[k].Item4;
+                                        Main.tile[x, y].WallType = (ushort)wallValues[k].Item4;
                                     }
                                     else
                                     {
@@ -110,7 +111,7 @@ namespace TerrorbornMod.Structures
                                 }
                                 else if (color.R == airColor.Item1 && color.G == airColor.Item2 && color.B == airColor.Item3)
                                 {
-                                    Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).wall = 0;
+                                    Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).WallType = 0;
                                 }
                             }
                         }
@@ -146,7 +147,7 @@ namespace TerrorbornMod.Structures
                 case SamplingKey.LiquidLava:
                 case SamplingKey.LiquidWater:
                 {
-                    int liquidType = Flag == SamplingKey.LiquidLava ? Tile.Liquid_Lava : Flag == SamplingKey.LiquidHoney ? Tile.Liquid_Honey : Tile.Liquid_Water;
+                    int liquidType = Flag == SamplingKey.LiquidLava ? 1 : Flag == SamplingKey.LiquidHoney ? 2 : 0;
                     for (int i = 0; i < width; i++)
                     {
                         for (int j = 0; j < height; j++)
@@ -155,8 +156,8 @@ namespace TerrorbornMod.Structures
                             if (color.G != byte.MaxValue)
                             {
                                 Tile tile = Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j);
-                                tile.liquid = color.R;
-                                tile.liquidType(liquidType: liquidType);
+                                tile.LiquidAmount = color.R;
+                                tile.LiquidType = liquidType;
                             }
                         }
                     }
@@ -168,23 +169,23 @@ namespace TerrorbornMod.Structures
                 case SamplingKey.SlopeDownLeft:
                 case SamplingKey.SlopeDownRight:
                 {
-                    byte slopeType;
+                    SlopeType slopeType;
                     switch (Flag)
                     {
                         case SamplingKey.SlopeUpLeft:
-                        slopeType = Tile.Type_SlopeUpLeft - 1;
+                        slopeType = SlopeType.SlopeUpLeft;
                         break;
 
                         case SamplingKey.SlopeUpRight:
-                        slopeType = Tile.Type_SlopeUpRight - 1;
+                        slopeType = SlopeType.SlopeUpRight;
                         break;
 
                         case SamplingKey.SlopeDownLeft:
-                        slopeType = Tile.Type_SlopeDownLeft - 1;
+                        slopeType = SlopeType.SlopeDownLeft;
                         break;
 
                         default:                     
-                        slopeType = Tile.Type_SlopeDownRight - 1;
+                        slopeType = SlopeType.SlopeDownRight;
                         break;
 
                     }
@@ -195,7 +196,7 @@ namespace TerrorbornMod.Structures
                             Color color = arr[i + j * width];
                             if (color.R != 0)
                             {
-                                Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).slope(slope: slopeType);
+                                Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).Slope = slopeType;
                             }
                         }
                     }
@@ -211,7 +212,7 @@ namespace TerrorbornMod.Structures
                             Color color = arr[i + j * width];
                             if (color.R != 0)
                             {
-                                Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).halfBrick(halfBrick: true);
+                                Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).IsHalfBlock = true;
                             }
                         }
                     }

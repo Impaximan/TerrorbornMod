@@ -21,7 +21,7 @@ namespace TerrorbornMod.ItemDropRules.Conditions
 
         public string GetConditionDescription()
         {
-            return "Only drops while in the Sisyphean Islands";
+            return "Only Drops while in the Sisyphean Islands";
         }
     }
 }

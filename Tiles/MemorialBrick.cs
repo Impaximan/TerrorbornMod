@@ -7,19 +7,19 @@ namespace TerrorbornMod.Tiles
 {
     public class MemorialBrick : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = true;
-            soundType = SoundID.Tink;
-            soundStyle = 1;
+            SoundType = SoundID.Tink;
+            SoundStyle = 1;
             //Main.soundDig[Type] =  21;
 
-            minPick = int.MaxValue;
-            mineResist = int.MaxValue;
+            MinPick = int.MaxValue;
+            MineResist = int.MaxValue;
             AddMapEntry(new Color(20, 30, 40));
         }
         public override bool CanExplode(int i, int j)
@@ -35,7 +35,7 @@ namespace TerrorbornMod.Tiles
     }
     class MemorialWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = false;
             AddMapEntry(new Color(20 / 2, 30 / 2, 40 / 2));
@@ -69,7 +69,7 @@ namespace TerrorbornMod.Tiles
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = mod.TileType("MemorialBrick");
+            Item.createTile = ModContent.TileType<MemorialBrick>();
         }
     }
     public class MemorialWallItem : ModItem
@@ -91,7 +91,7 @@ namespace TerrorbornMod.Tiles
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createWall = mod.WallType("MemorialWall");
+            Item.createWall = ModContent.WallType<MemorialWall>();
         }
     }
 }

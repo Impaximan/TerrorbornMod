@@ -7,7 +7,7 @@ namespace TerrorbornMod.Tiles
 {
     public class Azurite : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -15,13 +15,13 @@ namespace TerrorbornMod.Tiles
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = true;
             Main.tileSpelunker[Type] = true; 
-            soundType = SoundID.Tink;
-            soundStyle = 1;
+            SoundType = SoundID.Tink;
+            SoundStyle = 1;
             //Main.soundDig[Type] =  21;
 
-            minPick = 56;
-            mineResist = 2;
-            drop = mod.ItemType("AzuriteOre");
+            MinPick = 56;
+            MineResist = 2;
+            ItemDrop = ModContent.ItemType<Items.Materials.AzuriteOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Azurite");
             AddMapEntry(new Color(106, 142, 193), name);
@@ -32,9 +32,9 @@ namespace TerrorbornMod.Tiles
             num = 1;
         }
 
-        public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
+        public override void WalkDust(ref int DustType, ref bool makeDust, ref Color color)
         {
-            dustType = 33;
+            DustType = 33;
             makeDust = true;
         }
 

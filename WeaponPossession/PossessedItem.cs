@@ -16,46 +16,46 @@ namespace TerrorbornMod.WeaponPossession
             possessType = PossessType.None;
         }
 
-        public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage, ref float flat)
         {
             if (possessType == PossessType.Might)
             {
-                mult *= 1.15f;
+                damage *= 1.15f;
             }
 
             if (possessType == PossessType.Flight)
             {
-                mult *= 0.85f;
+                damage *= 0.85f;
             }
 
             if (possessType == PossessType.Night)
             {
-                mult *= 0.85f;
+                damage *= 0.85f;
             }
 
             if (possessType == PossessType.Fright)
             {
-                mult *= 0.9f;
+                damage *= 0.9f;
             }
 
             if (possessType == PossessType.Sight)
             {
-                mult *= 0.85f;
+                damage *= 0.85f;
             }
 
             if (possessType == PossessType.Plight)
             {
-                mult *= 1.5f;
+                damage *= 1.5f;
             }
         }
 
-        public override void GetWeaponKnockback(Item item, Player player, ref float knockback)
+        public override void ModifyWeaponKnockback(Item item, Player player, ref StatModifier knockback, ref float flat)
         {
-            base.GetWeaponKnockback(item, player, ref knockback);
             if (possessType == PossessType.Might)
             {
                 knockback *= 1.5f;
             }
+            base.ModifyWeaponKnockback(item, player, ref knockback, ref flat);
         }
 
         public override void HoldItem(Item item, Player player)
@@ -71,35 +71,31 @@ namespace TerrorbornMod.WeaponPossession
             }
         }
 
-        public override bool NeedsSaving(Item item)
+        public override void SaveData(Item item, TagCompound tag)
         {
-            return true;
+            tag.Add("possessType", possessType);
         }
 
         public int possessType = PossessType.None;
 
-        public override TagCompound Save(Item item)
-        {
-            return new TagCompound
-            {
-                { "possessType", possessType }
-            };
-        }
-
-        public override void Load(Item item, TagCompound tag)
+        public override void LoadData(Item item, TagCompound tag)
         {
             possessType = tag.GetInt("possessType");
         }
 
         public override bool InstancePerEntity => true;
 
-        public override bool CloneNewInstances => true;
+        public override GlobalItem Clone(Item item, Item itemClone)
+        {
+            //modItem(itemClone).possessType = modItem(item).possessType;
+            return base.Clone(item, itemClone);
+        }
 
         public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
         {
             if (possessType == PossessType.Light && crit)
             {
-                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, player.whoAmI);
+                Projectile.NewProjectile(target.GetSpawnSource_NPCHurt(), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, player.whoAmI);
                 TerrorbornSystem.ScreenShake(5f);
                 Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, target.Center);
             }
@@ -113,7 +109,7 @@ namespace TerrorbornMod.WeaponPossession
 
         public static PossessedItem modItem(Item item)
         {
-            return Item.GetGlobalItem<PossessedItem>();
+            return item.GetGlobalItem<PossessedItem>();
         }
 
         //public override GlobalItem Clone(Item item, Item itemClone)
@@ -125,13 +121,13 @@ namespace TerrorbornMod.WeaponPossession
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            if (possessType == PossessType.None || Item.accessory || Item.damage <= 0 || Item.consumable)
+            if (possessType == PossessType.None || item.accessory || item.damage <= 0 || item.consumable)
             {
                 return;
             }
 
             TooltipLine line = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
-            tooltips.Insert(1, new TooltipLine(mod, "SoulType", "Possessed by Souls of " + PossessType.ToString(possessType) + " [i/s1:" + PossessType.ToItemType(possessType) + "]"));
+            tooltips.Insert(1, new TooltipLine(Mod, "SoulType", "Possessed by Souls of " + PossessType.ToString(possessType) + " [i/s1:" + PossessType.ToItemType(possessType) + "]"));
             tooltips.FirstOrDefault(x => x.Name == "SoulType" && x.mod == "TerrorbornMod").overrideColor = PossessType.ToColor(possessType);
 
             string bonus = "";
@@ -175,19 +171,19 @@ namespace TerrorbornMod.WeaponPossession
                 drawback = "-15% damage";
             }
 
-            tooltips.Add(new TooltipLine(mod, "SoulBonus", bonus));
+            tooltips.Add(new TooltipLine(Mod, "SoulBonus", bonus));
             tooltips.FirstOrDefault(x => x.Name == "SoulBonus" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(PossessType.ToColor(possessType), Color.White, 0.25f);
 
             if (drawback != "")
             {
-                tooltips.Add(new TooltipLine(mod, "SoulDrawback", drawback));
+                tooltips.Add(new TooltipLine(Mod, "SoulDrawback", drawback));
                 tooltips.FirstOrDefault(x => x.Name == "SoulDrawback" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(PossessType.ToColor(possessType), Color.Black, 0.25f);
             }
         }
 
         public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            if (possessType == PossessType.None || Item.accessory || Item.damage <= 0 || Item.consumable)
+            if (possessType == PossessType.None || item.accessory || item.damage <= 0 || item.consumable)
             {
                 return;
             }

@@ -2,12 +2,13 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Tiles.Incendiary
 {
     public class PyroclasticRaincloud : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
@@ -16,21 +17,21 @@ namespace TerrorbornMod.Tiles.Incendiary
             Main.tileLighted[Type] = false;
             Main.tileNoSunLight[Type] = false;
             Main.tileSpelunker[Type] = false;
-            soundType = SoundID.Dig;
-            soundStyle = 1;
+            SoundType = SoundID.Dig;
+            SoundStyle = 1;
             //Main.soundDig[Type] =  21;
 
-            dustType = 6;
+            DustType = 6;
 
-            minPick = 0;
-            drop = ModContent.ItemType<Items.Placeable.Blocks.PyroclasticRaincloudBlock>(); ;
-            mineResist = 3;
+            MinPick = 0;
+            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.PyroclasticRaincloudBlock>(); ;
+            MineResist = 3;
             AddMapEntry(new Color(59, 62, 73));
         }
 
-        public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
+        public override void WalkDust(ref int DustType, ref bool makeDust, ref Color color)
         {
-            dustType = 6;
+            DustType = 6;
             makeDust = true;
         }
 
@@ -41,7 +42,7 @@ namespace TerrorbornMod.Tiles.Incendiary
                 Vector2 position = new Vector2(i * 16, j * 16);
                 if ((Main.LocalPlayer.Center - position).Length() <= 3000)
                 {
-                    Projectile.NewProjectile(position + new Vector2(0, 15), new Vector2(0, 15), ModContent.ProjectileType<Projectiles.LavaRain>(), 80 / 4, 0);
+                    Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_TileBreak(i, j), position + new Vector2(0, 15), new Vector2(0, 15), ModContent.ProjectileType<Projectiles.LavaRain>(), 80 / 4, 0);
                 }
             }
         }

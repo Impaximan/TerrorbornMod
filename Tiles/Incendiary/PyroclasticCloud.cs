@@ -7,7 +7,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 {
     public class PyroclasticCloud : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
@@ -16,21 +16,21 @@ namespace TerrorbornMod.Tiles.Incendiary
             Main.tileLighted[Type] = false;
             Main.tileNoSunLight[Type] = false;
             Main.tileSpelunker[Type] = false;
-            soundType = SoundID.Dig;
-            soundStyle = 1;
+            SoundType = SoundID.Dig;
+            SoundStyle = 1;
             //Main.soundDig[Type] =  21;
 
-            dustType = 6;
+            DustType = 6;
 
-            minPick = 0;
-            drop = ModContent.ItemType<Items.Placeable.Blocks.PyroclasticCloudBlock>(); ;
-            mineResist = 3;
+            MinPick = 0;
+            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.PyroclasticCloudBlock>(); ;
+            MineResist = 3;
             AddMapEntry(new Color(255, 246, 216));
         }
 
-        public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
+        public override void WalkDust(ref int DustType, ref bool makeDust, ref Color color)
         {
-            dustType = 6;
+            DustType = 6;
             makeDust = true;
         }
 

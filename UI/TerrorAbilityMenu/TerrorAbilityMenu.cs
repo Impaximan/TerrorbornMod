@@ -6,6 +6,7 @@ using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 using TerrorbornMod.Abilities;
 using ReLogic.Graphics;
+using Terraria.GameContent;
 
 namespace TerrorbornMod.UI.TerrorMeter
 {
@@ -103,7 +104,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             spriteBatch.Draw(ability.texture(), new Rectangle((int)(position.X + 8 + ability.texture().Width * TextureScale), (int)(position.Y + 45), (int)(ability.texture().Width * TextureScale), (int)(ability.texture().Height * TextureScale)), new Rectangle(0, 0, ability.texture().Width, ability.texture().Height), Color.White, 0f, new Vector2(ability.texture().Width / 2 * TextureScale, ability.texture().Height / 2 * TextureScale), SpriteEffects.None, TextureScale);
 
             string nameText = ability.Name() + " (Cost: " + ability.Cost().ToString() + "%)";
-            spriteBatch.DrawString(Main.fontDeathText, nameText, position + new Vector2(5, 5), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, nameText, position + new Vector2(5, 5), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
         }
         public override void Update(GameTime gameTime)
         {
@@ -227,19 +228,19 @@ namespace TerrorbornMod.UI.TerrorMeter
             {
                 primaryText = "Primary: " + modPlayer.primaryAbility.Name() + " (" + TerrorbornMod.PrimaryTerrorAbility.GetAssignedKeys()[0].ToString() + ") (" + (int)modPlayer.primaryAbility.Cost() + "%)";
             }
-            spriteBatch.DrawString(Main.fontDeathText, primaryText, new Vector2(screenCenter.X - 61, screenCenter.Y - 372f), Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, primaryText, new Vector2(screenCenter.X - 61, screenCenter.Y - 372f), Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
             
             string secondaryText = "Secondary: " + modPlayer.secondaryAbility.Name() + " (UNBINDED) (" + (int)modPlayer.secondaryAbility.Cost() + "%)";
             if (TerrorbornMod.SecondaryTerrorAbility.GetAssignedKeys().Count > 0)
             {
                 secondaryText = "Secondary: " + modPlayer.secondaryAbility.Name() + " (" + TerrorbornMod.SecondaryTerrorAbility.GetAssignedKeys()[0].ToString() + ") (" + (int)(modPlayer.secondaryAbility.Cost() * 1.5f) + "%)";
             }
-            spriteBatch.DrawString(Main.fontDeathText, secondaryText, new Vector2(screenCenter.X - 61, screenCenter.Y - 335f), Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, secondaryText, new Vector2(screenCenter.X - 61, screenCenter.Y - 335f), Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
 
             PreviousPage.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "Previous page", new Vector2(screenCenter.X - 369f, screenCenter.Y - 125f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "Previous page", new Vector2(screenCenter.X - 369f, screenCenter.Y - 125f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
             NextPage.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "Next page", new Vector2(screenCenter.X - 163f, screenCenter.Y - 125f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "Next page", new Vector2(screenCenter.X - 163f, screenCenter.Y - 125f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
 
             if (new Rectangle((int)(screenCenter.X - 375), (int)(screenCenter.Y - 125), 110, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed) //When previous page is clicked
@@ -268,7 +269,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Primary1.Top.Set(screenCenter.Y - 330, 0f);
             Primary1.Height.Set(20, 0f);
             Primary1.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "Primary", new Vector2(screenCenter.X - 314f, screenCenter.Y - 330f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "Primary", new Vector2(screenCenter.X - 314f, screenCenter.Y - 330f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
             if (new Rectangle((int)(screenCenter.X - 318), (int)(screenCenter.Y - 330), 65, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
             {
@@ -281,7 +282,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Primary2.Top.Set(screenCenter.Y - 245, 0f);
             Primary2.Height.Set(20, 0f);
             Primary2.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "Primary", new Vector2(screenCenter.X - 314f, screenCenter.Y - 245f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "Primary", new Vector2(screenCenter.X - 314f, screenCenter.Y - 245f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
             if (new Rectangle((int)(screenCenter.X - 318), (int)(screenCenter.Y - 245), 65, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
             {
@@ -294,7 +295,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Primary3.Top.Set(screenCenter.Y - 160, 0f);
             Primary3.Height.Set(20, 0f);
             Primary3.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "Primary", new Vector2(screenCenter.X - 314f, screenCenter.Y - 160f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "Primary", new Vector2(screenCenter.X - 314f, screenCenter.Y - 160f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
             if (new Rectangle((int)(screenCenter.X - 318), (int)(screenCenter.Y - 160f), 65, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
             {
@@ -308,7 +309,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Secondary1.Top.Set(screenCenter.Y - 330, 0f);
             Secondary1.Height.Set(20, 0f);
             Secondary1.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "Secondary", new Vector2(screenCenter.X - 237f, screenCenter.Y - 330f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "Secondary", new Vector2(screenCenter.X - 237f, screenCenter.Y - 330f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
             if (new Rectangle((int)(screenCenter.X - 240), (int)(screenCenter.Y - 330), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
             {
@@ -321,7 +322,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Secondary2.Top.Set(screenCenter.Y - 245, 0f);
             Secondary2.Height.Set(20, 0f);
             Secondary2.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "Secondary", new Vector2(screenCenter.X - 237f, screenCenter.Y - 245f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "Secondary", new Vector2(screenCenter.X - 237f, screenCenter.Y - 245f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
             if (new Rectangle((int)(screenCenter.X - 240), (int)(screenCenter.Y - 245), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
             {
@@ -334,7 +335,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Secondary3.Top.Set(screenCenter.Y - 160, 0f);
             Secondary3.Height.Set(20, 0f);
             Secondary3.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "Secondary", new Vector2(screenCenter.X - 237f, screenCenter.Y - 160f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "Secondary", new Vector2(screenCenter.X - 237f, screenCenter.Y - 160f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
             if (new Rectangle((int)(screenCenter.X - 240), (int)(screenCenter.Y - 160f), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
             {
@@ -353,7 +354,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Explanation1.Top.Set(screenCenter.Y - 330, 0f);
             Explanation1.Height.Set(20, 0f);
             Explanation1.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "?", new Vector2(ExplanationLeft + QuestionMarkOffsetX, screenCenter.Y - 328f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "?", new Vector2(ExplanationLeft + QuestionMarkOffsetX, screenCenter.Y - 328f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
             if (new Rectangle((int)(ExplanationLeft), (int)(screenCenter.Y - 330), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
             {
@@ -367,7 +368,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Explanation2.Top.Set(screenCenter.Y - 245, 0f);
             Explanation2.Height.Set(20, 0f);
             Explanation2.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "?", new Vector2(ExplanationLeft + QuestionMarkOffsetX, screenCenter.Y - 243f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "?", new Vector2(ExplanationLeft + QuestionMarkOffsetX, screenCenter.Y - 243f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
             if (new Rectangle((int)(ExplanationLeft), (int)(screenCenter.Y - 245), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
             {
@@ -381,7 +382,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Explanation3.Top.Set(screenCenter.Y - 160, 0f);
             Explanation3.Height.Set(20, 0f);
             Explanation3.Draw(spriteBatch);
-            spriteBatch.DrawString(Main.fontDeathText, "?", new Vector2(ExplanationLeft + QuestionMarkOffsetX, screenCenter.Y - 158f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, "?", new Vector2(ExplanationLeft + QuestionMarkOffsetX, screenCenter.Y - 158f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
             if (new Rectangle((int)(ExplanationLeft), (int)(screenCenter.Y - 160f), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
             {
@@ -401,7 +402,7 @@ namespace TerrorbornMod.UI.TerrorMeter
                                "\nas they would if they were primary. Click the '?' icon " +
                                "\nnext to one the abilities to see that ability's function.";
             if (showingAbilityDescription) explanation = abilityDescription;
-            spriteBatch.DrawString(Main.fontDeathText, explanation, new Vector2(screenCenter.X - 61, screenCenter.Y - 285), Color.White, 0f, Vector2.Zero, 0.4f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(FontAssets.DeathText.Value, explanation, new Vector2(screenCenter.X - 61, screenCenter.Y - 285), Color.White, 0f, Vector2.Zero, 0.4f, SpriteEffects.None, 0f);
         }
     }
 }

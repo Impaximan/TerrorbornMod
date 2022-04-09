@@ -7,19 +7,19 @@ namespace TerrorbornMod.Tiles.Incendiary
 {
     public class IncendiaryAlloyTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileSpelunker[Type] = true;
-            soundType = SoundID.Tink;
-            soundStyle = 1;
-            dustType = 6;
-            minPick = 150;
-            mineResist = 6f;
-            drop = ModContent.ItemType<Items.Materials.IncendiusAlloy>();
+            SoundType = SoundID.Tink;
+            SoundStyle = 1;
+            DustType = 6;
+            MinPick = 150;
+            MineResist = 6f;
+            ItemDrop = ModContent.ItemType<Items.Materials.IncendiusAlloy>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Incendiary Alloy");
             AddMapEntry(new Color(208, 102, 102), name);

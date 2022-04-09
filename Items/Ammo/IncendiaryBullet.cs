@@ -35,12 +35,6 @@ namespace TerrorbornMod.Items.Ammo
         //}
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.IncendiusAlloy>(), 2);
-            recipe.AddRecipeGroup("cobalt", 1);
-            recipe.AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>());
-            recipe.SetResult(this, 222);
-            recipe.AddRecipe();
             CreateRecipe(222)
                 .AddIngredient<Materials.IncendiusAlloy>(2)
                 .AddRecipeGroup("cobalt")

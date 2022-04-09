@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity
         {
             DisplayName.SetDefault("Sheriff's Hat");
             Tooltip.SetDefault("Don't worry, he has another");
-            ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
+            //ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
 
         public override void SetDefaults()

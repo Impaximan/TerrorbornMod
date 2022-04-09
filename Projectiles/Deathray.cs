@@ -37,7 +37,7 @@ namespace TerrorbornMod.Projectiles
 
         public override bool PreDraw(ref Color lightColor)
 		{
-			DrawLaser(spriteBatch, ModContent.Request<Texture2D>(Texture).Value, Position(), Projectile.velocity, bodyRect.Height, -1.57f, 1f, MaxDistance, (int)MoveDistance);
+			DrawLaser(Main.spriteBatch, ModContent.Request<Texture2D>(Texture).Value, Position(), Projectile.velocity, bodyRect.Height, -1.57f, 1f, MaxDistance, (int)MoveDistance);
 			return false;
 		}
 

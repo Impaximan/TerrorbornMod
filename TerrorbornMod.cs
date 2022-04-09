@@ -110,41 +110,40 @@ namespace TerrorbornMod
 
         public override void AddRecipeGroups()
         {
-            //Any Bug
-            RecipeGroup bugs = new RecipeGroup(new Func<string>(BugString));
-            bugs.ValidItems.Add(ItemID.JuliaButterfly);
-            bugs.ValidItems.Add(ItemID.MonarchButterfly);
-            bugs.ValidItems.Add(ItemID.PurpleEmperorButterfly);
-            bugs.ValidItems.Add(ItemID.RedAdmiralButterfly);
-            bugs.ValidItems.Add(ItemID.SulphurButterfly);
-            bugs.ValidItems.Add(ItemID.TreeNymphButterfly);
-            bugs.ValidItems.Add(ItemID.UlyssesButterfly);
-            bugs.ValidItems.Add(ItemID.ZebraSwallowtailButterfly);
-            bugs.ValidItems.Add(ItemID.Firefly);
-            bugs.ValidItems.Add(ItemID.Buggy);
-            bugs.ValidItems.Add(ItemID.Grasshopper);
-            bugs.ValidItems.Add(ItemID.Grubby);
-            bugs.ValidItems.Add(ItemID.LightningBug);
+            RecipeGroup bugs = new RecipeGroup(new Func<string>(BugString),
+                ItemID.JuliaButterfly,
+                ItemID.MonarchButterfly,
+                ItemID.PurpleEmperorButterfly,
+                ItemID.RedAdmiralButterfly,
+                ItemID.SulphurButterfly,
+                ItemID.TreeNymphButterfly,
+                ItemID.UlyssesButterfly,
+                ItemID.ZebraSwallowtailButterfly,
+                ItemID.Firefly,
+                ItemID.Buggy,
+                ItemID.Grasshopper,
+                ItemID.Grubby,
+                ItemID.LightningBug);
             RecipeGroup.RegisterGroup("bugs", bugs);
 
             //Any Mythril Bar
-            RecipeGroup mythril = new RecipeGroup(new Func<string>(MythrilString));
-            mythril.ValidItems.Add(ItemID.MythrilBar);
-            mythril.ValidItems.Add(ItemID.OrichalcumBar);
+            RecipeGroup mythril = new RecipeGroup(new Func<string>(MythrilString),
+                ItemID.MythrilBar,
+                ItemID.OrichalcumBar);
             RecipeGroup.RegisterGroup("mythril", mythril);
 
             //Any Lunar Fragment
-            RecipeGroup fragment = new RecipeGroup(new Func<string>(FragmentString));
-            fragment.ValidItems.Add(ItemID.FragmentSolar);
-            fragment.ValidItems.Add(ItemID.FragmentNebula);
-            fragment.ValidItems.Add(ItemID.FragmentStardust);
-            fragment.ValidItems.Add(ItemID.FragmentVortex);
-            fragment.ValidItems.Add(ModContent.ItemType<Items.Materials.FusionFragment>());
+            RecipeGroup fragment = new RecipeGroup(new Func<string>(FragmentString),
+                ItemID.FragmentSolar,
+                ItemID.FragmentNebula,
+                ItemID.FragmentStardust,
+                ItemID.FragmentVortex,
+                ModContent.ItemType<Items.Materials.FusionFragment>());
             RecipeGroup.RegisterGroup("fragment", fragment);
 
-            RecipeGroup cobalt = new RecipeGroup(new Func<string>(CobaltString));
-            cobalt.ValidItems.Add(ItemID.CobaltBar);
-            cobalt.ValidItems.Add(ItemID.PalladiumBar);
+            RecipeGroup cobalt = new RecipeGroup(new Func<string>(CobaltString),
+                ItemID.CobaltBar,
+                ItemID.PalladiumBar);
             RecipeGroup.RegisterGroup("cobalt", cobalt);
         }
 
@@ -215,41 +214,41 @@ namespace TerrorbornMod
 
             if (Main.netMode != NetmodeID.Server)
             {
-                Ref<Effect> screenRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("Effects/ShockwaveEffect"));
+                Ref<Effect> screenRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/ShockwaveEffect"));
                 Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
                 Filters.Scene["Shockwave"].Load();
 
                 Filters.Scene["ParryShockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
                 Filters.Scene["ParryShockwave"].Load();
 
-                Ref<Effect> prototypeRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("Effects/Shaders/PrototypeIShader"));
+                Ref<Effect> prototypeRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/PrototypeIShader"));
                 Filters.Scene["TerrorbornMod:PrototypeIShader"] = new Filter(new ScreenShaderData(prototypeRef, "PrototypeI"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:PrototypeIShader"].Load();
 
-                Ref<Effect> darknessRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("Effects/Shaders/DarknessShader"));
+                Ref<Effect> darknessRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/DarknessShader"));
                 Filters.Scene["TerrorbornMod:DarknessShader"] = new Filter(new ScreenShaderData(darknessRef, "Darkness"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:DarknessShader"].Load();
 
-                Ref<Effect> incarnateRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("Effects/Shaders/IncarnateBoss"));
+                Ref<Effect> incarnateRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/IncarnateBoss"));
                 Filters.Scene["TerrorbornMod:IncarnateBoss"] = new Filter(new ScreenShaderData(incarnateRef, "IncarnateBoss"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:IncarnateBoss"].Load();
 
-                Ref<Effect> glitchRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("Effects/Shaders/GlitchShader"));
+                Ref<Effect> glitchRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/GlitchShader"));
                 Filters.Scene["TerrorbornMod:GlitchShader"] = new Filter(new ScreenShaderData(glitchRef, "Glitch"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:GlitchShader"].Load();
 
-                Ref<Effect> colorlessRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("Effects/Shaders/ColorlessShader"));
+                Ref<Effect> colorlessRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/ColorlessShader"));
                 Filters.Scene["TerrorbornMod:ColorlessShader"] = new Filter(new ScreenShaderData(colorlessRef, "Colorless"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:ColorlessShader"].Load();
 
                 Filters.Scene["TerrorbornMod:BlandnessShader"] = new Filter(new ScreenShaderData(colorlessRef, "Colorless").UseOpacity(0.5f), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:BlandnessShader"].Load();
 
-                Ref<Effect> hexedRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("Effects/Shaders/HexedMirage"));
+                Ref<Effect> hexedRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/HexedMirage"));
                 Filters.Scene["TerrorbornMod:HexedMirage"] = new Filter(new ScreenShaderData(hexedRef, "HexedMirage"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:HexedMirage"].Load();
 
-                Ref<Effect> twilightRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("Effects/Shaders/TwilightShaderNight"));
+                Ref<Effect> twilightRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/TwilightShaderNight"));
                 Filters.Scene["TerrorbornMod:TwilightShaderNight"] = new Filter(new ScreenShaderData(twilightRef, "TwilightShaderNight"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:TwilightShaderNight"].Load();
             }
@@ -282,44 +281,44 @@ namespace TerrorbornMod
             Main.spriteBatch.Draw(texture, position - Main.screenPosition, null, Color.White, 0f, texture.Size() / 2f, 10f, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
         }
-        public override void PostSetupContent()
-        {
-            Mod yabhb = ModLoader.GetMod("FKBossHealthBar");
-            if (yabhb != null)
-            {
-                yabhb.Call("RegisterHealthBarMini", ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
-                yabhb.Call("RegisterHealthBarMini", ModContent.NPCType<NPCs.SlateBanshee>());
-                yabhb.Call("RegisterHealthBar", ModContent.NPCType<NPCs.Minibosses.DreadAngel>());
-            }
+        //public override void PostSetupContent()
+        //{
+        //    Mod yabhb = ModLoader.GetMod("FKBossHealthBar");
+        //    if (yabhb != null)
+        //    {
+        //        yabhb.Call("RegisterHealthBarMini", ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
+        //        yabhb.Call("RegisterHealthBarMini", ModContent.NPCType<NPCs.SlateBanshee>());
+        //        yabhb.Call("RegisterHealthBar", ModContent.NPCType<NPCs.Minibosses.DreadAngel>());
+        //    }
 
-            Mod fargos = ModLoader.GetMod("Fargowiltas");
-            if (fargos != null)
-            {
-                fargos.Call("AddEventSummon", 1f, "TerrorbornMod", "BrainStorm", (Func<bool>)(() => TerrorbornSystem.downedTerrorRain), Item.buyPrice(0, 15, 0, 0));
-                fargos.Call("AddSummon", 3.5f, "TerrorbornMod", "LunarRitual", (Func<bool>)(() => TerrorbornSystem.downedTidalTitan), Item.buyPrice(0, 15, 0, 0));
-                fargos.Call("AddSummon", 5.5f, "TerrorbornMod", "DriedCanteen", (Func<bool>)(() => TerrorbornSystem.downedDunestock), Item.buyPrice(0, 25, 0, 0));
-                fargos.Call("AddSummon", 9.5f, "TerrorbornMod", "RadioactiveSpiderFood", (Func<bool>)(() => TerrorbornSystem.downedShadowcrawler), Item.buyPrice(0, 15, 0, 0));
-                fargos.Call("AddSummon", 11.35f, "TerrorbornMod", "PlasmaCore", (Func<bool>)(() => TerrorbornSystem.downedPrototypeI), Item.buyPrice(0, 50, 0, 0));
-            }
+        //    Mod fargos = ModLoader.GetMod("Fargowiltas");
+        //    if (fargos != null)
+        //    {
+        //        fargos.Call("AddEventSummon", 1f, "TerrorbornMod", "BrainStorm", (Func<bool>)(() => TerrorbornSystem.downedTerrorRain), Item.buyPrice(0, 15, 0, 0));
+        //        fargos.Call("AddSummon", 3.5f, "TerrorbornMod", "LunarRitual", (Func<bool>)(() => TerrorbornSystem.downedTidalTitan), Item.buyPrice(0, 15, 0, 0));
+        //        fargos.Call("AddSummon", 5.5f, "TerrorbornMod", "DriedCanteen", (Func<bool>)(() => TerrorbornSystem.downedDunestock), Item.buyPrice(0, 25, 0, 0));
+        //        fargos.Call("AddSummon", 9.5f, "TerrorbornMod", "RadioactiveSpiderFood", (Func<bool>)(() => TerrorbornSystem.downedShadowcrawler), Item.buyPrice(0, 15, 0, 0));
+        //        fargos.Call("AddSummon", 11.35f, "TerrorbornMod", "PlasmaCore", (Func<bool>)(() => TerrorbornSystem.downedPrototypeI), Item.buyPrice(0, 50, 0, 0));
+        //    }
 
-            Mod bossChecklist = ModLoader.GetMod("BossChecklist");
-            if (bossChecklist != null)
-            {
-                bossChecklist.Call("AddBossWithInfo", "Infected Incarnate", 1.5f, (Func<bool>)(() => TerrorbornSystem.downedInfectedIncarnate), "Once you've obtained Shriek of Horror, find a strange chamber, the entrance to which is found in the snow biome. In the chamber use Shriek of Horror, and your foe will awake.");
-                bossChecklist.Call("AddBossWithInfo", "Tidal Titan", 3.5f, (Func<bool>)(() => TerrorbornSystem.downedTidalTitan), "Kill a mysterious crab, which occassionally spawns in the ocean biome during the night.");
-                bossChecklist.Call("AddBossWithInfo", "Dunestock", 5.5f, (Func<bool>)(() => TerrorbornSystem.downedDunestock), "Use a [i:" + ModContent.ItemType<Items.DriedCanteen>() + "] in the desert.");
-                bossChecklist.Call("AddBossWithInfo", "Shadowcrawler", 9.5f, (Func<bool>)(() => TerrorbornSystem.downedShadowcrawler), "Use a [i:" + ModContent.ItemType<Items.RadioactiveSpiderFood>() + "] during the night.");
-                bossChecklist.Call("AddBossWithInfo", "Prototype I", 11.35f, (Func<bool>)(() => TerrorbornSystem.downedPrototypeI), "Use a [i:" + ModContent.ItemType<Items.PlasmaCore>() + "] during the night.");
-                bossChecklist.Call("AddBossWithInfo", "Hexed Constructor", 7.9f, (Func<bool>)(() => TerrorbornSystem.downedIncendiaryBoss), "Use an [i:" + ModContent.ItemType<Items.AccursedClock>() + "] in the Sisyphean Islands biome. The boss will enrage if you leave the biome.");
-                bossChecklist.Call("AddMiniBossWithInfo", "Undying Spirit", 6.05f, (Func<bool>)(() => TerrorbornSystem.downedUndyingSpirit), "A strange eratic ghost that 'died' long ago. Spawns occasionally in the corruption: be wary.");
-                bossChecklist.Call("AddEventWithInfo", "???", -5f, (Func<bool>)(() => TerrorbornSystem.obtainedShriekOfHorror), "Follow the [i:" + ModContent.ItemType<Items.MysteriousCompass>() + "]'s guidance");
-                bossChecklist.Call("AddMiniBossWithInfo", "Slate Banshee", 0.5f, (Func<bool>)(() => TerrorbornSystem.downedSlateBanshee), "Spawns occasionally in deimostone caves after you've obtained Shriek of Horror. Has an increased spawn chance if you're wearing a [i:" + ModContent.ItemType<Items.Equipable.Accessories.DeimosteelCharm>() + "].");
-                bossChecklist.Call("AddEventWithInfo", "Astraphobia", 6.06f, (Func<bool>)(() => TerrorbornSystem.downedTerrorRain), "Has a chance to occur instead of rain. Can be manually summoned by using a [i:" + ModContent.ItemType<Items.MiscConsumables.BrainStorm>() + "] during rain.");
-                bossChecklist.Call("AddMiniBossWithInfo", "Frightcrawler", 6.07f, (Func<bool>)(() => TerrorbornSystem.downedFrightcrawler), "Spawns during the Astraphobia event (see above).");
-                bossChecklist.Call("AddMiniBossWithInfo", "Dread Angel", 15.05f, (Func<bool>)(() => TerrorbornSystem.downedDreadAngel), "Spawns in the Sisyphean Islands biome after Moon Lord has been defeated.");
-                bossChecklist.Call("AddEventWithInfo", "Dreadwind", 16f, (Func<bool>)(() => TerrorbornSystem.downedDreadwind), "Not written yet.");
-                bossChecklist.Call("AddBossWithInfo", "Uriel", 16.01f, (Func<bool>)(() => TerrorbornSystem.downedUriel), "Spawns at the end of the Dreadwind event.");
-            }
-        }
+        //    Mod bossChecklist = ModLoader.GetMod("BossChecklist");
+        //    if (bossChecklist != null)
+        //    {
+        //        bossChecklist.Call("AddBossWithInfo", "Infected Incarnate", 1.5f, (Func<bool>)(() => TerrorbornSystem.downedInfectedIncarnate), "Once you've obtained Shriek of Horror, find a strange chamber, the entrance to which is found in the snow biome. In the chamber use Shriek of Horror, and your foe will awake.");
+        //        bossChecklist.Call("AddBossWithInfo", "Tidal Titan", 3.5f, (Func<bool>)(() => TerrorbornSystem.downedTidalTitan), "Kill a mysterious crab, which occassionally spawns in the ocean biome during the night.");
+        //        bossChecklist.Call("AddBossWithInfo", "Dunestock", 5.5f, (Func<bool>)(() => TerrorbornSystem.downedDunestock), "Use a [i:" + ModContent.ItemType<Items.DriedCanteen>() + "] in the desert.");
+        //        bossChecklist.Call("AddBossWithInfo", "Shadowcrawler", 9.5f, (Func<bool>)(() => TerrorbornSystem.downedShadowcrawler), "Use a [i:" + ModContent.ItemType<Items.RadioactiveSpiderFood>() + "] during the night.");
+        //        bossChecklist.Call("AddBossWithInfo", "Prototype I", 11.35f, (Func<bool>)(() => TerrorbornSystem.downedPrototypeI), "Use a [i:" + ModContent.ItemType<Items.PlasmaCore>() + "] during the night.");
+        //        bossChecklist.Call("AddBossWithInfo", "Hexed Constructor", 7.9f, (Func<bool>)(() => TerrorbornSystem.downedIncendiaryBoss), "Use an [i:" + ModContent.ItemType<Items.AccursedClock>() + "] in the Sisyphean Islands biome. The boss will enrage if you leave the biome.");
+        //        bossChecklist.Call("AddMiniBossWithInfo", "Undying Spirit", 6.05f, (Func<bool>)(() => TerrorbornSystem.downedUndyingSpirit), "A strange eratic ghost that 'died' long ago. Spawns occasionally in the corruption: be wary.");
+        //        bossChecklist.Call("AddEventWithInfo", "???", -5f, (Func<bool>)(() => TerrorbornSystem.obtainedShriekOfHorror), "Follow the [i:" + ModContent.ItemType<Items.MysteriousCompass>() + "]'s guidance");
+        //        bossChecklist.Call("AddMiniBossWithInfo", "Slate Banshee", 0.5f, (Func<bool>)(() => TerrorbornSystem.downedSlateBanshee), "Spawns occasionally in deimostone caves after you've obtained Shriek of Horror. Has an increased spawn chance if you're wearing a [i:" + ModContent.ItemType<Items.Equipable.Accessories.DeimosteelCharm>() + "].");
+        //        bossChecklist.Call("AddEventWithInfo", "Astraphobia", 6.06f, (Func<bool>)(() => TerrorbornSystem.downedTerrorRain), "Has a chance to occur instead of rain. Can be manually summoned by using a [i:" + ModContent.ItemType<Items.MiscConsumables.BrainStorm>() + "] during rain.");
+        //        bossChecklist.Call("AddMiniBossWithInfo", "Frightcrawler", 6.07f, (Func<bool>)(() => TerrorbornSystem.downedFrightcrawler), "Spawns during the Astraphobia event (see above).");
+        //        bossChecklist.Call("AddMiniBossWithInfo", "Dread Angel", 15.05f, (Func<bool>)(() => TerrorbornSystem.downedDreadAngel), "Spawns in the Sisyphean Islands biome after Moon Lord has been defeated.");
+        //        bossChecklist.Call("AddEventWithInfo", "Dreadwind", 16f, (Func<bool>)(() => TerrorbornSystem.downedDreadwind), "Not written yet.");
+        //        bossChecklist.Call("AddBossWithInfo", "Uriel", 16.01f, (Func<bool>)(() => TerrorbornSystem.downedUriel), "Spawns at the end of the Dreadwind event.");
+        //    }
+        //}
     }
 }

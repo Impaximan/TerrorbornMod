@@ -6,13 +6,8 @@ namespace TerrorbornMod.Sounds.Effects
 {
     class DreadAngelHurt : ModSound
 	{
-		public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
+        public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan)
 		{
-			//if (soundInstance.State == SoundState.Playing)
-			//{
-			//	return null;
-			//}
-
 			soundInstance.Volume = volume;
 			soundInstance.Pan = pan;
 			soundInstance.Pitch = Main.rand.NextFloat(-0.1f, 0.1f);

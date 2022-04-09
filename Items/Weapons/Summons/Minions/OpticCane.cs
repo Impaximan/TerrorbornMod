@@ -26,7 +26,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             Item.knockBack = 0;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = mod.ProjectileType("OpticDemon");
+            Item.shoot = ModContent.ProjectileType<OpticDemon>();
             Item.shootSpeed = 10f;
             Item.value = Item.sellPrice(0, 0, 50, 0);
         }

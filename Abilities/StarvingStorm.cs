@@ -46,7 +46,7 @@ namespace TerrorbornMod.Abilities
 
         public override void OnUse(Player player)
         {
-            Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<StormVortex>(), 0, 0, player.whoAmI);
+            Projectile.NewProjectile(player.GetProjectileSource_Misc(ProjectileSourceID.None), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<StormVortex>(), 0, 0, player.whoAmI);
             Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, player.Center);
         }
     }

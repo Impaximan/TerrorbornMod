@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Abilities
@@ -35,7 +36,7 @@ namespace TerrorbornMod.Abilities
             Projectile.active = false;
 
             Vector2 terrorMasterPosition = new Vector2(Main.spawnTileX * 16, Main.spawnTileY * 16);
-            NPC.NewNPC((int)terrorMasterPosition.X, (int)terrorMasterPosition.Y, ModContent.NPCType<NPCs.TownNPCs.TerrorMaster>());
+            NPC.NewNPC(new EntitySource_WorldEvent(), (int)terrorMasterPosition.X, (int)terrorMasterPosition.Y, ModContent.NPCType<NPCs.TownNPCs.TerrorMaster>());
             Main.NewText("??? the Terror Master has arrived!", new Color(50, 125, 255));
 
             TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(Projectile.position, Projectile.width, Projectile.height)]);

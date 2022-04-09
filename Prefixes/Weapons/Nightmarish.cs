@@ -5,24 +5,19 @@ namespace TerrorbornMod.Prefixes.Weapons
 {
     class Nightmarish : ModPrefix
     {
-        public override bool Autoload(ref string name)
+        public override void SetStaticDefaults()
         {
-            name = "Nightmarish";
-            return base.Autoload(ref name);
+            DisplayName.SetDefault("Frightening");
+            base.SetStaticDefaults();
         }
 
         public override PrefixCategory Category => PrefixCategory.AnyWeapon;
-
-        public override void SetDefaults()
-        {
-
-        }
 
 
         public override void Apply(Item item)
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(item);
-            modItem.TerrorCost += Item.useAnimation * 0.22f;
+            modItem.TerrorCost += item.useAnimation * 0.22f;
         }
 
         public override bool CanRoll(Item item)

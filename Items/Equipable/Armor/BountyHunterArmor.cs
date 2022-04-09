@@ -13,8 +13,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             Tooltip.SetDefault("4% increased ranged damage" +
                 "\n4% increased ranged critical strike chance");
-            ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = false;
-            ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
+            //ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = false;
+            //ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
 
         public override void SetDefaults()

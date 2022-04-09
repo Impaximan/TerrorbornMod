@@ -6,10 +6,10 @@ namespace TerrorbornMod.Tiles
 {
     class SmoothDeimostoneWallTile : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            drop = ModContent.ItemType<Items.Placeable.Walls.SmoothDeimostoneWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeable.Walls.SmoothDeimostoneWall>();
             AddMapEntry(new Color(9, 19, 29));
         }
     }

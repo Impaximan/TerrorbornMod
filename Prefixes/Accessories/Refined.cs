@@ -5,18 +5,13 @@ namespace TerrorbornMod.Prefixes.Accessories
 {
     class Refined : ModPrefix
     {
-        public override bool Autoload(ref string name)
+        public override void SetStaticDefaults()
         {
-            name = "Refined";
-            return base.Autoload(ref name);
+            DisplayName.SetDefault("Frightening");
+            base.SetStaticDefaults();
         }
 
         public override PrefixCategory Category => PrefixCategory.Accessory;
-
-        public override void SetDefaults()
-        {
-
-        }
 
 
         public override void Apply(Item item)

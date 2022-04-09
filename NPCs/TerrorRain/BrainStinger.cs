@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.TerrorRain
 {
@@ -44,45 +46,27 @@ namespace TerrorbornMod.NPCs.TerrorRain
             }
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            if (TerrorbornSystem.obtainedShriekOfHorror)
-            {
-                if (modPlayer.DeimosteelCharm)
-                {
-                    if (Main.rand.NextFloat() <= 0.3f)
-                    {
-                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                    }
-                }
-                else
-                {
-                    if (Main.rand.NextFloat() <= 0.15f)
-                    {
-                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                    }
-                }
-            }
-
-            if (Main.rand.NextFloat() <= 0.5f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.ThunderShard>());
-            }
-
-            if (Main.rand.NextFloat() <= 0.065f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Summons.Minions.AnglerStaff>());
-            }
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Rain,
+                new FlavorTextBestiaryInfoElement("Funky little jellyfish, which have gained new powers by consuming souls. As such, one might even say they're 'high'.")
+            });
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.ThunderShard>(), 2));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Summons.Minions.AnglerStaff>(), 75));
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (frame == 8 && extraFrame == 0)
             {
                 TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, NPC.Center - Main.screenPosition, 75, new Color(255, 120, 209) * 0.25f);
             }
-            return base.PreDraw(spriteBatch, drawColor);
+            return base.PreDraw(spriteBatch, screenPos, drawColor);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

@@ -17,7 +17,7 @@ namespace TerrorbornMod.Items.MiscConsumables
         {
             Item.useTime = 10;
             Item.useAnimation = 10;
-            Item.useStyle = ItemUseStyleID.EatingUsing;
+            Item.useStyle = ItemUseStyleID.EatFood;
             Item.maxStack = 30;
             Item.consumable = true;
             Item.rare = ItemRarityID.Blue;

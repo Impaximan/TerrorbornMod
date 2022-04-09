@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.UI;
 using ReLogic.Graphics;
+using Terraria.GameContent;
 
 namespace TerrorbornMod.UI.TitleCard
 {
@@ -50,7 +51,7 @@ namespace TerrorbornMod.UI.TitleCard
                 return;
             }
 
-            DynamicSpriteFont font = Main.fontDeathText;
+            DynamicSpriteFont font = FontAssets.DeathText.Value;
 
             Vector2 textPosition1;
             textPosition1.X = Main.screenWidth * 0.5f * Main.UIScale;

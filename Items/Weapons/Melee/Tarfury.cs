@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Causes multiple tar droplets to rain from the sky.\nTrue melee hits will inflict the enemies with 'Oiled' and 'On Fire!'\nOiled enemies will take 30% increased damage from tar droplets." +
+            Tooltip.SetDefault("Causes multiple tar Droplets to rain from the sky.\nTrue melee hits will inflict the enemies with 'Oiled' and 'On Fire!'\nOiled enemies will take 30% increased damage from tar Droplets." +
                 "\n'Hunger will always rain'");
         }
 

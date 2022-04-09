@@ -8,7 +8,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 {
     class PyroclasticGemstone : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             
@@ -16,14 +16,14 @@ namespace TerrorbornMod.Tiles.Incendiary
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
 
-            soundType = SoundID.Trackable;
-            soundStyle = 165;
-            drop = ModContent.ItemType<Items.Materials.PyroclasticGemstone>();
+            SoundType = SoundID.Trackable;
+            SoundStyle = 165;
+            ItemDrop = ModContent.ItemType<Items.Materials.PyroclasticGemstone>();
 
-            mineResist = 5f;
-            minPick = 100;
+            MineResist = 5f;
+            MinPick = 100;
 
-            dustType = 6;
+            DustType = 6;
 
             Main.tileLighted[Type] = true;
             ModTranslation name = CreateMapEntryName();

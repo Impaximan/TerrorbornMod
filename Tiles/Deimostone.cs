@@ -7,19 +7,19 @@ namespace TerrorbornMod.Tiles
 {
     public class Deimostone : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileSpelunker[Type] = false;
-            soundType = SoundID.Tink;
-            soundStyle = 1;
+            SoundType = SoundID.Tink;
+            SoundStyle = 1;
 
-            minPick = 0;
-            mineResist = 0.5f;
-            drop = ModContent.ItemType<Items.Placeable.Blocks.DeimostoneBlock>();
+            MinPick = 0;
+            MineResist = 0.5f;
+            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.DeimostoneBlock>();
             AddMapEntry(new Color(40, 55, 70));
         }
 

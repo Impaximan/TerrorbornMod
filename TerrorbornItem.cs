@@ -47,6 +47,11 @@ namespace TerrorbornMod
             }
         }
 
+        public override GlobalItem Clone(Item item, Item itemClone)
+        {
+            return base.Clone(item, itemClone);
+        }
+
         public override void ModifyWeaponCrit(Item item, Player player, ref int crit)
         {
             if (item.DamageType == DamageClass.Melee && countAsThrown)

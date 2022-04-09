@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.Placeable.Furniture
 
 	class InfectedIncarnateTrophyTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = false;
 			Main.tileFrameImportant[Type] = true;

@@ -3,6 +3,8 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.TerrorRain
 {
@@ -32,31 +34,17 @@ namespace TerrorbornMod.NPCs.TerrorRain
             NPC.lavaImmune = true;
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            if (TerrorbornSystem.obtainedShriekOfHorror)
-            {
-                if (modPlayer.DeimosteelCharm)
-                {
-                    if (Main.rand.NextFloat() <= 0.3f)
-                    {
-                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                    }
-                }
-                else
-                {
-                    if (Main.rand.NextFloat() <= 0.15f)
-                    {
-                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                    }
-                }
-            }
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Rain,
+                new FlavorTextBestiaryInfoElement("Note to self: never drink soul juice from a guy in a top hat. Instead, save 15% or more on life insurance!")
+            });
+        }
 
-            if (Main.rand.NextFloat() <= 0.65f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.ThunderShard>());
-            }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.ThunderShard>(), 2));
         }
 
         int projWait = 0;
@@ -68,7 +56,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
             if (projWait <= 0)
             {
                 projWait = Main.rand.Next(15, 25);
-                Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<GeckoGloop>(), 30 / 4, 0);
+                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GeckoGloop>(), 30 / 4, 0);
             }
         }
 

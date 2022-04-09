@@ -16,7 +16,7 @@ namespace TerrorbornMod.ItemDropRules.Conditions
 
         public string GetConditionDescription()
         {
-            return "Only drops if you have obtained Shriek of Horror";
+            return "Only Drops if you have obtained Shriek of Horror";
         }
     }
 }

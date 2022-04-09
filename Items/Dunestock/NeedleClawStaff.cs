@@ -42,7 +42,7 @@ namespace TerrorbornMod.Items.Dunestock
         {
             Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
             position = player.Center + (player.DirectionTo(mouse) * 65);
-            int proj = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(25)), type, damage, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(25)), type, damage, knockback, player.whoAmI);
             Main.projectile[proj].ai[1] = 5;
             return false;
         }

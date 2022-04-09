@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.GameContent;
 using ReLogic.Graphics;
 
 namespace TerrorbornMod.UI.TerrorMeter
@@ -56,7 +57,7 @@ namespace TerrorbornMod.UI.TerrorMeter
                 position.X -= (meterText.Length) * scale * 8;
                 position.Y -= scale * 14;
 
-                if (TerrorbornMod.TerrorMeterText) spriteBatch.DrawString(Main.fontDeathText, meterText, position, Color.FromNonPremultiplied(209, 233, 246, 255), 0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
+                if (TerrorbornMod.TerrorMeterText) spriteBatch.DrawString(FontAssets.DeathText.Value, meterText, position, Color.FromNonPremultiplied(209, 233, 246, 255), 0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
             }
             else
             {
@@ -121,10 +122,10 @@ namespace TerrorbornMod.UI.TerrorMeter
 
                 scale = Main.UIScale * 0.65f;
                 string meterText = (int)shownTerror + "%";
-                position.X -= Main.fontDeathText.MeasureString(meterText).X * scale / 2;
+                position.X -= FontAssets.DeathText.Value.MeasureString(meterText).X * scale / 2;
                 position.Y -= scale * 26f;
 
-                if (TerrorbornMod.TerrorMeterText) spriteBatch.DrawString(Main.fontDeathText, meterText, position, Color.FromNonPremultiplied(209, 233, 246, 255), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                if (TerrorbornMod.TerrorMeterText) spriteBatch.DrawString(FontAssets.DeathText.Value, meterText, position, Color.FromNonPremultiplied(209, 233, 246, 255), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             }
         }
     }

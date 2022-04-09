@@ -7,22 +7,22 @@ namespace TerrorbornMod.Tiles.Incendiary
 {
     public class KindlingSoil : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = false;
-            soundType = SoundID.Dig;
-            soundStyle = 1;
+            SoundType = SoundID.Dig;
+            SoundStyle = 1;
             //Main.soundDig[Type] =  21;
 
             Main.tileMerge[Type][ModContent.TileType<KindlingGrass>()] = true;
 
-            minPick = 0;
-            mineResist = 3;
-            drop = ModContent.ItemType<Items.Placeable.Blocks.KindlingSoilBlock>();
+            MinPick = 0;
+            MineResist = 3;
+            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.KindlingSoilBlock>();
             AddMapEntry(new Color(71, 72, 92));
         }
 
@@ -40,7 +40,7 @@ namespace TerrorbornMod.Tiles.Incendiary
         {
             if (TerrorbornUtils.TileShouldBeGrass(i, j))
             {
-                Main.tile[i, j].type = (ushort)ModContent.TileType<KindlingGrass>();
+                Main.tile[i, j].TileType = (ushort)ModContent.TileType<KindlingGrass>();
                 //return;
             }
 
@@ -65,30 +65,30 @@ namespace TerrorbornMod.Tiles.Incendiary
 
     public class KindlingGrass : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = true;
-            soundType = SoundID.Dig;
-            soundStyle = 1;
+            SoundType = SoundID.Dig;
+            SoundStyle = 1;
             //Main.soundDig[Type] =  21;
 
             Main.tileMerge[Type][ModContent.TileType<KindlingSoil>()] = true;
 
-            dustType = 6;
+            DustType = 6;
 
-            minPick = 0;
-            mineResist = 4.5f;
-            drop = ModContent.ItemType<Items.Placeable.Blocks.KindlingSoilBlock>();
+            MinPick = 0;
+            MineResist = 4.5f;
+            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.KindlingSoilBlock>();
             AddMapEntry(new Color(204, 114, 98));
         }
 
-        public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
+        public override void WalkDust(ref int DustType, ref bool makeDust, ref Color color)
         {
-            dustType = 6;
+            DustType = 6;
             makeDust = true;
         }
 
@@ -119,7 +119,7 @@ namespace TerrorbornMod.Tiles.Incendiary
                 {
                     for (int checkJ = -distance; checkJ <= distance; checkJ++)
                     {
-                        if (Main.tile[checkI + i, checkJ + j].type == ModContent.TileType<PyroclasticGemstone>())
+                        if (Main.tile[checkI + i, checkJ + j].TileType == ModContent.TileType<PyroclasticGemstone>())
                         {
                             return;
                         }

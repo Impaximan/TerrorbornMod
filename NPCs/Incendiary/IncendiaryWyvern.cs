@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.Incendiary
 {
@@ -29,7 +32,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 			head = true;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
@@ -40,11 +43,11 @@ namespace TerrorbornMod.NPCs.Incendiary
 
 			if (effects == SpriteEffects.None)
 			{
-				spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(33, 43), NPC.scale, effects, 0);
+				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(33, 43), NPC.scale, effects, 0);
 			}
 			else
 			{
-				spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(52 - 33, 43), NPC.scale, effects, 0);
+				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(52 - 33, 43), NPC.scale, effects, 0);
 			}
 			return false;
 		}
@@ -85,6 +88,14 @@ namespace TerrorbornMod.NPCs.Incendiary
 
 	internal class IncendiaryWyvernBody_0 : IncendiaryWyvern
 	{
+		public override void SetStaticDefaults()
+		{
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Hide = true
+			};
+		}
+
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
@@ -94,7 +105,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 			body = true;
 		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
@@ -105,18 +116,26 @@ namespace TerrorbornMod.NPCs.Incendiary
 
 			if (effects == SpriteEffects.None)
 			{
-				spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
+				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
 			}
-            else
+			else
 			{
-				spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(64 - 19, 24), NPC.scale, effects, 0);
+				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(64 - 19, 24), NPC.scale, effects, 0);
 			}
-            return false;
+			return false;
         }
     }
 
 	internal class IncendiaryWyvernBody_1 : IncendiaryWyvern
 	{
+		public override void SetStaticDefaults()
+		{
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Hide = true
+			};
+		}
+
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
@@ -126,7 +145,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 			body = true;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
@@ -135,13 +154,21 @@ namespace TerrorbornMod.NPCs.Incendiary
 				effects = SpriteEffects.FlipHorizontally;
 			}
 
-			spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
+			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
 			return false;
 		}
 	}
 
 	internal class IncendiaryWyvernBody_2 : IncendiaryWyvern
 	{
+		public override void SetStaticDefaults()
+		{
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Hide = true
+			};
+		}
+
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
@@ -150,7 +177,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 			NPC.height = 48;
 			body = true;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
@@ -159,13 +186,21 @@ namespace TerrorbornMod.NPCs.Incendiary
 				effects = SpriteEffects.FlipHorizontally;
 			}
 
-			spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
+			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
 			return false;
 		}
 	}
 
 	internal class IncendiaryWyvernBody_3 : IncendiaryWyvern
 	{
+		public override void SetStaticDefaults()
+		{
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Hide = true
+			};
+		}
+
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
@@ -175,7 +210,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 			body = true;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
@@ -184,13 +219,21 @@ namespace TerrorbornMod.NPCs.Incendiary
 				effects = SpriteEffects.FlipHorizontally;
 			}
 
-			spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
+			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 24), NPC.scale, effects, 0);
 			return false;
 		}
 	}
 
 	internal class IncendiaryWyvernTail : IncendiaryWyvern
 	{
+		public override void SetStaticDefaults()
+		{
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Hide = true
+			};
+		}
+
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
@@ -199,7 +242,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 			NPC.height = 58;
 			tail = true;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			SpriteEffects effects = SpriteEffects.None;
 
@@ -208,7 +251,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 				effects = SpriteEffects.FlipHorizontally;
 			}
 
-			spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 29), NPC.scale, effects, 0);
+			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, new Vector2(19, 29), NPC.scale, effects, 0);
 			return false;
 		}
 	}
@@ -251,9 +294,9 @@ namespace TerrorbornMod.NPCs.Incendiary
 			NPC.knockBackResist = 0f;
 		}
 
-		public override void NPCLoot()
-		{
-			Item.NewItem(NPC.getRect(), ItemID.SoulofFlight, Main.rand.Next(20, 42));
-		}
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+			npcLoot.Add(ItemDropRule.Common(ItemID.SoulofFlight, 1, 20, 30));
+        }
 	}
 }

@@ -9,12 +9,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity.BossMasks
     {
         public override void SetStaticDefaults()
         {
-
-        }
-
-        public override bool DrawHead()
-        {
-            return false;
+            ////ArmorIDs.Head.Sets.DrawHead[Item.type] = false;
         }
 
         public override void SetDefaults()

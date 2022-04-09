@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.UI;
 using ReLogic.Graphics;
+using Terraria.GameContent;
 
 namespace TerrorbornMod.UI.TerrorAbilityUnlock
 {
@@ -54,7 +55,7 @@ namespace TerrorbornMod.UI.TerrorAbilityUnlock
 
             float scale = 1.75f;
 
-            DynamicSpriteFont font = Main.fontDeathText;
+            DynamicSpriteFont font = FontAssets.DeathText.Value;
 
             Vector2 textPosition1;
             textPosition1.X = Main.screenWidth* 0.5f;

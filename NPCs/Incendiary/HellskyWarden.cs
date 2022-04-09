@@ -4,6 +4,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrorbornMod.Projectiles;
+using Terraria.ModLoader.Utilities;
+using Terraria.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.Incendiary
 {
@@ -35,17 +39,18 @@ namespace TerrorbornMod.NPCs.Incendiary
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            if (Main.rand.NextFloat() <= 0.15f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Melee.PurgatoryBaton>());
-            }
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("A reinforced version of the incendiary guardian, using skullmound alloy.")
+            });
+        }
 
-            if (Main.rand.NextFloat() <= 0.15f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Summons.Sentry.GuardianStaff>());
-            }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.PurgatoryBaton>(), 6));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Summons.Sentry.GuardianStaff>(), 6));
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -105,7 +110,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                         int laserCount = 5;
                         for (int i = 0; i < laserCount; i++)
                         {
-                            Projectile Projectile = Main.projectile[Projectile.NewProjectile(NPC.Center, rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i), ModContent.ProjectileType<HellskyDeathray>(), 120 / 4, 0)];
+                            Projectile Projectile = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i), ModContent.ProjectileType<HellskyDeathray>(), 120 / 4, 0)];
                             Projectile.ai[0] = NPC.whoAmI;
                         }
                     }

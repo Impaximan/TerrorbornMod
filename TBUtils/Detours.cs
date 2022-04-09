@@ -16,7 +16,6 @@ namespace TerrorbornMod.TBUtils
             On.Terraria.Main.DrawInterface += DrawOvertopGraphics;
             On.Terraria.Main.DrawNPCs += DrawNPCs;
             IL.Terraria.Player.Update += HookUpdate;
-            //IL.Terraria.Item.Prefix += HookPrefix;
         }
 
         private static void HookUpdate(ILContext il)
@@ -24,19 +23,7 @@ namespace TerrorbornMod.TBUtils
             var c = new ILCursor(il);
             if (!c.TryGotoNext(MoveType.Before, i => i.MatchLdfld("Terraria.Player", "statManaMax2"), i => i.MatchLdcI4(400)))
             {
-                ErrorLogger.Log("Mana patchy no worky... missing instruction UWU");
-                return;
-            }
 
-            c.Next.Next.Operand = int.MaxValue;
-        }
-
-        private static void HookPrefix(ILContext il)
-        {
-            var c = new ILCursor(il);
-            if (!c.TryGotoNext(MoveType.Before, i => i.MatchLdfld("Terraria.Item", "rare"), i => i.MatchLdcI4(11)))
-            {
-                ErrorLogger.Log("AHAHALHGKJLHDFGKJHDSGHJ NO RARITY INSTRUCTION GRRR");
                 return;
             }
 
@@ -48,7 +35,6 @@ namespace TerrorbornMod.TBUtils
             On.Terraria.Main.DrawInterface -= DrawOvertopGraphics;
             On.Terraria.Main.DrawNPCs -= DrawNPCs;
             IL.Terraria.Player.Update -= HookUpdate;
-            //IL.Terraria.Item.Prefix -= HookPrefix;
         }
 
         static Vector2 perlinPosition = Vector2.Zero;
@@ -67,7 +53,7 @@ namespace TerrorbornMod.TBUtils
             Vector2 difference = Main.screenPosition - lastScreenPosition;
             lastScreenPosition = Main.screenPosition;
 
-            foreach (ForegroundObject foregroundObject in TerrorbornMod.foregroundObjects)
+            foreach (ForegroundObject foregroundObject in TerrorbornSystem.foregroundObjects)
             {
                 if (foregroundObject != null)
                 {
@@ -75,7 +61,7 @@ namespace TerrorbornMod.TBUtils
                 }
             }
             List<ForegroundObject> drawing = new List<ForegroundObject>();
-            foreach (ForegroundObject foregroundObject in TerrorbornMod.foregroundObjects)
+            foreach (ForegroundObject foregroundObject in TerrorbornSystem.foregroundObjects)
             {
                 if (foregroundObject != null)
                 {

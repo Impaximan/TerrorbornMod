@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.Luminite
 {
@@ -59,14 +62,34 @@ namespace TerrorbornMod.NPCs.Luminite
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            Item.NewItem(NPC.getRect(), ItemID.LunarOre, Main.rand.Next(15, 25));
-            Item.NewItem(NPC.getRect(), ItemID.FragmentSolar, Main.rand.Next(6));
-            Item.NewItem(NPC.getRect(), ItemID.FragmentVortex, Main.rand.Next(6));
-            Item.NewItem(NPC.getRect(), ItemID.FragmentStardust, Main.rand.Next(6));
-            Item.NewItem(NPC.getRect(), ItemID.FragmentNebula, Main.rand.Next(6));
-            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.FusionFragment>(), Main.rand.Next(4));
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new FlavorTextBestiaryInfoElement("A strange drone, made of luminite and fragments.")
+            });
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.LunarOre,
+                minimumDropped: 15,
+                maximumDropped: 25));
+            npcLoot.Add(ItemDropRule.Common(ItemID.FragmentSolar,
+                minimumDropped: 0,
+                maximumDropped: 5));
+            npcLoot.Add(ItemDropRule.Common(ItemID.FragmentVortex,
+                minimumDropped: 0,
+                maximumDropped: 5));
+            npcLoot.Add(ItemDropRule.Common(ItemID.FragmentStardust,
+                minimumDropped: 0,
+                maximumDropped: 5));
+            npcLoot.Add(ItemDropRule.Common(ItemID.FragmentNebula,
+                minimumDropped: 0,
+                maximumDropped: 5));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.FusionFragment>(),
+                minimumDropped: 0,
+                maximumDropped: 3));
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -95,7 +118,7 @@ namespace TerrorbornMod.NPCs.Luminite
                     ProjectileWait = 0;
                     float projSpeed = 10f;
                     Vector2 velocity = NPC.DirectionTo(player.Center + player.velocity * NPC.Distance(player.Center) / projSpeed) * projSpeed;
-                    Projectile.NewProjectile(NPC.Center, velocity / 2, ProjectileID.PhantasmalBolt, NPC.damage / 6, 0f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity / 2, ProjectileID.PhantasmalBolt, NPC.damage / 6, 0f);
                 }
             }
 

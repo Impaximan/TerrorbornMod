@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.TerrorRain
 {
@@ -32,36 +34,18 @@ namespace TerrorbornMod.NPCs.TerrorRain
             NPC.lavaImmune = true;
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            if (TerrorbornSystem.obtainedShriekOfHorror)
-            {
-                if (modPlayer.DeimosteelCharm)
-                {
-                    if (Main.rand.NextFloat() <= 0.4f)
-                    {
-                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                    }
-                }
-                else
-                {
-                    if (Main.rand.NextFloat() <= 0.2f)
-                    {
-                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                    }
-                }
-            }
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Rain,
+                new FlavorTextBestiaryInfoElement("This suspicious cloud used to be a regular angry nimbus, but it seems the terror rain has given it a darker form.")
+            });
+        }
 
-            if (Main.rand.NextFloat() <= 0.75f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.ThunderShard>());
-            }
-
-            if (Main.rand.NextFloat() <= 0.125f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Ranged.ThunderGrenade>());
-            }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.ThunderShard>(), 1));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Ranged.ThunderGrenade>(), 8));
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -128,7 +112,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
                 if (NPC.ai[1] > 420)
                 {
                     NPC.ai[1] = 0;
-                    Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<VentedCumulusRaincloud>(), 75 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<VentedCumulusRaincloud>(), 75 / 4, 0);
 
                     float Distance = 3500; //max distance away
                     bool Targeted = false;
@@ -160,7 +144,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
                 {
                     ProjectileWait = 7;
                     Vector2 position = new Vector2(Main.rand.Next((int)NPC.position.X, (int)NPC.position.X + NPC.width), NPC.position.Y + NPC.height);
-                    Projectile.NewProjectile(position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), 50 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), 50 / 4, 0);
                 }
 
                 TerrorbornNPC globalNPC = TerrorbornNPC.modNPC(targetNPC);
@@ -211,7 +195,6 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
         public override void PostDraw(Color lightColor)
         {
-            base.PostDraw(spriteBatch, lightColor);
             Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(Texture + "_Glow");
             Vector2 position = Projectile.position - Main.screenPosition;
             //position.Y += 4;
@@ -233,7 +216,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
             {
                 ProjectileWait = 7;
                 Vector2 position = new Vector2(Main.rand.Next((int)Projectile.position.X, (int)Projectile.position.X + Projectile.width), Projectile.position.Y + Projectile.height);
-                Projectile.NewProjectile(position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), Projectile.damage, 0);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), Projectile.damage, 0);
             }
 
             if (trueTimeLeft > 0)

@@ -7,24 +7,24 @@ namespace TerrorbornMod.Tiles
 {
     public class Novagold : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileSpelunker[Type] = true;
-            soundType = SoundID.Tink;
-            soundStyle = 1;
+            SoundType = SoundID.Tink;
+            SoundStyle = 1;
 
-            minPick = 40;
-            mineResist = 3f;
-            drop = ModContent.ItemType<Items.Materials.NovagoldOre>();
+            MinPick = 40;
+            MineResist = 3f;
+            ItemDrop = ModContent.ItemType<Items.Materials.NovagoldOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Novagold");
             AddMapEntry(new Color(255, 238, 187), name);
 
-            dustType = 15;
+            DustType = 15;
         }
 
         public override bool CanExplode(int i, int j)

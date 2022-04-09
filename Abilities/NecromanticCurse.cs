@@ -48,7 +48,7 @@ namespace TerrorbornMod.Abilities
         {
             float speed = 20;
             Vector2 velocity = player.DirectionTo(Main.MouseWorld) * speed;
-            int proj = Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<DungeonSpirit>(), 1, 5, player.whoAmI);
+            int proj = Projectile.NewProjectile(player.GetProjectileSource_Misc(ProjectileSourceID.None), player.Center, velocity, ModContent.ProjectileType<DungeonSpirit>(), 1, 5, player.whoAmI);
             Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, player.Center);
 
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);

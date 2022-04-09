@@ -76,7 +76,7 @@ namespace TerrorbornMod.TBUtils
                 {
                     if (NPC.Distance(player.Center) <= 200 && !NPC.friendly && NPC.knockBackResist > 0f)
                     {
-                        NPC.velocity = NPC.DirectionFrom(player.Center) * NPC.knockBackResist * Item.knockBack * 2f;
+                        NPC.velocity = NPC.DirectionFrom(player.Center) * NPC.knockBackResist * item.knockBack * 2f;
                     }
                 }
                 modPlayer.iFrames = 60;
@@ -96,7 +96,7 @@ namespace TerrorbornMod.TBUtils
                 {
                     if (!fullyCharged)
                     {
-                        CombatText.NewText(player.getRect(), textColor, Item.Name + " charged...", true, false);
+                        CombatText.NewText(player.getRect(), textColor, item.Name + " charged...", true, false);
                         fullyCharged = true;
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item37, player.Center);
                     }
@@ -119,15 +119,15 @@ namespace TerrorbornMod.TBUtils
                     player.velocity = velocity;
                     modPlayer.BurstJumpTime = effectTime;
                     modPlayer.JustBurstJumped = true;
-                    CombatText.NewText(player.getRect(), textColor, "..." + Item.Name + " activated!", true, false);
+                    CombatText.NewText(player.getRect(), textColor, "..." + item.Name + " activated!", true, false);
                     Terraria.Audio.SoundEngine.PlaySound(sound, player.Center);
                     TerrorbornSystem.ScreenShake(5);
                     player.fallStart = (int)player.position.Y;
-                    player.jumpAgainSandstorm = true;
-                    player.jumpAgainSail = true;
-                    player.jumpAgainFart = true;
-                    player.jumpAgainCloud = true;
-                    player.jumpAgainBlizzard = true;
+                    player.canJumpAgain_Sandstorm = true;
+                    player.canJumpAgain_Sail = true;
+                    player.canJumpAgain_Fart = true;
+                    player.canJumpAgain_Cloud = true;
+                    player.canJumpAgain_Blizzard = true;
                 }
             }
 

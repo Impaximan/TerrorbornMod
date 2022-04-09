@@ -20,11 +20,6 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 return "TerrorbornMod/NPCs/TownNPCs/TerrorMaster";
             }
         }
-        public override bool Autoload(ref string name)
-        {
-            name = "TerrorMaster";
-            return mod.Properties.Autoload;
-        }
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 25;
@@ -35,6 +30,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
             NPCID.Sets.AttackTime[NPC.type] = 5;
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
             NPCID.Sets.HatOffsetY[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Velocity = 1f,
+                Direction = 1
+            };
         }
         public override void SetDefaults()
         {
@@ -151,7 +151,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 }
                 if (TerrorbornSystem.TerrorMasterDialogue == 6)
                 {
-                    player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Lore.fourthWallBreakInReal>());
+                    player.QuickSpawnItem(NPC.GetItemSource_Loot(), ModContent.ItemType<Items.Lore.fourthWallBreakInReal>());
                 }
             }
             else

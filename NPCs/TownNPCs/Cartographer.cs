@@ -21,12 +21,6 @@ namespace TerrorbornMod.NPCs.TownNPCs
             }
         }
 
-        public override bool Autoload(ref string name)
-        {
-            name = "Cartographer";
-            return mod.Properties.Autoload;
-        }
-
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 25;
@@ -38,6 +32,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
             NPCID.Sets.HatOffsetY[NPC.type] = 4;
             NPCID.Sets.SavesAndLoads[NPC.type] = false;
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Velocity = 1f,
+                Direction = 1
+            };
         }
 
         public override void SetDefaults()
@@ -231,7 +230,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 }
             }
 
-            if (player.ZoneHoly)
+            if (player.ZoneHallow)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.PixieDust);
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 10, 0);
@@ -583,7 +582,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         { "...since you're probably in a hurry, I'll just cut to the chase: how can I help you?" }
                     };
                 }
-                else if (player.ZoneHoly)
+                else if (player.ZoneHallow)
                 {
                     if (player.ZoneRockLayerHeight)
                     {

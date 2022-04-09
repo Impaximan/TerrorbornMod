@@ -17,7 +17,7 @@ namespace TerrorbornMod.ItemDropRules.Conditions
 
         public string GetConditionDescription()
         {
-            return "Only drops after having defeated Golem";
+            return "Only Drops after having defeated Golem";
         }
     }
 }

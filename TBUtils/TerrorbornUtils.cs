@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.WorldBuilding;
 using ReLogic.Graphics;
+using Terraria.GameContent;
 using TerrorbornMod.Abilities;
 
 namespace TerrorbornMod
@@ -12,7 +13,7 @@ namespace TerrorbornMod
         public static string AutoSortTooltip(string tooltip)
         {
             int lineAmount;
-            string[] lines = Utils.WordwrapString(tooltip, Main.fontMouseText, (int)TerrorbornMod.LoreParagraphWidth, 25, out lineAmount);
+            string[] lines = Utils.WordwrapString(tooltip, FontAssets.MouseText.Value, (int)TerrorbornMod.LoreParagraphWidth, 25, out lineAmount);
             string newTooltip = "";
             for (int i = 0; i <= lineAmount; i++)
             {
@@ -33,35 +34,35 @@ namespace TerrorbornMod
 
         public static bool TileShouldBeGrass(int i, int j)
         {
-            if (WorldGen.TileEmpty(i + 1, j) || !Main.tileSolid[Main.tile[i + 1, j].type])
+            if (WorldGen.TileEmpty(i + 1, j) || !Main.tileSolid[Main.tile[i + 1, j].TileType])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i - 1, j) || !Main.tileSolid[Main.tile[i - 1, j].type])
+            else if (WorldGen.TileEmpty(i - 1, j) || !Main.tileSolid[Main.tile[i - 1, j].TileType])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i, j + 1) || !Main.tileSolid[Main.tile[i, j + 1].type])
+            else if (WorldGen.TileEmpty(i, j + 1) || !Main.tileSolid[Main.tile[i, j + 1].TileType])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i, j - 1) || !Main.tileSolid[Main.tile[i, j - 1].type])
+            else if (WorldGen.TileEmpty(i, j - 1) || !Main.tileSolid[Main.tile[i, j - 1].TileType])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i + 1, j + 1) || !Main.tileSolid[Main.tile[i + 1, j + 1].type])
+            else if (WorldGen.TileEmpty(i + 1, j + 1) || !Main.tileSolid[Main.tile[i + 1, j + 1].TileType])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i + 1, j - 1) || !Main.tileSolid[Main.tile[i + 1, j - 1].type])
+            else if (WorldGen.TileEmpty(i + 1, j - 1) || !Main.tileSolid[Main.tile[i + 1, j - 1].TileType])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i - 1, j + 1) || !Main.tileSolid[Main.tile[i - 1, j + 1].type])
+            else if (WorldGen.TileEmpty(i - 1, j + 1) || !Main.tileSolid[Main.tile[i - 1, j + 1].TileType])
             {
                 return true;
             }
-            else if (WorldGen.TileEmpty(i - 1, j - 1) || !Main.tileSolid[Main.tile[i - 1, j - 1].type])
+            else if (WorldGen.TileEmpty(i - 1, j - 1) || !Main.tileSolid[Main.tile[i - 1, j - 1].TileType])
             {
                 return true;
             }
@@ -134,7 +135,7 @@ namespace TerrorbornMod
             Vector2 returned = position;
 
             int i = 5000;
-            while (Main.tile[(int)(returned.X / 16), (int)(returned.Y / 16)].type != type)
+            while (Main.tile[(int)(returned.X / 16), (int)(returned.Y / 16)].TileType != type)
             {
                 returned.Y++;
 
@@ -167,7 +168,7 @@ namespace TerrorbornMod
             Vector2 returned = position;
 
             int i = 5000;
-            while (Main.tile[(int)(returned.X / 16), (int)(returned.Y / 16)].type != type)
+            while (Main.tile[(int)(returned.X / 16), (int)(returned.Y / 16)].TileType != type)
             {
                 returned.Y--;
 

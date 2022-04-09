@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             DisplayName.SetDefault("The Lies of Nourishment");
             Tooltip.SetDefault("The first hit on an enemy will always be critical" +
-                "\nKilling enemies has an increased chance to drop hearts");
+                "\nKilling enemies has an increased chance to Drop hearts");
         }
 
         public override void SetDefaults()

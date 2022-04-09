@@ -3,12 +3,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Tiles
 {
     class MidnightFruit : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
 
@@ -16,13 +17,13 @@ namespace TerrorbornMod.Tiles
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
 
-            soundType = SoundID.Trackable;
-            soundStyle = 165;
+            SoundType = SoundID.Trackable;
+            SoundStyle = 165;
 
-            mineResist = 5f;
-            minPick = 100;
+            MineResist = 5f;
+            MinPick = 100;
 
-            dustType = 61;
+            DustType = 61;
 
             Main.tileLighted[Type] = true;
             ModTranslation name = CreateMapEntryName();
@@ -32,14 +33,14 @@ namespace TerrorbornMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.PermanentUpgrades.MidnightFruit>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.PermanentUpgrades.MidnightFruit>());
         }
 
         private readonly int animationFrameWidth = 18 * 2;
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             int uniqueAnimationFrame = Main.tileFrame[Type] + i;
-            if (Main.tile[i, j].frameX == 0 || Main.tile[i, j].frameX == 18 * 2 || Main.tile[i, j].frameX == 18 * 4)
+            if (Main.tile[i, j].TileFrameX == 0 || Main.tile[i, j].TileFrameX == 18 * 2 || Main.tile[i, j].TileFrameX == 18 * 4)
             {
                 uniqueAnimationFrame++;
             }

@@ -6,10 +6,10 @@ namespace TerrorbornMod.Tiles.Incendiary
 {
     class IncendiaryMachineryWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = false;
-            drop = ModContent.ItemType<Items.Placeable.Walls.IncendiaryMachineryWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeable.Walls.IncendiaryMachineryWall>();
             AddMapEntry(new Color(20, 20, 23));
         }
 

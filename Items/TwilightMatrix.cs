@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items
                 "\nConsuming terror fills up a twilight meter, which causes you to enter a twilight overload state for 10 seconds when filled" +
                 "\nIn a twilight overload, you have increased movement speed, jump speed, attack speed, and attack damage, but it is harder to see" +
                 "\nYou will also have increased life regen the more twilight you have" +
-                "\nEnemies drop twice as much money, and you gain an extra accessory slot" +
+                "\nEnemies Drop twice as much money, and you gain an extra accessory slot" +
                 "\n[c/FF1919:Not recommended if this is your first time playing Terrorborn]" +
                 "\n'Dragged by fate...'");
         }
@@ -43,7 +43,7 @@ namespace TerrorbornMod.Items
                 //    return false;
                 //}
                 TerrorbornSystem.TwilightMode = true;
-                TerrorbornMod.TerrorThunder();
+                TerrorbornSystem.TerrorThunder();
                 Main.NewText("Terrific power fills your foes...", new Color(148, 56, 255));
                 Main.NewText("The twilight matrix transforms into something new...", new Color(148 / 2, 56 / 2, 255 / 2));
             }
@@ -79,7 +79,7 @@ namespace TerrorbornMod.Items
                         i--;
                     }
                 }
-                tooltips.Add(new TooltipLine(mod, "TwilightMatrixTooltip", "Use to convert all currently stored terror into twilight at the cost of 15% of your max life"));
+                tooltips.Add(new TooltipLine(Mod, "TwilightMatrixTooltip", "Use to convert all currently stored terror into twilight at the cost of 15% of your max life"));
             }
         }
     }

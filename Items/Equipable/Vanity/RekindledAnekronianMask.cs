@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity
     {
         public override void SetStaticDefaults()
         {
-            ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
+            //ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
         }
 
         public override void SetDefaults()

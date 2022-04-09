@@ -7,7 +7,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 {
     public class IncendiaryPiping : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
@@ -15,23 +15,23 @@ namespace TerrorbornMod.Tiles.Incendiary
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = true;
             Main.tileSpelunker[Type] = true;
-            soundType = SoundID.Tink;
-            soundStyle = 1;
+            SoundType = SoundID.Tink;
+            SoundStyle = 1;
             //Main.soundDig[Type] =  21;
 
-            dustType = 6;
+            DustType = 6;
 
-            minPick = 100;
-            mineResist = 10;
-            drop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryPipe>();
+            MinPick = 100;
+            MineResist = 10;
+            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryPipe>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Strange Piping");
             AddMapEntry(new Color(255, 176, 142), name);
         }
 
-        public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
+        public override void WalkDust(ref int DustType, ref bool makeDust, ref Color color)
         {
-            dustType = 6;
+            DustType = 6;
             makeDust = true;
         }
 

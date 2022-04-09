@@ -4,6 +4,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.ItemDropRules;
 
 
 namespace TerrorbornMod.NPCs.TownNPCs
@@ -19,12 +20,6 @@ namespace TerrorbornMod.NPCs.TownNPCs
             }
         }
 
-        public override bool Autoload(ref string name)
-        {
-            name = "SkeletonSheriff";
-            return mod.Properties.Autoload;
-        }
-
         public override void SetStaticDefaults()
         {
 			Main.npcFrameCount[NPC.type] = 25;
@@ -35,6 +30,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
 			NPCID.Sets.AttackTime[NPC.type] = 90;
 			NPCID.Sets.AttackAverageChance[NPC.type] = 30;
 			NPCID.Sets.HatOffsetY[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Velocity = 1f,
+                Direction = 1
+            };
         }
 
         public override void SetDefaults()
@@ -56,12 +56,16 @@ namespace TerrorbornMod.NPCs.TownNPCs
             NPC.buffImmune[BuffID.CursedInferno] = true;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             Main.NewText("<" + NPC.GivenName + " the Skeleton Sheriff> Don't worry, I'm an undead. I'll be back....", Color.Yellow);
-            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Vanity.SheriffsHat>());
-            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Vanity.SheriffsCoat>());
-            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Vanity.SheriffsJeans>());
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.SheriffsHat>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.SheriffsCoat>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.SheriffsJeans>()));
         }
 
         public override bool UsesPartyHat()
@@ -71,23 +75,23 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(mod.ItemType("BountyHunterCap"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Armor.BountyHunterCap>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("BountyHunterLeatherwear"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Armor.BountyHunterLeatherwear>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("BountyHunterPants"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Armor.BountyHunterPants>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("BoneBuster"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.BoneBuster>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 20;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("CartilageRound"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.CartilageRound>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 1;
             nextSlot++;
@@ -106,7 +110,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = 1;
                 nextSlot++;
             }
-            shop.item[nextSlot].SetDefaults(mod.ItemType("ThornyMaraca"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Summons.Sentry.ThornyMaraca>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 45;
             nextSlot++;
@@ -116,14 +120,14 @@ namespace TerrorbornMod.NPCs.TownNPCs
             nextSlot++;
             if (Main.hardMode)
             {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("TheDoubleBarrel"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.TheDoubleBarrel>());
                 shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
                 shop.item[nextSlot].shopCustomPrice = 125;
                 nextSlot++;
             }
             if (NPC.downedPlantBoss)
             {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("Bonezooka"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.Bonezooka>());
                 shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
                 shop.item[nextSlot].shopCustomPrice = 195;
                 nextSlot++;
@@ -166,13 +170,13 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = 1;
                 nextSlot++;
             }
-            shop.item[nextSlot].SetDefaults(mod.ItemType("DeputyBag_prehm"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeputyBag_prehm>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 25;
             nextSlot++;
             if (Main.hardMode)
             {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("DeputyBag_hm"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeputyBag_hm>());
                 shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
                 shop.item[nextSlot].shopCustomPrice = 65;
                 nextSlot++;
@@ -306,7 +310,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     }
                     else
                     {
-                        player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), mod.ItemType("CombatToken"), modPlayer.CombatPoints / 250);
+                        player.QuickSpawnItem(NPC.GetItemSource_Loot(), ModContent.ItemType<CombatToken>(), modPlayer.CombatPoints / 250);
                         CombatTokenText = "Seems you've been doing work. Here's " + modPlayer.CombatPoints / 250 + " Combat Tokens as credit! ";
                         modPlayer.CombatPoints = 0;
                     }

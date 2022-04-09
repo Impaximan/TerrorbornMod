@@ -1075,8 +1075,6 @@ namespace TerrorbornMod
 
         public override void ModifyGlobalLoot(GlobalLoot globalLoot)
         {
-            Player player = Main.LocalPlayer;
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
         }
 
@@ -1126,7 +1124,10 @@ namespace TerrorbornMod
                 NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.PermanentUpgrades.DemonicLense>()));
             }
 
-            NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Summons.Other.Armagrenade>(), 3));
+            if (NPC.type == NPCID.Mothron)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Summons.Other.Armagrenade>(), 3));
+            }
 
             if (NPC.type == NPCID.MartianSaucerCore)
             {

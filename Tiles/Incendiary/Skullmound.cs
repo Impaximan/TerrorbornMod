@@ -7,7 +7,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 {
     public class Skullmound : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
@@ -15,12 +15,12 @@ namespace TerrorbornMod.Tiles.Incendiary
             Main.tileLighted[Type] = true;
             Main.tileSpelunker[Type] = true;
             Main.tileBlendAll[Type] = true;
-            soundType = SoundID.Tink;
-            soundStyle = 1;
+            SoundType = SoundID.Tink;
+            SoundStyle = 1;
 
-            minPick = 210;
-            mineResist = 10f;
-            drop = ModContent.ItemType<Items.Materials.SkullmoundOre>();
+            MinPick = 210;
+            MineResist = 10f;
+            ItemDrop = ModContent.ItemType<Items.Materials.SkullmoundOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Skullmound");
             AddMapEntry(new Color(157, 71, 64), name);

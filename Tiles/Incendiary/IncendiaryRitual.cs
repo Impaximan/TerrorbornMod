@@ -9,7 +9,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 {
     class IncendiaryRitual : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = false;
 			Main.tileFrameImportant[Type] = true;
@@ -24,7 +24,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 			//TileObjectData.newTile.CoordinateHeights = new[] { 18 };
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Incendiary Ritual");
-			mineResist = 10;
+			MineResist = 10;
 			AddMapEntry(new Color(92 / 2, 111 / 2, 126 / 2), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { Type };
@@ -32,7 +32,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeable.Furniture.IncendiaryRitual>());
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeable.Furniture.IncendiaryRitual>());
 		}
 	}
 }

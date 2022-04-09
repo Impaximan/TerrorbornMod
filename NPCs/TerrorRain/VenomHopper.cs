@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.TerrorRain
 {
@@ -44,36 +46,18 @@ namespace TerrorbornMod.NPCs.TerrorRain
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            if (TerrorbornSystem.obtainedShriekOfHorror)
-            {
-                if (modPlayer.DeimosteelCharm)
-                {
-                    if (Main.rand.NextFloat() <= 0.3f)
-                    {
-                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                    }
-                }
-                else
-                {
-                    if (Main.rand.NextFloat() <= 0.15f)
-                    {
-                        Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                    }
-                }
-            }
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.ThunderShard>(), 2));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Hooks.VenomTongue>(), 65));
+        }
 
-            if (Main.rand.NextFloat() <= 0.4f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.ThunderShard>());
-            }
-
-            if (Main.rand.NextFloat() <= 0.05f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Hooks.VenomTongue>());
-            }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Rain,
+                new FlavorTextBestiaryInfoElement("Frogge.")
+            });
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -156,7 +140,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
                             float speed = 20;
                             Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
                             Vector2 positionOffset = new Vector2(NPC.spriteDirection * 10, 0);
-                            int proj = Projectile.NewProjectile(NPC.Center + positionOffset, velocity, ModContent.ProjectileType<VenomTongueTip>(), 75 / 4, 0);
+                            int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + positionOffset, velocity, ModContent.ProjectileType<VenomTongueTip>(), 75 / 4, 0);
                             Main.projectile[proj].ai[0] = NPC.whoAmI;
                             Main.projectile[proj].hostile = true;
                         }
@@ -237,7 +221,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
 
                 //Draw chain
-                spriteBatch.Draw(texture, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                Main.spriteBatch.Draw(texture, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
                     new Rectangle(0, 0, texture.Width, texture.Height), Color.White, projRotation,
                     new Vector2(texture.Width * 0.5f, texture.Height * 0.5f), 1f, SpriteEffects.None, 0f);
             }

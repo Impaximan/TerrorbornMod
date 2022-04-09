@@ -12,21 +12,21 @@ namespace TerrorbornMod.Tiles
 {
 	class LavenderChest : ModTile
 	{
-		public override bool IsLockedChest(int i, int j) => Main.tile[i, j].frameX / 36 == 1;
+		public override bool IsLockedChest(int i, int j) => Main.tile[i, j].TileFrameX / 36 == 1;
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileContainer[Type] = true;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-			Main.tileValue[Type] = 500;
+			Main.tileOreFinderPriority[Type] = 500;
 			TileID.Sets.HasOutlines[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.CoordinateHeights = new[] { 16, 18 };
-			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
-			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
+			TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(Chest.FindEmptyChest, -1, 0, true);
+			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(Chest.AfterPlacement_Hook, -1, 0, false);
 			TileObjectData.newTile.AnchorInvalidTiles = new[] { 127 };
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.LavaDeath = false;
@@ -37,11 +37,11 @@ namespace TerrorbornMod.Tiles
 			AddMapEntry(Color.MediumPurple, name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
-			chest = "Lavender Chest";
-			chestDrop = ModContent.ItemType<Items.Placeable.Furniture.LavenderChestItem>();
+			ContainerName.SetDefault("Lavender Chest");
+			ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.LavenderChestItem>();
 		}
 
-		public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual)
+		public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int DustType, ref bool manual)
 		{
 			return true;
 		}
@@ -50,13 +50,12 @@ namespace TerrorbornMod.Tiles
 		{
 			MouseOver(i, j);
 			Player player = Main.LocalPlayer;
-			if (player.showItemIconText == "")
+			if (player.cursorItemIconText == "")
 			{
-				player.showItemIcon = false;
-				player.showItemIcon2 = 0;
+				player.cursorItemIconEnabled = false;
+				player.cursorItemIconID = 0;
 			}
 		}
-
 
 		public override void MouseOver(int i, int j)
 		{
@@ -64,33 +63,33 @@ namespace TerrorbornMod.Tiles
 			Tile tile = Main.tile[i, j];
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
-			player.showItemIcon2 = -1;
+			player.cursorItemIconID = -1;
 			if (chest < 0)
 			{
-				player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
+				player.cursorItemIconText = Language.GetTextValue("LegacyChestType.0");
 			}
 			else
 			{
-				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Lavender Chest";
-				if (player.showItemIconText == "Lavender Chest")
+				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Lavender Chest";
+				if (player.cursorItemIconText == "Lavender Chest")
 				{
-					player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.LavenderChestItem>();
-					if (Main.tile[left, top].frameX / 36 == 1)
-						player.showItemIcon2 = ModContent.ItemType<Items.MiscConsumables.MetalKey>();
-					player.showItemIconText = "";
+					player.cursorItemIconID = ModContent.ItemType<Items.Placeable.Furniture.LavenderChestItem>();
+					if (Main.tile[left, top].TileFrameX / 36 == 1)
+						player.cursorItemIconID = ModContent.ItemType<Items.MiscConsumables.MetalKey>();
+					player.cursorItemIconText = "";
 				}
 			}
 			player.noThrow = 2;
-			player.showItemIcon = true;
+			player.cursorItemIconEnabled = true;
 		}
 
 		//public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].frameX / 36);
@@ -99,22 +98,22 @@ namespace TerrorbornMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
 			Chest.DestroyChest(i, j);
 		}
 
-		public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			Main.mouseRightRelease = false;
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}

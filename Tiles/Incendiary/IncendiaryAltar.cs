@@ -2,13 +2,14 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 using Terraria.ObjectData;
 
 namespace TerrorbornMod.Tiles.Incendiary
 {
     class IncendiaryAltar : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = false;
 			Main.tileFrameImportant[Type] = true;
@@ -26,7 +27,8 @@ namespace TerrorbornMod.Tiles.Incendiary
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeable.Furniture.IncendiaryAltarItem>());
+			
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeable.Furniture.IncendiaryAltarItem>());
 		}
 	}
 }

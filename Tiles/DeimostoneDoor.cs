@@ -11,7 +11,7 @@ namespace TerrorbornMod.Tiles
 {
 	public class DeimostoneDoorOpen : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
@@ -64,7 +64,7 @@ namespace TerrorbornMod.Tiles
 			AddMapEntry(new Color(80, 112, 109), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.OpenDoor };
-			closeDoorID = ModContent.TileType<DeimostoneDoorClosed>();
+			CloseDoorID = ModContent.TileType<DeimostoneDoorClosed>();
 		}
 
 		public override bool HasSmartInteract()
@@ -74,21 +74,21 @@ namespace TerrorbornMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeable.Furniture.DeimostoneDoorItem>());
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeable.Furniture.DeimostoneDoorItem>());
 		}
 
 		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.DeimostoneDoorItem>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ModContent.ItemType<Items.Placeable.Furniture.DeimostoneDoorItem>();
 		}
 	}
 
 	public class DeimostoneDoorClosed : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileBlockLight[Type] = true;
@@ -121,7 +121,7 @@ namespace TerrorbornMod.Tiles
 			AddMapEntry(new Color(80, 112, 109), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.ClosedDoor };
-			openDoorID = ModContent.TileType<DeimostoneDoorOpen>();
+			OpenDoorID = ModContent.TileType<DeimostoneDoorOpen>();
 		}
 
 		public override bool HasSmartInteract()
@@ -131,15 +131,15 @@ namespace TerrorbornMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeable.Furniture.DeimostoneDoorItem>());
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeable.Furniture.DeimostoneDoorItem>());
 		}
 
 		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.DeimostoneDoorItem>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ModContent.ItemType<Items.Placeable.Furniture.DeimostoneDoorItem>();
 		}
 	}
 }

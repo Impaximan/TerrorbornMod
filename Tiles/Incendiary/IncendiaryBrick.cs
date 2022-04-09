@@ -7,7 +7,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 {
     public class IncendiaryBrick : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -15,22 +15,22 @@ namespace TerrorbornMod.Tiles.Incendiary
             //Main.tileShine[Type] = 1;
             //Main.tileLighted[Type] = true;
             Main.tileSpelunker[Type] = false;
-            soundType = SoundID.Tink;
-            soundStyle = 1;
+            SoundType = SoundID.Tink;
+            SoundStyle = 1;
             //Main.soundDig[Type] =  21;
 
-            dustType = 6;
+            DustType = 6;
 
-            minPick = 150;
-            mineResist = 8;
-            drop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryBrick>();
+            MinPick = 150;
+            MineResist = 8;
+            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryBrick>();
             ModTranslation name = CreateMapEntryName();
             AddMapEntry(new Color(206, 115, 84));
         }
 
-        public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
+        public override void WalkDust(ref int DustType, ref bool makeDust, ref Color color)
         {
-            dustType = 6;
+            DustType = 6;
             makeDust = true;
         }
 
