@@ -51,7 +51,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             NPC.HitSound = SoundID.NPCHit54;
             NPC.DeathSound = SoundID.NPCDeath52;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.Guide;
+            AnimationType = NPCID.Guide;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -546,7 +546,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/ExclamationPoint");
             Vector2 position = NPC.Center - new Vector2(0, 65);

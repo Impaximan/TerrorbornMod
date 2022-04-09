@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ModLoader.Utilities;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs
 {
@@ -14,6 +17,15 @@ namespace TerrorbornMod.NPCs
             NPCID.Sets.TrailCacheLength[NPC.type] = 3;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
+                new FlavorTextBestiaryInfoElement("These cute litte creatures are surprisingly resiliant, but also predatorial.")
+            });
+        }
+
         public override void SetDefaults()
         {
             NPC.noGravity = false;
@@ -31,15 +43,12 @@ namespace TerrorbornMod.NPCs
             NPC.lavaImmune = true;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (Main.rand.NextFloat() <= 0.05f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Armor.PineHood>());
-            }
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Armor.PineHood>(), 20));
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = new SpriteEffects();
             if (NPC.spriteDirection == 1)

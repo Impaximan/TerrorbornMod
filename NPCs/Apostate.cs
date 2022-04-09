@@ -3,7 +3,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 using Terraria.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs
 {
@@ -14,6 +17,14 @@ namespace TerrorbornMod.NPCs
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailCacheLength[NPC.type] = 1;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+				new FlavorTextBestiaryInfoElement("Consumes the souls of the evil to gain energy and power. Not very intelligent, opting to simply tackle its opponents.")
+            });
         }
 
         public override void SetDefaults()
@@ -34,9 +45,9 @@ namespace TerrorbornMod.NPCs
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TorturedEssence>());
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.TorturedEssence>()));
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

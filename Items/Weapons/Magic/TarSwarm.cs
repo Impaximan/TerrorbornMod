@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 using System;
 
 namespace TerrorbornMod.Items.Weapons.Magic
@@ -15,7 +16,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            TerrorbornItem modItem = TerrorbornItem.modItem(item);
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.15f;
             Item.damage = 8;
             Item.noMelee = true;
@@ -30,7 +31,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
-            Item.shoot = mod.ProjectileType("AntlionLarva");
+            Item.shoot = ModContent.ProjectileType<AntlionLarva>();
             Item.shootSpeed = 15f;
             Item.mana = 4;
             Item.DamageType = DamageClass.Magic;;
@@ -45,19 +46,18 @@ namespace TerrorbornMod.Items.Weapons.Magic
             for (int i = 0; i < 2; i++)
             {
                 Vector2 rotatedVelocity = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(7));
-                Projectile.NewProjectile(position, rotatedVelocity, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, rotatedVelocity, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe1 = new ModRecipe(mod);
-            recipe1.AddIngredient(ItemID.BeeGun);
-            recipe1.AddIngredient(ItemID.BeeWax, 10);
-            recipe1.AddIngredient(mod.ItemType("TarOfHunger"), 85);
-            recipe1.AddTile(TileID.Anvils);
-            recipe1.SetResult(this);
-            recipe1.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.BeeGun)
+                .AddIngredient(ItemID.BeeWax, 10)
+                .AddIngredient<Materials.TarOfHunger>(85)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
     class AntlionLarva : ModProjectile

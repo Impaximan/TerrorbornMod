@@ -1,6 +1,9 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.NPCs
@@ -10,6 +13,14 @@ namespace TerrorbornMod.NPCs
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 2;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
+                new FlavorTextBestiaryInfoElement("With dreadful essence filling the world, terror slimes seem to have grown in size and power. In classic slime nature, they're still not much of a threat.")
+            });
         }
 
         public override void SetDefaults()
@@ -24,29 +35,14 @@ namespace TerrorbornMod.NPCs
             NPC.knockBackResist = 0f;
             NPC.lavaImmune = true;
             NPC.color = Color.White;
-            animationType = NPCID.BlueSlime;
+            AnimationType = NPCID.BlueSlime;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem(NPC.getRect(), ItemID.Gel, Main.rand.Next(7, 15));
-            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.DarkEnergy>());
-
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            if (modPlayer.DeimosteelCharm)
-            {
-                if (Main.rand.NextFloat() <= 0.7f)
-                {
-                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                }
-            }
-            else
-            {
-                if (Main.rand.NextFloat() <= 0.35f)
-                {
-                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                }
-            }
+            npcLoot.Add(ItemDropRule.Common(ItemID.Gel, minimumDropped: 7, maximumDropped: 12));
+            npcLoot.Add(ItemDropRule.ByCondition(new ItemDropRules.Conditions.ShriekOfHorrorUnlockedCondition(), ModContent.ItemType<Items.DarkEnergy>()));
+            npcLoot.Add(ItemDropRule.ByCondition(new ItemDropRules.Conditions.ShriekOfHorrorUnlockedCondition(), ModContent.ItemType<Items.Materials.TerrorSample>(), 3, chanceNumerator: 2));
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

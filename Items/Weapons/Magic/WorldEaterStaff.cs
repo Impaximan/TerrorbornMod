@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Weapons.Magic
 {
@@ -10,11 +11,10 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.DemoniteBar, 8)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item17;
             Item.autoReuse = true;
-            Item.shoot = mod.ProjectileType("WorldEaterTooth");
+            Item.shoot = ModContent.ProjectileType<WorldEaterTooth>();
             Item.shootSpeed = 10f;
             Item.mana = 6;
             Item.DamageType = DamageClass.Magic;;
@@ -49,7 +49,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             {
                 position = player.Center + (player.DirectionTo(Main.MouseWorld) * 40);
                 velocity = velocity.RotatedByRandom(MathHelper.ToRadians(15));
-                Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
@@ -76,7 +76,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 }
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                 Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
-                spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return false;
         }

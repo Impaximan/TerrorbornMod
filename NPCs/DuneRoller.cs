@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs
 {
@@ -14,6 +17,16 @@ namespace TerrorbornMod.NPCs
             NPCID.Sets.TrailCacheLength[NPC.type] = 3;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+                new FlavorTextBestiaryInfoElement("Some time ago, a group of cave rollers migrated to the desert, for an unknown reason. Rolling around in the terror-ridden sand has made their shells more resistent and their muscles more powerful." +
+                "\nDuring the day, they will roam the surface of the desert, but during the night you will only find them in the depths of the desert.")
+            });
+        }
+
         public override void SetDefaults()
         {
             NPC.noGravity = false;
@@ -31,12 +44,12 @@ namespace TerrorbornMod.NPCs
             NPC.lavaImmune = true;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.ShellFragments>(), Main.rand.Next(2, 4));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.ShellFragments>(), minimumDropped: 2, maximumDropped: 3));
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = new SpriteEffects();
             if (NPC.spriteDirection == 1)

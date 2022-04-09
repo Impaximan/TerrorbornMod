@@ -50,7 +50,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             NPC.HitSound = SoundID.NPCHit2;
             NPC.DeathSound = SoundID.NPCDeath2;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.Guide;
+            AnimationType = NPCID.Guide;
             NPC.buffImmune[BuffID.Poisoned] = true;
             NPC.buffImmune[BuffID.Venom] = true;
             NPC.buffImmune[BuffID.CursedInferno] = true;

@@ -42,7 +42,7 @@ namespace TerrorbornMod.NPCs.Incendiary
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (frame == 4 && fireCounter > 0)
             {

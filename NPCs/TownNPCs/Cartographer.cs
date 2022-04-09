@@ -54,7 +54,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             NPC.knockBackResist = 0f;
             NPC.dontTakeDamage = true;
             NPC.rarity = 1;
-            animationType = NPCID.Guide;
+            AnimationType = NPCID.Guide;
         }
 
         public override bool UsesPartyHat()
@@ -337,7 +337,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
         };
         bool doingDialogue = true;
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/ExclamationPoint");
             Vector2 position = NPC.Center - new Vector2(0, 65);

@@ -2,6 +2,9 @@
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs
 {
@@ -23,7 +26,7 @@ namespace TerrorbornMod.NPCs
             NPC.knockBackResist = 0f;
             NPC.lavaImmune = true;
             NPC.color = Color.White;
-            animationType = NPCID.BlueSlime;
+            AnimationType = NPCID.BlueSlime;
             if (Main.hardMode)
             {
                 NPC.defense = 5;
@@ -38,49 +41,20 @@ namespace TerrorbornMod.NPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            Item.NewItem(NPC.getRect(), ItemID.Gel, Main.rand.Next(1, 3));
-            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.DarkEnergy>());
-
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            if (modPlayer.DeimosteelCharm)
-            {
-                if (Main.rand.NextFloat() <= 0.7f)
-                {
-                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                }
-            }
-            else
-            {
-                if (Main.rand.NextFloat() <= 0.35f)
-                {
-                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>());
-                }
-            }
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
+                new FlavorTextBestiaryInfoElement("A pot possessed by the living tar within the desert, which uses javelins made with other pot scraps.")
+            });
         }
-        //int frame = 0;
-        //public override void FindFrame(int frameHeight)
-        //{
-        //    if (NPC.velocity.Y == 0)
-        //    {
-        //        NPC.frameCounter--;
-        //        if (NPC.frameCounter <= 0)
-        //        {
-        //            frame++;
-        //            NPC.frameCounter = 30;
-        //        }
-        //        if (frame >= 2)
-        //        {
-        //            frame = 0;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        frame = 1;
-        //    }
-        //    NPC.frame.Y = frame * frameHeight;
-        //}
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new ItemDropRules.Conditions.ShriekOfHorrorUnlockedCondition(), ModContent.ItemType<Items.DarkEnergy>()));
+            npcLoot.Add(ItemDropRule.ByCondition(new ItemDropRules.Conditions.ShriekOfHorrorUnlockedCondition(), ModContent.ItemType<Items.Materials.TerrorSample>(), 3, chanceNumerator: 1));
+        }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (!TerrorbornSystem.obtainedShriekOfHorror)

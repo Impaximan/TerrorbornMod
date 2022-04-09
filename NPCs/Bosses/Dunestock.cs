@@ -9,6 +9,8 @@ using Terraria.GameContent.Events;
 using Terraria.Utilities;
 using System.Collections.Generic;
 using Terraria.WorldBuilding;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.Bosses
 {
@@ -22,8 +24,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public Vector2 findTileUnderPosition(int positionX, int positionY)
         {
-            for (Vector2 v = new Vector2(positionX, positionY); Main.tile[v.ToTileCoordinates().X, v.ToTileCoordinates().Y].active(); v.Y++) { }
-            return new Vector2(positionX, positionY);
+            return new Vector2(positionX, positionY).findGroundUnder();
         }
 
         public override void SetStaticDefaults()
@@ -43,7 +44,7 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             NPC.aiStyle = -1;
             NPC.defense = 13;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/BlightOfTheDunes");
+            Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/BlightOfTheDunes");
             NPC.lifeMax = 7000;
             NPC.damage = 40;
             NPC.width = 100;
@@ -68,10 +69,9 @@ namespace TerrorbornMod.NPCs.Bosses
             NPC.defense = 19;
         }
 
-        public override void NPCLoot()
-        {
-            Item.NewItem(NPC.Center, ModContent.ItemType<Items.PermanentUpgrades.GoldenTooth>());
 
+        public override void OnKill()
+        {
             bool spawnSS = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(5);
             for (int i = 0; i < 1000; i++)
             {
@@ -84,60 +84,44 @@ namespace TerrorbornMod.NPCs.Bosses
 
             if (spawnSS)
             {
-                Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<Abilities.StarvingStorm>(), 0, 0, Main.myPlayer);
+                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Abilities.StarvingStorm>(), 0, 0, Main.myPlayer);
             }
 
             if (!TerrorbornSystem.downedDunestock)
             {
                 TerrorbornSystem.downedDunestock = true;
-                Item.NewItem(NPC.Center, ModContent.ItemType<Items.Lore.JournalEntries.Raven.Raven_Dunestock>());
+                Item.NewItem(NPC.GetItemSource_Loot(), NPC.Center, ModContent.ItemType<Items.Lore.JournalEntries.Raven.Raven_Dunestock>());
             }
+        }
 
-            if (Main.rand.Next(10) == 0)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Placeable.Furniture.DunestockTrophy>());
-            }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+                new FlavorTextBestiaryInfoElement("A strange monstrocity of antlion guts, blood, tar, and wood. Though its exact motives are unclear, it appears to be a mindless being set on satisfying its hunger.")
+            });
+        }
 
-            if (Main.expertMode)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.TreasureBags.DS_TreasureBag>());
-            }
-            else
-            {
-                int choice = Main.rand.Next(3);
-                if (choice == 0)
-                {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Dunestock.NeedleClawStaff>());
-                }
-                else if (choice == 1)
-                {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Dunestock.Dunesting>());
-                }
-                else if (choice == 2)
-                {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Dunestock.HungryWhirlwind>());
-                }
-
-                int item1;
-                WeightedRandom<int> itemlist = new WeightedRandom<int>();
-                itemlist.Add(ModContent.ItemType<Items.Equipable.Accessories.DryScarf>());
-                itemlist.Add(ModContent.ItemType<Items.Equipable.Accessories.AntlionShell>());
-                itemlist.Add(ModContent.ItemType<Items.Equipable.Accessories.AntlionClaw>());
-                itemlist.Add(ModContent.ItemType<Items.Equipable.Accessories.Wings.AntlionWings>());
-                item1 = itemlist.Get();
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, item1);
-                int item2 = itemlist.Get();
-                while (item2 == item1)
-                {
-                    item2 = itemlist.Get();
-                }
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, item2);
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Accessories.CloakOfTheWind>());
-                if (Main.rand.Next(7) == 0)
-                {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Vanity.BossMasks.DunestockMask>());
-                }
-            }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.PermanentUpgrades.GoldenTooth>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Furniture.DunestockTrophy>(), 10));
+            npcLoot.Add(ItemDropRule.ByCondition(new Terraria.GameContent.ItemDropRules.Conditions.IsExpert(), ModContent.ItemType<Items.TreasureBags.DS_TreasureBag>()));
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Terraria.GameContent.ItemDropRules.Conditions.NotExpert());
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
+                ModContent.ItemType<Items.Dunestock.NeedleClawStaff>(),
+                ModContent.ItemType<Items.Dunestock.Dunesting>(),
+                ModContent.ItemType<Items.Dunestock.HungryWhirlwind>()));
+            npcLoot.Add(notExpertRule);
+            LeadingConditionRule notExpertRule2 = new LeadingConditionRule(new Terraria.GameContent.ItemDropRules.Conditions.NotExpert());
+            notExpertRule2.OnSuccess(ItemDropRule.OneFromOptions(1,
+                ModContent.ItemType<Items.Equipable.Accessories.AntlionShell>(),
+                ModContent.ItemType<Items.Equipable.Accessories.DryScarf>(),
+                ModContent.ItemType<Items.Equipable.Accessories.AntlionClaw>(),
+                ModContent.ItemType<Items.Equipable.Accessories.Wings.AntlionWings>()));
+            npcLoot.Add(notExpertRule2);
+            npcLoot.Add(ItemDropRule.ByCondition(new Terraria.GameContent.ItemDropRules.Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Accessories.CloakOfTheWind>()));
+            npcLoot.Add(ItemDropRule.ByCondition(new Terraria.GameContent.ItemDropRules.Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.DunestockMask>(), 7));
         }
 
         public override void FindFrame(int frameHeight)
@@ -170,11 +154,6 @@ namespace TerrorbornMod.NPCs.Bosses
             }
         }
 
-        public override bool PreNPCLoot()
-        {
-            return true;
-        }
-
         Vector2 LineEnd;
         bool DrawLine = false;
         float NextAttackAngle;
@@ -190,16 +169,16 @@ namespace TerrorbornMod.NPCs.Bosses
             DrawLine = false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (DrawLine)
             {
                 Utils.DrawLine(spriteBatch, NPC.Center, LineEnd, Color.LightYellow, Color.LightYellow, 3);
             }
-            return base.PreDraw(spriteBatch, drawColor);
+            return base.PreDraw(spriteBatch, screenPos, drawColor);
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.life > NPC.lifeMax * 0.40f)
             {
@@ -219,14 +198,14 @@ namespace TerrorbornMod.NPCs.Bosses
             }
         }
 
-        public void shootBurstOfProjectiles(int numProjectiles, float velocity.X, float velocity.Y, int Type, Vector2 position, int Damage, int knockback)
+        public void shootBurstOfProjectiles(int numProjectiles, float speedX, float speedY, int Type, Vector2 position, int Damage, int knockback)
         {
             for (int i = 0; i < numProjectiles; i++)
             {
-                Vector2 perturbedSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(15)); // 15 degree spread.
+                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(15)); // 15 degree spread.
                 float scale = 1f - (Main.rand.NextFloat() * .3f);
                 perturbedSpeed = perturbedSpeed * scale;
-                int num54 = Projectile.NewProjectile(position, perturbedSpeed, Type, Damage, 0f, 0);
+                int num54 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, perturbedSpeed, Type, Damage, 0f, 0);
             }
         }
 
@@ -343,9 +322,9 @@ namespace TerrorbornMod.NPCs.Bosses
                 if (Flying)
                 {
                     NPC.ai[1] = 1;
-                    if (!NPC.AnyNPCs(mod.NPCType("Dunestock_Lower")) && AIPhase < 9)
+                    if (!NPC.AnyNPCs(ModContent.NPCType<Dunestock_Lower>()) && AIPhase < 9)
                     {
-                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + NPC.width / 4, mod.NPCType("Dunestock_Lower"));
+                        NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.Center.X, (int)NPC.Center.Y + NPC.width / 4, ModContent.NPCType<Dunestock_Lower>());
                     }
                 }
                 else
@@ -426,7 +405,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         if (AttacksUntilFlight <= 0)
                         {
                             Flying = true;
-                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + NPC.width / 4, mod.NPCType("Dunestock_Lower"));
+                            NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.Center.X, (int)NPC.Center.Y + NPC.width / 4, ModContent.NPCType<Dunestock_Lower>());
                             AttacksUntilLand = 5;
                             AIPhase = 5;
                             PhaseTimeLeft = 240;
@@ -454,11 +433,11 @@ namespace TerrorbornMod.NPCs.Bosses
                             float ProjSpeed = 3f;
 
                             int damage = 15;
-                            int type = mod.ProjectileType("SandBolt");
+                            int type = ModContent.ProjectileType<SandBolt>();
                             float rotation = NextAttackAngle;
                             Vector2 rotationVector = rotation.ToRotationVector2() * ProjSpeed;
                             rotationVector = rotationVector.RotatedByRandom(MathHelper.ToRadians(10));
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, rotationVector.X, rotationVector.Y, type, damage, 0f, 0);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, rotationVector.X, rotationVector.Y, type, damage, 0f, 0);
                         }
                     }
                     else
@@ -500,11 +479,11 @@ namespace TerrorbornMod.NPCs.Bosses
                         {
                             NoGravNeedles = 3;
                             predictMultiplier += 1f / 3f;
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 240);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 240);
                         }
                         else
                         {
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 1, 180);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 1, 180);
                         }
                     }
                 }
@@ -528,11 +507,11 @@ namespace TerrorbornMod.NPCs.Bosses
                             PhaseTimeLeft = phaseTimeLeftMax;
                         }
                         Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center);
-                        Projectile.NewProjectile(NPC.Center, rotation * ProjSpeed, ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
-                        Projectile.NewProjectile(NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(-50)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
-                        Projectile.NewProjectile(NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(50)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
-                        Projectile.NewProjectile(NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(-25)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
-                        Projectile.NewProjectile(NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(25)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, rotation * ProjSpeed, ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(-50)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(50)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(-25)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(25)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
                     }
                 }
                 if (AIPhase == 4) //Blood spew
@@ -553,7 +532,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         int type = ModContent.ProjectileType<ClotBlood>();
                         Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center);
                         Vector2 SpeedVector = (rotation * NeedleSpeed).RotatedByRandom(MathHelper.ToRadians(15));
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
                     }
                 }
                 if (AIPhase == 5) //Fly towards the player
@@ -602,10 +581,10 @@ namespace TerrorbornMod.NPCs.Bosses
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                         float ProjSpeed = Main.rand.Next(15, 20);
                         int damage = 20;
-                        int type = mod.ProjectileType("TumblerNeedle");
+                        int type = ModContent.ProjectileType<TumblerNeedle>();
                         Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center);
                         Vector2 speed = rotation * ProjSpeed;
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 200);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 200);
                     }
                     PhaseTimeLeft--;
                     if (PhaseTimeLeft <= 0)
@@ -649,10 +628,10 @@ namespace TerrorbornMod.NPCs.Bosses
                             Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
                             float ProjSpeed = 12;
                             int damage = 20;
-                            int type = mod.ProjectileType("DuneClaw");
+                            int type = ModContent.ProjectileType<DuneClaw>();
                             Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center);
                             Vector2 SpeedVector = rotation * ProjSpeed;
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
                         }
                         PhaseTimeLeft--;
                         if (PhaseTimeLeft <= 0)
@@ -701,7 +680,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             MovementTarget = Main.player[NPC.target].Center;
                             while (!WorldUtils.Find(MovementTarget.ToTileCoordinates(), Searches.Chain(new Searches.Down(1), new GenCondition[]
                                 {
-        new Conditions.IsSolid()
+        new Terraria.WorldBuilding.Conditions.IsSolid()
                                 }), out _))
                             {
                                 MovementTarget.Y++;
@@ -712,16 +691,16 @@ namespace TerrorbornMod.NPCs.Bosses
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                         float ProjSpeed = Main.rand.Next(20, 29);
                         int damage = 20;
-                        int type = mod.ProjectileType("TumblerNeedle");
+                        int type = ModContent.ProjectileType<TumblerNeedle>();
                         float rotation = BarageDirection;
                         Vector2 speed = BarageDirection.ToRotationVector2() * ProjSpeed;
                         NoGravNeedles = Main.rand.Next(4, 7);
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 60);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 60);
                     }
                 }
                 if (AIPhase == 8) //Fly to the land under the player
                 {
-                    MovementTarget = Main.npc[NPC.FindFirstNPC(mod.NPCType("Dunestock_Lower"))].position;
+                    MovementTarget = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Dunestock_Lower>())].position;
                     MovementTarget.Y -= NPC.height / 2;
                     Vector2 move;
                     NPC.TargetClosest(true);
@@ -752,7 +731,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     ProjectileWait = 30;
                     StopLine();
                     Main.NewText("The wind accelerates around you...", 238, 45, 45);
-                    music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DreadInTheDustwind");
+                    Music = Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DreadInTheDustwind");
                 }
                 if (AIPhase == 9) //Phase two flying
                 {
@@ -800,10 +779,10 @@ namespace TerrorbornMod.NPCs.Bosses
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                         float ProjSpeed = 15;
                         int damage = 20;
-                        int type = mod.ProjectileType("TumblerNeedle");
+                        int type = ModContent.ProjectileType<TumblerNeedle>();
                         Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center + (NPC.Distance(Main.player[NPC.target].Center) / ProjSpeed) * Main.player[NPC.target].velocity);
                         Vector2 speed = (rotation * ProjSpeed).RotatedByRandom(MathHelper.ToRadians(10));
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 200);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 200);
                     }
                     PhaseTimeLeft--;
                     if (PhaseTimeLeft <= 0)
@@ -847,10 +826,10 @@ namespace TerrorbornMod.NPCs.Bosses
                             Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
                             float ProjSpeed = 14;
                             int damage = 20;
-                            int type = mod.ProjectileType("DuneClaw");
+                            int type = ModContent.ProjectileType<DuneClaw>();
                             Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center);
                             Vector2 SpeedVector = rotation * ProjSpeed;
-                            Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
                         }
                         PhaseTimeLeft--;
                         if (PhaseTimeLeft <= 0)
@@ -901,7 +880,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     if (ProjectileWait <= 0)
                     {
                         ProjectileWait = Main.rand.Next(7, 27);
-                        Projectile.NewProjectile(new Vector2(NPC.position.X + Main.rand.Next(NPC.width + 1), NPC.position.Y + Main.rand.Next(NPC.height + 1)), new Vector2(0, 0), ModContent.ProjectileType<ClotBomb>(), 30, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), new Vector2(NPC.position.X + Main.rand.Next(NPC.width + 1), NPC.position.Y + Main.rand.Next(NPC.height + 1)), new Vector2(0, 0), ModContent.ProjectileType<ClotBomb>(), 30, 0);
                     }
                     NPC.velocity.X = NPC.velocity.X;
                     PhaseTimeLeft--;
@@ -931,12 +910,12 @@ namespace TerrorbornMod.NPCs.Bosses
                             DustExplosion(NPC.Center, 0, 50, 40, 60, DustScale: 2f, NoGravity: true);
                             while (!WorldUtils.Find(MovementTarget.ToTileCoordinates(), Searches.Chain(new Searches.Down(1), new GenCondition[]
                                 {
-        new Conditions.IsSolid()
+        new Terraria.WorldBuilding.Conditions.IsSolid()
                                 }), out _))
                             {
                                 MovementTarget.Y++;
                             }
-                            Projectile.NewProjectile(MovementTarget, Vector2.Zero, mod.ProjectileType("SandnadoSpawn"), 30, 0);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), MovementTarget, Vector2.Zero, ModContent.ProjectileType<SandnadoSpawn>(), 30, 0);
                         }
                         else
                         {
@@ -949,11 +928,11 @@ namespace TerrorbornMod.NPCs.Bosses
                         ProjectileWait = 60;
                         float speed = 20;
                         Vector2 velocity = NPC.DirectionTo(Main.player[NPC.target].Center) * speed;
-                        Projectile.NewProjectile(NPC.Center, velocity, ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
-                        Projectile.NewProjectile(NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(-60)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
-                        Projectile.NewProjectile(NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(60)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
-                        Projectile.NewProjectile(NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(-30)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
-                        Projectile.NewProjectile(NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(-60)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(60)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(-30)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
                     }
                     NPC.velocity.X = NPC.velocity.X;
 
@@ -1012,10 +991,6 @@ namespace TerrorbornMod.NPCs.Bosses
             NPC.hide = false;
             NPC.chaseable = false;
         }
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
         public override bool? CanBeHitByItem(Player player, Item item)
         {
             return false;
@@ -1060,9 +1035,9 @@ namespace TerrorbornMod.NPCs.Bosses
         int NeedleCounter = 60;
         public override void AI()
         {
-            if (NPC.AnyNPCs(mod.NPCType("Dunestock")))
+            if (NPC.AnyNPCs(ModContent.NPCType<Dunestock>()))
             {
-                int MainBoss = NPC.FindFirstNPC(mod.NPCType("Dunestock"));
+                int MainBoss = NPC.FindFirstNPC(ModContent.NPCType<Dunestock>());
                 if (Main.npc[MainBoss].life <= Main.npc[MainBoss].lifeMax * 0.40f)
                 {
                     NPC.active = false;
@@ -1217,7 +1192,7 @@ namespace TerrorbornMod.NPCs.Bosses
             {
                 Color color = Color.LightYellow;
                 color.A = (int)(255 * 0.75f);
-                Utils.DrawLine(spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 2200f, color * telegraphAlpha, Color.Transparent, 3);
+                Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 2200f, color * telegraphAlpha, Color.Transparent, 3);
             }
             //Thanks to Seraph for afterimage code.
             Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
@@ -1225,7 +1200,7 @@ namespace TerrorbornMod.NPCs.Bosses
             {
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                 Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
-                spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
@@ -1244,7 +1219,7 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             if (NPC.AnyNPCs(ModContent.NPCType<Dunestock>()))
             {
-                fallThrough = Main.player[Main.npc[NPC.FindFirstNPC(mod.NPCType("Dunestock"))].target].position.Y - 30 > Projectile.position.Y || Projectile.ai[0] == 0;
+                fallThrough = Main.player[Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Dunestock>())].target].position.Y - 30 > Projectile.position.Y || Projectile.ai[0] == 0;
             }
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
@@ -1301,7 +1276,7 @@ namespace TerrorbornMod.NPCs.Bosses
             {
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                 Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
-                spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
@@ -1319,7 +1294,7 @@ namespace TerrorbornMod.NPCs.Bosses
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            fallThrough = Main.player[Main.npc[NPC.FindFirstNPC(mod.NPCType("Dunestock"))].target].position.Y - 30 > Projectile.position.Y;
+            fallThrough = Main.player[Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Dunestock>())].target].position.Y - 30 > Projectile.position.Y;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -1367,7 +1342,7 @@ namespace TerrorbornMod.NPCs.Bosses
             {
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                 Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
-                spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
@@ -1423,10 +1398,10 @@ namespace TerrorbornMod.NPCs.Bosses
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, Projectile.Center);
                         float ProjSpeed = 15f;
                         int damage = 35 / 2; // /2 undoes the expert increase
-                        int type = mod.ProjectileType("TumblerNeedle");
+                        int type = ModContent.ProjectileType<TumblerNeedle>();
                         float rotation = Projectile.DirectionTo(targetPlayer.Center).ToRotation();
                         Vector2 speed = (rotation.ToRotationVector2() * ProjSpeed).RotatedByRandom(MathHelper.ToRadians(6));
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 180);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 180);
                     }
                     Projectile.active = false;
                 }
@@ -1437,10 +1412,10 @@ namespace TerrorbornMod.NPCs.Bosses
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, Projectile.Center);
                         float ProjSpeed = 10f;
                         int damage = 20;
-                        int type = mod.ProjectileType("TumblerNeedle");
+                        int type = ModContent.ProjectileType<TumblerNeedle>();
                         float rotation = Projectile.DirectionTo(targetPlayer.Center).ToRotation();
                         Vector2 speed = (rotation.ToRotationVector2() * ProjSpeed).RotatedByRandom(MathHelper.ToRadians(3));
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 120);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 120);
                     }
                     Projectile.active = false;
                 }
@@ -1485,7 +1460,7 @@ namespace TerrorbornMod.NPCs.Bosses
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            fallThrough = Main.player[Main.npc[NPC.FindFirstNPC(mod.NPCType("Dunestock"))].target].position.Y - 30 > Projectile.position.Y;
+            fallThrough = Main.player[Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Dunestock>())].target].position.Y - 30 > Projectile.position.Y;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
         public override void Kill(int timeLeft)
@@ -1494,7 +1469,7 @@ namespace TerrorbornMod.NPCs.Bosses
             {
                 float Speed = Main.rand.Next(7, 10);
                 Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
-                Projectile.NewProjectile(Projectile.Center, ProjectileSpeed, mod.ProjectileType("ClotBlood"), Projectile.damage / 2, 0);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<ClotBlood>(), Projectile.damage / 2, 0);
             }
         }
     }
@@ -1564,7 +1539,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 Counter = 5;
                 if (NumPlaced <= 8)
                 {
-                    int num54 = Projectile.NewProjectile(new Vector2(Projectile.Center.X, Projectile.position.Y - 7 - (38 * NumPlaced/* * (1 + (NumPlaced * .18f))*/)), new Vector2(0, 0), mod.ProjectileType("Sandnado"), Projectile.damage, Projectile.knockBack, Projectile.owner, NumPlaced);
+                    int num54 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), new Vector2(Projectile.Center.X, Projectile.position.Y - 7 - (38 * NumPlaced/* * (1 + (NumPlaced * .18f))*/)), new Vector2(0, 0), ModContent.ProjectileType<Sandnado>(), Projectile.damage, Projectile.knockBack, Projectile.owner, NumPlaced);
                 }
                 NumPlaced++;
             }
@@ -1665,7 +1640,7 @@ namespace TerrorbornMod.NPCs.Bosses
             {
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                 Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
-                spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }

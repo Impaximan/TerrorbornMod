@@ -1,7 +1,10 @@
 ﻿using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs
 {
@@ -122,14 +125,9 @@ namespace TerrorbornMod.NPCs
             }
             NPC.rotation = MathHelper.ToRadians(NPC.velocity.X * 2);
         }
-
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (Main.rand.Next(5) == 0)
-            {
-                Item.NewItem(NPC.position, NPC.width, NPC.height, ItemID.Heart);
-            }
-            Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Materials.SanguineFang>(), Main.rand.Next(1, 3));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.SanguineFang>(), 1, 1, 2));
         }
     }
 }

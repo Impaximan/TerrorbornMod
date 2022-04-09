@@ -64,7 +64,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = new SpriteEffects();
             if (NPC.direction == 1)

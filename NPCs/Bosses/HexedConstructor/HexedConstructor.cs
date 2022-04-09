@@ -7,7 +7,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrorbornMod.Abilities;
 using Terraria.Utilities;
+using Microsoft.Xna.Framework.Audio;
 using TerrorbornMod.Projectiles;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 
 namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
@@ -34,83 +37,49 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 }
             }
         }
-
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!TerrorbornSystem.downedIncendiaryBoss)
             {
                 TerrorbornSystem.downedIncendiaryBoss = true;
                 Vector2 terrorMasterPosition = new Vector2(Main.spawnTileX * 16, Main.spawnTileY * 16);
-                NPC.NewNPC((int)terrorMasterPosition.X, (int)terrorMasterPosition.Y, ModContent.NPCType<NPCs.TownNPCs.Heretic>());
+                NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)terrorMasterPosition.X, (int)terrorMasterPosition.Y, ModContent.NPCType<NPCs.TownNPCs.Heretic>());
                 Main.NewText("Gabrielle the Heretic has invited herself to your town!", new Color(50, 125, 255));
-            }
 
-            ModContent.GetSound("TerrorbornMod/Sounds/Effects/HexedConstructorDeath").Play(Main.musicVolume, 0f, 0f);
-            Main.musicFade[music] = 0f;
+                ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/HexedConstructorDeath").Value.Play(Main.musicVolume, 0f, 0f);
+                Main.musicFade[Music] = 0f;
 
-            bool spawnTF = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(7);
-            for (int i = 0; i < 1000; i++)
-            {
-                Projectile Projectile = Main.projectile[i];
-                if (Projectile.active && Projectile.type == ModContent.ProjectileType<TimeFreeze>())
+                bool spawnTF = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(7);
+                for (int i = 0; i < 1000; i++)
                 {
-                    spawnTF = false;
-                }
-            }
-
-            if (Main.rand.Next(10) == 0)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Placeable.Furniture.HexedConstructorTrophy>());
-            }
-
-            if (spawnTF)
-            {
-                Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<TimeFreeze>(), 0, 0, Main.myPlayer);
-            }
-
-            if (Main.expertMode)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.TreasureBags.HC_TreasureBag>());
-            }
-            else
-            {
-                Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Materials.HexingEssence>(), Stack: Main.rand.Next(15, 20));
-                int choice = Main.rand.Next(3);
-                if (choice == 0)
-                {
-                    Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Weapons.Ranged.MirageBow>());
-                }
-                else if (choice == 1)
-                {
-                    Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Weapons.Magic.SongOfTime>());
-                }
-                else if (choice == 2)
-                {
-                    Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Weapons.Melee.IcarusShred>());
+                    Projectile Projectile = Main.projectile[i];
+                    if (Projectile.active && Projectile.type == ModContent.ProjectileType<TimeFreeze>())
+                    {
+                        spawnTF = false;
+                    }
                 }
 
-                if (Main.rand.Next(7) == 0)
+                if (spawnTF)
                 {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Vanity.BossMasks.HexedConstructorMask>());
-                }
-
-                int armorChoice = Main.rand.Next(3);
-                if (armorChoice == 0)
-                {
-                    Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderMask>());
-                    Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderBreastplate>());
-                }
-                if (armorChoice == 1)
-                {
-                    Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderGreaves>());
-                    Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderBreastplate>());
-                }
-                if (armorChoice == 2)
-                {
-                    Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderMask>());
-                    Item.NewItem(NPC.position, NPC.width, NPC.height, ModContent.ItemType<Items.Equipable.Armor.HexDefenderGreaves>());
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TimeFreeze>(), 0, 0, Main.myPlayer);
                 }
             }
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Furniture.HexedConstructorTrophy>(), 10));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<Items.TreasureBags.HC_TreasureBag>()));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Materials.HexingEssence>(), 1, 15, 20));
+            npcLoot.Add(new LeadingConditionRule(new Conditions.NotExpert()).OnSuccess(ItemDropRule.OneFromOptions(1,
+                ModContent.ItemType<Items.Weapons.Ranged.MirageBow>(),
+                ModContent.ItemType<Items.Weapons.Magic.SongOfTime>(),
+                ModContent.ItemType<Items.Weapons.Melee.IcarusShred>())));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.HexedConstructorMask>(), 7));
+            npcLoot.Add(new LeadingConditionRule(new Conditions.NotExpert()).OnSuccess(ItemDropRule.OneFromOptions(1,
+                ModContent.ItemType<Items.Equipable.Armor.HexDefenderMask>(),
+                ModContent.ItemType<Items.Equipable.Armor.HexDefenderBreastplate>(),
+                ModContent.ItemType<Items.Equipable.Armor.HexDefenderGreaves>())));
         }
 
         public override bool CheckActive()
@@ -130,6 +99,14 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             name = "A hexed constructor";
         }
 
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("An Orumian construct originally built to construct buildings for the city, which was later repurposed for combat and used as a bodyguard for the team sent to build the seal. Upon the dread catastrophe, these machines went missing, however, it seems they have reappeared among the sky islands.")
+            });
+        }
+
         public override void SetDefaults()
         {
             NPC.noGravity = true;
@@ -147,7 +124,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             NPC.aiStyle = -1;
             NPC.alpha = 255;
             NPC.dontTakeDamage = true;
-            music = mod.GetSoundSlot(Terraria.ModLoader.SoundType.Music, "Sounds/Music/HexedConstructor");
+            Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/HexedConstructor");
 
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.BossTitle = "Hexed Constructor";
@@ -405,8 +382,8 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     {
                         if (!NPC.AnyNPCs(ModContent.NPCType<HexedClaw>()))
                         {
-                            claw1 = Main.npc[NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 20, ModContent.NPCType<HexedClaw>())];
-                            claw2 = Main.npc[NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 20, ModContent.NPCType<HexedClaw>())];
+                            claw1 = Main.npc[NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.Center.X, (int)NPC.Center.Y - 20, ModContent.NPCType<HexedClaw>())];
+                            claw2 = Main.npc[NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.Center.X, (int)NPC.Center.Y - 20, ModContent.NPCType<HexedClaw>())];
 
                             claw1.realLife = NPC.whoAmI;
                             claw2.realLife = NPC.whoAmI;
@@ -522,7 +499,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
         Color colorStart;
         Color colorEnd;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             int wingCount = 4;
             for (int i = -wingCount / 2; i < wingCount / 2; i++)
@@ -637,7 +614,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     if (enraged) 
                         speed *= 1.5f;
                     Vector2 direction = claw1.DirectionTo(player.Center + ((NPC.Distance(player.Center) / speed) * player.velocity));
-                    Projectile.NewProjectile(claw1.Center, speed * direction, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 90 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), claw1.Center, speed * direction, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 90 / 4, 0);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, claw1.Center);
                 }
 
@@ -743,7 +720,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     float speed = 5f;
                     if (enraged) speed = 15f;
                     Vector2 velocity = direction * speed;
-                    Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(85 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(85 * enrageDamageMultiplier) / 4, 0);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, position);
                 }
             }
@@ -796,7 +773,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     float speed = 15f;
                     if (enraged) speed = 25f;
                     Vector2 velocity = direction * speed;
-                    Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(85 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(85 * enrageDamageMultiplier) / 4, 0);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, position);
                 }
 
@@ -864,8 +841,8 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 {
                     ProjectileCounter = laserCooldown;
                     float speed = 15f;
-                    Projectile.NewProjectile(claw1.Center, NPC.DirectionTo(player.Center).RotatedBy(rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(82 * enrageDamageMultiplier) / 4, 0);
-                    Projectile.NewProjectile(claw2.Center, NPC.DirectionTo(player.Center).RotatedBy(-rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(82 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), claw1.Center, NPC.DirectionTo(player.Center).RotatedBy(rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(82 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), claw2.Center, NPC.DirectionTo(player.Center).RotatedBy(-rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(82 * enrageDamageMultiplier) / 4, 0);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item125, NPC.Center);
                 }
 
@@ -911,8 +888,8 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     ProjectileCounter = laserCooldown;
                     float speed = 15f;
                     if (enraged) speed = 20f;
-                    Projectile.NewProjectile(claw1.Center, NPC.DirectionTo(player.Center).RotatedBy(rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(75 * enrageDamageMultiplier) / 4, 0);
-                    Projectile.NewProjectile(claw2.Center, NPC.DirectionTo(player.Center).RotatedBy(-rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(75 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), claw1.Center, NPC.DirectionTo(player.Center).RotatedBy(rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(75 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), claw2.Center, NPC.DirectionTo(player.Center).RotatedBy(-rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(75 * enrageDamageMultiplier) / 4, 0);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item125, NPC.Center);
                 }
             }
@@ -1004,7 +981,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 claw2.position = claw2Offset + NPC.Center - (claw2.Size / 2);
 
                 Vector2 deathrayPosition = NPC.Center - new Vector2(0, NPC.height / 2 - 20);
-                Projectile proj = Main.projectile[Projectile.NewProjectile(deathrayPosition, deathrayRotation.ToRotationVector2(), ModContent.ProjectileType<ClockworkDeathray>(), (int)(80 * enrageDamageMultiplier) / 4, 0)];
+                Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), deathrayPosition, deathrayRotation.ToRotationVector2(), ModContent.ProjectileType<ClockworkDeathray>(), (int)(80 * enrageDamageMultiplier) / 4, 0)];
                 proj.ai[0] = NPC.whoAmI;
                 proj.ai[1] = -(NPC.height / 2 - 20);
                 deathrayRotation = deathrayRotation.AngleTowards((player.Center - deathrayPosition).ToRotation(), MathHelper.ToRadians(rotateSpeed));
@@ -1092,7 +1069,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.ai[0] == 4)
             {

@@ -2,6 +2,7 @@
 using Terraria;
 using TerrorbornMod.Projectiles;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Weapons.Magic
@@ -40,24 +41,22 @@ namespace TerrorbornMod.Items.Weapons.Magic
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position = new Vector2(Main.MouseWorld.X + Main.rand.Next(-200, 200), player.Center.Y - 1000);
             Vector2 shootSpeed = Main.MouseWorld - position;
             shootSpeed.Normalize();
             velocity.X = shootSpeed.X;
             velocity.Y = shootSpeed.Y;
-            return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SoulOfPlight>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SkullmoundBar>(), 12)
+                .AddIngredient(ModContent.ItemType<Materials.SoulOfPlight>(), 10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 

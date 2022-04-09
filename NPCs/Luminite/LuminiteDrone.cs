@@ -16,7 +16,7 @@ namespace TerrorbornMod.NPCs.Luminite
             NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)

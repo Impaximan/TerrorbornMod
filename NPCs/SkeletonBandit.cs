@@ -2,9 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ModLoader.Utilities;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs
 {
@@ -15,6 +18,16 @@ namespace TerrorbornMod.NPCs
             Main.npcFrameCount[NPC.type] = 20;
             NPCID.Sets.TrailCacheLength[NPC.type] = 3;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+                new FlavorTextBestiaryInfoElement("An undead that retained its memory and sanity, which chose to use that as an excuse to live an eternity of anarchy. Although these bandits can be seen in a variety of places, it is most common that you find them lingering underground.")
+            });
         }
 
         public override void SetDefaults()
@@ -38,17 +51,10 @@ namespace TerrorbornMod.NPCs
             NPC.lavaImmune = true;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (Main.rand.NextFloat() <= 0.075f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Accessories.BanditGlove>());
-            }
-
-            if (Main.rand.NextFloat() <= 0.02f)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Equipable.Vanity.BFCap>());
-            }
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Accessories.BanditGlove>(), 14, 1, 2));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.BFCap>(), 50, 1, 2));
         }
 
         int frame = 0;
@@ -178,8 +184,7 @@ namespace TerrorbornMod.NPCs
 
             CombatText.NewText(NPC.getRect(), Color.Red, voiceLines, true);
         }
-
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = new SpriteEffects();
             if (NPC.spriteDirection == 1)
@@ -189,12 +194,13 @@ namespace TerrorbornMod.NPCs
             Vector2 drawOrigin = new Vector2(44 / 2, 48 / 2);
             for (int i = 0; i < NPC.oldPos.Length; i++)
             {
-                Vector2 drawPos = NPC.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(-12, 4) + NPC.visualOffset;
+                Vector2 drawPos = NPC.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(-12, 4)/* + visualOffset*/;
                 Color color = NPC.GetAlpha(Color.White) * ((float)(NPC.oldPos.Length - i) / (float)NPC.oldPos.Length);
                 spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/SkeletonBandit_Glow"), drawPos, NPC.frame, color, NPC.rotation, drawOrigin, 1f, effects, 0f);
             }
         }
 
+        Vector2 visualOffset = Vector2.Zero;
         bool shooting = false;
         bool hasSeenPlayer = false;
         int ProjectileCounter = 45;
@@ -299,7 +305,7 @@ namespace TerrorbornMod.NPCs
                     {
                         damage = 70;
                     }
-                    Projectile.NewProjectile(NPC.Center, velocity, ProjectileID.BulletDeadeye, damage / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ProjectileID.BulletDeadeye, damage / 4, 0);
 
                     NPC.velocity += new Vector2(NPC.spriteDirection * recoil, 0);
                 }
@@ -335,7 +341,7 @@ namespace TerrorbornMod.NPCs
             }
 
             NPC.spriteDirection = NPC.direction * -1;
-            NPC.visualOffset = new Vector2(6 * -NPC.spriteDirection, 0);
+            visualOffset = new Vector2(6 * -NPC.spriteDirection, 0);
         }
 
         //public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

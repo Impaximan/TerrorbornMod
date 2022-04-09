@@ -5,7 +5,10 @@ using System;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using System.Collections.Generic;
+using Terraria.ModLoader.Utilities;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs
 {
@@ -31,9 +34,17 @@ namespace TerrorbornMod.NPCs
             NPC.aiStyle = -1;
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TorturedEssence>());
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("These strange masses of stone are demons set on guarding the underworld. Be careful around them, though, because they might just have to ULTRAKILL you.")
+            });
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.TorturedEssence>()));
         }
 
         public override void FindFrame(int frameHeight)
@@ -44,14 +55,14 @@ namespace TerrorbornMod.NPCs
 
         List<Vector2> legs = new List<Vector2>();
         List<Tuple<int, Vector2>> movingLegs = new List<Tuple<int, Vector2>>();
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             foreach (Vector2 leg in legs)
             {
                 Utils.DrawLine(spriteBatch, NPC.Center, leg, Color.White * 0.25f, Color.White * 0.15f, 5);
                 Utils.DrawLine(spriteBatch, leg, leg.findGroundUnder(), Color.White * 0.15f, Color.Transparent, 5);
             }
-            return base.PreDraw(spriteBatch, drawColor);
+            return base.PreDraw(spriteBatch, screenPos, drawColor);
         }
 
         bool enraged = false;
@@ -121,7 +132,7 @@ namespace TerrorbornMod.NPCs
                 attackCounter1++;
                 if (attackCounter1 % 5 == 4)
                 {
-                    Projectile.NewProjectile(NPC.Center, NPC.DirectionTo(player.Center) * 20f, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 80 / 4, 0f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, NPC.DirectionTo(player.Center) * 20f, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 80 / 4, 0f);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                 }
                 if (attackCounter1 >= 30)

@@ -10,11 +10,10 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TitaniumBar, 13);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.TitaniumBar, 13)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -35,16 +34,14 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;
-            Item.shoot = mod.ProjectileType("TitaniumSawblade");
+            Item.shoot = ModContent.ProjectileType<TitaniumSawblade>();
             Item.shootSpeed = 10f;
             Item.mana = 8;
             Item.DamageType = DamageClass.Magic;;
         }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position = player.Center + (player.DirectionTo(Main.MouseWorld) * 44);
-            return true;
         }
     }
 
@@ -69,7 +66,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 }
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                 Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
-                spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return false;
         }

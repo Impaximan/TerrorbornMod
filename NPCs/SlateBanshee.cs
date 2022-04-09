@@ -2,7 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader.Utilities;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs
 {
@@ -31,25 +34,25 @@ namespace TerrorbornMod.NPCs
             NPC.lavaImmune = true;
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            if (TerrorbornSystem.obtainedShriekOfHorror)
-            {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.DarkEnergy>());
-                if (modPlayer.DeimosteelCharm)
-                {
-                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>(), Main.rand.Next(4, 9));
-                }
-                else
-                {
-                    Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Materials.TerrorSample>(), Main.rand.Next(2, 5));
-                }
-            }
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+                new FlavorTextBestiaryInfoElement("A mysterious wandering mass of terror that roams deimostone caves. Though its exact origin is unknown, it is suspected by many that they are the remaining souls of the fearmongerers.")
+            });
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new ItemDropRules.Conditions.ShriekOfHorrorUnlockedCondition(), ModContent.ItemType<Items.Materials.TerrorSample>(), minimumDropped: 3, maximumDropped: 6));
+        }
+
+        public override void OnKill()
+        {
             TerrorbornSystem.downedSlateBanshee = true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects effects = new SpriteEffects();
             effects = SpriteEffects.None;
@@ -157,7 +160,7 @@ namespace TerrorbornMod.NPCs
 
         public override void OnHitByProjectile(Projectile Projectile, int damage, float knockback, bool crit)
         {
-            if (charging && Projectile.melee && NPC.Distance(Main.player[NPC.target].Center) <= 75)
+            if (charging && Projectile.DamageType == DamageClass.Melee && NPC.Distance(Main.player[NPC.target].Center) <= 75)
             {
                 NPC.velocity = Vector2.Zero;
                 charging = false;

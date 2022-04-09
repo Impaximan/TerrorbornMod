@@ -369,7 +369,7 @@ namespace TerrorbornMod
         //    }
         //}
 
-        public void TriggerAbilityAnimation(string name, string description1, string description2, int animationType, string description3 = "You can equip terror abilities by using the 'Open/Close Terror Abilities Menu' hotkey.", int visibilityTime = 600)
+        public void TriggerAbilityAnimation(string name, string description1, string description2, int AnimationType, string description3 = "You can equip terror abilities by using the 'Open/Close Terror Abilities Menu' hotkey.", int visibilityTime = 600)
         {
             UI.TerrorAbilityUnlock.UnlockUI.abilityUILifetimeCounter = visibilityTime;
             UI.TerrorAbilityUnlock.UnlockUI.abilityUnlockName = name;
@@ -377,8 +377,8 @@ namespace TerrorbornMod
             UI.TerrorAbilityUnlock.UnlockUI.abilityUnlockDescription2 = description2;
             UI.TerrorAbilityUnlock.UnlockUI.abilityUnlockDescription3 = description3;
 
-            abilityAnimationType = animationType;
-            if (animationType == 0) //Shriek of Horror/Default
+            abilityAnimationType = AnimationType;
+            if (AnimationType == 0) //Shriek of Horror/Default
             {
                 abilityAnimationCounter1 = 9;
             }

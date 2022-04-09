@@ -2,6 +2,9 @@
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs
 {
@@ -30,13 +33,18 @@ namespace TerrorbornMod.NPCs
             NPC.lavaImmune = true;
         }
 
-        public override void NPCLoot()
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, mod.ItemType("TarOfHunger"), Main.rand.Next(5, 11));
-            if (Main.rand.Next(35) == 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, mod.ItemType("TheLiesOfNourishment"));
-            }
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundDesert,
+                new FlavorTextBestiaryInfoElement("A pot possessed by the living tar within the desert, which uses javelins made with other pot scraps.")
+            });
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.ByCondition(new ItemDropRules.Conditions.ShriekOfHorrorUnlockedCondition(), ModContent.ItemType<Items.Materials.TarOfHunger>(), minimumDropped: 5, maximumDropped: 10));
+            npcLoot.Add(ItemDropRule.ByCondition(new ItemDropRules.Conditions.ShriekOfHorrorUnlockedCondition(), ModContent.ItemType<Items.Equipable.Accessories.TheLiesOfNourishment>(), minimumDropped: 5, maximumDropped: 10, chanceNumerator: 1, chanceDenominator: 50));
         }
 
         int JavelinCounter = 69;
@@ -64,7 +72,7 @@ namespace TerrorbornMod.NPCs
                         Speed = 16;
                     }
                     Vector2 Velocity = Rotation * Speed;
-                    Projectile.NewProjectile(NPC.Center, Velocity, ModContent.ProjectileType<TarSludgeJavelin>(), 20, 0);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Velocity, ModContent.ProjectileType<TarSludgeJavelin>(), 20, 0);
                 }
             }
         }
