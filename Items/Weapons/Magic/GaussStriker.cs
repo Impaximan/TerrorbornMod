@@ -48,7 +48,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
     class GaussBolt : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.ShadowBeamFriendly; } }
+        public override string Texture => "TerrorbornMod/placeholder";
 
         public override void SetStaticDefaults()
         {

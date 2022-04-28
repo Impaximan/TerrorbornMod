@@ -45,7 +45,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
     class LightSingularity : ModProjectile
     {
         int trueTimeLeft = 120;
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -86,7 +86,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                     {
                         Vector2 velocity = Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15));
                         velocity.Normalize();
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<LightBlast>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<LightBlast>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                     Projectile.scale = 3f;
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, Projectile.Center);

@@ -111,10 +111,10 @@ namespace TerrorbornMod.Items.Weapons.Melee
             int rotationMult = Projectile.spriteDirection;
             Vector2 position = Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-45 * rotationMult)) * 30;
             Vector2 velocity = Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-45 * rotationMult));
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), position, velocity, ModContent.ProjectileType<PurgatoryLaser>(), Projectile.damage, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, velocity, ModContent.ProjectileType<PurgatoryLaser>(), Projectile.damage, 0f, Projectile.owner);
             position = Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(135 * rotationMult)) * 30;
             velocity = Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(135 * rotationMult));
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), position, velocity, ModContent.ProjectileType<PurgatoryLaser>(), Projectile.damage, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, velocity, ModContent.ProjectileType<PurgatoryLaser>(), Projectile.damage, 0f, Projectile.owner);
         }
     }
 

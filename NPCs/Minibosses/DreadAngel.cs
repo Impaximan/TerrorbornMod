@@ -66,7 +66,7 @@ namespace TerrorbornMod.NPCs.Minibosses
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && NPC.downedMoonlord && !NPC.AnyNPCs(ModContent.NPCType<DreadAngel>()))
+            if (TerrorbornPlayer.modPlayer(spawnInfo.Player).ZoneIncendiary && NPC.downedMoonlord && !NPC.AnyNPCs(ModContent.NPCType<DreadAngel>()))
             {
                 return SpawnCondition.Sky.Chance * 0.02f;
             }
@@ -174,7 +174,7 @@ namespace TerrorbornMod.NPCs.Minibosses
                 {
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, laserPosition);
                     TerrorbornSystem.ScreenShake(10);
-                    Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<Incendiary.AngelBeam>(), 120 / 4, 0f)];
+                    Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<Incendiary.AngelBeam>(), 120 / 4, 0f)];
                     proj.velocity.Normalize();
                     laserPosition = player.Center + player.velocity * 45;
                 }
@@ -232,7 +232,7 @@ namespace TerrorbornMod.NPCs.Minibosses
                     if (frame == 13)
                     {
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
-                        int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + new Vector2(20 * NPC.spriteDirection, -40), NPC.velocity * 3, ModContent.ProjectileType<DreadScytheHostile>(), 140 / 4, 0f);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center + new Vector2(20 * NPC.spriteDirection, -40), NPC.velocity * 3, ModContent.ProjectileType<DreadScytheHostile>(), 140 / 4, 0f);
                         Main.projectile[proj].spriteDirection = -NPC.spriteDirection;
                     }
 

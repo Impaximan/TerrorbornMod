@@ -3,10 +3,12 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Terraria.GameContent;
+using ReLogic.Content;
+using System.Collections.Generic;
+using Terraria.GameContent.Personalities;
 
 namespace TerrorbornMod.NPCs.TownNPCs
 {
@@ -20,6 +22,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 return "TerrorbornMod/NPCs/TownNPCs/TerrorMaster";
             }
         }
+
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 25;
@@ -35,7 +38,16 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 Velocity = 1f,
                 Direction = 1
             };
+            NPC.Happiness
+                 .SetBiomeAffection<ForestBiome>(AffectionLevel.Like) // Example Person prefers the forest.
+                 .SetBiomeAffection<SnowBiome>(AffectionLevel.Dislike) // Example Person dislikes the snow.
+                 .SetBiomeAffection<ExampleSurfaceBiome>(AffectionLevel.Love) // Example Person likes the Example Surface Biome
+                 .SetNPCAffection(NPCID.Dryad, AffectionLevel.Love) // Loves living near the dryad.
+                 .SetNPCAffection(NPCID.Guide, AffectionLevel.Like) // Likes living near the guide.
+                 .SetNPCAffection(NPCID.Merchant, AffectionLevel.Dislike) // Dislikes living near the merchant.
+                 .SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Hate) // Hates living near the demolitionist.
         }
+
         public override void SetDefaults()
         {
             NPC.townNPC = true;
@@ -73,11 +85,18 @@ namespace TerrorbornMod.NPCs.TownNPCs
         {
             return true;
         }
-        public override string TownNPCName()
+
+        public override List<string> SetNPCNameList()
         {
-            return "???";
+            return new List<string>(){
+                "???"
+            };
         }
 
+        public override ITownNPCProfile TownNPCProfile()
+        {
+            return base.TownNPCProfile();
+        }
 
         List<string> dialogue = new List<string>();
 
@@ -151,7 +170,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 }
                 if (TerrorbornSystem.TerrorMasterDialogue == 6)
                 {
-                    player.QuickSpawnItem(NPC.GetItemSource_Loot(), ModContent.ItemType<Items.Lore.fourthWallBreakInReal>());
+                    player.QuickSpawnItem(NPC.GetSource_Loot(), ModContent.ItemType<Items.Lore.fourthWallBreakInReal>());
                 }
             }
             else
@@ -441,5 +460,17 @@ namespace TerrorbornMod.NPCs.TownNPCs
             }
         }
     }
-}
 
+    public class TerrorMasterProfile : ITownNPCProfile
+    {
+        public int RollVariation() => 0;
+        public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
+
+        public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
+        {
+            return ModContent.Request<Texture2D>("TerrorbornMod/NPCs/TownNPCs/TerrorMaster");
+        }
+
+        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("TerrorbornMod/NPCs/TownNPCs/TerrorMaster_Head");
+    }
+}

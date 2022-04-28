@@ -128,7 +128,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             if (ProjectileWait <= 0)
             {
                 ProjectileWait = 10;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity / 2, ModContent.ProjectileType<EnergyOrbProjectile>(), Projectile.damage, 1, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity / 2, ModContent.ProjectileType<EnergyOrbProjectile>(), Projectile.damage, 1, Projectile.owner);
             }
 
             if (timeUntilReturn <= 0)

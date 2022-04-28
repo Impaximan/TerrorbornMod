@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 5;
             Item.value = Item.sellPrice(0, 25, 0, 0);
-            Item.rare = 12;
+            Item.rare = ModContent.RarityType<Rarities.Golden>();
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<NewPerceptionEye>();
@@ -110,7 +110,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 {
                     Vector2 velocity = Projectile.DirectionTo(Main.MouseWorld);
                     velocity.Normalize();
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PerceptiveRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PerceptiveRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Projectile.scale = 1.5f;
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, Projectile.Center);
                 }

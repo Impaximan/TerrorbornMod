@@ -43,7 +43,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             {
                 TerrorbornSystem.downedIncendiaryBoss = true;
                 Vector2 terrorMasterPosition = new Vector2(Main.spawnTileX * 16, Main.spawnTileY * 16);
-                NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)terrorMasterPosition.X, (int)terrorMasterPosition.Y, ModContent.NPCType<NPCs.TownNPCs.Heretic>());
+                NPC.NewNPC(NPC.GetSource_OnHit(NPC), (int)terrorMasterPosition.X, (int)terrorMasterPosition.Y, ModContent.NPCType<NPCs.TownNPCs.Heretic>());
                 Main.NewText("Gabrielle the Heretic has invited herself to your town!", new Color(50, 125, 255));
 
                 ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/HexedConstructorDeath").Value.Play(Main.musicVolume, 0f, 0f);
@@ -61,7 +61,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
 
                 if (spawnTF)
                 {
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TimeFreeze>(), 0, 0, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TimeFreeze>(), 0, 0, Main.myPlayer);
                 }
             }
         }
@@ -382,8 +382,8 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     {
                         if (!NPC.AnyNPCs(ModContent.NPCType<HexedClaw>()))
                         {
-                            claw1 = Main.npc[NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.Center.X, (int)NPC.Center.Y - 20, ModContent.NPCType<HexedClaw>())];
-                            claw2 = Main.npc[NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.Center.X, (int)NPC.Center.Y - 20, ModContent.NPCType<HexedClaw>())];
+                            claw1 = Main.npc[NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.Center.X, (int)NPC.Center.Y - 20, ModContent.NPCType<HexedClaw>())];
+                            claw2 = Main.npc[NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.Center.X, (int)NPC.Center.Y - 20, ModContent.NPCType<HexedClaw>())];
 
                             claw1.realLife = NPC.whoAmI;
                             claw2.realLife = NPC.whoAmI;
@@ -614,7 +614,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     if (enraged) 
                         speed *= 1.5f;
                     Vector2 direction = claw1.DirectionTo(player.Center + ((NPC.Distance(player.Center) / speed) * player.velocity));
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), claw1.Center, speed * direction, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 90 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), claw1.Center, speed * direction, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 90 / 4, 0);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, claw1.Center);
                 }
 
@@ -720,7 +720,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     float speed = 5f;
                     if (enraged) speed = 15f;
                     Vector2 velocity = direction * speed;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(85 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), position, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(85 * enrageDamageMultiplier) / 4, 0);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, position);
                 }
             }
@@ -773,7 +773,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     float speed = 15f;
                     if (enraged) speed = 25f;
                     Vector2 velocity = direction * speed;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(85 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), position, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(85 * enrageDamageMultiplier) / 4, 0);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, position);
                 }
 
@@ -841,8 +841,8 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 {
                     ProjectileCounter = laserCooldown;
                     float speed = 15f;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), claw1.Center, NPC.DirectionTo(player.Center).RotatedBy(rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(82 * enrageDamageMultiplier) / 4, 0);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), claw2.Center, NPC.DirectionTo(player.Center).RotatedBy(-rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(82 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), claw1.Center, NPC.DirectionTo(player.Center).RotatedBy(rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(82 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), claw2.Center, NPC.DirectionTo(player.Center).RotatedBy(-rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(82 * enrageDamageMultiplier) / 4, 0);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item125, NPC.Center);
                 }
 
@@ -888,8 +888,8 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     ProjectileCounter = laserCooldown;
                     float speed = 15f;
                     if (enraged) speed = 20f;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), claw1.Center, NPC.DirectionTo(player.Center).RotatedBy(rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(75 * enrageDamageMultiplier) / 4, 0);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), claw2.Center, NPC.DirectionTo(player.Center).RotatedBy(-rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(75 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), claw1.Center, NPC.DirectionTo(player.Center).RotatedBy(rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(75 * enrageDamageMultiplier) / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), claw2.Center, NPC.DirectionTo(player.Center).RotatedBy(-rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(75 * enrageDamageMultiplier) / 4, 0);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item125, NPC.Center);
                 }
             }
@@ -981,7 +981,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 claw2.position = claw2Offset + NPC.Center - (claw2.Size / 2);
 
                 Vector2 deathrayPosition = NPC.Center - new Vector2(0, NPC.height / 2 - 20);
-                Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), deathrayPosition, deathrayRotation.ToRotationVector2(), ModContent.ProjectileType<ClockworkDeathray>(), (int)(80 * enrageDamageMultiplier) / 4, 0)];
+                Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), deathrayPosition, deathrayRotation.ToRotationVector2(), ModContent.ProjectileType<ClockworkDeathray>(), (int)(80 * enrageDamageMultiplier) / 4, 0)];
                 proj.ai[0] = NPC.whoAmI;
                 proj.ai[1] = -(NPC.height / 2 - 20);
                 deathrayRotation = deathrayRotation.AngleTowards((player.Center - deathrayPosition).ToRotation(), MathHelper.ToRadians(rotateSpeed));

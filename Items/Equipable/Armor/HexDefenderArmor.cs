@@ -65,7 +65,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
             if (spawnArms)
             {
-                Projectile.NewProjectile(player.GetProjectileSource_SetBonus(player.whoAmI), player.Center, Vector2.Zero, ModContent.ProjectileType<HexedArms>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Misc("SetBonus"), player.Center, Vector2.Zero, ModContent.ProjectileType<HexedArms>(), 0, 0, player.whoAmI);
             }
         }
 
@@ -115,7 +115,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             player.GetDamage(DamageClass.Melee) *= 1.07f;
-            player.meleeSpeed += 0.05f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.05f;
         }
     }
 
@@ -174,7 +174,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void Update(Player player, ref int buffIndex)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed *= 1.25f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.25f;
         }
     }
 

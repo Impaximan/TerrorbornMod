@@ -203,7 +203,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                     effect = SpriteEffects.FlipHorizontally;
                 }
 
-                Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("NPCs/Bosses/PrototypeI/PrototypeIMirage");
+                Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/Bosses/PrototypeI/PrototypeIMirage");
                 Main.spriteBatch.Draw(texture, mirages[i].Item1 - Main.screenPosition + new Vector2(0, 4), new Rectangle(0, 0, NPC.width, NPC.height), mirages[i].Item3, mirages[i].Item2, new Vector2(NPC.width / 2, NPC.height / 2), 1f, effect, 0);
             }
 
@@ -214,7 +214,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Player target = Main.player[NPC.target];
-            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("NPCs/Bosses/PrototypeI/PrototypeI_core");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/Bosses/PrototypeI/PrototypeI_core");
             coreFrameCounter--;
             if (coreFrameCounter <= 0)
             {
@@ -234,7 +234,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
             {
                 effect = SpriteEffects.FlipHorizontally;
             }
-            texture = (Texture2D)ModContent.Request<Texture2D>("NPCs/Bosses/PrototypeI/PrototypeI_glow");
+            texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/NPCs/Bosses/PrototypeI/PrototypeI_glow");
             Vector2 position = NPC.Center - Main.screenPosition;
             position.Y += 4;
             Main.spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, NPC.width, NPC.height), new Rectangle(0, 0, NPC.width, NPC.height), color, NPC.rotation, new Vector2(NPC.width / 2, NPC.height / 2), effect, 0);
@@ -485,7 +485,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                 {
                     while (telegraphs.Count > 0)
                     {
-                        int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), telegraphs[0].Item1, Vector2.Zero, ModContent.ProjectileType<PrototypeIMirage>(), (int)(100f * damageMult / 4f), 0f);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), telegraphs[0].Item1, Vector2.Zero, ModContent.ProjectileType<PrototypeIMirage>(), (int)(100f * damageMult / 4f), 0f);
                         Main.projectile[proj].ai[0] = NPC.spriteDirection;
                         telegraphs.RemoveAt(0);
                     }
@@ -638,7 +638,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                 attackCounter2++;
                 if (attackCounter2 % timeBetweenProjectiles == timeBetweenProjectiles - 1)
                 {
-                    int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaticVision>(), (int)(75f * damageMult / 4f), 0f);
+                    int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaticVision>(), (int)(75f * damageMult / 4f), 0f);
                     Main.projectile[proj].ai[0] = dashTime - attackCounter2;
                 }
                 if (attackCounter2 > dashTime)
@@ -704,8 +704,8 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                 {
                     float speed = 25f;
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item, (int)NPC.Center.X, (int)NPC.Center.Y, 125, 1, 1);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, attackRotation1.ToRotationVector2().RotatedBy(MathHelper.ToRadians(focus)) * speed, ModContent.ProjectileType<CursedBeam>(), (int)(50f * damageMult / 4f), 0f);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, attackRotation1.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-focus)) * speed, ModContent.ProjectileType<CursedBeam>(), (int)(50f * damageMult / 4f), 0f);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, attackRotation1.ToRotationVector2().RotatedBy(MathHelper.ToRadians(focus)) * speed, ModContent.ProjectileType<CursedBeam>(), (int)(50f * damageMult / 4f), 0f);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, attackRotation1.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-focus)) * speed, ModContent.ProjectileType<CursedBeam>(), (int)(50f * damageMult / 4f), 0f);
                 }
                 if (attackCounter1 > timeUntilDeathray)
                 {
@@ -720,7 +720,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                 NPC.rotation += MathHelper.ToRadians(10) * NPC.spriteDirection;
 
                 TerrorbornSystem.ScreenShake(2f);
-                int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, attackRotation1.ToRotationVector2(), ModContent.ProjectileType<PlasmaDeathray>(), (int)(75f * damageMult / 4f), 0f);
+                int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, attackRotation1.ToRotationVector2(), ModContent.ProjectileType<PlasmaDeathray>(), (int)(75f * damageMult / 4f), 0f);
                 Main.projectile[proj].ai[0] = NPC.whoAmI;
 
                 attackRotation1 = attackRotation1.AngleTowards(NPC.DirectionTo(player.Center).ToRotation(), MathHelper.ToRadians(0.5f));
@@ -998,11 +998,11 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                         {
                             speed /= 2;
                         }
-                        int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, NPC.DirectionTo(player.Center) * speed, ModContent.ProjectileType<CursedBeam>(), (int)(50f * damageMult / 4f), 0f);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, NPC.DirectionTo(player.Center) * speed, ModContent.ProjectileType<CursedBeam>(), (int)(50f * damageMult / 4f), 0f);
                         Main.projectile[proj].timeLeft = (int)(NPC.Distance(player.Center) / speed);
                         foreach (Vector2 position in miragePositions)
                         {
-                            proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, player.DirectionFrom(position) * speed, ModContent.ProjectileType<CursedBeam>(), (int)(50f * damageMult / 4f), 0f);
+                            proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), position, player.DirectionFrom(position) * speed, ModContent.ProjectileType<CursedBeam>(), (int)(50f * damageMult / 4f), 0f);
                             Main.projectile[proj].timeLeft = (int)(NPC.Distance(player.Center) / speed);
                         }
                     }

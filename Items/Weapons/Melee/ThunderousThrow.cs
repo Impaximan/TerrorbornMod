@@ -102,7 +102,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 					Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
 					float speed = Main.rand.NextFloat(10f, 25f);
 
-					int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.SoulLightning>(), Projectile.damage / 2, 0.5f, Projectile.owner);
+					int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.SoulLightning>(), Projectile.damage / 2, 0.5f, Projectile.owner);
 					Main.projectile[proj].DamageType = DamageClass.Melee;
 					Main.projectile[proj].ai[0] = target.whoAmI;
 				}

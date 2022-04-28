@@ -101,7 +101,7 @@ namespace TerrorbornMod.Items.Ammo
             {
                 return;
             }
-            int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), originalPosition, originalVelocity, Projectile.type, Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner);
+            int proj = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), originalPosition, originalVelocity, Projectile.type, Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner);
             Main.projectile[proj].ai[0] = 1;
             Main.projectile[proj].penetrate = 3;
         }

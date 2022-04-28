@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items
         {
             Vector2 position = player.Center + new Vector2(0, -350);
             Terraria.Audio.SoundEngine.PlaySound(SoundID.Item117, position);
-            Projectile.NewProjectile(player.GetProjectileSource_Item(Item), position, Vector2.Zero, ModContent.ProjectileType<LunarPortal>(), 0, 0);
+            Projectile.NewProjectile(player.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<LunarPortal>(), 0, 0);
             return true;
         }
     }
@@ -112,7 +112,7 @@ namespace TerrorbornMod.Items
             else if (!spawned)
             {
                 spawned = true;
-                NPC.NewNPC(Projectile.GetNPCSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y, ModContent.NPCType<NPCs.Bosses.TidalTitan.MysteriousCrab>());
+                NPC.NewNPC(Projectile.GetSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y, ModContent.NPCType<NPCs.Bosses.TidalTitan.MysteriousCrab>());
             }
         }
     }

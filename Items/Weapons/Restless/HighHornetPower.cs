@@ -29,7 +29,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void HoldItem(Player player)
         {
-            player.armorPenetration += 25;
+            player.GetArmorPenetration(DamageClass.Magic) += 25;
         }
 
         public override void restlessSetDefaults(TerrorbornItem modItem)

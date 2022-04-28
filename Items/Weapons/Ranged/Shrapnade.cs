@@ -73,14 +73,14 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             {
                 float Speed = Main.rand.Next(7, 10);
                 Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<Shrapnel>(), (int)(Projectile.damage * 0.75f), 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<Shrapnel>(), (int)(Projectile.damage * 0.75f), 0, Projectile.owner);
             }
             
             for (int i = 0; i < Main.rand.Next(3, 5); i++)
             {
                 float Speed = Main.rand.Next(2, 5);
                 Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
-                Gore.NewGore(Projectile.Center, ProjectileSpeed, Main.rand.Next(825, 828));
+                Gore.NewGore(Projectile.GetSource_Misc("ShrapnadeExplosion"), Projectile.Center, ProjectileSpeed, Main.rand.Next(825, 828));
             }
             TerrorbornSystem.ScreenShake(1f);
         }

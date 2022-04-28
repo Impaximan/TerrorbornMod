@@ -57,7 +57,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (BubbleWait <= 0)
             {
                 BubbleWait = 3;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<Bubble>(), Projectile.damage / 4, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<Bubble>(), Projectile.damage / 4, 0, Projectile.owner);
             }
         }
         public override void Kill(int timeLeft)
@@ -66,7 +66,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             {
                 for (int i = 0; i < Main.rand.Next(3, 6); i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center - Projectile.velocity, new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)), ModContent.ProjectileType<Bubble>(), (int)(Projectile.damage / 3), 0, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - Projectile.velocity, new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)), ModContent.ProjectileType<Bubble>(), (int)(Projectile.damage / 3), 0, Projectile.owner);
                 }
             }
         }

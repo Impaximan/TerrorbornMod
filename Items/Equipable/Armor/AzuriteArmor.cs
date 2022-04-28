@@ -75,7 +75,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             player.GetDamage(DamageClass.Magic) *= 1.07f;
             player.GetCritChance(DamageClass.Magic) += 2;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.magicUseSpeed += 0.2f;
+            player.GetAttackSpeed(DamageClass.Magic) += 0.2f;
         }
 
         public override void AddRecipes()

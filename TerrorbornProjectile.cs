@@ -183,7 +183,7 @@ namespace TerrorbornMod
                 {
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                     float speed = Main.rand.Next(25, 35);
-                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), target.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), damage, 0f, player.whoAmI);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), damage, 0f, player.whoAmI);
                     Main.projectile[proj].DamageType = DamageClass.Ranged;
                 }
             }
@@ -195,7 +195,7 @@ namespace TerrorbornMod
                 {
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                     float speed = Main.rand.Next(25, 35);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), target.Center, direction * speed, ModContent.ProjectileType<Items.Weapons.Restless.NightmareBoilRanged>(), damage, 0f, player.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, direction * speed, ModContent.ProjectileType<Items.Weapons.Restless.NightmareBoilRanged>(), damage, 0f, player.whoAmI);
                 }
             }
 
@@ -210,7 +210,7 @@ namespace TerrorbornMod
                 position.X += Main.rand.Next(-150, 150);
                 Vector2 direction = target.DirectionFrom(position);
                 float speed = 30f;
-                Projectile newProj = Main.projectile[Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), position, direction * speed, ProjectileID.RocketI, damage, 2f, Projectile.owner)];
+                Projectile newProj = Main.projectile[Projectile.NewProjectile(Projectile.GetSource_OnHit(target), position, direction * speed, ProjectileID.RocketI, damage, 2f, Projectile.owner)];
                 newProj.localNPCHitCooldown = -1;
                 newProj.usesLocalNPCImmunity = true;
                 newProj.tileCollide = false;
@@ -221,7 +221,7 @@ namespace TerrorbornMod
             {
                 Vector2 direction = player.DirectionTo(target.Center);
                 float speed = 15f;
-                Projectile newProj = Main.projectile[Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), player.Center, direction * speed, ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>(), (int)(Projectile.damage * 0.65f), 2f, Projectile.owner)];
+                Projectile newProj = Main.projectile[Projectile.NewProjectile(Projectile.GetSource_OnHit(target), player.Center, direction * speed, ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>(), (int)(Projectile.damage * 0.65f), 2f, Projectile.owner)];
                 newProj.DamageType = Projectile.DamageType;
             }
 
@@ -232,7 +232,7 @@ namespace TerrorbornMod
                 {
                     float speed = Main.rand.NextFloat(12f, 20f);
                     Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * speed;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), player.Center, velocity, ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>(), damage / 5, 1, player.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), player.Center, velocity, ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>(), damage / 5, 1, player.whoAmI);
                 }
             }
         }

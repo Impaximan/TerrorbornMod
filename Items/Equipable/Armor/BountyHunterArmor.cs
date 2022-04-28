@@ -156,7 +156,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             player.statDefense -= 20;
             player.GetCritChance(DamageClass.Ranged) += 25;
             TerrorbornPlayer mPlayer = TerrorbornPlayer.modPlayer(player);
-            mPlayer.rangedUseSpeed *= 1.25f;
+            player.GetAttackSpeed(DamageClass.Ranged) *= 1.25f;
         }
     }
 }

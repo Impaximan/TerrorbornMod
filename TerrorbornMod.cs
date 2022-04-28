@@ -8,6 +8,7 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ReLogic.Content;
 using Terraria.GameContent.UI;
 
 namespace TerrorbornMod
@@ -221,34 +222,34 @@ namespace TerrorbornMod
                 Filters.Scene["ParryShockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
                 Filters.Scene["ParryShockwave"].Load();
 
-                Ref<Effect> prototypeRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/PrototypeIShader"));
+                Ref<Effect> prototypeRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/PrototypeIShader", AssetRequestMode.ImmediateLoad));
                 Filters.Scene["TerrorbornMod:PrototypeIShader"] = new Filter(new ScreenShaderData(prototypeRef, "PrototypeI"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:PrototypeIShader"].Load();
 
-                Ref<Effect> darknessRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/DarknessShader"));
+                Ref<Effect> darknessRef = new Ref<Effect>(ModContent.Request<Effect>("TerrorbornMod/Effects/DarknessShader", AssetRequestMode.ImmediateLoad).Value);
                 Filters.Scene["TerrorbornMod:DarknessShader"] = new Filter(new ScreenShaderData(darknessRef, "Darkness"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:DarknessShader"].Load();
 
-                Ref<Effect> incarnateRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/IncarnateBoss"));
+                Ref<Effect> incarnateRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/IncarnateBoss", AssetRequestMode.ImmediateLoad));
                 Filters.Scene["TerrorbornMod:IncarnateBoss"] = new Filter(new ScreenShaderData(incarnateRef, "IncarnateBoss"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:IncarnateBoss"].Load();
 
-                Ref<Effect> glitchRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/GlitchShader"));
+                Ref<Effect> glitchRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/GlitchShader", AssetRequestMode.ImmediateLoad));
                 Filters.Scene["TerrorbornMod:GlitchShader"] = new Filter(new ScreenShaderData(glitchRef, "Glitch"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:GlitchShader"].Load();
 
-                Ref<Effect> colorlessRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/ColorlessShader"));
+                Ref<Effect> colorlessRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/ColorlessShader", AssetRequestMode.ImmediateLoad));
                 Filters.Scene["TerrorbornMod:ColorlessShader"] = new Filter(new ScreenShaderData(colorlessRef, "Colorless"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:ColorlessShader"].Load();
 
                 Filters.Scene["TerrorbornMod:BlandnessShader"] = new Filter(new ScreenShaderData(colorlessRef, "Colorless").UseOpacity(0.5f), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:BlandnessShader"].Load();
 
-                Ref<Effect> hexedRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/HexedMirage"));
+                Ref<Effect> hexedRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/HexedMirage", AssetRequestMode.ImmediateLoad));
                 Filters.Scene["TerrorbornMod:HexedMirage"] = new Filter(new ScreenShaderData(hexedRef, "HexedMirage"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:HexedMirage"].Load();
 
-                Ref<Effect> twilightRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/Shaders/TwilightShaderNight"));
+                Ref<Effect> twilightRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/TwilightShaderNight", AssetRequestMode.ImmediateLoad));
                 Filters.Scene["TerrorbornMod:TwilightShaderNight"] = new Filter(new ScreenShaderData(twilightRef, "TwilightShaderNight"), EffectPriority.VeryHigh);
                 Filters.Scene["TerrorbornMod:TwilightShaderNight"].Load();
             }

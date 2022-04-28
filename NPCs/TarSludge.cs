@@ -72,7 +72,7 @@ namespace TerrorbornMod.NPCs
                         Speed = 16;
                     }
                     Vector2 Velocity = Rotation * Speed;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Velocity, ModContent.ProjectileType<TarSludgeJavelin>(), 20, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, Velocity, ModContent.ProjectileType<TarSludgeJavelin>(), 20, 0);
                 }
             }
         }

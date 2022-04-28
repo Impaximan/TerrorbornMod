@@ -43,7 +43,7 @@ namespace TerrorbornMod.Items.MiscConsumables
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.LoseTerror(2.5f, true, true);
-            modPlayer.allUseSpeed *= 1f + (0.275f * modPlayer.TerrorPercent / 100f);
+            player.GetAttackSpeed(DamageClass.Generic) *= 1f + (0.275f * modPlayer.TerrorPercent / 100f);
         }
     }
 }

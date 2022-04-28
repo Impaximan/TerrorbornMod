@@ -129,7 +129,7 @@ namespace TerrorbornMod.NPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(spawnInfo.player);
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(spawnInfo.Player);
             if (modPlayer.ZoneDeimostone && TerrorbornSystem.obtainedShriekOfHorror)
             {
                 if (modPlayer.DeimosteelCharm)

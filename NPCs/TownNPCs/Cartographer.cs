@@ -6,7 +6,8 @@ using Terraria.Utilities;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Terraria.GameContent;
+using ReLogic.Content;
 
 namespace TerrorbornMod.NPCs.TownNPCs
 {
@@ -288,11 +289,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (NPC.AnyNPCs(NPC.type) || spawnInfo.player.ZoneUnderworldHeight || TerrorbornSystem.CartographerSpawnCooldown > 0 || spawnInfo.player.Distance(new Vector2(Main.spawnTileX * 16, Main.spawnTileY * 16)) <= 6000)
+            if (NPC.AnyNPCs(NPC.type) || spawnInfo.Player.ZoneUnderworldHeight || TerrorbornSystem.CartographerSpawnCooldown > 0 || spawnInfo.Player.Distance(new Vector2(Main.spawnTileX * 16, Main.spawnTileY * 16)) <= 6000)
             {
                 return 0f;
             }
-            if (spawnInfo.player.ZoneRockLayerHeight && !TerrorbornSystem.talkedToCartographer)
+            if (spawnInfo.Player.ZoneRockLayerHeight && !TerrorbornSystem.talkedToCartographer)
             {
                 return 0.03f;
             }
@@ -317,9 +318,16 @@ namespace TerrorbornMod.NPCs.TownNPCs
             }
         }
 
-        public override string TownNPCName()
+        public override List<string> SetNPCNameList()
         {
-            return TerrorbornSystem.CartographerName;
+            return new List<string>(){
+                TerrorbornSystem.CartographerName
+            };
+        }
+
+        public override ITownNPCProfile TownNPCProfile()
+        {
+            return new CartographerProfile();
         }
 
         int currentOption1 = 0;
@@ -866,5 +874,18 @@ namespace TerrorbornMod.NPCs.TownNPCs
             multiplier = 7f;
             gravityCorrection = 0;
         }
+    }
+
+    public class CartographerProfile : ITownNPCProfile
+    {
+        public int RollVariation() => 0;
+        public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
+
+        public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
+        {
+            return ModContent.Request<Texture2D>("TerrorbornMod/NPCs/TownNPCs/Cartographer");
+        }
+
+        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("TerrorbornMod/NPCs/TownNPCs/Cartographer_Head");
     }
 }

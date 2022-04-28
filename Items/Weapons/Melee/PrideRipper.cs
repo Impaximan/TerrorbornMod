@@ -39,7 +39,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             Item.value = Item.sellPrice(0, 25, 0, 0);
             Item.shootSpeed = 5f;
             Item.knockBack = 4;
-            Item.rare = 12;
+            Item.rare = ModContent.RarityType<Rarities.Golden>();
             Item.UseSound = SoundID.Item71;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
@@ -124,7 +124,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             {
                 ProjectileCounter = 0;
                 Vector2 velocity = Projectile.velocity.ToRotation().ToRotationVector2() * movementFactor;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DreadLight>(), Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DreadLight>(), Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
             }
         }
     }

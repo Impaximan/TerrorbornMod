@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items
             }
             if (!arrowExists)
             {
-                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<CompassPointer>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<CompassPointer>(), 0, 0, player.whoAmI);
             }
         }
 
@@ -55,7 +55,7 @@ namespace TerrorbornMod.Items
             }
             if (!arrowExists)
             {
-                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<CompassPointer>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<CompassPointer>(), 0, 0, player.whoAmI);
             }
         }
     }

@@ -63,7 +63,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         //private bool HasGravity = true;
         //private bool Spawn = true;
         //private bool GravDown = true;

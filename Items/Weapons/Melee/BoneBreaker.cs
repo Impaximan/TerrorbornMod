@@ -48,7 +48,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                 float speed = Main.rand.Next(10, 23);
                 Vector2 velocity = direction * speed;
-                Projectile.NewProjectile(player.GetProjectileSource_OnHit(target, ProjectileSourceID.None), target.Center, velocity, ModContent.ProjectileType<KnockedBone>(), Item.damage / 2, 1f, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_OnHit(target), target.Center, velocity, ModContent.ProjectileType<KnockedBone>(), Item.damage / 2, 1f, player.whoAmI);
             }
         }
     }
@@ -82,7 +82,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                 float speed = Main.rand.Next(7, 16);
                 Vector2 velocity = direction * speed;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<KnockedBonePiece>(), Projectile.damage, 1f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<KnockedBonePiece>(), Projectile.damage, 1f, Projectile.owner);
             }
         }
     }

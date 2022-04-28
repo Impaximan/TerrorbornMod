@@ -135,7 +135,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item110, Projectile.Center);
                     for (int i = 0; i < Main.rand.Next(3, 5); i++)
                     {
-                        int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(0.8f, 1.2f), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(0.8f, 1.2f), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                         Main.projectile[proj].ai[0] = 1;
                     }
                 }
@@ -147,7 +147,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 Terraria.Audio.SoundEngine.PlaySound(SoundID.Item110, Projectile.Center);
                 for (int i = 0; i < Main.rand.Next(3, 5); i++)
                 {
-                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(0.8f, 1.2f), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(0.8f, 1.2f), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Main.projectile[proj].ai[0] = 1;
                 }
             }

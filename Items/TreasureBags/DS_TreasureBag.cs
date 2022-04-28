@@ -29,7 +29,7 @@ namespace TerrorbornMod.Items.TreasureBags
         {
             if (Main.rand.Next(7) == 0)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.DunestockMask>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.DunestockMask>());
             }
 
             int item1;
@@ -38,13 +38,13 @@ namespace TerrorbornMod.Items.TreasureBags
             itemlist.Add(ModContent.ItemType<Items.Dunestock.Dunesting>());
             itemlist.Add(ModContent.ItemType<Items.Dunestock.HungryWhirlwind>());
             item1 = itemlist.Get();
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), item1);
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), item1);
             int item2 = itemlist.Get();
             while (item2 == item1)
             {
                 item2 = itemlist.Get();
             }
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), item2);
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), item2);
 
             itemlist = new WeightedRandom<int>();
             itemlist.Add(ModContent.ItemType<Equipable.Accessories.DryScarf>());
@@ -52,15 +52,15 @@ namespace TerrorbornMod.Items.TreasureBags
             itemlist.Add(ModContent.ItemType<Equipable.Accessories.AntlionClaw>());
             itemlist.Add(ModContent.ItemType<Equipable.Accessories.Wings.AntlionWings>(), 1.5f);
             item1 = itemlist.Get();
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), item1);
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), item1);
             item2 = itemlist.Get();
             while (item2 == item1)
             {
                 item2 = itemlist.Get();
             }
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), item2);
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Equipable.Accessories.CloakOfTheWind>());
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<DustwindRod>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), item2);
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Equipable.Accessories.CloakOfTheWind>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<DustwindRod>());
         }
 
         public override int BossBagNPC => ModContent.NPCType<NPCs.Bosses.Dunestock>();

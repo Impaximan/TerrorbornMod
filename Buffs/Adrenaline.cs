@@ -20,7 +20,7 @@ namespace TerrorbornMod.Buffs
         {
             if (player.statLife <= player.statLifeMax2 / 4)
             {
-                TerrorbornPlayer.modPlayer(player).allUseSpeed *= 1.3f;
+                player.GetAttackSpeed(DamageClass.Generic) *= 1.3f;
             }
         }
     }

@@ -148,7 +148,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Projectile.width = 4;
             Projectile.height = 4;
         }
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.ShadowBeamFriendly; } }
+        public override string Texture => "TerrorbornMod/placeholder";
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -161,7 +161,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), new Vector2(target.position.X + Main.rand.Next(0, target.width), target.Center.Y - target.height * 1.5f), new Vector2(0, 10), ModContent.ProjectileType<StormsBolt>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), new Vector2(target.position.X + Main.rand.Next(0, target.width), target.Center.Y - target.height * 1.5f), new Vector2(0, 10), ModContent.ProjectileType<StormsBolt>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
         }
         public override void AI()
         {
@@ -175,7 +175,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
     class StormsBolt : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.ShadowBeamFriendly; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm's Bolt");

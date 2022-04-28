@@ -86,7 +86,7 @@ namespace TerrorbornMod.NPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary || spawnInfo.player.ZoneBeach || spawnInfo.player.ZoneDesert || spawnInfo.player.ZoneJungle)
+            if (TerrorbornPlayer.modPlayer(spawnInfo.Player).ZoneIncendiary || spawnInfo.Player.ZoneBeach || spawnInfo.Player.ZoneDesert || spawnInfo.Player.ZoneJungle)
             {
                 return 0f;
             }

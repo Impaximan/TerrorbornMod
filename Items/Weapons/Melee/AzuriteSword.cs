@@ -46,7 +46,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             counter--;
             if (counter <= 0)
             {
-                Projectile.NewProjectile(player.GetProjectileSource_Item(Item), player.Center + direction * 15, velocity, Item.shoot, (int)(Item.damage * 0.65f), Item.knockBack, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center + direction * 15, velocity, Item.shoot, (int)(Item.damage * 0.65f), Item.knockBack, player.whoAmI);
                 counter = 3;
             }
         }

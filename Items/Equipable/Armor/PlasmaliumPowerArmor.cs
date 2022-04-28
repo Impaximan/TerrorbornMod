@@ -126,7 +126,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed *= 1.07f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.07f;
             player.GetDamage(DamageClass.Generic) *= 1.08f;
             modPlayer.flightTimeMultiplier *= 1.5f;
             player.statLifeMax2 += 35;
@@ -175,7 +175,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed *= 1.08f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.08f;
             player.GetCritChance(DamageClass.Generic) += 10;
         }
 

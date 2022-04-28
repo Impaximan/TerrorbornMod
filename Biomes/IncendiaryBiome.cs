@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria;
-using Terraria.Graphics.Capture;
+using TerrorbornMod.ForegroundObjects;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Biomes
@@ -27,6 +26,38 @@ namespace TerrorbornMod.Biomes
                 incendiaryBiomeRect = new Rectangle((Main.maxTilesX * 16) - (int)(Main.maxTilesX / 4f * 16) - 120 * 16, 0, (int)(Main.maxTilesX / 4f * 16) + 120 * 16, (int)(Main.maxTilesY / 17f * 16) + 120 * 16);
             }
             return incendiaryBiomeRect.Intersects(player.getRect()) && Main.hardMode;
+        }
+
+        int effectCounter = 0;
+        public override void OnInBiome(Player player)
+        {
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            modPlayer.ZoneIncendiary = true;
+        }
+
+        public override void SpecialVisuals(Player player)
+        {
+            effectCounter--;
+            if (effectCounter <= 0)
+            {
+                effectCounter = Main.rand.Next(3, 6);
+                int maxDistance = 1500;
+                ForegroundObject.NewForegroundObject(new Vector2(Main.rand.Next(-maxDistance, maxDistance), Main.rand.Next(-maxDistance, maxDistance)), new IncendiaryFog());
+            }
+        }
+
+        public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
+
+        public override void OnEnter(Player player)
+        {
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            modPlayer.ZoneIncendiary = true;
+        }
+
+        public override void OnLeave(Player player)
+        {
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            modPlayer.ZoneIncendiary = false;
         }
     }
 }

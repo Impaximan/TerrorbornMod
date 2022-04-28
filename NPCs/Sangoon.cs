@@ -4,7 +4,6 @@ using Terraria.ModLoader.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
-using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs
 {

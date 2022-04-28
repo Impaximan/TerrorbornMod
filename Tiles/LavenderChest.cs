@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -10,7 +10,7 @@ using Terraria.ObjectData;
 
 namespace TerrorbornMod.Tiles
 {
-	class LavenderChest : ModTile
+    class LavenderChest : ModTile
 	{
 		public override bool IsLockedChest(int i, int j) => Main.tile[i, j].TileFrameX / 36 == 1;
 
@@ -94,7 +94,7 @@ namespace TerrorbornMod.Tiles
 
 		//public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].frameX / 36);
 
-		public override bool HasSmartInteract() => true;
+		public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

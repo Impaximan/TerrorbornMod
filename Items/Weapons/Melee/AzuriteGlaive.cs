@@ -93,7 +93,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
                         {
                             ProjectileVelocity = (Projectile.rotation - (MathHelper.ToRadians(45f))).ToRotationVector2() * Speed;
                         }
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + (ProjectileVelocity / Speed) * 100, ProjectileVelocity, ModContent.ProjectileType<AquaRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + (ProjectileVelocity / Speed) * 100, ProjectileVelocity, ModContent.ProjectileType<AquaRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         HasFiredBolt = true;
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
                     }
@@ -121,7 +121,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
     }
     class AquaRay : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.ShadowBeamFriendly; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetDefaults()
         {
             Projectile.width = 4;

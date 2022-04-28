@@ -29,22 +29,22 @@ namespace TerrorbornMod.Items.TreasureBags
         {
             if (Main.rand.Next(7) == 0)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.PrototypeIMask>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.PrototypeIMask>());
             }
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Equipable.Accessories.MidnightPlasmaGlobe>());
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Materials.PlasmaliumBar>(), Main.rand.Next(18, 25));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Equipable.Accessories.MidnightPlasmaGlobe>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Materials.PlasmaliumBar>(), Main.rand.Next(18, 25));
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.PrototypeI.PlasmaScepter>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.PrototypeI.PlasmaScepter>());
             }
             if (choice == 1)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.PrototypeI.PlasmoditeShotgun>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.PrototypeI.PlasmoditeShotgun>());
             }
             if (choice == 2)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.PrototypeI.PlasmaticVortex>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.PrototypeI.PlasmaticVortex>());
             }
         }
 

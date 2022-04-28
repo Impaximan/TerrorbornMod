@@ -44,7 +44,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             player.setBonus = "10% increased melee speed" +
                 "\n4 defense";
-            player.meleeSpeed += 0.1f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
             player.statDefense += 4;
         }
     }

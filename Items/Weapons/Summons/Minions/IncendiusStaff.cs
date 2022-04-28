@@ -219,7 +219,7 @@ Projectile.DamageType = DamageClass.Summon;
                     fireCounter = 30;
                     float speed = 15;
                     Vector2 velocity = Projectile.DirectionTo(target.Center + (target.Distance(Projectile.Center) / speed) * target.velocity) * speed;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<HellFire2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<HellFire2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }
@@ -227,7 +227,7 @@ Projectile.DamageType = DamageClass.Summon;
 
     class HellFire2 : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -101,7 +101,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             player.GetCritChance(DamageClass.Generic) += 8;
             modPlayer.restlessNonChargedUseSpeed *= 1.35f;
             modPlayer.restlessDamage += 0.15f;
-            modPlayer.allUseSpeed *= 1.06f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.06f;
         }
     }
 
@@ -140,7 +140,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             player.GetDamage(DamageClass.Generic) += 0.1f;
             player.GetCritChance(DamageClass.Generic) += 10;
             modPlayer.ShriekSpeed *= 0.6f;
-            modPlayer.allUseSpeed *= 1.06f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.06f;
         }
     }
 }

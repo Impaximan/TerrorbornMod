@@ -2,7 +2,6 @@
 using Terraria;
 using TerrorbornMod.Projectiles;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Weapons.Magic

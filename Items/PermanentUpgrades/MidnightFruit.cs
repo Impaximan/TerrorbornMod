@@ -45,7 +45,7 @@ namespace TerrorbornMod.Items.PermanentUpgrades
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             tooltips.Add(new TooltipLine(Mod, "MidnightFruitCount", "Consumed " + modPlayer.MidnightFruit + "/20 available fruit"));
-            tooltips.FirstOrDefault(x => x.Name == "MidnightFruitCount" && x.mod == "TerrorbornMod").overrideColor = Color.LimeGreen;
+            tooltips.FirstOrDefault(x => x.Name == "MidnightFruitCount" && x.Mod == "TerrorbornMod").OverrideColor = Color.LimeGreen;
         }
     }
 }

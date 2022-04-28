@@ -68,7 +68,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Projectile.height = 4;
         }
 
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.ShadowBeamFriendly; } }
+        public override string Texture => "TerrorbornMod/placeholder";
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

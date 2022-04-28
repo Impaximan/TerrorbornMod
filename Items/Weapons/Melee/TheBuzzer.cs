@@ -102,7 +102,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
                 if (ProjectileCounter <= 0)
                 {
                     ProjectileCounter = 5;
-                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity / 10, ProjectileID.Bee, Projectile.damage / 2, 0f, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity / 10, ProjectileID.Bee, Projectile.damage / 2, 0f, Projectile.owner);
                     Main.projectile[proj].DamageType = DamageClass.Melee;
                     Main.projectile[proj].usesIDStaticNPCImmunity = true;
                     Main.projectile[proj].idStaticNPCHitCooldown = 7;

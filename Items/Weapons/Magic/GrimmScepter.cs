@@ -63,7 +63,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
     class GrimmRay : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         //private bool HasGravity = true;
         //private bool Spawn = true;
         //private bool GravDown = true;
@@ -137,13 +137,13 @@ namespace TerrorbornMod.Items.Weapons.Magic
         {
             if (crit)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<GrimmOrb>(), 0, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<GrimmOrb>(), 0, 0, Projectile.owner);
             }
         }
     }
     class GrimmOrb : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         //private bool HasGravity = true;
         //private bool Spawn = true;
         //private bool GravDown = true;

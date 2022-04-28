@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -7,6 +6,8 @@ using Terraria.Utilities;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
+using ReLogic.Content;
 using TerrorbornMod.WeaponPossession;
 
 
@@ -76,11 +77,18 @@ namespace TerrorbornMod.NPCs.TownNPCs
         {
             return true;
         }
-        public override string TownNPCName()
+
+        public override List<string> SetNPCNameList()
         {
-            return "Gabrielle";
+            return new List<string>(){
+                "Gabrielle"
+            };
         }
 
+        public override ITownNPCProfile TownNPCProfile()
+        {
+            return new HereticProfile();
+        }
 
         List<string> dialogue = new List<string>();
 
@@ -478,7 +486,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             int stackMight = 0;
             int stackSight = 0;
             int stackPlight = 0;
-            for (int i = 0; i < player.inventory.Count(); i++)
+            for (int i = 0; i < player.inventory.Length; i++)
             {
                 Item item = player.inventory[i];
                 if (item.type == ItemID.SoulofLight)
@@ -640,6 +648,16 @@ namespace TerrorbornMod.NPCs.TownNPCs
             gravityCorrection = 0;
         }
     }
+    public class HereticProfile : ITownNPCProfile
+    {
+        public int RollVariation() => 0;
+        public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
+
+        public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
+        {
+            return ModContent.Request<Texture2D>("TerrorbornMod/NPCs/TownNPCs/Heretic");
+        }
+
+        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("TerrorbornMod/NPCs/TownNPCs/Heretic_Head");
+    }
 }
-
-

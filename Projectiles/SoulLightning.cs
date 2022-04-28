@@ -9,7 +9,7 @@ namespace TerrorbornMod.Projectiles
 {
     class SoulLightning : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.ShadowBeamFriendly; } }
+        public override string Texture => "TerrorbornMod/placeholder";
 
         public override bool? CanHitNPC(NPC target)
         {

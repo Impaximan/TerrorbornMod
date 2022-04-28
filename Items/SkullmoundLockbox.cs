@@ -51,11 +51,11 @@ namespace TerrorbornMod.Items
             souls.Add(ItemID.SoulofMight);
             souls.Add(ModContent.ItemType<Materials.SoulOfPlight>());
 
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), Main.rand.Next(souls), Main.rand.Next(6, 12));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), Main.rand.Next(souls), Main.rand.Next(6, 12));
 
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Materials.SkullmoundOre>(), Main.rand.Next(20, 35));
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Materials.HellbornEssence>(), Main.rand.Next(2, 4));
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ItemID.GoldCoin, Main.rand.Next(15, 25));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Materials.SkullmoundOre>(), Main.rand.Next(20, 35));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Materials.HellbornEssence>(), Main.rand.Next(2, 4));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.GoldCoin, Main.rand.Next(15, 25));
         }
     }
 }

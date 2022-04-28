@@ -82,7 +82,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornSystem.terrorRain && Main.raining && spawnInfo.player.ZoneRain)
+            if (TerrorbornSystem.terrorRain && Main.raining && spawnInfo.Player.ZoneRain)
             {
                 return 0.35f;
             }
@@ -112,7 +112,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
                 if (NPC.ai[1] > 420)
                 {
                     NPC.ai[1] = 0;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<VentedCumulusRaincloud>(), 75 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<VentedCumulusRaincloud>(), 75 / 4, 0);
 
                     float Distance = 3500; //max distance away
                     bool Targeted = false;
@@ -144,7 +144,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
                 {
                     ProjectileWait = 7;
                     Vector2 position = new Vector2(Main.rand.Next((int)NPC.position.X, (int)NPC.position.X + NPC.width), NPC.position.Y + NPC.height);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), 50 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), 50 / 4, 0);
                 }
 
                 TerrorbornNPC globalNPC = TerrorbornNPC.modNPC(targetNPC);
@@ -216,7 +216,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
             {
                 ProjectileWait = 7;
                 Vector2 position = new Vector2(Main.rand.Next((int)Projectile.position.X, (int)Projectile.position.X + Projectile.width), Projectile.position.Y + Projectile.height);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), Projectile.damage, 0);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, new Vector2(0, 10), ModContent.ProjectileType<Projectiles.VentRain>(), Projectile.damage, 0);
             }
 
             if (trueTimeLeft > 0)

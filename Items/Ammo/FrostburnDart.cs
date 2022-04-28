@@ -81,7 +81,7 @@ namespace TerrorbornMod.Items.Ammo
         {
             if (Main.rand.Next(101) <= 20)
             {
-                Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<FrostburnDart>());
+                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<FrostburnDart>());
             }
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);

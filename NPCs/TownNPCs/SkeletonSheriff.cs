@@ -5,7 +5,10 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria.GameContent.ItemDropRules;
-
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
+using ReLogic.Content;
+using System.Collections.Generic;
 
 namespace TerrorbornMod.NPCs.TownNPCs
 {
@@ -201,9 +204,16 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return true;
         }
 
-        public override string TownNPCName()
+        public override List<string> SetNPCNameList()
         {
-            return TerrorbornSystem.SkeletonSheriffName;
+            return new List<string>(){
+                TerrorbornSystem.SkeletonSheriffName
+            };
+        }
+
+        public override ITownNPCProfile TownNPCProfile()
+        {
+            return new SheriffProfile();
         }
 
         int currentOption1 = 0;
@@ -310,7 +320,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     }
                     else
                     {
-                        player.QuickSpawnItem(NPC.GetItemSource_Loot(), ModContent.ItemType<CombatToken>(), modPlayer.CombatPoints / 250);
+                        player.QuickSpawnItem(NPC.GetSource_Loot(), ModContent.ItemType<CombatToken>(), modPlayer.CombatPoints / 250);
                         CombatTokenText = "Seems you've been doing work. Here's " + modPlayer.CombatPoints / 250 + " Combat Tokens as credit! ";
                         modPlayer.CombatPoints = 0;
                     }
@@ -457,5 +467,18 @@ namespace TerrorbornMod.NPCs.TownNPCs
             multiplier = 7f;
             gravityCorrection = 0;
         }
+    }
+
+    public class SheriffProfile : ITownNPCProfile
+    {
+        public int RollVariation() => 0;
+        public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
+
+        public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
+        {
+            return ModContent.Request<Texture2D>("TerrorbornMod/NPCs/TownNPCs/SkeletonSheriff");
+        }
+
+        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("TerrorbornMod/NPCs/TownNPCs/SkeletonSheriff_Head");
     }
 }

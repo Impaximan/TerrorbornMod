@@ -35,8 +35,8 @@ namespace TerrorbornMod.Items
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
-            tooltips.Insert(tooltips.FindIndex(x => x.Name == "Expert" && x.mod == "Terraria"), new TooltipLine(Mod, "TerrorTonic", modPlayer.DarkEnergyStored + "/5 stored currently (" + (modPlayer.DarkEnergyStored * 15).ToString() + "%)"));
-            tooltips.FirstOrDefault(x => x.Name == "TerrorTonic" && x.mod == "TerrorbornMod").overrideColor = Color.FromNonPremultiplied(108, 150, 143, 255);
+            tooltips.Insert(tooltips.FindIndex(x => x.Name == "Expert" && x.Mod == "Terraria"), new TooltipLine(Mod, "TerrorTonic", modPlayer.DarkEnergyStored + "/5 stored currently (" + (modPlayer.DarkEnergyStored * 15).ToString() + "%)"));
+            tooltips.FirstOrDefault(x => x.Name == "TerrorTonic" && x.Mod == "TerrorbornMod").OverrideColor = Color.FromNonPremultiplied(108, 150, 143, 255);
         }
 
         public override void UpdateInventory(Player player)

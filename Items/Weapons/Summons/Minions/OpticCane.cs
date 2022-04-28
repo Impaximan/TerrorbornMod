@@ -211,14 +211,14 @@ Projectile.DamageType = DamageClass.Summon;
                     bloodCounter = 25;
                     float speed = 25;
                     Vector2 velocity = Projectile.DirectionTo(target.Center) * speed;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<OpticBlood>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<OpticBlood>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }
     }
     public class OpticBlood : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetDefaults()
         {
             Projectile.width = 10;

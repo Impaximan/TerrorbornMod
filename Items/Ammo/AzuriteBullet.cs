@@ -71,7 +71,7 @@ namespace TerrorbornMod.Items.Ammo
                 float speed = 5f;
                 Vector2 velocity = target.DirectionFrom(position) * speed;
 
-                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.AzuriteShard>(), Projectile.damage / 2, 0, Main.myPlayer, 0f, 0f);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.AzuriteShard>(), Projectile.damage / 2, 0, Main.myPlayer, 0f, 0f);
                 Main.projectile[proj].DamageType = DamageClass.Ranged;
             }
         }

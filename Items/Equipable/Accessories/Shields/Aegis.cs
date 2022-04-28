@@ -42,7 +42,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
             modPlayer.parryColor = Color.LightGoldenrodYellow;
             if (modPlayer.JustParried)
             {
-                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<AegisLight>(), 1000, 0f, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<AegisLight>(), 1000, 0f, player.whoAmI);
                 TerrorbornSystem.ScreenShake(25f);
                 Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, player.Center);
             }

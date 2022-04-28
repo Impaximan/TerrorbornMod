@@ -61,7 +61,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
     class SpiralSoul : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
 
         public override void SetStaticDefaults()
         {

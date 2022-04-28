@@ -97,7 +97,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 if (spawnPortal)
                 {
                     Player player = Main.player[Projectile.owner];
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, ProjectileSourceID.None), player.Center, Vector2.Zero, ModContent.ProjectileType<PyroclasticPortal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), player.Center, Vector2.Zero, ModContent.ProjectileType<PyroclasticPortal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }
@@ -185,7 +185,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                         for (int i = -1; i <= 1; i++)
                         {
                             Vector2 velocity = (Projectile.DirectionTo(Main.MouseWorld) * 25).RotatedBy((maxRotation / kunaiCount) * i);
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PyroclasticKunaiProjectile>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PyroclasticKunaiProjectile>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
                         }
                     }
                 }

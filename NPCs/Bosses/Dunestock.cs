@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Events;
-using Terraria.Utilities;
 using System.Collections.Generic;
 using Terraria.WorldBuilding;
 using Terraria.GameContent.ItemDropRules;
@@ -84,13 +83,13 @@ namespace TerrorbornMod.NPCs.Bosses
 
             if (spawnSS)
             {
-                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Abilities.StarvingStorm>(), 0, 0, Main.myPlayer);
+                Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Abilities.StarvingStorm>(), 0, 0, Main.myPlayer);
             }
 
             if (!TerrorbornSystem.downedDunestock)
             {
                 TerrorbornSystem.downedDunestock = true;
-                Item.NewItem(NPC.GetItemSource_Loot(), NPC.Center, ModContent.ItemType<Items.Lore.JournalEntries.Raven.Raven_Dunestock>());
+                Item.NewItem(NPC.GetSource_Loot(), NPC.Center, ModContent.ItemType<Items.Lore.JournalEntries.Raven.Raven_Dunestock>());
             }
         }
 
@@ -205,7 +204,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(15)); // 15 degree spread.
                 float scale = 1f - (Main.rand.NextFloat() * .3f);
                 perturbedSpeed = perturbedSpeed * scale;
-                int num54 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, perturbedSpeed, Type, Damage, 0f, 0);
+                int num54 = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), position, perturbedSpeed, Type, Damage, 0f, 0);
             }
         }
 
@@ -324,7 +323,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     NPC.ai[1] = 1;
                     if (!NPC.AnyNPCs(ModContent.NPCType<Dunestock_Lower>()) && AIPhase < 9)
                     {
-                        NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.Center.X, (int)NPC.Center.Y + NPC.width / 4, ModContent.NPCType<Dunestock_Lower>());
+                        NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.Center.X, (int)NPC.Center.Y + NPC.width / 4, ModContent.NPCType<Dunestock_Lower>());
                     }
                 }
                 else
@@ -405,7 +404,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         if (AttacksUntilFlight <= 0)
                         {
                             Flying = true;
-                            NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.Center.X, (int)NPC.Center.Y + NPC.width / 4, ModContent.NPCType<Dunestock_Lower>());
+                            NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.Center.X, (int)NPC.Center.Y + NPC.width / 4, ModContent.NPCType<Dunestock_Lower>());
                             AttacksUntilLand = 5;
                             AIPhase = 5;
                             PhaseTimeLeft = 240;
@@ -437,7 +436,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             float rotation = NextAttackAngle;
                             Vector2 rotationVector = rotation.ToRotationVector2() * ProjSpeed;
                             rotationVector = rotationVector.RotatedByRandom(MathHelper.ToRadians(10));
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, rotationVector.X, rotationVector.Y, type, damage, 0f, 0);
+                            Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y, rotationVector.X, rotationVector.Y, type, damage, 0f, 0);
                         }
                     }
                     else
@@ -479,11 +478,11 @@ namespace TerrorbornMod.NPCs.Bosses
                         {
                             NoGravNeedles = 3;
                             predictMultiplier += 1f / 3f;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 240);
+                            Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 240);
                         }
                         else
                         {
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 1, 180);
+                            Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 1, 180);
                         }
                     }
                 }
@@ -507,11 +506,11 @@ namespace TerrorbornMod.NPCs.Bosses
                             PhaseTimeLeft = phaseTimeLeftMax;
                         }
                         Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, rotation * ProjSpeed, ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(-50)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(50)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(-25)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(25)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, rotation * ProjSpeed, ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(-50)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(50)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(-25)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, (rotation * ProjSpeed).RotatedBy(MathHelper.ToRadians(25)), ModContent.ProjectileType<WindBlast>(), 60 / 2, 0);
                     }
                 }
                 if (AIPhase == 4) //Blood spew
@@ -532,7 +531,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         int type = ModContent.ProjectileType<ClotBlood>();
                         Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center);
                         Vector2 SpeedVector = (rotation * NeedleSpeed).RotatedByRandom(MathHelper.ToRadians(15));
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
                     }
                 }
                 if (AIPhase == 5) //Fly towards the player
@@ -584,7 +583,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         int type = ModContent.ProjectileType<TumblerNeedle>();
                         Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center);
                         Vector2 speed = rotation * ProjSpeed;
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 200);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 200);
                     }
                     PhaseTimeLeft--;
                     if (PhaseTimeLeft <= 0)
@@ -631,7 +630,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             int type = ModContent.ProjectileType<DuneClaw>();
                             Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center);
                             Vector2 SpeedVector = rotation * ProjSpeed;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
+                            Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
                         }
                         PhaseTimeLeft--;
                         if (PhaseTimeLeft <= 0)
@@ -695,7 +694,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         float rotation = BarageDirection;
                         Vector2 speed = BarageDirection.ToRotationVector2() * ProjSpeed;
                         NoGravNeedles = Main.rand.Next(4, 7);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 60);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 60);
                     }
                 }
                 if (AIPhase == 8) //Fly to the land under the player
@@ -782,7 +781,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         int type = ModContent.ProjectileType<TumblerNeedle>();
                         Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center + (NPC.Distance(Main.player[NPC.target].Center) / ProjSpeed) * Main.player[NPC.target].velocity);
                         Vector2 speed = (rotation * ProjSpeed).RotatedByRandom(MathHelper.ToRadians(10));
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 200);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 200);
                     }
                     PhaseTimeLeft--;
                     if (PhaseTimeLeft <= 0)
@@ -829,7 +828,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             int type = ModContent.ProjectileType<DuneClaw>();
                             Vector2 rotation = NPC.DirectionTo(Main.player[NPC.target].Center);
                             Vector2 SpeedVector = rotation * ProjSpeed;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
+                            Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y, SpeedVector.X, SpeedVector.Y, type, damage, 0f, 0);
                         }
                         PhaseTimeLeft--;
                         if (PhaseTimeLeft <= 0)
@@ -880,7 +879,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     if (ProjectileWait <= 0)
                     {
                         ProjectileWait = Main.rand.Next(7, 27);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), new Vector2(NPC.position.X + Main.rand.Next(NPC.width + 1), NPC.position.Y + Main.rand.Next(NPC.height + 1)), new Vector2(0, 0), ModContent.ProjectileType<ClotBomb>(), 30, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), new Vector2(NPC.position.X + Main.rand.Next(NPC.width + 1), NPC.position.Y + Main.rand.Next(NPC.height + 1)), new Vector2(0, 0), ModContent.ProjectileType<ClotBomb>(), 30, 0);
                     }
                     NPC.velocity.X = NPC.velocity.X;
                     PhaseTimeLeft--;
@@ -915,7 +914,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             {
                                 MovementTarget.Y++;
                             }
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), MovementTarget, Vector2.Zero, ModContent.ProjectileType<SandnadoSpawn>(), 30, 0);
+                            Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), MovementTarget, Vector2.Zero, ModContent.ProjectileType<SandnadoSpawn>(), 30, 0);
                         }
                         else
                         {
@@ -928,11 +927,11 @@ namespace TerrorbornMod.NPCs.Bosses
                         ProjectileWait = 60;
                         float speed = 20;
                         Vector2 velocity = NPC.DirectionTo(Main.player[NPC.target].Center) * speed;
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(-60)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(60)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(-30)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(-60)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(60)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(-30)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
+                        Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), ModContent.ProjectileType<WindBlast>(), 60 / 4, 0);
                     }
                     NPC.velocity.X = NPC.velocity.X;
 
@@ -1401,7 +1400,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         int type = ModContent.ProjectileType<TumblerNeedle>();
                         float rotation = Projectile.DirectionTo(targetPlayer.Center).ToRotation();
                         Vector2 speed = (rotation.ToRotationVector2() * ProjSpeed).RotatedByRandom(MathHelper.ToRadians(6));
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 180);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 180);
                     }
                     Projectile.active = false;
                 }
@@ -1415,7 +1414,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         int type = ModContent.ProjectileType<TumblerNeedle>();
                         float rotation = Projectile.DirectionTo(targetPlayer.Center).ToRotation();
                         Vector2 speed = (rotation.ToRotationVector2() * ProjSpeed).RotatedByRandom(MathHelper.ToRadians(3));
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 120);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, type, damage, 0f, 0, 0, 120);
                     }
                     Projectile.active = false;
                 }
@@ -1469,7 +1468,7 @@ namespace TerrorbornMod.NPCs.Bosses
             {
                 float Speed = Main.rand.Next(7, 10);
                 Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<ClotBlood>(), Projectile.damage / 2, 0);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<ClotBlood>(), Projectile.damage / 2, 0);
             }
         }
     }
@@ -1491,7 +1490,7 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.hide = true;
             Projectile.timeLeft = 30;
         }
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void AI()
         {
             int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 115, 0f, 0f, 100, Color.Red, 1.5f);
@@ -1528,7 +1527,7 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             return false;
         }
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         int Counter = 0;
         int NumPlaced = 0;
         public override void AI()
@@ -1539,7 +1538,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 Counter = 5;
                 if (NumPlaced <= 8)
                 {
-                    int num54 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), new Vector2(Projectile.Center.X, Projectile.position.Y - 7 - (38 * NumPlaced/* * (1 + (NumPlaced * .18f))*/)), new Vector2(0, 0), ModContent.ProjectileType<Sandnado>(), Projectile.damage, Projectile.knockBack, Projectile.owner, NumPlaced);
+                    int num54 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), new Vector2(Projectile.Center.X, Projectile.position.Y - 7 - (38 * NumPlaced/* * (1 + (NumPlaced * .18f))*/)), new Vector2(0, 0), ModContent.ProjectileType<Sandnado>(), Projectile.damage, Projectile.knockBack, Projectile.owner, NumPlaced);
                 }
                 NumPlaced++;
             }

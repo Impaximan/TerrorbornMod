@@ -118,7 +118,7 @@ namespace TerrorbornMod.NPCs.Luminite
                     ProjectileWait = 0;
                     float projSpeed = 10f;
                     Vector2 velocity = NPC.DirectionTo(player.Center + player.velocity * NPC.Distance(player.Center) / projSpeed) * projSpeed;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity / 2, ProjectileID.PhantasmalBolt, NPC.damage / 6, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity / 2, ProjectileID.PhantasmalBolt, NPC.damage / 6, 0f);
                 }
             }
 

@@ -74,7 +74,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             {
                 float Speed = Main.rand.Next(7, 10);
                 Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<AntlionBlood>(), (int)(Projectile.damage * 0.75f), 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<AntlionBlood>(), (int)(Projectile.damage * 0.75f), 0, Projectile.owner);
             }
         }
     }
@@ -95,7 +95,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Projectile.timeLeft = 30;
         }
 
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void AI()
         {
             int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 115, 0f, 0f, 100, Color.Red, 1.5f);

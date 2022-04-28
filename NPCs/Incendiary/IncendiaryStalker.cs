@@ -64,7 +64,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && NPC.downedGolemBoss)
+            if (TerrorbornPlayer.modPlayer(spawnInfo.Player).ZoneIncendiary && NPC.downedGolemBoss)
             {
                 return SpawnCondition.Sky.Chance * 0.06f;
             }
@@ -98,9 +98,9 @@ namespace TerrorbornMod.NPCs.Incendiary
                     NPC.velocity += NPC.DirectionFrom(player.Center) * 3;
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                     float offset = MathHelper.ToRadians(30);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(offset), ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(-offset), ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(offset), ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(-offset), ModContent.ProjectileType<Projectiles.HellbornLaser>(), 120 / 4, 0);
                 }
             }
             else

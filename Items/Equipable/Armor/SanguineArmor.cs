@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed += 0.06f;
+            player.GetAttackSpeed(DamageClass.Generic) += 0.06f;
             player.GetCritChance(DamageClass.Generic) += 5;
             modPlayer.ShriekSpeed *= 0.7f;
         }
@@ -66,10 +66,10 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed += 0.08f;
+            player.GetAttackSpeed(DamageClass.Generic) += 0.08f;
             modPlayer.ShriekTerrorMultiplier *= 1.3f;
             player.GetCritChance(DamageClass.Generic) += 4;
-            player.armorPenetration += 12;
+            player.GetArmorPenetration(DamageClass.Generic) += 12;
         }
 
         public override void AddRecipes()
@@ -112,7 +112,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed += 0.05f;
+            player.GetAttackSpeed(DamageClass.Generic) += 0.05f;
             player.lifeRegen += 2;
             player.GetCritChance(DamageClass.Generic) += 4;
         }

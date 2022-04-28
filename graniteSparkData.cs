@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace TerrorbornMod
 {
-    class graniteSparkData
+    class GraniteSparkData
     {
         public static float speed = 7.5f;
         public static void Transform(Player player)

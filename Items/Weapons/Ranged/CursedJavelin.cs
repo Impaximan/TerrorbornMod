@@ -74,8 +74,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, new Vector2(1, 0), ModContent.ProjectileType<JavelinDeathray>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, new Vector2(-1, 0), ModContent.ProjectileType<JavelinDeathray>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, new Vector2(1, 0), ModContent.ProjectileType<JavelinDeathray>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, new Vector2(-1, 0), ModContent.ProjectileType<JavelinDeathray>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

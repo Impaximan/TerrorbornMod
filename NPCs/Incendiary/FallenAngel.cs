@@ -7,7 +7,6 @@ using TerrorbornMod.Projectiles;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using Terraria.ModLoader.Utilities;
-using Terraria.DataStructures;
 
 namespace TerrorbornMod.NPCs.Incendiary
 {
@@ -62,7 +61,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && NPC.downedGolemBoss)
+            if (TerrorbornPlayer.modPlayer(spawnInfo.Player).ZoneIncendiary && NPC.downedGolemBoss)
             {
                 return SpawnCondition.Sky.Chance * 0.15f;
             }
@@ -115,7 +114,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                     spawningLaser = false;
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, laserPosition);
                     TerrorbornSystem.ScreenShake(10);
-                    Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<AngelBeam>(), 120 / 4, 0f)];
+                    Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<AngelBeam>(), 120 / 4, 0f)];
                     proj.velocity.Normalize();
                 }
             }
@@ -151,9 +150,9 @@ namespace TerrorbornMod.NPCs.Incendiary
                     Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, NPC.Center);
                     float rotation = MathHelper.ToRadians(30);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(rotation), ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(-rotation), ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(rotation), ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(-rotation), ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
                 }
             }
         }

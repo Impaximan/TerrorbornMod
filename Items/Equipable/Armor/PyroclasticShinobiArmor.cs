@@ -127,7 +127,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
             if (player.velocity.X != 0)
             {
-                modPlayer.allUseSpeed *= 1.1f;
+                player.GetAttackSpeed(DamageClass.Generic) *= 1.1f;
             }
         }
     }

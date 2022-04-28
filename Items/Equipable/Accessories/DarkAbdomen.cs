@@ -37,12 +37,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             if (player.statLife <= 250)
             {
                 player.GetCritChance(DamageClass.Generic) += 15;
-                modPlayer.allUseSpeed *= 1.2f;
+                player.GetAttackSpeed(DamageClass.Generic) *= 1.2f;
             }
             if (player.statLife <= 75)
             {
                 player.GetCritChance(DamageClass.Generic) += 30;
-                modPlayer.allUseSpeed *= 1.4f;
+                player.GetAttackSpeed(DamageClass.Generic) *= 1.4f;
             }
         }
     }

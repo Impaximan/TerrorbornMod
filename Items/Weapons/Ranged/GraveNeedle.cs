@@ -143,7 +143,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
                         float speed = 10f;
                         Vector2 velocity = (needle.rotation - MathHelper.ToRadians(45)).ToRotationVector2() * speed;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), needle.Center, velocity, ModContent.ProjectileType<NeedleExplosion>(), Projectile.damage, Projectile.knockBack * 3, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), needle.Center, velocity, ModContent.ProjectileType<NeedleExplosion>(), Projectile.damage, Projectile.knockBack * 3, Projectile.owner);
                     }
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, Projectile.Center);
                     TerrorbornSystem.ScreenShake(3f);

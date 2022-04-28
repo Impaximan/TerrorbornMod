@@ -29,7 +29,7 @@ namespace TerrorbornMod.WeaponPossession
 
                     if (pItem.possessType == PossessType.Light && crit)
                     {
-                        int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, Projectile.owner);
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, Projectile.owner);
                         Main.projectile[proj].ai[0] = target.whoAmI;
                         TerrorbornSystem.ScreenShake(5f);
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, target.Center);

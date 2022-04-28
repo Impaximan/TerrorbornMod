@@ -39,7 +39,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             }
             if (AntlionShellShieldActive)
             {
-                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<HorrificEye>(), Item.damage, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<HorrificEye>(), Item.damage, 0, player.whoAmI);
             }
         }
     }
@@ -124,7 +124,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                     float speed = Main.rand.Next(5, 8);
                     Vector2 velocity = direction * speed;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<HorrificTear>(), Projectile.damage, 1f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<HorrificTear>(), Projectile.damage, 1f, Projectile.owner);
                 }
             }
 

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace TerrorbornMod
 {
@@ -38,12 +39,12 @@ namespace TerrorbornMod
 
         public Color meterColor = Color.White;
 
-        public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage, ref float flat)
+        public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage)
         {
-            base.ModifyWeaponDamage(item, player, ref damage, ref flat);
+            base.ModifyWeaponDamage(item, player, ref damage);
             if (countAsThrown)
             {
-                damage.Scale(player.GetDamage(DamageClass.Throwing));
+                damage.Scale(player.GetDamage(DamageClass.Throwing).Multiplicative);
             }
         }
 
@@ -52,7 +53,7 @@ namespace TerrorbornMod
             return base.Clone(item, itemClone);
         }
 
-        public override void ModifyWeaponCrit(Item item, Player player, ref int crit)
+        public override void ModifyWeaponCrit(Item item, Player player, ref float crit)
         {
             if (item.DamageType == DamageClass.Melee && countAsThrown)
             {
@@ -91,7 +92,7 @@ namespace TerrorbornMod
                     float speed = 22.5f;
                     Vector2 velocity = player.DirectionTo(Main.MouseWorld) * speed;
 
-                    Projectile.NewProjectile(player.GetProjectileSource_Item(item), player.Center, velocity, ModContent.ProjectileType<Items.Equipable.Armor.azuriteShockwave>(), item.damage / 3, 30, player.whoAmI);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(item), player.Center, velocity, ModContent.ProjectileType<Items.Equipable.Armor.azuriteShockwave>(), item.damage / 3, 30, player.whoAmI);
                 }
                 else
                 {
@@ -180,7 +181,7 @@ namespace TerrorbornMod
             }
             if (allUseSpeedBoost != 1f)
             {
-                modPlayer.allUseSpeed *= allUseSpeedBoost;
+                player.GetAttackSpeed(DamageClass.Generic) *= allUseSpeedBoost;
             }
         }
 
@@ -287,6 +288,32 @@ namespace TerrorbornMod
             {
                 countAsThrown = false;
             }
+
+            if (item.ModItem != null && item.ModItem.Mod.Name == "TerrorbornMod")
+            {
+                if (item.consumable && item.maxStack > 1)
+                {
+                    if (item.maxStack > 20)
+                    {
+                        if (item.maxStack >= 100)
+                        {
+                            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[item.type] = 100;
+                        }
+                        else
+                        {
+                            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[item.type] = item.maxStack;
+                        }
+                    }
+                    else
+                    {
+                        CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[item.type] = 20;
+                    }
+                }
+                else
+                {
+                    CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[item.type] = 1;
+                }
+            }
         }
 
         public static TerrorbornItem modItem(Item item)
@@ -302,9 +329,6 @@ namespace TerrorbornMod
         public static int restlessColorDirection = 1;
         int restlessTransitionTime = 60;
 
-        public static float rarityColorProgress = 0f;
-        public static int rarityColorDirection = 1;
-        int rarityColorTransitionTime = 30;
 
         public static Color burstJumpColor1 = Color.FromNonPremultiplied(61, 255, 83, 255);
         public static Color burstJumpColor2 = Color.FromNonPremultiplied(189, 42, 255, 255);
@@ -322,17 +346,12 @@ namespace TerrorbornMod
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.LocalPlayer);
 
-            TooltipLine line = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
-
-            if (item.rare >= 12 && item.ModItem != null && item.ModItem.Mod == Mod)
-            {
-                tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria").overrideColor = Color.Lerp(Color.Goldenrod, Color.LightGoldenrodYellow, rarityColorProgress);
-            }
+            TooltipLine line = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.Mod == "Terraria");
 
             if (restless)
             {
                 tooltips.Insert(1, new TooltipLine(Mod, "restlessItem", "--Restless Weapon--"));
-                tooltips.FirstOrDefault(x => x.Name == "restlessItem" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(restlessColor1, restlessColor2, restlessColorProgress);
+                tooltips.FirstOrDefault(x => x.Name == "restlessItem" && x.Mod == "TerrorbornMod").OverrideColor = Color.Lerp(restlessColor1, restlessColor2, restlessColorProgress);
             }
 
             restlessColorProgress += (1f / restlessTransitionTime) * restlessColorDirection;
@@ -347,40 +366,28 @@ namespace TerrorbornMod
                 restlessColorDirection *= -1;
             }
 
-            rarityColorProgress += (1f / rarityColorTransitionTime) * rarityColorDirection;
-
-            if (rarityColorDirection == 1 && rarityColorProgress >= 1f)
-            {
-                rarityColorDirection *= -1;
-            }
-
-            if (rarityColorDirection == -1 && rarityColorProgress <= 0f)
-            {
-                rarityColorDirection *= -1;
-            }
-
             if (burstJump)
             {
                 tooltips.Insert(1, new TooltipLine(Mod, "burstJumpItem", "--Burst Jump--"));
-                tooltips.FirstOrDefault(x => x.Name == "burstJumpItem" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(burstJumpColor1, burstJumpColor2, burstJumpColorProgress);
+                tooltips.FirstOrDefault(x => x.Name == "burstJumpItem" && x.Mod == "TerrorbornMod").OverrideColor = Color.Lerp(burstJumpColor1, burstJumpColor2, burstJumpColorProgress);
             }
 
             if (item.type == ItemID.IronPickaxe || item.type == ItemID.LeadPickaxe || item.type == ItemID.TungstenPickaxe || item.type == ItemID.SilverPickaxe || item.type == ItemID.PlatinumPickaxe || item.type == ItemID.GoldPickaxe)
             {
                 tooltips.Add(new TooltipLine(Mod, "MineNovagold", "Can mine novagold ore"));
-                tooltips.FirstOrDefault(x => x.Name == "MineNovagold" && x.mod == "TerrorbornMod").overrideColor = new Color(207, 253, 255);
+                tooltips.FirstOrDefault(x => x.Name == "MineNovagold" && x.Mod == "TerrorbornMod").OverrideColor = new Color(207, 253, 255);
             }
 
             if (item.type == ItemID.MythrilPickaxe || item.type == ItemID.OrichalcumPickaxe)
             {
                 tooltips.Add(new TooltipLine(Mod, "MineAlloy", "Can mine incendiary alloy in the Sisyphean Islands"));
-                tooltips.FirstOrDefault(x => x.Name == "MineAlloy" && x.mod == "TerrorbornMod").overrideColor = new Color(255, 211, 207);
+                tooltips.FirstOrDefault(x => x.Name == "MineAlloy" && x.Mod == "TerrorbornMod").OverrideColor = new Color(255, 211, 207);
             }
 
             if (item.type == ItemID.Picksaw)
             {
                 tooltips.Add(new TooltipLine(Mod, "MineSkullmound", "Can mine skullmound ore in the Sisyphean Islands"));
-                tooltips.FirstOrDefault(x => x.Name == "MineSkullmound" && x.mod == "TerrorbornMod").overrideColor = new Color(255, 211, 207);
+                tooltips.FirstOrDefault(x => x.Name == "MineSkullmound" && x.Mod == "TerrorbornMod").OverrideColor = new Color(255, 211, 207);
             }
 
             burstJumpColorProgress += (1f / burstJumpTransitionTime) * burstJumpColorDirection;
@@ -398,7 +405,7 @@ namespace TerrorbornMod
             if (parryShield)
             {
                 tooltips.Insert(1, new TooltipLine(Mod, "shieldItem", "--Parry Shield--"));
-                tooltips.FirstOrDefault(x => x.Name == "shieldItem" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(shieldColor1, shieldColor2, shieldColorProgress);
+                tooltips.FirstOrDefault(x => x.Name == "shieldItem" && x.Mod == "TerrorbornMod").OverrideColor = Color.Lerp(shieldColor1, shieldColor2, shieldColorProgress);
             }
 
             shieldColorProgress += (1f / shieldTransitionTime) * shieldColorDirection;
@@ -413,18 +420,18 @@ namespace TerrorbornMod
                 shieldColorDirection *= -1;
             }
 
-            line = tooltips.FirstOrDefault(x => x.Name == "Social" && x.mod == "Terraria");
+            line = tooltips.FirstOrDefault(x => x.Name == "Social" && x.Mod == "Terraria");
 
             if (ShriekDrainBoost != 0f && line == null)
             {
                 tooltips.Add(new TooltipLine(Mod, "shriekterrorprefix", "+" + (ShriekDrainBoost * 100f) + "% Shriek of Horror terror drain"));
-                tooltips.FirstOrDefault(x => x.Name == "shriekterrorprefix" && x.mod == "TerrorbornMod").isModifier = true;
+                tooltips.FirstOrDefault(x => x.Name == "shriekterrorprefix" && x.Mod == "TerrorbornMod").IsModifier = true;
             }
 
             if (critDamageBoost != 0f && line == null)
             {
                 tooltips.Add(new TooltipLine(Mod, "critdamageprefix", "+" + (critDamageBoost * 100f) + "% critical damage"));
-                tooltips.FirstOrDefault(x => x.Name == "critdamageprefix" && x.mod == "TerrorbornMod").isModifier = true;
+                tooltips.FirstOrDefault(x => x.Name == "critdamageprefix" && x.Mod == "TerrorbornMod").IsModifier = true;
             }
 
             if (ShriekSpeedMultiplier != 1f && line == null)
@@ -438,8 +445,8 @@ namespace TerrorbornMod
                 }
 
                 tooltips.Add(new TooltipLine(Mod, "shriekspeedprefix", changeText + "% Shriek of Horror charge up time"));
-                tooltips.FirstOrDefault(x => x.Name == "shriekspeedprefix" && x.mod == "TerrorbornMod").isModifier = true;
-                tooltips.FirstOrDefault(x => x.Name == "shriekspeedprefix" && x.mod == "TerrorbornMod").isModifierBad = isBad;
+                tooltips.FirstOrDefault(x => x.Name == "shriekspeedprefix" && x.Mod == "TerrorbornMod").IsModifier = true;
+                tooltips.FirstOrDefault(x => x.Name == "shriekspeedprefix" && x.Mod == "TerrorbornMod").IsModifierBad = isBad;
             }
 
             if (allUseSpeedBoost != 1f && line == null)
@@ -453,21 +460,21 @@ namespace TerrorbornMod
                 }
 
                 tooltips.Add(new TooltipLine(Mod, "usespeedprefix", changeText + "% item use speed"));
-                tooltips.FirstOrDefault(x => x.Name == "usespeedprefix" && x.mod == "TerrorbornMod").isModifier = true;
-                tooltips.FirstOrDefault(x => x.Name == "usespeedprefix" && x.mod == "TerrorbornMod").isModifierBad = isBad;
+                tooltips.FirstOrDefault(x => x.Name == "usespeedprefix" && x.Mod == "TerrorbornMod").IsModifier = true;
+                tooltips.FirstOrDefault(x => x.Name == "usespeedprefix" && x.Mod == "TerrorbornMod").IsModifierBad = isBad;
             }
 
             if (TerrorCost > 0f)
             {
                 string changeText = "+" + TerrorCost;
                 tooltips.Add(new TooltipLine(Mod, "terrorcostprefix", changeText + "% terror required per use"));
-                tooltips.FirstOrDefault(x => x.Name == "terrorcostprefix" && x.mod == "TerrorbornMod").isModifier = true;
-                tooltips.FirstOrDefault(x => x.Name == "terrorcostprefix" && x.mod == "TerrorbornMod").isModifierBad = true;
+                tooltips.FirstOrDefault(x => x.Name == "terrorcostprefix" && x.Mod == "TerrorbornMod").IsModifier = true;
+                tooltips.FirstOrDefault(x => x.Name == "terrorcostprefix" && x.Mod == "TerrorbornMod").IsModifierBad = true;
             }
 
             if (terrorPotionTerror > 0f && !TerrorbornSystem.obtainedShriekOfHorror)
             {
-                int index = tooltips.FindIndex(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+                int index = tooltips.FindIndex(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
                 tooltips.RemoveAt(index);
                 tooltips.Insert(index, new TooltipLine(Mod, "noUseTerrorPotion", "A flask containing a strange substance" +
                     "\n'Can only be used by those who can shriek'"));
@@ -490,12 +497,12 @@ namespace TerrorbornMod
 
             if (TerrorbornMod.showCritDamage && item.damage != 0 && !item.accessory)
             {
-                if (tooltips.FirstOrDefault(x => x.Name == "CritChance" && x.mod == "Terraria") != null)
+                if (tooltips.FirstOrDefault(x => x.Name == "CritChance" && x.Mod == "Terraria") != null)
                 {
-                    tooltips.Insert(tooltips.FindIndex(x => x.Name == "CritChance" && x.mod == "Terraria"), new TooltipLine(Mod, "CritDamage", Math.Round(200f * critDamageMult * modPlayer.critDamage).ToString() + "% critical strike damage"));
+                    tooltips.Insert(tooltips.FindIndex(x => x.Name == "CritChance" && x.Mod == "Terraria"), new TooltipLine(Mod, "CritDamage", Math.Round(200f * critDamageMult * modPlayer.critDamage).ToString() + "% critical strike damage"));
                     if (critDamageMult != 1f)
                     {
-                        tooltips.FirstOrDefault(x => x.Name == "CritDamage" && x.mod == "TerrorbornMod").overrideColor = Color.FromNonPremultiplied(255, 251, 168, 255);
+                        tooltips.FirstOrDefault(x => x.Name == "CritDamage" && x.Mod == "TerrorbornMod").OverrideColor = Color.FromNonPremultiplied(255, 251, 168, 255);
                     }
                 }
             }
@@ -503,7 +510,7 @@ namespace TerrorbornMod
             if (countAsThrown)
             {
                 tooltips.Add(new TooltipLine(Mod, "countsAsThrown", "Counts as a thrown weapon"));
-                tooltips.FirstOrDefault(x => x.Name == "countsAsThrown" && x.mod == "TerrorbornMod").overrideColor = new Color(193, 243, 245);
+                tooltips.FirstOrDefault(x => x.Name == "countsAsThrown" && x.Mod == "TerrorbornMod").OverrideColor = new Color(193, 243, 245);
                 //tooltips.Insert(tooltips.FindIndex(x => x.Name == "CritChance" && x.mod == "Terraria") + 1, new TooltipLine(mod, "thrownCrit", (Item.crit + Main.LocalPlayer.thrownCrit).ToString() + "% thrown critical strike chance" +
                 //    "\nThrown crit chance replaces regular crit chance every other hit"));
             }

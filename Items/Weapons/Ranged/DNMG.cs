@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Item.shoot = ProjectileID.PurificationPowder;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.value = Item.sellPrice(0, 25, 0, 0);
-            Item.rare = 12;
+            Item.rare = ModContent.RarityType<Rarities.Golden>();
             Item.shootSpeed = 16f;
             Item.useAmmo = AmmoID.Bullet;
             Item.scale = 1f;

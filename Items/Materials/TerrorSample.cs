@@ -29,9 +29,9 @@ namespace TerrorbornMod.Items.Materials
         {
             foreach (TooltipLine line2 in tooltips)
             {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = restlessColor;
+                    line2.OverrideColor = restlessColor;
                 }
             }
         }

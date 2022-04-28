@@ -36,7 +36,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornSystem.terrorRain && Main.raining && spawnInfo.player.ZoneRain)
+            if (TerrorbornSystem.terrorRain && Main.raining && spawnInfo.Player.ZoneRain)
             {
                 return 0.55f;
             }

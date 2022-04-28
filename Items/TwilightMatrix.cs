@@ -14,7 +14,7 @@ namespace TerrorbornMod.Items
                 "\nIn Twilight Mode, all bosses are given more difficult AI and increased health to compensate for the buffs to the player" +
                 //"\nCannot be used if you have already beaten a boss or if Shriek of Horror has already been obtained" +
                 "\nAdditionally, enemy spawnrates are increased and numerous enemies are given new attacks" +
-                "\nTerror is lost over time; having less than 3% terror worsens your stats and disables life regen" +
+                "\nTerror is lost over time while in combat; having less than 3% terror worsens your stats and disables life regen" +
                 "\nConsuming terror fills up a twilight meter, which causes you to enter a twilight overload state for 10 seconds when filled" +
                 "\nIn a twilight overload, you have increased movement speed, jump speed, attack speed, and attack damage, but it is harder to see" +
                 "\nYou will also have increased life regen the more twilight you have" +
@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items
         {
             Item.width = 44;
             Item.height = 56;
-            Item.rare = -12;
+            Item.rare = ModContent.RarityType<Rarities.Twilight>();
             Item.useTime = 60;
             Item.useAnimation = 60;
             Item.autoReuse = false;
@@ -73,7 +73,7 @@ namespace TerrorbornMod.Items
                     {
                         break;
                     }
-                    if (tooltips[i].Name.Contains("Tooltip") && tooltips[i].mod == "Terraria")
+                    if (tooltips[i].Name.Contains("Tooltip") && tooltips[i].Mod == "Terraria")
                     {
                         tooltips.RemoveAt(i);
                         i--;

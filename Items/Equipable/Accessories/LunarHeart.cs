@@ -43,7 +43,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             }
             if (TidalSpiritActive)
             {
-                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<TideSpirit>(), 24, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<TideSpirit>(), 24, 0, player.whoAmI);
             }
         }
     }
@@ -167,7 +167,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                     {
                         float speed = Main.rand.Next(25, 40);
                         Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * speed;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Projectiles.AzuriteShard>(), Projectile.damage, 1, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Projectiles.AzuriteShard>(), Projectile.damage, 1, Projectile.owner);
                     }
                 }
             }

@@ -66,7 +66,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed *= 1.1f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.1f;
 
             if (player.controlDown)
             {

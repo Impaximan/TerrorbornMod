@@ -46,14 +46,14 @@ namespace TerrorbornMod.Abilities
 
         public override void OnUse(Player player)
         {
-            Projectile.NewProjectile(player.GetProjectileSource_Misc(ProjectileSourceID.None), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<StormVortex>(), 0, 0, player.whoAmI);
+            Projectile.NewProjectile(player.GetSource_Misc("TerrorbornAbility_StarvingStorm"), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<StormVortex>(), 0, 0, player.whoAmI);
             Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, player.Center);
         }
     }
 
     class StormVortex : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetDefaults()
         {
             Projectile.width = 1;

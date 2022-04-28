@@ -5,7 +5,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
-using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.Incendiary
 {
@@ -13,7 +12,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 	{
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary)
+			if (TerrorbornPlayer.modPlayer(spawnInfo.Player).ZoneIncendiary)
 			{
 				return SpawnCondition.Sky.Chance * 0.015f;
 			}

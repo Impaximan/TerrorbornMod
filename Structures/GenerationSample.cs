@@ -45,7 +45,7 @@ namespace TerrorbornMod.Structures
         /// </summary>
         /// <param name="p"></param>
         /// <param name="types"></param>
-        public void Apply(bool mute = false, bool forced = true)
+        public void Apply()
         {
             int width = Sample.Width;
             int height = Sample.Height;
@@ -69,7 +69,7 @@ namespace TerrorbornMod.Structures
                             {
                                 if (color.R == tileValues[k].Item1 && color.G == tileValues[k].Item2 && color.B == tileValues[k].Item3)
                                 {
-                                    WorldGen.PlaceTile(WorldPosition.X + i, WorldPosition.Y + j, tileValues[k].Item4, mute, forced);
+                                    WorldGen.PlaceTile(WorldPosition.X + i, WorldPosition.Y + j, tileValues[k].Item4, false, true);
                                     Framing.GetTileSafely(WorldPosition.X + i, WorldPosition.Y + j).Slope = SlopeType.Solid;
                                 }
                                 else if (color.R == airColor.Item1 && color.G == airColor.Item2 && color.B == airColor.Item3)
@@ -106,7 +106,7 @@ namespace TerrorbornMod.Structures
                                     }
                                     else
                                     {
-                                        WorldGen.PlaceWall(x, y, wallValues[k].Item4, mute);
+                                        WorldGen.PlaceWall(x, y, wallValues[k].Item4, false);
                                     }
                                 }
                                 else if (color.R == airColor.Item1 && color.G == airColor.Item2 && color.B == airColor.Item3)
@@ -135,7 +135,7 @@ namespace TerrorbornMod.Structures
                             {
                                 if (color.R == tileValues[k].Item1 && color.G == tileValues[k].Item2 && color.B == tileValues[k].Item3)
                                 {
-                                    WorldGen.PlaceTile(WorldPosition.X + i, WorldPosition.Y + j, tileValues[k].Item4, mute, forced, -1, tileValues[k].Item5);
+                                    WorldGen.PlaceTile(WorldPosition.X + i, WorldPosition.Y + j, tileValues[k].Item4, false, true, -1, tileValues[k].Item5);
                                 }
                             }
                         }

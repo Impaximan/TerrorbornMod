@@ -63,7 +63,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && !NPC.downedGolemBoss)
+            if (TerrorbornPlayer.modPlayer(spawnInfo.Player).ZoneIncendiary && !NPC.downedGolemBoss)
             {
                 return SpawnCondition.Sky.Chance * 0.15f;
             }
@@ -113,7 +113,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                 float speed = 15f;
                 Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
                 Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, NPC.Center);
-                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<CursedJavelin>(), 80 / 4, 0);
+                Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<CursedJavelin>(), 80 / 4, 0);
             }
         }
     }

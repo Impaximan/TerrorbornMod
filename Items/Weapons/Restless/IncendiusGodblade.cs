@@ -134,7 +134,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
                 {
                     float speed = Main.rand.Next(8, 22);
                     Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * speed;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, ProjectileSourceID.None), Projectile.Center, velocity, ModContent.ProjectileType<IncendiusSlash>(), Projectile.damage / 2, 1, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center, velocity, ModContent.ProjectileType<IncendiusSlash>(), Projectile.damage / 2, 1, Projectile.owner);
                 }
             }
             penetrateUntilReturn--;
@@ -198,7 +198,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
                     ProjectileWait = 20;
                     float speed = 15f;
                     Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * speed;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<IncendiusSlash>(), Projectile.damage, 1, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<IncendiusSlash>(), Projectile.damage, 1, Projectile.owner);
                 }
             }
             else

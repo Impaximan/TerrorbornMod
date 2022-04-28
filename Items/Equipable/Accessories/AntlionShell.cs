@@ -43,7 +43,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             }
             if (AntlionShellShieldActive)
             {
-                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<AntlionShellShield>(), 50, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<AntlionShellShield>(), 50, 0, player.whoAmI);
             }
         }
     }

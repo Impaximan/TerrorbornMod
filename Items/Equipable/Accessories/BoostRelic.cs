@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed *= 1.1f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.1f;
             player.jumpSpeedBoost += 1.5f;
             
             if (player.velocity.Y != 0)

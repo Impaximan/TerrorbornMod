@@ -56,7 +56,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
             if (projWait <= 0)
             {
                 projWait = Main.rand.Next(15, 25);
-                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GeckoGloop>(), 30 / 4, 0);
+                Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GeckoGloop>(), 30 / 4, 0);
             }
         }
 

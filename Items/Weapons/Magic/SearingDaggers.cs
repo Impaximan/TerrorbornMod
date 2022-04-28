@@ -107,7 +107,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
             if (crit && Projectile.ai[0] != 1)
             {
-                Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), originalPosition, originalVelocity, Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner)];
+                Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.GetSource_FromThis(), originalPosition, originalVelocity, Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner)];
                 proj.ai[0] = 1;
                 proj.alpha = 255 / 2;
             }

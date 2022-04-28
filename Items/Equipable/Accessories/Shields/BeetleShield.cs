@@ -41,8 +41,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
             modPlayer.parryColor = Color.MediumPurple;
             if (modPlayer.JustParried)
             {
-                Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<OrbitingBeetle>(), 220, 0f, player.whoAmI);
-                int proj = Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<OrbitingBeetle>(), 220, 0f, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<OrbitingBeetle>(), 220, 0f, player.whoAmI);
+                int proj = Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<OrbitingBeetle>(), 220, 0f, player.whoAmI);
                 Main.projectile[proj].ai[0] = 1;
             }
             TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);

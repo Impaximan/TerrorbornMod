@@ -123,7 +123,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
             Player player = Main.player[Projectile.owner];
             Projectile.rotation += MathHelper.ToRadians(45) * player.direction / (Projectile.extraUpdates + 1);
-            rotationFromPlayer += MathHelper.ToRadians(15) * player.direction / (Projectile.extraUpdates + 1) * player.meleeSpeed;
+            rotationFromPlayer += MathHelper.ToRadians(15) * player.direction / (Projectile.extraUpdates + 1) * player.GetAttackSpeed(DamageClass.Melee);
             Projectile.spriteDirection = player.direction;
             Projectile.active = player.channel;
             Projectile.timeLeft = 300;

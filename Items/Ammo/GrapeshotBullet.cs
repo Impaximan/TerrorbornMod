@@ -63,7 +63,7 @@ namespace TerrorbornMod.Items.Ammo
             {
                 Vector2 velocity = Projectile.velocity;
                 velocity *= Main.rand.NextFloat(0.8f, 1.2f);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity.RotatedByRandom(MathHelper.ToRadians(15)), ModContent.ProjectileType<GrapeshotBulletProjectile>(), (int)(Projectile.damage * 0.45f), Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity.RotatedByRandom(MathHelper.ToRadians(15)), ModContent.ProjectileType<GrapeshotBulletProjectile>(), (int)(Projectile.damage * 0.45f), Projectile.knockBack, Projectile.owner);
             }
         }
     }

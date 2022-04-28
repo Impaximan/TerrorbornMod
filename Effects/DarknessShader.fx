@@ -1,7 +1,4 @@
-sampler uImage0 : register(s0);
-sampler uImage1 : register(s1);
-sampler uImage2 : register(s2);
-sampler uImage3 : register(s3);
+sampler uImage0 : register(s0); // The contents of the screen
 float3 uColor;
 float3 uSecondaryColor;
 float2 uScreenResolution;
@@ -12,9 +9,11 @@ float uOpacity;
 float uTime;
 float uIntensity;
 float uProgress;
+float4 uShaderSpecificData;
 float2 uImageSize1;
 float2 uImageSize2;
 float2 uImageSize3;
+float2 uImageSize4;
 float2 uImageOffset;
 float uSaturation;
 float4 uSourceRect;

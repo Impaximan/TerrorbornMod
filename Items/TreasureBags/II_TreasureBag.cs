@@ -29,29 +29,29 @@ namespace TerrorbornMod.Items.TreasureBags
         {
             if (Main.rand.Next(7) == 0)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>());
             }
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.TerrorTonic>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.TerrorTonic>());
             switch (Main.rand.Next(3))
             {
                 case 0:
-                    player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
-                    player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
                     break;
                 case 1:
-                    player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
-                    player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
                     break;
                 case 2:
-                    player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
-                    player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>());
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>());
                     break;
             }
 
             int armorChoice = Main.rand.Next(3);
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.SilentHelmet>());
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.SilentBreastplate>());
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.SilentGreaves>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.SilentHelmet>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.SilentBreastplate>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.SilentGreaves>());
         }
 
         public override int BossBagNPC => ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>();

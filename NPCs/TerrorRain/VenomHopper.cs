@@ -36,7 +36,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornSystem.terrorRain && Main.raining && spawnInfo.player.ZoneRain)
+            if (TerrorbornSystem.terrorRain && Main.raining && spawnInfo.Player.ZoneRain)
             {
                 return 0.8f;
             }
@@ -140,7 +140,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
                             float speed = 20;
                             Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
                             Vector2 positionOffset = new Vector2(NPC.spriteDirection * 10, 0);
-                            int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + positionOffset, velocity, ModContent.ProjectileType<VenomTongueTip>(), 75 / 4, 0);
+                            int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center + positionOffset, velocity, ModContent.ProjectileType<VenomTongueTip>(), 75 / 4, 0);
                             Main.projectile[proj].ai[0] = NPC.whoAmI;
                             Main.projectile[proj].hostile = true;
                         }

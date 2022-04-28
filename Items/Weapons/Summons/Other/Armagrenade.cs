@@ -68,7 +68,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
             {
                 float Speed = Main.rand.Next(7, 10);
                 Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<LittleMothron>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<LittleMothron>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
             }
         }
     }

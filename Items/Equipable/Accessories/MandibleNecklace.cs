@@ -32,7 +32,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.armorPenetration += 8;
+            player.GetArmorPenetration(DamageClass.Generic) += 8;
             player.runAcceleration += 0.065f;
         }
     }

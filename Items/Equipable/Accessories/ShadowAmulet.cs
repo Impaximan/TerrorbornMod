@@ -38,13 +38,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.ShadowAmulet = true;
-            modPlayer.allUseSpeed *= 1.08f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.08f;
         }
     }
 
     class ShadowSoul : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
 
         public override void SetDefaults()
         {

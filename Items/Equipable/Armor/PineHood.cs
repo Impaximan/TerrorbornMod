@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void UpdateEquip(Player player)
         {
-            TerrorbornPlayer.modPlayer(player).magicUseSpeed *= 1.1f;
+            player.GetAttackSpeed(DamageClass.Magic) *= 1.1f;
             player.GetCritChance(DamageClass.Magic) += 6;
         }
 

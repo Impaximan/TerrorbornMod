@@ -2,7 +2,6 @@
 using Terraria;
 using System.Collections.Generic;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Weapons.Magic
@@ -56,7 +55,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
     class AdamantiteLaser : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
 
         public override void SetDefaults()
         {

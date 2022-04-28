@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.PrismalCore = true;
             player.statManaMax2 += 40;
-            modPlayer.magicUseSpeed *= 1.1f;
+            player.GetAttackSpeed(DamageClass.Magic) *= 1.1f;
         }
     }
 }

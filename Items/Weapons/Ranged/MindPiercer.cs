@@ -66,7 +66,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (modTarget.mindSpearheadTime <= 0)
             {
                 modTarget.mindSpearheadTime = 60 * 3;
-                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, ProjectileSourceID.None), target.Center, Vector2.Zero, ModContent.ProjectileType<MindSpearhead>(), 50, 0, Projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<MindSpearhead>(), 50, 0, Projectile.owner);
                 Main.projectile[proj].ai[0] = target.whoAmI;
             }
         }

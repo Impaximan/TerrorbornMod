@@ -52,17 +52,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
+            base.HorizontalWingSpeeds(player, ref speed, ref acceleration);
             speed *= 1f;
             acceleration *= 1.5f;
         }
-
-        //public override void AddRecipes()
-        //{
-        //    ModRecipe recipe = new ModRecipe(mod);
-        //    recipe.AddIngredient(null, "EquipMaterial", 60);
-        //    recipe.AddTile(null, "ExampleWorkbench");
-        //    recipe.SetResult(this);
-        //    recipe.AddRecipe();
-        //}
     }
 }

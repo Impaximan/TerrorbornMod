@@ -51,7 +51,7 @@ namespace TerrorbornMod.Tiles
     }
     public class MemorialBrickItem : ModItem
     {
-        public override string Texture { get { return "Terraria/Item_" + ItemID.GreenBrick; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("DEVELOPER TOOL");
@@ -74,7 +74,7 @@ namespace TerrorbornMod.Tiles
     }
     public class MemorialWallItem : ModItem
     {
-        public override string Texture { get { return "Terraria/Item_" + ItemID.GreenBrickWall; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("DEVELOPER TOOL");

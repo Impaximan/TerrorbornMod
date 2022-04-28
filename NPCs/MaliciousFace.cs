@@ -132,8 +132,8 @@ namespace TerrorbornMod.NPCs
                 attackCounter1++;
                 if (attackCounter1 % 5 == 4)
                 {
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, NPC.DirectionTo(player.Center) * 20f, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 80 / 4, 0f);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, NPC.DirectionTo(player.Center) * 20f, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 80 / 4, 0f);
+                    SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                 }
                 if (attackCounter1 >= 30)
                 {

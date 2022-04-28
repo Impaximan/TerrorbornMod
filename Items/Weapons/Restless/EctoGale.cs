@@ -181,7 +181,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
                 {
                     float speed = Main.rand.Next(15, 25);
                     Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * speed;
-                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, (int)Projectile.ai[1], Projectile.damage / 2, 0f, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, (int)Projectile.ai[1], Projectile.damage / 2, 0f, Projectile.owner);
                     Main.projectile[proj].noDropItem = true;
                 }
             }

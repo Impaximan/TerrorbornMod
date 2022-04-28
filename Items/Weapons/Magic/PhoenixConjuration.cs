@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.useTime = 18;
             Item.useAnimation = 18;
             Item.mana = 25;
-            Item.rare = 12;
+            Item.rare = ModContent.RarityType<Rarities.Golden>();
             Item.shoot = ModContent.ProjectileType<ConjuredPhoenix>();
             Item.shootSpeed = 25f;
             Item.UseSound = SoundID.Item20;

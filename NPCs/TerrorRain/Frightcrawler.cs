@@ -66,7 +66,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 					Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
 					float speed = 17f;
 					Vector2 velocity = (NPC.rotation - MathHelper.ToRadians(90)).ToRotationVector2() * speed;
-					Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
+					Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
                 }
             }
 			if (AIPhase == 1)
@@ -100,9 +100,9 @@ namespace TerrorbornMod.NPCs.TerrorRain
 					Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
 					float speed = 20f;
 					Vector2 velocity = NPC.DirectionTo(target.Center + target.velocity * (NPC.Distance(target.Center) / speed)) * speed;
-					Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
-					Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(-MathHelper.ToRadians(30)), ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
-					Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
+					Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
+					Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(-MathHelper.ToRadians(30)), ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
+					Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
 				}
 			}
 		}

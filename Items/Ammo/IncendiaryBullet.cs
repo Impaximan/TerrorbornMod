@@ -71,7 +71,7 @@ namespace TerrorbornMod.Items.Ammo
             target.AddBuff(BuffID.OnFire, 60 * 10);
             if (crit)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, Projectile.whoAmI), Projectile.Center, target.velocity, ModContent.ProjectileType<Incendius.FlameCloud>(), Projectile.damage / 5, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center, target.velocity, ModContent.ProjectileType<Incendius.FlameCloud>(), Projectile.damage / 5, 0, Projectile.owner);
 
                 Player player = Main.player[Projectile.owner];
                 if (player.statLife <= 250)

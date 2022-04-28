@@ -107,7 +107,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
     class BattleBullet : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         //private bool HasGravity = true;
         //private bool Spawn = true;
         //private bool GravDown = true;

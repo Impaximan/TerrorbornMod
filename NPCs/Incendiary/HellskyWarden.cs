@@ -5,7 +5,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrorbornMod.Projectiles;
 using Terraria.ModLoader.Utilities;
-using Terraria.Utilities;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 
@@ -67,7 +66,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary && NPC.downedGolemBoss)
+            if (TerrorbornPlayer.modPlayer(spawnInfo.Player).ZoneIncendiary && NPC.downedGolemBoss)
             {
                 return SpawnCondition.Sky.Chance * 0.05f;
             }
@@ -110,7 +109,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                         int laserCount = 5;
                         for (int i = 0; i < laserCount; i++)
                         {
-                            Projectile Projectile = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i), ModContent.ProjectileType<HellskyDeathray>(), 120 / 4, 0)];
+                            Projectile Projectile = Main.projectile[Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i), ModContent.ProjectileType<HellskyDeathray>(), 120 / 4, 0)];
                             Projectile.ai[0] = NPC.whoAmI;
                         }
                     }

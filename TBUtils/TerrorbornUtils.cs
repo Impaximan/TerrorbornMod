@@ -5,11 +5,31 @@ using Terraria.WorldBuilding;
 using ReLogic.Graphics;
 using Terraria.GameContent;
 using TerrorbornMod.Abilities;
+using System;
+using ReLogic.Content;
+using System.Threading;
 
 namespace TerrorbornMod
 {
     static class TerrorbornUtils
     {
+        public static void InvokeOnMainThread(Action action)
+        {
+            if (!AssetRepository.IsMainThread)
+            {
+                ManualResetEvent evt = new(false);
+
+                Main.QueueMainThreadAction(() => {
+                    action();
+                    evt.Set();
+                });
+
+                evt.WaitOne();
+            }
+            else
+                action();
+        }
+
         public static string AutoSortTooltip(string tooltip)
         {
             int lineAmount;

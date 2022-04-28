@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrorbornMod.TBUtils;
-using Terraria.DataStructures;
 using System.Collections.Generic;
 
 namespace TerrorbornMod.Items.Weapons.Magic
@@ -82,7 +81,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             {
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                 float speed = Main.rand.Next(10, 15);
-                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<IncendiarySeed>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<IncendiarySeed>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             DustExplosion(Projectile.Center, 10, 25f, 46f);
         }

@@ -72,7 +72,7 @@ namespace TerrorbornMod.Items.Ammo
                 DustExplosion(Projectile.Center, 10, 5f, 10f);
                 Terraria.Audio.SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
                 Projectile.velocity /= 2;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AzureOrb>(), Projectile.damage / 4, Projectile.knockBack / 10f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AzureOrb>(), Projectile.damage / 4, Projectile.knockBack / 10f, Projectile.owner);
             }
             Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
         }
@@ -116,7 +116,7 @@ namespace TerrorbornMod.Items.Ammo
                     DustExplosion(Projectile.Center, 10, 5f, 10f);
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
                     Projectile.velocity /= 2;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AzureOrb>(), Projectile.damage / 4, Projectile.knockBack / 10f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AzureOrb>(), Projectile.damage / 4, Projectile.knockBack / 10f, Projectile.owner);
                 }
             }
 
@@ -126,7 +126,7 @@ namespace TerrorbornMod.Items.Ammo
 
     class AzureOrb : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
 
         public override void SetDefaults()
         {

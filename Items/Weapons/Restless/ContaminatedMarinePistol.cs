@@ -78,7 +78,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
     class NightmareBoilRanged : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetDefaults()
         {
             Projectile.width = 10;

@@ -46,11 +46,8 @@ namespace TerrorbornMod
         public int iFrames = 120;
 
         //Extra generic stats
-        public float magicUseSpeed = 1f;
-        public float rangedUseSpeed = 1f;
         public float toolUseSpeed = 1f;
         public float placeSpeed = 1f;
-        public float allUseSpeed = 1f;
         public bool canUseItems = true;
         public float critDamage = 1f;
         public float flightTimeMultiplier = 1f;
@@ -694,13 +691,10 @@ namespace TerrorbornMod
             {
                 ShriekRangeMultiplier += 1 / 3;
             }
-            rangedUseSpeed = 1f;
             toolUseSpeed = 1f;
             placeSpeed = 1f;
             SangoonBand = false;
             LiesOfNourishment = false;
-            magicUseSpeed = 1f;
-            allUseSpeed = 1f;
             IncendiaryShield = false;
             Aerodynamic = false;
             TorturersTalisman = false;
@@ -732,12 +726,12 @@ namespace TerrorbornMod
         {
             if (graniteSpark)
             {
-                if (Player.controlLeft) Player.velocity.X = -graniteSparkData.speed;
-                else if (Player.controlRight) Player.velocity.X = graniteSparkData.speed;
+                if (Player.controlLeft) Player.velocity.X = -GraniteSparkData.speed;
+                else if (Player.controlRight) Player.velocity.X = GraniteSparkData.speed;
                 else Player.velocity.X = 0;
 
-                if (Player.controlUp) Player.velocity.Y = -graniteSparkData.speed;
-                else if (Player.controlDown) Player.velocity.Y = graniteSparkData.speed;
+                if (Player.controlUp) Player.velocity.Y = -GraniteSparkData.speed;
+                else if (Player.controlDown) Player.velocity.Y = GraniteSparkData.speed;
                 else Player.velocity.Y = 0;
             }
 
@@ -777,7 +771,7 @@ namespace TerrorbornMod
         public override float UseTimeMultiplier(Item item)
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(item);
-            float finalMult = allUseSpeed;
+            float finalMult = 1f;
             if (item.pick > 0 || item.axe > 0 || item.hammer > 0)
             {
                 finalMult *= toolUseSpeed;
@@ -788,31 +782,11 @@ namespace TerrorbornMod
             {
                 finalMult *= placeSpeed;
             }
-            if (item.DamageType == DamageClass.Magic)
-            {
-                finalMult *= magicUseSpeed;
-            }
-            if (item.DamageType == DamageClass.Ranged)
-            {
-                finalMult *= rangedUseSpeed;
-            }
-            if (modItem.restless)
-            {
-                finalMult *= restlessUseSpeed;
-                if (modItem.RestlessChargedUp())
-                {
-                    finalMult *= restlessChargedUseSpeed;
-                }
-                else
-                {
-                    finalMult *= restlessNonChargedUseSpeed;
-                }
-            }
-            if (item.useTime <= 5)
-            {
-                return 1f;
-            }
-            return finalMult;
+            //if (item.useTime <= 5)
+            //{
+            //    return 1f;
+            //}
+            return 1f / finalMult;
         }
 
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
@@ -938,7 +912,7 @@ namespace TerrorbornMod
 
             if (TimeFreezeTime > 0)
             {
-                allUseSpeed *= 0.5f;
+                Player.GetAttackSpeed(DamageClass.Generic) *= 0.5f;
             }
 
             if (Glooped)
@@ -948,7 +922,7 @@ namespace TerrorbornMod
 
             if (VoidBlinkTime > 0)
             {
-                allUseSpeed *= 1.3f;
+                Player.GetAttackSpeed(DamageClass.Generic) *= 1.3f;
                 Player.accRunSpeed *= 2;
             }
 
@@ -959,7 +933,7 @@ namespace TerrorbornMod
 
             if (InTwilightOverload)
             {
-                allUseSpeed *= 1.3f;
+                Player.GetAttackSpeed(DamageClass.Generic) *= 1.3f;
                 Player.accRunSpeed *= 2;
                 Player.jumpSpeedBoost += 3f;
             }
@@ -1277,7 +1251,7 @@ namespace TerrorbornMod
             Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)Player.Center.X, (int)Player.Center.Y, 104, 1, 2f);
         }
 
-        public override void ModifyWeaponDamage(Item item, ref StatModifier damage, ref float flat)
+        public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
         {
             if (TerrorbornSystem.TwilightMode && TerrorPercent <= 3f)
             {
@@ -1610,7 +1584,7 @@ namespace TerrorbornMod
 
             if (TerrorbornMod.quickVirus.JustPressed && Player.HasItem(ModContent.ItemType<Items.GraniteVirusSpark>()))
             {
-                graniteSparkData.Transform(Player);
+                GraniteSparkData.Transform(Player);
             }
 
             if (graniteSpark || astralSpark)

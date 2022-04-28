@@ -83,8 +83,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             player.GetCritChance(DamageClass.Melee) += 15;
-            player.meleeSpeed += 0.15f;
-            player.meleeSpeed += 0.1f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.15f;
+            player.GetDamage(DamageClass.Melee) *= 1.1f;
         }
 
         public override void SetDefaults()
@@ -185,7 +185,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed += 0.12f;
+            player.GetAttackSpeed(DamageClass.Generic) += 0.12f;
             modPlayer.flightTimeMultiplier *= 1.5f;
             modPlayer.ShriekRangeMultiplier *= 1.5f;
         }
@@ -261,7 +261,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             player.moveSpeed += 0.5f;
-            modPlayer.allUseSpeed *= 1.3f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.3f;
             modPlayer.critDamage *= 1.3f;
         }
     }

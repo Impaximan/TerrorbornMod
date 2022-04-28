@@ -29,38 +29,38 @@ namespace TerrorbornMod.Items.TreasureBags
         {
             if (Main.rand.Next(7) == 0)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.ShadowcrawlerMask>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.ShadowcrawlerMask>());
             }
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Accessories.DarkAbdomen>());
-            player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Materials.SoulOfPlight>(), Main.rand.Next(25, 41));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Accessories.DarkAbdomen>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Materials.SoulOfPlight>(), Main.rand.Next(25, 41));
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Shadowcrawler.BladeOfShade>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Shadowcrawler.BladeOfShade>());
             }
             else if (choice == 1)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Shadowcrawler.Nightbrood>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Shadowcrawler.Nightbrood>());
             }
             else if (choice == 2)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Shadowcrawler.BoiledBarrageWand>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Shadowcrawler.BoiledBarrageWand>());
             }
             int armorChoice = Main.rand.Next(3);
             if (armorChoice == 0)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisMask>());
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisChestplate>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisMask>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisChestplate>());
             }
             if (armorChoice == 1)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>());
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisChestplate>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisChestplate>());
             }
             if (armorChoice == 2)
             {
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisMask>());
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisMask>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>());
             }
         }
 

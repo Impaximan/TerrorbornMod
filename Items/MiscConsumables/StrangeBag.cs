@@ -54,7 +54,7 @@ namespace TerrorbornMod.Items.MiscConsumables
                         break;
                 }
 
-                player.QuickSpawnItem(player.GetItemSource_OpenItem(Item.type), type, Main.rand.Next(2, 4));
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), type, Main.rand.Next(2, 4));
             }
         }
     }

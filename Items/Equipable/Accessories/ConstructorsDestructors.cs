@@ -45,9 +45,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             }
             if (destructorActive)
             {
-                int proj = Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ConstructorsDestructorsClaw>(), 50, 0, player.whoAmI);
+                int proj = Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ConstructorsDestructorsClaw>(), 50, 0, player.whoAmI);
                 Main.projectile[proj].ai[0] = 1;
-                proj = Projectile.NewProjectile(player.GetProjectileSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ConstructorsDestructorsClaw>(), 50, 0, player.whoAmI);
+                proj = Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ConstructorsDestructorsClaw>(), 50, 0, player.whoAmI);
                 Main.projectile[proj].ai[0] = -1;
             }
         }
@@ -179,7 +179,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                         if (attackCounter1 > 25)
                         {
                             AIPhase = 0;
-                            cooldownTime = (int)(Main.rand.Next(25, 35) / player.meleeSpeed / superiorPlayer.allUseSpeed);
+                            cooldownTime = (int)(Main.rand.Next(25, 35) / player.GetAttackSpeed(DamageClass.Melee) / player.GetAttackSpeed(DamageClass.Generic));
                         }
                         Projectile.velocity *= 0.95f;
                     }
@@ -192,10 +192,10 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                     if (attackCounter1 > 60)
                     {
                         AIPhase = 0;
-                        cooldownTime = (int)(120 / superiorPlayer.magicUseSpeed / superiorPlayer.allUseSpeed);
+                        cooldownTime = (int)(120 / player.GetAttackSpeed(DamageClass.Magic) / player.GetAttackSpeed(DamageClass.Generic));
                     }
                     attackDirection = attackDirection.ToRotation().AngleLerp(Projectile.DirectionTo(Main.MouseWorld).ToRotation(), 0.1f).ToRotationVector2();
-                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, attackDirection, ModContent.ProjectileType<ClockworkDeathrayFriendly>(), (int)(50 * player.GetDamage(DamageClass.Magic).Multiplicative * player.GetDamage(DamageClass.Generic).Multiplicative), 0.1f, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, attackDirection, ModContent.ProjectileType<ClockworkDeathrayFriendly>(), (int)(50 * player.GetDamage(DamageClass.Magic).Multiplicative * player.GetDamage(DamageClass.Generic).Multiplicative), 0.1f, Projectile.owner);
                     Main.projectile[proj].ai[0] = Projectile.whoAmI;
                     TerrorbornSystem.ScreenShake(1.5f);
                 }
@@ -217,11 +217,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                         AIPhase = 0;
                     }
                     attackCounter1++;
-                    if (attackCounter1 >= 15 / superiorPlayer.rangedUseSpeed / superiorPlayer.allUseSpeed)
+                    if (attackCounter1 >= 15 / player.GetAttackSpeed(DamageClass.Ranged) / player.GetAttackSpeed(DamageClass.Generic))
                     {
                         attackCounter1 = 0;
                         Terraria.Audio.SoundEngine.PlaySound(SoundID.Item125, Projectile.Center);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, attackDirection.RotatedBy(MathHelper.ToRadians(rotationAmount * Projectile.ai[0])) * 25f, ModContent.ProjectileType<HellbornLaserFriendly>(), (int)(35 * player.GetDamage(DamageClass.Ranged).Multiplicative * player.GetDamage(DamageClass.Generic).Multiplicative), 0.1f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, attackDirection.RotatedBy(MathHelper.ToRadians(rotationAmount * Projectile.ai[0])) * 25f, ModContent.ProjectileType<HellbornLaserFriendly>(), (int)(35 * player.GetDamage(DamageClass.Ranged).Multiplicative * player.GetDamage(DamageClass.Generic).Multiplicative), 0.1f, Projectile.owner);
                     }
                 }
             }

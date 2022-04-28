@@ -112,7 +112,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             {
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                 float speed = Main.rand.Next(10, 15);
-                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), Projectile.damage / 2, 0f, Projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), Projectile.damage / 2, 0f, Projectile.owner);
                 Main.projectile[proj].DamageType = DamageClass.Magic;;
                 Main.projectile[proj].ai[0] = 1;
             }

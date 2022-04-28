@@ -104,7 +104,7 @@ namespace TerrorbornMod.Items
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            int index = tooltips.FindIndex(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            int index = tooltips.FindIndex(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
             tooltips.RemoveAt(index);
 
             TerrorbornItem modItem = TerrorbornItem.modItem(Item);
@@ -114,27 +114,27 @@ namespace TerrorbornMod.Items
             if (Main.LocalPlayer.controlTorch)
             {
                 tooltips.Insert(index, new TooltipLine(Mod, "restlessAltTooltip", altTooltip()));
-                tooltips.FirstOrDefault(x => x.Name == "restlessAltTooltip" && x.mod == "TerrorbornMod").overrideColor = Color.FromNonPremultiplied(255, 251, 168, 255);
+                tooltips.FirstOrDefault(x => x.Name == "restlessAltTooltip" && x.Mod == "TerrorbornMod").OverrideColor = Color.FromNonPremultiplied(255, 251, 168, 255);
             }
             else
             {
                 tooltips.Insert(index, new TooltipLine(Mod, "restlessDefaultTooltip", defaultTooltip()));
-                tooltips.FirstOrDefault(x => x.Name == "restlessDefaultTooltip" && x.mod == "TerrorbornMod").overrideColor = Color.FromNonPremultiplied(255, 168, 168, 255);
+                tooltips.FirstOrDefault(x => x.Name == "restlessDefaultTooltip" && x.Mod == "TerrorbornMod").OverrideColor = Color.FromNonPremultiplied(255, 168, 168, 255);
             }
         }
 
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             damage *= modPlayer.restlessDamage;
-            base.ModifyWeaponDamage(player, ref damage, ref flat);
+            base.ModifyWeaponDamage(player, ref damage);
         }
 
-        public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback, ref float flat)
+        public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             knockback *= modPlayer.restlessKnockback;
-            base.ModifyWeaponKnockback(player, ref knockback, ref flat);
+            base.ModifyWeaponKnockback(player, ref knockback);
         }
 
         //public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)

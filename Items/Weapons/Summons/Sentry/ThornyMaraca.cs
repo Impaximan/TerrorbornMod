@@ -212,7 +212,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
                     Vector2 Rotation = Projectile.DirectionTo(target.Center);
                     float Speed = 20;
                     Vector2 Velocity = Rotation * Speed;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Velocity, ModContent.ProjectileType<PinMissle>(), Projectile.damage * player.maxTurrets, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Velocity, ModContent.ProjectileType<PinMissle>(), Projectile.damage * player.maxTurrets, Projectile.knockBack, Projectile.owner);
                 }
             }
         }

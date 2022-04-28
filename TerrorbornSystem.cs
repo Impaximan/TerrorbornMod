@@ -16,6 +16,7 @@ using TerrorbornMod.UI.TerrorMeter;
 using TerrorbornMod.UI.TerrorAbilityUnlock;
 using TerrorbornMod.UI.TitleCard;
 using TerrorbornMod.UI.TwilightEmpowerment;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TerrorbornMod
 {
@@ -169,14 +170,14 @@ namespace TerrorbornMod
             positionLightning = 1f;
             //transitionColor = Color.FromNonPremultiplied((int)(209f), (int)(138f), (int)(255f), 255);
             ScreenShake(10);
-            //ModContent.GetSound("TerrorbornMod/Sounds/Effects/ThunderAmbience").Play(Main.ambientVolume, Main.rand.NextFloat(-0.25f, 0.25f), Main.rand.NextFloat(-0.3f, 0.3f));
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/ThunderAmbience").Value.Play(Main.ambientVolume, Main.rand.NextFloat(-0.25f, 0.25f), Main.rand.NextFloat(-0.3f, 0.3f));
         }
 
         public static void p1Thunder()
         {
             if (timeSinceLightning > 10)
             {
-                //ModContent.GetSound("TerrorbornMod/Sounds/Effects/ThunderAmbience").Play(Main.soundVolume * 0.75f, Main.rand.NextFloat(0.75f, 1f), Main.rand.NextFloat(-0.3f, 0.3f));
+                ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/ThunderAmbience").Value.Play(Main.soundVolume * 0.75f, Main.rand.NextFloat(0.75f, 1f), Main.rand.NextFloat(-0.3f, 0.3f));
             }
             timeSinceLightning = 0;
             positionLightningP1 = 1f;
@@ -218,7 +219,7 @@ namespace TerrorbornMod
 
         public override void ModifyLightingBrightness(ref float scale)
         {
-            if (TerrorbornSystem.terrorRain && Main.raining && Main.LocalPlayer.ZoneRain && !Main.dayTime)
+            if (terrorRain && Main.raining && Main.LocalPlayer.ZoneRain && !Main.dayTime)
             {
                 scale *= 0.92f;
             }
@@ -229,7 +230,7 @@ namespace TerrorbornMod
             Player player = Main.LocalPlayer;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            if (TerrorbornSystem.terrorRain && Main.raining)
+            if (terrorRain && Main.raining)
             {
                 positionBackward = 0f;
                 if (positionForward < 1f)
@@ -243,6 +244,7 @@ namespace TerrorbornMod
                 transitionColor = Color.Lerp(transitionColor, darkRainColor, positionForward);
                 tileColor = tileColor.MultiplyRGBA(transitionColor);
                 backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
+                Main.ColorOfTheSkies = backgroundColor.MultiplyRGBA(transitionColor);
             }
             else if (transitionColor != Color.White)
             {
@@ -258,6 +260,7 @@ namespace TerrorbornMod
                 transitionColor = Color.Lerp(transitionColor, Color.White, positionBackward);
                 tileColor = tileColor.MultiplyRGBA(transitionColor);
                 backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
+                Main.ColorOfTheSkies = backgroundColor.MultiplyRGBA(transitionColor);
             }
 
             if (!Main.gameMenu && modPlayer.ZoneIncendiary)
@@ -274,6 +277,7 @@ namespace TerrorbornMod
                 transitionColor = Color.Lerp(transitionColor, incendiaryColor, positionForward);
                 tileColor = tileColor.MultiplyRGBA(transitionColor);
                 backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
+                Main.ColorOfTheSkies = backgroundColor.MultiplyRGBA(transitionColor);
                 if (positionLightning > 0f)
                 {
                     positionLightning -= 1f / 30f;
@@ -294,6 +298,7 @@ namespace TerrorbornMod
                 transitionColor = Color.Lerp(transitionColor, Color.White, positionBackward);
                 tileColor = tileColor.MultiplyRGBA(transitionColor);
                 backgroundColor = backgroundColor.MultiplyRGBA(transitionColor);
+                Main.ColorOfTheSkies = backgroundColor.MultiplyRGBA(transitionColor);
             }
 
             bool changingToBossColor = false;
@@ -302,6 +307,7 @@ namespace TerrorbornMod
             {
                 positionLightning -= 1f / 30f;
                 backgroundColor = Color.Lerp(backgroundColor, lightningColor, positionLightning);
+                Main.ColorOfTheSkies = Color.Lerp(backgroundColor, lightningColor, positionLightning);
             }
             if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>()))
             {
@@ -330,6 +336,7 @@ namespace TerrorbornMod
             {
                 positionLightningP1 -= 1f / 30f;
                 backgroundColor = Color.Lerp(backgroundColor, p1LightningColor, positionLightningP1);
+                Main.ColorOfTheSkies = Color.Lerp(backgroundColor, p1LightningColor, positionLightningP1);
             }
 
             //if (!Main.gameMenu)
@@ -2749,7 +2756,7 @@ namespace TerrorbornMod
         Rectangle arena;
         void SetArenaPosition()
         {
-            Vector2 arenaPos = TerrorbornSystem.IIShrinePosition * 16;
+            Vector2 arenaPos = IIShrinePosition * 16;
             arenaPos += new Vector2(-37 * 16, 92 * 16);
             arena = new Rectangle((int)arenaPos.X, (int)arenaPos.Y, 75 * 16, 35 * 16);
         }

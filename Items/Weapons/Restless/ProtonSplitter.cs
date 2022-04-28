@@ -221,7 +221,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
                     {
                         splitter.active = false;
 
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), splitter.Center, Vector2.Zero, ModContent.ProjectileType<ProtonOrb>(), Projectile.damage, Projectile.knockBack * 3, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), splitter.Center, Vector2.Zero, ModContent.ProjectileType<ProtonOrb>(), Projectile.damage, Projectile.knockBack * 3, Projectile.owner);
                     }
                     Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, Projectile.Center);
                     TerrorbornSystem.ScreenShake(3f);

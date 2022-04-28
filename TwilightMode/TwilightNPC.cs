@@ -332,7 +332,7 @@ namespace TerrorbornMod.TwilightMode
 						if (EoCAttackCounter % 3 == 2)
 						{
 							Terraria.Audio.SoundEngine.PlaySound(SoundID.Item34, NPC.Center);
-							Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, NPC.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(90f)) * 24f, ModContent.ProjectileType<EoCFlameThrower>(), 60 / 4, 0f);
+							Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, NPC.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(90f)) * 24f, ModContent.ProjectileType<EoCFlameThrower>(), 60 / 4, 0f);
                         }
 						TerrorbornSystem.ScreenShake(1f);
 						if (EoCAttackCounter > 120)
@@ -351,7 +351,7 @@ namespace TerrorbornMod.TwilightMode
 					EoCAttackCounter++;
 					if (EoCAttackCounter % 30 == 29)
 					{
-						int num22 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.ServantofCthulhu);
+						int num22 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.ServantofCthulhu);
 						Main.npc[num22].lifeMax = (int)MathHelper.Lerp(25f, 40f, (float)NPC.life / (float)NPC.lifeMax / 0.33f);
 						Main.npc[num22].life = Main.npc[num22].lifeMax;
 						Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
@@ -371,7 +371,7 @@ namespace TerrorbornMod.TwilightMode
 					EoCAttackCounter++;
 					if (EoCAttackCounter == 29)
 					{
-						int num22 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.ServantofCthulhu);
+						int num22 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.ServantofCthulhu);
 						Main.npc[num22].lifeMax = (int)MathHelper.Lerp(35f, 55f, (float)NPC.life / (float)NPC.lifeMax / 0.33f);
 						Main.npc[num22].life = Main.npc[num22].lifeMax;
 						Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
@@ -493,7 +493,7 @@ namespace TerrorbornMod.TwilightMode
 							vector2.Y += vector3.Y * 10f;
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								int num22 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)vector2.X, (int)vector2.Y, 5);
+								int num22 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)vector2.X, (int)vector2.Y, 5);
 								Main.npc[num22].velocity.X = vector3.X;
 								Main.npc[num22].velocity.Y = vector3.Y;
 								if (Main.netMode == NetmodeID.Server && num22 < 200)
@@ -613,7 +613,7 @@ namespace TerrorbornMod.TwilightMode
 					vector6.Y += vector7.Y * 10f;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						int num33 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)vector6.X, (int)vector6.Y, 5);
+						int num33 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)vector6.X, (int)vector6.Y, 5);
 						Main.npc[num33].velocity.X = vector7.X;
 						Main.npc[num33].velocity.Y = vector7.Y;
 						if (Main.netMode == NetmodeID.Server && num33 < 200)
@@ -639,9 +639,9 @@ namespace TerrorbornMod.TwilightMode
 						Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y);
 						for (int num34 = 0; num34 < 2; num34++)
 						{
-							Gore.NewGore(NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 8);
-							Gore.NewGore(NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 7);
-							Gore.NewGore(NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 6);
+							Gore.NewGore(NPC.GetSource_Loot(), NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 8);
+							Gore.NewGore(NPC.GetSource_Loot(), NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 7);
+							Gore.NewGore(NPC.GetSource_Loot(), NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 6);
 						}
 						for (int num35 = 0; num35 < 20; num35++)
 						{
@@ -1171,10 +1171,10 @@ namespace TerrorbornMod.TwilightMode
 						NPC.spriteDirection = NPC.direction;
 						Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 0);
 						Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, Main.player[NPC.target].Center);
-						Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), Main.player[NPC.target].Center + new Vector2(Main.player[NPC.target].velocity.X * 67f, 0) + new Vector2(0, 1000), new Vector2(0, -15 + Main.player[NPC.target].velocity.Y), ModContent.ProjectileType<QueenBeeLaser>(), 11, 0)];
+						Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), Main.player[NPC.target].Center + new Vector2(Main.player[NPC.target].velocity.X * 67f, 0) + new Vector2(0, 1000), new Vector2(0, -15 + Main.player[NPC.target].velocity.Y), ModContent.ProjectileType<QueenBeeLaser>(), 11, 0)];
 						proj.tileCollide = false;
 						proj.timeLeft = 300;
-						proj = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), Main.player[NPC.target].Center + new Vector2(Main.player[NPC.target].velocity.X * 67f, 0) + new Vector2(0, -1000), new Vector2(0, 15 + Main.player[NPC.target].velocity.Y), ModContent.ProjectileType<QueenBeeLaser>(), 11, 0)];
+						proj = Main.projectile[Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), Main.player[NPC.target].Center + new Vector2(Main.player[NPC.target].velocity.X * 67f, 0) + new Vector2(0, -1000), new Vector2(0, 15 + Main.player[NPC.target].velocity.Y), ModContent.ProjectileType<QueenBeeLaser>(), 11, 0)];
 						proj.tileCollide = false;
 						proj.timeLeft = 300;
 						return;
@@ -1411,7 +1411,7 @@ namespace TerrorbornMod.TwilightMode
 					Player player = Main.player[NPC.target];
 					float speed = 10f;
 					Vector2 velocity = NPC.DirectionTo(player.Center + (player.velocity * NPC.Distance(player.Center) / speed)) * speed;
-					Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ModContent.ProjectileType<QueenBeeLaser>(), 10, 0f);
+					Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<QueenBeeLaser>(), 10, 0f);
 				}
 
 				bool flag36 = false;
@@ -1427,7 +1427,7 @@ namespace TerrorbornMod.TwilightMode
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int num621 = Main.rand.Next(210, 212);
-						int num622 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)vector78.X, (int)vector78.Y, num621);
+						int num622 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)vector78.X, (int)vector78.Y, num621);
 						Main.npc[num622].velocity.X = (float)Main.rand.Next(-200, 201) * 0.002f;
 						Main.npc[num622].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.002f;
 						Main.npc[num622].localAI[0] = 60f;
@@ -1556,16 +1556,16 @@ namespace TerrorbornMod.TwilightMode
 						int num635 = 55;
 						float lightAmount = 0.5f;
 						float rotationAmount = 35;//adds 2 extra Projectiles with a set offset
-						int num636 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector80.X, vector80.Y, num631, num632, num635, num634, 0f, Main.myPlayer);
+						int num636 = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), vector80.X, vector80.Y, num631, num632, num635, num634, 0f, Main.myPlayer);
 						Main.projectile[num636].timeLeft = 300;
 						Main.projectile[num636].light = lightAmount;
 						Main.projectile[num636].tileCollide = false;
-						num636 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector80.X, vector80.Y, num631, num632, num635, num634, 0f, Main.myPlayer);
+						num636 = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), vector80.X, vector80.Y, num631, num632, num635, num634, 0f, Main.myPlayer);
 						Main.projectile[num636].timeLeft = 300;
 						Main.projectile[num636].light = lightAmount;
 						Main.projectile[num636].tileCollide = false;
 						Main.projectile[num636].velocity = Main.projectile[num636].velocity.RotatedBy(MathHelper.ToRadians(rotationAmount));
-						num636 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector80.X, vector80.Y, num631, num632, num635, num634, 0f, Main.myPlayer);
+						num636 = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), vector80.X, vector80.Y, num631, num632, num635, num634, 0f, Main.myPlayer);
 						Main.projectile[num636].timeLeft = 300;
 						Main.projectile[num636].light = lightAmount;
 						Main.projectile[num636].tileCollide = false;
@@ -2144,7 +2144,7 @@ namespace TerrorbornMod.TwilightMode
 									for (int i = 0; i <  Main.rand.Next(3, 5); i++)
 									{
 										spinninpoint = spinninpoint.RotatedByRandom(MathHelper.ToRadians(360));
-										Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector3.X, vector3.Y, spinninpoint.X / 2, spinninpoint.Y / 2, ProjectileID.FrostWave, 18, 0f, Main.myPlayer);
+										Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), vector3.X, vector3.Y, spinninpoint.X / 2, spinninpoint.Y / 2, ProjectileID.FrostWave, 18, 0f, Main.myPlayer);
 									}
 								}
 							}
@@ -2161,7 +2161,7 @@ namespace TerrorbornMod.TwilightMode
 						for (int n = 0; n < 1; n++)
 						{
 							Vector2 vector5 = vec * 4f;
-							Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector4.X, vector4.Y, vector5.X, vector5.Y, ProjectileID.CultistBossIceMist, num2, 0f, Main.myPlayer, 0f, 1f)];
+							Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), vector4.X, vector4.Y, vector5.X, vector5.Y, ProjectileID.CultistBossIceMist, num2, 0f, Main.myPlayer, 0f, 1f)];
 							proj.extraUpdates += 1;
 						}
 					}
@@ -2221,7 +2221,7 @@ namespace TerrorbornMod.TwilightMode
 										spinninpoint2 = spinninpoint2.RotatedByRandom(0.52359879016876221);
 										float speed = 15f;
 										Vector2 actualVelocity = NPC4.DirectionTo(player.Center + player.velocity * (NPC4.Distance(player.Center) / speed)) * speed;
-										Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector6.X, vector6.Y, actualVelocity.X, actualVelocity.Y, ProjectileID.Fireball, num7, 0f, Main.myPlayer);
+										Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), vector6.X, vector6.Y, actualVelocity.X, actualVelocity.Y, ProjectileID.Fireball, num7, 0f, Main.myPlayer);
 									}
 								}
 							}
@@ -2244,7 +2244,7 @@ namespace TerrorbornMod.TwilightMode
 						{
 							Vector2 spinninpoint3 = vec2 * (6f + (float)Main.rand.NextDouble() * 4f);
 							spinninpoint3 = spinninpoint3.RotatedByRandom(0.52359879016876221);
-							Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector7.X, vector7.Y, spinninpoint3.X, spinninpoint3.Y, ProjectileID.CultistBossFireBall, num5, 0f, Main.myPlayer);
+							Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), vector7.X, vector7.Y, spinninpoint3.X, spinninpoint3.Y, ProjectileID.CultistBossFireBall, num5, 0f, Main.myPlayer);
 						}
 					}
 				}
@@ -2299,7 +2299,7 @@ namespace TerrorbornMod.TwilightMode
 							{
 								Vector2 spinninpoint4 = vector8 * (6f + (float)Main.rand.NextDouble() * 4f);
 								spinninpoint4 = spinninpoint4.RotatedByRandom(0.52359879016876221);
-								Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector9.X, vector9.Y - 100f, spinninpoint4.X, spinninpoint4.Y, ProjectileID.CultistBossLightningOrb, num7, 0f, Main.myPlayer);
+								Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), vector9.X, vector9.Y - 100f, spinninpoint4.X, spinninpoint4.Y, ProjectileID.CultistBossLightningOrb, num7, 0f, Main.myPlayer);
 							}
 						}
 					}
@@ -2307,7 +2307,7 @@ namespace TerrorbornMod.TwilightMode
 					{
 						float speed = 8.5f;
 						Vector2 velocity = player.DirectionFrom(new Vector2(NPC.Center.X, NPC.Center.Y - 100f)) * speed;
-						Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y - 100f, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrb, num7, 0f, Main.myPlayer);
+						Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y - 100f, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrb, num7, 0f, Main.myPlayer);
 					}
 				}
 				NPC.ai[1] += 1f;
@@ -2376,7 +2376,7 @@ namespace TerrorbornMod.TwilightMode
 								Vector2 center6 = NPC.Center + spinningpoint.RotatedBy((float)num36 * ((float)Math.PI * 2f) / (float)num31 - (float)Math.PI / 2f);
 								if (num35-- > 0)
 								{
-									int num37 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)center6.X, (int)center6.Y + NPC.height / 2, NPCID.CultistBossClone, NPC.whoAmI);
+									int num37 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)center6.X, (int)center6.Y + NPC.height / 2, NPCID.CultistBossClone, NPC.whoAmI);
 									Main.npc[num37].ai[3] = NPC.whoAmI;
 									Main.npc[num37].netUpdate = true;
 									Main.npc[num37].localAI[1] = NPC.localAI[1];
@@ -2389,7 +2389,7 @@ namespace TerrorbornMod.TwilightMode
 								}
 							}
 						}
-						NPC.ai[2] = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ProjectileID.CultistRitual, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+						NPC.ai[2] = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ProjectileID.CultistRitual, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
 						NPC.Center += spinningpoint.RotatedBy((float)num33 * ((float)Math.PI * 2f) / (float)num31 - (float)Math.PI / 2f);
 						NPC.netUpdate = true;
 						list6.Clear();
@@ -2583,7 +2583,7 @@ namespace TerrorbornMod.TwilightMode
 								{
 									Vector2 spinninpoint5 = vec3 * (6f + (float)Main.rand.NextDouble() * 4f);
 									spinninpoint5 = spinninpoint5.RotatedByRandom(1.2566370964050293);
-									Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector14.X, vector14.Y, spinninpoint5.X, spinninpoint5.Y, ProjectileID.CultistBossFireBallClone, 18, 0f, Main.myPlayer);
+									Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), vector14.X, vector14.Y, spinninpoint5.X, spinninpoint5.Y, ProjectileID.CultistBossFireBallClone, 18, 0f, Main.myPlayer);
 								}
 							}
 						}
@@ -2608,7 +2608,7 @@ namespace TerrorbornMod.TwilightMode
 							Vector2 spinningpoint2 = vec3 * num48;
 							spinningpoint2 = spinningpoint2.RotatedBy(num49 * (float)num50 - ((float)Math.PI * 2f / 5f - num49) / 2f);
 							float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * ((float)Math.PI * 2f) / 60f;
-							int num51 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)vector15.X, (int)vector15.Y + 7, 522, 0, 0f, ai, spinningpoint2.X, spinningpoint2.Y);
+							int num51 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)vector15.X, (int)vector15.Y + 7, 522, 0, 0f, ai, spinningpoint2.X, spinningpoint2.Y);
 							Main.npc[num51].velocity = spinningpoint2;
 							Main.npc[num51].dontTakeDamage = true;
 						}
@@ -2678,7 +2678,7 @@ namespace TerrorbornMod.TwilightMode
 									}
 									if (flag7)
 									{
-										int newNPC = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), num61 * 16 + 8, num62 * 16 + 8, 523, 0, NPC.whoAmI);
+										int newNPC = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), num61 * 16 + 8, num62 * 16 + 8, 523, 0, NPC.whoAmI);
 										Main.npc[newNPC].dontTakeDamage = true;
 										flag6 = true;
 										break;
@@ -2726,7 +2726,7 @@ namespace TerrorbornMod.TwilightMode
 					float y3 = NPC.Center.Y;
 					x2 += (float)Main.rand.Next(-NPC.width, NPC.width);
 					y3 += (float)Main.rand.Next(-NPC.height, NPC.height);
-					int num797 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)x2, (int)y3, NPCID.Creeper);
+					int num797 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)x2, (int)y3, NPCID.Creeper);
 					Main.npc[num797].velocity = new Vector2((float)Main.rand.Next(-30, 31) * 0.1f, (float)Main.rand.Next(-30, 31) * 0.1f);
 					Main.npc[num797].netUpdate = true;
 					invincible *= -1;
@@ -2783,7 +2783,7 @@ namespace TerrorbornMod.TwilightMode
 						Vector2 position = creeper.Center;
 						float speed = 9f;
 						Vector2 velocity = creeper.DirectionTo(Main.player[NPC.target].Center) * speed;
-						int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, velocity, ProjectileID.GoldenShowerHostile, 25 / 4, 0f);
+						int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), position, velocity, ProjectileID.GoldenShowerHostile, 25 / 4, 0f);
 						Main.projectile[proj].tileCollide = false;
 					}
                 }
@@ -2819,10 +2819,10 @@ namespace TerrorbornMod.TwilightMode
 				{
 					Terraria.Audio.SoundEngine.PlaySound(3, (int)NPC.position.X, (int)NPC.position.Y);
 					NPC.localAI[2] = 1f;
-					Gore.NewGore(NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 392);
-					Gore.NewGore(NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 393);
-					Gore.NewGore(NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 394);
-					Gore.NewGore(NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 395);
+					Gore.NewGore(NPC.GetSource_Loot(), NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 392);
+					Gore.NewGore(NPC.GetSource_Loot(), NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 393);
+					Gore.NewGore(NPC.GetSource_Loot(), NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 394);
+					Gore.NewGore(NPC.GetSource_Loot(), NPC.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 395);
 					for (int num799 = 0; num799 < 20; num799++)
 					{
 						Dust.NewDust(NPC.position, NPC.width, NPC.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f);
@@ -2852,7 +2852,7 @@ namespace TerrorbornMod.TwilightMode
 						float y3 = NPC.Center.Y;
 						x2 += (float)Main.rand.Next(-NPC.width, NPC.width);
 						y3 += (float)Main.rand.Next(-NPC.height, NPC.height);
-						int num797 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)x2, (int)y3, NPCID.Creeper);
+						int num797 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)x2, (int)y3, NPCID.Creeper);
 						Main.npc[num797].velocity = new Vector2((float)Main.rand.Next(-30, 31) * 0.1f, (float)Main.rand.Next(-30, 31) * 0.1f);
 						Main.npc[num797].netUpdate = true;
 						invincible *= -1;
@@ -3093,7 +3093,7 @@ namespace TerrorbornMod.TwilightMode
 				}
 				if (Main.netMode != 1)
 				{
-					int num334 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)(NPC.height / 2) + 20f), 117, 1);
+					int num334 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)(NPC.height / 2) + 20f), 117, 1);
 					Main.npc[num334].velocity.X = NPC.direction * 8;
 				}
 			}
@@ -3308,7 +3308,7 @@ namespace TerrorbornMod.TwilightMode
 						}
 						if (num352 >= 0)
 						{
-							int num357 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.position.X, (int)num342, 115, NPC.whoAmI);
+							int num357 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.position.X, (int)num342, 115, NPC.whoAmI);
 							Main.npc[num357].ai[0] = (float)num352 * 0.1f - 0.05f;
 						}
 					}
@@ -3320,7 +3320,7 @@ namespace TerrorbornMod.TwilightMode
 				num342 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
 				num342 = (num342 + (float)Main.wofDrawAreaTop) / 2f;
 
-				int num358 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.position.X, (int)num342, 114, NPC.whoAmI);
+				int num358 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.position.X, (int)num342, 114, NPC.whoAmI);
 				Main.npc[num358].ai[0] = 1f;
 				num342 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
 				num342 = (num342 + (float)Main.wofDrawAreaBottom) / 2f;
@@ -3328,7 +3328,7 @@ namespace TerrorbornMod.TwilightMode
 				topEye = Main.npc[num358];
 				topEye.realLife = NPC.whoAmI;
 
-				num358 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.position.X, (int)num342, 114, NPC.whoAmI);
+				num358 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.position.X, (int)num342, 114, NPC.whoAmI);
 				Main.npc[num358].ai[0] = -1f;
 				num342 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
 				num342 = (num342 + (float)Main.wofDrawAreaBottom) / 2f;
@@ -3338,7 +3338,7 @@ namespace TerrorbornMod.TwilightMode
 
 				for (int num359 = 0; num359 < 11; num359++)
 				{
-					num358 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), (int)NPC.position.X, (int)num342, 115, NPC.whoAmI);
+					num358 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.position.X, (int)num342, 115, NPC.whoAmI);
 					Main.npc[num358].ai[0] = (float)num359 * 0.1f - 0.05f;
 				}
 			}
@@ -3376,9 +3376,9 @@ namespace TerrorbornMod.TwilightMode
 				}
 				if (timeAlive % 7 == 6)
 				{
-					int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), topEye.Center, topEyeRot.ToRotationVector2() * 7.5f, ProjectileID.GoldenShowerHostile, 60 / 4, 0f, player.whoAmI);
+					int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), topEye.Center, topEyeRot.ToRotationVector2() * 7.5f, ProjectileID.GoldenShowerHostile, 60 / 4, 0f, player.whoAmI);
 					Main.projectile[proj].tileCollide = false;
-					proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), bottomEye.Center, bottomEyeRot.ToRotationVector2() * 15f, ProjectileID.CursedFlameHostile, 60 / 4, 0f, player.whoAmI);
+					proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), bottomEye.Center, bottomEyeRot.ToRotationVector2() * 15f, ProjectileID.CursedFlameHostile, 60 / 4, 0f, player.whoAmI);
 					Main.projectile[proj].tileCollide = false;
 				}
 			}
@@ -3396,9 +3396,9 @@ namespace TerrorbornMod.TwilightMode
 				int timeBetweenProjectiles = (int)MathHelper.Lerp(45f, 120f, (float)NPC.life / (float)NPC.lifeMax);
 				if (timeAlive % timeBetweenProjectiles == timeBetweenProjectiles - 1)
 				{
-					int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), topEye.Center, topEyeRot.ToRotationVector2() * 10f, ProjectileID.EyeLaser, 60 / 4, 0f, player.whoAmI);
+					int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), topEye.Center, topEyeRot.ToRotationVector2() * 10f, ProjectileID.EyeLaser, 60 / 4, 0f, player.whoAmI);
 					Main.projectile[proj].tileCollide = false;
-					proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), bottomEye.Center, bottomEyeRot.ToRotationVector2() * 10f, ProjectileID.EyeLaser, 60 / 4, 0f, player.whoAmI);
+					proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), bottomEye.Center, bottomEyeRot.ToRotationVector2() * 10f, ProjectileID.EyeLaser, 60 / 4, 0f, player.whoAmI);
 					Main.projectile[proj].tileCollide = false;
 				}
 			}
@@ -3633,7 +3633,7 @@ namespace TerrorbornMod.TwilightMode
 				}
 				if (NPC.ai[0] == 60f)
 				{
-					Gore.NewGore(NPC.Center + new Vector2(-40f, -NPC.height / 2), NPC.velocity, 734);
+					Gore.NewGore(NPC.GetSource_Loot(), NPC.Center + new Vector2(-40f, -NPC.height / 2), NPC.velocity, 734);
 				}
 				if (NPC.ai[0] >= 60f && Main.netMode != 1)
 				{
@@ -3754,7 +3754,7 @@ namespace TerrorbornMod.TwilightMode
                             {
 								float maxSpeedX = 15f;
 								Vector2 position = NPC.Center + new Vector2(NPC.width * i, -NPC.height / 2);
-								Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), position, new Vector2(maxSpeedX * i * 2f, -ySpeed), ProjectileID.SpikedSlimeSpike, 60 / 4, 0f);
+								Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), position, new Vector2(maxSpeedX * i * 2f, -ySpeed), ProjectileID.SpikedSlimeSpike, 60 / 4, 0f);
                             }
 						}
 						else if (NPC.ai[1] == 2f) //Horizontal jump/short jump
@@ -3835,7 +3835,7 @@ namespace TerrorbornMod.TwilightMode
 				{
 					num253 = ModContent.NPCType<NPCs.TerrorSlime>();
 				}
-				int num254 = NPC.NewNPC(NPC.GetSpawnSource_NPCRelease(NPC.whoAmI), x, y, num253);
+				int num254 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), x, y, num253);
 				Main.npc[num254].SetDefaults(num253);
 				Main.npc[num254].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
 				Main.npc[num254].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;

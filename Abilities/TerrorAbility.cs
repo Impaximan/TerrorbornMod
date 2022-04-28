@@ -66,7 +66,7 @@ namespace TerrorbornMod.Abilities
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>(TexturePath);
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/" + TexturePath);
             Main.spriteBatch.Draw(texture, Projectile.Center + positionOffset + baseOffsets() - Main.screenPosition, new Rectangle(0, 0, (int)(texture.Width), (int)(texture.Height)), Color.White, Projectile.rotation, new Vector2(texture.Width / 2, texture.Height / 2), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }

@@ -110,11 +110,11 @@ namespace TerrorbornMod.Items.Dunestock
             Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, Projectile.Center);
             float speed = 15f;
             Vector2 velocity = Projectile.DirectionTo(Main.MouseWorld) * speed;
-            int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
+            int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
             Main.projectile[proj].noDropItem = true;
-            proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
+            proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
             Main.projectile[proj].noDropItem = true;
-            proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity.RotatedBy(MathHelper.ToRadians(-30)), (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
+            proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity.RotatedBy(MathHelper.ToRadians(-30)), (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
             Main.projectile[proj].noDropItem = true;
             Projectile.active = false;
         }

@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 0;
-            Item.rare = 12;
+            Item.rare = ModContent.RarityType<Rarities.Golden>();
             Item.UseSound = SoundID.Item44;
             Item.shoot = ModContent.ProjectileType<DreadSoul>();
             Item.shootSpeed = 10f;

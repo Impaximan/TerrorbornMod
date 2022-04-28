@@ -100,7 +100,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                         for (int i = 0; i < Main.rand.Next(2, 4); i++)
                         {
                             Vector2 velocity = Projectile.velocity.ToRotation().ToRotationVector2().RotatedByRandom(MathHelper.ToRadians(25));
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SpaceDeathray>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack / 2f, Projectile.owner);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SpaceDeathray>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack / 2f, Projectile.owner);
                         }
                     }
                 }

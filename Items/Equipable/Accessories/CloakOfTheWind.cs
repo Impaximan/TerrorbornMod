@@ -186,7 +186,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void Update(Player player, ref int buffIndex)
         {
             TerrorbornPlayer mPlayer = TerrorbornPlayer.modPlayer(player);
-            mPlayer.allUseSpeed *= 1.10f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.1f;
         }
     }
 }

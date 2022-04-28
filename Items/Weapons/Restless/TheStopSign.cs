@@ -80,7 +80,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             {
                 Terraria.Audio.SoundEngine.PlaySound(SoundID.Item37, target.Center);
                 TerrorbornSystem.ScreenShake(10f);
-                Projectile.NewProjectile(player.GetProjectileSource_OnHit(target, ProjectileSourceID.None), target.Center, Vector2.Zero, ModContent.ProjectileType<TheStopSoul>(), 1250, 0f, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<TheStopSoul>(), 1250, 0f, player.whoAmI);
             }
         }
     }

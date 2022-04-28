@@ -48,7 +48,7 @@ namespace TerrorbornMod.Abilities
         {
             float speed = 20;
             Vector2 velocity = player.DirectionTo(Main.MouseWorld) * speed;
-            int proj = Projectile.NewProjectile(player.GetProjectileSource_Misc(ProjectileSourceID.None), player.Center, velocity, ModContent.ProjectileType<DungeonSpirit>(), 1, 5, player.whoAmI);
+            int proj = Projectile.NewProjectile(player.GetSource_Misc("TerrorbornAbility_NecromanticCurse"), player.Center, velocity, ModContent.ProjectileType<DungeonSpirit>(), 1, 5, player.whoAmI);
             Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, player.Center);
 
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
@@ -61,7 +61,7 @@ namespace TerrorbornMod.Abilities
 
     class DungeonSpirit : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetDefaults()
         {
             Projectile.width = 20;

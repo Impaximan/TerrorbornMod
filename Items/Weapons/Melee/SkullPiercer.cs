@@ -83,7 +83,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             if (Projectile.ai[0] < 3 && timeUntilReturn > 0)
             {
                 Vector2 velocity = Projectile.DirectionFrom(player.Center) * speed;
-                Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.GetProjectileSource_OnHit(target, ProjectileSourceID.None), player.Center, velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner)];
+                Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.GetSource_OnHit(target), player.Center, velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner)];
                 proj.ai[0] = Projectile.ai[0] + 1;
             }
             timeUntilReturn = 0;

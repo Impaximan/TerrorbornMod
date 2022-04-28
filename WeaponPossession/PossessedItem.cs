@@ -16,7 +16,7 @@ namespace TerrorbornMod.WeaponPossession
             possessType = PossessType.None;
         }
 
-        public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage, ref float flat)
+        public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage)
         {
             if (possessType == PossessType.Might)
             {
@@ -49,13 +49,13 @@ namespace TerrorbornMod.WeaponPossession
             }
         }
 
-        public override void ModifyWeaponKnockback(Item item, Player player, ref StatModifier knockback, ref float flat)
+        public override void ModifyWeaponKnockback(Item item, Player player, ref StatModifier knockback)
         {
             if (possessType == PossessType.Might)
             {
                 knockback *= 1.5f;
             }
-            base.ModifyWeaponKnockback(item, player, ref knockback, ref flat);
+            base.ModifyWeaponKnockback(item, player, ref knockback);
         }
 
         public override void HoldItem(Item item, Player player)
@@ -63,7 +63,7 @@ namespace TerrorbornMod.WeaponPossession
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (possessType == PossessType.Might)
             {
-                modPlayer.allUseSpeed *= 0.85f;
+                player.GetAttackSpeed(DamageClass.Generic) *= 0.85f;
             }
             if (possessType == PossessType.Plight)
             {
@@ -95,7 +95,7 @@ namespace TerrorbornMod.WeaponPossession
         {
             if (possessType == PossessType.Light && crit)
             {
-                Projectile.NewProjectile(target.GetSpawnSource_NPCHurt(), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, player.whoAmI);
+                Projectile.NewProjectile(target.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, player.whoAmI);
                 TerrorbornSystem.ScreenShake(5f);
                 Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, target.Center);
             }
@@ -126,9 +126,9 @@ namespace TerrorbornMod.WeaponPossession
                 return;
             }
 
-            TooltipLine line = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
+            TooltipLine line = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.Mod == "Terraria");
             tooltips.Insert(1, new TooltipLine(Mod, "SoulType", "Possessed by Souls of " + PossessType.ToString(possessType) + " [i/s1:" + PossessType.ToItemType(possessType) + "]"));
-            tooltips.FirstOrDefault(x => x.Name == "SoulType" && x.mod == "TerrorbornMod").overrideColor = PossessType.ToColor(possessType);
+            tooltips.FirstOrDefault(x => x.Name == "SoulType" && x.Mod == "TerrorbornMod").OverrideColor = PossessType.ToColor(possessType);
 
             string bonus = "";
             string drawback = "";
@@ -172,12 +172,12 @@ namespace TerrorbornMod.WeaponPossession
             }
 
             tooltips.Add(new TooltipLine(Mod, "SoulBonus", bonus));
-            tooltips.FirstOrDefault(x => x.Name == "SoulBonus" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(PossessType.ToColor(possessType), Color.White, 0.25f);
+            tooltips.FirstOrDefault(x => x.Name == "SoulBonus" && x.Mod == "TerrorbornMod").OverrideColor = Color.Lerp(PossessType.ToColor(possessType), Color.White, 0.25f);
 
             if (drawback != "")
             {
                 tooltips.Add(new TooltipLine(Mod, "SoulDrawback", drawback));
-                tooltips.FirstOrDefault(x => x.Name == "SoulDrawback" && x.mod == "TerrorbornMod").overrideColor = Color.Lerp(PossessType.ToColor(possessType), Color.Black, 0.25f);
+                tooltips.FirstOrDefault(x => x.Name == "SoulDrawback" && x.Mod == "TerrorbornMod").OverrideColor = Color.Lerp(PossessType.ToColor(possessType), Color.Black, 0.25f);
             }
         }
 

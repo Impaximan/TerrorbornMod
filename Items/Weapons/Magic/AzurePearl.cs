@@ -64,7 +64,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             {
                 float speed = 35f;
                 Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * speed;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AzureSpray>(), Projectile.damage / 3, 1, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AzureSpray>(), Projectile.damage / 3, 1, Projectile.owner);
             }
         }
         public override void AI()

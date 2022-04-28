@@ -51,7 +51,7 @@ namespace TerrorbornMod.NPCs
             {
                 return 0f;
             }
-            if (TerrorbornPlayer.modPlayer(spawnInfo.player).ZoneIncendiary)
+            if (TerrorbornPlayer.modPlayer(spawnInfo.Player).ZoneIncendiary)
             {
                 return 0f;
             }

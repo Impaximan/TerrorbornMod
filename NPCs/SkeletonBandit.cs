@@ -123,22 +123,22 @@ namespace TerrorbornMod.NPCs
         {
             float chanceMultiplier = 1f;
 
-            if (spawnInfo.player.ZoneSnow)
+            if (spawnInfo.Player.ZoneSnow)
             {
                 chanceMultiplier *= 0.3f;
             }
 
-            if (spawnInfo.player.ZoneJungle)
+            if (spawnInfo.Player.ZoneJungle)
             {
                 chanceMultiplier *= 1.5f;
             }
 
-            if (spawnInfo.player.ZoneDesert)
+            if (spawnInfo.Player.ZoneDesert)
             {
                 chanceMultiplier *= 2f;
             }
 
-            if (spawnInfo.player.ZoneOverworldHeight && !Main.dayTime)
+            if (spawnInfo.Player.ZoneOverworldHeight && !Main.dayTime)
             {
                 return SpawnCondition.OverworldNightMonster.Chance * 0.015f * chanceMultiplier;
             }
@@ -305,7 +305,7 @@ namespace TerrorbornMod.NPCs
                     {
                         damage = 70;
                     }
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, ProjectileID.BulletDeadeye, damage / 4, 0);
+                    Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ProjectileID.BulletDeadeye, damage / 4, 0);
 
                     NPC.velocity += new Vector2(NPC.spriteDirection * recoil, 0);
                 }

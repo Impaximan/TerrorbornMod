@@ -158,13 +158,13 @@ namespace TerrorbornMod.Items.Weapons.Melee
             if (BloodWait <= 0)
             {
                 BloodWait = Main.rand.Next(8, 15);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)), Projectile.velocity / 9, ModContent.ProjectileType<Sanguine>(), Projectile.damage / 2, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)), Projectile.velocity / 9, ModContent.ProjectileType<Sanguine>(), Projectile.damage / 2, 0, Projectile.owner);
             }
         }
     }
     public class Sanguine : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         //private bool HasGravity = true;
         //private bool Spawn = true;
         //private bool GravDown = true;
