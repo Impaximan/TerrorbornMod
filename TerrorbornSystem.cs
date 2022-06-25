@@ -1597,10 +1597,10 @@ namespace TerrorbornMod
             int biomeWidth = (int)(Main.maxTilesX / 4f * size);
             int biomeHeight = (int)(Main.maxTilesY / 17f * size);
             int islandCount = (int)(Main.maxTilesX / 25 * density);
-            int ritualIslandCount = (int)(Main.maxTilesX / 2800 * density);
-            int chestIslandCount = (int)(Main.maxTilesX / 840 * 0.65f * density);
-            int skullIslandCount = (int)(Main.maxTilesX / 250 * density);
-            int rogueCloudsCount = (int)(Main.maxTilesX / 360 * density);
+            int ritualIslandCount = (int)(Main.maxTilesX / 2800f * density);
+            int chestIslandCount = (int)(Main.maxTilesX / 840f * 0.65f * density);
+            int skullIslandCount = (int)(Main.maxTilesX / 250f * density);
+            int rogueCloudsCount = (int)(Main.maxTilesX / 360f * density);
 
             islands.Clear();
 
@@ -2830,12 +2830,12 @@ namespace TerrorbornMod
                     timeSinceFrightcrawlerSpawn++;
                     if (timeSinceFrightcrawlerSpawn >= 3600 * 2)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)Main.LocalPlayer.Center.X, (int)Main.LocalPlayer.Center.Y, 0, 1, -0.3f);
+                        SoundExtensions.PlaySoundOld(SoundID.Roar, (int)Main.LocalPlayer.Center.X, (int)Main.LocalPlayer.Center.Y, 0, 1, -0.3f);
                         NPC.SpawnOnPlayer(Main.myPlayer, ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
                     }
                     else if (timeSinceFrightcrawlerSpawn >= 3600f * 1f && Main.rand.NextFloat() <= 0.0002f)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)Main.LocalPlayer.Center.X, (int)Main.LocalPlayer.Center.Y, 0, 1, -0.3f);
+                        SoundExtensions.PlaySoundOld(SoundID.Roar, (int)Main.LocalPlayer.Center.X, (int)Main.LocalPlayer.Center.Y, 0, 1, -0.3f);
                         NPC.SpawnOnPlayer(Main.myPlayer, ModContent.NPCType<NPCs.TerrorRain.FrightcrawlerHead>());
                     }
                 }

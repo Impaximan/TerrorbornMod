@@ -49,7 +49,7 @@ namespace TerrorbornMod.Abilities
             float speed = 20;
             Vector2 velocity = player.DirectionTo(Main.MouseWorld) * speed;
             int proj = Projectile.NewProjectile(player.GetSource_Misc("TerrorbornAbility_NecromanticCurse"), player.Center, velocity, ModContent.ProjectileType<DungeonSpirit>(), 1, 5, player.whoAmI);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.NPCDeath52, player.Center);
 
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.SanguineSetBonus)
@@ -114,7 +114,7 @@ namespace TerrorbornMod.Abilities
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(target);
             modNPC.soulSplitTime = 60 * 5;
             CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.LightCyan, "Soul Split");
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item103, target.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item103, target.Center);
         }
     }
 

@@ -68,7 +68,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             if (!stuck)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+                SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
                 stuck = true;
                 stuckNPC = target;
                 offset = target.position - Projectile.position;
@@ -77,7 +77,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
         }
 
@@ -145,7 +145,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                         Vector2 velocity = (needle.rotation - MathHelper.ToRadians(45)).ToRotationVector2() * speed;
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), needle.Center, velocity, ModContent.ProjectileType<NeedleExplosion>(), Projectile.damage, Projectile.knockBack * 3, Projectile.owner);
                     }
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, Projectile.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item62, Projectile.Center);
                     TerrorbornSystem.ScreenShake(3f);
                 }
             }

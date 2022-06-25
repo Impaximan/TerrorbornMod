@@ -83,7 +83,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 			timesUntilImplode--;
 			if (timesUntilImplode <= 0)
 			{
-				Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+				SoundExtensions.PlaySoundOld(SoundID.Item14, Projectile.Center);
 				TerrorbornSystem.ScreenShake(1.5f);
 				Projectile.timeLeft = 0;
 				Projectile.damage = 0;

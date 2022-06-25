@@ -112,7 +112,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                 if (laserTime <= 0)
                 {
                     spawningLaser = false;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, laserPosition);
+                    SoundExtensions.PlaySoundOld(SoundID.Item68, laserPosition);
                     TerrorbornSystem.ScreenShake(10);
                     Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<AngelBeam>(), 120 / 4, 0f)];
                     proj.velocity.Normalize();
@@ -148,7 +148,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                     laserPosition = player.Center + new Vector2(player.velocity.X * laserTime, 0);
                     float speed = 15f;
                     Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.DD2_MonkStaffSwing, NPC.Center);
                     float rotation = MathHelper.ToRadians(30);
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity.RotatedBy(rotation), ModContent.ProjectileType<CursedJavelin>(), 120 / 4, 0);

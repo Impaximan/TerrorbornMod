@@ -338,7 +338,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                             }
                         }
 
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, player.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.NPCDeath52, player.Center);
 
                         possessingItem = false;
                         item.prefix = (byte)0;

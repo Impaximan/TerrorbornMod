@@ -18,6 +18,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 .Register();
 
         }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Hitting enemies has a chance to cause you to fire an extra Projectile towards them" +

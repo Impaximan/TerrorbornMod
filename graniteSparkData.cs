@@ -13,7 +13,7 @@ namespace TerrorbornMod
             {
                 player.AddBuff(ModContent.BuffType<Buffs.GraniteSpark>(), 60 * 5);
                 player.AddBuff(ModContent.BuffType<Buffs.Debuffs.GraniteSparkCooldown>(), 60 * 35);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item72, player.Center);
             }
         }
     }
@@ -27,7 +27,7 @@ namespace TerrorbornMod
             {
                 player.AddBuff(ModContent.BuffType<Buffs.AstralSparkBuff>(), 60 * 5);
                 player.AddBuff(ModContent.BuffType<Buffs.Debuffs.AstralSparkCooldown>(), 60 * 20);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item72, player.Center);
             }
         }
     }

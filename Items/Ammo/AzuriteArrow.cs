@@ -70,11 +70,11 @@ namespace TerrorbornMod.Items.Ammo
             if (timeUntilOrb > 0)
             {
                 DustExplosion(Projectile.Center, 10, 5f, 10f);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item92, Projectile.Center);
                 Projectile.velocity /= 2;
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AzureOrb>(), Projectile.damage / 4, Projectile.knockBack / 10f, Projectile.owner);
             }
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
         }
 
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
@@ -114,7 +114,7 @@ namespace TerrorbornMod.Items.Ammo
                 if (timeUntilOrb <= 0)
                 {
                     DustExplosion(Projectile.Center, 10, 5f, 10f);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item92, Projectile.Center);
                     Projectile.velocity /= 2;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AzureOrb>(), Projectile.damage / 4, Projectile.knockBack / 10f, Projectile.owner);
                 }

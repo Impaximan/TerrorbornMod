@@ -109,7 +109,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
 
             if (Projectile.velocity.X != oldVelocity.X)
             {

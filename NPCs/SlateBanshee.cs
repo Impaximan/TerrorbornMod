@@ -224,7 +224,7 @@ namespace TerrorbornMod.NPCs
                     regularCounter--;
                     if (regularCounter <= 0)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(15, (int)NPC.Center.X, (int)NPC.Center.Y, 2, 1f, 0.5f);
+                        SoundExtensions.PlaySoundOld(SoundID.ScaryScream, (int)NPC.Center.X, (int)NPC.Center.Y, 2, 1f, 0.5f);
                         charging = true;
                         regularCounter = 240;
                         chargeCounter = 45;

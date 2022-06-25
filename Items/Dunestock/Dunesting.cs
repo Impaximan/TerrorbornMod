@@ -32,7 +32,8 @@ namespace TerrorbornMod.Items.Dunestock
             Item.shootSpeed = 18f;
             Item.useAmmo = AmmoID.Arrow;
         }
-        public override bool CanConsumeAmmo(Player player)
+
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return Main.rand.Next(101) <= 25f;
         }
@@ -96,7 +97,7 @@ namespace TerrorbornMod.Items.Dunestock
                 Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
-            //Terraria.Audio.SoundEngine.PlaySound(SoundID.Run, Projectile.Center);
+            //SoundExtensions.PlaySoundOld(SoundID.Run, Projectile.Center);
             CollideCounter += 1;
             if (CollideCounter >= 5)
             {
@@ -107,7 +108,7 @@ namespace TerrorbornMod.Items.Dunestock
 
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item42, Projectile.Center);
             float speed = 15f;
             Vector2 velocity = Projectile.DirectionTo(Main.MouseWorld) * speed;
             int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);

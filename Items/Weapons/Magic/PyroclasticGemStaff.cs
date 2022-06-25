@@ -132,7 +132,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 if (Main.player[Projectile.owner].Distance(Main.MouseWorld) <= 50 && Projectile.ai[0] == 0)
                 {
                     bursted = true;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item110, Projectile.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item110, Projectile.Center);
                     for (int i = 0; i < Main.rand.Next(3, 5); i++)
                     {
                         int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(0.8f, 1.2f), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
@@ -144,7 +144,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             if (Projectile.ai[0] == 0 && Projectile.Distance(target) <= Projectile.velocity.Length() && !bursted)
             {
                 bursted = true;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item110, Projectile.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item110, Projectile.Center);
                 for (int i = 0; i < Main.rand.Next(3, 5); i++)
                 {
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(0.8f, 1.2f), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);

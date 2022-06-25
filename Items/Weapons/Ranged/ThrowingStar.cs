@@ -143,7 +143,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                     {
                         Projectile.velocity.Y = -5f;
                     }
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item14, Projectile.Center);
                     TerrorbornSystem.ScreenShake(1.5f);
                     timeUntilFall = 0;
                     DustExplosion(Projectile.Center, 20, 50f, 100f);

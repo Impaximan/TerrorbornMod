@@ -31,7 +31,7 @@ namespace TerrorbornMod.Items
         public override bool? UseItem(Player player)
         {
             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<NPCs.Bosses.HexedConstructor.HexedConstructor>());
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
+            SoundExtensions.PlaySoundOld(SoundID.Roar, player.position, 0);
             return true;
         }
 

@@ -42,13 +42,13 @@ namespace TerrorbornMod.Items.MiscConsumables
                 {
                     Main.NewText("The sky begins to brighten up again...", Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255));
                     TerrorbornSystem.terrorRain = false;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
+                    SoundExtensions.PlaySoundOld(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
                 }
                 else
                 {
                     Main.NewText("Dark rain begins to fall from the sky!", Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255));
                     TerrorbornSystem.terrorRain = true;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
+                    SoundExtensions.PlaySoundOld(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
                 }
                 Item.stack--;
             }

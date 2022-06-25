@@ -12,6 +12,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
             DisplayName.SetDefault("Swarmer Wings");
             Tooltip.SetDefault("Allows flight and slow fall" +
                 "\nWhile airborn you are immune to high wind speeds");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new Terraria.DataStructures.WingStats(55, 1f, 1.5f, true, 1f);
         }
 
         public override void SetDefaults()

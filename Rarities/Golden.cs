@@ -12,6 +12,10 @@ namespace TerrorbornMod.Rarities
             {
                 return ItemRarityID.Purple;
             }
+            if (offset >= 1)
+            {
+                return ModContent.RarityType<Monsoon>();
+            }
             return base.GetPrefixedRarity(offset, valueMult);
         }
 

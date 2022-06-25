@@ -112,7 +112,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                     velocity.Normalize();
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PerceptiveRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Projectile.scale = 1.5f;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, Projectile.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item68, Projectile.Center);
                 }
             }
             else if (trueTimeLeft > 0)

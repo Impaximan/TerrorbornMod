@@ -58,7 +58,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             useCounter = 35;
             shotsLeft--;
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item36, player.position);
+            SoundExtensions.PlaySoundOld(SoundID.Item36, player.position);
             for (int i = 0; i < Main.rand.Next(4, 7); i++)
             {
                 Vector2 EditedSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(8)) * Main.rand.NextFloat(0.7f, 1.3f);

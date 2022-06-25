@@ -175,7 +175,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit54, NPC.Center);
+            SoundExtensions.PlaySoundOld(SoundID.NPCHit54, NPC.Center);
         }
 
         public void MoveTowardsPosition(Vector2 position, float speed, float maxSpeed, float dragMultiplier = 0.98f)
@@ -425,7 +425,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
 
                         if (transitionTime == 5 * (int)(transitionTime / 5))
                         {
-                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14);
+                            SoundExtensions.PlaySoundOld(SoundID.Item14);
                         }
                         Dust.NewDust(NPC.Center + new Vector2(-10, -NPC.height / 2 + 10), 20, 20, 6);
                         TerrorbornSystem.ScreenShake(2f);
@@ -438,7 +438,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                         DecideNextAttack();
                         DustExplosion(NPC.Center + new Vector2(0, -NPC.height / 2 + 20), 0, 25, 20f, 6, 1.5f, true);
                         TerrorbornSystem.ScreenShake(10f);
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, 105, 1, 0);
+                        SoundExtensions.PlaySoundOld(SoundID.Zombie105, (int)NPC.Center.X, (int)NPC.Center.Y, 105, 1, 0);
                     }
                 }
             }
@@ -615,7 +615,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                         speed *= 1.5f;
                     Vector2 direction = claw1.DirectionTo(player.Center + ((NPC.Distance(player.Center) / speed) * player.velocity));
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), claw1.Center, speed * direction, ModContent.ProjectileType<Projectiles.HellbornLaser>(), 90 / 4, 0);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, claw1.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item33, claw1.Center);
                 }
 
                 attackWait2--;
@@ -721,7 +721,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     if (enraged) speed = 15f;
                     Vector2 velocity = direction * speed;
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), position, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(85 * enrageDamageMultiplier) / 4, 0);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, position);
+                    SoundExtensions.PlaySoundOld(SoundID.Item33, position);
                 }
             }
             else
@@ -774,7 +774,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     if (enraged) speed = 25f;
                     Vector2 velocity = direction * speed;
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), position, velocity, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(85 * enrageDamageMultiplier) / 4, 0);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, position);
+                    SoundExtensions.PlaySoundOld(SoundID.Item33, position);
                 }
 
                 if (attackWait2 <= 0)
@@ -843,7 +843,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     float speed = 15f;
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), claw1.Center, NPC.DirectionTo(player.Center).RotatedBy(rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(82 * enrageDamageMultiplier) / 4, 0);
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), claw2.Center, NPC.DirectionTo(player.Center).RotatedBy(-rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(82 * enrageDamageMultiplier) / 4, 0);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item125, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item125, NPC.Center);
                 }
 
                 if (attackWait <= 0)
@@ -890,7 +890,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     if (enraged) speed = 20f;
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), claw1.Center, NPC.DirectionTo(player.Center).RotatedBy(rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(75 * enrageDamageMultiplier) / 4, 0);
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), claw2.Center, NPC.DirectionTo(player.Center).RotatedBy(-rotation) * speed, ModContent.ProjectileType<Projectiles.HellbornLaser>(), (int)(75 * enrageDamageMultiplier) / 4, 0);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item125, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item125, NPC.Center);
                 }
             }
             else
@@ -918,7 +918,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 claw2Offset = claw2.Center - NPC.Center;
 
                 NPC.velocity = NPC.DirectionFrom(player.Center) * backOffSpeed;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)NPC.Center.X, (int)NPC.Center.Y, 0, 1, 2f);
+                SoundExtensions.PlaySoundOld(SoundID.Roar, (int)NPC.Center.X, (int)NPC.Center.Y, 0, 1, 2f);
 
                 deathrayRotation = NPC.DirectionTo(player.Center).ToRotation();
 
@@ -934,7 +934,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 {
                     ProjectileCounter = timeUntilDeathray / 3;
                     DustExplosion(lineStart, 0, 25, 30, 235, 2f, true);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MaxMana, (int)NPC.Center.X, (int)NPC.Center.Y, 0, 3f, -0.25f);
+                    SoundExtensions.PlaySoundOld(SoundID.MaxMana, (int)NPC.Center.X, (int)NPC.Center.Y, 0, 3f, -0.25f);
                 }
 
                 Vector2 claw1Target = new Vector2(clawDistance, -25);
@@ -963,7 +963,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     drawingLine = false;
                     claw1.ai[1]++;
                     claw2.ai[1]++;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, 104, 1, 2f);
+                    SoundExtensions.PlaySoundOld(SoundID.Zombie104, (int)NPC.Center.X, (int)NPC.Center.Y, 104, 1, 2f);
                 }
             }
             else if (attackWait2 > 0)

@@ -18,6 +18,13 @@ namespace TerrorbornMod
         [Tooltip("Whether or not the player will spawn with extra items to make early game a more enjoyable experience")]
         public bool startingItems;
 
+        [DefaultValue(true)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Show wing stats")]
+        [Tooltip("Whether or not Terrorborn will show specific stats automatically from wings" +
+            "\nIt is recommended you disable this if you have other mods enabled that do the same thing")]
+        public bool showWingStats;
+
         [Header("UI")]
 
         [DefaultValue(750)]
@@ -129,6 +136,7 @@ namespace TerrorbornMod
             TerrorbornMod.showNoUseSpeed = showNoUseSpeed;
             TerrorbornMod.TerrorMeterX = TerrorMeterX;
             TerrorbornMod.TerrorMeterY = TerrorMeterY;
+            TerrorbornMod.showWingStats = showWingStats;
         }
     }
 

@@ -153,7 +153,7 @@ namespace TerrorbornMod.NPCs
                 ambientCounter = Main.rand.Next(360, 1600);
 
                 hasSeenPlayer = true;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+                SoundExtensions.PlaySoundOld(SoundID.ZombieMoan, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
                 WeightedRandom<string> voiceLines = new WeightedRandom<string>();
 
@@ -171,7 +171,7 @@ namespace TerrorbornMod.NPCs
             ambientCounter = Main.rand.Next(360, 1600);
 
             hasSeenPlayer = true;
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+            SoundExtensions.PlaySoundOld(SoundID.ZombieMoan, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
             WeightedRandom<string> voiceLines = new WeightedRandom<string>();
 
@@ -215,7 +215,7 @@ namespace TerrorbornMod.NPCs
                 ambientCounter = Main.rand.Next(360, 1600);
 
                 hasSeenPlayer = true;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+                SoundExtensions.PlaySoundOld(SoundID.ZombieMoan, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
                 WeightedRandom<string> voiceLines = new WeightedRandom<string>();
 
@@ -244,7 +244,7 @@ namespace TerrorbornMod.NPCs
             if (ambientCounter <= 0)
             {
                 ambientCounter = Main.rand.Next(360, 1600);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
+                SoundExtensions.PlaySoundOld(SoundID.ZombieMoan, (int)NPC.Center.X, (int)NPC.Center.Y, Main.rand.Next(1), 0.5f, 0.5f);
 
                 WeightedRandom<string> voiceLines = new WeightedRandom<string>();
                 if (shooting)

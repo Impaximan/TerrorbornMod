@@ -37,10 +37,10 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt, target.Center);
+            SoundExtensions.PlaySoundOld(SoundID.DD2_SkeletonHurt, target.Center);
             if (crit)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_SkeletonDeath);
+                SoundExtensions.PlaySoundOld(SoundID.DD2_SkeletonDeath);
             }
 
             for (int i = 0; i < Main.rand.Next(2, 4); i++)
@@ -75,7 +75,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit2, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.NPCHit2, Projectile.Center);
 
             for (int i = 0; i < Main.rand.Next(2, 4); i++)
             {

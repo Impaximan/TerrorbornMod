@@ -113,7 +113,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         {
             if (!stuck)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+                SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
                 stuck = true;
                 stuckNPC = target;
                 offset = target.position - Projectile.position;
@@ -122,7 +122,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
         }
 
@@ -223,7 +223,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), splitter.Center, Vector2.Zero, ModContent.ProjectileType<ProtonOrb>(), Projectile.damage, Projectile.knockBack * 3, Projectile.owner);
                     }
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, Projectile.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item62, Projectile.Center);
                     TerrorbornSystem.ScreenShake(3f);
                 }
             }

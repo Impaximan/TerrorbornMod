@@ -17,12 +17,14 @@ namespace TerrorbornMod.Items.Incendius
                 .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
                 .Register();
         }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Uses Gel as ammo, creating flames" +
                 "\nHas a chance to create a lingering flame cloud" +
                 "\n95% chance to not consume ammo");
         }
+
         public override void SetDefaults()
         {
             Item.damage = 34;
@@ -44,10 +46,12 @@ namespace TerrorbornMod.Items.Incendius
             Item.shootSpeed = 10f;
             Item.useAmmo = AmmoID.Gel;
         }
-        public override bool CanConsumeAmmo(Player player)
+
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return Main.rand.NextFloat() >= .95f;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (Main.rand.NextFloat() <= .20f)
@@ -78,6 +82,7 @@ namespace TerrorbornMod.Items.Incendius
     class FlameCloud : ModProjectile
     {
         public override string Texture => "TerrorbornMod/placeholder";
+
         public override void SetDefaults()
         {
             Projectile.width = 40;
@@ -96,6 +101,7 @@ namespace TerrorbornMod.Items.Incendius
         {
             target.AddBuff(BuffID.OnFire, 300);
         }
+
         public override void AI()
         {
             int dust = Dust.NewDust(Projectile.position, 25, 25, 6, Scale: 1.5f);

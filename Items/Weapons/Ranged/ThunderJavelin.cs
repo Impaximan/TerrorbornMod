@@ -81,7 +81,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             if (!stuck)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+                SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
                 stuck = true;
                 stuckNPC = target;
                 offset = target.position - Projectile.position;
@@ -90,7 +90,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
         }
 

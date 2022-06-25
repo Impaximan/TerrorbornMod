@@ -30,7 +30,7 @@ namespace TerrorbornMod.NPCs
             NPC.lavaImmune = true;
             NPC.noTileCollide = true;
             NPC.noGravity = true;
-            NPC.HitSound = new LegacySoundStyle(SoundID.Tink, 0);
+            NPC.HitSound = SoundID.Tink;
             NPC.aiStyle = -1;
         }
 

@@ -43,6 +43,10 @@ namespace TerrorbornMod
 
         public float damageResist = 1f;
 
+        public int currentTagDamageAdditive = 0;
+        public float currentTagDamageMultiplicative = 1f;
+        public int tagTime = 0;
+
         public void ImprovedFighterAI(NPC NPC, float maxSpeed, float accelleration, float decelleration, float jumpSpeed, bool faceDirection = true, int jumpCooldown = 0, int stillTimeUntilTurnaround = 120, int wanderTime = 90)
         {
             Player player = Main.player[NPC.target];
@@ -128,6 +132,7 @@ namespace TerrorbornMod
         public override void SetDefaults(NPC NPC)
         {
             ogKnockbackResist = NPC.knockBackResist;
+            tagTime = 0;
 
             if (NPC.type == NPCID.KingSlime)
             {
@@ -272,7 +277,16 @@ namespace TerrorbornMod
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.HermesFeather>());
                 nextSlot++;
             }
+            if (type == NPCID.Merchant)
+            {
+                if (Main.LocalPlayer.HasItem(ModContent.ItemType<Items.Weapons.Ranged.Riveter>()))
+                {
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.Rivet>());
+                    nextSlot++;
+                }
+            }
         }
+
         public override void ModifyHitByItem(NPC NPC, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
@@ -327,6 +341,12 @@ namespace TerrorbornMod
             {
                 knockback = 0f;
             }
+
+            if (Projectile.DamageType == DamageClass.Summon)
+            {
+                damage += currentTagDamageAdditive;
+                damage = (int)(damage * currentTagDamageMultiplicative);
+            }
         }
 
         public override void UpdateLifeRegen(NPC NPC, ref int damage)
@@ -364,6 +384,16 @@ namespace TerrorbornMod
         bool start = true;
         public override void PostAI(NPC NPC)
         {
+            if (tagTime > 0)
+            {
+                tagTime--;
+                if (tagTime <= 0)
+                {
+                    currentTagDamageAdditive = 0;
+                    currentTagDamageMultiplicative = 1f;
+                }
+            }
+
             if (start)
             {
                 start = false;
@@ -384,7 +414,7 @@ namespace TerrorbornMod
                 if (soulSplitTime <= 0)
                 {
                     CombatText.NewText(new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height), Color.LightCyan, "Soul Regained");
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath39, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.NPCDeath39, NPC.Center);
                 }
             }
 
@@ -574,7 +604,7 @@ namespace TerrorbornMod
                 }
                 if (player.HeldItem != null && !player.HeldItem.IsAir) Projectile.NewProjectile(player.GetSource_ItemUse(player.HeldItem), position, new Vector2(0, -20), ModContent.ProjectileType<Items.Equipable.Armor.TideFireFriendly>(), originalDamage / 2, 0f, player.whoAmI); ;
             }
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item88, NPC.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item88, NPC.Center);
         }
 
         void SpawnAzuriteShard(int originalDamage, NPC NPC, Player player)
@@ -586,7 +616,7 @@ namespace TerrorbornMod
             Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
             float speed = Main.rand.Next(15, 25);
             if (player.HeldItem != null && !player.HeldItem.IsAir) Projectile.NewProjectile(player.GetSource_ItemUse(player.HeldItem), NPC.Center, direction * speed, ModContent.ProjectileType<Projectiles.AzuriteShard>(), originalDamage / 2, 0f, player.whoAmI);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item118, NPC.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item118, NPC.Center);
         }
 
         public void SinducementExplosion(NPC NPC, int damage, bool death = true)
@@ -668,7 +698,7 @@ namespace TerrorbornMod
                 if (soulOrbCooldown <= 0)
                 {
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<SoulOrb>(), 0, 0, player.whoAmI);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit36, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.NPCHit36, NPC.Center);
                     soulOrbCooldown = 3;
                 }
             }
@@ -701,7 +731,7 @@ namespace TerrorbornMod
                 if (Main.rand.Next(101) <= 8 + player.GetCritChance(DamageClass.Melee) / 2)
                 {
                     DustExplosion(NPC.Center, 0, 45, 30, 6, DustScale: 1f, NoGravity: true);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item14, NPC.Center);
                     for (int i = 0; i < 200; i++)
                     {
                         NPC target = Main.npc[i];
@@ -788,7 +818,7 @@ namespace TerrorbornMod
                 {
                     SinducementExplosion(NPC, (int)damage, true);
                     TerrorbornSystem.ScreenShake(2.5f);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.DD2_ExplosiveTrapExplode, NPC.Center);
                 }
             }
 
@@ -802,7 +832,7 @@ namespace TerrorbornMod
                 if (soulOrbCooldown <= 0)
                 {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<SoulOrb>(), 0, 0, player.whoAmI);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit36, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.NPCHit36, NPC.Center);
                     soulOrbCooldown = 3;
                 }
             }
@@ -823,7 +853,7 @@ namespace TerrorbornMod
                 if (Main.rand.Next(101) <= 8 + player.GetCritChance(DamageClass.Melee) / 2)
                 {
                     DustExplosion(NPC.Center, 0, 45, 30, 6, DustScale: 1f, NoGravity: true);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item14, NPC.Center);
                     for (int i = 0; i < 200; i++)
                     {
                         NPC target = Main.npc[i];
@@ -1112,6 +1142,8 @@ namespace TerrorbornMod
             {
                 NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.PermanentUpgrades.EyeOfTheMenace>()));
                 NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Summons.Minions.OpticCane>()));
+                NPCLoot.Add(ItemDropRule.ByCondition(new ItemDropRules.Conditions.TwilightModeCondition(), ModContent.ItemType<Items.Weapons.Ranged.Riveter>()));
+                NPCLoot.Add(ItemDropRule.ByCondition(new ItemDropRules.Conditions.TwilightModeCondition(), ModContent.ItemType<Items.Weapons.Ranged.Rivet>(), minimumDropped: 175, maximumDropped: 225));
             }
 
             if (NPC.type == NPCID.KingSlime)
@@ -1127,6 +1159,11 @@ namespace TerrorbornMod
             if (NPC.type == NPCID.Mothron)
             {
                 NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Summons.Other.Armagrenade>(), 3));
+            }
+
+            if (NPC.type == NPCID.Vampire || NPC.type == NPCID.VampireBat)
+            {
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Accessories.VampiricPendant>(), 25));
             }
 
             if (NPC.type == NPCID.MartianSaucerCore)

@@ -136,7 +136,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
                         if (NPC.ai[1] <= 0)
                         {
                             NPC.ai[1] = 3;
-                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Frog, (int)NPC.Center.X, (int)NPC.Center.Y, 0, 1.5f, -0.2f);
+                            SoundExtensions.PlaySoundOld(SoundID.Frog, (int)NPC.Center.X, (int)NPC.Center.Y, 0, 1.5f, -0.2f);
                             float speed = 20;
                             Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
                             Vector2 positionOffset = new Vector2(NPC.spriteDirection * 10, 0);

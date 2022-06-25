@@ -44,7 +44,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
             {
                 Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<AegisLight>(), 1000, 0f, player.whoAmI);
                 TerrorbornSystem.ScreenShake(25f);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item68, player.Center);
             }
             TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);
         }

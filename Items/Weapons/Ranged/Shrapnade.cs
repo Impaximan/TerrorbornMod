@@ -68,7 +68,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item14, Projectile.Center);
             for (int i = 0; i < Main.rand.Next(3, 6); i++)
             {
                 float Speed = Main.rand.Next(7, 10);
@@ -84,7 +84,6 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
             TerrorbornSystem.ScreenShake(1f);
         }
-
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (Projectile.velocity.X != oldVelocity.X)
@@ -146,7 +145,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             return true;
         }
     }

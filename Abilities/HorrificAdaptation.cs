@@ -46,7 +46,7 @@ namespace TerrorbornMod.Abilities
             if (noiseCooldown <= 0)
             {
                 noiseCooldown = 20;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item72, player.Center);
                 player.HealEffect(5);
                 player.statLife += 5;
             }

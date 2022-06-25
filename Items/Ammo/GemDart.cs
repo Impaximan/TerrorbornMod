@@ -120,7 +120,7 @@ namespace TerrorbornMod.Items.Ammo
                 Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * speed;
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<GemFragment>(), Projectile.damage / 3, Projectile.knockBack / 3, Projectile.owner);
             }
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.DD2_WitherBeastHurt, Projectile.Center);
         }
     }
 

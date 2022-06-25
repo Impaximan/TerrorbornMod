@@ -16,6 +16,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
                 .AddTile(TileID.Anvils)
                 .Register();
         }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Increases max mana by 10" +

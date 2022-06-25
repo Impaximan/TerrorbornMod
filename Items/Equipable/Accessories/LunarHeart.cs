@@ -162,7 +162,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 {
                     superiorPlayer.LoseTerror(3f, false);
                     azuriteCounter = 40;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item110, Projectile.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item110, Projectile.Center);
                     for (int i = 0; i < Main.rand.Next(3, 5); i++)
                     {
                         float speed = Main.rand.Next(25, 40);

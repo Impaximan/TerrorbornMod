@@ -94,8 +94,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                     leaveWait--;
                     if (leaveWait <= 0)
                     {
-                        if (Main.rand.NextBool()) Terraria.Audio.SoundEngine.PlaySound(SoundID.Item114, Projectile.Center);
-                        else Terraria.Audio.SoundEngine.PlaySound(SoundID.Item115, Projectile.Center);
+                        if (Main.rand.NextBool()) SoundExtensions.PlaySoundOld(SoundID.Item114, Projectile.Center);
+                        else SoundExtensions.PlaySoundOld(SoundID.Item115, Projectile.Center);
 
                         for (int i = 0; i < Main.rand.Next(2, 4); i++)
                         {
@@ -117,7 +117,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override void Kill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
         }
     }
 

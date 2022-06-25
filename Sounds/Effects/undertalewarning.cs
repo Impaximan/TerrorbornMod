@@ -1,9 +1,9 @@
-﻿using Terraria.ModLoader;
+﻿//using Terraria.ModLoader;
 
-namespace TerrorbornMod.Sounds.Effects
-{
-    class undertalewarning : ModSound
-    {
+//namespace TerrorbornMod.Sounds.Effects
+//{
+//    class undertalewarning : ModSound
+//    {
 
-    }
-}
+//    }
+//}

@@ -208,7 +208,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
                         PinWait = 100;
                         PinRoundsLeft = Main.rand.Next(1, 5);
                     }
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, Projectile.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item42, Projectile.Center);
                     Vector2 Rotation = Projectile.DirectionTo(target.Center);
                     float Speed = 20;
                     Vector2 Velocity = Rotation * Speed;

@@ -61,7 +61,7 @@ namespace TerrorbornMod.Items.Ammo
         {
             if (!stuck)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+                SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
                 stuck = true;
                 wasCrit = crit;
                 stuckNPC = target;
@@ -70,7 +70,7 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             if (stuck)
             {

@@ -64,7 +64,7 @@ namespace TerrorbornMod.NPCs
                 if (JavelinCounter <= 0)
                 {
                     JavelinCounter = Main.rand.Next(60, 80);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item42, NPC.Center);
                     Vector2 Rotation = NPC.DirectionTo(player.Center);
                     float Speed = 10;
                     if (NPC.life <= NPC.lifeMax * 0.30f)

@@ -313,7 +313,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     velocity.X = -NPC.ai[1] * 18;
                     if (phase == 3)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.DD2_FlameburstTowerShot, NPC.Center);
                         Vector2 direction = velocity;
                         direction.Normalize();
                         float speed = 12;
@@ -348,7 +348,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     {
                         ProjectileCounter1 = 7;
                     }
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_BallistaTowerShot, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.DD2_BallistaTowerShot, NPC.Center);
                     Vector2 direction = NPC.velocity;
                     direction.Normalize();
                     float speed = 1;
@@ -428,7 +428,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     Main.projectile[proj].ai[0] = position.X;
                     Main.projectile[proj].ai[1] = position.Y;
 
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.NPCDeath13, NPC.Center);
                 }
             }
             else
@@ -528,7 +528,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             Main.projectile[proj].ai[1] = 0.65f;
                         }
                     }
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.DD2_FlameburstTowerShot, NPC.Center);
                     if (phaseCounter1 <= 0)
                     {
                         DecideNextAttack();
@@ -632,7 +632,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
                     if (phase == 3)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_BallistaTowerShot, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.DD2_BallistaTowerShot, NPC.Center);
                         Vector2 direction2 = NPC.DirectionTo(player.Center);
                         float speed2 = 22;
                         int damage = 65 / 4;
@@ -703,7 +703,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     {
                         ProjectileCounter1 = 10;
                     }
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_BallistaTowerShot, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.DD2_BallistaTowerShot, NPC.Center);
                     Vector2 direction = NPC.DirectionTo(player.Center);
                     float speed = 15;
                     int damage = 65 / 4;
@@ -777,7 +777,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 if (ProjectileCounter1 <= 0)
                 {
                     ProjectileCounter1 = 5;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_BallistaTowerShot, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.DD2_BallistaTowerShot, NPC.Center);
                     Vector2 direction = NPC.DirectionTo(player.Center);
                     float speed = 14;
                     if (phase >= 2)
@@ -833,14 +833,14 @@ namespace TerrorbornMod.NPCs.Bosses
             if (phase == 1 && NPC.life <= secondPhaseHealth * NPC.lifeMax)
             {
                 phaseTransitionCounter = 90;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath10, NPC.Center);
+                SoundExtensions.PlaySoundOld(SoundID.NPCDeath10, NPC.Center);
                 ResetAnimations();
                 NextAttacks.Add(4);
             }
             else if (phase == 2 && NPC.life <= desparationPhaseHealth * NPC.lifeMax)
             {
                 phaseTransitionCounter = 90;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath10, NPC.Center);
+                SoundExtensions.PlaySoundOld(SoundID.NPCDeath10, NPC.Center);
                 ResetAnimations();
             }
             else
@@ -938,7 +938,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         NPC.position = jumpTarget;
                     }
                     ResetAnimations();
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item14, NPC.Center);
                     for (int i = 0; i < 30; i++)
                     {
                         int dust = Dust.NewDust(NPC.position + new Vector2(0, NPC.height), NPC.width, 10, 74);
@@ -1044,7 +1044,7 @@ namespace TerrorbornMod.NPCs.Bosses
             Vector2 rotation = Projectile.DirectionTo(Main.player[Main.myPlayer].Center);
             float speed = 10f;
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, rotation * speed, ModContent.ProjectileType<GhostHatchling>(), 95 / 4, 0);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.NPCDeath1, Projectile.Center);
             DustExplosion(Projectile.Center, 0, 12, 7, 74, 2f, true);
         }
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph

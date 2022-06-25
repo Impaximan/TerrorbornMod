@@ -77,7 +77,7 @@ namespace TerrorbornMod.Items.Dunestock
             Projectile.soundDelay--;
             if (Projectile.soundDelay <= 0)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundExtensions.PlaySoundOld(SoundID.Item71, (int)Projectile.Center.X, (int)Projectile.Center.Y);
                 Projectile.soundDelay = 25;
 
             }

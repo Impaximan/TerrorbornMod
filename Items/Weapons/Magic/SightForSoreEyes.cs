@@ -63,7 +63,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item54, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Item54, Projectile.position);
         }
     }
 }

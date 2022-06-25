@@ -166,7 +166,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             }
             speed = Projectile.velocity.Length();
             timeUntilReturn = 0;
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             return false;
         }
 

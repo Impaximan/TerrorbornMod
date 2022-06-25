@@ -101,7 +101,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                     {
                         TerrorbornSystem.ScreenShake(15f);
                     }
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item62, NPC.Center);
 
                     if (shakesLeft <= 0)
                     {
@@ -478,7 +478,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                     {
                         Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TeleportLight>(), 0, 0f);
                         NPC.position.X = NPC.position.X + (arena.Center.X - NPC.Center.X) * 2;
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item6, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item6, NPC.Center);
                     }
                 }
 
@@ -492,7 +492,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                     {
                         NPC.rotation = NPC.DirectionTo(player.Center).ToRotation() + MathHelper.ToRadians(180);
                     }
-                    Terraria.Audio.SoundEngine.PlaySound(2, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, -0.25f);
+                    SoundExtensions.PlaySoundOld(SoundID.Item71, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, -0.25f);
                     meleeOn = true;
                     NPC.noGravity = true;
                     frame = 24;
@@ -641,7 +641,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             if (shriekSoundCounter <= 0 && teleportCounter <= 0)
             {
                 shriekSoundCounter = 22;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item103, NPC.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item103, NPC.Center);
             }
 
             player.position.X += Math.Sign(NPC.Center.X - player.Center.X) * 1.5f;
@@ -701,7 +701,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 float speed = 10f;
                 Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
                 Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<SlashAttack>(), 50 / 4, 0f);
-                Terraria.Audio.SoundEngine.PlaySound(2, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, 0.25f);
+                SoundExtensions.PlaySoundOld(SoundID.Item71, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, 0.25f);
 
             }
 
@@ -736,7 +736,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                         NPC.rotation = MathHelper.ToRadians(180);
                     }
                     frame = 18;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item6, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item6, NPC.Center);
                 }
             }
         }
@@ -788,7 +788,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             {
                 hasStartedYet = true;
                 Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center + new Vector2(0, 2000), new Vector2(0, -1), ModContent.ProjectileType<InfectedSlash>(), 65 / 4, 0f);
-                Terraria.Audio.SoundEngine.PlaySound(2, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, -0.25f);
+                SoundExtensions.PlaySoundOld(SoundID.Item71, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, -0.25f);
                 targetPosition = player.Center;
             }
 
@@ -820,7 +820,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                         NPC.velocity = new Vector2(0, speed);
                         NPC.position.Y = arena.Center.Y - 1000f;
                     }
-                    Terraria.Audio.SoundEngine.PlaySound(2, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, -0.25f);
+                    SoundExtensions.PlaySoundOld(SoundID.Item71, (int)NPC.Center.X, (int)NPC.Center.Y, 71, 2.5f, -0.25f);
 
                     targetPosition = player.Center;
                     if (attackCounter1 == (int)(amount * 0.65f) && NPC.life <= NPC.lifeMax * 0.75f)
@@ -884,7 +884,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         public override void Kill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<TeleportLight>(), 0, 0);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item14, Projectile.Center);
             TerrorbornSystem.ScreenShake(3f);
         }
     }

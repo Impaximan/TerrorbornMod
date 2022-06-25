@@ -51,7 +51,7 @@ namespace TerrorbornMod.Abilities
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.VoidBlinkTime = 60 * 3 + 30;
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item72, player.Center);
             DustExplosion(player.Center, 0, 15, 15, 27, 1.5f, true);
         }
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph

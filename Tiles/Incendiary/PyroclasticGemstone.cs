@@ -16,8 +16,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
 
-            SoundType = SoundID.Trackable;
-            SoundStyle = 165;
+            HitSound = SoundID.DD2_WitherBeastHurt;
             ItemDrop = ModContent.ItemType<Items.Materials.PyroclasticGemstone>();
 
             MineResist = 5f;

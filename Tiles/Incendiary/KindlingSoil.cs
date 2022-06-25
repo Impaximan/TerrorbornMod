@@ -14,8 +14,8 @@ namespace TerrorbornMod.Tiles.Incendiary
             Main.tileBlockLight[Type] = true;
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = false;
-            SoundType = SoundID.Dig;
-            SoundStyle = 1;
+            HitSound = SoundID.Dig;
+            
             //Main.soundDig[Type] =  21;
 
             Main.tileMerge[Type][ModContent.TileType<KindlingGrass>()] = true;
@@ -72,8 +72,8 @@ namespace TerrorbornMod.Tiles.Incendiary
             Main.tileBlockLight[Type] = true;
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = true;
-            SoundType = SoundID.Dig;
-            SoundStyle = 1;
+            HitSound = SoundID.Dig;
+            
             //Main.soundDig[Type] =  21;
 
             Main.tileMerge[Type][ModContent.TileType<KindlingSoil>()] = true;

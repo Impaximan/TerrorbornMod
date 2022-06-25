@@ -90,7 +90,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
             if (shotsLeft == 8)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item92, position);
+                SoundExtensions.PlaySoundOld(SoundID.Item92, position);
                 TerrorbornSystem.ScreenShake(3.5f);
                 for (int i = 0; i < Main.rand.Next(5, 7); i++)
                 {

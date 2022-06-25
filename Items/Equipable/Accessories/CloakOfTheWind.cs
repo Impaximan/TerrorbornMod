@@ -44,7 +44,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public void Dash(int direction, Player player)
         {
             player.velocity.X = 11.5f * direction;
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot, player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.DD2_FlameburstTowerShot, player.Center);
 
             Rectangle closeRectangle = player.getRect();
             int extraWidth = 240;

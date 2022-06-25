@@ -138,7 +138,7 @@ namespace TerrorbornMod
             if (superthrow && !bannedTypes.Contains(target.type))
             {
                 DustExplosion(Projectile.Center, 0, 45, 30, 6, DustScale: 1f, NoGravity: true);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item14, Projectile.Center);
                 TerrorbornSystem.ScreenShake(1.5f);
                 for (int i = 0; i < 200; i++)
                 {
@@ -178,7 +178,7 @@ namespace TerrorbornMod
 
             if (VeinBurster)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath21, target.Center);
+                SoundExtensions.PlaySoundOld(SoundID.NPCDeath21, target.Center);
                 for (int i = 0; i < Main.rand.Next(3, 5); i++)
                 {
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
@@ -190,7 +190,7 @@ namespace TerrorbornMod
 
             if (ContaminatedMarine)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, target.Center);
+                SoundExtensions.PlaySoundOld(SoundID.DD2_ExplosiveTrapExplode, target.Center);
                 for (int i = 0; i < Main.rand.Next(7, 9); i++)
                 {
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
@@ -227,7 +227,7 @@ namespace TerrorbornMod
 
             if (BeatStopper && Projectile.type != ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>())
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_BallistaTowerShot, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.DD2_BallistaTowerShot, player.Center);
                 for (int i = 0; i < 2; i++)
                 {
                     float speed = Main.rand.NextFloat(12f, 20f);

@@ -48,7 +48,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
             if (fireFeathers)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item102, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item102, player.Center);
                 TerrorbornSystem.ScreenShake(1.5f);
                 for (int i = 0; i < Main.rand.Next(3, 6); i++)
                 {
@@ -189,7 +189,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         {
             if (!stuck)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+                SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
                 stuck = true;
                 stuckNPC = target;
                 offset = target.position - Projectile.position;
@@ -198,7 +198,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
         }
 

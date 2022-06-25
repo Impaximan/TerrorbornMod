@@ -40,7 +40,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             if (player.velocity.Y != 0 && !spinning)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item44, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item44, player.Center);
                 spinDir = Math.Sign(player.velocity.X);
                 if (player.velocity.X == 0)
                 {
@@ -73,7 +73,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 {
                     player.velocity.X += spinDir * 7.5f;
                     spinning = false;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item8, player.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item8, player.Center);
                     TerrorbornSystem.ScreenShake(3f);
                     List<string> textOptions = new List<string>(){
                         { "Nice!" },

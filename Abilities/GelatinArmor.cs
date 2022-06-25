@@ -51,7 +51,7 @@ namespace TerrorbornMod.Abilities
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.GelatinArmorTime = 60 * 25;
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item117);
+            SoundExtensions.PlaySoundOld(SoundID.Item117);
         }
     }
 

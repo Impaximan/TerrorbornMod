@@ -37,7 +37,7 @@ namespace TerrorbornMod.NPCs.Minibosses
             NPC.damage = 75;
             NPC.defense = 70;
             NPC.lifeMax = 35000;
-            NPC.HitSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Effects/DreadAngelHurt");
+            NPC.HitSound = new Terraria.Audio.SoundStyle("Sounds/Effects/DreadAngelHurt");
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.value = Item.buyPrice(0, 20, 0, 0);
             NPC.aiStyle = -1;
@@ -172,7 +172,7 @@ namespace TerrorbornMod.NPCs.Minibosses
 
                 if (attackCounter % 45 == 44)
                 {
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, laserPosition);
+                    SoundExtensions.PlaySoundOld(SoundID.Item68, laserPosition);
                     TerrorbornSystem.ScreenShake(10);
                     Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), laserPosition + new Vector2(0, 3000), new Vector2(0, -1), ModContent.ProjectileType<Incendiary.AngelBeam>(), 120 / 4, 0f)];
                     proj.velocity.Normalize();
@@ -225,13 +225,13 @@ namespace TerrorbornMod.NPCs.Minibosses
 
                     if (frame == 8)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item71, NPC.Center);
                         NPC.velocity = NPC.DirectionTo(player.Center) * 15f;
                     }
 
                     if (frame == 13)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item71, NPC.Center);
                         int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center + new Vector2(20 * NPC.spriteDirection, -40), NPC.velocity * 3, ModContent.ProjectileType<DreadScytheHostile>(), 140 / 4, 0f);
                         Main.projectile[proj].spriteDirection = -NPC.spriteDirection;
                     }

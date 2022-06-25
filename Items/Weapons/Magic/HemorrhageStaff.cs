@@ -107,7 +107,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath21, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.NPCDeath21, Projectile.Center);
             for (int i = 0; i < Main.rand.Next(4, 7); i++)
             {
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();

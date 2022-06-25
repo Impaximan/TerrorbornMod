@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using ReLogic.Content;
 using Terraria.GameContent.UI;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TerrorbornMod
 {
@@ -48,7 +49,11 @@ namespace TerrorbornMod
         public static string TerrorMeterStyle = "Default";
         public static bool TerrorMeterText = true;
 
+        public static bool showWingStats = true;
+
         public static bool showNoUseSpeed = true;
+
+        public static Texture2D SoHShrineText;
 
         //public override void UpdateMusic(ref int music, ref MusicPriority priority)
         //{
@@ -86,7 +91,6 @@ namespace TerrorbornMod
         public TerrorbornMod()
         {
             //Utils.DrawBorderString()
-            SoundAutoloadingEnabled = true;
         }
 
         string BugString()
@@ -212,6 +216,12 @@ namespace TerrorbornMod
             OpenTerrorAbilityMenu = KeybindLoader.RegisterKeybind(this, "Open/Close Terror Ability Menu", "P");
             Parry = KeybindLoader.RegisterKeybind(this, "Parry", "Mouse4");
             CombatTokenCustomCurrencyId = CustomCurrencyManager.RegisterCurrency(new CombatTokenCurrency(ModContent.ItemType<CombatToken>(), 999L));
+
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/RiveterSound", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/RiveterDrawSound", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/CoolerMachineGun", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>("TerrorbornMod/MainMenuForeground1", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>("TerrorbornMod/WhitePixel", AssetRequestMode.ImmediateLoad);
 
             if (Main.netMode != NetmodeID.Server)
             {

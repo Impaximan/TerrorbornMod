@@ -66,14 +66,16 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             Tooltip.SetDefault("Fires a storm bolt along side it's arrows, which are converted to Bolt Arrows.\nStorm bolts will summon a smaller bolt upon hitting foes.\n20% chance to not consume ammo");
         }
-        public override bool CanConsumeAmmo(Player player)
+
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(101) <= 20)
             {
                 return false;
             }
-            return true;
+            return base.CanConsumeAmmo(ammo, player);
         }
+
         public override void SetDefaults()
         {
             Item.damage = 22;
@@ -98,6 +100,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             return new Vector2(2f, 0);
         }
+
         public override void AddRecipes()
         {
             CreateRecipe()
@@ -120,7 +123,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             firesTilBolt--;
             if (firesTilBolt <= 0)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item75, position);
+                SoundExtensions.PlaySoundOld(SoundID.Item75, position);
                 firesTilBolt = 2;
                 for (int i = 0; i < 2; i++)
                 {
@@ -137,6 +140,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Storm's Beam");
         }
+
         public override void SetDefaults()
         {
             Projectile.friendly = true;
@@ -148,6 +152,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Projectile.width = 4;
             Projectile.height = 4;
         }
+
         public override string Texture => "TerrorbornMod/placeholder";
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -159,10 +164,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             Projectile.damage = (int)(Projectile.damage * 0.8);
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), new Vector2(target.position.X + Main.rand.Next(0, target.width), target.Center.Y - target.height * 1.5f), new Vector2(0, 10), ModContent.ProjectileType<StormsBolt>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
         }
+
         public override void AI()
         {
             int dust = Dust.NewDust(Projectile.position, 1, 1, 88, 0f, 0f, 0, Scale: 0.5f);
@@ -176,10 +183,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     class StormsBolt : ModProjectile
     {
         public override string Texture => "TerrorbornMod/placeholder";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm's Bolt");
         }
+
         public override void SetDefaults()
         {
             Projectile.tileCollide = false;
@@ -193,6 +202,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Projectile.width = 4;
             Projectile.height = 4;
         }
+
         public override void AI()
         {
             int dust = Dust.NewDust(Projectile.position, 1, 1, 88, 0f, 0f, 0, Scale: 0.5f);
@@ -210,6 +220,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
@@ -222,6 +233,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
             return false;
         }
+
         public override void SetDefaults()
         {
             Projectile.width = 22;
@@ -234,12 +246,14 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Projectile.ignoreWater = true;
             Projectile.penetrate = 5;
         }
+
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 14;
             height = 14;
             return true;
         }
+
         public override void AI()
         {
             int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 88, 0f, 0f, 0, Scale: 1f);

@@ -141,7 +141,7 @@ namespace TerrorbornMod.Items.Shadowcrawler
         public override void Kill(int timeLeft)
         {
             DustExplosion(Projectile.Center, 0, 12, 7, 74, 2f, true);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item14, Projectile.Center);
         }
 
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph

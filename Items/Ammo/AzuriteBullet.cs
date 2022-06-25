@@ -86,7 +86,7 @@ namespace TerrorbornMod.Items.Ammo
             if (timeLeft > 0)
             {
                 Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+                SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
                 for (int i = 0; i < Main.rand.Next(2, 4); i++)
                 {
                     int Num54 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, 0, 0, Scale: 1f, newColor: Color.Blue);

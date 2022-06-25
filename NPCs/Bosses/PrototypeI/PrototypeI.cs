@@ -67,7 +67,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                 }
                 deathSpotlights.Add(MathHelper.ToRadians(Main.rand.Next(360)));
                 TerrorbornSystem.ScreenShake(10f);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item62, NPC.Center);
             }
             if (deathAnimationTime > totalDeathAnimationTime)
             {
@@ -703,7 +703,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                 if (attackCounter1 % timeBetweenProjectiles == timeBetweenProjectiles - 1)
                 {
                     float speed = 25f;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item, (int)NPC.Center.X, (int)NPC.Center.Y, 125, 1, 1);
+                    SoundExtensions.PlaySoundOld(SoundID.Item, (int)NPC.Center.X, (int)NPC.Center.Y, 125, 1, 1);
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, attackRotation1.ToRotationVector2().RotatedBy(MathHelper.ToRadians(focus)) * speed, ModContent.ProjectileType<CursedBeam>(), (int)(50f * damageMult / 4f), 0f);
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, attackRotation1.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-focus)) * speed, ModContent.ProjectileType<CursedBeam>(), (int)(50f * damageMult / 4f), 0f);
                 }
@@ -711,7 +711,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                 {
                     attackCounter2++;
                     attackCounter1 = 0;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.Center.X, (int)NPC.Center.Y, 104, 1, 2f);
+                    SoundExtensions.PlaySoundOld(SoundID.Zombie104, (int)NPC.Center.X, (int)NPC.Center.Y, 104, 1, 2f);
                 }
             }
             else if (attackCounter2 == 1)
@@ -796,7 +796,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                     attackCounter1 = 0;
                     NPC.velocity = NPC.DirectionTo(player.Center) * speed;
                     rings.Add(new Tuple<Vector2, float, float>(NPC.Center, 0f, 250f));
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item67, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item67, NPC.Center);
                     TerrorbornSystem.ScreenShake(5);
                 }
             }
@@ -921,7 +921,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                         NPC.position -= NPC.Size / 2;
 
                         //rings.Add(new Tuple<Vector2, float, float>(NPC.Center, 0f, 250f));
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item67, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item67, NPC.Center);
                         TerrorbornSystem.ScreenShake(5);
 
                         dashClones.RemoveAt(0);
@@ -992,7 +992,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                 {
                     if (attackCounter3 > 0)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item, (int)NPC.Center.X, (int)NPC.Center.Y, 125, 1, 1);
+                        SoundExtensions.PlaySoundOld(SoundID.Item, (int)NPC.Center.X, (int)NPC.Center.Y, 125, 1, 1);
                         float speed = ProjectileSpeed;
                         if (attackCounter1 == 1)
                         {

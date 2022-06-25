@@ -97,7 +97,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 velocity.X = velocity.X;
                 velocity.Y = velocity.Y;
                 TerrorbornSystem.ScreenShake(2.5f);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item68, player.Center);
                 alreadyTargetted.Clear();
             }
         }
@@ -109,7 +109,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             if (targetted)
             {
                 TerrorbornSystem.ScreenShake(2.5f);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item68, player.Center);
             }
             return targetted;
         }

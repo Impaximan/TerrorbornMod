@@ -41,7 +41,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             {
                 player.AddBuff(ModContent.BuffType<HuntersRecharge>(), 60 * 50);
                 player.AddBuff(ModContent.BuffType<HuntersMark>(), 60 * 5);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item62, player.Center);
 
                 DustExplosion(player.Center, 0, 80, 25, DustID.AmberBolt, NoGravity: true);
             }

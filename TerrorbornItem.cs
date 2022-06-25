@@ -115,14 +115,14 @@ namespace TerrorbornMod
             return base.CanUseItem(item, player);
         }
 
-        public override bool CanConsumeAmmo(Item weapon, Player player)
+        public override bool CanConsumeAmmo(Item weapon, Item ammo, Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (Main.rand.NextFloat() < modPlayer.noAmmoConsumeChance)
             {
                 return false;
             }
-            return base.CanConsumeAmmo(weapon, player);
+            return base.CanConsumeAmmo(weapon, ammo, player);
         }
 
         public bool RestlessChargedUp()
@@ -390,6 +390,12 @@ namespace TerrorbornMod
                 tooltips.FirstOrDefault(x => x.Name == "MineSkullmound" && x.Mod == "TerrorbornMod").OverrideColor = new Color(255, 211, 207);
             }
 
+            if (item.OriginalRarity == ModContent.RarityType<Rarities.Twilight>())
+            {
+                tooltips.Add(new TooltipLine(Mod, "TwilightRarity", "'Dragged by fate...'"));
+                tooltips.FirstOrDefault(x => x.Name == "TwilightRarity" && x.Mod == "TerrorbornMod").OverrideColor = Color.FromNonPremultiplied(40 * 2, 55 * 2, 70 * 2, 255);
+            }
+
             burstJumpColorProgress += (1f / burstJumpTransitionTime) * burstJumpColorDirection;
 
             if (burstJumpColorDirection == 1 && burstJumpColorProgress >= 1f)
@@ -507,6 +513,13 @@ namespace TerrorbornMod
                 }
             }
 
+            if (TerrorbornMod.showWingStats && item.wingSlot != -1)
+            {
+                float shownFlightTime = (float)Math.Round(ArmorIDs.Wing.Sets.Stats[item.wingSlot].FlyTime / 60f * modPlayer.flightTimeMultiplier, 1);
+                tooltips.Add(new TooltipLine(Mod, "WingStats1", shownFlightTime.ToString() + " second flight time"));
+                tooltips.Add(new TooltipLine(Mod, "WingStats1", GetWingSpeedMultRating(ArmorIDs.Wing.Sets.Stats[item.wingSlot].AccRunAccelerationMult) + " horizontal speed"));
+            }
+
             if (countAsThrown)
             {
                 tooltips.Add(new TooltipLine(Mod, "countsAsThrown", "Counts as a thrown weapon"));
@@ -519,6 +532,67 @@ namespace TerrorbornMod
             {
                 tooltips.Add(new TooltipLine(Mod, "noUseSpeed", "Unaffected by external item use speed modifiers"));
             }
+        }
+
+        public string GetWingSpeedMultRating(float mult, bool capitalized = true)
+        {
+            if (mult < 0.9f)
+            {
+                if (capitalized)
+                {
+                    return "Awful";
+                }
+                return "awful";
+            }
+
+            if (mult >= 0.9f && mult < 1.3f)
+            {
+                if (capitalized)
+                {
+                    return "Average";
+                }
+                return "average";
+            }
+
+
+            if (mult >= 1.25f && mult < 1.75f)
+            {
+                if (capitalized)
+                {
+                    return "Fast";
+                }
+                return "fast";
+            }
+
+            if (mult >= 1.75f && mult < 2.25f)
+            {
+                if (capitalized)
+                {
+                    return "Very fast";
+                }
+                return "very fast";
+            }
+
+
+            if (mult >= 2.25f && mult < 2.75f)
+            {
+                if (capitalized)
+                {
+                    return "Extremely fast";
+                }
+                return "extremely fast";
+            }
+
+            if (mult >= 2.75f)
+            {
+                if (capitalized)
+                {
+                    return "Insanely fast";
+                }
+                return "insanely fast";
+            }
+
+            return "meh";
         }
 
         public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)

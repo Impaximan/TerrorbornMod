@@ -65,7 +65,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
                     int proj = Projectile.NewProjectile(player.GetSource_Accessory(Item), position, new Vector2(0, -20), ModContent.ProjectileType<Items.Equipable.Armor.TideFireFriendly>(), Item.damage, 0f, player.whoAmI);
                     Main.projectile[proj].DamageType = DamageClass.Default;
                 }
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item88, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item88, player.Center);
             }
         }
     }

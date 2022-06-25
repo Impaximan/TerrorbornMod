@@ -28,6 +28,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Player player = Main.player[Main.myPlayer];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
+            spriteBatch.Draw(TerrorbornMod.SoHShrineText, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
             Color meterColor = modPlayer.terrorMeterColor;
 
             if (TerrorbornMod.TerrorMeterStyle == "Legacy")

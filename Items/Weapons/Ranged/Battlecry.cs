@@ -61,8 +61,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             return base.CanUseItem(player);
         }
 
-        // 33% chance not to consume ammo
-        public override bool CanConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return Main.rand.NextFloat() >= .33f;
         }

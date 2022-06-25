@@ -111,7 +111,7 @@ namespace TerrorbornMod.Items.Ammo
             if (timeLeft > 0)
             {
                 Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+                SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             }
         }
     }

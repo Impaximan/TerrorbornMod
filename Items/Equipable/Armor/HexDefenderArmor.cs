@@ -243,7 +243,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             {
                 player.AddBuff(ModContent.BuffType<HexedMeleeSpeed>(), 5 * 60);
                 TerrorbornSystem.ScreenShake(5f);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item67, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item67, player.Center);
             }
 
             Projectile.position = Vector2.Lerp(Projectile.position, player.Center + new Vector2(0, -100), 0.2f);

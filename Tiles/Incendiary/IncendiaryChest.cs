@@ -80,14 +80,14 @@ namespace TerrorbornMod.Tiles.Incendiary
 			}
 			if (player.sign >= 0)
 			{
-				Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
+				SoundExtensions.PlaySoundOld(SoundID.MenuClose);
 				player.sign = -1;
 				Main.editSign = false;
 				Main.npcChatText = "";
 			}
 			if (Main.editChest)
 			{
-				Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuTick);
+				SoundExtensions.PlaySoundOld(SoundID.MenuTick);
 				Main.editChest = false;
 				Main.npcChatText = "";
 			}
@@ -103,7 +103,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 				{
 					player.chest = -1;
 					Recipe.FindRecipes();
-					Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
+					SoundExtensions.PlaySoundOld(SoundID.MenuClose);
 				}
 				else
 				{
@@ -120,7 +120,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 					if (chest == player.chest)
 					{
 						player.chest = -1;
-						Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
+						SoundExtensions.PlaySoundOld(SoundID.MenuClose);
 					}
 					else
 					{
@@ -129,7 +129,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 						Main.recBigList = false;
 						player.chestX = left;
 						player.chestY = top;
-						Terraria.Audio.SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+						SoundExtensions.PlaySoundOld(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
 					}
 					Recipe.FindRecipes();
 				}

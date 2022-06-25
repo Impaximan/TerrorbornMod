@@ -112,7 +112,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                 ProjectileWait = 60 * 3;
                 float speed = 15f;
                 Vector2 velocity = NPC.DirectionTo(player.Center) * speed;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, NPC.Center);
+                SoundExtensions.PlaySoundOld(SoundID.DD2_MonkStaffSwing, NPC.Center);
                 Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<CursedJavelin>(), 80 / 4, 0);
             }
         }

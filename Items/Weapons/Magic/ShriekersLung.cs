@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCKilled, (int)player.Center.X, (int)player.Center.Y, 4, 1, -0.6f);
+            SoundExtensions.PlaySoundOld(SoundID.NPCDeath4, (int)player.Center.X, (int)player.Center.Y, 4, 1, -0.6f);
             return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
 

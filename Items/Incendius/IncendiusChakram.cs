@@ -118,7 +118,7 @@ namespace TerrorbornMod.Items.Incendius
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position); //Sound for when it hits a block
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position); //Sound for when it hits a block
 
             // B O U N C E
             if (Projectile.velocity.X != oldVelocity.X)

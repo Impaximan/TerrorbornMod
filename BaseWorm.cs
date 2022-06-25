@@ -87,7 +87,7 @@ namespace TerrorbornMod
 					{
 						for (int i = 0; i < customBodyTypeList.Count; i++)
 						{
-							int thingy = NPC.NewNPC(Entity.GetSource_NaturalSpawn(), (int)NPC.Center.X, (int)NPC.Center.Y, customBodyTypeList[i]);
+							int thingy = NPC.NewNPC(Entity.GetSource_Misc("spawn"), (int)NPC.Center.X, (int)NPC.Center.Y, customBodyTypeList[i]);
 							Main.npc[thingy].ai[0] = NPC.whoAmI;
 							Main.npc[thingy].ai[1] = i;
 							Main.npc[thingy].realLife = NPC.whoAmI;
@@ -99,7 +99,7 @@ namespace TerrorbornMod
 					{
 						for (int i = 0; i < bodySegmentCount; i++)
 						{
-							int thingy = NPC.NewNPC(Entity.GetSource_NaturalSpawn(), (int)NPC.Center.X, (int)NPC.Center.Y, bodyType);
+							int thingy = NPC.NewNPC(Entity.GetSource_Misc("spawn"), (int)NPC.Center.X, (int)NPC.Center.Y, bodyType);
 							Main.npc[thingy].ai[0] = NPC.whoAmI;
 							Main.npc[thingy].ai[1] = i;
 							Main.npc[thingy].realLife = NPC.whoAmI;
@@ -107,7 +107,7 @@ namespace TerrorbornMod
 							bodySegments.Add(thingy);
 						}
 					}
-					int tail = NPC.NewNPC(Entity.GetSource_NaturalSpawn(), (int)NPC.Center.X, (int)NPC.Center.Y, tailType);
+					int tail = NPC.NewNPC(Entity.GetSource_Misc("spawn"), (int)NPC.Center.X, (int)NPC.Center.Y, tailType);
 					Main.npc[tail].ai[0] = NPC.whoAmI;
 					Main.npc[tail].ai[1] = bodySegmentCount;
 					Main.npc[tail].realLife = NPC.whoAmI;

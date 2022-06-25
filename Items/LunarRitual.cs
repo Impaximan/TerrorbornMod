@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items
         public override bool? UseItem(Player player)
         {
             Vector2 position = player.Center + new Vector2(0, -350);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item117, position);
+            SoundExtensions.PlaySoundOld(SoundID.Item117, position);
             Projectile.NewProjectile(player.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<LunarPortal>(), 0, 0);
             return true;
         }

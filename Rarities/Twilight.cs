@@ -7,15 +7,6 @@ namespace TerrorbornMod.Rarities
 {
     class Twilight : ModRarity
     {
-        public override int GetPrefixedRarity(int offset, float valueMult)
-        {
-            if (offset == -1)
-            {
-                return ItemRarityID.Purple;
-            }
-            return base.GetPrefixedRarity(offset, valueMult);
-        }
-
         public static float rarityColorProgress = 0f;
         public static int rarityColorDirection = 1;
         int rarityColorTransitionTime = 60;

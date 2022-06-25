@@ -99,7 +99,7 @@ namespace TerrorbornMod.Items.PrototypeI
         }
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Item27, Projectile.position);
         }
         public override void AI()
         {

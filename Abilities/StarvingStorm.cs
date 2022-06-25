@@ -47,7 +47,7 @@ namespace TerrorbornMod.Abilities
         public override void OnUse(Player player)
         {
             Projectile.NewProjectile(player.GetSource_Misc("TerrorbornAbility_StarvingStorm"), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<StormVortex>(), 0, 0, player.whoAmI);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.NPCDeath52, player.Center);
         }
     }
 

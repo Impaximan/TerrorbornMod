@@ -54,7 +54,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 				if (phaseTimeLeft <= 0)
                 {
 					phaseTimeLeft = 60 * 3;
-					Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)NPC.Center.X, (int)NPC.Center.Y, 0, 1, 0.5f);
+					SoundExtensions.PlaySoundOld(SoundID.Roar, (int)NPC.Center.X, (int)NPC.Center.Y, 0, 1, 0.5f);
 					TerrorbornSystem.ScreenShake(10);
 					AIPhase++;
                 }
@@ -63,7 +63,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 				if (ProjectileCounter <= 0)
                 {
 					ProjectileCounter = 45;
-					Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
+					SoundExtensions.PlaySoundOld(SoundID.NPCDeath13, NPC.Center);
 					float speed = 17f;
 					Vector2 velocity = (NPC.rotation - MathHelper.ToRadians(90)).ToRotationVector2() * speed;
 					Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);
@@ -78,7 +78,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
                 {
 					AIPhase++;
 					phaseTimeLeft = 60 * 5;
-					Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.Center.X, (int)NPC.Center.Y, 10, 1, -0.3f);
+					SoundExtensions.PlaySoundOld(SoundID.NPCDeath10, (int)NPC.Center.X, (int)NPC.Center.Y, 10, 1, -0.3f);
 					TerrorbornSystem.ScreenShake(20);
 				}
 			}
@@ -97,7 +97,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 				if (ProjectileCounter <= 0)
 				{
 					ProjectileCounter = 90;
-					Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
+					SoundExtensions.PlaySoundOld(SoundID.NPCDeath13, NPC.Center);
 					float speed = 20f;
 					Vector2 velocity = NPC.DirectionTo(target.Center + target.velocity * (NPC.Distance(target.Center) / speed)) * speed;
 					Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.FrightfulSpit>(), 75 / 4, 0);

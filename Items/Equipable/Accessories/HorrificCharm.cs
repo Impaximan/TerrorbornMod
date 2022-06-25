@@ -119,7 +119,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             {
                 if (ProjectileCounter <= 0)
                 {
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item8, Projectile.Center);
                     ProjectileCounter = 40;
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                     float speed = Main.rand.Next(5, 8);

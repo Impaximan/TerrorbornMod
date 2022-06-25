@@ -18,10 +18,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 "\n95% chance to not consume ammo" +
                 "\n'Shoots as fast as your fingers can click'");
         }
-        public override bool CanConsumeAmmo(Player player)
+
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
-            return Main.rand.Next(100) <= 5;
+            return Main.rand.Next(101) <= 5;
         }
+
         public override void SetDefaults()
         {
             Item.damage = 16;
@@ -41,16 +43,19 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<CartilageRoundProjectile>();
             Item.useAmmo = ModContent.ItemType<CartilageRound>();
         }
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 RotatedSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(6));
             return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
     }
+
     class CartilageRound : ModItem
     {
         public override void SetDefaults()
@@ -68,21 +73,25 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<CartilageRoundProjectile>();
             Item.ammo = Item.type;
         }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Used by the bone buster" +
                 "\nBounces off of tiles and pierces multiple enemies");
         }
     }
+
     class CartilageRoundProjectile : ModProjectile
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Ranged/CartilageRound";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cartilage Round");
             ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
@@ -95,6 +104,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
             return false;
         }
+
         public override void SetDefaults()
         {
             Projectile.width = 12;
@@ -114,6 +124,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         {
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.ToRadians(90);
         }
+
         int BouncesLeft = 5;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -129,7 +140,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
 
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             BouncesLeft--;
             if (BouncesLeft <= 0)
             {

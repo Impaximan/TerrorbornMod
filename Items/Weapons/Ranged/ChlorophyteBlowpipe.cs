@@ -42,7 +42,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item63, player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item63, player.Center);
             player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();
             if (player.direction == -1)
             {

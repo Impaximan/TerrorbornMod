@@ -81,7 +81,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 NPC.dontTakeDamage = true;
                 NPC.NewNPC(NPC.GetSource_OnHit(NPC), (int)NPC.Center.X + 700, (int)NPC.Center.Y + 600, ModContent.NPCType<TidalTitan>());
                 Main.NewText("Tidal Titan has awoken!", new Color(175, 75, 255));
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 0);
+                SoundExtensions.PlaySoundOld(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 0);
                 TerrorbornSystem.ScreenShake(10f);
             }
         }
@@ -365,20 +365,20 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                             float speed = 20f;
                             NPC.velocity = GetDirectionTo(target.Center, true).ToRotationVector2() * speed;
 
-                            Terraria.Audio.SoundEngine.PlaySound(4, (int)NPC.position.X, (int)NPC.position.Y, 10, 1, 0.5f);
+                            SoundExtensions.PlaySoundOld(SoundID.NPCDeath10, (int)NPC.position.X, (int)NPC.position.Y, 10, 1, 0.5f);
                             TerrorbornSystem.ScreenShake(15f);
                             if (NPC.Distance(target.Center) < target.width)
                             {
                                 target.active = false;
-                                Terraria.Audio.SoundEngine.PlaySound(target.DeathSound, target.Center);
+                                Terraria.Audio.SoundEngine.PlaySound((Terraria.Audio.SoundStyle)target.DeathSound, target.Center);
                                 Main.NewText("Mysterious Crab has been defeated...", new Color(175, 75, 255));
 
-                                for (int i = 0; i <= 6; i++)
-                                {
-                                    float goreSpeed = Main.rand.NextFloat(10f, 20f);
-                                    Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * goreSpeed + NPC.velocity;
-                                    Gore.NewGore(NPC.GetSource_Loot(), target.Center, velocity, Mod.Find<ModGore>("Gores/MCrabGore" + i.ToString()).Type);
-                                }
+                                //for (int i = 0; i <= 6; i++)
+                                //{
+                                //    float goreSpeed = Main.rand.NextFloat(10f, 20f);
+                                //    Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * goreSpeed + NPC.velocity;
+                                //    Gore.NewGore(NPC.GetSource_Loot(), target.Center, velocity, Mod.Find<ModGore>("Gores/MCrabGore" + i.ToString()).Type);
+                                //}
                             }
                         }
                     }
@@ -456,21 +456,38 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 NPC.velocity.X += Math.Sign(targetPosition.X - realPosition.X) * 0.5f;
                 NPC.velocity *= 0.98f;
 
+                float burpTimeMult = 1f;
+                if (TerrorbornSystem.TwilightMode)
+                {
+                    burpTimeMult = 0.75f;
+                    if (Main.masterMode)
+                    {
+                        burpTimeMult = 1f;
+                    }
+                }
+
                 attackCounter3++;
                 if (Math.Abs(targetPosition.X - realPosition.X) < 200 || attackCounter3 > 180)
                 {
                     attackCounter2++;
-                    if (attackCounter2 > timeBetweenBurps)
+                    if (attackCounter2 > (float)timeBetweenBurps * burpTimeMult)
                     {
                         attackCounter2 = 0;
                         attackCounter1--;
                         NPC bubble = Main.npc[NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TidalCrabBubble>())];
                         bubble.velocity = GetDirectionTo(player.Center, true).ToRotationVector2() * 3f;
                         NPC.velocity -= GetDirectionTo(player.Center, true).ToRotationVector2() * 5f;
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.NPCDeath13, NPC.Center);
                         if (attackCounter1 <= 0)
                         {
-                            DecideNextAttack(180);
+                            if (Main.masterMode)
+                            {
+                                DecideNextAttack(300);
+                            }
+                            else
+                            {
+                                DecideNextAttack(240);
+                            }
                         }
                     }
                 }
@@ -482,12 +499,20 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             if (phaseStart)
             {
                 attackCounter1 = geyserCount;
+                if (TerrorbornSystem.TwilightMode)
+                {
+                    geyserCount += 2;
+                    if (Main.masterMode)
+                    {
+                        geyserCount++;
+                    }
+                }
                 attackCounter2 = 0;
                 phaseStart = false;
                 if (player.Center.X > realPosition.X) NPC.spriteDirection = 1;
                 else NPC.spriteDirection = -1;
 
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 0, 1, -0.5f);
+                SoundExtensions.PlaySoundOld(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 0, 1, -0.5f);
                 TerrorbornSystem.ScreenShake(10f);
                 NPC.velocity -= GetDirectionTo(player.Center, true).ToRotationVector2() * 10f;
             }
@@ -527,7 +552,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
 
                 attackDirection1 = -NPC.spriteDirection;
 
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 10, 1, 1f);
+                SoundExtensions.PlaySoundOld(SoundID.NPCDeath10, (int)NPC.position.X, (int)NPC.position.Y, 10, 1, 1f);
                 TerrorbornSystem.ScreenShake(10f);
             }
             else if (attackCounter2 == 0)
@@ -552,11 +577,21 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 float targetX = player.Center.X + 500f * attackDirection1;
                 NPC.velocity.X += Math.Sign(targetX - realPosition.X) * 0.5f;
 
+                float timeMult = 1f;
+                if (TerrorbornSystem.TwilightMode)
+                {
+                    timeMult = 0.75f;
+                    if (Main.masterMode)
+                    {
+                        timeMult = 0.5f;
+                    }
+                }
+
                 attackCounter1++;
-                if (attackCounter1 > timeBetweenProjectiles)
+                if (attackCounter1 > timeBetweenProjectiles * timeMult)
                 {
                     attackCounter1 = 0;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item21, NPC.Center);
                     TerrorbornSystem.ScreenShake(2f);
                     Vector2 velocity = GetDirectionTo(player.Center, true).ToRotationVector2() * ProjectileSpeed;
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<TidebornLaser>(), 50 / 4, 0f);
@@ -588,7 +623,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             {
                 NPC.velocity *= 0.98f;
                 NPC.velocity.Y -= 0.3f;
-                if (NPC.life <= NPC.lifeMax * 0.65f)
+                if (NPC.life <= NPC.lifeMax * 0.65f || TerrorbornSystem.TwilightMode)
                 {
                     NPC.rotation = NPC.rotation.AngleLerp(GetDirectionTo(player.Center + player.velocity * (NPC.Distance(player.Center) / leapSpeed)), 0.1f);
                 }
@@ -619,7 +654,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 attackCounter3--;
                 if (attackCounter3 <= 0)
                 {
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 0, 1, 1f);
+                    SoundExtensions.PlaySoundOld(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 0, 1, 1f);
                     TerrorbornSystem.ScreenShake(10f);
                     if (NPC.life <= NPC.lifeMax * 0.65f)
                     {
@@ -702,16 +737,24 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 NPC.rotation = NPC.rotation.AngleLerp(0f + MathHelper.ToRadians(NPC.velocity.Y * NPC.spriteDirection), 0.2f);
                 NPC.velocity.Y = 0;
                 NPC.velocity.X = dashSpeed * attackDirection1;
+                if (TerrorbornSystem.TwilightMode && Main.masterMode)
+                {
+                    NPC.velocity.X *= 1.5f;
+                }
 
                 attackCounter2++;
                 if (attackCounter2 > timeBetweenBubbles)
                 {
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item85, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item85, NPC.Center);
                     attackCounter2 = 0;
                     NPC bubble = Main.npc[NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TidalBubble>())];
                     bubble.ai[0] = bubbleAccelleration;
                 }
 
+                if (TerrorbornSystem.TwilightMode)
+                {
+                    dashTime = (int)(dashTime * 1.25f);
+                }
                 attackCounter3++;
                 if (attackCounter3 > dashTime)
                 {
@@ -815,7 +858,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         }
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item54, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Item54, Projectile.position);
         }
     }
 
@@ -1044,7 +1087,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             FireWait--;
             if (FireWait == 0)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 34, 3, 0.15f);
+                SoundExtensions.PlaySoundOld(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 34, 3, 0.15f);
                 TerrorbornSystem.ScreenShake(3f);
             }
             if (FireWait <= 0)

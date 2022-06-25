@@ -260,7 +260,7 @@ namespace TerrorbornMod
         //    }
         //});
 
-        //public static readonly PlayerLayer headGlowVanity = new PlayerLayer("TerrorbornMod", "Head_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        //public static readonly playerdraw headGlowVanity = new PlayerLayer("TerrorbornMod", "Head_Glow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
         //{
         //    Player Player = drawInfo.drawPlayer;
         //    int vanityAddend = 10;
@@ -275,12 +275,11 @@ namespace TerrorbornMod
         //        }
         //    }
         //});
-        #endregion
+        //#endregion
 
-        //public override void ModifyDrawLayers(List<PlayerLayer> layers)
+        //public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
         //{
         //    int vanityAddend = 10;
-
         //    bool didDoVanity = false;
 
         //    if (Player.armor[2 + vanityAddend] != null && Player.armor[2 + vanityAddend].type > Main.maxItemTypes)
@@ -365,6 +364,10 @@ namespace TerrorbornMod
         //        }
         //    }
         //}
+        //public override void ModifyDrawLayers(List<PlayerLayer> layers)
+        //{
+        //}
+        #endregion
 
         public void TriggerAbilityAnimation(string name, string description1, string description2, int AnimationType, string description3 = "You can equip terror abilities by using the 'Open/Close Terror Abilities Menu' hotkey.", int visibilityTime = 600)
         {
@@ -660,10 +663,6 @@ namespace TerrorbornMod
             TwilightPowerMultiplier = 1f;
             ShriekOfHorrorMovement = 0f;
             CaneOfCurses = false;
-            if (TerrorbornSystem.TwilightMode)
-            {
-                Player.extraAccessorySlots++;
-            }
             TerrorTonic = false;
             if (CoreOfFear)
             {
@@ -882,6 +881,10 @@ namespace TerrorbornMod
             if (InTwilightOverload)
             {
                 damage = (int)(damage * 1.75f);
+                if (Main.masterMode)
+                {
+                    damage = (int)(damage * 1.5f);
+                }
             }
         }
 
@@ -890,6 +893,10 @@ namespace TerrorbornMod
             if (InTwilightOverload)
             {
                 damage = (int)(damage * 1.75f);
+                if (Main.masterMode)
+                {
+                    damage = (int)(damage * 1.5f);
+                }
             }
         }
 
@@ -903,6 +910,11 @@ namespace TerrorbornMod
 
         public override void PostUpdateEquips()
         {
+            if (TerrorbornSystem.TwilightMode)
+            {
+                Player.luck += 1f;
+            }
+
             Player.wingTimeMax = (int)(Player.wingTimeMax * flightTimeMultiplier);
 
             if (Aerodynamic)
@@ -936,6 +948,11 @@ namespace TerrorbornMod
                 Player.GetAttackSpeed(DamageClass.Generic) *= 1.3f;
                 Player.accRunSpeed *= 2;
                 Player.jumpSpeedBoost += 3f;
+                if (Main.masterMode)
+                {
+                    Player.GetAttackSpeed(DamageClass.Generic) *= 1.3f;
+                    Player.lifeRegen += 7;
+                }
             }
 
             for (int i = 0; i < Player.armor.Length; i++)
@@ -1024,7 +1041,7 @@ namespace TerrorbornMod
 
                 currentItem.stack--;
 
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item3, Player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item3, Player.Center);
                 Player.velocity = Vector2.Zero;
                 DustCircle(Player.Center, 180, range, 63, -5, 3f);
 
@@ -1116,7 +1133,7 @@ namespace TerrorbornMod
                     if (SoundCounter <= 0)
                     {
                         SoundCounter = 22;
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item103, Player.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item103, Player.Center);
                     }
                     Vector2 dustpos = Player.Center;
                     dustpos.Y -= 13;
@@ -1185,12 +1202,12 @@ namespace TerrorbornMod
                     if (abilityAnimationCounter1 <= 0)
                     {
                         DustExplosion(Player.Center, 0, 360, 40, 66, 1, true);
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item103, Player.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item103, Player.Center);
                         TerrorbornSystem.ScreenShake(30);
                     }
                     else
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.MaxMana, Player.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.MaxMana, Player.Center);
                         TerrorbornSystem.ScreenShake(5);
                         DustExplosion(Player.Center, 0, 360, 10, 66, 0.5f, true);
                         abilityAnimationCounter2 = 4;
@@ -1211,12 +1228,12 @@ namespace TerrorbornMod
             {
                 if (ShowTerrorAbilityMenu)
                 {
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
+                    SoundExtensions.PlaySoundOld(SoundID.MenuClose);
                     ShowTerrorAbilityMenu = false;
                 }
                 else
                 {
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuOpen);
+                    SoundExtensions.PlaySoundOld(SoundID.MenuOpen);
                     ShowTerrorAbilityMenu = true;
                 }
             }
@@ -1226,7 +1243,7 @@ namespace TerrorbornMod
         {
             BlinkDashTime = 0;
             DustExplosion(Player.Center, 0, 25, 45, 162, 2f, true);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, Player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item72, Player.Center);
             Player.velocity = BlinkDashVelocity * 1.5f;
 
             blinkDashSpinRotation = 0f;
@@ -1239,7 +1256,7 @@ namespace TerrorbornMod
             {
                 blinkDashDirection = Player.direction;
             }
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item62, Player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item62, Player.Center);
             TerrorbornSystem.ScreenShake(10f);
         }
 
@@ -1248,7 +1265,7 @@ namespace TerrorbornMod
             InTwilightOverload = true;
             bleepWait = 0;
             bleepsLeft = 3;
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)Player.Center.X, (int)Player.Center.Y, 104, 1, 2f);
+            SoundExtensions.PlaySoundOld(SoundID.Zombie104, (int)Player.Center.X, (int)Player.Center.Y, 104, 1, 2f);
         }
 
         public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
@@ -1421,7 +1438,7 @@ namespace TerrorbornMod
                 ParryCooldown--;
                 if (ParryCooldown <= 0)
                 {
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MaxMana, (int)(Player.Center.X), (int)(Player.Center.Y), 0);
+                    SoundExtensions.PlaySoundOld(SoundID.MaxMana, (int)(Player.Center.X), (int)(Player.Center.Y), 0);
                     CombatText.NewText(Player.getRect(), parryColor, "Parry Recharged", false, true);
                 }
             }
@@ -1452,12 +1469,12 @@ namespace TerrorbornMod
                 if (VoidBlinkTime == 0)
                 {
                     DustExplosion(Player.Center, 0, 25, 15, 27, 1.5f, true);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, Player.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item72, Player.Center);
                 }
                 if (VoidBlinkTime == 60)
                 {
                     DustExplosion(Player.Center, 0, 25, 7.5f, 27, 1.5f, true);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MaxMana, Player.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.MaxMana, Player.Center);
                 }
                 Player.immuneAlpha = 255 / 2;
             }
@@ -1483,7 +1500,7 @@ namespace TerrorbornMod
                 if (BlinkDashTime == 0)
                 {
                     DustExplosion(Player.Center, 0, 15, 30, 162, 1.5f, true);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, Player.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item72, Player.Center);
                     Player.velocity /= 2;
                 }
                 if (BlinkDashTime <= 5 && (TerrorbornMod.PrimaryTerrorAbility.JustPressed || TerrorbornMod.SecondaryTerrorAbility.JustPressed))
@@ -1501,12 +1518,12 @@ namespace TerrorbornMod
             {
                 if (ShowTerrorAbilityMenu)
                 {
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuClose);
+                    SoundExtensions.PlaySoundOld(SoundID.MenuClose);
                     ShowTerrorAbilityMenu = false;
                 }
                 else
                 {
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.MenuOpen);
+                    SoundExtensions.PlaySoundOld(SoundID.MenuOpen);
                     ShowTerrorAbilityMenu = true;
                 }
             }
@@ -1646,7 +1663,7 @@ namespace TerrorbornMod
                 ParryTime = 0;
                 damage /= 4;
                 JustParried = true;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item37, Player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item37, Player.Center);
                 ActivateParryEffect();
             }
 
@@ -1654,7 +1671,7 @@ namespace TerrorbornMod
             {
                 damage += GelatinPunishmentDamage;
                 GelatinPunishmentDamage = 0;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath1, Player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.NPCDeath1, Player.Center);
                 for (int i = 0; i < 15; i++)
                 {
                     int dust = Dust.NewDust(Player.position, Player.width, Player.height, DustID.t_Slime);
@@ -1668,7 +1685,7 @@ namespace TerrorbornMod
             {
                 GelatinArmorTime = 0;
                 GelatinPunishmentDamage = damage / 3;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit1, Player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.NPCHit1, Player.Center);
                 damage = 0;
             }
 
@@ -1690,7 +1707,7 @@ namespace TerrorbornMod
                 ParryTime = 0;
                 damage /= 4;
                 JustParried = true;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item37, Player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item37, Player.Center);
                 ActivateParryEffect();
             }
 
@@ -1698,7 +1715,7 @@ namespace TerrorbornMod
             {
                 damage += GelatinPunishmentDamage;
                 GelatinPunishmentDamage = 0;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath1, Player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.NPCDeath1, Player.Center);
                 for (int i = 0; i < 15; i++)
                 {
                     int dust = Dust.NewDust(Player.position, Player.width, Player.height, DustID.t_Slime);
@@ -1712,7 +1729,7 @@ namespace TerrorbornMod
             {
                 GelatinArmorTime = 0;
                 GelatinPunishmentDamage = damage / 3;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit1, Player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.NPCHit1, Player.Center);
                 damage = 0;
             }
 
@@ -1789,7 +1806,7 @@ namespace TerrorbornMod
             if (SpecterLocket && !Player.HasBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>()))
             {
                 CombatText.NewText(Player.getRect(), Color.OrangeRed, "Revived!", true);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath52, Player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.NPCDeath52, Player.Center);
                 Player.statLife = 25;
                 Player.HealEffect(25);
                 Player.AddBuff(ModContent.BuffType<Buffs.IncendiaryRevival>(), 60 * 4);
@@ -1798,11 +1815,6 @@ namespace TerrorbornMod
             }
 
             return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
-        }
-
-        public override void clientClone(ModPlayer clientClone)
-        {
-            TerrorbornPlayer clone = clientClone as TerrorbornPlayer;
         }
 
         public override void SaveData(TagCompound tag)

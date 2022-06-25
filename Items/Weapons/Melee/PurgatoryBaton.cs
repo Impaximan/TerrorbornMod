@@ -68,7 +68,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             Projectile.soundDelay--;
             if (Projectile.soundDelay <= 0)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFurySwing, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundExtensions.PlaySoundOld(SoundID.DD2_SkyDragonsFurySwing, (int)Projectile.Center.X, (int)Projectile.Center.Y);
                 Projectile.soundDelay = 50;
 
             }

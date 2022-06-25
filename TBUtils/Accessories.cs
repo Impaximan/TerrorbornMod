@@ -67,7 +67,7 @@ namespace TerrorbornMod.TBUtils
                 modPlayer.ParryCooldown = parryCooldown;
                 player.AddBuff(ModContent.BuffType<Buffs.Debuffs.ParryCooldown>(), parryCooldown);
                 modPlayer.parryLightTime = 20;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item8, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item8, player.Center);
             }
 
             if (modPlayer.JustParried)
@@ -86,7 +86,7 @@ namespace TerrorbornMod.TBUtils
         }
 
         static bool fullyCharged = false;
-        public static void UpdateBurstJump(int chargeUpTime, int effectTime, Item item, Player player, Vector2 velocityRight, Color textColor, Terraria.Audio.LegacySoundStyle sound)
+        public static void UpdateBurstJump(int chargeUpTime, int effectTime, Item item, Player player, Vector2 velocityRight, Color textColor, Terraria.Audio.SoundStyle sound)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (player.controlUp)
@@ -98,7 +98,7 @@ namespace TerrorbornMod.TBUtils
                     {
                         CombatText.NewText(player.getRect(), textColor, item.Name + " charged...", true, false);
                         fullyCharged = true;
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item37, player.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item37, player.Center);
                     }
                     player.armorEffectDrawOutlines = true;
                 }
@@ -120,7 +120,7 @@ namespace TerrorbornMod.TBUtils
                     modPlayer.BurstJumpTime = effectTime;
                     modPlayer.JustBurstJumped = true;
                     CombatText.NewText(player.getRect(), textColor, "..." + item.Name + " activated!", true, false);
-                    Terraria.Audio.SoundEngine.PlaySound(sound, player.Center);
+                    SoundExtensions.PlaySoundOld(sound, player.Center);
                     TerrorbornSystem.ScreenShake(5);
                     player.fallStart = (int)player.position.Y;
                     player.canJumpAgain_Sandstorm = true;

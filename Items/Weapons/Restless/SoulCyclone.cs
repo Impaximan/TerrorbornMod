@@ -61,7 +61,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item117, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item117, player.Center);
                 for (int i = 0; i < 7; i++)
                 {
                     int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI);

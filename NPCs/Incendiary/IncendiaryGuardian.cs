@@ -99,7 +99,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                         if (soundCounter <= 0)
                         {
                             soundCounter = 10;
-                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, Style: 15, 4, 0);
+                            SoundExtensions.PlaySoundOld(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, oldstyle: 15, 4, 0);
                         }
 
                         rotation += MathHelper.ToRadians(1);

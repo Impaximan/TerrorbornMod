@@ -148,7 +148,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
                     Vector2 position = Projectile.Center + new Vector2(0, -10);
                     Vector2 velocity = target.DirectionFrom(position);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, velocity, ModContent.ProjectileType<GuardianSummonLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, position);
+                    SoundExtensions.PlaySoundOld(SoundID.Item33, position);
                 }
             }
         }

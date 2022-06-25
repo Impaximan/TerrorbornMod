@@ -54,7 +54,7 @@ namespace TerrorbornMod.Abilities
             modPlayer.BlinkDashTime = 20;
             float speed = 15f;
 
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item72, player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item72, player.Center);
             DustExplosion(player.Center, 0, 15, 30, 162, 1.5f, true);
 
             if (player.controlRight)

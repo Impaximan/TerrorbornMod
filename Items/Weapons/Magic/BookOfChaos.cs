@@ -69,7 +69,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCHit3, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.NPCHit3, Projectile.Center);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

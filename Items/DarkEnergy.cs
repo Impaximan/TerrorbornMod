@@ -25,11 +25,11 @@ namespace TerrorbornMod.Items
             if (modPlayer.TerrorTonic && modPlayer.DarkEnergyStored < 5)
             {
                 modPlayer.DarkEnergyStored++;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item3, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item3, player.Center);
                 CombatText.NewText(player.getRect(), Color.Orange, modPlayer.DarkEnergyStored, true, false);
                 return false;
             }
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item4, player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item4, player.Center);
             modPlayer.GainTerror(10f, false, false);
             return false;
         }

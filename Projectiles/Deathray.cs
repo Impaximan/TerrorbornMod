@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace TerrorbornMod.Projectiles
 {

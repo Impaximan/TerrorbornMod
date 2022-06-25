@@ -156,7 +156,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override bool OnPickup(Player player)
         {
             player.AddBuff(ModContent.BuffType<Buffs.SoulManiac>(), 60 * 5);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item4, player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item4, player.Center);
             CombatText.NewText(player.getRect(), Color.FromNonPremultiplied(108, 150, 143, 255), "Soul Maniac!");
             return false;
         }

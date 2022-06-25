@@ -97,7 +97,7 @@ namespace TerrorbornMod.WeaponPossession
             {
                 Projectile.NewProjectile(target.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, player.whoAmI);
                 TerrorbornSystem.ScreenShake(5f);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item68, target.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item68, target.Center);
             }
 
             if (possessType == PossessType.Night && crit)

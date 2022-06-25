@@ -150,7 +150,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                             attackCounter2 = 0;
                             Projectile.DamageType = DamageClass.Magic;
                             attackDirection = Projectile.DirectionTo(Main.MouseWorld);
-                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.Center.X, (int)Projectile.Center.Y, 104, 0.5f, 2f);
+                            SoundExtensions.PlaySoundOld(SoundID.Zombie104, (int)Projectile.Center.X, (int)Projectile.Center.Y, 104, 0.5f, 2f);
                         }
                         else if (item.DamageType == DamageClass.Ranged)
                         {
@@ -220,7 +220,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                     if (attackCounter1 >= 15 / player.GetAttackSpeed(DamageClass.Ranged) / player.GetAttackSpeed(DamageClass.Generic))
                     {
                         attackCounter1 = 0;
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item125, Projectile.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item125, Projectile.Center);
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, attackDirection.RotatedBy(MathHelper.ToRadians(rotationAmount * Projectile.ai[0])) * 25f, ModContent.ProjectileType<HellbornLaserFriendly>(), (int)(35 * player.GetDamage(DamageClass.Ranged).Multiplicative * player.GetDamage(DamageClass.Generic).Multiplicative), 0.1f, Projectile.owner);
                     }
                 }

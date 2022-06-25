@@ -16,11 +16,11 @@ namespace TerrorbornMod.Items
                 "\nAdditionally, enemy spawnrates are increased and numerous enemies are given new attacks" +
                 "\nTerror is lost over time while in combat; having less than 3% terror worsens your stats and disables life regen" +
                 "\nConsuming terror fills up a twilight meter, which causes you to enter a twilight overload state for 10 seconds when filled" +
-                "\nIn a twilight overload, you have increased movement speed, jump speed, attack speed, and attack damage, but it is harder to see" +
+                "\nIn a twilight overload, you have increased movement speed, jump speed, attack speed, and attack damage" +
                 "\nYou will also have increased life regen the more twilight you have" +
-                "\nEnemies Drop twice as much money, and you gain an extra accessory slot" +
-                "\n[c/FF1919:Not recommended if this is your first time playing Terrorborn]" +
-                "\n'Dragged by fate...'");
+                "\nEnemies Drop twice as much money, and you are given increased luck" +
+                "\nIn master mode, enemies have further buffed AI but your twilight overload is buffed as well" +
+                "\n[c/FF1919:Not recommended if this is your first time playing Terrorborn]");
         }
 
         public override void SetDefaults()
@@ -55,7 +55,7 @@ namespace TerrorbornMod.Items
                 }
                 TerrorbornPlayer.modPlayer(player).TwilightPower += TerrorbornPlayer.modPlayer(player).TerrorPercent / 125f;
                 TerrorbornPlayer.modPlayer(player).TerrorPercent = 0f;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item67, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item67, player.Center);
                 TerrorbornSystem.ScreenShake(5f);
                 player.statLife -= (int)(player.statLifeMax2 * 0.15f);
                 player.HealEffect((int)(player.statLifeMax2 * -0.15f));

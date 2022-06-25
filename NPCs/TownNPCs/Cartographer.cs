@@ -31,6 +31,8 @@ namespace TerrorbornMod.NPCs.TownNPCs
             NPCID.Sets.AttackType[NPC.type] = 0;
             NPCID.Sets.AttackTime[NPC.type] = 90;
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+            NPCID.Sets.ActsLikeTownNPC[Type] = true;
+            NPCID.Sets.SpawnsWithCustomName[Type] = true;
             NPCID.Sets.HatOffsetY[NPC.type] = 4;
             NPCID.Sets.SavesAndLoads[NPC.type] = false;
             NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
@@ -42,7 +44,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override void SetDefaults()
         {
-            NPC.townNPC = true;
+            //NPC.townNPC = true;
             NPC.friendly = true;
             NPC.width = 18;
             NPC.height = 40;
@@ -498,7 +500,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                             {
                                 player.BuyItem(Item.buyPrice(0, 2, 0, 0));
                                 TerrorbornUtils.RevealMapAroundPlayer(300, player);
-                                Terraria.Audio.SoundEngine.PlaySound(SoundID.Coins, (int)NPC.Center.X, (int)NPC.Center.Y, -1);
+                                SoundExtensions.PlaySoundOld(SoundID.Coins, (int)NPC.Center.X, (int)NPC.Center.Y, -1);
                                 CombatText.NewText(player.getRect(), Color.LightYellow, "Nearby area revealed!");
                                 hasRevealedMap = true;
 

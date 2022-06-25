@@ -94,7 +94,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                     float speed = 15f;
                     Vector2 velocity = NPC.DirectionTo(player.Center + player.velocity * (NPC.Distance(player.Center) / speed)) * speed;
                     NPC.velocity += NPC.DirectionFrom(player.Center) * 3;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item33, NPC.Center);
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, velocity, ModContent.ProjectileType<IncendiaryProbeLaser>(), 90 / 4, 0);
                 }
             }

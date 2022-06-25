@@ -68,8 +68,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         }
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.Center);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.NPCDeath1, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item14, Projectile.Center);
             for (int i = 0; i < Main.rand.Next(3, 6); i++)
             {
                 float Speed = Main.rand.Next(7, 10);

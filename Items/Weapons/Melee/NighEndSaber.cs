@@ -101,7 +101,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             Vector2 originalPosition = player.Center;
             player.position = target.Center - player.Size / 2;
             target.position = originalPosition - target.Size / 2;
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item6, player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item6, player.Center);
         }
 
         public override void AI()
@@ -121,7 +121,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         public override void Kill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Tink, Projectile.position, 0);
+            SoundExtensions.PlaySoundOld(SoundID.Tink, Projectile.position, 0);
         }
     }
 }

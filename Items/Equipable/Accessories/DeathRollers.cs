@@ -50,7 +50,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             if (player.velocity.Y != 0 && !spinning)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_DarkMageSummonSkeleton, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.DD2_DarkMageSummonSkeleton, player.Center);
                 spinDir = Math.Sign(player.velocity.X);
                 if (player.velocity.X == 0)
                 {
@@ -83,7 +83,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 {
                     player.velocity.X += spinDir * 12f;
                     spinning = false;
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt, player.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.DD2_SkeletonHurt, player.Center);
                     TerrorbornSystem.ScreenShake(3f);
                     List<string> textOptions = new List<string>(){
                         { "Terrific!" },

@@ -93,7 +93,7 @@ namespace TerrorbornMod.Items.PrototypeI
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             TimeUntilReturn = 0;
             speed = 0;
             return false;

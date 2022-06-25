@@ -41,7 +41,7 @@ namespace TerrorbornMod.Items.MiscConsumables
             {
                 Main.NewText("The sky begins to bleed...", Color.FromNonPremultiplied(175, 75, 255, 255));
                 Main.bloodMoon = true;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
+                SoundExtensions.PlaySoundOld(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
                 Item.stack--;
             }
             else

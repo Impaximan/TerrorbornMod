@@ -14,8 +14,7 @@ namespace TerrorbornMod.Tiles
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileSpelunker[Type] = true;
-            SoundType = SoundID.Tink;
-            SoundType = 1;
+            HitSound = SoundID.Tink;
 
             MinPick = 0;
             MineResist = 1f;

@@ -39,13 +39,14 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 Direction = 1
             };
             NPC.Happiness
-                 .SetBiomeAffection<ForestBiome>(AffectionLevel.Like) // Example Person prefers the forest.
-                 .SetBiomeAffection<SnowBiome>(AffectionLevel.Dislike) // Example Person dislikes the snow.
-                 .SetBiomeAffection<ExampleSurfaceBiome>(AffectionLevel.Love) // Example Person likes the Example Surface Biome
-                 .SetNPCAffection(NPCID.Dryad, AffectionLevel.Love) // Loves living near the dryad.
-                 .SetNPCAffection(NPCID.Guide, AffectionLevel.Like) // Likes living near the guide.
-                 .SetNPCAffection(NPCID.Merchant, AffectionLevel.Dislike) // Dislikes living near the merchant.
-                 .SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Hate) // Hates living near the demolitionist.
+                 .SetBiomeAffection<OceanBiome>(AffectionLevel.Love)
+                 .SetBiomeAffection<ForestBiome>(AffectionLevel.Like)
+                 .SetBiomeAffection<DesertBiome>(AffectionLevel.Dislike)
+                 .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate)
+                 .SetNPCAffection(ModContent.NPCType<SkeletonSheriff>(), AffectionLevel.Love)
+                 .SetNPCAffection(NPCID.Guide, AffectionLevel.Like)
+                 .SetNPCAffection(ModContent.NPCType<Heretic>(), AffectionLevel.Dislike)
+                 .SetNPCAffection(NPCID.Dryad, AffectionLevel.Hate);
         }
 
         public override void SetDefaults()

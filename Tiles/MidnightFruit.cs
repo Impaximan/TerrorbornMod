@@ -17,8 +17,7 @@ namespace TerrorbornMod.Tiles
             TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
 
-            SoundType = SoundID.Trackable;
-            SoundStyle = 165;
+            HitSound = SoundID.DD2_WitherBeastHurt;
 
             MineResist = 5f;
             MinPick = 100;

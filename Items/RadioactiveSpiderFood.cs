@@ -40,7 +40,7 @@ namespace TerrorbornMod.Items
         public override bool? UseItem(Player player)
         {
             NPC.SpawnOnPlayer(player.whoAmI, Shadowcrawler);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
+            SoundExtensions.PlaySoundOld(SoundID.Roar, player.position, 0);
             TerrorbornSystem.ScreenShake(50);
             return true;
         }

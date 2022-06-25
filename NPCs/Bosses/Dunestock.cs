@@ -373,7 +373,7 @@ namespace TerrorbornMod.NPCs.Bosses
                                 BurstWait = 30 + (NPC.life / 700);
                             }
                             SetLine(BurstWait);
-                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item103, NPC.Center);
+                            SoundExtensions.PlaySoundOld(SoundID.Item103, NPC.Center);
                             ProjectilesLeft = Main.rand.Next(15, 30);
                             ProjectileWait = 2;
                         }
@@ -428,7 +428,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             }
 
                             ProjectileWait = 2;
-                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                            SoundExtensions.PlaySoundOld(SoundID.Item42, NPC.Center);
                             float ProjSpeed = 3f;
 
                             int damage = 15;
@@ -456,7 +456,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             AIPhase = 0;
                             PhaseTimeLeft = phaseTimeLeftMax;
                         }
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item42, NPC.Center);
                         NeedleSpeed++;
                         float realProjSpeed = NeedleSpeed;
                         NoGravNeedles--;
@@ -491,7 +491,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     ProjectileWait--;
                     if (ProjectileWait <= 0)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item71, NPC.Center);
                         ProjectilesLeft--;
                         ProjectileWait = 30;
                         float ProjSpeed = 5;
@@ -525,7 +525,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             AIPhase = 0;
                             PhaseTimeLeft = phaseTimeLeftMax;
                         }
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item42, NPC.Center);
                         NeedleSpeed++;
                         int damage = 20;
                         int type = ModContent.ProjectileType<ClotBlood>();
@@ -577,7 +577,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     if (ProjectileWait <= 0)
                     {
                         ProjectileWait = Main.rand.Next(20, 41);
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item42, NPC.Center);
                         float ProjSpeed = Main.rand.Next(15, 20);
                         int damage = 20;
                         int type = ModContent.ProjectileType<TumblerNeedle>();
@@ -624,7 +624,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         if (ProjectileWait <= 0)
                         {
                             ProjectileWait = 25;
-                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
+                            SoundExtensions.PlaySoundOld(SoundID.Item71, NPC.Center);
                             float ProjSpeed = 12;
                             int damage = 20;
                             int type = ModContent.ProjectileType<DuneClaw>();
@@ -687,7 +687,7 @@ namespace TerrorbornMod.NPCs.Bosses
                             MovementTarget.Y -= NPC.height;
                             AIPhase = 8;
                         }
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item42, NPC.Center);
                         float ProjSpeed = Main.rand.Next(20, 29);
                         int damage = 20;
                         int type = ModContent.ProjectileType<TumblerNeedle>();
@@ -722,7 +722,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 if (NPC.life <= NPC.lifeMax * 0.40f && AIPhase <= 8)
                 {
                     TerrorbornSystem.ScreenShake(75f);
-                    Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath10, NPC.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.NPCDeath10, NPC.Center);
                     DustExplosion(NPC.Center, 0, 50, 40, 60, DustScale: 2f, NoGravity: true);
                     Flying = true;
                     AIPhase = 9;
@@ -775,7 +775,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     if (ProjectileWait <= 0)
                     {
                         ProjectileWait = 45;
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item42, NPC.Center);
                         float ProjSpeed = 15;
                         int damage = 20;
                         int type = ModContent.ProjectileType<TumblerNeedle>();
@@ -822,7 +822,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         if (ProjectileWait <= 0)
                         {
                             ProjectileWait = 15;
-                            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
+                            SoundExtensions.PlaySoundOld(SoundID.Item71, NPC.Center);
                             float ProjSpeed = 14;
                             int damage = 20;
                             int type = ModContent.ProjectileType<DuneClaw>();
@@ -905,7 +905,7 @@ namespace TerrorbornMod.NPCs.Bosses
                         if (ProjectilesLeft == 0)
                         {
                             ProjectileWait = 45;
-                            Terraria.Audio.SoundEngine.PlaySound(SoundID.NPCDeath10, NPC.Center);
+                            SoundExtensions.PlaySoundOld(SoundID.NPCDeath10, NPC.Center);
                             DustExplosion(NPC.Center, 0, 50, 40, 60, DustScale: 2f, NoGravity: true);
                             while (!WorldUtils.Find(MovementTarget.ToTileCoordinates(), Searches.Chain(new Searches.Down(1), new GenCondition[]
                                 {
@@ -923,7 +923,7 @@ namespace TerrorbornMod.NPCs.Bosses
                     }
                     if (ProjectileWait <= 0 && ProjectilesLeft <= 0)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item71, NPC.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item71, NPC.Center);
                         ProjectileWait = 60;
                         float speed = 20;
                         Vector2 velocity = NPC.DirectionTo(Main.player[NPC.target].Center) * speed;
@@ -1308,7 +1308,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Run, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Run, Projectile.Center);
             return false;
         }
         public override void AI()
@@ -1369,7 +1369,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
-            //Terraria.Audio.SoundEngine.PlaySound(SoundID.Run, Projectile.Center);
+            //SoundExtensions.PlaySoundOld(SoundID.Run, Projectile.Center);
             CollideCounter += 1;
             if (CollideCounter >= 5)
             {
@@ -1394,7 +1394,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 {
                     for (int i = 0; i < Main.rand.Next(4,6); i++)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, Projectile.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item42, Projectile.Center);
                         float ProjSpeed = 15f;
                         int damage = 35 / 2; // /2 undoes the expert increase
                         int type = ModContent.ProjectileType<TumblerNeedle>();
@@ -1408,7 +1408,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item42, Projectile.Center);
+                        SoundExtensions.PlaySoundOld(SoundID.Item42, Projectile.Center);
                         float ProjSpeed = 10f;
                         int damage = 20;
                         int type = ModContent.ProjectileType<TumblerNeedle>();

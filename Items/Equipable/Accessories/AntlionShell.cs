@@ -114,7 +114,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                         player.AddBuff(BuffID.Panic, 60 * 5);
                         CombatText.NewText(Projectile.getRect(), Color.LightYellow, "Projectile blocked", true, true);
                         cooldown = 60 * 5;
-                        Terraria.Audio.SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt);
+                        SoundExtensions.PlaySoundOld(SoundID.DD2_SkeletonHurt);
                     }
                 }
             }

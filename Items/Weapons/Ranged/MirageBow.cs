@@ -88,7 +88,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (ProjectileWait <= 0)
             {
                 ProjectileWait = Main.rand.Next(15, 25);
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item5, Projectile.Center);
                 Vector2 velocity = Projectile.ai[1] * Projectile.DirectionTo(Main.MouseWorld);
                 Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack, Projectile.owner)];
                 proj.noDropItem = true;

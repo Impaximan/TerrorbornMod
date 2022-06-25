@@ -115,7 +115,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             Projectile.soundDelay--;
             if (Projectile.soundDelay <= 0)
             {
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item1, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundExtensions.PlaySoundOld(SoundID.Item1, (int)Projectile.Center.X, (int)Projectile.Center.Y);
                 Projectile.soundDelay = 15;
             }
             if (Main.myPlayer == Projectile.owner)

@@ -66,7 +66,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             if (CreateDust)
             {
                 Cooldown = 60 / 6;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.MaxMana, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.MaxMana, player.Center);
                 DustCircle(player.Center, 180, range, 63, -5, 3f);
             }
         }

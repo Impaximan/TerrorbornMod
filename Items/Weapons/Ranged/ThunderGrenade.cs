@@ -83,7 +83,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item89, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item89, Projectile.Center);
             DustExplosion(Projectile.Center, 0, 12, 7, 62, 2f, true);
 
             List<int> NPCsTargeted = new List<int>();

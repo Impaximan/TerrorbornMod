@@ -84,7 +84,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (nextShotIsNuke)
             {
                 nextShotIsNuke = false;
-                Terraria.Audio.SoundEngine.PlaySound(SoundID.Item61, player.Center);
+                SoundExtensions.PlaySoundOld(SoundID.Item61, player.Center);
                 Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), ModContent.ProjectileType<MiniNuke>(), damage * 2, knockback * 5f, player.whoAmI);
             }
             return base.Shoot(player, source, position, velocity, type, damage, knockback);
@@ -108,7 +108,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override void Kill(int timeLeft)
         {
             DustExplosion(Projectile.Center, 0, 50, 25, DustID.GoldFlame, DustScale: 1.5f, NoGravity: true);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item14, Projectile.Center);
             for (int i = 0; i < 200; i++)
             {
                 NPC NPC = Main.npc[i];
@@ -185,7 +185,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             }
 
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             bouncesLeft--;
             if (bouncesLeft <= 0)
             {
