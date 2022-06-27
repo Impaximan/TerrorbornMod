@@ -803,7 +803,7 @@ namespace TerrorbornMod
 
         public void CaneOfCursesEffect(NPC target)
         {
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 int buffType = 0;
                 switch (Main.rand.Next(5))
@@ -1296,7 +1296,11 @@ namespace TerrorbornMod
 
             if (TerrorbornSystem.TwilightMode)
             {
-                LoseTerror(0.5f, true, true);
+                if (inCombat)
+                {
+                    LoseTerror(0.5f, true, true);
+                }
+
                 if (TerrorPercent <= 3f)
                 {
                     if (Player.statLife < TwilightHPCap)

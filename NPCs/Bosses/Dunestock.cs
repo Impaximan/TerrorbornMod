@@ -1445,7 +1445,7 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             if (Projectile.timeLeft == 599)
             {
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.NextBool(2))
                 {
                     RotationDirection = 1;
                 }

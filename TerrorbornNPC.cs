@@ -1061,12 +1061,12 @@ namespace TerrorbornMod
                 }
             }
 
-            if (Main.rand.Next(12) == 0 && modPlayer.TerrorPercent < 100 && TerrorbornSystem.obtainedShriekOfHorror)
+            if (Main.rand.NextBool(12)&& modPlayer.TerrorPercent < 100 && TerrorbornSystem.obtainedShriekOfHorror)
             {
                 Item.NewItem(NPC.GetSource_Loot(), NPC.Center, ModContent.ItemType<Items.DarkEnergy>());
             }
 
-            if (modPlayer.LiesOfNourishment && Main.rand.Next(5) == 0)
+            if (modPlayer.LiesOfNourishment && Main.rand.NextBool(5))
             {
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }

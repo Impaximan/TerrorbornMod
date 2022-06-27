@@ -1162,6 +1162,11 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 5);
         }
 
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 100000;
+        }
+
         public override string Texture => "TerrorbornMod/NPCs/Bosses/PrototypeI/PlasmaDeathray";
         public override void SetDefaults()
         {

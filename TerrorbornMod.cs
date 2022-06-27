@@ -220,12 +220,43 @@ namespace TerrorbornMod
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/RiveterSound", AssetRequestMode.ImmediateLoad);
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/RiveterDrawSound", AssetRequestMode.ImmediateLoad);
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/CoolerMachineGun", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/HexedConstructorDeath", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/Gunfire1", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/PrototypeIBeat", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/PrototypeIExplosion", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/PrototypeIRoar", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/ThunderAmbience", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/TTSplash", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/undertalewarning", AssetRequestMode.ImmediateLoad);
+
             ModContent.Request<Texture2D>("TerrorbornMod/MainMenuForeground1", AssetRequestMode.ImmediateLoad);
             ModContent.Request<Texture2D>("TerrorbornMod/WhitePixel", AssetRequestMode.ImmediateLoad);
 
+            string prefix = "TerrorbornMod/Structures/";
+            ModContent.Request<Texture2D>(prefix + "SOHShrine", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "SOHShrine_HalfBrick", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "SOHShrine_SlopeDownLeft", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "SOHShrine_SlopeDownRight", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "SOHShrine_Walls", AssetRequestMode.ImmediateLoad);
+
+            ModContent.Request<Texture2D>(prefix + "HAShrine", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "HAShrine_Walls", AssetRequestMode.ImmediateLoad);
+
+            ModContent.Request<Texture2D>(prefix + "IIArena", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "IIArena_Walls", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "IIArena_Water", AssetRequestMode.ImmediateLoad);
+
+            ModContent.Request<Texture2D>(prefix + "TWShrine", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "TWShrine_Walls", AssetRequestMode.ImmediateLoad);
+
+            ModContent.Request<Texture2D>(prefix + "VBShrine", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "VBShrine_Walls", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "VBShrine_Lava", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<Texture2D>(prefix + "VBShrine_HalfBrick", AssetRequestMode.ImmediateLoad);
+
             if (Main.netMode != NetmodeID.Server)
             {
-                Ref<Effect> screenRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/ShockwaveEffect"));
+                Ref<Effect> screenRef = new Ref<Effect>((Effect)ModContent.Request<Effect>("TerrorbornMod/Effects/ShockwaveEffect", AssetRequestMode.ImmediateLoad));
                 Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
                 Filters.Scene["Shockwave"].Load();
 

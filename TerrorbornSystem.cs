@@ -1798,8 +1798,6 @@ namespace TerrorbornMod
             TerrorMasterDialogue = 0;
             SkeletonSheriffName = getSkeletonSheriffName();
             CartographerName = getCartographerName();
-            VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f);
-            TerrorWarp = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.66f);
 
             for (int i = 0; i < 1000; i++)
             {
@@ -2857,8 +2855,6 @@ namespace TerrorbornMod
                 CartographerSpawnCooldown--;
             }
 
-            //Vector2 textVector = VoidBlink * 16 - Main.player[Main.myPlayer].position;
-            //Main.NewText(textVector.X + ", " + textVector.Y);
             Player player = Main.player[Main.myPlayer];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             SetTerrorAbilityPositions();

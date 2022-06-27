@@ -5,4 +5,3 @@ hideCode = true
 hideResources = false
 includeSource = false
 homepage = https://forums.terraria.org/index.php?threads/terrorborn-mod.85634/
-modReferences = StructureHelper

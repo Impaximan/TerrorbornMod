@@ -777,7 +777,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             {
                 Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, new Vector2(Main.rand.Next(-5, 6), Main.rand.Next(-5, 6)), ModContent.ProjectileType<TidalBubbleSmall>(), NPC.damage / 4, 0);
             }
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.NextBool(10))
             {
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
@@ -954,12 +954,12 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         int frameWait = 8;
         public override void OnKill()
         {
-            if (Main.rand.Next(7) == 0)
+            if (Main.rand.NextBool(7))
             {
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
 
-            if (Main.rand.Next(7) == 0)
+            if (Main.rand.NextBool(7))
             {
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.DarkEnergy>());
             }

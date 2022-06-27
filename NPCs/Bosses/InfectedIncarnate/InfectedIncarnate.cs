@@ -1035,6 +1035,12 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         const int timeLeft = 30;
         int timeUntilFinished = timeLeft;
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/LightBlast";
+
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 6000;
+        }
+
         public override void SetDefaults()
         {
             Projectile.width = 10;

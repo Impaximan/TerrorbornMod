@@ -299,7 +299,7 @@ namespace TerrorbornMod.TwilightMode
 					NPC.rotation = num7;
 				}
 			}
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				int num9 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y + (float)NPC.height * 0.25f), NPC.width, (int)((float)NPC.height * 0.5f), DustID.Blood, NPC.velocity.X, 2f);
 				Main.dust[num9].velocity.X *= 0.5f;
@@ -1683,7 +1683,7 @@ namespace TerrorbornMod.TwilightMode
 					NPC.life = NPC.lifeMax;
 				}
 			}
-			if (NPC.ai[0] != -1f && Main.rand.Next(1000) == 0)
+			if (NPC.ai[0] != -1f && Main.rand.NextBool(1000))
 			{
 				SoundExtensions.PlaySoundOld(new SoundStyle($"Zombie_" + Main.rand.Next(88, 92)), (int)NPC.position.X, (int)NPC.position.Y);
 			}
@@ -2015,7 +2015,7 @@ namespace TerrorbornMod.TwilightMode
 					{
 						maxValue = 3;
 					}
-					if (expertMode && flag && Main.rand.Next(maxValue) == 0 && num15 != 0 && num15 != 4 && num15 != 5 && NPC.CountNPCS(523) < 10)
+					if (expertMode && flag && Main.rand.NextBool(maxValue)&& num15 != 0 && num15 != 4 && num15 != 5 && NPC.CountNPCS(523) < 10)
 					{
 						num15 = 6;
 					}
@@ -3283,7 +3283,7 @@ namespace TerrorbornMod.TwilightMode
 					num349 = (num349 + 20) / 2;
 				}
 				num349 = (int)((double)num349 * 0.7);
-				if (Main.rand.Next(num349) == 0)
+				if (Main.rand.NextBool(num349))
 				{
 					int num350 = 0;
 					float[] array = new float[10];
@@ -3839,11 +3839,11 @@ namespace TerrorbornMod.TwilightMode
 				int x = (int)(NPC.position.X + (float)Main.rand.Next(NPC.width - 32));
 				int y = (int)(NPC.position.Y + (float)Main.rand.Next(NPC.height - 32));
 				int num253 = 1;
-				if (Main.expertMode && Main.rand.Next(4) == 0)
+				if (Main.expertMode && Main.rand.NextBool(4))
 				{
 					num253 = 535;
 				}
-				if (Main.rand.Next(6) == 0)
+				if (Main.rand.NextBool(6))
 				{
 					num253 = ModContent.NPCType<NPCs.TerrorSlime>();
 				}
@@ -3926,7 +3926,7 @@ namespace TerrorbornMod.TwilightMode
 						npc.alpha = 0;
 					}
 				}
-				if (npc.alpha == 0 && Main.rand.Next(5) == 0)
+				if (npc.alpha == 0 && Main.rand.NextBool(5))
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 0f, 0f, 100);
 				}
@@ -3943,7 +3943,7 @@ namespace TerrorbornMod.TwilightMode
 				{
 					int num23 = (int)(npc.Center.X / 16f);
 					int num34 = (int)(npc.Center.Y / 16f);
-					if (WorldGen.InWorld(num23, num34) && Main.tile[num23, num34].WallType == 0 && Main.rand.Next(3500) == 0)
+					if (WorldGen.InWorld(num23, num34) && Main.tile[num23, num34].WallType == 0 && Main.rand.NextBool(3500))
 					{
 						npc.TargetClosest();
 						if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
@@ -3956,7 +3956,7 @@ namespace TerrorbornMod.TwilightMode
 				{
 					int num44 = 90;
 					num44 += (int)((float)npc.life / (float)npc.lifeMax * 60f * 10f);
-					if (Main.rand.Next(num44) == 0)
+					if (Main.rand.NextBool(num44))
 					{
 						npc.TargetClosest();
 						if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
@@ -4459,7 +4459,7 @@ namespace TerrorbornMod.TwilightMode
 						if (npc.position.X + (float)npc.width > vector.X && npc.position.X < vector.X + 16f && npc.position.Y + (float)npc.height > vector.Y && npc.position.Y < vector.Y + 16f)
 						{
 							flag2 = true;
-							if (Main.rand.Next(100) == 0 && npc.type != NPCID.LeechHead && Main.tile[num35, num36].HasUnactuatedTile && Main.tileSolid[Main.tile[num35, num36].TileType])
+							if (Main.rand.NextBool(100)&& npc.type != NPCID.LeechHead && Main.tile[num35, num36].HasUnactuatedTile && Main.tileSolid[Main.tile[num35, num36].TileType])
 							{
 								WorldGen.KillTile(num35, num36, fail: true, effectOnly: true);
 							}

@@ -5,7 +5,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using Terraria.DataStructures;
-using StructureHelper;
 
 namespace TerrorbornMod.Structures
 {
@@ -100,12 +99,82 @@ namespace TerrorbornMod.Structures
 
         internal static void GenerateSOHShrine(Mod mod, Point point)
         {
-            Generator.GenerateStructure("Structures/SOHShrine", new Point16(point.X, point.Y), mod);
+            GenerationSample sample = new GenerationSample();
+            sample.SetSample("TerrorbornMod/Structures/SOHShrine");
+            sample.SetFlag(SamplingKey.Placement);
+            sample.SetPosition(point);
+            int tileType = ModContent.TileType<Tiles.MemorialBrick>();
+            for (int i = 0; i < Main.maxTileSets; i++)
+            {
+
+            }
+            sample.SetSamplingValues(
+                new ValueTuple<byte, byte, byte, int>(255, 0, 0, tileType)
+                );
+            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+
+            sample = new GenerationSample();
+            sample.SetSample("TerrorbornMod/Structures/SOHShrine_Walls");
+            sample.SetFlag(SamplingKey.Walls);
+            sample.SetPosition(point);
+            sample.SetSamplingValues(
+                new ValueTuple<byte, byte, byte, int>(255, 0, 0, ModContent.WallType<Tiles.MemorialWall>())
+                );
+            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+
+            sample = new GenerationSample();
+            sample.SetSample("TerrorbornMod/Structures/SOHShrine_SlopeDownLeft");
+            sample.SetFlag(SamplingKey.SlopeDownLeft);
+            sample.SetPosition(point);
+            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            sample = new GenerationSample();
+
+            sample.SetSample("TerrorbornMod/Structures/SOHShrine_SlopeDownRight");
+            sample.SetFlag(SamplingKey.SlopeDownRight);
+            sample.SetPosition(point);
+            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+
+            sample = new GenerationSample();
+            sample.SetSample("TerrorbornMod/Structures/SOHShrine_HalfBrick");
+            sample.SetFlag(SamplingKey.HalfBrick);
+            sample.SetPosition(point);
+            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
         }
 
         internal static void GenerateIIArena(Mod mod, Point point)
         {
-            Generator.GenerateStructure("Structures/IIArena", new Point16(point.X, point.Y), mod);
+            GenerationSample sample = new GenerationSample();
+            sample.SetSample("TerrorbornMod/Structures/IIArena");
+            sample.SetFlag(SamplingKey.Placement);
+            sample.SetPosition(point);
+            int tileType = ModContent.TileType<Tiles.MemorialBrick>();
+            for (int i = 0; i < Main.maxTileSets; i++)
+            {
+
+            }
+            sample.SetSamplingValues(
+                new ValueTuple<byte, byte, byte, int>(255, 0, 0, tileType),
+                new ValueTuple<byte, byte, byte, int>(0, 255, 255, TileID.IceBlock),
+                new ValueTuple<byte, byte, byte, int>(0, 0, 255, TileID.SnowBlock)
+                );
+            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+
+            sample = new GenerationSample();
+            sample.SetSample("TerrorbornMod/Structures/IIArena_Walls");
+            sample.SetFlag(SamplingKey.Walls);
+            sample.SetPosition(point);
+            sample.SetSamplingValues(
+                new ValueTuple<byte, byte, byte, int>(255, 0, 0, ModContent.WallType<Tiles.MemorialWall>()),
+                new ValueTuple<byte, byte, byte, int>(0, 255, 0, WallID.IceUnsafe)
+                );
+            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+
+
+            sample = new GenerationSample();
+            sample.SetSample("TerrorbornMod/Structures/IIArena_Water");
+            sample.SetFlag(SamplingKey.LiquidWater);
+            sample.SetPosition(point);
+            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
         }
     }
 }

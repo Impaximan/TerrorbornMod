@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             if (choice == 0)
             {
                 Item.shoot = ProjectileID.Grenade;
-                if (Main.rand.Next(4) == 0)
+                if (Main.rand.NextBool(4))
                 {
                     if (subtypeChoice == 0)
                     {
@@ -52,7 +52,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             if (choice == 1)
             {
                 Item.shoot = ProjectileID.Bomb;
-                if (Main.rand.Next(4) == 0)
+                if (Main.rand.NextBool(4))
                 {
                     if (subtypeChoice == 0)
                     {
@@ -67,7 +67,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             if (choice == 2)
             {
                 Item.shoot = ProjectileID.Dynamite;
-                if (Main.rand.Next(4) == 0)
+                if (Main.rand.NextBool(4))
                 {
                     if (subtypeChoice == 0)
                     {

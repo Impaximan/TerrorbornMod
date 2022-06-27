@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
     class ChaosBall : ModProjectile
     {
-        public override string Texture => "Terraria/NPC_" + NPCID.ChaosBall;
+        public override string Texture => "TerrorbornMod/placeholder";
 
         public override void SetDefaults()
         {

@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            if (Main.rand.Next(7) == 0)
+            if (Main.rand.NextBool(7))
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>());
             }

@@ -34,7 +34,7 @@ namespace TerrorbornMod.Items
             player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.GreaterManaPotion, Main.rand.Next(15, 26));
 
             //ores
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.CobaltOre, Main.rand.Next(35, 60));
             }
@@ -42,7 +42,7 @@ namespace TerrorbornMod.Items
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.PalladiumOre, Main.rand.Next(35, 60));
             }
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.MythrilOre, Main.rand.Next(35, 60));
             }
@@ -50,7 +50,7 @@ namespace TerrorbornMod.Items
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.OrichalcumOre, Main.rand.Next(35, 60));
             }
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.TitaniumOre, Main.rand.Next(35, 60));
             }
@@ -67,7 +67,7 @@ namespace TerrorbornMod.Items
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.CursedArrow, Main.rand.Next(250, 501));
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.CursedBullet, Main.rand.Next(250, 501));
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.CursedFlame, Main.rand.Next(5, 11));
-                if (Main.rand.Next(4) == 0)
+                if (Main.rand.NextBool(4))
                 {
                     int choice = Main.rand.Next(5);
                     if (choice == 0)
@@ -98,7 +98,7 @@ namespace TerrorbornMod.Items
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.IchorArrow, Main.rand.Next(250, 501));
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.IchorBullet, Main.rand.Next(250, 501));
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.Ichor, Main.rand.Next(5, 11));
-                if (Main.rand.Next(4) == 0)
+                if (Main.rand.NextBool(4))
                 {
                     int choice = Main.rand.Next(5);
                     if (choice == 0)
@@ -124,7 +124,7 @@ namespace TerrorbornMod.Items
                     }
                 }
             }
-            if (Main.rand.Next(4) == 0)
+            if (Main.rand.NextBool(4))
             {
                 int choice = Main.rand.Next(5);
                 if (choice == 0)

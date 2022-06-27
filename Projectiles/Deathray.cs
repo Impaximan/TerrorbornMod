@@ -19,7 +19,12 @@ namespace TerrorbornMod.Projectiles
 		public float deathrayWidth = 1f;
 		public bool FollowPosition = true;
 
-		public override void SetDefaults()
+        public override void PostDraw(Color lightColor)
+		{
+			DrawLaser(Main.spriteBatch, ModContent.Request<Texture2D>(Texture).Value, Position(), Projectile.velocity, bodyRect.Height, -1.57f, 1f, MaxDistance, (int)MoveDistance);
+		}
+
+        public override void SetDefaults()
 		{
 			Projectile.width = 10;
 			Projectile.height = 10;
@@ -38,7 +43,7 @@ namespace TerrorbornMod.Projectiles
 
         public override bool PreDraw(ref Color lightColor)
 		{
-			DrawLaser(Main.spriteBatch, ModContent.Request<Texture2D>(Texture).Value, Position(), Projectile.velocity, bodyRect.Height, -1.57f, 1f, MaxDistance, (int)MoveDistance);
+			ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 100000;
 			return false;
 		}
 

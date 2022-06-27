@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items
             player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.ManaPotion, Main.rand.Next(15, 26));
 
             //ores
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.CopperOre, Main.rand.Next(35, 60));
             }
@@ -45,7 +45,7 @@ namespace TerrorbornMod.Items
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.TinOre, Main.rand.Next(35, 60));
             }
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.IronOre, Main.rand.Next(35, 60));
             }
@@ -53,7 +53,7 @@ namespace TerrorbornMod.Items
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.LeadOre, Main.rand.Next(35, 60));
             }
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.SilverOre, Main.rand.Next(35, 60));
             }
@@ -61,7 +61,7 @@ namespace TerrorbornMod.Items
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.TungstenOre, Main.rand.Next(35, 60));
             }
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.GoldOre, Main.rand.Next(35, 60));
             }
@@ -74,7 +74,7 @@ namespace TerrorbornMod.Items
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.DemoniteOre, Main.rand.Next(35, 60));
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.ShadowScale, Main.rand.Next(5, 11));
-                if (Main.rand.Next(4) == 0)
+                if (Main.rand.NextBool(4))
                 {
                     int choice = Main.rand.Next(5);
                     if (choice == 0)
@@ -103,7 +103,7 @@ namespace TerrorbornMod.Items
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.CrimtaneOre, Main.rand.Next(35, 60));
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.TissueSample, Main.rand.Next(5, 11));
-                if (Main.rand.Next(4) == 0)
+                if (Main.rand.NextBool(4))
                 {
                     int choice = Main.rand.Next(5);
                     if (choice == 0)

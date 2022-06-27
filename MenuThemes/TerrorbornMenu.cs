@@ -39,7 +39,7 @@ namespace TerrorbornMod.MenuThemes
             float sparkScale = 10f;
             if (sparks.Count == 0)
             {
-                for (float i = 0; i < 1f; i += 1f / ((Main.screenWidth + Main.screenHeight) / 160f))
+                for (float i = 0; i < 1f; i += 1f / ((Main.screenWidth + Main.screenHeight) / 120f))
                 {
                     sparks.Add(new MenuSpark(new Vector2(Main.rand.Next(Main.screenWidth), Main.rand.Next(Main.screenHeight)), new Vector2(Main.screenWidth / 60, Main.rand.Next(Main.screenHeight / -200, Main.screenHeight / 200)), i));
                 }
