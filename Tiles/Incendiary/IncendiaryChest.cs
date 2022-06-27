@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Audio;
 
 namespace TerrorbornMod.Tiles.Incendiary
 {
@@ -74,40 +75,41 @@ namespace TerrorbornMod.Tiles.Incendiary
 			{
 				left--;
 			}
+
 			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
-			if (player.sign >= 0)
-			{
-				SoundExtensions.PlaySoundOld(SoundID.MenuClose);
-				player.sign = -1;
-				Main.editSign = false;
-				Main.npcChatText = "";
-			}
+
+			player.CloseSign();
+			player.SetTalkNPC(-1);
+			Main.npcChatCornerItem = 0;
+			Main.npcChatText = "";
 			if (Main.editChest)
 			{
-				SoundExtensions.PlaySoundOld(SoundID.MenuTick);
+				SoundEngine.PlaySound(SoundID.MenuTick);
 				Main.editChest = false;
-				Main.npcChatText = "";
+				Main.npcChatText = string.Empty;
 			}
+
 			if (player.editedChestName)
 			{
-				NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f);
 				player.editedChestName = false;
 			}
-			bool isLocked = IsLockedChest(left, top);
-			if (Main.netMode == NetmodeID.MultiplayerClient)
+
+			bool isLocked = Chest.IsLocked(left, top);
+			if (Main.netMode == NetmodeID.MultiplayerClient && !isLocked)
 			{
 				if (left == player.chestX && top == player.chestY && player.chest >= 0)
 				{
 					player.chest = -1;
 					Recipe.FindRecipes();
-					SoundExtensions.PlaySoundOld(SoundID.MenuClose);
+					SoundEngine.PlaySound(SoundID.MenuClose);
 				}
 				else
 				{
-					NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, top);
 					Main.stackSplit = 600;
 				}
 			}
@@ -120,17 +122,14 @@ namespace TerrorbornMod.Tiles.Incendiary
 					if (chest == player.chest)
 					{
 						player.chest = -1;
-						SoundExtensions.PlaySoundOld(SoundID.MenuClose);
+						SoundEngine.PlaySound(SoundID.MenuClose);
 					}
 					else
 					{
-						player.chest = chest;
-						Main.playerInventory = true;
-						Main.recBigList = false;
-						player.chestX = left;
-						player.chestY = top;
-						SoundExtensions.PlaySoundOld(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+						SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+						player.OpenChest(left, top, chest);
 					}
+
 					Recipe.FindRecipes();
 				}
 			}
