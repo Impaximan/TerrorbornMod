@@ -114,6 +114,7 @@ namespace TerrorbornMod
         public bool SilentArmor = false;
         public bool TerrorTonic = false;
         public int DarkEnergyStored = 0;
+        public int HiddenInstinctTime = 0;
 
         //Permanent Upgrades
         public bool EyeOfTheMenace = false;
@@ -910,6 +911,18 @@ namespace TerrorbornMod
 
         public override void PostUpdateEquips()
         {
+            if (HiddenInstinctTime > 0)
+            {
+                HiddenInstinctTime--;
+                Player.pickSpeed *= 0.3f;
+                Player.AddBuff(BuffID.Spelunker, 2);
+                Player.AddBuff(BuffID.Dangersense, 2);
+                Player.AddBuff(BuffID.Hunter, 2);
+                Player.moveSpeed *= 1.25f;
+                Player.jumpSpeedBoost = 2f;
+                Lighting.AddLight(Player.position, 1f, 1.2f, 1.2f);
+            }
+
             if (TerrorbornSystem.TwilightMode)
             {
                 Player.luck += 1f;

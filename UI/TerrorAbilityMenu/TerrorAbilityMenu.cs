@@ -114,8 +114,8 @@ namespace TerrorbornMod.UI.TerrorMeter
             if (page == 0)
             {
                 ability1 = new NecromanticCurseInfo();
-                ability2 = new GelatinArmorInfo();
-                ability3 = new BlinkDashInfo();
+                ability2 = new HiddenInstinctInfo();
+                ability3 = new GelatinArmorInfo();
 
                 if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability1)))
                 {
@@ -135,9 +135,9 @@ namespace TerrorbornMod.UI.TerrorMeter
             }
             if (page == 1)
             {
-                ability1 = new HorrificAdaptationInfo();
-                ability2 = new VoidBlinkInfo();
-                ability3 = new StarvingStormInfo();
+                ability1 = new BlinkDashInfo();
+                ability2 = new HorrificAdaptationInfo();
+                ability3 = new VoidBlinkInfo();
 
                 if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability1)))
                 {
@@ -158,9 +158,9 @@ namespace TerrorbornMod.UI.TerrorMeter
 
             if (page == 2)
             {
-                ability1 = new TerrorWarpInfo();
-                ability2 = new TimeFreezeInfo();
-                ability3 = new None();
+                ability1 = new StarvingStormInfo();
+                ability2 = new TerrorWarpInfo();
+                ability3 = new TimeFreezeInfo();
 
                 if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability1)))
                 {

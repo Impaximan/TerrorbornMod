@@ -50,6 +50,21 @@ namespace TerrorbornMod.NPCs
         public override void OnKill()
         {
             TerrorbornSystem.downedSlateBanshee = true;
+
+            bool spawnHI = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(9);
+            for (int i = 0; i < 1000; i++)
+            {
+                Projectile Projectile = Main.projectile[i];
+                if (Projectile.active && Projectile.type == ModContent.ProjectileType<Abilities.HiddenInstinct>())
+                {
+                    spawnHI = false;
+                }
+            }
+
+            if (spawnHI)
+            {
+                Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Abilities.HiddenInstinct>(), 0, 0, Main.myPlayer);
+            }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

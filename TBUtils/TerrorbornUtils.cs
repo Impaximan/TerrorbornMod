@@ -128,6 +128,10 @@ namespace TerrorbornMod
             {
                 return new BlinkDashInfo();
             }
+            if (integerValue == 9)
+            {
+                return new HiddenInstinctInfo();
+            }
             return new None();
         }
 

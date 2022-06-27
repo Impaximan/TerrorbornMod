@@ -12,7 +12,7 @@ namespace TerrorbornMod.Biomes
 
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
 
-        public override void SpecialVisuals(Player player)
+        public override void SpecialVisuals(Player player, bool isActive)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             player.ManageSpecialBiomeVisuals("TerrorbornMod:PrototypeIShader", NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>()));

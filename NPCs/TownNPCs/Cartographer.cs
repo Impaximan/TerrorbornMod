@@ -34,12 +34,16 @@ namespace TerrorbornMod.NPCs.TownNPCs
             NPCID.Sets.ActsLikeTownNPC[Type] = true;
             NPCID.Sets.SpawnsWithCustomName[Type] = true;
             NPCID.Sets.HatOffsetY[NPC.type] = 4;
-            NPCID.Sets.SavesAndLoads[NPC.type] = false;
             NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Velocity = 1f,
                 Direction = 1
             };
+        }
+
+        public override bool NeedSaving()
+        {
+            return false;
         }
 
         public override void SetDefaults()

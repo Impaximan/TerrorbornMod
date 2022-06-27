@@ -37,9 +37,9 @@ namespace TerrorbornMod.Biomes
 
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
 
-        public override void SpecialVisuals(Player player)
+        public override void SpecialVisuals(Player player, bool isActive)
         {
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", true);
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", isActive);
         }
 
         public override void OnEnter(Player player)

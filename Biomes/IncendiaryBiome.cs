@@ -35,8 +35,12 @@ namespace TerrorbornMod.Biomes
             modPlayer.ZoneIncendiary = true;
         }
 
-        public override void SpecialVisuals(Player player)
+        public override void SpecialVisuals(Player player, bool isActive)
         {
+            if (!isActive)
+            {
+                return;
+            }
             effectCounter--;
             if (effectCounter <= 0)
             {

@@ -16,6 +16,7 @@ Content:
    • MANY new weapons to choose from
  • The lore of the mod is findable in-game and will expand as the mod updates.
  • Post-Moon Lord content. Not a lot of it right now, but it's definitely enough to make the finale of your playthrough memorable.
+ • 1 new menu style (and more to come!)
 
 Feel free to join our discord server if you have any feedback or ideas, or if you just want to discuss the mod. A link is on the homepage!
 
@@ -41,6 +42,7 @@ Testers:
  • Spyro
  • Termi/TerminatorShock
  • turingcomplete30 (Check out Polarities)
+ • Jimbo Animations
 
 --Special Thanks--
  • georgeGMC

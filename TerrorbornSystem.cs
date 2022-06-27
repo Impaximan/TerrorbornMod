@@ -1596,7 +1596,7 @@ namespace TerrorbornMod
         {
             int biomeWidth = (int)(Main.maxTilesX / 4f * size);
             int biomeHeight = (int)(Main.maxTilesY / 17f * size);
-            int islandCount = (int)(Main.maxTilesX / 25 * density);
+            int islandCount = (int)(Main.maxTilesX / 25f * density);
             int ritualIslandCount = (int)(Main.maxTilesX / 2800f * density);
             int chestIslandCount = (int)(Main.maxTilesX / 840f * 0.65f * density);
             int skullIslandCount = (int)(Main.maxTilesX / 250f * density);
