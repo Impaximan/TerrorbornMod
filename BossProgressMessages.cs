@@ -18,6 +18,8 @@ namespace TerrorbornMod
         public static bool PostShadowcrawlerMessagesSent;
         public static bool PostMoonLordMessagesSent;
 
+        public static bool InitialMessageSent;
+
         public override void PostWorldGen()
         {
             TarMessageSent = false;
@@ -29,6 +31,7 @@ namespace TerrorbornMod
             PostPlanteraMessagesSent = false;
             PostShadowcrawlerMessagesSent = false;
             PostMoonLordMessagesSent = false;
+            InitialMessageSent = false;
         }
 
         public override void SaveWorldData(TagCompound tag)
@@ -43,6 +46,7 @@ namespace TerrorbornMod
             if (PostPlanteraMessagesSent) messages.Add("postplant");
             if (PostShadowcrawlerMessagesSent) messages.Add("postshadowcrawler");
             if (PostMoonLordMessagesSent) messages.Add("postmoonlord");
+            if (InitialMessageSent) messages.Add("InitialMessageSent");
             tag.Add("messages", messages);
         }
 
@@ -58,10 +62,21 @@ namespace TerrorbornMod
             PostPlanteraMessagesSent = messages.Contains("postplant");
             PostShadowcrawlerMessagesSent = messages.Contains("postshadowcrawler");
             PostMoonLordMessagesSent = messages.Contains("postmoonlord");
+            InitialMessageSent = messages.Contains("InitialMessageSent");
         }
 
         public override void PostUpdateEverything()
         {
+            if (!InitialMessageSent)
+            {
+                InitialMessageSent = true;
+                Main.NewText(
+                    "Hello, and welcome to Terrorborn!" +
+                  "\nBefore you get started, I'd like to warn that this mod does not work in multiplayer and is intended to be played on a large world." +
+                  "\nIt is designed to be a challenging-but-fair experience. That said, there are multiple Quality of Life features that you can mess with in the mod's configs." +
+                  "\nWith that aside, enjoy the mod!", Color.SlateGray);
+            }
+
             if (NPC.downedBoss3 && !TarMessageSent)
             {
                 TarMessageSent = true;

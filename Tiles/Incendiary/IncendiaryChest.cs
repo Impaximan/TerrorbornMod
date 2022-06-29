@@ -20,6 +20,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 			Main.tileContainer[Type] = true;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
+			TileID.Sets.BasicChest[Type] = true;
 			Main.tileOreFinderPriority[Type] = 500;
 			TileID.Sets.HasOutlines[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
@@ -52,6 +53,11 @@ namespace TerrorbornMod.Tiles.Incendiary
 				player.cursorItemIconEnabled = false;
 				player.cursorItemIconID = 0;
 			}
+		}
+
+		public override bool IsLockedChest(int i, int j)
+		{
+			return false;
 		}
 
 		public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].TileFrameX / 36);

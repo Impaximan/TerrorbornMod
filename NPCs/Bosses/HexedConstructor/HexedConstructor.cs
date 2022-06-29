@@ -46,8 +46,6 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                 NPC.NewNPC(NPC.GetSource_OnHit(NPC), (int)terrorMasterPosition.X, (int)terrorMasterPosition.Y, ModContent.NPCType<NPCs.TownNPCs.Heretic>());
                 Main.NewText("Gabrielle the Heretic has invited herself to your town!", new Color(50, 125, 255));
 
-                ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/HexedConstructorDeath").Value.Play(Main.musicVolume, 0f, 0f);
-                Main.musicFade[Music] = 0f;
 
                 bool spawnTF = !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).unlockedAbilities.Contains(7);
                 for (int i = 0; i < 1000; i++)
@@ -64,12 +62,16 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<TimeFreeze>(), 0, 0, Main.myPlayer);
                 }
             }
+
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/HexedConstructorDeath").Value.Play(Main.musicVolume, 0f, 0f);
+            Main.musicFade[Music] = 0f;
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Furniture.HexedConstructorTrophy>(), 10));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<Items.TreasureBags.HC_TreasureBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<Items.TreasureBags.HC_TreasureBag>()));
+
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Materials.HexingEssence>(), 1, 15, 20));
             npcLoot.Add(new LeadingConditionRule(new Conditions.NotExpert()).OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Weapons.Ranged.MirageBow>(),

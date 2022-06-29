@@ -20,6 +20,7 @@ namespace TerrorbornMod.Tiles
 			Main.tileSpelunker[Type] = true;
 			Main.tileContainer[Type] = true;
 			Main.tileFrameImportant[Type] = true;
+			TileID.Sets.BasicChest[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileOreFinderPriority[Type] = 500;
 			TileID.Sets.HasOutlines[Type] = true;
@@ -68,10 +69,12 @@ namespace TerrorbornMod.Tiles
 			{
 				left--;
 			}
+
 			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
+
 			int chest = Chest.FindChest(left, top);
 			player.cursorItemIconID = -1;
 			if (chest < 0)
@@ -80,15 +83,20 @@ namespace TerrorbornMod.Tiles
 			}
 			else
 			{
-				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Lavender Chest";
-				if (player.cursorItemIconText == "Lavender Chest")
+				string defaultName = TileLoader.ContainerName(tile.TileType); // This gets the ContainerName text for the currently selected language
+				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : defaultName;
+				if (player.cursorItemIconText == defaultName)
 				{
 					player.cursorItemIconID = ModContent.ItemType<Items.Placeable.Furniture.LavenderChestItem>();
 					if (Main.tile[left, top].TileFrameX / 36 == 1)
+					{
 						player.cursorItemIconID = ModContent.ItemType<Items.MiscConsumables.MetalKey>();
+					}
+
 					player.cursorItemIconText = "";
 				}
 			}
+
 			player.noThrow = 2;
 			player.cursorItemIconEnabled = true;
 		}
@@ -103,7 +111,7 @@ namespace TerrorbornMod.Tiles
 			Chest.DestroyChest(i, j);
 		}
 
-        public override bool RightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 
 			Player player = Main.LocalPlayer;

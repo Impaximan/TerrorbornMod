@@ -21,6 +21,7 @@ namespace TerrorbornMod.Tiles
 			Main.tileNoAttach[Type] = true;
 			Main.tileOreFinderPriority[Type] = 500;
 			TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.BasicChest[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.CoordinateHeights = new[] { 16, 18 };
@@ -38,6 +39,12 @@ namespace TerrorbornMod.Tiles
 			AdjTiles = new int[] { TileID.Containers };
 			ContainerName.SetDefault("Deimostone Chest");
 			ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.DeimostoneChest>();
+
+		}
+
+		public override bool IsLockedChest(int i, int j)
+		{
+			return false;
 		}
 
 		public override void MouseOverFar(int i, int j)

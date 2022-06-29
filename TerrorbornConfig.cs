@@ -25,6 +25,16 @@ namespace TerrorbornMod
             "\nIt is recommended you disable this if you have other mods enabled that do the same thing")]
         public bool showWingStats;
 
+        [DefaultValue(true)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Instant Death Protection")]
+        [Tooltip("Whether or not the 'Instant Death Protection' mechanic is enabled" +
+            "\nWhile enabled, you cannot die from a hit if you are over 90% of your max hp" +
+            "\nInstead, you would get increased iframes and be set to 10% hp" +
+            "\nNote that this is never enabled when either Skeletron or the Empress of Light is nearby and it's day time" +
+            "\nDoes not affect the dungeon guardian either")]
+        public bool enableInstantDeathProtection;
+
         [Header("UI")]
 
         [DefaultValue(750)]
@@ -137,6 +147,7 @@ namespace TerrorbornMod
             TerrorbornMod.TerrorMeterX = TerrorMeterX;
             TerrorbornMod.TerrorMeterY = TerrorMeterY;
             TerrorbornMod.showWingStats = showWingStats;
+            TerrorbornMod.InstantDeathProtectionEnabled = enableInstantDeathProtection;
         }
     }
 

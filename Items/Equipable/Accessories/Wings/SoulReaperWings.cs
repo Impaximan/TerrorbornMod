@@ -20,6 +20,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
         {
             Tooltip.SetDefault("Allows flight and slow fall" +
                 "\nBeing close to enemies grants you your flight time back");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new Terraria.DataStructures.WingStats((int)(60 * 3f), 1f, 1.2f, false);
         }
 
         public override void SetDefaults()

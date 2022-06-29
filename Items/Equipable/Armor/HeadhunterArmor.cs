@@ -174,7 +174,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases item/weapon use speed by 12%" +
+            Tooltip.SetDefault("Increases item/weapon use speed by 9%" +
                 "\nIncreases flight time by 50%" +
                 "\n50% increased Shriek of Horror range");
             ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
@@ -185,7 +185,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.GetAttackSpeed(DamageClass.Generic) += 0.12f;
+            player.GetAttackSpeed(DamageClass.Generic) += 0.09f;
             modPlayer.flightTimeMultiplier *= 1.5f;
             modPlayer.ShriekRangeMultiplier *= 1.5f;
         }

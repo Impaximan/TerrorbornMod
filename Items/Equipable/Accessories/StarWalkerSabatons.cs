@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             Tooltip.SetDefault("Hold DOWN to fall faster" +
                 "\n50% increased wing flight time" +
                 "\nIncreased jump and movement speed" +
-                "\n10% increased item use speed" +
+                "\n5% increased item use speed" +
                 "\nAllows you to walk on water an lava" +
                 "\nThe wearer can run INSANELY fast");
         }
@@ -66,7 +66,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.GetAttackSpeed(DamageClass.Generic) *= 1.1f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.05f;
 
             if (player.controlDown)
             {

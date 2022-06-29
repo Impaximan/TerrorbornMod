@@ -14,6 +14,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
                 "\nCauses you to emit light" +
                 "\nGreatly increased movement speed while gliding" +
                 "\nHold down for 1.5 seconds to instantly get rid of your flight time, allowing you to glide");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new Terraria.DataStructures.WingStats((int)(60 * 3.2f), 1f, 1.35f, false);
         }
 
         public override void SetDefaults()

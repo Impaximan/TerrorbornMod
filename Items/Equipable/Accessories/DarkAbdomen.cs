@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 "\nGreatly increases life regen" +
                 "\nDecreases your maximum life by 50" +
                 "\nBeing under 250 health grants you the following stats:" +
-                "\n20% increased item/weapon use speed" +
+                "\n10% increased item/weapon use speed" +
                 "\n15% increased critical strike chance" +
                 "\nBeing under 75 health doubles these bonuses");
         }
@@ -37,12 +37,12 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             if (player.statLife <= 250)
             {
                 player.GetCritChance(DamageClass.Generic) += 15;
-                player.GetAttackSpeed(DamageClass.Generic) *= 1.2f;
+                player.GetAttackSpeed(DamageClass.Generic) *= 1.1f;
             }
             if (player.statLife <= 75)
             {
                 player.GetCritChance(DamageClass.Generic) += 30;
-                player.GetAttackSpeed(DamageClass.Generic) *= 1.4f;
+                player.GetAttackSpeed(DamageClass.Generic) *= 1.2f;
             }
         }
     }

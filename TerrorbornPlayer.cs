@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Graphics.Effects;
 using TerrorbornMod.Abilities;
+using Terraria.Audio;
 using Microsoft.Xna.Framework.Audio;
 
 namespace TerrorbornMod
@@ -145,6 +146,7 @@ namespace TerrorbornMod
         public bool HexedMirage = false;
         public bool TwilightMatrix = false;
         public int currentThrownCritState = -1;
+        public bool InsantDeathProtection = false;
 
         //Twilight Mode
         public int TwilightHPCap = 400;
@@ -665,6 +667,7 @@ namespace TerrorbornMod
             ShriekOfHorrorMovement = 0f;
             CaneOfCurses = false;
             TerrorTonic = false;
+            InsantDeathProtection = Player.statLife > Player.statLifeMax2 * 0.9f;
             if (CoreOfFear)
             {
                 ShriekOfHorrorMovement += 0.3f;
@@ -1801,6 +1804,32 @@ namespace TerrorbornMod
 
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            bool disableInstantDeathProtection = false;
+            if (NPC.AnyNPCs(NPCID.HallowBoss) && Main.dayTime) disableInstantDeathProtection = true;
+            if (NPC.AnyNPCs(NPCID.DungeonGuardian)) disableInstantDeathProtection = true;
+            if (NPC.AnyNPCs(NPCID.SkeletronHead) && Main.dayTime) disableInstantDeathProtection = true;
+            if (NPC.AnyNPCs(NPCID.SkeletronPrime) && Main.dayTime) disableInstantDeathProtection = true;
+            if (InsantDeathProtection && TerrorbornMod.InstantDeathProtectionEnabled && !disableInstantDeathProtection)
+            {
+                Player.statLife = (int)(Player.statLifeMax2 * 0.1f);
+                iFrames = 120;
+                SoundStyle style = SoundID.PlayerKilled;
+                style.Pitch = 0.5f;
+                SoundEngine.PlaySound(style, Player.Center);
+                return false;
+            }
+
+            if (SpecterLocket && !Player.HasBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>()))
+            {
+                CombatText.NewText(Player.getRect(), Color.OrangeRed, "Revived!", true);
+                SoundExtensions.PlaySoundOld(SoundID.NPCDeath52, Player.Center);
+                Player.statLife = 25;
+                Player.HealEffect(25);
+                Player.AddBuff(ModContent.BuffType<Buffs.IncendiaryRevival>(), 60 * 4);
+                Player.AddBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>(), 3600 * 3);
+                return false;
+            }
+
             if (MidShriek)
             {
                 int choice = Main.rand.Next(3);
@@ -1819,17 +1848,6 @@ namespace TerrorbornMod
             }
 
             TerrorPercent = 0f;
-
-            if (SpecterLocket && !Player.HasBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>()))
-            {
-                CombatText.NewText(Player.getRect(), Color.OrangeRed, "Revived!", true);
-                SoundExtensions.PlaySoundOld(SoundID.NPCDeath52, Player.Center);
-                Player.statLife = 25;
-                Player.HealEffect(25);
-                Player.AddBuff(ModContent.BuffType<Buffs.IncendiaryRevival>(), 60 * 4);
-                Player.AddBuff(ModContent.BuffType<Buffs.Debuffs.UnholyCooldown>(), 3600 * 3);
-                return false;
-            }
 
             return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
         }

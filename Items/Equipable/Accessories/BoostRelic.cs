@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases item use speed by 10%" +
+            Tooltip.SetDefault("Increases item use speed by 5%" +
                 "\nIncreases manueverability while airborne" +
                 "\nIncreases jump speed");
         }
@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.GetAttackSpeed(DamageClass.Generic) *= 1.1f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.05f;
             player.jumpSpeedBoost += 1.5f;
             
             if (player.velocity.Y != 0)

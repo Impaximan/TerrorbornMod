@@ -17,7 +17,6 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Magic weapons have a 15% chance to strike twice" +
-                "\n10% increased magic casting speed" +
                 "\n+40 max mana");
         }
 
@@ -35,7 +34,6 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.PrismalCore = true;
             player.statManaMax2 += 40;
-            player.GetAttackSpeed(DamageClass.Magic) *= 1.1f;
         }
     }
 }

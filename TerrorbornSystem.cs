@@ -17,6 +17,7 @@ using TerrorbornMod.UI.TerrorAbilityUnlock;
 using TerrorbornMod.UI.TitleCard;
 using TerrorbornMod.UI.TwilightEmpowerment;
 using Microsoft.Xna.Framework.Audio;
+using System.Linq;
 
 namespace TerrorbornMod
 {
@@ -113,8 +114,13 @@ namespace TerrorbornMod
         //    incendiaryTiles += tileCounts[ModContent.TileType<Tiles.Incendiary.KindlingGrass>()];
         //    incendiaryTiles += tileCounts[ModContent.TileType<Tiles.Incendiary.IncendiaryMachinery>()];
 
-        //    incendiaryRitual = tileCounts[ModContent.TileType<Tiles.Incendiary.IncendiaryRitual>()] > 0;
+        //    
         //}
+
+        public override void TileCountsAvailable(ReadOnlySpan<int> tileCounts)
+        {
+            incendiaryRitual = tileCounts[ModContent.TileType<Tiles.Incendiary.IncendiaryRitual>()] > 0;
+        }
 
         public string getSkeletonSheriffName()
         {
@@ -609,7 +615,7 @@ namespace TerrorbornMod
             WorldGen.KillTile(x + 1, y + 2, noItem: true);
             WorldGen.PlaceTile(x, y + 2, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>());
             WorldGen.PlaceTile(x + 1, y + 2, ModContent.TileType<Tiles.Incendiary.IncendiaryBrick>());
-            WorldGen.PlaceTile(x, y + 1, (ushort)ModContent.TileType<Tiles.Incendiary.IncendiaryChest>());
+            WorldGen.PlaceChest(x, y + 1, (ushort)ModContent.TileType<Tiles.Incendiary.IncendiaryChest>());
             Chest chest = Main.chest[Chest.FindChest(x, y)];
             
             List<int> mainItems = new List<int>();
@@ -1764,7 +1770,7 @@ namespace TerrorbornMod
             WorldGen.KillTile(x + 1, y + 2, noItem: true);
             WorldGen.PlaceTile(x, y + 2, TileID.IridescentBrick);
             WorldGen.PlaceTile(x + 1, y + 2, TileID.IridescentBrick);
-            WorldGen.PlaceTile(x, y + 1, (ushort)ModContent.TileType<Tiles.LavenderChest>());
+            WorldGen.PlaceChest(x, y + 1, (ushort)ModContent.TileType<Tiles.LavenderChest>());
             Main.tile[x, y].TileFrameX += 1 * 36;
             Main.tile[x + 1, y].TileFrameX += 1 * 36;
             Main.tile[x + 1, y + 1].TileFrameX += 1 * 36;
@@ -2400,24 +2406,7 @@ namespace TerrorbornMod
 
         public override void PreWorldGen()
         {
-            List<int> alreadySeenLore = new List<int>();
-            for (int i = 0; i < TerrorbornMod.GoldenChestLore.Count; i++)
-            {
-                if (i >= TerrorbornMod.GoldenChestLore.Count)
-                {
-                    break;
-                }
-                int lore = TerrorbornMod.GoldenChestLore[i];
-                if (alreadySeenLore.Contains(lore))
-                {
-                    TerrorbornMod.GoldenChestLore.RemoveAt(i);
-                    i--;
-                }
-                else
-                {
-                    alreadySeenLore.Add(lore);
-                }
-            }
+            TerrorbornMod.GoldenChestLore = TerrorbornMod.GoldenChestLore.Distinct().ToList();
         }
 
         public void GenerateDeimostoneCaves()

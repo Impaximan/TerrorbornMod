@@ -34,6 +34,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             NPCID.Sets.ActsLikeTownNPC[Type] = true;
             NPCID.Sets.SpawnsWithCustomName[Type] = true;
             NPCID.Sets.HatOffsetY[NPC.type] = 4;
+            NPCID.Sets.AllowDoorInteraction[Type] = true;
             NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Velocity = 1f,
@@ -442,6 +443,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 }
                 button2 = Language.GetTextValue("Cycle Options");
             }
+        }
+
+        public override bool CanChat()
+        {
+            return true;
         }
 
         public override void OnChatButtonClicked(bool firstButton, ref bool openShop)

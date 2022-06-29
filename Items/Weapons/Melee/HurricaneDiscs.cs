@@ -82,7 +82,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 300;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 360 / 15;
+            Projectile.localNPCHitCooldown = 20;
             Projectile.extraUpdates = 2;
         }
 

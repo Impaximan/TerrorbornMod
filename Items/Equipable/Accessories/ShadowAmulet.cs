@@ -23,7 +23,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             Tooltip.SetDefault("Hitting enemies has a chance to cause you to fire an extra Projectile towards them" +
                 "\nThe behavior of this Projectile depends on the damage type" +
-                "\n8% increased item use speed");
+                "\n6% increased item use speed");
         }
 
         public override void SetDefaults()
@@ -39,7 +39,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.ShadowAmulet = true;
-            player.GetAttackSpeed(DamageClass.Generic) *= 1.08f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.06f;
         }
     }
 

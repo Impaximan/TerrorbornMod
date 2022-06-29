@@ -53,6 +53,8 @@ namespace TerrorbornMod
 
         public static bool showNoUseSpeed = true;
 
+        public static bool InstantDeathProtectionEnabled = true;
+
         public static Texture2D SoHShrineText;
 
         //public override void UpdateMusic(ref int music, ref MusicPriority priority)

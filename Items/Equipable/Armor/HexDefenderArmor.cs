@@ -174,7 +174,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void Update(Player player, ref int buffIndex)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.GetAttackSpeed(DamageClass.Generic) *= 1.25f;
+            player.GetAttackSpeed(DamageClass.Melee) *= 1.25f;
         }
     }
 

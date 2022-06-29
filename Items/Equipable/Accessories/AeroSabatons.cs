@@ -13,7 +13,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 "\nHold DOWN to fall faster" +
                 "\n50% increased wing flight time" +
                 "\nIncreased jump speed" +
-                "\n10% increased item use speed" +
+                "\n5% increased item use speed" +
                 "\nIncreased manueverability while airborne");
         }
 
@@ -43,7 +43,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.GetAttackSpeed(DamageClass.Generic) *= 1.1f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.05f;
 
             if (player.controlJump)
             {

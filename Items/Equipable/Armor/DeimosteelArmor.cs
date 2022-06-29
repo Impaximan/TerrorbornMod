@@ -107,13 +107,13 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases all item use speeds by 6%");
+            Tooltip.SetDefault("Increases all item use speeds by 4%");
         }
 
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            player.GetAttackSpeed(DamageClass.Generic) *= 1.06f;
+            player.GetAttackSpeed(DamageClass.Generic) *= 1.04f;
         }
 
         public override void SetDefaults()

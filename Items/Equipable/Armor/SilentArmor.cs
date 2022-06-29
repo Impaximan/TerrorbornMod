@@ -47,7 +47,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases all item use speeds by 10%");
+            Tooltip.SetDefault("Increases all weapon use speeds by 6%");
         }
 
         public override void UpdateEquip(Player player)
