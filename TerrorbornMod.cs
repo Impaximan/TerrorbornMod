@@ -16,7 +16,7 @@ namespace TerrorbornMod
 {
     class TerrorbornMod : Mod
     {
-        public const bool IsInTestingMode = false;
+        public const bool IsInTestingMode = true;
 
         public const float IncendiaryAlloyMultiplier = 0.5f;
 

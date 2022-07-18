@@ -32,7 +32,6 @@ namespace TerrorbornMod.Items.TreasureBags
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.TidalTitanMask>());
             }
             player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Accessories.LunarHeart>());
-            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Materials.CrackedShell>(), Main.rand.Next(8, 12));
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {

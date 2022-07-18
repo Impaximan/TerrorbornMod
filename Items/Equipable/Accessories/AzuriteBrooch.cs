@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         {
             CreateRecipe()
                 .AddIngredient(ModContent.ItemType<Materials.AzuriteBar>(), 8)
-                .AddIngredient(ModContent.ItemType<Materials.CrackedShell>(), 2)
+                .AddIngredient(ItemID.Diamond, 2)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

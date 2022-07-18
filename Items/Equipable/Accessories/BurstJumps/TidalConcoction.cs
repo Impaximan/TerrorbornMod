@@ -16,11 +16,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ModContent.ItemType<Materials.AzuriteOre>(), 15)
-                .AddIngredient(ModContent.ItemType<Materials.CrackedShell>(), 2)
-                .AddTile(TileID.Bottles)
-                .Register();
+
         }
 
         public override void SetDefaults()
