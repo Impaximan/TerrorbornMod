@@ -17,6 +17,7 @@ namespace TerrorbornMod.Items
         {
             ItemID.Sets.ItemNoGravity[Item.type] = true;
             ItemID.Sets.ItemIconPulse[Item.type] = true;
+            ItemID.Sets.IgnoresEncumberingStone[Type] = true;
         }
 
         public override bool OnPickup(Player player)

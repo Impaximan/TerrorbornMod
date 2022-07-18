@@ -7,6 +7,10 @@ namespace TerrorbornMod.Items.TestItems
     class ResetTerrorMasterDialogue : ModItem
     {
         public override string Texture => "TerrorbornMod/placeholder";
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Sets the terror master's dialogue sequence counter to 0");

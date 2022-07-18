@@ -7,6 +7,10 @@ namespace TerrorbornMod.Items.TestItems
     class ToggleAnekronianApple : ModItem
     {
         public override string Texture => "TerrorbornMod/placeholder";
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toggle AA");

@@ -52,10 +52,16 @@ namespace TerrorbornMod.Tiles
     public class MemorialBrickItem : ModItem
     {
         public override string Texture => "TerrorbornMod/placeholder";
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("DEVELOPER TOOL");
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
+        }
+
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
         }
 
         public override void SetDefaults()
@@ -75,6 +81,12 @@ namespace TerrorbornMod.Tiles
     public class MemorialWallItem : ModItem
     {
         public override string Texture => "TerrorbornMod/placeholder";
+
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("DEVELOPER TOOL");

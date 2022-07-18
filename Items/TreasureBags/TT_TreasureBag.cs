@@ -36,15 +36,15 @@ namespace TerrorbornMod.Items.TreasureBags
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {
-                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Weapons.Ranged.BubbleBow>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Weapons.Ranged.Jawvelin>(), 750);
             }
             else if (choice == 1)
             {
-                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Weapons.Melee.TidalClaw>(), 750);
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Weapons.Summons.Whips.AzuretoothWhip>());
             }
             else if (choice == 2)
             {
-                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Weapons.Magic.SightForSoreEyes>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Weapons.Magic.BubbleBlaster>());
             }
         }
 

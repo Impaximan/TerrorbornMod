@@ -8,6 +8,11 @@ namespace TerrorbornMod.Items.TestItems
     {
         public override string Texture => "TerrorbornMod/placeholder";
 
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Generates an incendiary sky island" +

@@ -89,7 +89,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.minion = true;
-Projectile.DamageType = DamageClass.Summon;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.minionSlots = 1;
         }
         void FindFrame(int FrameHeight)
@@ -232,6 +232,7 @@ Projectile.DamageType = DamageClass.Summon;
             Projectile.timeLeft = 100;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
 

@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
 using ReLogic.Content;
 using TerrorbornMod.WeaponPossession;
+using Terraria.GameContent.Personalities;
+using Terraria.GameContent.Bestiary;
 
 
 namespace TerrorbornMod.NPCs.TownNPCs
@@ -22,6 +24,14 @@ namespace TerrorbornMod.NPCs.TownNPCs
             {
                 return "TerrorbornMod/NPCs/TownNPCs/Heretic";
             }
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+                new FlavorTextBestiaryInfoElement("She's a heretic. That's all you need to know.")
+            });
         }
 
         public override void SetStaticDefaults()
@@ -39,6 +49,12 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 Velocity = 1f,
                 Direction = 1
             };
+
+            NPC.Happiness
+                 .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Love)
+                 .SetNPCAffection(NPCID.WitchDoctor, AffectionLevel.Like)
+                 .SetNPCAffection(NPCID.Dryad, AffectionLevel.Dislike)
+                 .SetNPCAffection(ModContent.NPCType<SkeletonSheriff>(), AffectionLevel.Hate);
         }
         public override void SetDefaults()
         {

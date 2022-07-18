@@ -18,6 +18,10 @@ namespace TerrorbornMod.Items.TestItems
     class GenerateTerrorShrines : ModItem
     {
         public override string Texture => "TerrorbornMod/placeholder";
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Generates the terror shrines in a pre-made world");

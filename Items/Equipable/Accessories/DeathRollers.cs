@@ -72,11 +72,6 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void UpdateEquip(Player player)
         {
-            if (player.dash > 0 || player.HasBuff(BuffID.SolarShield1) || player.HasBuff(BuffID.SolarShield2) || player.HasBuff(BuffID.SolarShield3))
-            {
-                return;
-            }
-
             if (spinning)
             {
                 if (player.velocity.Y == 0)

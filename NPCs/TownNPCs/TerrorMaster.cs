@@ -9,6 +9,7 @@ using Terraria.GameContent;
 using ReLogic.Content;
 using System.Collections.Generic;
 using Terraria.GameContent.Personalities;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.TownNPCs
 {
@@ -21,6 +22,15 @@ namespace TerrorbornMod.NPCs.TownNPCs
             {
                 return "TerrorbornMod/NPCs/TownNPCs/TerrorMaster";
             }
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+                new FlavorTextBestiaryInfoElement("The Terror Master is... an extremely mysterious character. His name is unknown, as are his origins, but he provides many useful utilities to help you on your adventure. Mysterious or not, it'd be best to keep him around.")
+            });
         }
 
         public override void SetStaticDefaults()

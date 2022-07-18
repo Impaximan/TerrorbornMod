@@ -85,7 +85,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 60;
             Projectile.minion = true;
-Projectile.DamageType = DamageClass.Summon;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.minionSlots = 1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20;

@@ -10,6 +10,8 @@ using Terraria.Graphics.Effects;
 using TerrorbornMod.Abilities;
 using Terraria.Audio;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
 
 namespace TerrorbornMod
 {
@@ -1428,12 +1430,6 @@ namespace TerrorbornMod
             {
                 HeadHunterCritCooldown--;
             }
-
-            //Main.manaTexture = (Texture2D)ModContent.Request<Texture2D>("Terraria/Mana");
-            //if (MidnightFruit == 20)
-            //{
-            //    Main.manaTexture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/MidnightMana");
-            //}
 
             if (ParryTime > 0)
             {

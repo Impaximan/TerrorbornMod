@@ -15,7 +15,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 32;
+            Item.damage = 24;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 22;
             Item.height = 42;

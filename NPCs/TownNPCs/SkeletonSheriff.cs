@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
 using ReLogic.Content;
 using System.Collections.Generic;
+using Terraria.GameContent.Personalities;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.TownNPCs
 {
@@ -21,6 +23,15 @@ namespace TerrorbornMod.NPCs.TownNPCs
             {
                 return "TerrorbornMod/NPCs/TownNPCs/SkeletonSheriff";
             }
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+                new FlavorTextBestiaryInfoElement("Always looking for ways to help out, the skeleton sheriff is a reliable friend. He'll pay you in combat tokens for doing peacekeeping in specific biomes.")
+            });
         }
 
         public override void SetStaticDefaults()
@@ -38,6 +49,16 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 Velocity = 1f,
                 Direction = 1
             };
+
+            NPC.Happiness
+                 .SetBiomeAffection<DesertBiome>(AffectionLevel.Love)
+                 .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like)
+                 .SetBiomeAffection<JungleBiome>(AffectionLevel.Dislike)
+                 .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate)
+                 .SetNPCAffection(ModContent.NPCType<TerrorMaster>(), AffectionLevel.Love)
+                 .SetNPCAffection(NPCID.ArmsDealer, AffectionLevel.Like)
+                 .SetNPCAffection(ModContent.NPCType<Heretic>(), AffectionLevel.Dislike)
+                 .SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Hate);
         }
 
         public override void SetDefaults()

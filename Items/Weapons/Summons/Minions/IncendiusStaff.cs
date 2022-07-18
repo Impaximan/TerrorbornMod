@@ -94,7 +94,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             Projectile.friendly = false;
             Projectile.hostile = false;
             Projectile.minion = true;
-Projectile.DamageType = DamageClass.Summon;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.ignoreWater = true;
             Projectile.minionSlots = 1;
             Projectile.timeLeft = 360;

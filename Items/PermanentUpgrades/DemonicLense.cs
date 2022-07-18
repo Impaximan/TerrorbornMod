@@ -12,6 +12,7 @@ namespace TerrorbornMod.Items.PermanentUpgrades
             Tooltip.SetDefault("Permanently allows you to use Shriek of Horror twice as fast" +
                 "\nCan only be used once");
         }
+
         public override void SetDefaults()
         {
             Item.rare = ItemRarityID.LightRed;
@@ -19,24 +20,22 @@ namespace TerrorbornMod.Items.PermanentUpgrades
             Item.consumable = true;
             Item.useAnimation = 30;
             Item.useTime = 30;
+            Item.maxStack = 9999;
             Item.UseSound = SoundID.Item29;
             Item.value = Item.sellPrice(0, 10, 0, 0);
         }
+
         public override bool CanUseItem(Player player)
-        {
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            return !modPlayer.DemonicLense;
-        }
-        public override void OnConsumeItem(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (!modPlayer.DemonicLense)
             {
-                Item.stack--;
-                CombatText.NewText(new Rectangle((int)(player.Center.X - 50), (int)(player.Center.Y - 50), 100, 10), Color.Red, "Shriek of Horror use speed doubled", true, false);
+                CombatText.NewText(new Rectangle((int)(player.Center.X - 50), (int)(player.Center.Y - 50), 100, 10), Color.Red, "Shriek of Horror movement speed increased by 20%", true, false);
                 modPlayer.DemonicLense = true;
+                Item.stack--;
+                return true;
             }
-            base.OnConsumeItem(player);
+            return false;
         }
     }
 }

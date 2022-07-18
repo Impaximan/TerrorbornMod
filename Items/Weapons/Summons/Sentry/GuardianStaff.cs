@@ -102,6 +102,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             Projectile.penetrate = -1;
             Projectile.timeLeft = 10;
             Projectile.tileCollide = true;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.ignoreWater = true;
             Projectile.scale = 1f;
         }
@@ -167,6 +168,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             Projectile.hide = false;
             Projectile.hostile = false;
             Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.timeLeft = timeLeft;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 5;

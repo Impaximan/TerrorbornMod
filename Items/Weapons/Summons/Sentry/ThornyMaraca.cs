@@ -97,6 +97,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             Projectile.tileCollide = false;
             Projectile.timeLeft = 300;
             Projectile.usesLocalNPCImmunity = true;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.localNPCHitCooldown = 15;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -138,6 +139,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             Projectile.penetrate = -1;
             Projectile.timeLeft = 10;
             Projectile.tileCollide = true;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.ignoreWater = true;
         }
         void FindFrame(int FrameHeight)

@@ -32,6 +32,14 @@ namespace TerrorbornMod.NPCs.Bosses
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailCacheLength[NPC.type] = 8;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionYOverride = 0,
+                CustomTexturePath = "TerrorbornMod/NPCs/Bosses/Dunestock_Bestiary"
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -97,7 +105,10 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
-                new FlavorTextBestiaryInfoElement("A strange monstrocity of antlion guts, blood, tar, and wood. Though its exact motives are unclear, it appears to be a mindless being set on satisfying its hunger.")
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Sandstorm,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+
+                new FlavorTextBestiaryInfoElement("Long ago a mysterious beast in the desert halted trade routes between kingdoms. Eventually, they sent some of their mightiest soldiers to take it out. They did not return.")
             });
         }
 
@@ -106,19 +117,21 @@ namespace TerrorbornMod.NPCs.Bosses
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.PermanentUpgrades.GoldenTooth>()));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Furniture.DunestockTrophy>(), 10));
             npcLoot.Add(ItemDropRule.ByCondition(new Terraria.GameContent.ItemDropRules.Conditions.IsExpert(), ModContent.ItemType<Items.TreasureBags.DS_TreasureBag>()));
+
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Terraria.GameContent.ItemDropRules.Conditions.NotExpert());
+
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Dunestock.NeedleClawStaff>(),
                 ModContent.ItemType<Items.Dunestock.Dunesting>(),
                 ModContent.ItemType<Items.Dunestock.HungryWhirlwind>()));
-            npcLoot.Add(notExpertRule);
-            LeadingConditionRule notExpertRule2 = new LeadingConditionRule(new Terraria.GameContent.ItemDropRules.Conditions.NotExpert());
-            notExpertRule2.OnSuccess(ItemDropRule.OneFromOptions(1,
+
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Equipable.Accessories.AntlionShell>(),
                 ModContent.ItemType<Items.Equipable.Accessories.DryScarf>(),
                 ModContent.ItemType<Items.Equipable.Accessories.AntlionClaw>(),
                 ModContent.ItemType<Items.Equipable.Accessories.Wings.AntlionWings>()));
-            npcLoot.Add(notExpertRule2);
+            npcLoot.Add(notExpertRule);
+
             npcLoot.Add(ItemDropRule.ByCondition(new Terraria.GameContent.ItemDropRules.Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Accessories.CloakOfTheWind>()));
             npcLoot.Add(ItemDropRule.ByCondition(new Terraria.GameContent.ItemDropRules.Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.DunestockMask>(), 7));
         }
@@ -170,6 +183,10 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                return true;
+            }
             if (DrawLine)
             {
                 Utils.DrawLine(spriteBatch, NPC.Center, LineEnd, Color.LightYellow, Color.LightYellow, 3);
@@ -179,6 +196,10 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                return;
+            }
             if (NPC.life > NPC.lifeMax * 0.40f)
             {
                 return;
@@ -248,7 +269,7 @@ namespace TerrorbornMod.NPCs.Bosses
             Sandstorm.TimeLeft = 60;
             if (start)
             {
-                typeof(Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke((object)null, (object[])null);
+                Sandstorm.StartSandstorm();
                 start = false;
                 NPC.position.X = Main.player[NPC.target].position.X - NPC.width / 2;
                 NPC.position.Y = Main.player[NPC.target].position.Y - 200;
@@ -969,11 +990,19 @@ namespace TerrorbornMod.NPCs.Bosses
     class Dunestock_Lower : ModNPC
     {
         public override string Texture => "TerrorbornMod/NPCs/Bosses/Dunestock_Lower";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dunestock");
             Main.npcFrameCount[NPC.type] = 7;
+
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
+
         public override void SetDefaults()
         {
             NPC.defense = 999;

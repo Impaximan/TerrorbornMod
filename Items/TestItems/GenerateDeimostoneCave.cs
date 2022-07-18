@@ -9,6 +9,10 @@ namespace TerrorbornMod.Items.TestItems
     class GenerateDeimostoneCave : ModItem
     {
         public override string Texture => "TerrorbornMod/placeholder";
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
         public override void SetDefaults()
         {
             Item.rare = -12;

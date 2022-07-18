@@ -238,6 +238,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
             int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.SoulLightning>(), Projectile.damage, 0.5f, Projectile.owner);
             Main.projectile[proj].ai[0] = target;
+            Main.projectile[proj].DamageType = DamageClass.Summon;
         }
     }
 

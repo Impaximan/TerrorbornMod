@@ -24,16 +24,20 @@ namespace TerrorbornMod.NPCs.Bosses
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.PermanentUpgrades.AnekronianApple>()));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Furniture.ShadowcrawlerTrophy>(), 10));
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<Items.TreasureBags.SC_TreasureBag>()));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Materials.SoulOfPlight>(), 1, 25, 40));
-            npcLoot.Add(new LeadingConditionRule(new Conditions.NotExpert()).OnSuccess(ItemDropRule.OneFromOptions(1,
+
+
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Shadowcrawler.BladeOfShade>(),
                 ModContent.ItemType<Items.Shadowcrawler.Nightbrood>(),
-                ModContent.ItemType<Items.Shadowcrawler.BoiledBarrageWand>())));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.HexedConstructorMask>(), 7));
-            npcLoot.Add(new LeadingConditionRule(new Conditions.NotExpert()).OnSuccess(ItemDropRule.OneFromOptions(1,
+                ModContent.ItemType<Items.Shadowcrawler.BoiledBarrageWand>()));
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Equipable.Armor.TenebrisMask>(),
                 ModContent.ItemType<Items.Equipable.Armor.TenebrisChestplate>(),
-                ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>())));
+                ModContent.ItemType<Items.Equipable.Armor.TenebrisLeggings>()));
+
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Materials.SoulOfPlight>(), 1, 25, 40));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.ShadowcrawlerMask>(), 7));
         }
 
         public override bool CheckActive()
@@ -72,6 +76,7 @@ namespace TerrorbornMod.NPCs.Bosses
             DisplayName.SetDefault("Shadowcrawler");
             NPCID.Sets.TrailCacheLength[NPC.type] = 3;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()

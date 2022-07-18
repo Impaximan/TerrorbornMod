@@ -22,7 +22,8 @@ namespace TerrorbornMod.NPCs
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
-                new FlavorTextBestiaryInfoElement("These cute litte creatures are surprisingly resiliant, but also predatorial.")
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                new FlavorTextBestiaryInfoElement("A bunch of cute litte creatures roam the forest, some how whom are referred to as 'Porkopines'. Despite their assumed helplessness, they are surprisingly resiliant, but also predatorial.")
             });
         }
 

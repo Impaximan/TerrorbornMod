@@ -72,16 +72,20 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Furniture.HexedConstructorTrophy>(), 10));
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<Items.TreasureBags.HC_TreasureBag>()));
 
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Materials.HexingEssence>(), 1, 15, 20));
-            npcLoot.Add(new LeadingConditionRule(new Conditions.NotExpert()).OnSuccess(ItemDropRule.OneFromOptions(1,
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.HexedConstructorMask>(), 7));
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Materials.HexingEssence>(), 1, 15, 20));
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Weapons.Ranged.MirageBow>(),
                 ModContent.ItemType<Items.Weapons.Magic.SongOfTime>(),
-                ModContent.ItemType<Items.Weapons.Melee.IcarusShred>())));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.HexedConstructorMask>(), 7));
-            npcLoot.Add(new LeadingConditionRule(new Conditions.NotExpert()).OnSuccess(ItemDropRule.OneFromOptions(1,
+                ModContent.ItemType<Items.Weapons.Melee.IcarusShred>()));
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Equipable.Armor.HexDefenderMask>(),
                 ModContent.ItemType<Items.Equipable.Armor.HexDefenderBreastplate>(),
-                ModContent.ItemType<Items.Equipable.Armor.HexDefenderGreaves>())));
+                ModContent.ItemType<Items.Equipable.Armor.HexDefenderGreaves>()));
+
+            npcLoot.Add(notExpertRule);
         }
 
         public override bool CheckActive()
@@ -93,6 +97,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
         {
             Main.npcFrameCount[NPC.type] = 10;
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void BossLoot(ref string name, ref int potionType)

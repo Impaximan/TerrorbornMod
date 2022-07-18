@@ -58,7 +58,7 @@ namespace TerrorbornMod.TwilightMode
 				NPC.lifeMax = (int)(NPC.lifeMax * 1.5f);
 				NPC.value *= 1.3f;
 			}
-            else if (NPC.type != ModContent.NPCType<NPCs.Bosses.TidalTitan.TidalCrabBubble>())
+            else if (NPC.type != ModContent.NPCType<NPCs.Bosses.TidalTitan.PearlranhaBubble>())
 			{
 				NPC.lifeMax = (int)(NPC.lifeMax * 1.35f);
 				NPC.knockBackResist *= 0.5f;

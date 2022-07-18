@@ -96,12 +96,14 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Furniture.PrototypeITrophy>(), 10));
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<Items.TreasureBags.PI_TreasureBag>()));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Materials.PlasmaliumBar>(), 1, 18, 25));
-            npcLoot.Add(new LeadingConditionRule(new Conditions.NotExpert()).OnSuccess(ItemDropRule.OneFromOptions(1,
+
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.PrototypeIMask>(), 7));
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Materials.PlasmaliumBar>(), 1, 18, 25));
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.PrototypeI.PlasmaScepter>(),
                 ModContent.ItemType<Items.PrototypeI.PlasmoditeShotgun>(),
-                ModContent.ItemType<Items.PrototypeI.PlasmaticVortex>())));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.PrototypeIMask>(), 7));
+                ModContent.ItemType<Items.PrototypeI.PlasmaticVortex>()));
         }
 
         public override void OnKill()
@@ -132,6 +134,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
         {
             DisplayName.SetDefault("Prototype I");
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()

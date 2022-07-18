@@ -47,6 +47,15 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             return base.PreDraw(spriteBatch, screenPos, drawColor);
         }
 
+        public override void SetStaticDefaults()
+        {
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
+        }
+
         public override void SetDefaults()
         {
             NPC.width = 48;
@@ -119,6 +128,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         {
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
             Main.npcFrameCount[NPC.type] = 26;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override bool CheckActive()
@@ -200,14 +210,21 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.Furniture.InfectedIncarnateTrophy>(), 10));
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<Items.TreasureBags.II_TreasureBag>()));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Armor.SilentHelmet>()));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Armor.SilentBreastplate>()));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Armor.SilentGreaves>()));
-            npcLoot.Add(new LeadingConditionRule(new Conditions.NotExpert()).OnSuccess(ItemDropRule.OneFromOptions(1,
+            
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>(), 7));
+            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Materials.HexingEssence>(), 1, 15, 20));
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>(),
                 ModContent.ItemType<Items.Weapons.Magic.Infectalanche>(),
-                ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>())));
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>(), 7));
+                ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>()));
+            notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
+                ModContent.ItemType<Items.Equipable.Armor.SilentHelmet>(),
+                ModContent.ItemType<Items.Equipable.Armor.SilentBreastplate>(),
+                ModContent.ItemType<Items.Equipable.Armor.SilentGreaves>()));
+
+            npcLoot.Add(notExpertRule);
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -243,6 +260,10 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         int ringCounter = 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                return true;
+            }
             SpriteEffects effects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
             {

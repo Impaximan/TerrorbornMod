@@ -98,6 +98,12 @@ namespace TerrorbornMod.Abilities
     class ObtainStarvingStorm : ModItem
     {
         public override string Texture => "TerrorbornMod/placeholder";
+
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Get Starving Storm");
@@ -105,6 +111,7 @@ namespace TerrorbornMod.Abilities
                 "\nUnlocks 'Starving Storm'" +
                 "\nRight click to get a list of unlocked abilities");
         }
+
         public override void SetDefaults()
         {
             Item.rare = -12;
@@ -113,10 +120,12 @@ namespace TerrorbornMod.Abilities
             Item.useTime = 20;
             Item.useAnimation = 20;
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override bool CanUseItem(Player player)
         {
             TerrorbornPlayer tPlayer = TerrorbornPlayer.modPlayer(player);
