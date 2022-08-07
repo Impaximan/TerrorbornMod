@@ -83,6 +83,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                 Main.NewText("Azuredire has awoken!", new Color(175, 75, 255));
                 SoundExtensions.PlaySoundOld(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 0);
                 TerrorbornSystem.ScreenShake(10f);
+                TerrorbornSystem.downedMysteriousCrab = true;
             }
         }
 

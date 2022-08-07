@@ -17,7 +17,7 @@ namespace TerrorbornMod.NPCs.Minibosses
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
-                new FlavorTextBestiaryInfoElement("A servant of Uriel, whose true motivations are mysterious. As brutal foes in combat, they won't pull any punches.")
+                new FlavorTextBestiaryInfoElement("A servant of Phobos, whose true motivations are mysterious. As brutal foes in combat, they won't pull any punches.")
             });
         }
 
@@ -37,7 +37,7 @@ namespace TerrorbornMod.NPCs.Minibosses
             NPC.damage = 75;
             NPC.defense = 70;
             NPC.lifeMax = 35000;
-            NPC.HitSound = new Terraria.Audio.SoundStyle("Sounds/Effects/DreadAngelHurt");
+            NPC.HitSound = new Terraria.Audio.SoundStyle("TerrorbornMod/Sounds/Effects/DreadAngelHurt");
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.value = Item.buyPrice(0, 20, 0, 0);
             NPC.aiStyle = -1;
@@ -46,7 +46,7 @@ namespace TerrorbornMod.NPCs.Minibosses
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.getsTitleCard = true;
             modNPC.BossTitle = "Dread Angel";
-            modNPC.BossSubtitle = "Servant of Uriel";
+            modNPC.BossSubtitle = "Servant of Phobos";
             modNPC.BossTitleColor = Color.Goldenrod;
         }
 

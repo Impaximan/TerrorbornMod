@@ -20,6 +20,7 @@ namespace TerrorbornMod.Items
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midnight Energy Core");
@@ -27,6 +28,7 @@ namespace TerrorbornMod.Items
                 "\nNot consumable");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 14));
         }
+
         public override void SetDefaults()
         {
             Item.width = 40;
@@ -39,10 +41,12 @@ namespace TerrorbornMod.Items
             Item.useTime = 30;
             Item.noUseGraphic = true;
         }
+
         public override bool CanUseItem(Player player)
         {
             return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>());
         }
+
         public override bool? UseItem(Player player)
         {
             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>());

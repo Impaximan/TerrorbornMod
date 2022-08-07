@@ -7,6 +7,7 @@ using System;
 using Microsoft.Xna.Framework.Audio;
 using ReLogic.Content;
 using Terraria.Audio;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.TwilightMode
 {
@@ -15,6 +16,70 @@ namespace TerrorbornMod.TwilightMode
 		public override bool InstancePerEntity => true;
 		public bool twilight = false;
 		bool start = true;
+
+		public int fighter_TargetPlayerCounter = 0;
+		public int fighter_StillTime = 0;
+		public int fighter_JumpCooldown = 0;
+
+		public void ImprovedFighterAI(NPC NPC, float maxSpeed, float accelleration, float decelleration, float jumpSpeed, bool faceDirection = true, int jumpCooldown = 0, int stillTimeUntilTurnaround = 120, int wanderTime = 90)
+		{
+			Player player = Main.player[NPC.target];
+
+			if (fighter_TargetPlayerCounter > 0)
+			{
+				fighter_TargetPlayerCounter--;
+			}
+			else
+			{
+				NPC.TargetClosest(true);
+			}
+
+			if (Math.Abs(NPC.velocity.X) < maxSpeed - accelleration)
+			{
+				fighter_StillTime++;
+				if (fighter_StillTime > stillTimeUntilTurnaround && stillTimeUntilTurnaround != -1)
+				{
+					fighter_TargetPlayerCounter = wanderTime;
+					NPC.direction *= -1;
+					fighter_StillTime = 0;
+				}
+			}
+			else
+			{
+				fighter_StillTime = 0;
+			}
+
+			if (NPC.direction == 1 && NPC.velocity.X < maxSpeed)
+			{
+				NPC.velocity.X += accelleration;
+			}
+
+			if (NPC.direction == -1 && NPC.velocity.X > -maxSpeed)
+			{
+				NPC.velocity.X -= accelleration;
+			}
+
+			if (NPC.velocity.Y == 0)
+			{
+				if (fighter_JumpCooldown > 0)
+				{
+					fighter_JumpCooldown--;
+				}
+				else if (!Collision.SolidCollision(NPC.position + new Vector2(NPC.width * NPC.direction, NPC.height), NPC.width, 17) || Collision.SolidCollision(NPC.position + new Vector2(NPC.width * NPC.direction, 0), NPC.width, NPC.height) || (MathHelper.Distance(player.Center.X, NPC.Center.X) < NPC.width && player.position.Y + player.width < NPC.position.Y))
+				{
+					if (player.Center.Y < NPC.position.Y + NPC.height || Math.Abs(player.Center.X - NPC.Center.X) > 150)
+					{
+						NPC.velocity.Y -= jumpSpeed;
+						fighter_JumpCooldown = jumpCooldown;
+					}
+				}
+			}
+
+			if (faceDirection)
+			{
+				NPC.spriteDirection = NPC.direction;
+			}
+		}
 
 		public static TwilightNPC modNPC(NPC NPC)
 		{
@@ -53,6 +118,32 @@ namespace TerrorbornMod.TwilightMode
 				return;
             }
 
+			if (NPC.type == NPCID.Zombie)
+            {
+				if (NPC.downedMoonlord)
+				{
+					NPC.lifeMax = 3000;
+					NPC.damage = 80;
+				}
+                else
+                {
+					NPC.lifeMax *= 2;
+                }
+			}
+
+			if (NPC.type == NPCID.PossessedArmor)
+			{
+				if (NPC.downedMoonlord)
+				{
+					NPC.lifeMax = 5000;
+					NPC.damage = 100;
+				}
+				else
+				{
+					NPC.lifeMax *= 2;
+				}
+			}
+
 			if (NPC.boss)
 			{
 				NPC.lifeMax = (int)(NPC.lifeMax * 1.5f);
@@ -64,6 +155,11 @@ namespace TerrorbornMod.TwilightMode
 				NPC.knockBackResist *= 0.5f;
 				NPC.value *= 2f;
 			}
+
+			if (NPC.type == NPCID.Vulture)
+            {
+				NPC.knockBackResist = 0f;
+            }
         }
 
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
@@ -121,6 +217,80 @@ namespace TerrorbornMod.TwilightMode
             }
         }
 
+		bool slimeAI_Large = false;
+		float slimeAI_LargeMult = 1f;
+		public override void OnSpawn(NPC npc, IEntitySource source)
+		{
+			if (!TerrorbornSystem.TwilightMode)
+            {
+				return;
+            }
+			if (npc != null)
+			{
+				if (npc.aiStyle == 1) //Slime AI
+				{
+					List<int> largeBlacklist = new()
+					{
+						{ NPCID.LavaSlime },
+						{ NPCID.MotherSlime },
+						{ NPCID.Slimer },
+						{ ModContent.NPCType<NPCs.TarSludge>() }
+					};
+
+					if (source != null && source.Context != null)
+					{
+						if (Main.rand.NextBool(10) && source.Context != "slimeAI_fromLarge" && !largeBlacklist.Contains(npc.type))
+						{
+							slimeAI_LargeMult = Main.rand.NextFloat(1.35f, 2f);
+							npc.scale *= slimeAI_LargeMult;
+							npc.knockBackResist /= slimeAI_LargeMult;
+							npc.lifeMax = (int)(npc.lifeMax * slimeAI_LargeMult);
+							slimeAI_Large = true;
+							npc.life = npc.lifeMax;
+						}
+					}
+                    else
+					{
+						if (Main.rand.NextBool(10) && !largeBlacklist.Contains(npc.type))
+						{
+							slimeAI_LargeMult = Main.rand.NextFloat(1.35f, 2f);
+							npc.scale *= slimeAI_LargeMult;
+							npc.knockBackResist /= slimeAI_LargeMult;
+							npc.lifeMax = (int)(npc.lifeMax * slimeAI_LargeMult);
+							slimeAI_Large = true;
+							npc.life = npc.lifeMax;
+						}
+					}
+				}
+			}
+		}
+
+        public override void OnKill(NPC npc)
+		{
+			if (!TerrorbornSystem.TwilightMode)
+			{
+				return;
+			}
+			if (slimeAI_Large)
+            {
+				int smaller = NPC.NewNPC(npc.GetSource_Death("slimeAI_fromLarge"), (int)npc.Center.X, (int)npc.Center.Y, npc.type);
+				Main.npc[smaller].velocity = npc.velocity - new Vector2(4, 0);
+				Main.npc[smaller].scale *= slimeAI_LargeMult / 2f;
+				Main.npc[smaller].knockBackResist *= slimeAI_LargeMult * 1.25f;
+				Main.npc[smaller].lifeMax = (int)(Main.npc[smaller].lifeMax * slimeAI_LargeMult / 2f);
+				Main.npc[smaller].life = Main.npc[smaller].lifeMax;
+
+				smaller = NPC.NewNPC(npc.GetSource_Death("slimeAI_fromLarge"), (int)npc.Center.X, (int)npc.Center.Y, npc.type);
+				Main.npc[smaller].velocity = npc.velocity + new Vector2(4, 0);
+				Main.npc[smaller].scale *= slimeAI_LargeMult / 2f;
+				Main.npc[smaller].knockBackResist *= slimeAI_LargeMult * 1.25f;
+				Main.npc[smaller].lifeMax = (int)(Main.npc[smaller].lifeMax * slimeAI_LargeMult / 2f);
+				Main.npc[smaller].life = Main.npc[smaller].lifeMax;
+			}
+        }
+
+		int vultureAI_projectileCooldown = 30;
+		int vultureAI_projectileCounter = 0;
         public override bool PreAI(NPC NPC)
 		{
 			if (start)
@@ -129,50 +299,286 @@ namespace TerrorbornMod.TwilightMode
 			}
 			if (twilight)
 			{
+
+				if (NPC.aiStyle == 2) //Demon Eye AI
+				{
+					List<int> DemonEyeIDs = new List<int>()
+					{
+						{ 2 },
+						{ -43 },
+						{ 190 },
+						{ -38 },
+						{ 191 },
+						{ -39 },
+						{ 192 },
+						{ -40 },
+						{ 193 },
+						{ -41 },
+						{ 194 },
+						{ -42 },
+						{ 317 },
+						{ 318 },
+					};
+
+					if (DemonEyeIDs.Contains(NPC.type))
+					{
+						NPC.noGravity = true;
+
+						//Bounce off of tiles
+						if (!NPC.noTileCollide)
+						{
+							if (NPC.collideX)
+							{
+								NPC.velocity.X = NPC.oldVelocity.X * -0.5f;
+								if (NPC.direction == -1 && NPC.velocity.X > 0f && NPC.velocity.X < 2f)
+								{
+									NPC.velocity.X = 2f;
+								}
+								if (NPC.direction == 1 && NPC.velocity.X < 0f && NPC.velocity.X > -2f)
+								{
+									NPC.velocity.X = -2f;
+								}
+							}
+
+							if (NPC.collideY)
+							{
+								NPC.velocity.Y = NPC.oldVelocity.Y * -0.5f;
+								if (NPC.velocity.Y > 0f && NPC.velocity.Y < 1f)
+								{
+									NPC.velocity.Y = 1f;
+								}
+								if (NPC.velocity.Y < 0f && NPC.velocity.Y > -1f)
+								{
+									NPC.velocity.Y = -1f;
+								}
+							}
+						}
+
+						//Self explanatory
+						if (NPC.DespawnEncouragement_AIStyle2_FloatingEye_IsDiscouraged(NPC.type, NPC.position, NPC.target))
+						{
+							NPC.EncourageDespawn(10);
+							NPC.directionY = -1;
+							if (NPC.velocity.Y > 0f)
+							{
+								NPC.direction = 1;
+							}
+							NPC.direction = -1;
+							if (NPC.velocity.X > 0f)
+							{
+								NPC.direction = 1;
+							}
+						}
+						else
+						{
+							NPC.TargetClosest();
+						}
+
+						float num2 = 6f; //Max speed X, original is 4f
+						float num3 = 2f; //Max speed Y, original is 1.5f
+						num2 *= 1f + (1f - NPC.scale);
+						num3 *= 1f + (1f - NPC.scale);
+						if (NPC.direction == -1 && NPC.velocity.X > 0f - num2)
+						{
+							//Accellerate left
+							NPC.velocity.X -= 0.15f; //0.1f originally
+							if (NPC.velocity.X > num2)
+							{
+								NPC.velocity.X -= 0.15f; //0.1f originally
+							}
+							else if (NPC.velocity.X > 0f)
+							{
+								NPC.velocity.X += 0.05f; //0.05f originally
+							}
+							if (NPC.velocity.X < 0f - num2)
+							{
+								NPC.velocity.X = 0f - num2;
+							}
+						}
+						else if (NPC.direction == 1 && NPC.velocity.X < num2)
+						{
+							//Accellerate right
+							NPC.velocity.X += 0.15f; //0.1f originally
+							if (NPC.velocity.X < 0f - num2)
+							{
+								NPC.velocity.X += 0.15f; //0.1f originally
+							}
+							else if (NPC.velocity.X < 0f)
+							{
+								NPC.velocity.X -= 0.05f; //0.05f originally
+							}
+							if (NPC.velocity.X > num2)
+							{
+								NPC.velocity.X = num2;
+							}
+						}
+						if (NPC.directionY == -1 && NPC.velocity.Y > 0f - num3)
+						{
+							//Accellerate up
+							NPC.velocity.Y -= 0.1f; //0.04f originally
+							if (NPC.velocity.Y > num3)
+							{
+								NPC.velocity.Y -= 0.05f; //0.05f originally
+							}
+							else if (NPC.velocity.Y > 0f)
+							{
+								NPC.velocity.Y += 0.03f; //0.03f originally
+							}
+							if (NPC.velocity.Y < 0f - num3)
+							{
+								NPC.velocity.Y = 0f - num3;
+							}
+						}
+						else if (NPC.directionY == 1 && NPC.velocity.Y < num3)
+						{
+							//Accellerate down
+							NPC.velocity.Y += 0.04f; //0.04f originally
+							if (NPC.velocity.Y < 0f - num3)
+							{
+								NPC.velocity.Y += 0.05f; //0.05f originally
+							}
+							else if (NPC.velocity.Y < 0f)
+							{
+								NPC.velocity.Y -= 0.03f; //0.03f originally
+							}
+							if (NPC.velocity.Y > num3)
+							{
+								NPC.velocity.Y = num3;
+							}
+						}
+
+						if ((NPC.type == NPCID.DemonEye || NPC.type == NPCID.WanderingEye || NPC.type == NPCID.CataractEye || NPC.type == NPCID.SleepyEye || NPC.type == NPCID.DialatedEye || NPC.type == NPCID.GreenEye || NPC.type == NPCID.PurpleEye) && Main.rand.NextBool(40))
+						{
+							NPC.position += NPC.netOffset;
+							int num4 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y + (float)NPC.height * 0.25f), NPC.width, (int)((float)NPC.height * 0.5f), DustID.Blood, NPC.velocity.X, 2f);
+							Main.dust[num4].velocity.X *= 0.5f;
+							Main.dust[num4].velocity.Y *= 0.1f;
+							NPC.position -= NPC.netOffset;
+						}
+						return false;
+					}
+				}
+
+				if (NPC.aiStyle == 3) //Fighter AI
+                {
+					if (NPC.type == NPCID.SlimedZombie)
+					{
+						if (NPC.downedMoonlord)
+						{
+							ImprovedFighterAI(NPC, 10f, 0.5f, 0.93f, 15f, true, 15, -1, 90);
+						}
+						else if (Main.hardMode)
+						{
+							ImprovedFighterAI(NPC, 6f, 0.3f, 0.93f, 10f, true, 30, -1, 90);
+						}
+						else
+						{
+							ImprovedFighterAI(NPC, 4f, 0.3f, 0.93f, 6.5f, true, 60, -1, 90);
+						}
+						return false;
+					}
+					if (NPC.type == NPCID.PossessedArmor)
+					{
+						if (NPC.downedMoonlord)
+						{
+							ImprovedFighterAI(NPC, 12f, 0.5f, 0.93f, 18f, true, 0, -1, 90);
+						}
+						else
+						{
+							ImprovedFighterAI(NPC, 7.5f, 0.3f, 0.93f, 12f, true, 0, -1, 90);
+						}
+						return false;
+					}
+				}
+
 				if (NPC.aiStyle == 4)
 				{
 					EyeOfCthulhuAI(NPC);
 					return false;
 				}
+
 				if (NPC.aiStyle == 15)
 				{
 					KingSlimeAI(NPC);
 					return false;
 				}
+
+				if (NPC.aiStyle == 17 && NPC.type == NPCID.Vulture)
+                {
+					if (NPC.ai[0] == 1 && !Main.player[NPC.target].dead)
+                    {
+						vultureAI_projectileCooldown--;
+						if (vultureAI_projectileCooldown <= 0)
+                        {
+							vultureAI_projectileCooldown = 360;
+							vultureAI_projectileCounter = 60;
+							SoundEngine.PlaySound(SoundID.Item46, NPC.Center);
+
+						}
+                    }
+
+					if (vultureAI_projectileCounter > 0)
+                    {
+						vultureAI_projectileCounter--;
+						NPC.velocity -= NPC.DirectionTo(Main.player[NPC.target].Center) * 14f / 60f;
+						if (vultureAI_projectileCounter <= 0)
+                        {
+							SoundEngine.PlaySound(SoundID.Item102, NPC.Center);
+							float spread = MathHelper.ToRadians(90f);
+							float amount = 5f;
+							if (Main.masterMode)
+                            {
+								amount = 7f;
+                            }
+							for (float i = -0.5f; i <= 0.5f; i += 1f / (amount - 1f))
+                            {
+								Vector2 velocity = NPC.DirectionTo(Main.player[NPC.target].Center).RotatedBy(spread * i) * 7.5f;
+								Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, velocity, ModContent.ProjectileType<Projectiles.VultureFeather>(), NPC.damage / 6, 0f);
+                            }
+							NPC.velocity -= NPC.DirectionTo(Main.player[NPC.target].Center) * 5f;
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+
 				if (NPC.aiStyle == 43)
 				{
 					QueenBeeAI(NPC);
 					return false;
 				}
+
 				if (NPC.aiStyle == 84)
 				{
 					LunaticCultistAI(NPC);
 					return false;
 				}
+
 				if (NPC.aiStyle == 54)
 				{
 					BrainOfCthulhuAI(NPC);
 					return false;
 				}
+
 				if (NPC.aiStyle == 27)
 				{
 					WoFMouthAI(NPC);
 					return false;
 				}
+
 				if (NPC.aiStyle == 28)
 				{
 					WoFEyeAI(NPC);
 					return false;
 				}
+
 				if (NPC.aiStyle == 6)
 				{
 					WormAI(NPC);
 					return false;
 				}
-				if (NPC.aiStyle == 3)
-                {
-
-                }
 			}
 			start = false;
 			return base.PreAI(NPC);
@@ -3907,11 +4313,11 @@ namespace TerrorbornMod.TwilightMode
 					}
 				}
 			}
-			if (npc.type >= 621 && npc.type <= 623)
+			if (npc.type >= NPCID.BloodEelHead && npc.type <= NPCID.BloodEelTail)
 			{
 				npc.position += npc.netOffset;
 				npc.dontTakeDamage = npc.alpha > 0;
-				if (npc.type == 621 || (npc.type != 621 && Main.npc[(int)npc.ai[1]].alpha < 85))
+				if (npc.type == NPCID.BloodEelHead || (npc.type != NPCID.BloodEelHead && Main.npc[(int)npc.ai[1]].alpha < 85))
 				{
 					if (npc.dontTakeDamage)
 					{
@@ -4005,7 +4411,7 @@ namespace TerrorbornMod.TwilightMode
 					npc.velocity.Y += num55;
 				}
 			}
-			if (npc.type == 621 && Main.dayTime)
+			if (npc.type == NPCID.BloodEelHead && Main.dayTime)
 			{
 				npc.EncourageDespawn(60);
 				npc.velocity.Y += 1f;
@@ -4133,7 +4539,7 @@ namespace TerrorbornMod.TwilightMode
 						num10 = num9;
 					}
 				}
-				if (npc.type == 621 && npc.ai[0] == 0f)
+				if (npc.type == NPCID.BloodEelHead && npc.ai[0] == 0f)
 				{
 					npc.ai[3] = npc.whoAmI;
 					npc.realLife = npc.whoAmI;
@@ -4431,7 +4837,7 @@ namespace TerrorbornMod.TwilightMode
 				flag2 = true;
 			}
 
-			if (npc.type >= 621 && npc.type <= 623)
+			if (npc.type >= NPCID.BloodEelHead && npc.type <= NPCID.BloodEelTail)
 			{
 				flag2 = true;
 			}
@@ -4467,7 +4873,7 @@ namespace TerrorbornMod.TwilightMode
 					}
 				}
 			}
-            if (!flag2 && (npc.type == NPCID.DevourerHead || npc.type == NPCID.GiantWormHead || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.BoneSerpentHead || npc.type == NPCID.DiggerHead || npc.type == NPCID.SeekerHead || npc.type == NPCID.LeechHead || npc.type == NPCID.TruffleWormDigger || npc.type == NPCID.CultistDragonHead || npc.type == NPCID.DuneSplicerHead || npc.type == NPCID.TombCrawlerHead || npc.type == 621))
+            if (!flag2 && (npc.type == NPCID.DevourerHead || npc.type == NPCID.GiantWormHead || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.BoneSerpentHead || npc.type == NPCID.DiggerHead || npc.type == NPCID.SeekerHead || npc.type == NPCID.LeechHead || npc.type == NPCID.TruffleWormDigger || npc.type == NPCID.CultistDragonHead || npc.type == NPCID.DuneSplicerHead || npc.type == NPCID.TombCrawlerHead || npc.type == NPCID.BloodEelHead))
             {
                 Rectangle rectangle = default(Rectangle);
                 rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
@@ -4491,7 +4897,7 @@ namespace TerrorbornMod.TwilightMode
                     flag2 = true;
                 }
             }
-            if ((npc.type >= NPCID.WyvernHead && npc.type <= NPCID.WyvernTail) || (npc.type >= NPCID.CultistDragonHead && npc.type <= NPCID.CultistDragonTail) || (npc.type >= 621 && npc.type <= 623))
+            if ((npc.type >= NPCID.WyvernHead && npc.type <= NPCID.WyvernTail) || (npc.type >= NPCID.CultistDragonHead && npc.type <= NPCID.CultistDragonTail) || (npc.type >= NPCID.BloodEelHead && npc.type <= NPCID.BloodEelTail))
 			{
 				if (npc.velocity.X < 0f)
 				{
@@ -4531,13 +4937,13 @@ namespace TerrorbornMod.TwilightMode
 				npc.position += npc.netOffset;
 				Vector2 value = npc.Center + (npc.rotation - (float)Math.PI / 2f).ToRotationVector2() * 8f;
 				Vector2 value2 = npc.rotation.ToRotationVector2() * 16f;
-				Dust obj = Main.dust[Dust.NewDust(value + value2, 0, 0, 6, npc.velocity.X, npc.velocity.Y, 100, Color.Transparent, 1f + Main.rand.NextFloat() * 3f)];
+				Dust obj = Main.dust[Dust.NewDust(value + value2, 0, 0, DustID.Torch, npc.velocity.X, npc.velocity.Y, 100, Color.Transparent, 1f + Main.rand.NextFloat() * 3f)];
 				obj.noGravity = true;
 				obj.noLight = true;
 				obj.position -= new Vector2(4f);
 				obj.fadeIn = 1f;
 				obj.velocity = Vector2.Zero;
-				Dust obj2 = Main.dust[Dust.NewDust(value - value2, 0, 0, 6, npc.velocity.X, npc.velocity.Y, 100, Color.Transparent, 1f + Main.rand.NextFloat() * 3f)];
+				Dust obj2 = Main.dust[Dust.NewDust(value - value2, 0, 0, DustID.Torch, npc.velocity.X, npc.velocity.Y, 100, Color.Transparent, 1f + Main.rand.NextFloat() * 3f)];
 				obj2.noGravity = true;
 				obj2.noLight = true;
 				obj2.position -= new Vector2(4f);
@@ -4595,7 +5001,7 @@ namespace TerrorbornMod.TwilightMode
 				num39 = 11f;
 				num40 = 0.25f;
 			}
-			if (npc.type == 621)
+			if (npc.type == NPCID.BloodEelHead)
 			{
 				num39 = 15f;
 				num40 = 0.45f;
@@ -4779,7 +5185,7 @@ namespace TerrorbornMod.TwilightMode
 				{
 					num57 += 6;
 				}
-				if (npc.type >= 621 && npc.type <= 623)
+				if (npc.type >= NPCID.BloodEelHead && npc.type <= NPCID.BloodEelTail)
 				{
 					num57 = 24;
 				}
@@ -4815,7 +5221,7 @@ namespace TerrorbornMod.TwilightMode
 						npc.spriteDirection = -1;
 					}
 				}
-				if (npc.type >= 621 && npc.type <= 623)
+				if (npc.type >= NPCID.BloodEelHead && npc.type <= NPCID.BloodEelTail)
 				{
 					if (num41 < 0f)
 					{
@@ -4873,7 +5279,7 @@ namespace TerrorbornMod.TwilightMode
 				}
 				else
 				{
-					if (npc.type != 621 && npc.type != NPCID.WyvernHead && npc.type != NPCID.LeechHead && npc.type != NPCID.CultistDragonHead && npc.type != NPCID.SolarCrawltipedeHead && npc.soundDelay == 0)
+					if (npc.type != NPCID.BloodEelHead && npc.type != NPCID.WyvernHead && npc.type != NPCID.LeechHead && npc.type != NPCID.CultistDragonHead && npc.type != NPCID.SolarCrawltipedeHead && npc.soundDelay == 0)
 					{
 						float num58 = num56 / 40f;
 						if (num58 < 10f)
@@ -4970,10 +5376,10 @@ namespace TerrorbornMod.TwilightMode
 							}
 						}
 					}
-					if (npc.type == NPCID.CultistDragonHead || npc.type == 621)
+					if (npc.type == NPCID.CultistDragonHead || npc.type == NPCID.BloodEelHead)
 					{
 						float num64 = 300f;
-						if (npc.type == 621)
+						if (npc.type == NPCID.BloodEelHead)
 						{
 							num64 = 120f;
 						}
@@ -5092,7 +5498,7 @@ namespace TerrorbornMod.TwilightMode
 					}
 				}
 				npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
-				if (npc.type == NPCID.DevourerHead || npc.type == NPCID.GiantWormHead || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.BoneSerpentHead || npc.type == NPCID.DiggerHead || npc.type == NPCID.SeekerHead || npc.type == NPCID.LeechHead || npc.type == NPCID.DuneSplicerHead || npc.type == NPCID.TombCrawlerHead || npc.type == 621)
+				if (npc.type == NPCID.DevourerHead || npc.type == NPCID.GiantWormHead || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.BoneSerpentHead || npc.type == NPCID.DiggerHead || npc.type == NPCID.SeekerHead || npc.type == NPCID.LeechHead || npc.type == NPCID.DuneSplicerHead || npc.type == NPCID.TombCrawlerHead || npc.type == NPCID.BloodEelHead)
 				{
 					if (flag2)
 					{

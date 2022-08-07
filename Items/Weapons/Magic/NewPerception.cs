@@ -49,6 +49,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
             CreateRecipe()
                 .AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 3)
                 .AddIngredient(ItemID.LunarBar, 10)
+                .AddIngredient(ModContent.ItemType<PearlyEyedStaff>())
+                .AddIngredient(ItemID.FragmentNebula, 12)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
         }

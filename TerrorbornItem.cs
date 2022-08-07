@@ -248,6 +248,7 @@ namespace TerrorbornMod
                 item.damage = 65;
             }
 
+
             if (canBeThrown)
             {
                 if (item.DamageType == DamageClass.Ranged)

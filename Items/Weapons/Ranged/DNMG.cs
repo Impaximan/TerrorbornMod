@@ -4,12 +4,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
+using Terraria.Audio;
 
 namespace TerrorbornMod.Items.Weapons.Ranged
 {
     class DNMG : ModItem
     {
-        int baseReuseDelay = 17;
+        int baseReuseDelay = 13;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("D.N.M.G");
@@ -17,11 +18,16 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 "\nUpon reaching max speed it will fire a mini nuke that does not destroy tiles and reset its speed");
         }
 
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
+
         public override void SetDefaults()
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.critDamageMult = 1.3f;
-            Item.damage = 115;
+            Item.damage = 100;
             Item.DamageType = DamageClass.Ranged;
             Item.noMelee = true;
             Item.autoReuse = true;
@@ -30,7 +36,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Item.useTime = 4;
             Item.useAnimation = 4;
             Item.knockBack = 1f;
-            Item.UseSound = SoundID.Item11; //TODO: Make this a custom sound
+            Item.UseSound = new SoundStyle("TerrorbornMod/Sounds/Effects/CoolerMachineGun");
 
             Item.shoot = ProjectileID.PurificationPowder;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -53,6 +59,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             CreateRecipe()
                 .AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 3)
                 .AddIngredient(ItemID.LunarBar, 10)
+                .AddIngredient(ModContent.ItemType<Bonezooka>())
+                .AddIngredient(ItemID.FragmentVortex, 12)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
         }
@@ -84,7 +92,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             if (nextShotIsNuke)
             {
                 nextShotIsNuke = false;
-                SoundExtensions.PlaySoundOld(SoundID.Item61, player.Center);
+                SoundStyle style = new SoundStyle("TerrorbornMod/Sounds/Effects/Gunfire1");
+                style.Volume *= 0.75f;
+                style.PitchVariance = 0.15f;
+                SoundEngine.PlaySound(style, player.Center);
                 Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), ModContent.ProjectileType<MiniNuke>(), damage * 2, knockback * 5f, player.whoAmI);
             }
             return base.Shoot(player, source, position, velocity, type, damage, knockback);

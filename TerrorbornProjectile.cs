@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod
 {
@@ -240,7 +241,13 @@ namespace TerrorbornMod
         bool superthrow = false;
         public void OnSpawn(Projectile Projectile)
         {
-            Player player = Main.player[Projectile.owner];
+
+            
+        }
+
+        public override void OnSpawn(Projectile projectile, IEntitySource source)
+        {
+            Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             List<int> bannedProjectiles = new List<int>
@@ -253,12 +260,17 @@ namespace TerrorbornMod
 
             if (player.HeldItem != null && player != null)
             {
-                if (modPlayer.SuperthrowNext && TerrorbornItem.modItem(player.HeldItem).countAsThrown && Projectile.friendly)
+                if (modPlayer.SuperthrowNext && TerrorbornItem.modItem(player.HeldItem).countAsThrown && projectile.friendly)
                 {
-                    Projectile.extraUpdates = (Projectile.extraUpdates * 2) + 1;
+                    projectile.extraUpdates = (projectile.extraUpdates * 2) + 1;
                     superthrow = true;
                     modPlayer.SuperthrowNext = false;
                 }
+            }
+
+            if (projectile.type == ProjectileID.Celeb2Rocket || projectile.type == ProjectileID.Celeb2RocketExplosive || projectile.type == ProjectileID.Celeb2RocketExplosiveLarge || projectile.type == ProjectileID.Celeb2RocketLarge)
+            {
+                projectile.damage = (int)(projectile.damage * 0.65f);
             }
         }
 

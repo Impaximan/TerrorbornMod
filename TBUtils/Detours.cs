@@ -42,6 +42,7 @@ namespace TerrorbornMod.TBUtils
         static int flipState = 1;
         static int currentSpriteEffects = 1;
         const float fogMovementMultiplier = 1.25f;
+        static float windPosition = 0f;
 
         private static void DrawOvertopGraphics(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
@@ -105,6 +106,25 @@ namespace TerrorbornMod.TBUtils
             }
 
             Main.spriteBatch.End();
+
+            if (Dreadwind.DreadwindSystem.DreadwindActive)
+            {
+                Main.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.Additive);
+
+                windPosition += 0.2f / 60f;
+                if (windPosition >= 1f)
+                {
+                    windPosition = 0f;
+                }
+
+                float scale = (float)Main.screenHeight / (float)TerrorbornMod.DreadwindTexture.Height;
+                float opaqueness = 0.5f;
+
+                Main.spriteBatch.Draw(TerrorbornMod.DreadwindTexture, new Vector2(-windPosition * (float)TerrorbornMod.DreadwindTexture.Width * scale, 0), null, Dreadwind.DreadwindSystem.CurrentDreadwindColor * opaqueness, 0f, new Vector2(0, 0), scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(TerrorbornMod.DreadwindTexture, new Vector2(-windPosition * (float)TerrorbornMod.DreadwindTexture.Width + TerrorbornMod.DreadwindTexture.Width, 0) * scale, null, Dreadwind.DreadwindSystem.CurrentDreadwindColor * opaqueness, 0f, new Vector2(0, 0), scale, SpriteEffects.None, 0f);
+
+                Main.spriteBatch.End();
+            }
 
             orig(self, gameTime);
         }

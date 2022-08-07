@@ -245,11 +245,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         }
                         if (loreText == 2) //Who leads the demons?
                         {
-                            Main.npcChatText = "For an extremely long time, nobody. Currently, also nobody. But for a brief period of time when the humans and an Anekronian used the demons' power, presumably in order to create the seal, a new leader was born. I'm not entirely sure what happened to said leader- all I know is that he was once human and was overtaken by greed and envy, seizing a ton of soul power for himself and ascending to 'divinity'. This only resulted in his very being melting away, not able to contain the power he had gained.";
+                            Main.npcChatText = "There have been multiple rulers and clans of demons in the past. Right now, they completely lack a leader and have no true main motive, as far as I know. Back up in the Sisyphean Islands, we were trying to build a new home since many of the demons were displaced after the destruction of the seal, so I suppose it's starting to become a collaborative demonic process. How heartwarming.";
                         }
                         if (loreText == 3) //What happened to the people who built the seal?
                         {
-                            Main.npcChatText = "When they (the Orumians) had indirectly created a new leader for the demons, that leader suddenly became... furious with them, for a reason nobody was quite able to understand. He went into a frenzy, killing his former leaders and leaving his former home without order. Anarchy had begun in Orume, and a terrible infection had taken the kingdom over. TL;DR they all died.";
+                            Main.npcChatText = "When the current archangel of purgatory, Phobos, discovered what the creators of the seal had done, he became absolutely furious with them. Most of them were killed, leaving Orume leaderless, but the anekronian escaped. The lesson to learn from this story is not to mess with hell energy, Phobos is no joke.";
                         }
                         if (loreText == 4) //How do you know so much about demons?
                         {

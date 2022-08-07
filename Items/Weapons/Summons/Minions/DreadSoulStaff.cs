@@ -15,6 +15,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             CreateRecipe()
                 .AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 3)
                 .AddIngredient(ItemID.LunarBar, 10)
+                .AddIngredient(ModContent.ItemType<IncendiusStaff>())
+                .AddIngredient(ItemID.FragmentStardust, 12)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
         }

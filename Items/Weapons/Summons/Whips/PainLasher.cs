@@ -30,6 +30,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Whips
             CreateRecipe()
                 .AddIngredient(ModContent.ItemType<Items.Materials.TorturedEssence>(), 3)
                 .AddIngredient(ItemID.LunarBar, 10)
+                .AddIngredient(ItemID.RainbowWhip)
+                .AddIngredient(ItemID.FragmentStardust, 12)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
         }
@@ -88,7 +90,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Whips
 
             if (Projectile.ai[1] == 2)
             {
-                Projectile.ai[0] -= 2f/* / player.GetWeaponAttackSpeed(player.HeldItem)*/;
+                Projectile.ai[0] -= 2f;
                 if (Projectile.ai[0] <= 0)
                 {
                     Projectile.active = false;

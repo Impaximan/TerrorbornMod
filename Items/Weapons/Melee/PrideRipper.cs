@@ -20,6 +20,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
             CreateRecipe()
                 .AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 3)
                 .AddIngredient(ItemID.LunarBar, 10)
+                .AddIngredient(ItemID.NorthPole)
+                .AddIngredient(ItemID.FragmentSolar, 12)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
 
@@ -124,7 +126,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             {
                 ProjectileCounter = 0;
                 Vector2 velocity = Projectile.velocity.ToRotation().ToRotationVector2() * movementFactor;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DreadLight>(), Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DreadLight>(), Projectile.damage / 3, Projectile.knockBack / 2, Projectile.owner);
             }
         }
     }

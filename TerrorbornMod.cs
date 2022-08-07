@@ -11,6 +11,13 @@ using Terraria.ModLoader;
 using ReLogic.Content;
 using Terraria.GameContent.UI;
 using Microsoft.Xna.Framework.Audio;
+using Terraria.GameContent;
+using TerrorbornMod.NPCs.Bosses;
+using TerrorbornMod.NPCs.Bosses.InfectedIncarnate;
+using TerrorbornMod.NPCs.Bosses.PrototypeI;
+using TerrorbornMod.NPCs.Bosses.TidalTitan;
+using TerrorbornMod.NPCs.Bosses.HexedConstructor;
+using TerrorbornMod.Dreadwind;
 
 namespace TerrorbornMod
 {
@@ -200,6 +207,9 @@ namespace TerrorbornMod
 
         public static List<int> GoldenChestLore = new List<int>();
         private static string savingFolder = Path.Combine(Main.SavePath, "Mods", "Cache");
+
+        public static Texture2D DreadwindTexture;
+
         public override void Load()
         {
             GoldenChestLore.Clear();
@@ -220,6 +230,8 @@ namespace TerrorbornMod
             OpenTerrorAbilityMenu = KeybindLoader.RegisterKeybind(this, "Open/Close Terror Ability Menu", "P");
             Parry = KeybindLoader.RegisterKeybind(this, "Parry", "Mouse4");
             CombatTokenCustomCurrencyId = CustomCurrencyManager.RegisterCurrency(new CombatTokenCurrency(ModContent.ItemType<CombatToken>(), 999L));
+
+            DreadwindTexture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Dreadwind/Wind", AssetRequestMode.ImmediateLoad);
 
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/RiveterSound", AssetRequestMode.ImmediateLoad);
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/RiveterDrawSound", AssetRequestMode.ImmediateLoad);
@@ -303,8 +315,23 @@ namespace TerrorbornMod
         public override void Unload()
         {
             TBUtils.Detours.Unload();
-            //Main.rainTexture = (Texture2D)ModContent.Request<Texture2D>("Terraria/Rain");
             //Main.manaTexture = (Texture2D)ModContent.Request<Texture2D>("Terraria/Mana");
+
+            //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/RiveterDrawSound").Dispose();
+            //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/CoolerMachineGun").Dispose();
+            //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/HexedConstructorDeath").Dispose();
+            //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/Gunfire1").Dispose();
+            //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/PrototypeIBeat").Dispose();
+            //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/PrototypeIExplosion").Dispose();
+            //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/PrototypeIRoar").Dispose();
+            //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/ThunderAmbience").Dispose();
+            //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/TTSplash").Dispose();
+            //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/undertalewarning").Dispose();
+
+            //ModContent.Request<Texture2D>("TerrorbornMod/MainMenuForeground1").Dispose();
+            //ModContent.Request<Texture2D>("TerrorbornMod/WhitePixel").Dispose();
+
+            //ModContent.Request<Texture2D>("TerrorbornMod/Dreadwind/Wind").Dispose();
         }
 
         public static Vector2 screenFollowPosition;
@@ -327,6 +354,116 @@ namespace TerrorbornMod
             Main.spriteBatch.Draw(texture, position - Main.screenPosition, null, Color.White, 0f, texture.Size() / 2f, 10f, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
         }
+
+        public override void PostSetupContent()
+        {
+            ModLoader.TryGetMod("BossChecklist", out Mod bossChecklist);
+            if (bossChecklist != null)
+            {
+                bossChecklist.Call("AddBoss", //Which method is being used
+                    this, //Mod instance
+                    "Infected Incarnate", //Boss name
+                    ModContent.NPCType<InfectedIncarnate>(), //Boss ID
+                    1.5f, //Progression placement
+                    (Func<bool>)(() => TerrorbornSystem.downedInfectedIncarnate), //Downed bool
+                    () => true, //Availability (ie make this false if you want to hide the checklist entry)
+                    new List<int>(), // Collectibles
+                    new List<int>(), // Summoning items
+                    "Once you've obtained Shriek of Horror, find a strange chamber, the entrance to which is found in the snow biome. In the chamber use Shriek of Horror, and your foe will awake.", //Spawn description
+                    "And so the battle ended, both incarnates a shadow of their former selves...", //Despawn message, DELETE THIS FOR EVENTS
+                    //PUT DRAWCODE FOR THE ENTRY HERE
+                    (SpriteBatch sb, Rectangle rect, Color color) => {
+                        Texture2D texture = ModContent.Request<Texture2D>("TerrorbornMod/BossChecklist/InfectedIncarnate").Value;
+                        Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
+                        sb.Draw(texture, centered, color);
+                    });
+
+                bossChecklist.Call("AddBoss", //Which method is being used
+                    this, //Mod instance
+                    "Mysterious Crab", //Boss name
+                    ModContent.NPCType<MysteriousCrab>(), //Boss ID
+                    3.5f, //Progression placement
+                    () => TerrorbornSystem.downedMysteriousCrab, //Downed bool
+                    () => true, //Availability (ie make this false if you want to hide the checklist entry)
+                    new List<int>(), // Collectibles
+                    new List<int>()
+                    {
+                        { ModContent.ItemType<Items.LunarRitual>() }
+                    }, // Summoning items
+                    "Spawns in the ocean during the night. Legends say that it's choice food for some mighty aquatic animals...", //Spawn description
+                    "Well, there goes the crab.", //Despawn message, DELETE THIS FOR EVENTS
+                    //PUT DRAWCODE FOR THE ENTRY HERE
+                    (SpriteBatch sb, Rectangle rect, Color color) => {
+                        Texture2D texture = ModContent.Request<Texture2D>("TerrorbornMod/BossChecklist/MysteriousCrab").Value;
+                        Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
+                        sb.Draw(texture, centered, color);
+                    });
+
+                bossChecklist.Call("AddBoss", //Which method is being used
+                    this, //Mod instance
+                    "Azuredire", //Boss name
+                    ModContent.NPCType<TidalTitan>(), //Boss ID
+                    3.501f, //Progression placement
+                    () => TerrorbornSystem.downedTidalTitan, //Downed bool
+                    () => TerrorbornSystem.downedMysteriousCrab, //Availability (ie make this false if you want to hide the checklist entry)
+                    new List<int>(), // Collectibles
+                    new List<int>()
+                    {
+                        { ModContent.ItemType<Items.LunarRitual>() }
+                    }, // Summoning items
+                    "Kill a mysterious crab (see the previous entry)", //Spawn description
+                    "The mighty aquatic beast returns to its slumber in the depths.", //Despawn message, DELETE THIS FOR EVENTS
+                                                  //PUT DRAWCODE FOR THE ENTRY HERE
+                    (SpriteBatch sb, Rectangle rect, Color color) => {
+                        Texture2D texture = ModContent.Request<Texture2D>("TerrorbornMod/BossChecklist/TidalTitan").Value;
+                        Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
+                        sb.Draw(texture, centered, color);
+                    }); 
+                
+                bossChecklist.Call("AddBoss", //Which method is being used
+                    this, //Mod instance
+                    "Dunestock", //Boss name
+                    ModContent.NPCType<Dunestock>(), //Boss ID
+                    6.5f, //Progression placement
+                    () => TerrorbornSystem.downedDunestock, //Downed bool
+                    () => true, //Availability (ie make this false if you want to hide the checklist entry)
+                    new List<int>(), // Collectibles
+                    new List<int>()
+                    {
+                        { ModContent.ItemType<Items.DriedCanteen>() }
+                    }, // Summoning items
+                    "Use a [i/s1: " + ModContent.ItemType<Items.DriedCanteen>() + "] anywhere at any time in the desert.", //Spawn description
+                    "The starving abomination flies off, looking forward to its next feast.", //Despawn message, DELETE THIS FOR EVENTS
+                                                                                      //PUT DRAWCODE FOR THE ENTRY HERE
+                    (SpriteBatch sb, Rectangle rect, Color color) => {
+                        Texture2D texture = ModContent.Request<Texture2D>("TerrorbornMod/BossChecklist/Dunestock").Value;
+                        Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
+                        sb.Draw(texture, centered, color);
+                    });
+
+                bossChecklist.Call("AddBoss", //Which method is being used
+                    this, //Mod instance
+                    "Hexed Constructor", //Boss name
+                    ModContent.NPCType<HexedConstructor>(), //Boss ID
+                    9.5f, //Progression placement
+                    () => TerrorbornSystem.downedIncendiaryBoss, //Downed bool
+                    () => true, //Availability (ie make this false if you want to hide the checklist entry)
+                    new List<int>(), // Collectibles
+                    new List<int>()
+                    {
+                        { ModContent.ItemType<Items.AccursedClock>() }
+                    }, // Summoning items
+                    "Use an [i/s1: " + ModContent.ItemType<Items.AccursedClock>() + "] within the Sisyphean Islands biome at any time.", //Spawn description
+                    "The possessed machine hovers away, its clock still ticking.", //Despawn message, DELETE THIS FOR EVENTS
+                                                                                              //PUT DRAWCODE FOR THE ENTRY HERE
+                    (SpriteBatch sb, Rectangle rect, Color color) => {
+                        Texture2D texture = ModContent.Request<Texture2D>("TerrorbornMod/BossChecklist/HexedConstructor").Value;
+                        Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
+                        sb.Draw(texture, centered, color);
+                    });
+            }
+        }
+
         //public override void PostSetupContent()
         //{
         //    Mod yabhb = ModLoader.GetMod("FKBossHealthBar");
@@ -363,7 +500,7 @@ namespace TerrorbornMod
         //        bossChecklist.Call("AddMiniBossWithInfo", "Frightcrawler", 6.07f, (Func<bool>)(() => TerrorbornSystem.downedFrightcrawler), "Spawns during the Astraphobia event (see above).");
         //        bossChecklist.Call("AddMiniBossWithInfo", "Dread Angel", 15.05f, (Func<bool>)(() => TerrorbornSystem.downedDreadAngel), "Spawns in the Sisyphean Islands biome after Moon Lord has been defeated.");
         //        bossChecklist.Call("AddEventWithInfo", "Dreadwind", 16f, (Func<bool>)(() => TerrorbornSystem.downedDreadwind), "Not written yet.");
-        //        bossChecklist.Call("AddBossWithInfo", "Uriel", 16.01f, (Func<bool>)(() => TerrorbornSystem.downedUriel), "Spawns at the end of the Dreadwind event.");
+        //        bossChecklist.Call("AddBossWithInfo", "Phobos", 16.01f, (Func<bool>)(() => TerrorbornSystem.downedPhobos), "Spawns at the end of the Dreadwind event.");
         //    }
         //}
     }
