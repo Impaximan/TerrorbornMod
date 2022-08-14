@@ -159,7 +159,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.BossTitle = "Infected Incarnate";
             modNPC.BossSubtitle = "Prototype III";
-            modNPC.BossDefeatTitle = "Possessed Anekronian";
+            modNPC.BossDefeatTitle = "Greater Undead";
             modNPC.BossTitleColor = new Color(255, 116, 39);
         }
 

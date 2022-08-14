@@ -137,7 +137,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             modNPC.BossTitle = "Hexed Constructor";
             modNPC.BossSubtitle = "Possessed Builder of the Seal";
             modNPC.BossTitleColor = new Color(191, 82, 58);
-            modNPC.BossDefeatTitle = "Greater Demon";
+            modNPC.BossDefeatTitle = "Supreme Puppet";
         }
 
         int frame = 0;
