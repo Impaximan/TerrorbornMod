@@ -165,7 +165,7 @@ namespace TerrorbornMod.Dreadwind.NPCs
                 NPC.velocity.Y = 15;
                 IrisCentered = false;
                 IrisDirection = MathHelper.ToRadians(90);
-                if (NPC.velocity.Y > Main.screenHeight + player.Center.Y)
+                if (NPC.Center.Y > Main.screenHeight + player.Center.Y)
                 {
                     NPC.active = false;
                 }

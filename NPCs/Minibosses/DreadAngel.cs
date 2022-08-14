@@ -47,6 +47,7 @@ namespace TerrorbornMod.NPCs.Minibosses
             modNPC.getsTitleCard = true;
             modNPC.BossTitle = "Dread Angel";
             modNPC.BossSubtitle = "Servant of Phobos";
+            modNPC.BossDefeatTitle = "Greater Angel";
             modNPC.BossTitleColor = Color.Goldenrod;
         }
 

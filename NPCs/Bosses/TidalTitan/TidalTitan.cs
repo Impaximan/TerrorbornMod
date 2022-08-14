@@ -154,6 +154,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.BossTitle = "Azuredire";
             modNPC.BossSubtitle = "Terrific Tidal Titan";
+            modNPC.BossDefeatTitle = "Greater Sea Creature";
             modNPC.BossTitleColor = Color.SkyBlue;
         }
 

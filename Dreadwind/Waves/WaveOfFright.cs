@@ -14,7 +14,13 @@ namespace TerrorbornMod.Dreadwind.Waves
 
         public override void InitializeWave(Player player)
         {
+            SpawnEnemy(ModContent.NPCType<Locust>(), player.Center + new Vector2(1500, 0));
+            SpawnEnemy(ModContent.NPCType<Locust>(), player.Center + new Vector2(-1500, 0));
+            SpawnEnemy(ModContent.NPCType<Locust>(), player.Center + new Vector2(0, -1500));
 
+            DreadwindSystem.FrightArenaWidth = DreadwindSystem.FrightArenaMaxWidth;
+            DreadwindSystem.FrightArenaX = player.Center.X;
+            DreadwindSystem.FrightRaining = true;
         }
     }
 }

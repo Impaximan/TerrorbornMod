@@ -248,6 +248,10 @@ namespace TerrorbornMod
                 item.damage = 65;
             }
 
+            if (item.type == ItemID.Zenith)
+            {
+                item.damage = (int)(item.damage * 0.48f);
+            }
 
             if (canBeThrown)
             {

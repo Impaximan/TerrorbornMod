@@ -16,6 +16,7 @@ using TerrorbornMod.UI.TerrorMeter;
 using TerrorbornMod.UI.TerrorAbilityUnlock;
 using TerrorbornMod.UI.TitleCard;
 using TerrorbornMod.UI.TwilightEmpowerment;
+using TerrorbornMod.UI.BossDefeated;
 using Microsoft.Xna.Framework.Audio;
 using System.Linq;
 using Terraria.GameContent;
@@ -71,6 +72,9 @@ namespace TerrorbornMod
 
         internal UserInterface terrorMenuInterface;
         internal TerrorAbilityMenu terrorAbilityMenu;
+
+        internal UserInterface bossDefeatedInterface;
+        internal BossDefeatedUI bossDefeatedUI;
 
         //TWILIGHT MODE
         public static bool TwilightMode;
@@ -157,6 +161,7 @@ namespace TerrorbornMod
                 unlockInterface = new UserInterface();
                 terrorMenuInterface = new UserInterface();
                 titleCardInterface = new UserInterface();
+                bossDefeatedInterface = new UserInterface();
 
                 terrorMeterUI = new TerrorMeterUI();
                 terrorMeterUI.Activate();
@@ -172,6 +177,9 @@ namespace TerrorbornMod
 
                 titleCardUI = new TitleCardUI();
                 titleCardUI.Activate();
+
+                bossDefeatedUI = new BossDefeatedUI();
+                bossDefeatedUI.Activate();
             }
         }
         public static void TerrorThunder()
@@ -201,6 +209,7 @@ namespace TerrorbornMod
             terrorMeterInterface?.SetState(terrorMeterUI);
             twilightMeterInterface?.SetState(twilightEmpowermentUI);
             titleCardInterface?.SetState(titleCardUI);
+            bossDefeatedInterface?.SetState(bossDefeatedUI);
         }
 
         internal void HideUI()
@@ -210,6 +219,7 @@ namespace TerrorbornMod
             terrorMeterInterface?.SetState(null);
             twilightMeterInterface?.SetState(null);
             titleCardInterface?.SetState(null);
+            bossDefeatedInterface?.SetState(null);
         }
 
         public static Color darkRainColor = Color.FromNonPremultiplied((int)(40f * 0.7f), (int)(55f * 0.7f), (int)(70f * 0.7f), 255);
@@ -532,6 +542,10 @@ namespace TerrorbornMod
             {
                 titleCardInterface.Update(gameTime);
             }
+            if (bossDefeatedInterface?.CurrentState != null)
+            {
+                bossDefeatedInterface.Update(gameTime);
+            }
             if (unlockInterface?.CurrentState != null)
             {
                 unlockInterface.Update(gameTime);
@@ -602,6 +616,18 @@ namespace TerrorbornMod
                         if (_lastUpdateUiGameTime != null && titleCardInterface?.CurrentState != null)
                         {
                             titleCardInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                        }
+                        return true;
+                    },
+                       InterfaceScaleType.UI));
+
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                    "TerrorbornMod: bossDefeatedInterface",
+                    delegate
+                    {
+                        if (_lastUpdateUiGameTime != null && bossDefeatedInterface?.CurrentState != null)
+                        {
+                            bossDefeatedInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
                         }
                         return true;
                     },

@@ -99,6 +99,7 @@ namespace TerrorbornMod.NPCs.Bosses
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.BossTitle = "Shadowcrawler";
             modNPC.BossSubtitle = "Titan of the Night";
+            modNPC.BossDefeatTitle = "Greater Demon";
             modNPC.BossTitleColor = new Color(29, 189, 49);
         }
         bool Attacking = false;

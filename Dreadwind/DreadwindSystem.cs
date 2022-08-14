@@ -25,6 +25,7 @@ namespace TerrorbornMod.Dreadwind
         public static int waveNumber = 0;
         public static void StartDreadwind()
         {
+            FrightRaining = false;
             waveNumber = 0;
             upcomingWaves.Clear();
             extraEnemies.Clear();
@@ -46,6 +47,7 @@ namespace TerrorbornMod.Dreadwind
 
         public static void StartNextWave()
         {
+            FrightRaining = false;
             if (upcomingWaves.Count == 0)
             {
                 FinishDreadwind(true);
@@ -62,6 +64,7 @@ namespace TerrorbornMod.Dreadwind
 
         public static void FinishDreadwind(bool victory)
         {
+            FrightRaining = false;
             DreadwindActive = false;
             Main.NewText("The Dreadwind has subsided...", Color.LightGreen);
         }
@@ -69,6 +72,11 @@ namespace TerrorbornMod.Dreadwind
         int endTimer = 0;
         int nextWaveTimer = 0;
         public static float HesperusTelegraphRotation = 0f;
+        public static float FrightArenaWidth = 0f;
+        public static float FrightArenaX = 0f;
+        public static bool FrightRaining = false;
+        public const float FrightArenaMaxWidth = 4500f;
+        int rainCounter = 0;
         public override void PostUpdateEverything()
         {
             if (!DreadwindActive)
@@ -93,6 +101,44 @@ namespace TerrorbornMod.Dreadwind
             else
             {
                 endTimer = 0;
+            }
+
+            if (FrightRaining)
+            {
+                if (FrightArenaWidth > 0f)
+                {
+                    float secondsToLive = 120f;
+                    if (Main.masterMode)
+                    {
+                        secondsToLive *= 1.5f;
+                    }
+                    if (TerrorbornSystem.TwilightMode)
+                    {
+                        secondsToLive *= 1.3f;
+                    }
+                    FrightArenaWidth -= FrightArenaMaxWidth / (60f * secondsToLive);
+                }
+
+                float extraWidth = 0;
+                if (Math.Abs(player.Center.X - FrightArenaX) > FrightArenaWidth / 2f) extraWidth += Math.Abs(player.Center.X - FrightArenaX) - FrightArenaWidth / 2f;
+
+                int side = 1;
+                if (Main.rand.NextBool()) side = -1;
+                Vector2 position = new Vector2((FrightArenaWidth / 2f + extraWidth) * side + FrightArenaX + Main.rand.NextFloat(Main.screenWidth * 1.5f) * side, Main.screenPosition.Y - 120);
+                Vector2 velocity = new Vector2(-5, 35);
+                Projectile.NewProjectile(new EntitySource_WorldEvent("DreadwindRain"), position, velocity, ModContent.ProjectileType<Projectiles.DreadRain>(), DreadwindLargeDamage / 4, 0f);
+
+                rainCounter++;
+                if (rainCounter > 5)
+                {
+                    rainCounter = 0;
+                    side = 1;
+                    if (Main.rand.NextBool()) side = -1;
+                    position = new Vector2((FrightArenaWidth / 2f + extraWidth) * side + FrightArenaX, Main.screenPosition.Y - 120);
+                    velocity = new Vector2(-5, 35);
+                    Projectile.NewProjectile(new EntitySource_WorldEvent("DreadwindRain"), position, velocity, ModContent.ProjectileType<Projectiles.DreadRain>(), DreadwindLargeDamage / 4, 0f);
+                }
+
             }
 
             for (int i = 0; i < currentWave.requiredKills.Count; i++)

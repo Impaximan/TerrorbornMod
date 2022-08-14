@@ -6,6 +6,7 @@ using Terraria.WorldBuilding;
 using System.Collections.Generic;
 using System;
 using TerrorbornMod.UI.TitleCard;
+using TerrorbornMod.UI.BossDefeated;
 using Terraria.GameContent.ItemDropRules;
 
 namespace TerrorbornMod
@@ -38,6 +39,7 @@ namespace TerrorbornMod
 
         public string BossTitle = "";
         public string BossSubtitle = "";
+        public string BossDefeatTitle = "";
         public Color BossTitleColor = Color.White;
         public bool getsTitleCard = false;
 
@@ -134,10 +136,18 @@ namespace TerrorbornMod
             ogKnockbackResist = NPC.knockBackResist;
             tagTime = 0;
 
+            if (NPC.boss && NPC.ModNPC != null && NPC.ModNPC.Mod != Mod)
+            {
+                BossSubtitle = "Powerful foe";
+                BossDefeatTitle = "Greater Creature";
+                BossTitleColor = Color.SlateGray;
+            }
+
             if (NPC.type == NPCID.KingSlime)
             {
                 BossTitle = "King Slime";
                 BossSubtitle = "Gelatinous Monarch";
+                BossDefeatTitle = "Greater Creature";
                 BossTitleColor = Color.SkyBlue;
             }
 
@@ -145,6 +155,7 @@ namespace TerrorbornMod
             {
                 BossTitle = "Eye of Cthulhu";
                 BossSubtitle = "Bloodshot Watcher";
+                BossDefeatTitle = "Greater Demon";
                 BossTitleColor = new Color(255, 123, 123);
             }
 
@@ -153,6 +164,7 @@ namespace TerrorbornMod
                 getsTitleCard = true;
                 BossTitle = "Eater of Worlds";
                 BossSubtitle = "Tunneler of Decay";
+                BossDefeatTitle = "Greater Worm";
                 BossTitleColor = Color.Purple;
             }
 
@@ -160,6 +172,7 @@ namespace TerrorbornMod
             {
                 BossTitle = "The Brain of Cthulhu";
                 BossSubtitle = "Bloodthirsty Mastermind";
+                BossDefeatTitle = "Greater Demon";
                 BossTitleColor = Color.Crimson;
             }
 
@@ -167,6 +180,7 @@ namespace TerrorbornMod
             {
                 BossTitle = "The Queen Bee";
                 BossSubtitle = "Protector of the hive";
+                BossDefeatTitle = "Greater Creature";
                 BossTitleColor = Color.Yellow;
             }
 
@@ -174,6 +188,7 @@ namespace TerrorbornMod
             {
                 BossTitle = "Skeletron";
                 BossSubtitle = "Accursed Guardian of the Dungeon";
+                BossDefeatTitle = "Greater Curse";
                 BossTitleColor = Color.Beige;
             }
 
@@ -181,13 +196,23 @@ namespace TerrorbornMod
             {
                 BossTitle = "The Wall of Flesh";
                 BossSubtitle = "The Seal of Terror; Guardian of the Underworld";
+                BossDefeatTitle = "Supreme Demon";
                 BossTitleColor = Color.Red;
+            }
+
+            if (NPC.type == NPCID.QueenSlimeBoss)
+            {
+                BossTitle = "Queen Slime";
+                BossSubtitle = "Gelatinous Monarch";
+                BossDefeatTitle = "Greater Creature";
+                BossTitleColor = Color.DeepPink;
             }
 
             if (NPC.type == NPCID.SkeletronPrime)
             {
                 BossTitle = "Skeletron Prime";
                 BossSubtitle = "Construct of Fright";
+                BossDefeatTitle = "Greater Machine";
                 BossTitleColor = Color.OrangeRed;
             }
 
@@ -195,6 +220,7 @@ namespace TerrorbornMod
             {
                 BossTitle = "The Destroyer";
                 BossSubtitle = "Construct of Might";
+                BossDefeatTitle = "Greater Machine";
                 BossTitleColor = Color.RoyalBlue;
             }
 
@@ -202,6 +228,7 @@ namespace TerrorbornMod
             {
                 BossTitle = "The Twins";
                 BossSubtitle = "Constructs of Sight";
+                BossDefeatTitle = "Greater Machines";
                 BossTitleColor = Color.LightGreen;
             }
 
@@ -209,6 +236,7 @@ namespace TerrorbornMod
             {
                 BossTitle = "Plantera";
                 BossSubtitle = "Southern Plantkill";
+                BossDefeatTitle = "Supreme Plant";
                 BossTitleColor = Color.LimeGreen;
             }
 
@@ -216,13 +244,31 @@ namespace TerrorbornMod
             {
                 BossTitle = "Golem";
                 BossSubtitle = "Protector of the Lihzahrd Tribe";
+                BossDefeatTitle = "Greater Idol";
                 BossTitleColor = Color.SaddleBrown;
+            }
+
+            if (NPC.type == NPCID.HallowBoss)
+            {
+                BossTitle = "Empress of Light";
+                BossSubtitle = "Prismatic Protector";
+                BossDefeatTitle = "Supreme Lacewing";
+                BossTitleColor = Color.LightYellow;
+            }
+
+            if (NPC.type == NPCID.DukeFishron)
+            {
+                BossTitle = "Duke Fishron";
+                BossSubtitle = "Scourge of the Ocean";
+                BossDefeatTitle = "Supreme Sea Creature";
+                BossTitleColor = Color.Turquoise;
             }
 
             if (NPC.type == NPCID.CultistBoss)
             {
                 BossTitle = "Lunatic Cultist";
                 BossSubtitle = "Messenger of Armaggeddon";
+                BossDefeatTitle = "Greater Human";
                 BossTitleColor = Color.Blue;
             }
 
@@ -230,6 +276,7 @@ namespace TerrorbornMod
             {
                 BossTitle = "The Moon Lord";
                 BossSubtitle = "Monarch of the Pillars";
+                BossDefeatTitle = "Supreme Alien";
                 BossTitleColor = Color.PaleTurquoise;
             }
 
@@ -238,6 +285,7 @@ namespace TerrorbornMod
                 getsTitleCard = true;
                 BossTitle = "The Dark Mage";
                 BossSubtitle = "Commander of the Dead";
+                BossDefeatTitle = "Greater Etherian";
             }
 
             if (NPC.type == NPCID.DD2OgreT2)
@@ -245,6 +293,7 @@ namespace TerrorbornMod
                 getsTitleCard = true;
                 BossTitle = "Shrek (not actually)";
                 BossSubtitle = "Ogre of the Ages";
+                BossDefeatTitle = "Shrek";
             }
 
             if (NPC.type == NPCID.DD2Betsy)
@@ -252,14 +301,16 @@ namespace TerrorbornMod
                 getsTitleCard = true;
                 BossTitle = "Betsy";
                 BossSubtitle = "Leader of the Old Ones";
+                BossDefeatTitle = "Greater Dragon";
                 BossTitleColor = Color.OrangeRed;
             }
 
-            if (NPC.type == NPCID.MartianSaucer)
+            if (NPC.type == NPCID.MartianSaucerCore)
             {
                 getsTitleCard = true;
                 BossTitle = "Martian Saucer";
                 BossSubtitle = "Otherwordly Battleship";
+                BossDefeatTitle = "Greater Alien";
             }
 
             if (NPC.type == NPCID.PirateShip)
@@ -267,6 +318,7 @@ namespace TerrorbornMod
                 getsTitleCard = true;
                 BossTitle = "Flying Dutchman";
                 BossSubtitle = "Ghostly Transport";
+                BossDefeatTitle = "Greater Demon";
             }
         }
 
@@ -401,10 +453,13 @@ namespace TerrorbornMod
 
                 if (getsTitleCard || NPC.boss)
                 {
-                    TitleCardUI.bossName = BossTitle;
-                    TitleCardUI.bossSubtitle = BossSubtitle;
-                    TitleCardUI.titleColor = BossTitleColor;
-                    TitleCardUI.titleCardLifetimeCounter = (int)(60 * TerrorbornMod.titleCardDuration);
+                    if (BossDefeatedUI.defeatMessageAlpha <= 0f)
+                    {
+                        TitleCardUI.bossName = BossTitle;
+                        TitleCardUI.bossSubtitle = BossSubtitle;
+                        TitleCardUI.titleColor = BossTitleColor;
+                        TitleCardUI.titleCardLifetimeCounter = (int)(60 * TerrorbornMod.titleCardDuration);
+                    }
                 }
             }
 
@@ -947,6 +1002,61 @@ namespace TerrorbornMod
             if (modPlayer.SoulReaperArmorBonus)
             {
                 Item.NewItem(NPC.GetSource_Loot(), NPC.Center, ModContent.ItemType<Items.Equipable.Armor.ThunderSoul>());
+            }
+
+            if (NPC.type == NPCID.EaterofWorldsHead || NPC.type == NPCID.EaterofWorldsTail)
+            {
+                if (!NPC.AnyNPCs(NPCID.EaterofWorldsBody))
+                {
+                    BossTitle = "Eater of Worlds";
+                    BossSubtitle = "Tunneler of Decay";
+                    BossDefeatTitle = "Greater Worm";
+                    BossTitleColor = Color.Purple;
+
+                    BossDefeatedUI.deathTitle = BossDefeatTitle;
+                    BossDefeatedUI.titleColor = BossTitleColor;
+                    BossDefeatedUI.defeatMessageLifetimeCounter = (int)(60 * TerrorbornMod.titleCardDuration);
+                    BossDefeatedUI.slainMessageCounter = (int)(30 * TerrorbornMod.titleCardDuration);
+                    TitleCardUI.titleCardLifetimeCounter = 0;
+                    TitleCardUI.titleCardAlpha = 0f;
+                }
+            }
+            else if (NPC.type == NPCID.EaterofWorldsBody)
+            {
+                int segmentCount = 0;
+                foreach (NPC npc in Main.npc)
+                {
+                    if (npc.active && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail))
+                    {
+                        segmentCount++;
+                    }
+                }
+                if (segmentCount == 3)
+                {
+                    BossTitle = "Eater of Worlds";
+                    BossSubtitle = "Tunneler of Decay";
+                    BossDefeatTitle = "Greater Worm";
+                    BossTitleColor = Color.Purple;
+
+                    BossDefeatedUI.deathTitle = BossDefeatTitle;
+                    BossDefeatedUI.titleColor = BossTitleColor;
+                    BossDefeatedUI.defeatMessageLifetimeCounter = (int)(60 * TerrorbornMod.titleCardDuration);
+                    BossDefeatedUI.slainMessageCounter = (int)(30 * TerrorbornMod.titleCardDuration);
+                    TitleCardUI.titleCardLifetimeCounter = 0;
+                    TitleCardUI.titleCardAlpha = 0f;
+                }
+            }
+            else
+            {
+                if (getsTitleCard || NPC.boss)
+                {
+                    BossDefeatedUI.deathTitle = BossDefeatTitle;
+                    BossDefeatedUI.titleColor = BossTitleColor;
+                    BossDefeatedUI.defeatMessageLifetimeCounter = (int)(60 * TerrorbornMod.titleCardDuration);
+                    BossDefeatedUI.slainMessageCounter = (int)(30 * TerrorbornMod.titleCardDuration);
+                    TitleCardUI.titleCardLifetimeCounter = 0;
+                    TitleCardUI.titleCardAlpha = 0f;
+                }
             }
 
             if (TerrorbornSystem.terrorRain && player.ZoneRain && Main.rand.NextFloat() <= 0.5f)

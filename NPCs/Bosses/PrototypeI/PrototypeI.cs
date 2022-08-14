@@ -160,6 +160,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.BossTitle = "Prototype I";
             modNPC.BossSubtitle = "Experiment for the Infection";
+            modNPC.BossDefeatTitle = "Supreme Object";
             modNPC.BossTitleColor = new Color(29, 189, 49);
         }
 

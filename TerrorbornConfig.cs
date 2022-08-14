@@ -57,10 +57,25 @@ namespace TerrorbornMod
         [BackgroundColor(40, 55, 70)]
         [Label("Boss title card duration")]
         [Tooltip("How long boss title cards will be visible (in seconds) before dissappearing")]
-        [Range(0, 10f)]
+        [Range(1f, 10f)]
         [Increment(0.1f)]
         [Slider()]
         public float titleCardTime;
+
+        [DefaultValue(true)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Boss slain UI")]
+        [Tooltip("Whether or not killing a boss for the first time will give you a special UI event")]
+        public bool defeatMessages;
+
+        [DefaultValue(5.5f)]
+        [BackgroundColor(40, 55, 70)]
+        [Label("Boss slain UI duration")]
+        [Tooltip("How long the boss slain UI lasts before disappearing")]
+        [Range(1f, 10f)]
+        [Increment(0.1f)]
+        [Slider()]
+        public float defeatMessageTime;
 
         [DefaultValue(true)]
         [BackgroundColor(40, 55, 70)]
@@ -148,6 +163,8 @@ namespace TerrorbornMod
             TerrorbornMod.TerrorMeterY = TerrorMeterY;
             TerrorbornMod.showWingStats = showWingStats;
             TerrorbornMod.InstantDeathProtectionEnabled = enableInstantDeathProtection;
+            TerrorbornMod.defeatMessages = defeatMessages;
+            TerrorbornMod.defeatMessageDuration = defeatMessageTime;
         }
     }
 

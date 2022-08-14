@@ -23,7 +23,7 @@ namespace TerrorbornMod
 {
     class TerrorbornMod : Mod
     {
-        public const bool IsInTestingMode = true;
+        public const bool IsInTestingMode = false;
 
         public const float IncendiaryAlloyMultiplier = 0.5f;
 
@@ -51,6 +51,9 @@ namespace TerrorbornMod
 
         public static float titleCardDuration = 3.5f;
         public static bool titleCards = true;
+
+        public static float defeatMessageDuration = 3.5f;
+        public static bool defeatMessages = true;
 
         public static bool thrownAffectsMods = true;
         public static bool showCritDamage = true;
@@ -103,66 +106,6 @@ namespace TerrorbornMod
         {
             //Utils.DrawBorderString()
         }
-
-        string BugString()
-        {
-            return "Any Bug";
-        }
-
-        string MythrilString()
-        {
-            return "Any Mythril Bar";
-        }
-
-        string FragmentString()
-        {
-            return "Any Lunar Fragment";
-        }
-
-        string CobaltString()
-        {
-            return "Any Cobalt Bar";
-        }
-
-        public override void AddRecipeGroups()
-        {
-            RecipeGroup bugs = new RecipeGroup(new Func<string>(BugString),
-                ItemID.JuliaButterfly,
-                ItemID.MonarchButterfly,
-                ItemID.PurpleEmperorButterfly,
-                ItemID.RedAdmiralButterfly,
-                ItemID.SulphurButterfly,
-                ItemID.TreeNymphButterfly,
-                ItemID.UlyssesButterfly,
-                ItemID.ZebraSwallowtailButterfly,
-                ItemID.Firefly,
-                ItemID.Buggy,
-                ItemID.Grasshopper,
-                ItemID.Grubby,
-                ItemID.LightningBug);
-            RecipeGroup.RegisterGroup("bugs", bugs);
-
-            //Any Mythril Bar
-            RecipeGroup mythril = new RecipeGroup(new Func<string>(MythrilString),
-                ItemID.MythrilBar,
-                ItemID.OrichalcumBar);
-            RecipeGroup.RegisterGroup("mythril", mythril);
-
-            //Any Lunar Fragment
-            RecipeGroup fragment = new RecipeGroup(new Func<string>(FragmentString),
-                ItemID.FragmentSolar,
-                ItemID.FragmentNebula,
-                ItemID.FragmentStardust,
-                ItemID.FragmentVortex,
-                ModContent.ItemType<Items.Materials.FusionFragment>());
-            RecipeGroup.RegisterGroup("fragment", fragment);
-
-            RecipeGroup cobalt = new RecipeGroup(new Func<string>(CobaltString),
-                ItemID.CobaltBar,
-                ItemID.PalladiumBar);
-            RecipeGroup.RegisterGroup("cobalt", cobalt);
-        }
-
 
         public virtual void SetColors(ref Color[] colors, int width, int height)
         {
@@ -244,6 +187,7 @@ namespace TerrorbornMod
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/ThunderAmbience", AssetRequestMode.ImmediateLoad);
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/TTSplash", AssetRequestMode.ImmediateLoad);
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/undertalewarning", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/BossDefeatedSlam", AssetRequestMode.ImmediateLoad);
 
             ModContent.Request<Texture2D>("TerrorbornMod/MainMenuForeground1", AssetRequestMode.ImmediateLoad);
             ModContent.Request<Texture2D>("TerrorbornMod/WhitePixel", AssetRequestMode.ImmediateLoad);

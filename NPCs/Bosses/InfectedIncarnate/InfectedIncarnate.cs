@@ -159,6 +159,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.BossTitle = "Infected Incarnate";
             modNPC.BossSubtitle = "Prototype III";
+            modNPC.BossDefeatTitle = "Possessed Anekronian";
             modNPC.BossTitleColor = new Color(255, 116, 39);
         }
 
@@ -214,7 +215,6 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
 
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>(), 7));
-            notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Materials.HexingEssence>(), 1, 15, 20));
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>(),
                 ModContent.ItemType<Items.Weapons.Magic.Infectalanche>(),

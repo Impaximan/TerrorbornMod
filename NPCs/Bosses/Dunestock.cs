@@ -68,6 +68,7 @@ namespace TerrorbornMod.NPCs.Bosses
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.BossTitle = "Dunestock";
             modNPC.BossSubtitle = "Amalgamation of the Dead";
+            modNPC.BossDefeatTitle = "Supreme Zombie";
             modNPC.BossTitleColor = Color.SandyBrown;
         }
 

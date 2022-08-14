@@ -19,7 +19,7 @@ namespace TerrorbornMod.UI.TitleCard
         int fadeOutTime = 90;
 
 
-        public void updateTitleCardUI()
+        public void UpdateTitleCardUI()
         {
             if (titleCardAlpha == 0f && titleCardLifetimeCounter <= 0)
             {
@@ -41,7 +41,7 @@ namespace TerrorbornMod.UI.TitleCard
 
         public override void Update(GameTime gameTime)
         {
-            updateTitleCardUI();
+            UpdateTitleCardUI();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
