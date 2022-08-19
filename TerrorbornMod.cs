@@ -11,13 +11,10 @@ using Terraria.ModLoader;
 using ReLogic.Content;
 using Terraria.GameContent.UI;
 using Microsoft.Xna.Framework.Audio;
-using Terraria.GameContent;
 using TerrorbornMod.NPCs.Bosses;
 using TerrorbornMod.NPCs.Bosses.InfectedIncarnate;
-using TerrorbornMod.NPCs.Bosses.PrototypeI;
 using TerrorbornMod.NPCs.Bosses.TidalTitan;
 using TerrorbornMod.NPCs.Bosses.HexedConstructor;
-using TerrorbornMod.Dreadwind;
 
 namespace TerrorbornMod
 {

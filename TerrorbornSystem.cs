@@ -19,8 +19,6 @@ using TerrorbornMod.UI.TwilightEmpowerment;
 using TerrorbornMod.UI.BossDefeated;
 using Microsoft.Xna.Framework.Audio;
 using System.Linq;
-using Terraria.GameContent;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod
 {

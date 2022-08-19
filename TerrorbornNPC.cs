@@ -513,6 +513,13 @@ namespace TerrorbornMod
                 }
             }
 
+            if (Dreadwind.DreadwindSystem.DreadwindActive)
+            {
+                spawnRate = 0;
+                maxSpawns = 0;
+                return;
+            }
+
             if (player.ZoneRain && TerrorbornSystem.terrorRain && maxSpawns != 0) //Checks current maxSpawns specifically so it works with HERO's mod's spawn thingy
             {
                 if (Main.dayTime)

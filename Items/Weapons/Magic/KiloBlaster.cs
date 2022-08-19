@@ -2,6 +2,7 @@
 using Terraria;
 using TerrorbornMod.Projectiles;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Weapons.Magic
@@ -34,12 +35,12 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.knockBack = 2;
             Item.value = Item.sellPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Blue;
-            Item.UseSound = SoundID.Item12;
+            Item.UseSound = new SoundStyle("TerrorbornMod/Sounds/Effects/Peashooter");
             Item.shootSpeed = 1f;
             Item.autoReuse = false;
             Item.shoot = ModContent.ProjectileType<KiloBlast>();
             Item.mana = 3;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic;
         }
 
         public override Vector2? HoldoutOffset()

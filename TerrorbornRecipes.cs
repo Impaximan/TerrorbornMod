@@ -1,23 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using ReLogic.Content;
-using Terraria.GameContent.UI;
-using Microsoft.Xna.Framework.Audio;
-using Terraria.GameContent;
-using TerrorbornMod.NPCs.Bosses;
-using TerrorbornMod.NPCs.Bosses.InfectedIncarnate;
-using TerrorbornMod.NPCs.Bosses.PrototypeI;
-using TerrorbornMod.NPCs.Bosses.TidalTitan;
-using TerrorbornMod.NPCs.Bosses.HexedConstructor;
-using TerrorbornMod.Dreadwind;
 
 namespace TerrorbornMod
 {

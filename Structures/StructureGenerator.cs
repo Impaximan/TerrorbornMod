@@ -3,8 +3,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Collections.Generic;
-using Terraria.DataStructures;
 
 namespace TerrorbornMod.Structures
 {

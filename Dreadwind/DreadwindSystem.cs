@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrorbornMod.Dreadwind.Waves;
 using Terraria.DataStructures;
+using TerrorbornMod.Dreadwind.NPCs;
 using System;
 
 namespace TerrorbornMod.Dreadwind
@@ -39,6 +40,11 @@ namespace TerrorbornMod.Dreadwind
             DreadwindActive = true;
             StartNextWave();
             CurrentDreadwindColor = Color.Black;
+            reaper_HealthLeft = 1f;
+            reaper_AIPhase = -1;
+            reaper_SideMult = 1;
+            reaper_ShouldDespawn = false;
+
         }
 
         public const int DreadwindLargeDamage = 200;
@@ -69,6 +75,37 @@ namespace TerrorbornMod.Dreadwind
             Main.NewText("The Dreadwind has subsided...", Color.LightGreen);
         }
 
+        //Purgatory Reaper AI stuff
+        public static int reaper_AIPhase;
+        public static int reaper_NextAIPhase;
+        public static float reaper_HealthLeft = 1f;
+        public static int reaper_SideMult = 1;
+        public static bool reaper_ShouldDespawn = false;
+
+        public static List<int> reaper_NextAttacksList = new List<int>();
+        public static void Reaper_DecideNextAttack(int currentAIPhase)
+        {
+            if (reaper_NextAttacksList.Count == 0)
+            {
+                int count = 3;
+                while (reaper_NextAttacksList.Count < count)
+                {
+                    int attack = Main.rand.Next(count);
+                    while (reaper_NextAttacksList.Contains(attack) || (reaper_NextAttacksList.Count == 0 && attack == currentAIPhase))
+                    {
+                        attack = Main.rand.Next(count);
+                    }
+                    reaper_NextAttacksList.Add(attack);
+                }
+                //while (reaper_AIPhase == currentAIPhase)
+                //{
+                //    reaper_AIPhase = Main.rand.Next(count);
+                //}
+            }
+            reaper_NextAIPhase = reaper_NextAttacksList[0];
+            reaper_NextAttacksList.RemoveAt(0);
+        }
+
         int endTimer = 0;
         int nextWaveTimer = 0;
         public static float HesperusTelegraphRotation = 0f;
@@ -83,7 +120,34 @@ namespace TerrorbornMod.Dreadwind
             {
                 return;
             }
+
             Player player = Main.LocalPlayer;
+
+            if (NPC.AnyNPCs(ModContent.NPCType<PurgatoryReaper>()))
+            {
+                reaper_AIPhase = reaper_NextAIPhase;
+
+                int count = 0;
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i] != null)
+                    {
+                        NPC nPC = Main.npc[i];
+                        if (nPC.type == ModContent.NPCType<PurgatoryReaper>() && nPC.active)
+                        {
+                            count++;
+                            if (((float)nPC.life / nPC.lifeMax) < reaper_HealthLeft)
+                            {
+                                reaper_HealthLeft = (float)nPC.life / nPC.lifeMax;
+                            }
+                        }
+                    }
+                }
+                if (count == 1)
+                {
+                    reaper_ShouldDespawn = true;
+                }
+            }
 
             HesperusTelegraphRotation += MathHelper.ToRadians(1f);
             HesperusTelegraphRotation = MathHelper.WrapAngle(HesperusTelegraphRotation);

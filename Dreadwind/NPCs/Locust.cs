@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
 using System.Collections.Generic;
 using System;
-using TerrorbornMod.Projectiles;
 using Terraria.DataStructures;
 
 namespace TerrorbornMod.Dreadwind.NPCs

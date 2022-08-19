@@ -4,8 +4,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using System;
-using Microsoft.Xna.Framework.Audio;
-using ReLogic.Content;
 using Terraria.Audio;
 using Terraria.DataStructures;
 

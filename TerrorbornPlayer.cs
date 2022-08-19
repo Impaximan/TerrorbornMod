@@ -10,8 +10,6 @@ using Terraria.Graphics.Effects;
 using TerrorbornMod.Abilities;
 using Terraria.Audio;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.GameContent;
 
 namespace TerrorbornMod
 {

@@ -1,9 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 
 
 namespace TerrorbornMod.Items.Equipable.Accessories

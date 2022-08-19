@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrorbornMod.Dreadwind.Waves;
 using Microsoft.Xna.Framework.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;

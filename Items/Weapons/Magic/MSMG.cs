@@ -3,6 +3,7 @@ using Terraria;
 using TerrorbornMod.Projectiles;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace TerrorbornMod.Items.Weapons.Magic
 {
@@ -42,6 +43,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shootSpeed = 1f;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SpaceLaser>();
+            Item.UseSound = new SoundStyle("TerrorbornMod/Sounds/Effects/Peashooter");
             Item.mana = 3;
             Item.DamageType = DamageClass.Magic;;
         }
@@ -54,7 +56,6 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             TerrorbornSystem.ScreenShake(1f);
-            SoundExtensions.PlaySoundOld(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 125, 1, 1);
             Vector2 shootSpeed = new Vector2(velocity.X, velocity.Y);
             shootSpeed.Normalize();
             position += shootSpeed * 22;

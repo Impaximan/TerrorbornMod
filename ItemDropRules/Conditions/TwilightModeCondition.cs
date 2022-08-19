@@ -1,5 +1,4 @@
-﻿using Terraria;
-using Terraria.GameContent.ItemDropRules;
+﻿using Terraria.GameContent.ItemDropRules;
 
 namespace TerrorbornMod.ItemDropRules.Conditions
 {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using TerrorbornMod.Dreadwind.NPCs;
