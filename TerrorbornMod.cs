@@ -106,31 +106,26 @@ namespace TerrorbornMod
 
         public virtual void SetColors(ref Color[] colors, int width, int height)
         {
-            int x = width / 2;
-            int y = height / 2;
+            FastNoiseLite noise = new FastNoiseLite();
+            noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+
+            int centerX = width / 2;
+            int centerY = height / 2;
             for (int j = 0; j < height; j++)
             {
                 for (int i = 0; i < width; i++)
                 {
+                    Vector2 center = new Vector2(centerX, centerY);
+                    Vector2 position = new Vector2(i, j);
+                    float rotation = (position - center).ToRotation();
+                    float distance = Vector2.Distance(position, center);
+
                     int index = j * width + i;
-                    float value = 0f;
-                    if (Math.Abs(i - x) <= MathHelper.Lerp(0f, width / 2, (float)j / (float)height))
-                    {
-                        value = MathHelper.Lerp(1f, 0f, (float)j / (float)height);
-                    }
+                    float noiseValue = (noise.GetNoise(rotation * 100f, ((float)Math.Sin(rotation) + 5f) * 20f) + 1f) / 2f;
+                    float glowValue = (1f - (distance / (width / 2f)));
+                    float value = MathHelper.Lerp(glowValue, noiseValue, distance / (width / 2f)) * glowValue;
+
                     colors[index] = new Color(value, value, value, value);
-                    //double dX = (double)(i - x) / (double)width * 2;
-                    //double dY = (double)(j - y) / (double)height * 2;
-                    //float c = Math.Abs((float)Math.Sqrt(dX * dX + dY * dY) - 0.85f) / 0.15f;
-                    //if (c <= 0)
-                    //{
-                    //    colors[index] = new Color(1f, 1f, 1f, 1f);
-                    //}
-                    //else
-                    //{
-                    //    float value = 1f - (float)c;
-                    //    colors[index] = new Color(value, value, value, value);
-                    //}
                 }
             }
         }
@@ -153,12 +148,17 @@ namespace TerrorbornMod
         public override void Load()
         {
             GoldenChestLore.Clear();
-            //Directory.CreateDirectory(savingFolder);
-            //string path = Path.Combine(savingFolder, "TerrorbornOutput.png");
-            //using (Stream stream = File.OpenWrite(path))
+
+            //TerrorbornUtils.InvokeOnMainThread(() =>
             //{
-            //    //CreateImage(200, 1000).SaveAsPng(stream, 200, 1000);
-            //}
+            //    Directory.CreateDirectory(savingFolder);
+            //    string path = Path.Combine(savingFolder, "Shine.png");
+            //    using (Stream stream = File.OpenWrite(path))
+            //    {
+            //        CreateImage(1000, 1000).SaveAsPng(stream, 1000, 1000);
+            //    }
+            //});
+            
 
             TBUtils.Detours.Initialize();
 

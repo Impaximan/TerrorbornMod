@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using TerrorbornMod.TBUtils;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 {
@@ -52,7 +53,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
     class AegisLight : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Effects/Textures/Glow_2";
+        public override string Texture => "TerrorbornMod/Effects/Textures/Shine_Cellular";
 
         int timeLeft = 10;
         const int defaultSize = 1000;
@@ -72,13 +73,15 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, Color.LightYellow);
+            Texture2D glow = ModContent.Request<Texture2D>(Texture).Value;
+            Main.spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition, null, Color.LightYellow, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void AI()
         {
             currentSize -= defaultSize / timeLeft;
+            Projectile.rotation += MathHelper.ToDegrees(20f);
         }
     }
 }
