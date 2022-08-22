@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TBUtils.Accessories.GetBurstJumpString((int)(60 * 1.5f)) +
+            Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString((int)(60 * 1.5f)) +
                 "\nGrants you controllable slow fall for 3 seconds upon activation" +
                 "\nCannot be charged up again while the slow fall effect is active");
         }
@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 60 * 3, Item, player, new Vector2(15, -10), Color.Azure, SoundID.Item14);
+            Utils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 60 * 3, Item, player, new Vector2(15, -10), Color.Azure, SoundID.Item14);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.BurstJumpTime > 0)
             {

@@ -122,7 +122,7 @@ namespace TerrorbornMod.Items.Ammo
             if (Countdown > 0)
             {
                 Color lineColor = Color.FromNonPremultiplied(247, 201, 155, 255 / 2) * 0.25f;
-                Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + (Projectile.rotation + MathHelper.ToRadians(90)).ToRotationVector2() * 3000, lineColor, lineColor, 3);
+                Terraria.Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + (Projectile.rotation + MathHelper.ToRadians(90)).ToRotationVector2() * 3000, lineColor, lineColor, 3);
             }
             return false;
         }

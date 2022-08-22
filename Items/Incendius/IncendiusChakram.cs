@@ -67,7 +67,7 @@ namespace TerrorbornMod.Items.Incendius
                 Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                 if (homing)
                 {
-                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, 60, Color.OrangeRed * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length) * 0.5f);
+                    Utils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, 60, Color.OrangeRed * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length) * 0.5f);
                 }
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }

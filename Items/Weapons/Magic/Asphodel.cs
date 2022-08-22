@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrorbornMod.TBUtils;
+using TerrorbornMod.Utils;
 using System.Collections.Generic;
 
 namespace TerrorbornMod.Items.Weapons.Magic

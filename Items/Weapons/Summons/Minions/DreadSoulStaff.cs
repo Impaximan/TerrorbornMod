@@ -139,7 +139,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
                     Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
                     Color color = Projectile.GetAlpha(Color.Lerp(Color.Goldenrod, Color.LightGoldenrodYellow, mult)) * mult;
-                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(30f * mult), color);
+                    Utils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(30f * mult), color);
                 }
             }
 

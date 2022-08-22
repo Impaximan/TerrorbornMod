@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
-using TerrorbornMod.TBUtils;
+using TerrorbornMod.Utils;
 using Terraria.DataStructures;
 using TerrorbornMod.Items.Materials;
 

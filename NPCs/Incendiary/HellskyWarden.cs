@@ -59,7 +59,7 @@ namespace TerrorbornMod.NPCs.Incendiary
                 int laserCount = 5;
                 for (int i = 0; i < laserCount; i++)
                 {
-                    Utils.DrawLine(spriteBatch, NPC.Center, NPC.Center + rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i) * 100, Color.Red, Color.Transparent, 5);
+                    Terraria.Utils.DrawLine(spriteBatch, NPC.Center, NPC.Center + rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(360 / laserCount) * i) * 100, Color.Red, Color.Transparent, 5);
                 }
             }
         }

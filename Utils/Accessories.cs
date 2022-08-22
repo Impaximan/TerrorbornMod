@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.TBUtils
+namespace TerrorbornMod.Utils
 {
     class Accessories
     {

@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TBUtils.Accessories.GetParryShieldString(cooldown, knockback) + "\nSuccessful parries rest the cooldown instantly");
+            Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback) + "\nSuccessful parries rest the cooldown instantly");
         }
 
         public override void SetDefaults()
@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
                 player.ClearBuff(ModContent.BuffType<Buffs.Debuffs.ParryCooldown>());
                 modPlayer.ParryCooldown = 5;
             }
-            TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);
+            Utils.Accessories.UpdateParryShield(cooldown, Item, player);
         }
     }
 }

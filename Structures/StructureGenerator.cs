@@ -19,7 +19,7 @@ namespace TerrorbornMod.Structures
             sample.SetSamplingValues(
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, tileType)
                 );
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 
             sample = new GenerationSample();
             sample.SetSample("TerrorbornMod/Structures/HAShrine_Walls");
@@ -28,7 +28,7 @@ namespace TerrorbornMod.Structures
             sample.SetSamplingValues(
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, ModContent.WallType<Tiles.MemorialWall>())
                 );
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
         }
 
         internal static void GenerateTWShrine(Mod mod, Point point)
@@ -43,7 +43,7 @@ namespace TerrorbornMod.Structures
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, tileType),
                 new ValueTuple<byte, byte, byte, int>(0, 255, 0, TileID.Titanium)
                 );
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 
             sample = new GenerationSample();
             sample.SetSample("TerrorbornMod/Structures/TWShrine_Walls");
@@ -52,7 +52,7 @@ namespace TerrorbornMod.Structures
             sample.SetSamplingValues(
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, ModContent.WallType<Tiles.MemorialWall>())
                 );
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
         }
 
         internal static void GenerateVBShrine(Mod mod, Point point)
@@ -71,7 +71,7 @@ namespace TerrorbornMod.Structures
                 new ValueTuple<byte, byte, byte, int>(0, 255, 0, TileID.Platforms),
                 new ValueTuple<byte, byte, byte, int>(0, 0, 255, TileID.LivingDemonFire)
                 );
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 
             sample = new GenerationSample();
             sample.SetSample("TerrorbornMod/Structures/VBShrine_Walls");
@@ -80,19 +80,19 @@ namespace TerrorbornMod.Structures
             sample.SetSamplingValues(
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, ModContent.WallType<Tiles.MemorialWall>())
                 );
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 
             sample = new GenerationSample();
             sample.SetSample("TerrorbornMod/Structures/VBShrine_Lava");
             sample.SetFlag(SamplingKey.LiquidLava);
             sample.SetPosition(point);
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 
             sample = new GenerationSample();
             sample.SetSample("TerrorbornMod/Structures/VBShrine_HalfBrick");
             sample.SetFlag(SamplingKey.HalfBrick);
             sample.SetPosition(point);
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
         }
 
         internal static void GenerateSOHShrine(Mod mod, Point point)
@@ -109,7 +109,7 @@ namespace TerrorbornMod.Structures
             sample.SetSamplingValues(
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, tileType)
                 );
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 
             sample = new GenerationSample();
             sample.SetSample("TerrorbornMod/Structures/SOHShrine_Walls");
@@ -118,25 +118,25 @@ namespace TerrorbornMod.Structures
             sample.SetSamplingValues(
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, ModContent.WallType<Tiles.MemorialWall>())
                 );
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 
             sample = new GenerationSample();
             sample.SetSample("TerrorbornMod/Structures/SOHShrine_SlopeDownLeft");
             sample.SetFlag(SamplingKey.SlopeDownLeft);
             sample.SetPosition(point);
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
             sample = new GenerationSample();
 
             sample.SetSample("TerrorbornMod/Structures/SOHShrine_SlopeDownRight");
             sample.SetFlag(SamplingKey.SlopeDownRight);
             sample.SetPosition(point);
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 
             sample = new GenerationSample();
             sample.SetSample("TerrorbornMod/Structures/SOHShrine_HalfBrick");
             sample.SetFlag(SamplingKey.HalfBrick);
             sample.SetPosition(point);
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
         }
 
         internal static void GenerateIIArena(Mod mod, Point point)
@@ -156,7 +156,7 @@ namespace TerrorbornMod.Structures
                 new ValueTuple<byte, byte, byte, int>(0, 255, 0, TileID.SnowBlock),
                 new ValueTuple<byte, byte, byte, int>(0, 0, 255, TileID.Chain)
                 );
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 
             sample = new GenerationSample();
             sample.SetSample("TerrorbornMod/Structures/IIArena_Walls");
@@ -166,14 +166,14 @@ namespace TerrorbornMod.Structures
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, ModContent.WallType<Tiles.MemorialWall>()),
                 new ValueTuple<byte, byte, byte, int>(0, 255, 0, WallID.IceUnsafe)
                 );
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 
 
             sample = new GenerationSample();
             sample.SetSample("TerrorbornMod/Structures/IIArena_Water");
             sample.SetFlag(SamplingKey.LiquidWater);
             sample.SetPosition(point);
-            TerrorbornUtils.InvokeOnMainThread(new Action(() => sample.Apply()));
+            Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
         }
     }
 }

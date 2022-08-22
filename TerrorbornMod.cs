@@ -149,7 +149,7 @@ namespace TerrorbornMod
         {
             GoldenChestLore.Clear();
 
-            //TerrorbornUtils.InvokeOnMainThread(() =>
+            //Utils.TerrorbornUtils.InvokeOnMainThread(() =>
             //{
             //    Directory.CreateDirectory(savingFolder);
             //    string path = Path.Combine(savingFolder, "Shine.png");
@@ -160,7 +160,7 @@ namespace TerrorbornMod
             //});
             
 
-            TBUtils.Detours.Initialize();
+            Utils.Detours.Initialize();
 
             ArmorAbility = KeybindLoader.RegisterKeybind(this, "ArmorAbility", "Z");
             ShriekOfHorror = KeybindLoader.RegisterKeybind(this, "Shriek of Horror", "Q");
@@ -255,7 +255,7 @@ namespace TerrorbornMod
 
         public override void Unload()
         {
-            TBUtils.Detours.Unload();
+            Utils.Detours.Unload();
             //Main.manaTexture = (Texture2D)ModContent.Request<Texture2D>("Terraria/Mana");
 
             //ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/RiveterDrawSound").Dispose();

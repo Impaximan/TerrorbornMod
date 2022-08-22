@@ -121,7 +121,7 @@ namespace TerrorbornMod.Dreadwind.NPCs
             if (lineStrength != 0f)
             {
                 Vector2 position = GetChainsawPosition();
-                Utils.DrawLine(spriteBatch, position, Main.LocalPlayer.DirectionFrom(position) * 3000f + position, Color.OrangeRed * lineStrength, Color.Transparent, 9f * lineStrength + 1f);
+                Terraria.Utils.DrawLine(spriteBatch, position, Main.LocalPlayer.DirectionFrom(position) * 3000f + position, Color.OrangeRed * lineStrength, Color.Transparent, 9f * lineStrength + 1f);
             }
             return base.PreDraw(spriteBatch, screenPos, drawColor);
         }
@@ -449,7 +449,7 @@ namespace TerrorbornMod.Dreadwind.NPCs
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
                     Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
                     Color color = Projectile.GetAlpha(Color.Lerp(Color.Orange, Color.Red, mult)) * mult;
-                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(35f * mult), color);
+                    Utils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(35f * mult), color);
                 }
             }
 

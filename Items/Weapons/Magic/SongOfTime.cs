@@ -115,7 +115,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, 75, Color.OrangeRed * 0.5f);
+            Utils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, 75, Color.OrangeRed * 0.5f);
             return true;
         }
 

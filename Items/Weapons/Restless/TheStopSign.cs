@@ -108,7 +108,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
 
         public override bool PreDraw(ref Color lightColor)
         {
-            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, Color.Pink);
+            Utils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, Color.Pink);
             return false;
         }
 

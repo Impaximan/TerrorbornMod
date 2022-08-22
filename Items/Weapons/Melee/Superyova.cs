@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
-using TerrorbornMod.TBUtils;
+using TerrorbornMod.Utils;
 
 namespace TerrorbornMod.Items.Weapons.Melee
 {

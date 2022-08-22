@@ -154,7 +154,7 @@ namespace TerrorbornMod.Projectiles
 		{
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
 			Vector2 unit = Projectile.velocity;
-			Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * MaxDistance, (Projectile.width + 16) * Projectile.scale, DelegateMethods.CutTiles);
+			Terraria.Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * MaxDistance, (Projectile.width + 16) * Projectile.scale, DelegateMethods.CutTiles);
 		}
 	}
 }

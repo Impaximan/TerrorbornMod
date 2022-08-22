@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using TerrorbornMod.Projectiles;
-using TerrorbornMod.TBUtils;
+using TerrorbornMod.Utils;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 
@@ -315,11 +315,11 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             {
                 if (bottom)
                 {
-                    Utils.DrawLine(spriteBatch, new Vector2(targetPosition.X, arena.Center.Y - arena.Height), new Vector2(targetPosition.X, arena.Center.Y + arena.Height), Color.Orange * 0.1f, Color.Orange * 0.35f, 10f);
+                    Terraria.Utils.DrawLine(spriteBatch, new Vector2(targetPosition.X, arena.Center.Y - arena.Height), new Vector2(targetPosition.X, arena.Center.Y + arena.Height), Color.Orange * 0.1f, Color.Orange * 0.35f, 10f);
                 }
                 else
                 {
-                    Utils.DrawLine(spriteBatch, new Vector2(targetPosition.X, arena.Center.Y - arena.Height), new Vector2(targetPosition.X, arena.Center.Y + arena.Height), Color.Orange * 0.35f, Color.Orange * 0.1f, 10f);
+                    Terraria.Utils.DrawLine(spriteBatch, new Vector2(targetPosition.X, arena.Center.Y - arena.Height), new Vector2(targetPosition.X, arena.Center.Y + arena.Height), Color.Orange * 0.35f, Color.Orange * 0.1f, 10f);
                 }
             }
             return false;

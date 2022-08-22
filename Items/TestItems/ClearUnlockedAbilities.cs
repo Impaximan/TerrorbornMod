@@ -48,7 +48,7 @@ namespace TerrorbornMod.Items.TestItems
                 {
                     for (int i = 0; i < tPlayer.unlockedAbilities.Count; i++)
                     {
-                        Main.NewText(TerrorbornUtils.intToAbility(tPlayer.unlockedAbilities[i]).Name());
+                        Main.NewText(Utils.General.intToAbility(tPlayer.unlockedAbilities[i]).Name());
                     }
                 }
             }

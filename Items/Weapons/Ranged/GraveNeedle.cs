@@ -179,7 +179,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override bool PreDraw(ref Color lightColor)
         {
-            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, new Color(234, 79, 9));
+            Utils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, currentSize, new Color(234, 79, 9));
             return false;
         }
 

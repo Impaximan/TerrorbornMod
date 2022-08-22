@@ -9,9 +9,9 @@ using System;
 using ReLogic.Content;
 using System.Threading;
 
-namespace TerrorbornMod
+namespace TerrorbornMod.Utils
 {
-    static class TerrorbornUtils
+    static class General
     {
         public static void InvokeOnMainThread(Action action)
         {
@@ -33,7 +33,7 @@ namespace TerrorbornMod
         public static string AutoSortTooltip(string tooltip)
         {
             int lineAmount;
-            string[] lines = Utils.WordwrapString(tooltip, FontAssets.MouseText.Value, (int)TerrorbornMod.LoreParagraphWidth, 25, out lineAmount);
+            string[] lines = Terraria.Utils.WordwrapString(tooltip, FontAssets.MouseText.Value, (int)TerrorbornMod.LoreParagraphWidth, 25, out lineAmount);
             string newTooltip = "";
             for (int i = 0; i <= lineAmount; i++)
             {

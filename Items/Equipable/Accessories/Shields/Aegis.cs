@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using TerrorbornMod.TBUtils;
+using TerrorbornMod.Utils;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items.Equipable.Accessories.Shields
@@ -15,7 +15,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TBUtils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks will cause a holy burst of light that deals 1000 damage to nearby enemies");
+            Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks will cause a holy burst of light that deals 1000 damage to nearby enemies");
         }
 
         public override void SetDefaults()
@@ -47,7 +47,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
                 TerrorbornSystem.ScreenShake(25f);
                 SoundExtensions.PlaySoundOld(SoundID.Item68, player.Center);
             }
-            TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);
+            Utils.Accessories.UpdateParryShield(cooldown, Item, player);
         }
     }
 

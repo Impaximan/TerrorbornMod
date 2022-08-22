@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TBUtils.Accessories.GetBurstJumpString(60) + 
+            Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString(60) + 
                 "\nThe burst from this will launch you downward rather than upward" +
                 "\nThe burst additionally gives you some of your wing flight time back");
         }
@@ -44,7 +44,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            TBUtils.Accessories.UpdateBurstJump(60, 60 * 1, Item, player, new Vector2(10, 30), Color.MediumPurple, SoundID.Item14);
+            Utils.Accessories.UpdateBurstJump(60, 60 * 1, Item, player, new Vector2(10, 30), Color.MediumPurple, SoundID.Item14);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             if (modPlayer.BurstJumpTime > 0)

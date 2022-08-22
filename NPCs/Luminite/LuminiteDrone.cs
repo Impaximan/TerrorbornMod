@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using TerrorbornMod.Utils;
 
 namespace TerrorbornMod.NPCs.Luminite
 {

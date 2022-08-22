@@ -21,7 +21,7 @@ namespace TerrorbornMod.Structures
         public void SetSample(string texturePath)
         {
             currentTexturePath = texturePath;
-            TerrorbornUtils.InvokeOnMainThread(new Action(GetSampleTexture));
+            Utils.General.InvokeOnMainThread(new Action(GetSampleTexture));
             FNALoggerEXT.LogInfo("Setting image with size: " + Sample.Width * Sample.Height);
         }
 

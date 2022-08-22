@@ -13,7 +13,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TBUtils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks will also grant you 20% terror");
+            Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks will also grant you 20% terror");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
             {
                 modPlayer.GainTerror(20f, false);
             }
-            TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);
+            Utils.Accessories.UpdateParryShield(cooldown, Item, player);
         }
     }
 }

@@ -64,7 +64,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
         {
             if (frame == 8 && extraFrame == 0)
             {
-                TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, NPC.Center - Main.screenPosition, 75, new Color(255, 120, 209) * 0.25f);
+                Utils.Graphics.DrawGlow_1(Main.spriteBatch, NPC.Center - Main.screenPosition, 75, new Color(255, 120, 209) * 0.25f);
             }
             return base.PreDraw(spriteBatch, screenPos, drawColor);
         }

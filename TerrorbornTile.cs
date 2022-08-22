@@ -109,7 +109,7 @@ namespace TerrorbornMod
         {
             if (Main.tile[i, j].TileType == ModContent.TileType<Tiles.Incendiary.KindlingGrass>())
             {
-                if (!TerrorbornUtils.TileShouldBeGrass(i, j))
+                if (!Utils.General.TileShouldBeGrass(i, j))
                 {
                     Main.tile[i, j].TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingSoil>();
                 }

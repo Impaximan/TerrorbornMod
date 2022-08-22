@@ -1120,7 +1120,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         {
             Color color = Color.LightSkyBlue;
             color.A = (int)(255 * 0.75f);
-            Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + new Vector2(0, -telegraphLength), color * telegraphAlpha, Color.Transparent, 3);
+            Terraria.Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + new Vector2(0, -telegraphLength), color * telegraphAlpha, Color.Transparent, 3);
             return false;
         }
 
@@ -1284,7 +1284,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
                     float mult = (float)(positions.Count - i) / (float)positions.Count;
                     Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
                     Color color = Projectile.GetAlpha(Color.Lerp(Color.RoyalBlue, Color.Azure, mult)) * mult;
-                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * mult), color);
+                    Utils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * mult), color);
                 }
             }
 

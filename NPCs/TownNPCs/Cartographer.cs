@@ -509,7 +509,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                             if (player.CanBuyItem(Item.buyPrice(0, 2, 0, 0)))
                             {
                                 player.BuyItem(Item.buyPrice(0, 2, 0, 0));
-                                TerrorbornUtils.RevealMapAroundPlayer(300, player);
+                                Utils.General.RevealMapAroundPlayer(300, player);
                                 SoundExtensions.PlaySoundOld(SoundID.Coins, (int)NPC.Center.X, (int)NPC.Center.Y, -1);
                                 CombatText.NewText(player.getRect(), Color.LightYellow, "Nearby area revealed!");
                                 hasRevealedMap = true;

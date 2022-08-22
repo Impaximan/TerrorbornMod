@@ -397,13 +397,13 @@ namespace TerrorbornMod
                 {
                     effectTime = 120;
                 }
-                TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Player.Center - Main.screenPosition, (int)(TerrorPercent / 2 + 100 + effectTime / 2), Color.Black * (0.75f * (effectTime / 120f)));
+                Utils.Graphics.DrawGlow_1(Main.spriteBatch, Player.Center - Main.screenPosition, (int)(TerrorPercent / 2 + 100 + effectTime / 2), Color.Black * (0.75f * (effectTime / 120f)));
             }
 
             if (drawInfo.Position == Player.position && parryLightTime > 0)
             {
                 parryLightTime--;
-                TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Player.Center - Main.screenPosition, (int)(100 + parryLightTime * 2), parryColor * (0.75f * (parryLightTime / 20f)));
+                Utils.Graphics.DrawGlow_1(Main.spriteBatch, Player.Center - Main.screenPosition, (int)(100 + parryLightTime * 2), parryColor * (0.75f * (parryLightTime / 20f)));
             }
         }
 
@@ -1542,8 +1542,8 @@ namespace TerrorbornMod
                 }
             }
 
-            primaryAbilityInt = TerrorbornUtils.abilityToInt(primaryAbility);
-            secondaryAbilityInt = TerrorbornUtils.abilityToInt(secondaryAbility);
+            primaryAbilityInt = Utils.General.abilityToInt(primaryAbility);
+            secondaryAbilityInt = Utils.General.abilityToInt(secondaryAbility);
 
             if (TerrorbornMod.PrimaryTerrorAbility.JustPressed)
             {
@@ -1877,8 +1877,8 @@ namespace TerrorbornMod
             MidnightFruit = tag.GetInt("MidnightFruit");
             DarkEnergyStored = tag.GetInt("DarkEnergyStored");
 
-            primaryAbility = TerrorbornUtils.intToAbility(primaryAbilityInt);
-            secondaryAbility = TerrorbornUtils.intToAbility(secondaryAbilityInt);
+            primaryAbility = Utils.General.intToAbility(primaryAbilityInt);
+            secondaryAbility = Utils.General.intToAbility(secondaryAbilityInt);
         }
 
         public static TerrorbornPlayer modPlayer(Player Player)

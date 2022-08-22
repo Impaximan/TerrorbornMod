@@ -38,7 +38,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
         public override void RandomUpdate(int i, int j)
         {
-            if (TerrorbornUtils.TileShouldBeGrass(i, j))
+            if (Utils.General.TileShouldBeGrass(i, j))
             {
                 Main.tile[i, j].TileType = (ushort)ModContent.TileType<KindlingGrass>();
                 //return;

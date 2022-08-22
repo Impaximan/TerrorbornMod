@@ -13,7 +13,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TBUtils.Accessories.GetParryShieldString(cooldown, knockback));
+            Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback));
         }
 
         public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.parryColor = Color.SaddleBrown;
-            TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);
+            Utils.Accessories.UpdateParryShield(cooldown, Item, player);
         }
     }
 }

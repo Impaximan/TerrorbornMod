@@ -14,7 +14,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TBUtils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks summons beetles that will spin around you and damage enemies");
+            Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks summons beetles that will spin around you and damage enemies");
         }
 
         public override void SetDefaults()
@@ -45,7 +45,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
                 int proj = Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<OrbitingBeetle>(), 220, 0f, player.whoAmI);
                 Main.projectile[proj].ai[0] = 1;
             }
-            TBUtils.Accessories.UpdateParryShield(cooldown, Item, player);
+            Utils.Accessories.UpdateParryShield(cooldown, Item, player);
         }
     }
 

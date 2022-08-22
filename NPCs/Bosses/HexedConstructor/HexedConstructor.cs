@@ -533,7 +533,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
 
             if (drawingLine)
             {
-                Utils.DrawLine(spriteBatch, lineStart, lineStart + lineDistance * LineRotation.ToRotationVector2(), colorStart, colorEnd, 3);
+                Terraria.Utils.DrawLine(spriteBatch, lineStart, lineStart + lineDistance * LineRotation.ToRotationVector2(), colorStart, colorEnd, 3);
             }
             return false;
         }

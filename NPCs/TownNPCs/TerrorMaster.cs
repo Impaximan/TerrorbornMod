@@ -219,19 +219,19 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     }
                     else if (currentOption1 == 1) //Where is the next shrine
                     {
-                        if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(new Abilities.NecromanticCurseInfo())))
+                        if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(new Abilities.NecromanticCurseInfo())))
                         {
                             Main.npcChatText = "The first ability you will be looking for is not actually located at a terror shrine, but rather the entrance of another structure. If I recall correctly, it should be to the same side of the island as the tundra, and on the surface, which is why this should be the first one you get- it's the easiest to find.";
                         }
-                        else if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(new Abilities.HorrificAdaptationInfo())))
+                        else if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(new Abilities.HorrificAdaptationInfo())))
                         {
                             Main.npcChatText = "The next one is going to be significantly harder to find than the first one, since it's buried somewhere underground around the same area as the jungle. I don't remember if it's exactly in the jungle, but I do know it's somewhere in that area. Some dark pearls would be highly helpful when searching for it.";
                         }
-                        else if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(new Abilities.VoidBlinkInfo())))
+                        else if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(new Abilities.VoidBlinkInfo())))
                         {
                             Main.npcChatText = "Still looking for more, eh? Well, I'm not surprised. Anyways, this one is about as deep as it gets; it's under the island, buried in the ashes of the underworld. I don't have an exact horizontal position for it, so you'll just have to search for it down there manually, or with the help of some trusty dark pearls.";
                         }
-                        else if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(new Abilities.TerrorWarpInfo())))
+                        else if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(new Abilities.TerrorWarpInfo())))
                         {
                             Main.npcChatText = "This one is less dangerous to find, but highly protected and very well hidden. I have no bearing for its location, all I know is that it's somewhere underground. Unless you're highly lucky, you'll practically be needing dark pearls to find it. The person who created the shrines thought the chaotic nature of this ability was highly dangerous, and thus protected the entrance to it with titanium ore. As such, you'll need a good pickaxe to get in.";
                         }

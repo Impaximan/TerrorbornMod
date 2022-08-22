@@ -1449,7 +1449,7 @@ namespace TerrorbornMod
                 {
                     Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
                     Color color = Projectile.GetAlpha(Color.LightGray) * ((float)(positions.Count - i) / (float)positions.Count);
-                    TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * ((float)(positions.Count - i) / (float)positions.Count)), color);
+                    Utils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * ((float)(positions.Count - i) / (float)positions.Count)), color);
                 }
             }
             return false;

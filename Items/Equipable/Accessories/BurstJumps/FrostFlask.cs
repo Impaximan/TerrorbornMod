@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(TBUtils.Accessories.GetBurstJumpString((int)(60 * 1.5f)));
+            Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString((int)(60 * 1.5f)));
         }
 
         public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            TBUtils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 45, Item, player, new Vector2(8, -20), Color.White, SoundID.Item14);
+            Utils.Accessories.UpdateBurstJump((int)(60 * 1.5f), 45, Item, player, new Vector2(8, -20), Color.White, SoundID.Item14);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.BurstJumpTime > 0)
             {

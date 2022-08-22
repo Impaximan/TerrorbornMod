@@ -9,6 +9,7 @@ using Terraria.ModLoader.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using TerrorbornMod.Utils;
 
 namespace TerrorbornMod.NPCs
 {
@@ -59,8 +60,8 @@ namespace TerrorbornMod.NPCs
         {
             foreach (Vector2 leg in legs)
             {
-                Utils.DrawLine(spriteBatch, NPC.Center, leg, Color.White * 0.25f, Color.White * 0.15f, 5);
-                Utils.DrawLine(spriteBatch, leg, leg.findGroundUnder(), Color.White * 0.15f, Color.Transparent, 5);
+                Terraria.Utils.DrawLine(spriteBatch, NPC.Center, leg, Color.White * 0.25f, Color.White * 0.15f, 5);
+                Terraria.Utils.DrawLine(spriteBatch, leg, leg.findGroundUnder(), Color.White * 0.15f, Color.Transparent, 5);
             }
             return base.PreDraw(spriteBatch, screenPos, drawColor);
         }

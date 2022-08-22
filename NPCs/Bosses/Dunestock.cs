@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Terraria.WorldBuilding;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using TerrorbornMod.Utils;
 
 namespace TerrorbornMod.NPCs.Bosses
 {
@@ -189,7 +190,7 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             if (DrawLine)
             {
-                Utils.DrawLine(spriteBatch, NPC.Center, LineEnd, Color.LightYellow, Color.LightYellow, 3);
+                Terraria.Utils.DrawLine(spriteBatch, NPC.Center, LineEnd, Color.LightYellow, Color.LightYellow, 3);
             }
             return base.PreDraw(spriteBatch, screenPos, drawColor);
         }
@@ -1220,7 +1221,7 @@ namespace TerrorbornMod.NPCs.Bosses
             {
                 Color color = Color.LightYellow;
                 color.A = (int)(255 * 0.75f);
-                Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 2200f, color * telegraphAlpha, Color.Transparent, 3);
+                Terraria.Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 2200f, color * telegraphAlpha, Color.Transparent, 3);
             }
             //Thanks to Seraph for afterimage code.
             Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);

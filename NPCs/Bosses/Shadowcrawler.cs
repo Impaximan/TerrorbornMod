@@ -179,9 +179,9 @@ namespace TerrorbornMod.NPCs.Bosses
             //    Color mainColor = Color.LightGreen;
             //    mainColor *= 0.25f;
             //    float fadeOffset = 2f;
-            //    Utils.DrawLine(spriteBatch, NPC.position + new Vector2(0, NPC.height), NPC.position + new Vector2(NPC.width, NPC.height), mainColor, mainColor, 3f);
-            //    Utils.DrawLine(spriteBatch, NPC.position + new Vector2(-20, NPC.height), NPC.position + new Vector2(fadeOffset, NPC.height), Color.Transparent, mainColor, 3f);
-            //    Utils.DrawLine(spriteBatch, NPC.position + new Vector2(NPC.width - fadeOffset, NPC.height), NPC.position + new Vector2(NPC.width + 20, NPC.height), mainColor, Color.Transparent, 3f);
+            //    Terraria.Utils.DrawLine(spriteBatch, NPC.position + new Vector2(0, NPC.height), NPC.position + new Vector2(NPC.width, NPC.height), mainColor, mainColor, 3f);
+            //    Terraria.Utils.DrawLine(spriteBatch, NPC.position + new Vector2(-20, NPC.height), NPC.position + new Vector2(fadeOffset, NPC.height), Color.Transparent, mainColor, 3f);
+            //    Terraria.Utils.DrawLine(spriteBatch, NPC.position + new Vector2(NPC.width - fadeOffset, NPC.height), NPC.position + new Vector2(NPC.width + 20, NPC.height), mainColor, Color.Transparent, 3f);
             //}
         }
 
@@ -1034,7 +1034,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override bool PreDraw(ref Color lightColor)
         {
-            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, 60, Color.LimeGreen * 0.5f);
+            Utils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, 60, Color.LimeGreen * 0.5f);
             return base.PreDraw(ref lightColor);
         }
 
@@ -1163,7 +1163,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override bool PreDraw(ref Color lightColor)
         {
-            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, 15, Color.LimeGreen * 1f);
+            Utils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, 15, Color.LimeGreen * 1f);
             return false;
         }
     }
@@ -1191,7 +1191,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override bool PreDraw(ref Color lightColor)
         {
-            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, 45, Color.LimeGreen * 1f);
+            Utils.Graphics.DrawGlow_1(Main.spriteBatch, Projectile.Center - Main.screenPosition, 45, Color.LimeGreen * 1f);
             return false;
         }
 

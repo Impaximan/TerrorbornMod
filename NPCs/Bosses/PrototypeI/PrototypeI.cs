@@ -181,7 +181,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
         List<float> deathSpotlights = new List<float>();
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            TBUtils.Graphics.DrawGlow_1(Main.spriteBatch, NPC.Center - Main.screenPosition, 300, NPC.GetAlpha(Color.LimeGreen) * 0.35f);
+            Utils.Graphics.DrawGlow_1(Main.spriteBatch, NPC.Center - Main.screenPosition, 300, NPC.GetAlpha(Color.LimeGreen) * 0.35f);
 
             for (int i = 0; i < deathSpotlights.Count; i++)
             {
@@ -267,7 +267,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                     break;
                 }
 
-                Utils.DrawLine(spriteBatch, lines[i].Item1, lines[i].Item2, lines[i].Item3, lines[i].Item4, lines[i].Item5);
+                Terraria.Utils.DrawLine(spriteBatch, lines[i].Item1, lines[i].Item2, lines[i].Item3, lines[i].Item4, lines[i].Item5);
             }
         }
 

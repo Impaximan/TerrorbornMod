@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 
 
-namespace TerrorbornMod.TBUtils
+namespace TerrorbornMod.Utils
 {
     public static class Graphics
     {

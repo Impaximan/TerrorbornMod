@@ -899,7 +899,7 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && Utils.General.TileShouldBeGrass(i + x, j + y))
                     {
                         tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
@@ -1005,7 +1005,7 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && Utils.General.TileShouldBeGrass(i + x, j + y))
                     {
                         tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
@@ -1136,7 +1136,7 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && Utils.General.TileShouldBeGrass(i + x, j + y))
                     {
                         tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
@@ -1318,7 +1318,7 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && Utils.General.TileShouldBeGrass(i + x, j + y))
                     {
                         tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
@@ -1444,7 +1444,7 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && Utils.General.TileShouldBeGrass(i + x, j + y))
                     {
                         tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
@@ -1615,7 +1615,7 @@ namespace TerrorbornMod
                 for (int y = -extraDistance; y < islandHeight + extraDistance; y++)
                 {
                     Tile tile = Main.tile[i + x, j + y];
-                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && TerrorbornUtils.TileShouldBeGrass(i + x, j + y))
+                    if (tile.TileType == ModContent.TileType<Tiles.Incendiary.KindlingSoil>() && Utils.General.TileShouldBeGrass(i + x, j + y))
                     {
                         tile.TileType = (ushort)ModContent.TileType<Tiles.Incendiary.KindlingGrass>();
                     }
@@ -2807,7 +2807,7 @@ namespace TerrorbornMod
             {
                 timeSinceLightning++;
             }
-            TerrorbornUtils.Update();
+            Utils.General.Update();
 
             UpdateForegroundObjects();
 

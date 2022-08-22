@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrorbornMod.ForegroundObjects;
 
-namespace TerrorbornMod.TBUtils
+namespace TerrorbornMod.Utils
 {
     static class Detours
     {

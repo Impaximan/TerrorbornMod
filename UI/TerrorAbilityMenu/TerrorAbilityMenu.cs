@@ -117,17 +117,17 @@ namespace TerrorbornMod.UI.TerrorMeter
                 ability2 = new HiddenInstinctInfo();
                 ability3 = new GelatinArmorInfo();
 
-                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability1)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability1)))
                 {
                     if (ability1.typeInt() == 0) ability1 = new None();
                     else ability1 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability2)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability2)))
                 {
                     if (ability2.typeInt() == 0) ability2 = new None();
                     else ability2 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability3)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability3)))
                 {
                     if (ability3.typeInt() == 0) ability3 = new None();
                     else ability3 = new NotYetUnlocked();
@@ -139,17 +139,17 @@ namespace TerrorbornMod.UI.TerrorMeter
                 ability2 = new HorrificAdaptationInfo();
                 ability3 = new VoidBlinkInfo();
 
-                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability1)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability1)))
                 {
                     if (ability1.typeInt() == 0) ability1 = new None();
                     else ability1 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability2)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability2)))
                 {
                     if (ability2.typeInt() == 0) ability2 = new None();
                     else ability2 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability3)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability3)))
                 {
                     if (ability3.typeInt() == 0) ability3 = new None();
                     else ability3 = new NotYetUnlocked();
@@ -162,17 +162,17 @@ namespace TerrorbornMod.UI.TerrorMeter
                 ability2 = new TerrorWarpInfo();
                 ability3 = new TimeFreezeInfo();
 
-                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability1)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability1)))
                 {
                     if (ability1.typeInt() == 0) ability1 = new None();
                     else ability1 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability2)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability2)))
                 {
                     if (ability2.typeInt() == 0) ability2 = new None();
                     else ability2 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(ability3)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability3)))
                 {
                     if (ability3.typeInt() == 0) ability3 = new None();
                     else ability3 = new NotYetUnlocked();
@@ -243,7 +243,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             spriteBatch.DrawString(FontAssets.DeathText.Value, "Next page", new Vector2(screenCenter.X - 163f, screenCenter.Y - 125f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
 
-            if (new Rectangle((int)(screenCenter.X - 375), (int)(screenCenter.Y - 125), 110, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed) //When previous page is clicked
+            if (new Rectangle((int)(screenCenter.X - 375), (int)(screenCenter.Y - 125), 110, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed) //When previous page is clicked
             {
                 page--;
                 if (page < 0)
@@ -253,7 +253,7 @@ namespace TerrorbornMod.UI.TerrorMeter
                 SoundExtensions.PlaySoundOld(SoundID.MenuTick);
             }
 
-            if (new Rectangle((int)(screenCenter.X - 185), (int)(screenCenter.Y - 125), 110, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed) //When next page is clicked
+            if (new Rectangle((int)(screenCenter.X - 185), (int)(screenCenter.Y - 125), 110, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed) //When next page is clicked
             {
                 page++;
                 if (page > maxPage)
@@ -271,7 +271,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Primary1.Draw(spriteBatch);
             spriteBatch.DrawString(FontAssets.DeathText.Value, "Primary", new Vector2(screenCenter.X - 314f, screenCenter.Y - 330f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
-            if (new Rectangle((int)(screenCenter.X - 318), (int)(screenCenter.Y - 330), 65, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
+            if (new Rectangle((int)(screenCenter.X - 318), (int)(screenCenter.Y - 330), 65, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed)
             {
                 modPlayer.primaryAbility = ability1;
                 SoundExtensions.PlaySoundOld(SoundID.Grab);
@@ -284,7 +284,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Primary2.Draw(spriteBatch);
             spriteBatch.DrawString(FontAssets.DeathText.Value, "Primary", new Vector2(screenCenter.X - 314f, screenCenter.Y - 245f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
-            if (new Rectangle((int)(screenCenter.X - 318), (int)(screenCenter.Y - 245), 65, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
+            if (new Rectangle((int)(screenCenter.X - 318), (int)(screenCenter.Y - 245), 65, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed)
             {
                 modPlayer.primaryAbility = ability2;
                 SoundExtensions.PlaySoundOld(SoundID.Grab);
@@ -297,7 +297,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Primary3.Draw(spriteBatch);
             spriteBatch.DrawString(FontAssets.DeathText.Value, "Primary", new Vector2(screenCenter.X - 314f, screenCenter.Y - 160f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
-            if (new Rectangle((int)(screenCenter.X - 318), (int)(screenCenter.Y - 160f), 65, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
+            if (new Rectangle((int)(screenCenter.X - 318), (int)(screenCenter.Y - 160f), 65, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed)
             {
                 modPlayer.primaryAbility = ability3;
                 SoundExtensions.PlaySoundOld(SoundID.Grab);
@@ -311,7 +311,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Secondary1.Draw(spriteBatch);
             spriteBatch.DrawString(FontAssets.DeathText.Value, "Secondary", new Vector2(screenCenter.X - 237f, screenCenter.Y - 330f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
-            if (new Rectangle((int)(screenCenter.X - 240), (int)(screenCenter.Y - 330), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
+            if (new Rectangle((int)(screenCenter.X - 240), (int)(screenCenter.Y - 330), 81, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed)
             {
                 modPlayer.secondaryAbility = ability1;
                 SoundExtensions.PlaySoundOld(SoundID.Grab);
@@ -324,7 +324,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Secondary2.Draw(spriteBatch);
             spriteBatch.DrawString(FontAssets.DeathText.Value, "Secondary", new Vector2(screenCenter.X - 237f, screenCenter.Y - 245f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
-            if (new Rectangle((int)(screenCenter.X - 240), (int)(screenCenter.Y - 245), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
+            if (new Rectangle((int)(screenCenter.X - 240), (int)(screenCenter.Y - 245), 81, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed)
             {
                 modPlayer.secondaryAbility = ability2;
                 SoundExtensions.PlaySoundOld(SoundID.Grab);
@@ -337,7 +337,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Secondary3.Draw(spriteBatch);
             spriteBatch.DrawString(FontAssets.DeathText.Value, "Secondary", new Vector2(screenCenter.X - 237f, screenCenter.Y - 160f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
-            if (new Rectangle((int)(screenCenter.X - 240), (int)(screenCenter.Y - 160f), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
+            if (new Rectangle((int)(screenCenter.X - 240), (int)(screenCenter.Y - 160f), 81, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed)
             {
                 modPlayer.secondaryAbility = ability3;
                 SoundExtensions.PlaySoundOld(SoundID.Grab);
@@ -356,7 +356,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Explanation1.Draw(spriteBatch);
             spriteBatch.DrawString(FontAssets.DeathText.Value, "?", new Vector2(ExplanationLeft + QuestionMarkOffsetX, screenCenter.Y - 328f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
-            if (new Rectangle((int)(ExplanationLeft), (int)(screenCenter.Y - 330), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
+            if (new Rectangle((int)(ExplanationLeft), (int)(screenCenter.Y - 330), 81, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed)
             {
                 showingAbilityDescription = true;
                 abilityDescription = ability1.Description();
@@ -370,7 +370,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Explanation2.Draw(spriteBatch);
             spriteBatch.DrawString(FontAssets.DeathText.Value, "?", new Vector2(ExplanationLeft + QuestionMarkOffsetX, screenCenter.Y - 243f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
-            if (new Rectangle((int)(ExplanationLeft), (int)(screenCenter.Y - 245), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
+            if (new Rectangle((int)(ExplanationLeft), (int)(screenCenter.Y - 245), 81, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed)
             {
                 showingAbilityDescription = true;
                 abilityDescription = ability2.Description();
@@ -384,7 +384,7 @@ namespace TerrorbornMod.UI.TerrorMeter
             Explanation3.Draw(spriteBatch);
             spriteBatch.DrawString(FontAssets.DeathText.Value, "?", new Vector2(ExplanationLeft + QuestionMarkOffsetX, screenCenter.Y - 158f), Color.White, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 0f);
 
-            if (new Rectangle((int)(ExplanationLeft), (int)(screenCenter.Y - 160f), 81, 20).Intersects(mouseRectangle) && TerrorbornUtils.mouseJustPressed)
+            if (new Rectangle((int)(ExplanationLeft), (int)(screenCenter.Y - 160f), 81, 20).Intersects(mouseRectangle) && Utils.General.mouseJustPressed)
             {
                 showingAbilityDescription = true;
                 abilityDescription = ability3.Description();
