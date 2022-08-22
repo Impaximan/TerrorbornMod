@@ -90,7 +90,7 @@ namespace TerrorbornMod.Utils
             return false;
         }
 
-        public static AbilityInfo intToAbility(int integerValue)
+        public static AbilityInfo IntToAbility(int integerValue)
         {
             if (integerValue == 0)
             {
@@ -135,12 +135,12 @@ namespace TerrorbornMod.Utils
             return new None();
         }
 
-        public static int abilityToInt(AbilityInfo abilityType)
+        public static int AbilityToInt(AbilityInfo abilityType)
         {
             return abilityType.typeInt();
         }
 
-        public static Vector2 findGroundUnder(this Vector2 position)
+        public static Vector2 FindGroundUnder(this Vector2 position)
         {
             Vector2 returned = position;
             while (!WorldUtils.Find(returned.ToTileCoordinates(), Searches.Chain(new Searches.Down(1), new GenCondition[]
@@ -154,7 +154,7 @@ namespace TerrorbornMod.Utils
             return returned;
         }
 
-        public static Vector2 findGroundUnder(this Vector2 position, int type)
+        public static Vector2 FindGroundUnder(this Vector2 position, int type)
         {
             Vector2 returned = position;
 
@@ -173,7 +173,7 @@ namespace TerrorbornMod.Utils
             return returned;
         }
 
-        public static Vector2 findCeilingAbove(this Vector2 position)
+        public static Vector2 FindCeilingAbove(this Vector2 position)
         {
             Vector2 returned = position;
             while (!WorldUtils.Find(returned.ToTileCoordinates(), Searches.Chain(new Searches.Up(1), new GenCondition[]
@@ -187,7 +187,7 @@ namespace TerrorbornMod.Utils
             return returned;
         }
 
-        public static Vector2 findCeilingAbove(this Vector2 position, int type)
+        public static Vector2 FindCeilingAbove(this Vector2 position, int type)
         {
             Vector2 returned = position;
 

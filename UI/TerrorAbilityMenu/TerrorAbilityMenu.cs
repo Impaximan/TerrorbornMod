@@ -117,17 +117,17 @@ namespace TerrorbornMod.UI.TerrorMeter
                 ability2 = new HiddenInstinctInfo();
                 ability3 = new GelatinArmorInfo();
 
-                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability1)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(ability1)))
                 {
                     if (ability1.typeInt() == 0) ability1 = new None();
                     else ability1 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability2)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(ability2)))
                 {
                     if (ability2.typeInt() == 0) ability2 = new None();
                     else ability2 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability3)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(ability3)))
                 {
                     if (ability3.typeInt() == 0) ability3 = new None();
                     else ability3 = new NotYetUnlocked();
@@ -139,17 +139,17 @@ namespace TerrorbornMod.UI.TerrorMeter
                 ability2 = new HorrificAdaptationInfo();
                 ability3 = new VoidBlinkInfo();
 
-                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability1)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(ability1)))
                 {
                     if (ability1.typeInt() == 0) ability1 = new None();
                     else ability1 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability2)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(ability2)))
                 {
                     if (ability2.typeInt() == 0) ability2 = new None();
                     else ability2 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability3)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(ability3)))
                 {
                     if (ability3.typeInt() == 0) ability3 = new None();
                     else ability3 = new NotYetUnlocked();
@@ -162,17 +162,17 @@ namespace TerrorbornMod.UI.TerrorMeter
                 ability2 = new TerrorWarpInfo();
                 ability3 = new TimeFreezeInfo();
 
-                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability1)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(ability1)))
                 {
                     if (ability1.typeInt() == 0) ability1 = new None();
                     else ability1 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability2)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(ability2)))
                 {
                     if (ability2.typeInt() == 0) ability2 = new None();
                     else ability2 = new NotYetUnlocked();
                 }
-                if (!modPlayer.unlockedAbilities.Contains(Utils.General.abilityToInt(ability3)))
+                if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(ability3)))
                 {
                     if (ability3.typeInt() == 0) ability3 = new None();
                     else ability3 = new NotYetUnlocked();

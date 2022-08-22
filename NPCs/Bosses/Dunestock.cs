@@ -23,7 +23,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public Vector2 findTileUnderPosition(int positionX, int positionY)
         {
-            return new Vector2(positionX, positionY).findGroundUnder();
+            return new Vector2(positionX, positionY).FindGroundUnder();
         }
 
         public override void SetStaticDefaults()

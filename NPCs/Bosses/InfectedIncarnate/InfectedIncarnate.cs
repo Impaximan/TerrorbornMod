@@ -24,7 +24,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Vector2 originPoint = NPC.Center;
-            Vector2 center = arena.Center.ToVector2().findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>());
+            Vector2 center = arena.Center.ToVector2().FindCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>());
             Vector2 distToProj = originPoint - center;
             float projRotation = distToProj.ToRotation() - 1.57f;
             float distance = distToProj.Length();
@@ -88,7 +88,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             timeAlive++;
             float rotation = MathHelper.ToRadians(94f + (float)Math.Sin(timeAlive / 50) * 4f);
 
-            NPC.position = arena.Center.ToVector2().findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + rotation.ToRotationVector2() * arena.Height / 2;
+            NPC.position = arena.Center.ToVector2().FindCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + rotation.ToRotationVector2() * arena.Height / 2;
             NPC.rotation = rotation - MathHelper.ToRadians(94f);
 
             if (TerrorbornPlayer.modPlayer(Main.LocalPlayer).ShriekTime > 0 && arena.Contains(Main.LocalPlayer.getRect()) && !spawningAnimation)
@@ -481,7 +481,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 NPC.noTileCollide = true;
                 int direction = 1;
                 if (Main.rand.NextBool()) direction = -1;
-                Teleport(new Vector2(arena.Center.X + arena.Width / 10 * direction, arena.Y + 60), arena.Center().findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
+                Teleport(new Vector2(arena.Center.X + arena.Width / 10 * direction, arena.Y + 60), arena.Center().FindGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
                 NPC.velocity = new Vector2(2 * direction, -10);
                 attackCounter1 = delay;
                 frame = 23;
@@ -557,7 +557,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 int direction = 1;
                 if (Main.rand.NextBool()) direction = -1;
                 int distanceFromCenter = 250;
-                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, NPC.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
+                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).FindGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, NPC.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).FindGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
                 NPC.noTileCollide = false;
                 NPC.noGravity = false;
                 NPC.rotation = 0f;
@@ -590,7 +590,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 if (attackCounter2 >= 60)
                 {
                     attackCounter2 = 0;
-                    Vector2 position = player.Center.findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>());
+                    Vector2 position = player.Center.FindCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>());
                     Vector2 velocity = new Vector2(0, 10);
                     Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), position, velocity, ModContent.ProjectileType<InfectedBoulder>(), 50 / 4, 0f);
                 }
@@ -613,7 +613,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 int direction = 1;
                 if (Main.rand.NextBool()) direction = -1;
                 int distanceFromCenter = 100;
-                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, NPC.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
+                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).FindGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, NPC.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).FindGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
                 NPC.noTileCollide = false;
                 NPC.noGravity = false;
                 NPC.rotation = 0f;
@@ -686,7 +686,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 int direction = 1;
                 if (Main.rand.NextBool()) direction = -1;
                 int distanceFromCenter = 200;
-                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + new Vector2(0, NPC.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
+                Teleport((arena.Center() + new Vector2(distanceFromCenter * direction, 0)).FindCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + new Vector2(0, NPC.height / 2), (arena.Center() + new Vector2(distanceFromCenter * -direction, 0)).FindGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2));
                 NPC.noTileCollide = false;
                 NPC.noGravity = true;
                 NPC.rotation = 0f;
@@ -767,11 +767,11 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             bool above = Main.rand.NextBool();
             if (above)
             {
-                return new Vector2(arena.Center.X + Main.rand.Next(-maxDistance, maxDistance), arena.Center.Y).findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>());
+                return new Vector2(arena.Center.X + Main.rand.Next(-maxDistance, maxDistance), arena.Center.Y).FindCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>());
             }
             else
             {
-                return new Vector2(arena.Center.X + Main.rand.Next(-maxDistance, maxDistance), arena.Center.Y).findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>());
+                return new Vector2(arena.Center.X + Main.rand.Next(-maxDistance, maxDistance), arena.Center.Y).FindGroundUnder(ModContent.TileType<Tiles.MemorialBrick>());
             }
         }
 
@@ -787,7 +787,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                 teleportDirection = 1;
                 if (Main.rand.NextBool()) teleportDirection = -1;
                 int distanceFromCenter = 200;
-                Teleport((arena.Center() + new Vector2(distanceFromCenter * teleportDirection, 0)).findCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + new Vector2(0, NPC.height / 2), (arena.Center().findGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2)));
+                Teleport((arena.Center() + new Vector2(distanceFromCenter * teleportDirection, 0)).FindCeilingAbove(ModContent.TileType<Tiles.MemorialBrick>()) + new Vector2(0, NPC.height / 2), (arena.Center().FindGroundUnder(ModContent.TileType<Tiles.MemorialBrick>()) - new Vector2(0, player.height / 2)));
                 NPC.noTileCollide = true;
                 NPC.noGravity = true;
                 NPC.rotation = 0f;

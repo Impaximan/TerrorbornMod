@@ -61,7 +61,7 @@ namespace TerrorbornMod.NPCs
             foreach (Vector2 leg in legs)
             {
                 Terraria.Utils.DrawLine(spriteBatch, NPC.Center, leg, Color.White * 0.25f, Color.White * 0.15f, 5);
-                Terraria.Utils.DrawLine(spriteBatch, leg, leg.findGroundUnder(), Color.White * 0.15f, Color.Transparent, 5);
+                Terraria.Utils.DrawLine(spriteBatch, leg, leg.FindGroundUnder(), Color.White * 0.15f, Color.Transparent, 5);
             }
             return base.PreDraw(spriteBatch, screenPos, drawColor);
         }
@@ -113,7 +113,7 @@ namespace TerrorbornMod.NPCs
             }
 
             Player player = Main.LocalPlayer;
-            Vector2 groundPosition = NPC.Center.findGroundUnder();
+            Vector2 groundPosition = NPC.Center.FindGroundUnder();
             if (NPC.life <= NPC.lifeMax / 2 && Main.expertMode)
             {
                 enraged = true;

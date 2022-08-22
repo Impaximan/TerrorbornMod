@@ -1542,8 +1542,8 @@ namespace TerrorbornMod
                 }
             }
 
-            primaryAbilityInt = Utils.General.abilityToInt(primaryAbility);
-            secondaryAbilityInt = Utils.General.abilityToInt(secondaryAbility);
+            primaryAbilityInt = Utils.General.AbilityToInt(primaryAbility);
+            secondaryAbilityInt = Utils.General.AbilityToInt(secondaryAbility);
 
             if (TerrorbornMod.PrimaryTerrorAbility.JustPressed)
             {
@@ -1877,8 +1877,8 @@ namespace TerrorbornMod
             MidnightFruit = tag.GetInt("MidnightFruit");
             DarkEnergyStored = tag.GetInt("DarkEnergyStored");
 
-            primaryAbility = Utils.General.intToAbility(primaryAbilityInt);
-            secondaryAbility = Utils.General.intToAbility(secondaryAbilityInt);
+            primaryAbility = Utils.General.IntToAbility(primaryAbilityInt);
+            secondaryAbility = Utils.General.IntToAbility(secondaryAbilityInt);
         }
 
         public static TerrorbornPlayer modPlayer(Player Player)

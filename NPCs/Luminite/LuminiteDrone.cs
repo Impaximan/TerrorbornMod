@@ -107,7 +107,7 @@ namespace TerrorbornMod.NPCs.Luminite
         public override void AI()
         {
             Player player = Main.LocalPlayer;
-            Vector2 groundPosition = NPC.Center.findGroundUnder();
+            Vector2 groundPosition = NPC.Center.FindGroundUnder();
 
             speed = MathHelper.Lerp(0.4f, 0.2f, (float)NPC.life / (float)NPC.lifeMax);
 

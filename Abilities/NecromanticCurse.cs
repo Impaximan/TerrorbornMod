@@ -174,7 +174,7 @@ namespace TerrorbornMod.Abilities
                 {
                     for (int i = 0; i < tPlayer.unlockedAbilities.Count; i++)
                     {
-                        Main.NewText(Utils.General.intToAbility(tPlayer.unlockedAbilities[i]).Name());
+                        Main.NewText(Utils.General.IntToAbility(tPlayer.unlockedAbilities[i]).Name());
                     }
                 }
             }

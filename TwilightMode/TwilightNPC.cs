@@ -4024,7 +4024,7 @@ namespace TerrorbornMod.TwilightMode
 					Point point4 = Main.player[NPC.target].Center.ToTileCoordinates();
 					Vector2 vector30 = Main.player[NPC.target].Center - NPC.Center;
 					Player player = Main.player[NPC.target];
-					Vector2 bottom = new Vector2(player.Center.X + Math.Sign(player.Center.X - NPC.Center.X) * 400f, player.Center.Y - 500f).findGroundUnder(); //Set teleport position
+					Vector2 bottom = new Vector2(player.Center.X + Math.Sign(player.Center.X - NPC.Center.X) * 400f, player.Center.Y - 500f).FindGroundUnder(); //Set teleport position
 					NPC.localAI[1] = bottom.X;
 					NPC.localAI[2] = bottom.Y;
 					DustExplosion(bottom, 0, 40, 25f, DustID.t_Slime, Color.Azure, 2f, true);
