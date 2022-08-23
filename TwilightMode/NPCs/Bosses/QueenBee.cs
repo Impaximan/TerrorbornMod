@@ -4,12 +4,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using System;
-using Terraria.Audio;
-using Terraria.DataStructures;
-using TerrorbornMod.Utils;
-using TerrorbornMod.NPCs;
-using TerrorbornMod.NPCs.Bosses;
-using TerrorbornMod.NPCs.Bosses.TidalTitan;
 
 namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 {

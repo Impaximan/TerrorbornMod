@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using TerrorbornMod.Utils;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items.Equipable.Accessories.Shields

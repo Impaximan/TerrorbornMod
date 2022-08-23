@@ -3,10 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
-using System;
-using Terraria.Audio;
 using Terraria.DataStructures;
-using TerrorbornMod.Utils;
 using TerrorbornMod.NPCs;
 
 namespace TerrorbornMod.TwilightMode.NPCs
