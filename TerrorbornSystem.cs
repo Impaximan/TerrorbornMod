@@ -2426,7 +2426,7 @@ namespace TerrorbornMod
             }
             Structures.StructureGenerator.GenerateIIArena(Mod, new Point((int)IIShrinePosition.X - 52, (int)IIShrinePosition.Y - 8));
 
-            VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f);
+            VoidBlink = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.95f - 10);
             Structures.StructureGenerator.GenerateVBShrine(Mod, new Point((int)VoidBlink.X, (int)VoidBlink.Y));
 
             TerrorWarp = new Vector2(WorldGen.genRand.Next(50, Main.maxTilesX - 50), Main.maxTilesY * 0.66f);
@@ -2441,14 +2441,25 @@ namespace TerrorbornMod
         public void GenerateDeimostoneCaves()
         {
             float amountMultiplier = 0.003f;
-            GenerateDeimostoneCave(new Point16(WorldGen.genRand.Next(Main.maxTilesX / 2 - 350, Main.maxTilesX / 2 + 350), (int)(WorldGen.rockLayerHigh + 25)), WorldGen.genRand.NextFloat(1.2f, 1.6f));
+            GenerateDeimostoneCave(new Point16(WorldGen.genRand.Next(Main.maxTilesX / 2 - 350, Main.maxTilesX / 2 + 350), (int)(WorldGen.rockLayerHigh + 25)), WorldGen.genRand.NextFloat(1.35f, 1.6f));
             for (int i = 0; i < Main.maxTilesX * amountMultiplier; i++)
             {
                 GenerateDeimostoneCave(new Point16(WorldGen.genRand.Next(500, Main.maxTilesX - 500), WorldGen.genRand.Next((int)WorldGen.rockLayerHigh, (int)Main.maxTilesY - 300)), WorldGen.genRand.NextFloat(1.2f, 1.6f));
             }
         }
 
-        public void GenerateDeimostoneCave(Point16 position, float sizeMultiplier)
+        public bool ShouldPlaceDeimostoneTile(int distanceFromTopOrBottom, FastNoiseLite noise, int x, int y)
+        {
+            return true;
+
+            //if (distanceFromTopOrBottom > 10f)
+            //{
+            //    return true;
+            //}
+            //return (noise.GetNoise(x * 1000f, y * 1000f) + 1f) / 2f >= 0.9f;//(float)distanceFromTopOrBottom / 10f;
+        }
+
+        public bool GenerateDeimostoneCave(Point16 position, float sizeMultiplier)
         {
             int caveHeight = (int)(125 * sizeMultiplier);
             int caveWidth = (int)(32 * sizeMultiplier);
@@ -2465,10 +2476,14 @@ namespace TerrorbornMod
             int smallSpikeSize = (int)(25 * sizeMultiplier);
             int smallSpikeThickness = (int)(2 * sizeMultiplier);
 
+            int caveTop = position.Y - (caveHeight / 2);
+            int caveBottom = position.Y + (caveHeight / 2);
+
+            FastNoiseLite noise = new FastNoiseLite();
+            noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
 
             deimostoneCaves.Add(new Rectangle(position.X - caveWidth, position.Y - caveHeight, caveWidth * 2, caveHeight * 2));
 
-            bool dontGenerate = false;
             for (int i = -caveWidth; i < caveWidth; i++)
             {
                 for (int j = -caveHeight; j < caveHeight; j++)
@@ -2476,14 +2491,9 @@ namespace TerrorbornMod
                     Point16 tilePosition = new Point16(position.X + i, position.Y + j);
                     if (Main.tile[tilePosition.X, tilePosition.Y].TileType == ModContent.TileType<Tiles.Deimostone>())
                     {
-                        dontGenerate = true;
+                        return false;
                     }
                 }
-            }
-
-            if (dontGenerate)
-            {
-                return;
             }
 
             int pointCount = 12;
@@ -2518,9 +2528,15 @@ namespace TerrorbornMod
                 int width = (int)(sideWidth * WorldGen.genRand.NextFloat(0.6f, 1.4f));
                 for (int w = x; w < position.X; w++)
                 {
-                    WorldGen.KillTile(w, y);
-                    WorldGen.KillWall(w, y);
-                    WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                    int distance = Math.Abs(y - caveTop);
+                    if (y > position.Y) distance = Math.Abs(y - caveBottom);
+
+                    if (ShouldPlaceDeimostoneTile(distance, noise, w, y))
+                    {
+                        WorldGen.KillTile(w, y);
+                        WorldGen.KillWall(w, y);
+                        WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                    }
                 }
                 for (int w = -width / 2; w <= width / 2; w++)
                 {
@@ -2530,16 +2546,26 @@ namespace TerrorbornMod
                 {
                     y = (int)MathHelper.Lerp(points[i + 1].Y, points[i].Y, (float)a / amount);
                     x = (int)MathHelper.Lerp(points[i + 1].X, points[i].X, (float)a / amount) - sideDistance;
+
+                    int distance = Math.Abs(y - caveTop);
+                    if (y > position.Y) distance = Math.Abs(y - caveBottom);
+
                     width = (int)(sideWidth * WorldGen.genRand.NextFloat(0.6f, 1.4f));
                     for (int w = x; w < position.X; w++)
                     {
-                        WorldGen.KillTile(w, y);
-                        WorldGen.KillWall(w, y);
-                        WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>(), true);
+                        if (ShouldPlaceDeimostoneTile(distance, noise, w, y))
+                        {
+                            WorldGen.KillTile(w, y);
+                            WorldGen.KillWall(w, y);
+                            WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>(), true);
+                        }
                     }
                     for (int w = -width / 2; w <= width / 2; w++)
                     {
-                        WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                        if (ShouldPlaceDeimostoneTile(distance, noise, x + w, y))
+                        {
+                            WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                        }
                     }
                 }
             }
@@ -2584,9 +2610,15 @@ namespace TerrorbornMod
                 int width = (int)(sideWidth * WorldGen.genRand.NextFloat(0.6f, 1.4f));
                 for (int w = x; w > position.X - 1; w--)
                 {
-                    WorldGen.KillTile(w, y);
-                    WorldGen.KillWall(w, y);
-                    WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                    int distance = Math.Abs(y - caveTop);
+                    if (y > position.Y) distance = Math.Abs(y - caveBottom);
+
+                    if (ShouldPlaceDeimostoneTile(distance, noise, w, y))
+                    {
+                        WorldGen.KillTile(w, y);
+                        WorldGen.KillWall(w, y);
+                        WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                    }
                 }
                 for (int w = -width / 2; w <= width / 2; w++)
                 {
@@ -2596,16 +2628,26 @@ namespace TerrorbornMod
                 {
                     y = (int)MathHelper.Lerp(points[i + 1].Y, points[i].Y, (float)a / amount);
                     x = (int)MathHelper.Lerp(points[i + 1].X, points[i].X, (float)a / amount) + sideDistance;
+
+                    int distance = Math.Abs(y - caveTop);
+                    if (y > position.Y) distance = Math.Abs(y - caveBottom);
+
                     width = (int)(sideWidth * WorldGen.genRand.NextFloat(0.6f, 1.4f));
                     for (int w = x; w > position.X - 1; w--)
                     {
-                        WorldGen.KillTile(w, y);
-                        WorldGen.KillWall(w, y);
-                        WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                        if (ShouldPlaceDeimostoneTile(distance, noise, w, y))
+                        {
+                            WorldGen.KillTile(w, y);
+                            WorldGen.KillWall(w, y);
+                            WorldGen.PlaceWall(w, y, ModContent.WallType<Tiles.DeimostoneWallTile>());
+                        }
                     }
                     for (int w = -width / 2; w <= width / 2; w++)
                     {
-                        WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                        if (ShouldPlaceDeimostoneTile(distance, noise, x + w, y))
+                        {
+                            WorldGen.PlaceTile(x + w, y, ModContent.TileType<Tiles.Deimostone>(), true, true);
+                        }
                     }
                 }
             }
@@ -2680,6 +2722,8 @@ namespace TerrorbornMod
             {
                 side = -1;
             }
+
+            return true;
         }
 
         public void GenerateDeimostoneChests()

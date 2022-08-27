@@ -520,6 +520,12 @@ namespace TerrorbornMod
                 return;
             }
 
+            if (TerrorbornPlayer.modPlayer(player).InTwilightOverload && TerrorbornSystem.TwilightMode)
+            {
+                spawnRate = (int)(spawnRate * 0.075f);
+                maxSpawns = (int)(maxSpawns * 1.5f);
+            }
+
             if (player.ZoneRain && TerrorbornSystem.terrorRain && maxSpawns != 0) //Checks current maxSpawns specifically so it works with HERO's mod's spawn thingy
             {
                 if (Main.dayTime)

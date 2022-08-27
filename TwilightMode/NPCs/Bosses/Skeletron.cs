@@ -25,6 +25,7 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 		const float skeletronTurnOverTotalTime = 60f;
 		int skeletronTurnOverProjectileTimer = 0;
 		int skeletronTurnOverDirection = 1;
+		bool summonedExtraArms = false;
         public override void NewAI(NPC npc)
         {
 			skeletronAliveCounter++;
@@ -47,6 +48,22 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 					Main.npc[num154].target = npc.target;
 					Main.npc[num154].netUpdate = true;
 				}
+			}
+			if (!summonedExtraArms && npc.life <= npc.lifeMax * 0.5f)
+            {
+				int num154 = NPC.NewNPC(npc.GetSource_FromThis(), (int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, 36, npc.whoAmI);
+				Main.npc[num154].ai[0] = -1f;
+				Main.npc[num154].ai[1] = npc.whoAmI;
+				Main.npc[num154].target = npc.target;
+				Main.npc[num154].netUpdate = true;
+				num154 = NPC.NewNPC(npc.GetSource_FromThis(), (int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, 36, npc.whoAmI);
+				Main.npc[num154].ai[0] = 1f;
+				Main.npc[num154].ai[1] = npc.whoAmI;
+				Main.npc[num154].ai[3] = 150f;
+				Main.npc[num154].target = npc.target;
+				Main.npc[num154].netUpdate = true;
+
+				summonedExtraArms = true;
 			}
 			if (npc.type == 68 && npc.ai[1] != 3f && npc.ai[1] != 2f)
 			{
@@ -79,8 +96,16 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 				npc.defense += num155 * 1000;
 				if (num155 > 0 && skeletronAliveCounter % 60 == 59 && npc.life < npc.lifeMax)
                 {
-					npc.HealEffect(npc.lifeMax - npc.life);
-					npc.life = npc.lifeMax;
+					if (summonedExtraArms)
+					{
+						npc.HealEffect(npc.lifeMax / 2 - npc.life);
+						npc.life = npc.lifeMax / 2;
+					}
+                    else
+					{
+						npc.HealEffect(npc.lifeMax - npc.life);
+						npc.life = npc.lifeMax;
+					}
                 }
 				if ((num155 < 2 || (double)npc.life < (double)npc.lifeMax * 0.75) && npc.ai[1] == 0f)
 				{
@@ -297,8 +322,17 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 					}
 				}
 				num174 = num175 / num174;
-				npc.velocity.X = num172 * num174;
-				npc.velocity.Y = num173 * num174;
+				float multiplier = 0.75f;
+				if (!NPC.AnyNPCs(NPCID.SkeletronHand))
+                {
+					multiplier = 1f;
+					if (summonedExtraArms)
+                    {
+						multiplier = 1.2f;
+                    }
+                }
+				npc.velocity.X = num172 * num174 * multiplier;
+				npc.velocity.Y = num173 * num174 * multiplier;
 			}
 			else if (npc.ai[1] == 2f)
 			{
@@ -619,7 +653,7 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 				{
 					npc.TargetClosest();
 					npc.ai[2] = 5f;
-					float speed = 32f;
+					float speed = MathHelper.Lerp(35f, 17f, (float)npc.life / (float)npc.lifeMax);
 					npc.velocity = npc.DirectionTo(player.Center + player.velocity * (npc.Distance(player.Center) / speed)) * speed;
 					npc.netUpdate = true;
 				}
