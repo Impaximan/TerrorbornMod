@@ -1,9 +1,9 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Lore.JournalEntries.Raven
+namespace TerrorbornMod.Items.Lore.JournalEntries.Raphael
 {
-    class Raven_Dunestock : ModItem
+    class Raphael_Dunestock : ModItem
     {
         public override string Texture => "TerrorbornMod/TornPage";
         public override void SetStaticDefaults()

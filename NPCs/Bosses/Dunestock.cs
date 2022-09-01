@@ -98,7 +98,7 @@ namespace TerrorbornMod.NPCs.Bosses
             if (!TerrorbornSystem.downedDunestock)
             {
                 TerrorbornSystem.downedDunestock = true;
-                Item.NewItem(NPC.GetSource_Loot(), NPC.Center, ModContent.ItemType<Items.Lore.JournalEntries.Raven.Raven_Dunestock>());
+                Item.NewItem(NPC.GetSource_Loot(), NPC.Center, ModContent.ItemType<Items.Lore.JournalEntries.Raphael.Raphael_Dunestock>());
             }
         }
 
