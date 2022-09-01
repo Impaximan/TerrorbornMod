@@ -17,7 +17,7 @@ namespace TerrorbornMod.NPCs.Minibosses
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
-                new FlavorTextBestiaryInfoElement("A servant of Phobos, whose true motivations are mysterious. As brutal foes in combat, they won't pull any punches.")
+                new FlavorTextBestiaryInfoElement("A servant of Ephraim, whose true motivations are mysterious. As brutal foes in combat, they won't pull any punches.")
             });
         }
 
@@ -46,7 +46,7 @@ namespace TerrorbornMod.NPCs.Minibosses
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
             modNPC.getsTitleCard = true;
             modNPC.BossTitle = "Dread Angel";
-            modNPC.BossSubtitle = "Servant of Phobos";
+            modNPC.BossSubtitle = "Servant of Ephraim";
             modNPC.BossDefeatTitle = "Greater Angel";
             modNPC.BossTitleColor = Color.Goldenrod;
         }

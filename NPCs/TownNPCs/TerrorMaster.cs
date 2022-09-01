@@ -308,7 +308,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 {
                     doingDialogue = true;
                 }
-                if (dialogueState == 5 && TerrorbornSystem.downedPhobos)
+                if (dialogueState == 5 && TerrorbornSystem.downedEphraim)
                 {
                     doingDialogue = true;
                 }
@@ -365,7 +365,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     dialogue.Add("However, worry not. I believe I have discovered a way we can stop them. Permanently. And it's time to reveal my true...");
                     dialogue.Add("...no. Not yet, at least. All that's important now is that we progress forward. So, how do you think we're gonna do that? Let me explain, idiot.");
                     dialogue.Add("Remember how I told you a while back about the [c/FF1919:seal?] It seems as though we might need to recreate it.");
-                    dialogue.Add("I should warn you, however, that this will be quite the task. Long ago, when it was originally created, the ruler of the angels and hell, [c/fffab2:Phobos], made an effort to punish those who created the original seal");
+                    dialogue.Add("I should warn you, however, that this will be quite the task. Long ago, when it was originally created, the ruler of the angels and hell, [c/fffab2:Ephraim], made an effort to punish those who created the original seal");
                     dialogue.Add("Now that he knows exactly how the ritual works, I doubt he'll just be letting you complete it. So, I'd say you ought to be ready for the toughest fight of your life- archangels are no pushovers.");
                     dialogue.Add("To begin this ritual, you'll need both tortured and dreadful essence, which seemingly has now started forming in your world. As for where, I'm not sure, but I'm sure you can find it.");
                     dialogue.Add("For personal reasons, I will be unable to assist in this endeavor. But once it's completed, speak with me again- I have something important for you. Other than that... all I can say is good luck. And don't be an idiot, idiot.");
@@ -374,7 +374,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 {
                     dialogue.Clear();
                     shownDialogue = "You've completed the ritual... congratulations! That's quite the feat!";
-                    dialogue.Add("But something is wrong. I can feel it. So you fought Phobos... but he didn't quite die. This is dire indeed.");
+                    dialogue.Add("But something is wrong. I can feel it. So you fought Ephraim... but he didn't quite die. This is dire indeed.");
                     dialogue.Add("However, it appears as though you've gained a [c/fffab2:new ability]. That lance... I've always wanted to see one like it. This, my friend, is perhaps one of the most powerful weapons ever even fathomed.");
                     dialogue.Add("It will not kill. That it is incapable of. But once you've slain somebody, if you can catch their soul, you can destroy it... permanently. Though we might not have succeeded in our original goal, we still have a way of continuing onward.");
                     dialogue.Add("That... I will have to explain another time. I know I said I would give you something, but that will have to wait for another time. The [c/FF1919:Cogs And Carnage] have not yet arrived.");

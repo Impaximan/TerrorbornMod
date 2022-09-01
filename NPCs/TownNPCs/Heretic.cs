@@ -249,7 +249,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         }
                         if (loreText == 3) //What happened to the people who built the seal?
                         {
-                            Main.npcChatText = "When the current archangel of purgatory, Phobos, discovered what the creators of the seal had done, he became absolutely furious with them. Most of them were killed, leaving Orume leaderless, but the anekronian escaped. The lesson to learn from this story is not to mess with hell energy, Phobos is no joke.";
+                            Main.npcChatText = "When the current archangel of purgatory, Ephraim, discovered what the creators of the seal had done, he became absolutely furious with them. Most of them were killed, leaving Orume leaderless, but the anekronian escaped. The lesson to learn from this story is not to mess with hell energy, Ephraim is no joke.";
                         }
                         if (loreText == 4) //How do you know so much about demons?
                         {

@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ID;
 using System;
+using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 {
@@ -22,14 +24,37 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
             return npc.type == NPCID.WallofFlesh;
 		}
 
-		NPC topEye;
+		public void CreateHungry(NPC NPC, float num342, float positionY)
+        {
+			int num357 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.position.X, (int)num342, 115, NPC.whoAmI); //Create hungry
+			Main.npc[num357].ai[0] = positionY;
+			Main.npc[num357].lifeMax /= hungryLifeDividend;
+			Main.npc[num357].life /= hungryLifeDividend;
+		}
+
+        public override void NewSetDefaults(NPC npc)
+        {
+			npc.lifeMax = (int)(npc.lifeMax * 1.5f);
+        }
+
+        NPC topEye;
 		NPC bottomEye;
+
 		int timeAlive = 0;
 		float eyeRotOffest = 0f;
-		int WoFAttackCounter = 0;
-		bool WoFDoingSpread = false;
+		int attackCounter = 0;
+		bool attacking = false;
+		int currentAttack = 0;
+		bool doingSpread = false;
+		public float speedMult = 1f;
+		public float healCounter = 0f;
+		int healBurstCounter = 0;
+		bool playedPurr = false;
+		int hungryLifeDividend = 1;
+
 		public void WoFMouthAI(NPC NPC)
 		{
+			NPC.defense = NPC.defDefense;
 			timeAlive++;
 			if (NPC.position.X < 160f || NPC.position.X > (float)((Main.maxTilesX - 10) * 16))
 			{
@@ -72,15 +97,14 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 				}
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					int num334 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)(NPC.height / 2) + 20f), 117, 1);
-					Main.npc[num334].velocity.X = NPC.direction * 8;
+					//int num334 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)(NPC.height / 2) + 20f), 117, 1); //Create leech
+					//Main.npc[num334].velocity.X = NPC.direction * 8;
 				}
 			}
 			NPC.localAI[3] += 1f;
 			if (NPC.localAI[3] >= (float)(600 + Main.rand.Next(1000)))
 			{
 				NPC.localAI[3] = -Main.rand.Next(200);
-				SoundExtensions.PlaySoundOld(SoundID.NPCDeath10, (int)NPC.position.X, (int)NPC.position.Y, 10);
 			}
 			Main.wofNPCIndex = NPC.whoAmI;
 			int num335 = (int)(NPC.position.X / 16f);
@@ -185,17 +209,22 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 			}
 			NPC.position.Y = num342;
 
-			float num344 = MathHelper.Lerp(6.5f, 4f, (float)NPC.life / (float)NPC.lifeMax);
-			if (Main.player[NPC.target].dead || NPC.Distance(Main.player[NPC.target].Center) > 3000f)
-			{
-				num344 *= 25f;
-			}
-
 			if (NPC.velocity.X == 0f)
 			{
 				NPC.TargetClosest();
 				NPC.velocity.X = NPC.direction;
 			}
+
+			float num344 = MathHelper.Lerp(4f, 2f, (float)NPC.life / (float)NPC.lifeMax) * speedMult + 0.1f; //movespeed
+			if (Main.player[NPC.target].dead || NPC.Distance(Main.player[NPC.target].Center) > 3000f)
+			{
+				num344 *= 25f;
+				if (Math.Abs(NPC.Center.X - Main.player[NPC.target].Center.X) > 3000f)
+                {
+					NPC.active = false;
+                }
+			}
+
 			if (NPC.velocity.X < 0f)
 			{
 				NPC.velocity.X = -num344;
@@ -287,8 +316,7 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 						}
 						if (num352 >= 0)
 						{
-							int num357 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.position.X, (int)num342, 115, NPC.whoAmI);
-							Main.npc[num357].ai[0] = (float)num352 * 0.1f - 0.05f;
+							//CreateHungry(NPC, num342, (float)num352 * 0.1f - 0.05f);
 						}
 					}
 				}
@@ -298,6 +326,8 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 				NPC.localAI[0] = 2f;
 				num342 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
 				num342 = (num342 + (float)Main.wofDrawAreaTop) / 2f;
+
+				//Create eyes
 
 				int num358 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.position.X, (int)num342, 114, NPC.whoAmI);
 				Main.npc[num358].ai[0] = 1f;
@@ -315,13 +345,74 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 				bottomEye = Main.npc[num358];
 				bottomEye.realLife = NPC.whoAmI;
 
-				for (int num359 = 0; num359 < 11; num359++)
+
+				//Create initial hungry
+				for (int num359 = 0; num359 < 4; num359++)
 				{
 					num358 = NPC.NewNPC(NPC.GetSource_ReleaseEntity(), (int)NPC.position.X, (int)num342, 115, NPC.whoAmI);
 					Main.npc[num358].ai[0] = (float)num359 * 0.1f - 0.05f;
+
+					Main.npc[num358].lifeMax /= hungryLifeDividend;
+					Main.npc[num358].life /= hungryLifeDividend;
 				}
 			}
+
+			//NEW ATTACKS AND STUFF
 			Player player = Main.player[NPC.target];
+
+			healCounter += 1f / MathHelper.Lerp(750, 1000, (float)NPC.life / (float)NPC.lifeMax);
+			if (healCounter >= 1f && !attacking)
+			{
+				NPC.defense = 3000;
+
+				if (!playedPurr)
+                {
+					SoundStyle style = new SoundStyle("TerrorbornMod/Sounds/Effects/WallPurr");
+					style.Volume = 6f;
+					SoundEngine.PlaySound(style, NPC.Center);
+					playedPurr = true;
+				}
+
+				TerrorbornSystem.ScreenShake(2f);
+				speedMult = 0f;
+
+				healBurstCounter++;
+				if (healBurstCounter > 20)
+				{
+					if (NPC.AnyNPCs(NPCID.TheHungry))
+					{
+						//CONSUME HUNGRY
+						healBurstCounter = 0;
+						for (int i = 0; i < Main.maxNPCs; i++)
+						{
+							NPC hungry = Main.npc[i];
+							if (hungry != null && hungry.active && hungry.type == NPCID.TheHungry)
+							{
+								hungry.StrikeNPC(5000, 15f, -NPC.direction, true);
+								int proj = Projectile.NewProjectile(NPC.GetSource_OnHit(hungry), hungry.Center, Vector2.Zero, ModContent.ProjectileType<WallHealingOrb>(), 0, 0f);
+								Main.projectile[proj].ai[0] = NPC.whoAmI;
+								Main.projectile[proj].ai[1] = 0.1f;
+								break;
+							}
+						}
+					}
+                    else if (healBurstCounter > 60)
+                    {
+						playedPurr = false;
+						healCounter = 0f;
+
+						speedMult = 2.5f;
+
+						float amount = 10f;
+						for (float i = 0; i < 1f; i += 1f / amount)
+						{
+							CreateHungry(NPC, num342, i);
+						}
+                    }
+				}
+				return;
+            }
+
 			topEye.rotation = topEye.DirectionTo(player.Center).ToRotation();
 			bottomEye.rotation = bottomEye.DirectionTo(player.Center).ToRotation();
 			if (topEye.spriteDirection == -1)
@@ -336,6 +427,8 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 				topEye.rotation -= MathHelper.ToRadians(eyeRotOffest);
 				bottomEye.rotation += MathHelper.ToRadians(eyeRotOffest);
 			}
+
+			//These are for projectiles
 			float topEyeRot = topEye.rotation;
 			float bottomEyeRot = bottomEye.rotation;
 			if (topEye.spriteDirection == -1)
@@ -344,41 +437,59 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 				bottomEyeRot -= MathHelper.ToRadians(180f);
 			}
 
-			if (WoFDoingSpread)
-			{
-				eyeRotOffest = MathHelper.Lerp(eyeRotOffest, (float)Math.Sin((float)timeAlive / 25f) * 60f, 0.5f);
-				WoFAttackCounter++;
-				if (WoFAttackCounter > 180)
-				{
-					WoFAttackCounter = 0;
-					WoFDoingSpread = !WoFDoingSpread;
-				}
-				if (timeAlive % 7 == 6)
-				{
-					int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), topEye.Center, topEyeRot.ToRotationVector2() * 7.5f, ProjectileID.GoldenShowerHostile, 60 / 4, 0f, player.whoAmI);
-					Main.projectile[proj].tileCollide = false;
-					proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), bottomEye.Center, bottomEyeRot.ToRotationVector2() * 15f, ProjectileID.CursedFlameHostile, 60 / 4, 0f, player.whoAmI);
-					Main.projectile[proj].tileCollide = false;
-				}
-			}
-			else
-			{
-				eyeRotOffest *= 0.94f;
 
-				WoFAttackCounter++;
-				if (WoFAttackCounter > (int)MathHelper.Lerp(120f, 500f, (float)NPC.life / (float)NPC.lifeMax))
+			if (attacking)
+            {
+				if (currentAttack == 0)
+                {
+					attackCounter++;
+					speedMult += 0.03f;
+					if (attackCounter > 45)
+                    {
+						attacking = false;
+						attackCounter = 0;
+                    }
+                }
+
+				if (currentAttack == 1)
 				{
-					WoFAttackCounter = 0;
-					WoFDoingSpread = !WoFDoingSpread;
+					attackCounter++;
+					if (attackCounter > 30 && attackCounter % 20 == 19)
+                    {
+						float speed = Main.rand.NextFloat(5f, 10f);
+
+						int proj = Projectile.NewProjectile(NPC.GetSource_FromThis(), topEye.Center, topEyeRot.ToRotationVector2() * speed, ProjectileID.EyeLaser, 75 / 4, 0f);
+						Main.projectile[proj].tileCollide = false;
+						proj = Projectile.NewProjectile(NPC.GetSource_FromThis(), bottomEye.Center, bottomEyeRot.ToRotationVector2() * speed, ProjectileID.EyeLaser, 75 / 4, 0f);
+						Main.projectile[proj].tileCollide = false;
+					}
+					if (attackCounter > 120)
+					{
+						attacking = false;
+						attackCounter = 0;
+					}
+				}
+            }
+            else
+			{
+				if (speedMult > 1f)
+				{
+					speedMult -= 0.02f;
 				}
 
-				int timeBetweenProjectiles = (int)MathHelper.Lerp(45f, 120f, (float)NPC.life / (float)NPC.lifeMax);
-				if (timeAlive % timeBetweenProjectiles == timeBetweenProjectiles - 1)
+				if (NPC.life <= NPC.lifeMax * 0.9f)
 				{
-					int proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), topEye.Center, topEyeRot.ToRotationVector2() * 10f, ProjectileID.EyeLaser, 60 / 4, 0f, player.whoAmI);
-					Main.projectile[proj].tileCollide = false;
-					proj = Projectile.NewProjectile(NPC.GetSource_ReleaseEntity(), bottomEye.Center, bottomEyeRot.ToRotationVector2() * 10f, ProjectileID.EyeLaser, 60 / 4, 0f, player.whoAmI);
-					Main.projectile[proj].tileCollide = false;
+					attackCounter++;
+					if (attackCounter > MathHelper.Lerp(100, 300, (float)NPC.life / (float)NPC.lifeMax))
+					{
+						attacking = true;
+						attackCounter = 0;
+						SoundExtensions.PlaySoundOld(SoundID.NPCDeath10, (int)NPC.position.X, (int)NPC.position.Y, 10);
+						TerrorbornSystem.ScreenShake(15f);
+
+						int count = 2;
+						currentAttack = Main.rand.Next(count);
+					}
 				}
 			}
 		}
@@ -559,4 +670,61 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
             return npc.type == NPCID.WallofFleshEye;
         }
     }
+
+	class WallHealingOrb : ModProjectile
+	{
+		public override string Texture => "TerrorbornMod/placeholder";
+		//private bool HasGravity = true;
+		//private bool Spawn = true;
+		//private bool GravDown = true;
+		public override void SetDefaults()
+		{
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.aiStyle = 0;
+			Projectile.tileCollide = false;
+			Projectile.friendly = false;
+			Projectile.penetrate = -1;
+			Projectile.hostile = false;
+			Projectile.hide = true;
+			Projectile.timeLeft = 300;
+			Projectile.damage = 0;
+		}
+
+		int Direction = 1;
+		int DirectionCounter = 5;
+		public override void AI()
+		{
+			NPC npc = Main.npc[(int)Projectile.ai[0]];
+
+			if (!npc.active)
+            {
+				Projectile.active = false;
+				return;
+            }
+
+			int type = DustID.GreenTorch;
+			int dust = Dust.NewDust(Projectile.Center, 0, 0, type);
+			Main.dust[dust].velocity = Vector2.Zero;
+			Main.dust[dust].scale = 2f;
+			Main.dust[dust].alpha = 255 / 2;
+			Main.dust[dust].noGravity = true;
+			Main.dust[dust].color = Color.White;
+
+
+			int speed = 25;
+			Projectile.velocity = Projectile.DirectionTo(npc.Center) * speed;
+			if (Projectile.Distance(npc.Center) <= speed)
+			{
+				int amount = (int)(npc.lifeMax * Projectile.ai[1]);
+				npc.HealEffect(amount);
+				npc.life += amount;
+				if (npc.life > npc.lifeMax)
+                {
+					npc.life = npc.lifeMax;
+                }
+				Projectile.active = false;
+			}
+		}
+	}
 }

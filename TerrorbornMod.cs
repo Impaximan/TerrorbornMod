@@ -185,6 +185,7 @@ namespace TerrorbornMod
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/TTSplash", AssetRequestMode.ImmediateLoad);
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/undertalewarning", AssetRequestMode.ImmediateLoad);
             ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/BossDefeatedSlam", AssetRequestMode.ImmediateLoad);
+            ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/WallPurr", AssetRequestMode.ImmediateLoad);
 
             ModContent.Request<Texture2D>("TerrorbornMod/MainMenuForeground1", AssetRequestMode.ImmediateLoad);
             ModContent.Request<Texture2D>("TerrorbornMod/WhitePixel", AssetRequestMode.ImmediateLoad);
@@ -441,7 +442,7 @@ namespace TerrorbornMod
         //        bossChecklist.Call("AddMiniBossWithInfo", "Frightcrawler", 6.07f, (Func<bool>)(() => TerrorbornSystem.downedFrightcrawler), "Spawns during the Astraphobia event (see above).");
         //        bossChecklist.Call("AddMiniBossWithInfo", "Dread Angel", 15.05f, (Func<bool>)(() => TerrorbornSystem.downedDreadAngel), "Spawns in the Sisyphean Islands biome after Moon Lord has been defeated.");
         //        bossChecklist.Call("AddEventWithInfo", "Dreadwind", 16f, (Func<bool>)(() => TerrorbornSystem.downedDreadwind), "Not written yet.");
-        //        bossChecklist.Call("AddBossWithInfo", "Phobos", 16.01f, (Func<bool>)(() => TerrorbornSystem.downedPhobos), "Spawns at the end of the Dreadwind event.");
+        //        bossChecklist.Call("AddBossWithInfo", "Ephraim", 16.01f, (Func<bool>)(() => TerrorbornSystem.downedEphraim), "Spawns at the end of the Dreadwind event.");
         //    }
         //}
     }

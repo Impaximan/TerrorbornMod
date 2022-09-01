@@ -37,7 +37,7 @@ namespace TerrorbornMod
         public static bool downedSlateBanshee;
         public static bool downedDreadAngel;
         public static bool downedDreadwind;
-        public static bool downedPhobos;
+        public static bool downedEphraim;
         public static bool terrorRain;
         public static bool talkedToCartographer;
         public static bool talkedToHeretic;
@@ -401,7 +401,7 @@ namespace TerrorbornMod
             if (downedInfectedIncarnate) downed.Add("downedInfectedIncarnate");
             if (downedDreadAngel) downed.Add("downedDreadAngel");
             if (downedDreadwind) downed.Add("downedDreadwind");
-            if (downedPhobos) downed.Add("downedPhobos");
+            if (downedEphraim) downed.Add("downedEphraim");
             if (downedMysteriousCrab) downed.Add("downedMysteriousCrab");
 
             tag.Add("downed", downed);
@@ -438,7 +438,7 @@ namespace TerrorbornMod
             downedDreadAngel = downed.Contains("downedDreadAngel");
             downedDreadwind = downed.Contains("downedDreadwind");
             downedMysteriousCrab = downed.Contains("downedMysteriousCrab");
-            downedPhobos = downed.Contains("downedPhobos");
+            downedEphraim = downed.Contains("downedEphraim");
             CurrentBountyBiome = tag.GetInt("CurrentBountyBiome");
             SkeletonSheriffName = tag.GetString("SkeletonSheriffName");
             CartographerName = tag.GetString("CartographerName");
@@ -1829,7 +1829,7 @@ namespace TerrorbornMod
             talkedToHeretic = false;
             downedDreadAngel = false;
             downedDreadwind = false;
-            downedPhobos = false;
+            downedEphraim = false;
             TerrorMasterDialogue = 0;
             SkeletonSheriffName = getSkeletonSheriffName();
             CartographerName = getCartographerName();
