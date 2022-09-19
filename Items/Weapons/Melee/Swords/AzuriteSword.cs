@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Swords
 {
     public class AzuriteSword : ModItem
     {
@@ -62,8 +62,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -72,7 +72,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
@@ -94,7 +94,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         int timeUntilFade = 60;
         public override void AI()
         {
-            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.ToRadians(90);
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.ToRadians(90);
             Projectile.velocity *= 0.98f;
             timeUntilFade--;
             if (timeUntilFade <= 0)

@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Swords
 {
     public class DeimosteelBroadsword : ModItem
     {

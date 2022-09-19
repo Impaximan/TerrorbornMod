@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Swords
 {
     public class Tarfury : ModItem
     {
@@ -50,7 +50,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 target = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
+            Vector2 target = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
             float ceilingLimit = target.Y;
             if (ceilingLimit > player.Center.Y - 200f)
             {
@@ -58,8 +58,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
             }
             for (int i = 0; i < Main.rand.Next(2, 4); i++)
             {
-                position = player.Center + new Vector2((-(float)Main.rand.Next(0, 401) * player.direction), -600f);
-                position.Y -= (100 * i);
+                position = player.Center + new Vector2(-(float)Main.rand.Next(0, 401) * player.direction, -600f);
+                position.Y -= 100 * i;
                 Vector2 heading = target - position;
                 if (heading.Y < 0f)
                 {
@@ -82,8 +82,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -92,7 +92,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;

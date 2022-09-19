@@ -1915,7 +1915,7 @@ namespace TerrorbornMod
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.MiscConsumables.MetalKey>());
                                     break;
                                 case 6:
-                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks>());
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks.Nunchucks>());
                                     break;
                                 case 7:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CaneOfCurses>());
@@ -1940,7 +1940,7 @@ namespace TerrorbornMod
                                         chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Summons.Minions.FrigidStaff>());
                                         break;
                                     case 1:
-                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.IceBreaker>());
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Swords.IceBreaker>());
                                         break;
                                 }
                                 break;
@@ -1997,7 +1997,7 @@ namespace TerrorbornMod
                     List<int> mainItems = new List<int>();
                     mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.ShriekersLung>());
                     mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.HorrificCharm>());
-                    mainItems.Add(ModContent.ItemType<Items.Weapons.Melee.NightLight>());
+                    mainItems.Add(ModContent.ItemType<Items.Weapons.Melee.Yoyos.NightLight>());
                     mainItems.Add(ModContent.ItemType<Items.Weapons.Ranged.Thrown.MindPiercer>());
 
                     List<int> secondaryMainItems = new List<int>();
@@ -2114,7 +2114,7 @@ namespace TerrorbornMod
                 if (chest != null && Main.tile[chest.x, chest.y].TileType == ModContent.TileType<Tiles.LavenderChest>())
                 {
                     List<int> mainItems = new List<int>();
-                    mainItems.Add(ModContent.ItemType<Items.Weapons.Melee.PhoenixFlameSpear>());
+                    mainItems.Add(ModContent.ItemType<Items.Weapons.Melee.Polearms.PhoenixFlameSpear>());
 
                     List<int> secondaryMainItems = new List<int>();
                     secondaryMainItems.Add(ItemID.BandofRegeneration);
@@ -2247,7 +2247,7 @@ namespace TerrorbornMod
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.MiscConsumables.MetalKey>());
                                     break;
                                 case 6:
-                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks>());
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks.Nunchucks>());
                                     break;
                                 case 7:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CaneOfCurses>());
@@ -2297,7 +2297,7 @@ namespace TerrorbornMod
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.MiscConsumables.MetalKey>());
                                     break;
                                 case 6:
-                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks>());
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks.Nunchucks>());
                                     break;
                                 case 7:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CaneOfCurses>());
@@ -2335,7 +2335,7 @@ namespace TerrorbornMod
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.MiscConsumables.MetalKey>());
                                     break;
                                 case 6:
-                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks>());
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Nunchucks.Nunchucks>());
                                     break;
                                 case 7:
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.CaneOfCurses>());

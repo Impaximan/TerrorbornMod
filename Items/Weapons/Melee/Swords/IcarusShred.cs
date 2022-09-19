@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Swords
 {
     public class IcarusShred : ModItem
     {

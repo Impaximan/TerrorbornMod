@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Thrown
 {
     class TheBuzzer : ModItem
     {
@@ -46,7 +46,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
     class TheBuzzer_Projectile : ModProjectile
     {
-        public override string Texture { get { return "TerrorbornMod/Items/Weapons/Melee/TheBuzzer"; } }
+        public override string Texture { get { return "TerrorbornMod/Items/Weapons/Melee/Thrown/TheBuzzer"; } }
 
         public override void SetDefaults()
         {

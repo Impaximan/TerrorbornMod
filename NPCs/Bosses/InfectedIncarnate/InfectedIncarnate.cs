@@ -218,7 +218,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Weapons.Ranged.Thrown.GraveNeedle>(),
                 ModContent.ItemType<Items.Weapons.Magic.Infectalanche>(),
-                ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>()));
+                ModContent.ItemType<Items.Weapons.Melee.Swords.NighEndSaber>()));
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Equipable.Armor.SilentHelmet>(),
                 ModContent.ItemType<Items.Equipable.Armor.SilentBreastplate>(),

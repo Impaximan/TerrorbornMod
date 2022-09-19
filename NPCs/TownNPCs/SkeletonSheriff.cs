@@ -119,7 +119,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 1;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.BoneBreaker>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Swords.BoneBreaker>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;

@@ -133,9 +133,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
         }
     }
     
-    class azuriteShockwave : ModProjectile
+    class AzuriteShockwave : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Items/Weapons/Melee/AzuriteSlash";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Melee/Swords/AzuriteSlash";
 
         public override void SetDefaults()
         {

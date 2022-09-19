@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Thrown
 {
     class CrescentOfBloodlust : ModItem
     {
@@ -65,12 +65,12 @@ namespace TerrorbornMod.Items.Weapons.Melee
     }
     class CrescentOfBloodlust_Projectile : ModProjectile
     {
-        public override string Texture { get { return "TerrorbornMod/Items/Weapons/Melee/CrescentOfBloodlust"; } }
+        public override string Texture { get { return "TerrorbornMod/Items/Weapons/Melee/Thrown/CrescentOfBloodlust"; } }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -84,7 +84,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
                     effects = SpriteEffects.FlipHorizontally;
                 }
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return false;

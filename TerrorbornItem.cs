@@ -92,7 +92,7 @@ namespace TerrorbornMod
                     float speed = 22.5f;
                     Vector2 velocity = player.DirectionTo(Main.MouseWorld) * speed;
 
-                    Projectile.NewProjectile(player.GetSource_ItemUse(item), player.Center, velocity, ModContent.ProjectileType<Items.Equipable.Armor.azuriteShockwave>(), item.damage / 3, 30, player.whoAmI);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(item), player.Center, velocity, ModContent.ProjectileType<Items.Equipable.Armor.AzuriteShockwave>(), item.damage / 3, 30, player.whoAmI);
                 }
                 else
                 {

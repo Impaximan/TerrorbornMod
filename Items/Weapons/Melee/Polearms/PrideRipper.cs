@@ -5,7 +5,7 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Polearms
 {
     class PrideRipper : ModItem
     {
@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 3)
+                .AddIngredient(ModContent.ItemType<Materials.DreadfulEssence>(), 3)
                 .AddIngredient(ItemID.LunarBar, 10)
                 .AddIngredient(ItemID.NorthPole)
                 .AddIngredient(ItemID.FragmentSolar, 12)
@@ -88,8 +88,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
             Projectile.direction = projOwner.direction;
             projOwner.heldProj = Projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
-            Projectile.position.X = ownerMountedCenter.X - (float)(Projectile.width / 2);
-            Projectile.position.Y = ownerMountedCenter.Y - (float)(Projectile.height / 2);
+            Projectile.position.X = ownerMountedCenter.X - Projectile.width / 2;
+            Projectile.position.Y = ownerMountedCenter.Y - Projectile.height / 2;
             if (!projOwner.frozen)
             {
                 if (movementFactor == 0f)
@@ -137,8 +137,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         int trueTimeLeft = 360;
@@ -177,7 +177,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
                 List<Vector2> positions = bezier.GetPoints(30);
                 for (int i = 0; i < positions.Count; i++)
                 {
-                    float mult = (float)(positions.Count - i) / (float)positions.Count;
+                    float mult = (positions.Count - i) / (float)positions.Count;
                     Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
                     Color color = Projectile.GetAlpha(Color.Lerp(Color.Goldenrod, Color.LightGoldenrodYellow, mult)) * mult;
                     Utils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(35f * mult), color);

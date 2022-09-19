@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Swords
 {
     public class CrystalTearSword : ModItem
     {
@@ -51,7 +51,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 target = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
+            Vector2 target = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
             float ceilingLimit = target.Y;
             if (ceilingLimit > player.Center.Y - 200f)
             {
@@ -59,8 +59,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
             }
             for (int i = 0; i < 4; i++)
             {
-                position = player.Center + new Vector2((-(float)Main.rand.Next(0, 401) * player.direction), -600f);
-                position.Y -= (100 * i);
+                position = player.Center + new Vector2(-(float)Main.rand.Next(0, 401) * player.direction, -600f);
+                position.Y -= 100 * i;
                 Vector2 heading = target - position;
                 if (heading.Y < 0f)
                 {

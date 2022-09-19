@@ -4,7 +4,7 @@ using Terraria.DataStructures;
 using Terraria;
 using Microsoft.Xna.Framework;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Polearms
 {
     class PhoenixFlameSpear : ModItem
     {
@@ -119,8 +119,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
             Projectile.direction = projOwner.direction;
             projOwner.heldProj = Projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
-            Projectile.position.X = ownerMountedCenter.X - (float)(Projectile.width / 2);
-            Projectile.position.Y = ownerMountedCenter.Y - (float)(Projectile.height / 2);
+            Projectile.position.X = ownerMountedCenter.X - Projectile.width / 2;
+            Projectile.position.Y = ownerMountedCenter.Y - Projectile.height / 2;
             if (!projOwner.frozen)
             {
                 if (movementFactor == 0f)

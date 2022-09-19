@@ -40,7 +40,7 @@ namespace TerrorbornMod.Items.TreasureBags
             }
             else if (choice == 1)
             {
-                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Melee.IcarusShred>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Melee.Swords.IcarusShred>());
             }
             else if (choice == 2)
             {

@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Thrown
 {
     class Armorang : ModItem
     {
@@ -61,12 +61,12 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
     class Armorang_Projectile : ModProjectile
     {
-        public override string Texture { get { return "TerrorbornMod/Items/Weapons/Melee/Armorang"; } }
+        public override string Texture { get { return "TerrorbornMod/Items/Weapons/Melee/Thrown/Armorang"; } }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void PostDraw(Color lightColor)
@@ -81,7 +81,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
                     effects = SpriteEffects.FlipHorizontally;
                 }
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Color color = Projectile.GetAlpha(Color.White) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                 Main.spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/Weapons/Melee/Armorang_Glow"), drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
         }

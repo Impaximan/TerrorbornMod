@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria;
 using Microsoft.Xna.Framework;
 
-namespace TerrorbornMod.Items.Weapons.Melee
+namespace TerrorbornMod.Items.Weapons.Melee.Polearms
 {
     class AzuriteGlaive : ModItem
     {
@@ -21,7 +21,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-			Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.width = 48;
             Item.height = 50;
             Item.damage = 28;
@@ -73,8 +73,8 @@ namespace TerrorbornMod.Items.Weapons.Melee
             Projectile.direction = projOwner.direction;
             projOwner.heldProj = Projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
-            Projectile.position.X = ownerMountedCenter.X - (float)(Projectile.width / 2);
-            Projectile.position.Y = ownerMountedCenter.Y - (float)(Projectile.height / 2);
+            Projectile.position.X = ownerMountedCenter.X - Projectile.width / 2;
+            Projectile.position.Y = ownerMountedCenter.Y - Projectile.height / 2;
             if (!projOwner.frozen)
             {
                 if (movementFactor == 0f)
@@ -88,12 +88,12 @@ namespace TerrorbornMod.Items.Weapons.Melee
                     if (!HasFiredBolt)
                     {
                         float Speed = 27;
-                        Vector2 ProjectileVelocity = (Projectile.rotation - (MathHelper.ToRadians(135f))).ToRotationVector2() * Speed;
+                        Vector2 ProjectileVelocity = (Projectile.rotation - MathHelper.ToRadians(135f)).ToRotationVector2() * Speed;
                         if (Projectile.spriteDirection == -1)
                         {
-                            ProjectileVelocity = (Projectile.rotation - (MathHelper.ToRadians(45f))).ToRotationVector2() * Speed;
+                            ProjectileVelocity = (Projectile.rotation - MathHelper.ToRadians(45f)).ToRotationVector2() * Speed;
                         }
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + (ProjectileVelocity / Speed) * 100, ProjectileVelocity, ModContent.ProjectileType<AquaRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + ProjectileVelocity / Speed * 100, ProjectileVelocity, ModContent.ProjectileType<AquaRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         HasFiredBolt = true;
                         SoundExtensions.PlaySoundOld(SoundID.Item60, Projectile.Center);
                     }
@@ -139,7 +139,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
             Projectile.velocity.Y += 0.2f;
             for (int i = 0; i < 4; i++)
             {
-                int dust = Dust.NewDust(Projectile.position - (Projectile.velocity * i / 4), 1, 1, 88, 0, 0, Scale: 2, newColor: Color.SkyBlue);
+                int dust = Dust.NewDust(Projectile.position - Projectile.velocity * i / 4, 1, 1, 88, 0, 0, Scale: 2, newColor: Color.SkyBlue);
                 Main.dust[dust].noGravity = true;
             }
         }
