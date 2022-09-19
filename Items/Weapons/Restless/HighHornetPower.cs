@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/HighHornetPower";
         int UntilBlast;
-        public override void restlessSetStaticDefaults()
+        public override void RestlessSetStaticDefaults()
         {
             DisplayName.SetDefault("High-Hornet Power");
         }
@@ -32,7 +32,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             player.GetArmorPenetration(DamageClass.Magic) += 25;
         }
 
-        public override void restlessSetDefaults(TerrorbornItem modItem)
+        public override void RestlessSetDefaults(TerrorbornItem modItem)
         {
             Item.damage = 24;
             Item.noMelee = true;

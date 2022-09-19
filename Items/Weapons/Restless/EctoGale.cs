@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/EctoGale";
         int UntilBlast;
-        public override void restlessSetStaticDefaults()
+        public override void RestlessSetStaticDefaults()
         {
             DisplayName.SetDefault("EctoBurst");
         }
@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return "Ecto orbs will bounce off walls and eventually explode into arrows";
         }
 
-        public override void restlessSetDefaults(TerrorbornItem modItem)
+        public override void RestlessSetDefaults(TerrorbornItem modItem)
         {
             Item.damage = 120;
             Item.DamageType = DamageClass.Ranged;

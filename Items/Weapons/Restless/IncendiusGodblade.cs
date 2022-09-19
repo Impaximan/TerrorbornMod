@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/IncendiusGodblade";
         int UntilBlast;
-        public override void restlessSetStaticDefaults()
+        public override void RestlessSetStaticDefaults()
         {
             DisplayName.SetDefault("Sinful Saber");
         }
@@ -28,7 +28,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
                 "\nIf the sword hits an enemy while not returning, it will create multiple slashes";
         }
 
-        public override void restlessSetDefaults(TerrorbornItem modItem)
+        public override void RestlessSetDefaults(TerrorbornItem modItem)
         {
             Item.damage = 46;
             Item.DamageType = DamageClass.Melee;
@@ -65,7 +65,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return base.RestlessCanUseItem(player);
         }
 
-        public override bool RestlessShoot(Player player, EntitySource_ItemUse_WithAmmo source, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public override void RestlessModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())
@@ -85,7 +85,6 @@ namespace TerrorbornMod.Items.Weapons.Restless
                 Item.noUseGraphic = false;
                 Item.noMelee = false;
             }
-            return base.RestlessShoot(player, source, ref position, ref velocity, ref type, ref damage, ref knockback);
         }
 
         public override void AddRecipes()

@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/WrathOfDeimos";
         int UntilBlast;
-        public override void restlessSetStaticDefaults()
+        public override void RestlessSetStaticDefaults()
         {
             DisplayName.SetDefault("Wrath of Deimos");
             Item.staff[Item.type] = true;
@@ -28,7 +28,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
                 "\nIncreased damage";
         }
 
-        public override void restlessSetDefaults(TerrorbornItem modItem)
+        public override void RestlessSetDefaults(TerrorbornItem modItem)
         {
             Item.damage = 16;
             Item.noMelee = true;

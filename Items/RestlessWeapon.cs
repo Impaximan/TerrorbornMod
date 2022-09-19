@@ -16,21 +16,22 @@ namespace TerrorbornMod.Items
             TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             modItem.restless = true;
             Item.autoReuse = true;
-            restlessSetDefaults(modItem);
+            RestlessSetDefaults(modItem);
+            modItem.restlessChargeUpCounter = modItem.restlessChargeUpUses;
         }
 
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault(" ");
-            restlessSetStaticDefaults();
+            RestlessSetStaticDefaults();
         }
 
-        public virtual void restlessSetStaticDefaults()
+        public virtual void RestlessSetStaticDefaults()
         {
 
         }
 
-        public virtual void restlessSetDefaults(TerrorbornItem modItem)
+        public virtual void RestlessSetDefaults(TerrorbornItem modItem)
         {
             Item.damage = 1;
             modItem.restlessTerrorDrain = 5;
@@ -69,11 +70,26 @@ namespace TerrorbornMod.Items
             return true;
         }
 
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            RestlessModifyShootStats(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            TerrorbornItem modItem = TerrorbornItem.modItem(Item);
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+            if (player.ItemTimeIsZero)
+            {
+                modItem.restlessChargeUpCounter--;
+            }
+            return base.UseItem(player);
+        }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modItem.restlessChargeUpCounter--;
             if (modItem.restlessChargeUpCounter <= 0)
             {
                 modPlayer.LoseTerror(modItem.restlessTerrorDrain);
@@ -84,6 +100,11 @@ namespace TerrorbornMod.Items
         public virtual bool RestlessShoot(Player player, EntitySource_ItemUse_WithAmmo source, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             return true;
+        }
+
+        public virtual void RestlessModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+
         }
 
         public override void UpdateInventory(Player player)

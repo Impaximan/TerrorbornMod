@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/TheStopSign";
         int UntilBlast;
-        public override void restlessSetStaticDefaults()
+        public override void RestlessSetStaticDefaults()
         {
 
         }
@@ -44,7 +44,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
                 "\nBeats the target's soul right out of there body on hit dealing massive damage to them and other nearby enemies";
         }
 
-        public override void restlessSetDefaults(TerrorbornItem modItem)
+        public override void RestlessSetDefaults(TerrorbornItem modItem)
         {
             modItem.critDamageMult = 1.2f;
             Item.damage = 160;

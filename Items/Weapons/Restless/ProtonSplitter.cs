@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/ProtonSplitter";
         int UntilBlast;
-        public override void restlessSetStaticDefaults()
+        public override void RestlessSetStaticDefaults()
         {
 
         }
@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return "Throws a more powerful javelin that causes all stuck javelins to turn into returning proton orbs on hit";
         }
 
-        public override void restlessSetDefaults(TerrorbornItem modItem)
+        public override void RestlessSetDefaults(TerrorbornItem modItem)
         {
             Item.DamageType = DamageClass.Ranged;
             Item.damage = 100;

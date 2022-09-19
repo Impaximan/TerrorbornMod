@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/ContaminatedMarinePistol";
         int UntilBlast;
-        public override void restlessSetStaticDefaults()
+        public override void RestlessSetStaticDefaults()
         {
             DisplayName.SetDefault("Contaminated Marine Pistol");
         }
@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return "Fires a high velocity bullet that causes nightmare flames to erupt from hit enemies";
         }
 
-        public override void restlessSetDefaults(TerrorbornItem modItem)
+        public override void RestlessSetDefaults(TerrorbornItem modItem)
         {
             Item.damage = 27;
             Item.DamageType = DamageClass.Ranged;

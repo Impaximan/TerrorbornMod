@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/VBMG";
         int UntilBlast;
-        public override void restlessSetStaticDefaults()
+        public override void RestlessSetStaticDefaults()
         {
             DisplayName.SetDefault("Vein Buster");
         }
@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return "Fires a high velocity bullet that causes blood to erupt from hit enemies";
         }
 
-        public override void restlessSetDefaults(TerrorbornItem modItem)
+        public override void RestlessSetDefaults(TerrorbornItem modItem)
         {
             Item.damage = 10;
             Item.DamageType = DamageClass.Ranged;

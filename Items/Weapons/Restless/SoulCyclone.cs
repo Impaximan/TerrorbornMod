@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/SoulCyclone";
         int UntilBlast;
-        public override void restlessSetStaticDefaults()
+        public override void RestlessSetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Cyclone");
             Item.staff[Item.type] = true;
@@ -28,7 +28,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return "Fires all soul types at once";
         }
 
-        public override void restlessSetDefaults(TerrorbornItem modItem)
+        public override void RestlessSetDefaults(TerrorbornItem modItem)
         {
             Item.damage = 66;
             Item.noMelee = true;

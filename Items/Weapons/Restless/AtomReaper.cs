@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Restless/AtomReaper";
         int UntilBlast;
-        public override void restlessSetStaticDefaults()
+        public override void RestlessSetStaticDefaults()
         {
 
         }
@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return "Throws a scythe that leaves a trail of energy orbs that return to you";
         }
 
-        public override void restlessSetDefaults(TerrorbornItem modItem)
+        public override void RestlessSetDefaults(TerrorbornItem modItem)
         {
             Item.damage = 80;
             Item.DamageType = DamageClass.Melee;
@@ -66,7 +66,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return base.RestlessCanUseItem(player);
         }
 
-        public override bool RestlessShoot(Player player, EntitySource_ItemUse_WithAmmo source, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public override void RestlessModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())
@@ -83,6 +83,10 @@ namespace TerrorbornMod.Items.Weapons.Restless
                 Item.noMelee = false;
                 type = ModContent.ProjectileType<EnergyOrbProjectile>();
             }
+        }
+
+        public override bool RestlessShoot(Player player, EntitySource_ItemUse_WithAmmo source, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
             return base.RestlessShoot(player, source, ref position, ref velocity, ref type, ref damage, ref knockback);
         }
 
