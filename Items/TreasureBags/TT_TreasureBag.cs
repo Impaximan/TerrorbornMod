@@ -43,7 +43,7 @@ namespace TerrorbornMod.Items.TreasureBags
             }
             else if (choice == 2)
             {
-                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Weapons.Magic.BubbleBlaster>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Magic.MagicGuns.BubbleBlaster>());
             }
         }
 

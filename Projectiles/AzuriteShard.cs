@@ -6,7 +6,7 @@ namespace TerrorbornMod.Projectiles
 {
     class AzuriteShard : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/MagicGuns/TarSwarm";
         public override void SetDefaults()
         {
             Projectile.width = 8;

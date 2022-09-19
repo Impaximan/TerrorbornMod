@@ -84,7 +84,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
     class DreadSoul : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/MagicGuns/TarSwarm";
 
         public override void SetStaticDefaults()
         {

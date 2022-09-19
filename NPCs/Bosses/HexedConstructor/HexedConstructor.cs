@@ -1042,7 +1042,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
         {
             damage /= 2;
 
-            if (Projectile.type == ModContent.ProjectileType<Items.Weapons.Magic.SpiralSoul>())
+            if (Projectile.type == ModContent.ProjectileType<Items.Weapons.Magic.SpellBooks.SpiralSoul>())
             {
                 damage /= 4;
             }

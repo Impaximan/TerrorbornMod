@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using System.Collections.Generic;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
 {
     class Infectalanche : ModItem
     {
@@ -33,7 +33,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<TerrorBeam>();
             Item.shootSpeed = 5f;
             Item.mana = 20;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
         public override bool CanUseItem(Player player)
         {
@@ -46,7 +46,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            damage = (int)(damage * (float)modPlayer.TerrorPercent / 100f);
+            damage = (int)(damage * modPlayer.TerrorPercent / 100f);
             for (int i = 0; i < 8 + (int)(modPlayer.TerrorPercent / 100f * 8); i++)
             {
                 Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y) * Main.rand.NextFloat(0.7f, 1.3f), type, damage, knockback, player.whoAmI, Main.rand.NextFloat(-8f, 8f));
@@ -59,8 +59,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 20;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override string Texture => "TerrorbornMod/placeholder";
@@ -78,7 +78,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.hide = false;
             Projectile.timeLeft = 1000;
         }
@@ -101,7 +101,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 List<Vector2> positions = bezier.GetPoints(50);
                 for (int i = 0; i < positions.Count; i++)
                 {
-                    float mult = (float)(positions.Count - i) / (float)positions.Count;
+                    float mult = (positions.Count - i) / (float)positions.Count;
                     Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
                     Color color = Projectile.GetAlpha(Color.Lerp(new Color(44, 65, 59), new Color(94, 142, 127), mult)) * mult;
                     Utils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * mult), color);

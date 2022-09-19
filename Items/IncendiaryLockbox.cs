@@ -31,7 +31,7 @@ namespace TerrorbornMod.Items
             List<int> mainItems = new List<int>();
             mainItems.Add(ModContent.ItemType<Equipable.Accessories.Shields.IncendiaryShield>());
             mainItems.Add(ModContent.ItemType<Equipable.Accessories.SpecterLocket>());
-            mainItems.Add(ModContent.ItemType<Weapons.Magic.Asphodel>());
+            mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.Staffs.Asphodel>());
             mainItems.Add(ModContent.ItemType<Equipable.Hooks.HellishHook>());
             mainItems.Add(ModContent.ItemType<CrackedTimeChime>());
 

@@ -202,7 +202,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
                 ModContent.ItemType<Items.Weapons.Ranged.Thrown.Jawvelin>(),
                 ModContent.ItemType<Items.Weapons.Summons.Whips.AzuretoothWhip>(),
-                ModContent.ItemType<Items.Weapons.Magic.BubbleBlaster>()));
+                ModContent.ItemType<Items.Weapons.Magic.MagicGuns.BubbleBlaster>()));
 
             npcLoot.Add(notExpertRule);
         }

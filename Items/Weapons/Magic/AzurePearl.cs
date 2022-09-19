@@ -42,7 +42,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
     class AzureBurst : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/MagicGuns/TarSwarm";
         public override void SetDefaults()
         {
             Projectile.width = 16;
@@ -77,7 +77,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
     class AzureSpray : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/MagicGuns/TarSwarm";
         public override void SetDefaults()
         {
             Projectile.width = 8;

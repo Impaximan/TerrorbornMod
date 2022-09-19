@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using System;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
 {
     class TarSwarm : ModItem
     {
@@ -34,7 +34,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<AntlionLarva>();
             Item.shootSpeed = 15f;
             Item.mana = 4;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         public override Vector2? HoldoutOffset()
@@ -103,7 +103,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.height = 28;
             Projectile.friendly = true;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
@@ -126,7 +126,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override void AI()
         {
             FindFrame(Projectile.height);
-            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.ToRadians(90);
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.ToRadians(90);
             NPC targetNPC = Main.npc[0];
             float Distance = 375; //max distance away
             bool Targeted = false;

@@ -91,7 +91,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ModContent.ItemType<Weapons.Magic.TarSwarm>())
+                .AddIngredient(ModContent.ItemType<Items.Weapons.Magic.MagicGuns.TarSwarm>())
                 .AddIngredient(ModContent.ItemType<Materials.HexingEssence>(), 5)
                 .AddIngredient(ModContent.ItemType<Materials.HellbornEssence>(), 5)
                 .AddIngredient(ModContent.ItemType<Materials.TerrorSample>(), 4)

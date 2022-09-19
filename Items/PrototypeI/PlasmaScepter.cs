@@ -65,7 +65,7 @@ namespace TerrorbornMod.Items.PrototypeI
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/MagicGuns/TarSwarm";
         public override void SetDefaults()
         {
             Projectile.width = 8;

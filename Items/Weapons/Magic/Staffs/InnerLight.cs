@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using TerrorbornMod.Utils;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.Staffs
 {
     class InnerLight : ModItem
     {
@@ -42,7 +42,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<InnerLightProjectile>();
             Item.shootSpeed = 25f;
             Item.mana = 5;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         bool targetted = false;
@@ -124,7 +124,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         int currentSize = defaultSize;
         public override void SetDefaults()
         {
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.width = defaultSize;
             Projectile.height = defaultSize;
             Projectile.friendly = true;

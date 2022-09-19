@@ -4,7 +4,7 @@ using TerrorbornMod.Projectiles;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.Staffs
 {
     class StaffOfAgony : ModItem
     {
@@ -32,7 +32,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<AgonyLazer>();
             Item.mana = 3;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         public override Vector2? HoldoutOffset()
@@ -73,7 +73,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.hide = false;
             Projectile.hostile = false;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.timeLeft = timeLeft;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
@@ -92,7 +92,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void PostAI()
         {
-            deathrayWidth -= 1f / (float)timeLeft;
+            deathrayWidth -= 1f / timeLeft;
         }
     }
 }

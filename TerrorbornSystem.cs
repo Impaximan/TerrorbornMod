@@ -650,7 +650,7 @@ namespace TerrorbornMod
             List<int> mainItems = new List<int>();
             mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.Shields.IncendiaryShield>());
             mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.SpecterLocket>());
-            mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.Asphodel>());
+            mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.Staffs.Asphodel>());
             mainItems.Add(ModContent.ItemType<Items.Equipable.Hooks.HellishHook>());
             mainItems.Add(ModContent.ItemType<Items.CrackedTimeChime>());
 
@@ -1995,7 +1995,7 @@ namespace TerrorbornMod
                 if (chest != null && Main.tile[chest.x, chest.y].TileType == ModContent.TileType<Tiles.DeimostoneChestTile>())
                 {
                     List<int> mainItems = new List<int>();
-                    mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.ShriekersLung>());
+                    mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.MagicGuns.ShriekersLung>());
                     mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.HorrificCharm>());
                     mainItems.Add(ModContent.ItemType<Items.Weapons.Melee.Yoyos.NightLight>());
                     mainItems.Add(ModContent.ItemType<Items.Weapons.Ranged.Thrown.MindPiercer>());

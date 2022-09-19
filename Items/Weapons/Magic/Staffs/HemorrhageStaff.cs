@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.Staffs
 {
     class HemorrhageStaff : ModItem
     {
@@ -40,12 +40,12 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<CrimsonHeartBomb>();
             Item.shootSpeed = 15f;
             Item.mana = 6;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            position = player.Center + (player.DirectionTo(Main.MouseWorld) * 42);
+            position = player.Center + player.DirectionTo(Main.MouseWorld) * 42;
             return true;
         }
     }
@@ -61,7 +61,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 240;
         }
@@ -113,7 +113,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                 float speed = Main.rand.Next(10, 15);
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), Projectile.damage / 2, 0f, Projectile.owner);
-                Main.projectile[proj].DamageType = DamageClass.Magic;;
+                Main.projectile[proj].DamageType = DamageClass.Magic; ;
                 Main.projectile[proj].ai[0] = 1;
             }
         }

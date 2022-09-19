@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.Staffs
 {
     class WorldEaterStaff : ModItem
     {
@@ -40,14 +40,14 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<WorldEaterTooth>();
             Item.shootSpeed = 10f;
             Item.mana = 6;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < 3; i++)
             {
-                position = player.Center + (player.DirectionTo(Main.MouseWorld) * 40);
+                position = player.Center + player.DirectionTo(Main.MouseWorld) * 40;
                 velocity = velocity.RotatedByRandom(MathHelper.ToRadians(15));
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             }
@@ -59,8 +59,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -75,7 +75,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                     effects = SpriteEffects.FlipHorizontally;
                 }
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return false;
@@ -88,7 +88,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.penetrate = 3;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.hide = false;
             Projectile.tileCollide = true;
             Projectile.usesLocalNPCImmunity = true;

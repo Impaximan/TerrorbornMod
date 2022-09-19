@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
 {
     class AdamantiteLaserRifle : ModItem
     {
@@ -39,7 +39,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<AdamantiteLaser>();
             Item.shootSpeed = 10f;
             Item.mana = 4;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         public override Vector2? HoldoutOffset()
@@ -49,7 +49,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            position = player.Center + (player.DirectionTo(Main.MouseWorld) * 66);
+            position = player.Center + player.DirectionTo(Main.MouseWorld) * 66;
         }
     }
 
@@ -69,7 +69,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.hide = true;
             Projectile.extraUpdates = 100;
             Projectile.timeLeft = 350;

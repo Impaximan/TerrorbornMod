@@ -3,7 +3,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
 {
     class GaussStriker : ModItem
     {
@@ -14,8 +14,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18)
-                .AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12)
+                .AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 18)
+                .AddIngredient(ModContent.ItemType<Materials.NoxiousScale>(), 12)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }
@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shootSpeed = 25f;
             Item.shoot = ModContent.ProjectileType<GaussBolt>();
             Item.mana = 6;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         public override Vector2? HoldoutOffset()
@@ -63,7 +63,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.friendly = true;
             Projectile.penetrate = 25;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 400;
             Projectile.usesLocalNPCImmunity = true;
@@ -113,7 +113,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    int dust = Dust.NewDust(Projectile.Center - (Projectile.velocity * i / 4), 1, 1, 62, 0, 0, Scale: 2, newColor: Color.White);
+                    int dust = Dust.NewDust(Projectile.Center - Projectile.velocity * i / 4, 1, 1, 62, 0, 0, Scale: 2, newColor: Color.White);
                     Main.dust[dust].noGravity = true;
 
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();

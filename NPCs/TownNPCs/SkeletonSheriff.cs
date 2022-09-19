@@ -123,7 +123,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Magic.PearlyEyedStaff>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Magic.Staffs.PearlyEyedStaff>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;
@@ -138,7 +138,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 45;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Magic.Bombinomicon>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Magic.SpellBooks.Bombinomicon>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 45;
             nextSlot++;

@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
 {
     class SearingDaggers : ModItem
     {
@@ -28,7 +28,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.value = Item.sellPrice(0, 1, 0, 0);
             Item.width = 32;
             Item.height = 38;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
             Item.damage = 20;
             Item.useTime = 28;
             Item.useAnimation = 28;
@@ -60,8 +60,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -76,7 +76,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                     effects = SpriteEffects.FlipHorizontally;
                 }
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Color color = Projectile.GetAlpha(Color.White) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return false;
@@ -89,7 +89,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.hide = false;
             Projectile.tileCollide = true;
             Projectile.usesLocalNPCImmunity = true;
@@ -131,7 +131,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 Projectile.spriteDirection = 1;
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
             }
-            else 
+            else
             {
                 Projectile.velocity *= 0.9f;
                 Projectile.alpha += 255 / 20;

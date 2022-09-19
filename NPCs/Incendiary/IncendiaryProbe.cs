@@ -58,7 +58,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.IncendiaryGazeblaster>(), 15));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.MagicGuns.IncendiaryGazeblaster>(), 15));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

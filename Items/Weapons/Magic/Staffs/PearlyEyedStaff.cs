@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using TerrorbornMod.Projectiles;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.Staffs
 {
     class PearlyEyedStaff : ModItem
     {
@@ -32,11 +32,11 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<LightSingularity>();
             Item.shootSpeed = 1f;
             Item.mana = 8;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            position = player.Center + (player.DirectionTo(Main.MouseWorld) * 50);
+            position = player.Center + player.DirectionTo(Main.MouseWorld) * 50;
             Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y), type, damage, knockback, player.whoAmI, 1);
             return false;
         }
@@ -56,7 +56,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.timeLeft = 2;
         }
 
@@ -118,7 +118,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.hide = false;
             Projectile.hostile = false;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.timeLeft = timeLeft;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
@@ -132,7 +132,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void PostAI()
         {
-            deathrayWidth -= 1f / (float)timeLeft;
+            deathrayWidth -= 1f / timeLeft;
         }
     }
 }

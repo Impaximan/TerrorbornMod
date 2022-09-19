@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using TerrorbornMod.Projectiles;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.Staffs
 {
     class NewPerception : ModItem
     {
@@ -31,12 +31,12 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<NewPerceptionEye>();
             Item.shootSpeed = 7.5f;
             Item.mana = 30;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            position = player.Center + (player.DirectionTo(Main.MouseWorld) * 50);
+            position = player.Center + player.DirectionTo(Main.MouseWorld) * 50;
             for (int i = 0; i < Main.rand.Next(3, 5); i++)
             {
                 Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(0.8f, 1.2f), type, damage, knockback, player.whoAmI, 1);
@@ -47,7 +47,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ModContent.ItemType<Items.Materials.DreadfulEssence>(), 3)
+                .AddIngredient(ModContent.ItemType<Materials.DreadfulEssence>(), 3)
                 .AddIngredient(ItemID.LunarBar, 10)
                 .AddIngredient(ModContent.ItemType<PearlyEyedStaff>())
                 .AddIngredient(ItemID.FragmentNebula, 12)
@@ -74,7 +74,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.timeLeft = 2;
         }
 
@@ -150,7 +150,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.hide = false;
             Projectile.hostile = false;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.timeLeft = timeLeft;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -165,7 +165,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void PostAI()
         {
-            deathrayWidth -= 1f / (float)timeLeft;
+            deathrayWidth -= 1f / timeLeft;
             Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(1)).ToRotationVector2() * Projectile.velocity.Length();
         }
     }

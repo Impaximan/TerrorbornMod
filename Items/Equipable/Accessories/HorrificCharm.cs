@@ -155,7 +155,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             return target.type != NPCID.TruffleWorm && !target.friendly;
         }
 
-        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/MagicGuns/TarSwarm";
         public override void SetDefaults()
         {
             Projectile.width = 8;

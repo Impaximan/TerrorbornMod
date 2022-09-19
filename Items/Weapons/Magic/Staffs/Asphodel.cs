@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using TerrorbornMod.Utils;
 using System.Collections.Generic;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.Staffs
 {
     class Asphodel : ModItem
     {
@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<IncendiaryFlower>();
             Item.shootSpeed = 5f;
             Item.mana = 10;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
@@ -58,7 +58,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 20;
         }
@@ -67,7 +67,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         {
             Projectile.rotation += MathHelper.ToRadians(10);
             //Projectile.scale += 0.5f / 45f;
-            
+
             if (Projectile.alpha > (int)(255 * 0.25f))
             {
                 Projectile.alpha -= 15;
@@ -91,7 +91,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Vector2 direction = new Vector2(0, 1);
             for (int i = 0; i < dustAmount; i++)
             {
-                Vector2 newPos = position + direction.RotatedBy(MathHelper.ToRadians((360f / dustAmount) * i)) * Main.rand.NextFloat(minDistance, maxDistance);
+                Vector2 newPos = position + direction.RotatedBy(MathHelper.ToRadians(360f / dustAmount * i)) * Main.rand.NextFloat(minDistance, maxDistance);
                 Dust dust = Dust.NewDustPerfect(newPos, 127);
                 dust.scale = 1f;
                 dust.velocity = (newPos - position) / 5;
@@ -104,8 +104,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -129,8 +129,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 for (int i = 0; i < positions.Count; i++)
                 {
                     Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
-                    Color color = Projectile.GetAlpha(new Color(247, 84, 37)) * ((float)(positions.Count - i) / (float)positions.Count);
-                    Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(35f * ((float)(positions.Count - i) / (float)positions.Count)), color * 0.5f);
+                    Color color = Projectile.GetAlpha(new Color(247, 84, 37)) * ((positions.Count - i) / (float)positions.Count);
+                    Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(35f * ((positions.Count - i) / (float)positions.Count)), color * 0.5f);
                 }
             }
 
@@ -146,7 +146,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.aiStyle = 0;
             Projectile.tileCollide = true;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
@@ -171,7 +171,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Vector2 direction = new Vector2(0, 1);
             for (int i = 0; i < dustAmount; i++)
             {
-                Vector2 newPos = position + direction.RotatedBy(MathHelper.ToRadians((360f / dustAmount) * i)) * Main.rand.NextFloat(minDistance, maxDistance);
+                Vector2 newPos = position + direction.RotatedBy(MathHelper.ToRadians(360f / dustAmount * i)) * Main.rand.NextFloat(minDistance, maxDistance);
                 Dust dust = Dust.NewDustPerfect(newPos, 127);
                 dust.scale = 1f;
                 dust.velocity = (newPos - position) / 10;

@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
 {
     class IncendiaryGazeblaster : ModItem
     {
@@ -33,7 +33,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<IncendiaryGazeblast>();
             Item.mana = 6;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         public override Vector2? HoldoutOffset()
@@ -64,7 +64,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.hide = false;
             Projectile.hostile = false;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.timeLeft = timeLeft;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -82,7 +82,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void PostAI()
         {
-            deathrayWidth -= 1f / (float)timeLeft;
+            deathrayWidth -= 1f / timeLeft;
         }
     }
 }

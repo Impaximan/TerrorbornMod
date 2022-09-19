@@ -6,15 +6,15 @@ using Terraria.ModLoader;
 using System.Collections.Generic;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
 {
     class SoulSpiral : ModItem
     {
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 18)
-                .AddIngredient(ModContent.ItemType<Items.Materials.NoxiousScale>(), 12)
+                .AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 18)
+                .AddIngredient(ModContent.ItemType<Materials.NoxiousScale>(), 12)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
         }
@@ -29,7 +29,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.value = Item.sellPrice(0, 5, 0, 0);
             Item.width = 32;
             Item.height = 38;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
             Item.damage = 70;
             Item.useTime = 32;
             Item.useAnimation = 32;
@@ -65,8 +65,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -89,7 +89,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
                 List<Vector2> positions = bezier.GetPoints(50);
                 for (int i = 0; i < positions.Count; i++)
                 {
-                    float mult = (float)(positions.Count - i) / (float)positions.Count;
+                    float mult = (positions.Count - i) / (float)positions.Count;
                     Vector2 drawPos = positions[i] - Main.screenPosition + Projectile.Size / 2;
                     Color color = Projectile.GetAlpha(Color.Lerp(Color.MediumPurple, Color.LightPink, mult)) * mult;
                     Utils.Graphics.DrawGlow_1(Main.spriteBatch, drawPos, (int)(25f * mult), color);
@@ -110,7 +110,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.friendly = true;
             Projectile.penetrate = 25;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.ignoreWater = true;
             Projectile.hide = false;
             Projectile.timeLeft = (int)(360 / rotationSpeed);

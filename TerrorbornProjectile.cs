@@ -104,8 +104,8 @@ namespace TerrorbornMod
 
             if (player.HeldItem.ModItem != null && player.HeldItem.ModItem.Mod == Mod)
             {
-                if (Projectile.type == ProjectileID.IchorDart) damage = (int)(damage * 0.3f);
-                if (Projectile.type == ProjectileID.CrystalDart) damage = (int)(damage * 0.5f);
+                if (Projectile.type == ProjectileID.IchorDart) damage = (int)(damage * 0.52f);
+                if (Projectile.type == ProjectileID.CrystalDart) damage = (int)(damage * 0.75f);
             }
         }
 

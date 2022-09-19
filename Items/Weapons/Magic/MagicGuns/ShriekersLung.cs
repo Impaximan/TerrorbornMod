@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
 {
     class ShriekersLung : ModItem
     {
@@ -32,7 +32,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.shootSpeed = 10f;
             Item.shoot = ModContent.ProjectileType<ShriekWave>();
             Item.mana = 3;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -62,7 +62,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             for (int i = 0; i < Projectile.oldPos.Length; i += 2)
             {
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Color color = Projectile.GetAlpha(Color.White) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
@@ -77,7 +77,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.friendly = true;
             Projectile.penetrate = 3;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 300;
             Projectile.usesLocalNPCImmunity = true;

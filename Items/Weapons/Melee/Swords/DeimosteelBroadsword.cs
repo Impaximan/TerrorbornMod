@@ -40,7 +40,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
 
     public class DeimoWave : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/ShriekWave";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/MagicGuns/ShriekWave";
         public override void SetDefaults()
         {
             Projectile.width = 24;

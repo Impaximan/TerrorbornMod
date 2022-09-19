@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
 {
     class Bombinomicon : ModItem
     {
@@ -17,7 +17,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.value = Item.sellPrice(0, 1, 0, 0);
             Item.width = 24;
             Item.height = 26;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
             Item.damage = 60;
             Item.useTime = 30;
             Item.useAnimation = 30;

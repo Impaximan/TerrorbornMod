@@ -36,11 +36,11 @@ namespace TerrorbornMod.Items.TreasureBags
             {
                 case 0:
                     player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Melee.Swords.NighEndSaber>());
-                    player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Magic.SpellBooks.Infectalanche>());
                     break;
                 case 1:
                     player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Ranged.Thrown.GraveNeedle>());
-                    player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Magic.Infectalanche>());
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Magic.SpellBooks.Infectalanche>());
                     break;
                 case 2:
                     player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Ranged.Thrown.GraveNeedle>());

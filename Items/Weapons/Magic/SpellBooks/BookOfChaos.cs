@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
 {
     class BookOfChaos : ModItem
     {
@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.value = Item.sellPrice(0, 1, 0, 0);
             Item.width = 32;
             Item.height = 38;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
             Item.damage = 27;
             Item.useTime = 25;
             Item.useAnimation = 25;
@@ -50,7 +50,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.friendly = true;
             Projectile.penetrate = 6;
             Projectile.hostile = false;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.ignoreWater = true;
             Projectile.hide = false;
             Projectile.timeLeft = 600;

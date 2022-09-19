@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
 {
     class PhoenixConjuration : ModItem
     {
@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.value = Item.sellPrice(0, 3, 0, 0);
             Item.width = 32;
             Item.height = 38;
-            Item.DamageType = DamageClass.Magic;;
+            Item.DamageType = DamageClass.Magic; ;
             Item.damage = 40;
             Item.useTime = 18;
             Item.useAnimation = 18;
@@ -49,8 +49,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
             Main.projFrames[Projectile.type] = 6;
         }
 
@@ -66,8 +66,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
                     effects = SpriteEffects.FlipHorizontally;
                 }
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                Color color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
-                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle(0, Projectile.frame * Projectile.height, Projectile.width, Projectile.height), color, Projectile.rotation, drawOrigin, Projectile.scale * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length), effects, 0f);
+                Color color = Projectile.GetAlpha(Color.White) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle(0, Projectile.frame * Projectile.height, Projectile.width, Projectile.height), color, Projectile.rotation, drawOrigin, Projectile.scale * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length), effects, 0f);
             }
             return false;
         }
@@ -76,7 +76,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         {
             Projectile.width = 48;
             Projectile.height = 276 / 6;
-            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.DamageType = DamageClass.Magic; ;
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.tileCollide = false;
@@ -135,11 +135,11 @@ namespace TerrorbornMod.Items.Weapons.Magic
             for (int i = 0; i < Streams; ++i)
             {
 
-                Vector2 direction = Vector2.Normalize(new Vector2(1, 1)).RotatedBy(MathHelper.ToRadians(((360 / Streams) * i) + currentAngle));
+                Vector2 direction = Vector2.Normalize(new Vector2(1, 1)).RotatedBy(MathHelper.ToRadians(360 / Streams * i + currentAngle));
                 direction.X *= DustSpeed;
                 direction.Y *= DustSpeed;
 
-                Dust dust = Dust.NewDustPerfect(position + (new Vector2(Main.rand.Next(RectWidth), Main.rand.Next(RectWidth))), DustType, direction, 0, default(Color), DustScale);
+                Dust dust = Dust.NewDustPerfect(position + new Vector2(Main.rand.Next(RectWidth), Main.rand.Next(RectWidth)), DustType, direction, 0, default, DustScale);
                 if (NoGravity)
                 {
                     dust.noGravity = true;

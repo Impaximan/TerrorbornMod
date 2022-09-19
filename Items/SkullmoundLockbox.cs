@@ -31,7 +31,7 @@ namespace TerrorbornMod.Items
             List<int> mainItems = new List<int>();
             mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.Shields.IncendiaryShield>());
             mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.SpecterLocket>());
-            mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.Asphodel>());
+            mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.Staffs.Asphodel>());
             mainItems.Add(ModContent.ItemType<Items.Equipable.Hooks.HellishHook>());
 
             List<int> bossSummons = new List<int>();

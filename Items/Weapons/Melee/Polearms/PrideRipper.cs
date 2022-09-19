@@ -133,7 +133,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Polearms
 
     class DreadLight : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/MagicGuns/TarSwarm";
 
         public override void SetStaticDefaults()
         {

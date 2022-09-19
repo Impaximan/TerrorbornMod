@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.Audio;
 
-namespace TerrorbornMod.Items.Weapons.Magic
+namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
 {
     class BubbleBlaster : ModItem
     {
@@ -134,7 +134,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
-            if (projectile.type == ModContent.ProjectileType<Items.Equipable.Armor.AzuriteShockwave>())
+            if (projectile.type == ModContent.ProjectileType<Equipable.Armor.AzuriteShockwave>())
             {
                 return false;
             }

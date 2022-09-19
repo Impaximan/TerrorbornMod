@@ -1248,7 +1248,7 @@ namespace TerrorbornMod
 
             if (NPC.type == NPCID.GoblinSorcerer)
             {
-                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.BookOfChaos>(), 12));
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.SpellBooks.BookOfChaos>(), 12));
             }
 
             if (NPC.type == NPCID.GoblinArcher)
