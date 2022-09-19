@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
-namespace TerrorbornMod.Items.Weapons.Ranged
+namespace TerrorbornMod.Items.Weapons.Ranged.Darts
 {
     class DualpipeDartgun : ModItem
     {

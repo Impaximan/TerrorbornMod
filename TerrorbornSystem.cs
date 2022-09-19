@@ -1960,7 +1960,7 @@ namespace TerrorbornMod
                                 switch (Main.rand.Next(3))
                                 {
                                     case 0:
-                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.DualpipeDartgun>());
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<TerrorbornMod.Items.Weapons.Ranged.Darts.DualpipeDartgun>());
                                         break;
                                     case 1:
                                         chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.PalladiumShield>());

@@ -18,6 +18,11 @@ namespace TerrorbornMod.TwilightMode.NPCs
             return true;
         }
 
+        public override void NewAI(NPC npc)
+        {
+			WormAI(npc);
+        }
+
         public void WormAI(NPC npc)
 		{
 			if (npc.type == NPCID.LeechHead && npc.localAI[1] == 0f)

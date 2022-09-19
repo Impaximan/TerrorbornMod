@@ -4,7 +4,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrorbornMod.Items.Weapons.Ranged
+namespace TerrorbornMod.Items.Weapons.Ranged.Darts
 {
     class CrimtaneBlowgun : ModItem
     {
@@ -73,7 +73,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             player.itemAnimation = 2;
             return true;
         }
-    
+
         public override void AddRecipes()
         {
             CreateRecipe()
