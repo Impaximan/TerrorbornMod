@@ -480,7 +480,7 @@ namespace TerrorbornMod
                 return new[]
                 {
                     new Item(ModContent.ItemType<Items.MysteriousCompass>()),
-                    new Item(ModContent.ItemType<Items.Weapons.Ranged.Stick>(), 150),
+                    new Item(ModContent.ItemType<Items.Weapons.Ranged.Thrown.Stick>(), 150),
                     new Item(ItemID.Torch, 15),
                     new Item(ItemID.Glowstick, 10),
                     new Item(ItemID.Bomb, 5),

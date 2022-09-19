@@ -1960,7 +1960,7 @@ namespace TerrorbornMod
                                 switch (Main.rand.Next(3))
                                 {
                                     case 0:
-                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<TerrorbornMod.Items.Weapons.Ranged.Darts.DualpipeDartgun>());
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.DartWeapons.DualpipeDartgun>());
                                         break;
                                     case 1:
                                         chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Shields.PalladiumShield>());
@@ -1998,7 +1998,7 @@ namespace TerrorbornMod
                     mainItems.Add(ModContent.ItemType<Items.Weapons.Magic.ShriekersLung>());
                     mainItems.Add(ModContent.ItemType<Items.Equipable.Accessories.HorrificCharm>());
                     mainItems.Add(ModContent.ItemType<Items.Weapons.Melee.NightLight>());
-                    mainItems.Add(ModContent.ItemType<Items.Weapons.Ranged.MindPiercer>());
+                    mainItems.Add(ModContent.ItemType<Items.Weapons.Ranged.Thrown.MindPiercer>());
 
                     List<int> secondaryMainItems = new List<int>();
                     secondaryMainItems.Add(ItemID.BandofRegeneration);

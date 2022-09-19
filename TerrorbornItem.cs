@@ -274,7 +274,7 @@ namespace TerrorbornMod
 
             List<int> otherThrownItems = new List<int>() {
                 ItemID.ScourgeoftheCorruptor,
-                ModContent.ItemType<Items.Weapons.Ranged.PyroclasticKunai>(),
+                ModContent.ItemType<Items.Weapons.Ranged.Thrown.PyroclasticKunai>(),
             };
 
             if (otherThrownItems.Contains(item.type))

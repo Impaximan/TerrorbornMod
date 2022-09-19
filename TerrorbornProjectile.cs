@@ -226,14 +226,14 @@ namespace TerrorbornMod
                 newProj.DamageType = Projectile.DamageType;
             }
 
-            if (BeatStopper && Projectile.type != ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>())
+            if (BeatStopper && Projectile.type != ModContent.ProjectileType<Items.Weapons.Ranged.Guns.BeatstopperFireball>())
             {
                 SoundExtensions.PlaySoundOld(SoundID.DD2_BallistaTowerShot, player.Center);
                 for (int i = 0; i < 2; i++)
                 {
                     float speed = Main.rand.NextFloat(12f, 20f);
                     Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * speed;
-                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), player.Center, velocity, ModContent.ProjectileType<Items.Weapons.Ranged.BeatstopperFireball>(), damage / 5, 1, player.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), player.Center, velocity, ModContent.ProjectileType<Items.Weapons.Ranged.Guns.BeatstopperFireball>(), damage / 5, 1, player.whoAmI);
                 }
             }
         }
@@ -285,7 +285,7 @@ namespace TerrorbornMod
                 Start = false;
                 OnSpawn(Projectile);
 
-                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Ranged.Beatstopper>() && Projectile.Distance(player.Center) <= 100)
+                if (player.HeldItem.type == ModContent.ItemType<Items.Weapons.Ranged.Guns.Beatstopper>() && Projectile.Distance(player.Center) <= 100)
                 {
                     BeatStopper = true;
                 }

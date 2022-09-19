@@ -61,7 +61,7 @@ namespace TerrorbornMod.NPCs.Minibosses
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.DreadfulEssence>(),
                 minimumDropped: 5,
                 maximumDropped: 10));
-            npcLoot.Add(ItemDropRule.OneFromOptions(1, ModContent.ItemType<Items.Weapons.Ranged.TaleOfTragedy>(),
+            npcLoot.Add(ItemDropRule.OneFromOptions(1, ModContent.ItemType<Items.Weapons.Ranged.Bows.TaleOfTragedy>(),
                 ModContent.ItemType<Items.Weapons.Magic.PhoenixConjuration>()));
         }
 

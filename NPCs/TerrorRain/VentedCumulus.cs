@@ -45,7 +45,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.ThunderShard>(), 1));
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Ranged.ThunderGrenade>(), 8));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Ranged.Thrown.ThunderGrenade>(), 8));
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

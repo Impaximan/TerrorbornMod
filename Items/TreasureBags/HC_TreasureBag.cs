@@ -36,7 +36,7 @@ namespace TerrorbornMod.Items.TreasureBags
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {
-                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Ranged.MirageBow>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Ranged.Bows.MirageBow>());
             }
             else if (choice == 1)
             {

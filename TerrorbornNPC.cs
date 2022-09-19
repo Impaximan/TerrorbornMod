@@ -1253,7 +1253,7 @@ namespace TerrorbornMod
 
             if (NPC.type == NPCID.GoblinArcher)
             {
-                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Ranged.WarBow>(), 15));
+                NPCLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Ranged.Bows.WarBow>(), 15));
             }
 
             if (NPC.type == NPCID.TacticalSkeleton || NPC.type == NPCID.SkeletonCommando || NPC.type == NPCID.SkeletonSniper)

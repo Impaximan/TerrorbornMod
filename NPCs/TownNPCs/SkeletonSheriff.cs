@@ -144,7 +144,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             nextSlot++;
             if (Main.hardMode)
             {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.TheDoubleBarrel>());
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.Guns.TheDoubleBarrel>());
                 shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
                 shop.item[nextSlot].shopCustomPrice = 125;
                 nextSlot++;

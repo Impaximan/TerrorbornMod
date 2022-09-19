@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items.TreasureBags
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {
-                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Weapons.Ranged.Jawvelin>(), 750);
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Weapons.Ranged.Thrown.Jawvelin>(), 750);
             }
             else if (choice == 1)
             {

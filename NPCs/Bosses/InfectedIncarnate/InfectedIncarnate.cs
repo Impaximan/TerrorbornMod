@@ -216,7 +216,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
 
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.UnkindledAnekronianMask>(), 7));
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
-                ModContent.ItemType<Items.Weapons.Ranged.GraveNeedle>(),
+                ModContent.ItemType<Items.Weapons.Ranged.Thrown.GraveNeedle>(),
                 ModContent.ItemType<Items.Weapons.Magic.Infectalanche>(),
                 ModContent.ItemType<Items.Weapons.Melee.NighEndSaber>()));
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,

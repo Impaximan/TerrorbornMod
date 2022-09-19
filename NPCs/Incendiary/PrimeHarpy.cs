@@ -58,7 +58,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Ranged.CursedJavelin>(), 5, 125, 175));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Ranged.Thrown.CursedJavelin>(), 5, 125, 175));
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

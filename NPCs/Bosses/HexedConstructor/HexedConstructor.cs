@@ -77,7 +77,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.HexedConstructorMask>(), 7));
             notExpertRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Materials.HexingEssence>(), 1, 15, 20));
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
-                ModContent.ItemType<Items.Weapons.Ranged.MirageBow>(),
+                ModContent.ItemType<Items.Weapons.Ranged.Bows.MirageBow>(),
                 ModContent.ItemType<Items.Weapons.Magic.SongOfTime>(),
                 ModContent.ItemType<Items.Weapons.Melee.IcarusShred>()));
             notExpertRule.OnSuccess(ItemDropRule.OneFromOptions(1,
