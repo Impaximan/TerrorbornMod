@@ -101,6 +101,12 @@ namespace TerrorbornMod
         {
             Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
+
+            if (player.HeldItem.ModItem != null && player.HeldItem.ModItem.Mod == Mod)
+            {
+                if (Projectile.type == ProjectileID.IchorDart) damage = (int)(damage * 0.3f);
+                if (Projectile.type == ProjectileID.CrystalDart) damage = (int)(damage * 0.5f);
+            }
         }
 
         public override void OnHitNPC(Projectile Projectile, NPC target, int damage, float knockback, bool crit)

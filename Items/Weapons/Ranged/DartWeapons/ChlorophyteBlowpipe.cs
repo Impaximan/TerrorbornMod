@@ -15,7 +15,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.DartWeapons
         }
         public override void SetDefaults()
         {
-            Item.damage = 35;
+            Item.damage = 76;
             Item.DamageType = DamageClass.Ranged;
             Item.noMelee = true;
             Item.width = 42;

@@ -537,6 +537,11 @@ namespace TerrorbornMod
             {
                 tooltips.Add(new TooltipLine(Mod, "noUseSpeed", "Unaffected by external item use speed modifiers"));
             }
+
+            if (item.type == ItemID.CrystalDart || item.type == ItemID.IchorDart)
+            {
+                tooltips.Add(new TooltipLine(Mod, "reducedDartDamage", "Does reduced damage when used with Terrorborn weapons"));
+            }
         }
 
         public string GetWingSpeedMultRating(float mult, bool capitalized = true)
