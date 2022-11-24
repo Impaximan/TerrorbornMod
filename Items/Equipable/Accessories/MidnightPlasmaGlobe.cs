@@ -14,24 +14,20 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 32;
-            item.accessory = true;
-            item.noMelee = true;
-            item.lifeRegen = 5;
-            item.rare = 5;
-            item.expert = true;
-            item.value = Item.sellPrice(0, 1, 50, 0);
-            item.useAnimation = 5;
+            Item.width = 32;
+            Item.height = 32;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.lifeRegen = 5;
+            Item.rare = ItemRarityID.Pink;
+            Item.expert = true;
+            Item.value = Item.sellPrice(0, 1, 50, 0);
+            Item.useAnimation = 5;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.TerrorPercent += 2f / 60f;
-            if (modPlayer.TerrorPercent > 100)
-            {
-                modPlayer.TerrorPercent = 100;
-            }
+            modPlayer.GainTerror(2f, true, true);
             if (modPlayer.TerrorPercent <= 30f)
             {
                 player.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 1);

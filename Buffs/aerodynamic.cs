@@ -6,14 +6,14 @@ namespace TerrorbornMod.Buffs
 {
     class aerodynamic : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aerodynamic");
             Description.SetDefault("Wind won't push you around, you are more agile, and increased wing flight time");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {

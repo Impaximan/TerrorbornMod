@@ -9,34 +9,27 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 20);
-            recipe.AddIngredient(ItemID.CobaltBar, 12);
-            recipe.AddIngredient(ItemID.SoulofFlight, 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 20);
-            recipe2.AddIngredient(ItemID.PalladiumBar, 12);
-            recipe2.AddIngredient(ItemID.SoulofFlight, 15);
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(20 * TerrorbornMod.IncendiaryAlloyMultiplier))
+                .AddRecipeGroup("cobalt", 10)
+                .AddIngredient(ItemID.SoulofFlight, 15)
+                .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
+                .Register();
         }
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Allows flight and slow fall" +
                 "\nTemporary immunity to lava and immunity to fire");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new Terraria.DataStructures.WingStats((int)(60 * 2.67f), 1f, 1.2f, false);
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 4;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

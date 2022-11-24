@@ -1,0 +1,51 @@
+﻿Mods:{
+	TerrorbornMod: {
+		
+		TownNPCMood: {
+			TerrorMaster: {
+				Content: I don't really need anything else, but thanks for looking out for me, I suppose.
+				NoHome: I know that I kinda just showed up on my own... but uh... could I still have like, you know, a house? That'd be great.
+				LoveSpace: Ahhh, it's so nice and serene here. No annoying neighbors to interrupt my studies.
+				FarFromHome: Uhhhh... yeah, so, it seems like I'm in a bit of a pickle. Would you be so kind as to bring me back to my house? Thanks.
+				DislikeCrowded: Could you maybe bring me somewhere where I can study in peace? These neighbors are SO loud.
+				HateCrowded: UGH! All these neighbors are driving me crazy!
+				LikeBiome: "{BiomeName} is so nice and quiet. The wildlife isn't too wild, but there are still interesting creatures for me to observe."
+				LoveBiome: "{BiomeName} is so serene, yet in the water there's such a wide variety of creatures to look at. I love it here!"
+				DislikeBiome: "With this dark clothing on, {BiomeName} is WAY too hot! I don't hate it, but it could certainly be more desirable."
+				HateBiome: "{BiomeName} is an alright place in terms of temperature and creatures... but it gives me terrible, terrible memories. I hate it here... please get me out!"
+				LikeNPC: "Me and {NPCName} get along quite well, I must say. Though he has limited knowledge on terror, he knows a lot about the world's workings that I don't. I hear he has memorized every crafting recipe!"
+				LoveNPC: "{NPCName} is a great friend of mine~ we have many good memories to share. If you could keep me close to him, that'd be great."
+				DislikeNPC: '''"{NPCName} is a bit too chaotic for my liking. And she literally actively goes against everything I was tought as a functioning member of society."'''
+				HateNPC: "{NPCName} the Dryad acts like she's got it all figured out! Not at all fun to discuss science with. Being around her drives me crazy!"
+			}
+			SkeletonSheriff: {
+				Content: I'm not in need of anything more now, pal. However, I would be very happy if you would get out there and do some peacekeeping!	
+				NoHome: Wow, you're a great warrior! You better be a great builder too, cause I'm in need of a house!
+				LoveSpace: No criminals or anything around, which makes my job quite easy. I hardly even need to watch anybody, cause there's nobody around.
+				FarFromHome: Bit of a problem: I've gotten lost. If you could help me back to my house that'd be great.
+				DislikeCrowded: Could you do something about the overpopulation problem? Having so many people close together could get bad real quick.
+				HateCrowded: I'm getting too old for this! There are WAY too many people here. Could you do something about that! I'm a peacekeeper, and that includes peace.
+				LikeBiome: "I don't know entirely why, but I like it here in {BiomeName}."
+				LoveBiome: "I am a HUGE fan of {BiomeName}! There's plenty to do and at night, plenty of bandits to take care of."
+				DislikeBiome: "I know I'm supposed to help out and all, but the creatures here in {BiomeName} are just a little too crazy."
+				HateBiome: "Ah, {BiomeName} is so peaceful... I hate it here! There ain't nothing to do, I can't help out with anything... yuck!"
+				LikeNPC: "Keep me around {NPCName}... I need to keep an eye on him. I thought I saw him giving out some contraband."
+				LoveNPC: "The Terror Master is a great pal! I don't know why, but he feels... familiar."
+				DislikeNPC: '''"{NPCName} is suspicious, but I haven't caught her doing anything illegal. It drives me crazy, keep me away from her."'''
+				HateNPC: "{NPCName} is SO LOUD he even hurts my nonexistant ears. Just get me away from him... please!"
+			}
+			Heretic: {
+				Content: I can be as controversial as possible, so, I'm quite fine here.	
+				NoHome: Give me a house or I'll turn you into one.
+				LoveSpace: Ain't nobody around to interfere with my... activities.
+				FarFromHome: I can't fly anymore for some reason so it'd be great if you could get me back home.
+				DislikeCrowded: So many people around, better get em' out of here before I start sacrificing them!
+				HateCrowded: That's it, I'm gonna start sacrificing people. There are so many.
+				LikeNPC: "{NPCName} is pretty cool due to having left his people to do whatever the heck he wants."
+				LoveNPC: "Keep me around {NPCName} so I can 1-up his utilities and cause him to go completely broke >:D!"
+				DislikeNPC: '''"{NPCName} is booorinngg. She's so obsessed with not hurting the grass and stuff. Like she legit got mad at more for trying to decapitate a squirrel."'''
+				HateNPC: "{NPCName} is SO annoying. He doesn't do anything interesting, he just tries to find reasons to arrest me."
+			}
+		}
+	}
+}

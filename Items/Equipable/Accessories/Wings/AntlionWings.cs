@@ -12,15 +12,16 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
             DisplayName.SetDefault("Swarmer Wings");
             Tooltip.SetDefault("Allows flight and slow fall" +
                 "\nWhile airborn you are immune to high wind speeds");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new Terraria.DataStructures.WingStats(55, 1f, 1.5f, true, 1f);
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 2, 0, 0);
-            item.rare = 3;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,7 +33,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
             }
         }
 
-        public override void UpdateVanity(Player player, EquipType type)
+        public override void UpdateVanity(Player player)
         {
             if (player.velocity.Y != 0)
             {
@@ -52,17 +53,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
+            base.HorizontalWingSpeeds(player, ref speed, ref acceleration);
             speed *= 1f;
             acceleration *= 1.5f;
         }
-
-        //public override void AddRecipes()
-        //{
-        //    ModRecipe recipe = new ModRecipe(mod);
-        //    recipe.AddIngredient(null, "EquipMaterial", 60);
-        //    recipe.AddTile(null, "ExampleWorkbench");
-        //    recipe.SetResult(this);
-        //    recipe.AddRecipe();
-        //}
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -9,83 +8,92 @@ namespace TerrorbornMod.Items.PrototypeI
 {
     class PlasmaticVortex : ModItem
     {
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.PlasmaliumBar>(), 12)
+                .AddIngredient(ModContent.ItemType<Items.Materials.ThunderShard>(), 5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+        }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Slowly returns to you upon hitting an enemy, dealing extra hits");
+            Tooltip.SetDefault("Slowly returns to you upon hitting an enemy, dealing numerous hits per attack");
         }
         public override void SetDefaults()
         {
-            item.damage = 118;
-            item.width = 102;
-            item.height = 82;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.rare = 9;
-            item.useStyle = 1;
-            item.knockBack = 0f;
-            item.UseSound = SoundID.Item1;
-            item.value = Item.sellPrice(0, 16, 0, 0);
-            item.shootSpeed = 50;
-            item.shoot = mod.ProjectileType("PlasmaticVortex_projectile");
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.melee = true;
+            Item.damage = 80;
+            Item.width = 102;
+            Item.height = 82;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.rare = ItemRarityID.Cyan;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 0f;
+            Item.UseSound = SoundID.Item1;
+            Item.value = Item.sellPrice(0, 16, 0, 0);
+            Item.shootSpeed = 50;
+            Item.shoot = ModContent.ProjectileType<PlasmaticVortex_Projectile>();
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
         }
     }
-    class PlasmaticVortex_projectile : ModProjectile
+    class PlasmaticVortex_Projectile : ModProjectile
     {
         public override string Texture { get { return "TerrorbornMod/Items/PrototypeI/PlasmaticVortex"; } }
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 SpriteEffects effects = SpriteEffects.None;
-                if (projectile.spriteDirection == -1)
+                if (Projectile.spriteDirection == -1)
                 {
                     effects = SpriteEffects.FlipHorizontally;
                 }
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Items/PrototypeI/PlasmaticVortex"), drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
-                color = projectile.GetAlpha(Color.White) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(ModContent.GetTexture("TerrorbornMod/Items/PrototypeI/PlasmaticVortex_Glow"), drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("TerrorbornMod/Items/PrototypeI/PlasmaticVortex").Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+                color = Projectile.GetAlpha(Color.White) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/PrototypeI/PlasmaticVortex_Glow"), drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return true;
         }
 
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = 102;
-            projectile.height = 82;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = false;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = 102;
+            Projectile.height = 82;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 5;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 30;
             height = 30;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(0, projectile.position);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
             TimeUntilReturn = 0;
             speed = 0;
             return false;
@@ -105,20 +113,20 @@ namespace TerrorbornMod.Items.PrototypeI
         bool Start = true;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            projectile.spriteDirection = player.direction * -1;
-            projectile.rotation += 0.5f * player.direction;
+            Projectile.spriteDirection = player.direction * -1;
+            Projectile.rotation += 0.5f * player.direction;
             if (TimeUntilReturn <= 0)
             {
-                projectile.tileCollide = false;
-                Vector2 direction = projectile.DirectionTo(player.Center);
+                Projectile.tileCollide = false;
+                Vector2 direction = Projectile.DirectionTo(player.Center);
                 speed += 0.3f;
-                projectile.velocity = direction * speed;
+                Projectile.velocity = direction * speed;
 
-                if (Main.player[projectile.owner].Distance(projectile.Center) <= speed)
+                if (Main.player[Projectile.owner].Distance(Projectile.Center) <= speed)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
             else
@@ -126,7 +134,7 @@ namespace TerrorbornMod.Items.PrototypeI
                 TimeUntilReturn--;
                 if (TimeUntilReturn <= 0)
                 {
-                    speed = projectile.velocity.Length();
+                    speed = Projectile.velocity.Length();
                 }
             }
         }

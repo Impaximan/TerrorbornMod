@@ -13,11 +13,11 @@ namespace TerrorbornMod.Items.TreasureBags
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.expert = true;
         }
 
         public override bool CanRightClick()
@@ -27,27 +27,28 @@ namespace TerrorbornMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            if (Main.rand.Next(7) == 0)
+            if (Main.rand.NextBool(7))
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Equipable.Vanity.BossMasks.PrototypeIMask>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.Equipable.Vanity.BossMasks.PrototypeIMask>());
             }
-            player.QuickSpawnItem(ModContent.ItemType<Equipable.Accessories.MidnightPlasmaGlobe>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Equipable.Accessories.MidnightPlasmaGlobe>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Materials.PlasmaliumBar>(), Main.rand.Next(18, 25));
             int choice = Main.rand.Next(3);
             if (choice == 0)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.PrototypeI.PlasmaScepter>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.PrototypeI.PlasmaScepter>());
             }
             if (choice == 1)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.PrototypeI.PlasmoditeShotgun>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.PrototypeI.PlasmoditeShotgun>());
             }
             if (choice == 2)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.PrototypeI.PlasmaticVortex>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Items.PrototypeI.PlasmaticVortex>());
             }
         }
 
-        public override int BossBagNPC => mod.NPCType("PrototypeI");
+        public override int BossBagNPC => ModContent.NPCType<NPCs.Bosses.PrototypeI.PrototypeI>();
     }
 }
 

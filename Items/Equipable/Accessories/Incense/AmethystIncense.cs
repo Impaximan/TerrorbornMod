@@ -1,6 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories.Incense
 {
@@ -8,42 +9,27 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Incense
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Amethyst, 5);
-            recipe.AddIngredient(ItemID.Bottle);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.Amethyst, 2)
+                .AddIngredient(ModContent.ItemType<Materials.TerrorSample>())
+                .AddIngredient(ItemID.Bottle)
+                .AddTile(ModContent.TileType<Tiles.MeldingStation>())
+                .Register();
+
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Decreased enemy defense by 2." +
-                "\nYou get an extra defense for every 3 enemies nearby.");
+            Tooltip.SetDefault("Makes your terror meter purple");
         }
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 44;
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = 2;
-            item.value = Item.sellPrice(gold: 1, silver: 25);
-            item.useAnimation = 5;
-        }
-
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.armorPenetration += 2;
-            int enemyCount = 0;
-            for (int i = 0; i < 200; i++)
-            {
-                NPC npc = Main.npc[i];
-                if (!npc.friendly && npc.CanBeChasedBy())
-                {
-                    enemyCount++;
-                }
-            }
-            player.statDefense += enemyCount / 3;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(gold: 1, silver: 25);
+            Item.vanity = true;
+            TerrorbornItem.modItem(Item).meterColor = Color.MediumPurple;
         }
     }
 }

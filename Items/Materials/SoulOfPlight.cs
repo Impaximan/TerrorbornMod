@@ -12,21 +12,21 @@ namespace TerrorbornMod.Items.Materials
         {
             DisplayName.SetDefault("Soul of Plight");
             Tooltip.SetDefault("'The essence of an ancient menace'");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
-            ItemID.Sets.ItemNoGravity[item.type] = true;
-            ItemID.Sets.ItemIconPulse[item.type] = true;
-            ItemID.Sets.AnimatesAsSoul[item.type] = true;
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+            ItemID.Sets.ItemIconPulse[Item.type] = true;
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
         }
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 1, 5, 0);
-            item.rare = 5;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 1, 5, 0);
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void PostUpdate()
         {
-            Lighting.AddLight(item.Center, Color.Green.ToVector3() * Main.essScale);
+            Lighting.AddLight(Item.Center, Color.Green.ToVector3() * Main.essScale);
         }
     }
 }

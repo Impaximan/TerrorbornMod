@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,34 +8,27 @@ namespace TerrorbornMod.Items.Incendius
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 35);
-            recipe.AddIngredient(ItemID.CobaltBar, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 35);
-            recipe2.AddIngredient(ItemID.PalladiumBar, 20);
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(35 * TerrorbornMod.IncendiaryAlloyMultiplier))
+                .AddRecipeGroup("cobalt", 20)
+                .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
+                .Register();
         }
         public override void SetDefaults()
         {
-            item.damage = 33;
-            item.melee = true;
-            item.width = 64;
-            item.height = 64;
-            item.useTime = 4;
-            item.useAnimation = 17;
-            item.hammer = 75;
-            item.useStyle = 1;
-            item.knockBack = 11;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 4;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 33;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 64;
+            Item.height = 64;
+            Item.useTime = 4;
+            Item.useAnimation = 17;
+            Item.hammer = 75;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 11;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
     }
 }

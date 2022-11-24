@@ -1,7 +1,5 @@
 ﻿using Terraria;
-using System;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.DeveloperSets
@@ -11,19 +9,15 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("CR1MS4NE's Robes");
+            DisplayName.SetDefault("Sir Pogsalots's Robes");
             Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
         public override void SetDefaults()
         {
-            item.rare = 9;
-            item.vanity = true;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-        }
-        public override bool DrawBody()
-        {
-            return false;
+            Item.rare = ItemRarityID.Cyan;
+            Item.vanity = true;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
         }
     }
     [AutoloadEquip(EquipType.Legs)]
@@ -31,20 +25,15 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("CR1MS4NE's Leg Robes");
+            DisplayName.SetDefault("Sir Pogsalots's Leg Robes");
             Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
         public override void SetDefaults()
         {
-            item.rare = 9;
-            item.vanity = true;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-        }
-
-        public override bool DrawLegs()
-        {
-            return false;
+            Item.rare = ItemRarityID.Cyan;
+            Item.vanity = true;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
         }
     }
     [AutoloadEquip(EquipType.Head)]
@@ -52,20 +41,15 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("CR1MS4NE's Hood");
+            DisplayName.SetDefault("Sir Pogsalots's Hood");
             Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
         public override void SetDefaults()
         {
-            item.rare = 9;
-            item.vanity = true;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-        }
-
-        public override bool DrawHead()
-        {
-            return false;
+            Item.rare = ItemRarityID.Cyan;
+            Item.vanity = true;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
         }
     }
 }

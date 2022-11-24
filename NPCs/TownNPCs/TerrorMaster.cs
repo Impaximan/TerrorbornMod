@@ -1,14 +1,15 @@
-﻿using System.Linq;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Terraria.GameContent;
+using ReLogic.Content;
+using System.Collections.Generic;
+using Terraria.GameContent.Personalities;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.TownNPCs
 {
@@ -22,43 +23,63 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 return "TerrorbornMod/NPCs/TownNPCs/TerrorMaster";
             }
         }
-        public override bool Autoload(ref string name)
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            name = "TerrorMaster";
-            return mod.Properties.Autoload;
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+                new FlavorTextBestiaryInfoElement("The Terror Master is... an extremely mysterious character. His name is unknown, as are his origins, but he provides many useful utilities to help you on your adventure. Mysterious or not, it'd be best to keep him around.")
+            });
         }
+
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 25;
-            NPCID.Sets.ExtraFramesCount[npc.type] = 10;
-            NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 250;
-            NPCID.Sets.AttackType[npc.type] = 0;
-            NPCID.Sets.AttackTime[npc.type] = 5;
-            NPCID.Sets.AttackAverageChance[npc.type] = 30;
-            NPCID.Sets.HatOffsetY[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 25;
+            NPCID.Sets.ExtraFramesCount[NPC.type] = 10;
+            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            NPCID.Sets.DangerDetectRange[NPC.type] = 250;
+            NPCID.Sets.AttackType[NPC.type] = 0;
+            NPCID.Sets.AttackTime[NPC.type] = 5;
+            NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+            NPCID.Sets.HatOffsetY[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Velocity = 1f,
+                Direction = 1
+            };
+            NPC.Happiness
+                 .SetBiomeAffection<OceanBiome>(AffectionLevel.Love)
+                 .SetBiomeAffection<ForestBiome>(AffectionLevel.Like)
+                 .SetBiomeAffection<DesertBiome>(AffectionLevel.Dislike)
+                 .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate)
+                 .SetNPCAffection(ModContent.NPCType<SkeletonSheriff>(), AffectionLevel.Love)
+                 .SetNPCAffection(NPCID.Guide, AffectionLevel.Like)
+                 .SetNPCAffection(ModContent.NPCType<Heretic>(), AffectionLevel.Dislike)
+                 .SetNPCAffection(NPCID.Dryad, AffectionLevel.Hate);
         }
+
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.friendly = true;
-            npc.width = 18;
-            npc.height = 40;
-            npc.aiStyle = 7;
-            npc.damage = 10;
-            npc.defense = 45;
-            npc.lifeMax = 250;
-            npc.HitSound = SoundID.NPCHit54;
-            npc.DeathSound = SoundID.NPCDeath52;
-            npc.knockBackResist = 0f;
-            animationType = NPCID.Guide;
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.width = 18;
+            NPC.height = 40;
+            NPC.aiStyle = 7;
+            NPC.damage = 10;
+            NPC.defense = 45;
+            NPC.lifeMax = 250;
+            NPC.HitSound = SoundID.NPCHit54;
+            NPC.DeathSound = SoundID.NPCDeath52;
+            NPC.knockBackResist = 0f;
+            AnimationType = NPCID.Guide;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life < 1)
+            if (NPC.life < 1)
             {
-                npc.life = 1;
+                NPC.life = 1;
             }
         }
 
@@ -69,17 +90,24 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
-            return TerrorbornWorld.obtainedShriekOfHorror;
+            return TerrorbornSystem.obtainedShriekOfHorror;
         }
         public override bool CheckConditions(int left, int right, int top, int bottom)
         {
             return true;
         }
-        public override string TownNPCName()
+
+        public override List<string> SetNPCNameList()
         {
-            return "???";
+            return new List<string>(){
+                "???"
+            };
         }
 
+        public override ITownNPCProfile TownNPCProfile()
+        {
+            return base.TownNPCProfile();
+        }
 
         List<string> dialogue = new List<string>();
 
@@ -149,11 +177,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 if (dialogue.Count <= 0)
                 {
                     doingDialogue = false;
-                    TerrorbornWorld.TerrorMasterDialogue++;
+                    TerrorbornSystem.TerrorMasterDialogue++;
                 }
-                if (TerrorbornWorld.TerrorMasterDialogue == 5)
+                if (TerrorbornSystem.TerrorMasterDialogue == 6)
                 {
-                    player.QuickSpawnItem(ModContent.ItemType<Items.Lore.fourthWallBreakInReal>());
+                    player.QuickSpawnItem(NPC.GetSource_Loot(), ModContent.ItemType<Items.Lore.fourthWallBreakInReal>());
                 }
             }
             else
@@ -191,19 +219,19 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     }
                     else if (currentOption1 == 1) //Where is the next shrine
                     {
-                        if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(new Abilities.NecromanticCurseInfo())))
+                        if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(new Abilities.NecromanticCurseInfo())))
                         {
                             Main.npcChatText = "The first ability you will be looking for is not actually located at a terror shrine, but rather the entrance of another structure. If I recall correctly, it should be to the same side of the island as the tundra, and on the surface, which is why this should be the first one you get- it's the easiest to find.";
                         }
-                        else if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(new Abilities.HorrificAdaptationInfo())))
+                        else if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(new Abilities.HorrificAdaptationInfo())))
                         {
                             Main.npcChatText = "The next one is going to be significantly harder to find than the first one, since it's buried somewhere underground around the same area as the jungle. I don't remember if it's exactly in the jungle, but I do know it's somewhere in that area. Some dark pearls would be highly helpful when searching for it.";
                         }
-                        else if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(new Abilities.VoidBlinkInfo())))
+                        else if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(new Abilities.VoidBlinkInfo())))
                         {
                             Main.npcChatText = "Still looking for more, eh? Well, I'm not surprised. Anyways, this one is about as deep as it gets; it's under the island, buried in the ashes of the underworld. I don't have an exact horizontal position for it, so you'll just have to search for it down there manually, or with the help of some trusty dark pearls.";
                         }
-                        else if (!modPlayer.unlockedAbilities.Contains(TerrorbornUtils.abilityToInt(new Abilities.TerrorWarpInfo())))
+                        else if (!modPlayer.unlockedAbilities.Contains(Utils.General.AbilityToInt(new Abilities.TerrorWarpInfo())))
                         {
                             Main.npcChatText = "This one is less dangerous to find, but highly protected and very well hidden. I have no bearing for its location, all I know is that it's somewhere underground. Unless you're highly lucky, you'll practically be needing dark pearls to find it. The person who created the shrines thought the chaotic nature of this ability was highly dangerous, and thus protected the entrance to it with titanium ore. As such, you'll need a good pickaxe to get in.";
                         }
@@ -238,10 +266,10 @@ namespace TerrorbornMod.NPCs.TownNPCs
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = ModContent.GetTexture("TerrorbornMod/ExclamationPoint");
-            Vector2 position = npc.Center - new Vector2(0, 65);
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/ExclamationPoint");
+            Vector2 position = NPC.Center - new Vector2(0, 65);
             if (doingDialogue)
             {
                 spriteBatch.Draw(texture, position: position - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, 0f, new Vector2(texture.Width / 2, texture.Height / 2), 1f, SpriteEffects.None, 0f);
@@ -251,11 +279,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
         public override void PostAI()
         {
             base.PostAI();
-            int dialogueState = TerrorbornWorld.TerrorMasterDialogue; //For ease of access
+            int dialogueState = TerrorbornSystem.TerrorMasterDialogue; //For ease of access
             Player player = Main.player[Main.myPlayer];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
-            if (player.Distance(npc.Center) > 300)
+            if (player.Distance(NPC.Center) > 300)
             {
                 showingLore = false;
                 loreText = 0;
@@ -280,13 +308,17 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 {
                     doingDialogue = true;
                 }
+                if (dialogueState == 5 && TerrorbornSystem.downedEphraim)
+                {
+                    doingDialogue = true;
+                }
             }
 
         }
 
         public override string GetChat()
         {
-            int dialogueState = TerrorbornWorld.TerrorMasterDialogue; //For ease of access
+            int dialogueState = TerrorbornSystem.TerrorMasterDialogue; //For ease of access
             string shownDialogue = "I'm bugged :D";
             if (doingDialogue)
             {
@@ -312,7 +344,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 {
                     dialogue.Clear();
                     shownDialogue = "Good, you're here. Just recently, I felt a great surge of terror, one that could only mean one thing- the seal has been broken.";
-                    dialogue.Add("This seal was originally created as a sort of vault, by the ruler of a kingdom. This ruler was Navaylos, and this 'vault' was meant to store souls for future use. In destroying it now, all of its energy has been released into our world.");
+                    dialogue.Add("This seal was originally created as a sort of vault, to hide terror from a certain ruler, named Navaylos. In destroying it now, all of its energy has been released into our world.");
                     dialogue.Add("This means plenty of things, and given that I know you're the one who must have destroyed it, that includes having both wanted and unwanted attention focused on yourself. As for what it means regarding Navaylos... I'm not sure.");
                     dialogue.Add("What I do know is that you aught to be careful now. I'm sure plenty of monsters have already taken advantage of this event and taken some of the energy for themselves.");
                     dialogue.Add("With all that out of the way, I just want to warn you- while your rapid empowerment may seem harmless right now, I've seen people do crazy things because of similar circumstances. If you were to... say... go mad, someone would have to stop you...");
@@ -330,8 +362,23 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 {
                     dialogue.Clear();
                     shownDialogue = "Hello! That performance of yours... it's bound to get some attention. And honestly, [c/FF1919:there are people who most certainly should have tampered with us by now.]";
-                    dialogue.Add("I want to help you, but now is not the time. All we can do is wait, I suppose, and see what happens next.");
-                    dialogue.Add("By the way, I have a mysterious message for you. I don't know where it came from, but here....");
+                    dialogue.Add("However, worry not. I believe I have discovered a way we can stop them. Permanently. And it's time to reveal my true...");
+                    dialogue.Add("...no. Not yet, at least. All that's important now is that we progress forward. So, how do you think we're gonna do that? Let me explain, idiot.");
+                    dialogue.Add("Remember how I told you a while back about the [c/FF1919:seal?] It seems as though we might need to recreate it.");
+                    dialogue.Add("I should warn you, however, that this will be quite the task. Long ago, when it was originally created, the ruler of the angels and hell, [c/fffab2:Ephraim], made an effort to punish those who created the original seal");
+                    dialogue.Add("Now that he knows exactly how the ritual works, I doubt he'll just be letting you complete it. So, I'd say you ought to be ready for the toughest fight of your life- archangels are no pushovers.");
+                    dialogue.Add("To begin this ritual, you'll need both tortured and dreadful essence, which seemingly has now started forming in your world. As for where, I'm not sure, but I'm sure you can find it.");
+                    dialogue.Add("For personal reasons, I will be unable to assist in this endeavor. But once it's completed, speak with me again- I have something important for you. Other than that... all I can say is good luck. And don't be an idiot, idiot.");
+                }
+                if (dialogueState == 5)
+                {
+                    dialogue.Clear();
+                    shownDialogue = "You've completed the ritual... congratulations! That's quite the feat!";
+                    dialogue.Add("But something is wrong. I can feel it. So you fought Ephraim... but he didn't quite die. This is dire indeed.");
+                    dialogue.Add("However, it appears as though you've gained a [c/fffab2:new ability]. That lance... I've always wanted to see one like it. This, my friend, is perhaps one of the most powerful weapons ever even fathomed.");
+                    dialogue.Add("It will not kill. That it is incapable of. But once you've slain somebody, if you can catch their soul, you can destroy it... permanently. Though we might not have succeeded in our original goal, we still have a way of continuing onward.");
+                    dialogue.Add("That... I will have to explain another time. I know I said I would give you something, but that will have to wait for another time. The [c/FF1919:Cogs And Carnage] have not yet arrived.");
+                    dialogue.Add("For now, have this. I'm not sure where it came from, but it seems to be for you.");
                 }
             }
             else
@@ -396,9 +443,45 @@ namespace TerrorbornMod.NPCs.TownNPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 35, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MiscConsumables.TerrorTaco>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
             nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MiscConsumables.TerrorCheese>());
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.LesserTerrorPotion>());
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 3, 0);
+            nextSlot++;
+            if (TerrorbornSystem.downedInfectedIncarnate)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.TerrorPotion>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 10, 0);
+                nextSlot++;
+            }
+            if (TerrorbornSystem.downedDunestock)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.GreaterTerrorPotion>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
+                nextSlot++;
+            }
+            if (TerrorbornSystem.downedShadowcrawler)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.SuperTerrorPotion>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 50, 0);
+                nextSlot++;
+            }
         }
     }
-}
 
+    public class TerrorMasterProfile : ITownNPCProfile
+    {
+        public int RollVariation() => 0;
+        public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
+
+        public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
+        {
+            return ModContent.Request<Texture2D>("TerrorbornMod/NPCs/TownNPCs/TerrorMaster");
+        }
+
+        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("TerrorbornMod/NPCs/TownNPCs/TerrorMaster_Head");
+    }
+}

@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -20,7 +15,7 @@ namespace TerrorbornMod.Abilities
 
         public override Texture2D texture()
         {
-            return ModContent.GetTexture("TerrorbornMod/Abilities/VoidBlink_Icon");
+            return (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Abilities/VoidBlink_Icon");
         }
 
         public override float Cost()
@@ -35,12 +30,16 @@ namespace TerrorbornMod.Abilities
 
         public override string Name()
         {
-            return "Void Blink";
+            return "Voidslip";
         }
 
         public override string Description()
         {
-            return "Gives you immunity frames for 3.5 seconds when used.";
+            return "Lets you 'slip away' for 3.5 seconds when used," +
+                "\ngranting the following:" +
+                "\n • Immunity to damage" +
+                "\n • Increased item use speed" +
+                "\n • Increased movement speed";
         }
 
         public override bool canUse(Player player)
@@ -52,7 +51,7 @@ namespace TerrorbornMod.Abilities
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.VoidBlinkTime = 60 * 3 + 30;
-            Main.PlaySound(SoundID.Item72, player.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item72, player.Center);
             DustExplosion(player.Center, 0, 15, 15, 27, 1.5f, true);
         }
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph
@@ -79,25 +78,34 @@ namespace TerrorbornMod.Abilities
     class ObtainVoidBlink : ModItem
     {
         public override string Texture => "TerrorbornMod/placeholder";
+
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Get Void Blink");
+            DisplayName.SetDefault("Get Voidslip");
             Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nUnlocks 'Void Blink'" +
                 "\nRight click to get a list of unlocked abilities");
         }
+
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override bool CanUseItem(Player player)
         {
             TerrorbornPlayer tPlayer = TerrorbornPlayer.modPlayer(player);
@@ -110,7 +118,7 @@ namespace TerrorbornMod.Abilities
                 else
                 {
                     tPlayer.unlockedAbilities.Add(3);
-                    Main.NewText("Unlocked 'Void Blink'");
+                    Main.NewText("Unlocked 'Voidslip'");
                 }
             }
             else
@@ -123,7 +131,7 @@ namespace TerrorbornMod.Abilities
                 {
                     for (int i = 0; i < tPlayer.unlockedAbilities.Count; i++)
                     {
-                        Main.NewText(TerrorbornUtils.intToAbility(tPlayer.unlockedAbilities[i]).Name());
+                        Main.NewText(Utils.General.IntToAbility(tPlayer.unlockedAbilities[i]).Name());
                     }
                 }
             }
@@ -136,7 +144,7 @@ namespace TerrorbornMod.Abilities
 
         public override Vector2 lockedPosition()
         {
-            return TerrorbornWorld.VoidBlink * 16;
+            return TerrorbornSystem.VoidBlink * 16;
         }
 
         public override Vector2 dimensions()
@@ -162,11 +170,11 @@ namespace TerrorbornMod.Abilities
 
         public override void ObtainAbility()
         {
-            projectile.active = false;
+            Projectile.active = false;
 
-            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)]);
+            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(Projectile.position, Projectile.width, Projectile.height)]);
             target.unlockedAbilities.Add(3);
-            target.TriggerAbilityAnimation("Void Blink", "Grants you immunity for 3.5 seconds when used", "Costs 65% terror to use", 0, visibilityTime: 700);
+            target.TriggerAbilityAnimation("Voidslip", "Grants you immunity and increased speed for 3.5 seconds when used", "Costs 65% terror to use", 0, visibilityTime: 700);
         }
     }
 }

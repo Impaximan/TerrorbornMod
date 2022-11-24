@@ -1,8 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 
-namespace TerrorbornMod.Items.Lore.JournalEntries.Tenebris
+namespace TerrorbornMod.Items.Lore.JournalEntries.Rath
 {
     class Rath_TidalTitan : ModItem
     {
@@ -10,19 +9,12 @@ namespace TerrorbornMod.Items.Lore.JournalEntries.Tenebris
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Torn Page");
-            Tooltip.SetDefault("Written in neat, fancy handwriting it reads:" +
-                "\nAmongst the seas are very powerful creatures capable of abusing the terror in the minds of their prey. These fascinating" +
-                "\ncreatures, I believe are like the terror incarnates of crabs. Tidal Titans, I believe the peasants call them. That being" +
-                "\nsaid, I'm unsure of how much they actually have to do with the tides, but I do know they're capable of splashing massive" +
-                "\nwaves, so perhaps that's where they get the name from. From my experience with them at the dock, they seem to be passive;" +
-                "\nat least to my kind. Tales I've interviewed others on report of the provoking of such crabs and being attacked- seems to" +
-                "\nme as though they got what they deserved. Perhaps studying the powers of these crabs could be beneficial." +
-                "\n                                                                   -Rath, top Anekronian Military researcher");
+            Tooltip.SetDefault(Utils.General.AutoSortTooltip("Magnificent are the incarnates of the sea! A newly discovered species- the azuredire- is comprised entirely of incarnates. And yet, they don't seem to have the intelligence to properly utilize their exclusively abundant terror abilities. If we were to capture and train them, they could be used as mounts for military purposes, each with powerful terror spells. I proposed this idea to the king earlier today, but he didn't seem fond of it. Can't say I entirely blame him, after all, we are currently at peace with Orume. I feel that if we were to start militarizing in this way, Orume would attack us out of fear. Nonetheless, it is an interesting idea to explore."));
         }
         public override void SetDefaults()
         {
-            item.value = 0;
-            item.rare = -11;
+            Item.value = 0;
+            Item.rare = -11;
         }
     }
 }

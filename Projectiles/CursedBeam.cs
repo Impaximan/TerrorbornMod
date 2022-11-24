@@ -1,8 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Projectiles
@@ -18,19 +15,19 @@ namespace TerrorbornMod.Projectiles
         //private bool GravDown = true;
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 120 / 3;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
+            Projectile.width = 14;
+            Projectile.height = 120 / 3;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
         }
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             lightColor = Color.White;
             return true;
@@ -45,47 +42,47 @@ namespace TerrorbornMod.Projectiles
                 start = false;
                 targetPosition = Main.player[Main.myPlayer].Center;
             }
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
-            Lighting.AddLight(projectile.Center, Color.Green.ToVector3() * 0.80f * Main.essScale);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
+            Lighting.AddLight(Projectile.Center, Color.Green.ToVector3() * 0.80f * Main.essScale);
 
-            //int dust = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), 0, 0, 74);
-            //Main.dust[dust].velocity = projectile.velocity;
+            //int dust = Dust.NewDust(new Vector2(Projectile.Center.X, Projectile.Center.Y), 0, 0, 74);
+            //Main.dust[dust].velocity = Projectile.velocity;
 
-            Dust.NewDustPerfect(projectile.Center, 74, Vector2.Zero);
+            Dust.NewDustPerfect(Projectile.Center, 74, Vector2.Zero);
 
-            if (projectile.ai[0] == 1)
+            if (Projectile.ai[0] == 1)
             {
-                float speed = projectile.velocity.Length() + 0.15f;
-                projectile.velocity.Normalize();
-                projectile.velocity *= speed;
-                if (projectile.timeLeft > 90)
+                float speed = Projectile.velocity.Length() + 0.15f;
+                Projectile.velocity.Normalize();
+                Projectile.velocity *= speed;
+                if (Projectile.timeLeft > 90)
                 {
-                    projectile.timeLeft = 90;
+                    Projectile.timeLeft = 90;
                 }
             }
-            if (projectile.ai[0] == 2)
+            if (Projectile.ai[0] == 2)
             {
-                if (projectile.Distance(targetPosition) <= projectile.velocity.Length() + 2)
+                if (Projectile.Distance(targetPosition) <= Projectile.velocity.Length() + 2)
                 {
-                    projectile.timeLeft = 1;
+                    Projectile.timeLeft = 1;
                 }
             }
 
-            projectile.frameCounter--;
-            if (projectile.frameCounter <= 0)
+            Projectile.frameCounter--;
+            if (Projectile.frameCounter <= 0)
             {
-                projectile.frameCounter = 5;
-                projectile.frame++;
-                if (projectile.frame >= 3)
+                Projectile.frameCounter = 5;
+                Projectile.frame++;
+                if (Projectile.frame >= 3)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 0, 12, 7, 74, 2f, true);
+            DustExplosion(Projectile.Center, 0, 12, 7, 74, 2f, true);
         }
 
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph

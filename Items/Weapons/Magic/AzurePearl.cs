@@ -1,7 +1,6 @@
 ﻿using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 
 namespace TerrorbornMod.Items.Weapons.Magic
@@ -10,99 +9,99 @@ namespace TerrorbornMod.Items.Weapons.Magic
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("AzuriteBar"), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient<Materials.AzuriteBar>(10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires an azure beam that explodes into smaller bouncing projectiles");
+            Tooltip.SetDefault("Fires an azure beam that explodes into smaller bouncing Projectiles");
         }
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.noMelee = true;
-            item.width = 32;
-            item.height = 32;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = 1;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shootSpeed = 30f;
-            item.shoot = ModContent.ProjectileType<AzureBurst>();
-            item.mana = 10;
-            item.magic = true;
-            item.noUseGraphic = true;
+            Item.damage = 20;
+            Item.noMelee = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 30f;
+            Item.shoot = ModContent.ProjectileType<AzureBurst>();
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Magic;;
+            Item.noUseGraphic = true;
         }
     }
+
     class AzureBurst : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/MagicGuns/TarSwarm";
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.hide = true;
-            projectile.timeLeft = 400;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.ignoreWater = true;
+            Projectile.hide = true;
+            Projectile.timeLeft = 400;
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item110, projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item110, Projectile.Center);
             for (int i = 0; i < Main.rand.Next(3, 5); i++)
             {
                 float speed = 35f;
                 Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * speed;
-                Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AzureSpray>(), projectile.damage / 3, 1, projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AzureSpray>(), Projectile.damage / 3, 1, Projectile.owner);
             }
         }
         public override void AI()
         {
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88, Scale: 2, newColor: Color.SkyBlue);
+            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 88, Scale: 2, newColor: Color.SkyBlue);
             Main.dust[dust].noGravity = true;
-            Main.dust[dust].velocity = projectile.velocity;
+            Main.dust[dust].velocity = Projectile.velocity;
         }
     }
 
     class AzureSpray : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/TarSwarm";
+        public override string Texture => "TerrorbornMod/Items/Weapons/Magic/MagicGuns/TarSwarm";
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.hide = true;
-            projectile.timeLeft = 180;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.ignoreWater = true;
+            Projectile.hide = true;
+            Projectile.timeLeft = 180;
         }
         public override void AI()
         {
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88, Scale: 1.35f, newColor: Color.SkyBlue);
+            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 88, Scale: 1.35f, newColor: Color.SkyBlue);
             Main.dust[dust].noGravity = true;
-            Main.dust[dust].velocity = projectile.velocity / 4;
+            Main.dust[dust].velocity = Projectile.velocity / 4;
 
-            projectile.velocity.Y += 1.5f;
-            projectile.velocity.X *= 0.98f;
+            Projectile.velocity.Y += 1.5f;
+            Projectile.velocity.X *= 0.98f;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -112,15 +111,15 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y * 0.9f;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y * 0.9f;
             }
             return false;
         }

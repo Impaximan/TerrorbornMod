@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -20,11 +15,11 @@ namespace TerrorbornMod.Items
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 20;
-            item.height = 32;
-            item.rare = 2;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 20;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Green;
         }
 
         public override bool CanRightClick()
@@ -34,102 +29,102 @@ namespace TerrorbornMod.Items
         
         public override void RightClick(Player player)
         {
-            player.QuickSpawnItem(ItemID.LesserHealingPotion, Main.rand.Next(11, 19));
-            player.QuickSpawnItem(ItemID.HealingPotion, Main.rand.Next(8, 12));
-            player.QuickSpawnItem(ItemID.WoodenArrow, Main.rand.Next(250, 501));
-            player.QuickSpawnItem(ItemID.MusketBall, Main.rand.Next(150, 301));
-            player.QuickSpawnItem(ItemID.SilverBullet, Main.rand.Next(50, 150));
-            player.QuickSpawnItem(ItemID.ManaPotion, Main.rand.Next(15, 26));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.LesserHealingPotion, Main.rand.Next(11, 19));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.HealingPotion, Main.rand.Next(8, 12));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.WoodenArrow, Main.rand.Next(250, 501));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.MusketBall, Main.rand.Next(150, 301));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.SilverBullet, Main.rand.Next(50, 150));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.ManaPotion, Main.rand.Next(15, 26));
 
             //ores
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
-                player.QuickSpawnItem(ItemID.CopperOre, Main.rand.Next(35, 60));
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.CopperOre, Main.rand.Next(35, 60));
             }
             else
             {
-                player.QuickSpawnItem(ItemID.TinOre, Main.rand.Next(35, 60));
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.TinOre, Main.rand.Next(35, 60));
             }
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
-                player.QuickSpawnItem(ItemID.IronOre, Main.rand.Next(35, 60));
-            }
-            else
-            {
-                player.QuickSpawnItem(ItemID.LeadOre, Main.rand.Next(35, 60));
-            }
-            if (Main.rand.Next(2) == 0)
-            {
-                player.QuickSpawnItem(ItemID.SilverOre, Main.rand.Next(35, 60));
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.IronOre, Main.rand.Next(35, 60));
             }
             else
             {
-                player.QuickSpawnItem(ItemID.TungstenOre, Main.rand.Next(35, 60));
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.LeadOre, Main.rand.Next(35, 60));
             }
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
-                player.QuickSpawnItem(ItemID.GoldOre, Main.rand.Next(35, 60));
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.SilverOre, Main.rand.Next(35, 60));
             }
             else
             {
-                player.QuickSpawnItem(ItemID.PlatinumOre, Main.rand.Next(35, 60));
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.TungstenOre, Main.rand.Next(35, 60));
+            }
+            if (Main.rand.NextBool(2))
+            {
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.GoldOre, Main.rand.Next(35, 60));
+            }
+            else
+            {
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.PlatinumOre, Main.rand.Next(35, 60));
             }
 
             if (WorldGen.crimson)
             {
-                player.QuickSpawnItem(ItemID.DemoniteOre, Main.rand.Next(35, 60));
-                player.QuickSpawnItem(ItemID.ShadowScale, Main.rand.Next(5, 11));
-                if (Main.rand.Next(4) == 0)
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.DemoniteOre, Main.rand.Next(35, 60));
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.ShadowScale, Main.rand.Next(5, 11));
+                if (Main.rand.NextBool(4))
                 {
                     int choice = Main.rand.Next(5);
                     if (choice == 0)
                     {
-                        player.QuickSpawnItem(ItemID.Musket);
+                        player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.Musket);
                     }
                     if (choice == 1)
                     {
-                        player.QuickSpawnItem(ItemID.ShadowOrb);
+                        player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.ShadowOrb);
                     }
                     if (choice == 2)
                     {
-                        player.QuickSpawnItem(ItemID.Vilethorn);
+                        player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.Vilethorn);
                     }
                     if (choice == 3)
                     {
-                        player.QuickSpawnItem(ItemID.BallOHurt);
+                        player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.BallOHurt);
                     }
                     if (choice == 4)
                     {
-                        player.QuickSpawnItem(ItemID.BandofStarpower);
+                        player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.BandofStarpower);
                     }
                 }
             }
             else
             {
-                player.QuickSpawnItem(ItemID.CrimtaneOre, Main.rand.Next(35, 60));
-                player.QuickSpawnItem(ItemID.TissueSample, Main.rand.Next(5, 11));
-                if (Main.rand.Next(4) == 0)
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.CrimtaneOre, Main.rand.Next(35, 60));
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.TissueSample, Main.rand.Next(5, 11));
+                if (Main.rand.NextBool(4))
                 {
                     int choice = Main.rand.Next(5);
                     if (choice == 0)
                     {
-                        player.QuickSpawnItem(ItemID.TheUndertaker);
+                        player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.TheUndertaker);
                     }
                     if (choice == 1)
                     {
-                        player.QuickSpawnItem(ItemID.CrimsonHeart);
+                        player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.CrimsonHeart);
                     }
                     if (choice == 2)
                     {
-                        player.QuickSpawnItem(ItemID.PanicNecklace);
+                        player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.PanicNecklace);
                     }
                     if (choice == 3)
                     {
-                        player.QuickSpawnItem(ItemID.CrimsonRod);
+                        player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.CrimsonRod);
                     }
                     if (choice == 4)
                     {
-                        player.QuickSpawnItem(ItemID.TheRottedFork);
+                        player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.TheRottedFork);
                     }
                 }
             }

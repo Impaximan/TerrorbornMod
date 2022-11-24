@@ -1,10 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json.Converters;
-using Steamworks;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Abilities
@@ -13,7 +8,7 @@ namespace TerrorbornMod.Abilities
     {
         public virtual Texture2D texture()
         {
-            return ModContent.GetTexture("TerrorbornMod/Abilities/ShriekOfHorror_Icon");
+            return (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Abilities/ShriekOfHorror_Icon");
         }
 
         public virtual int typeInt()

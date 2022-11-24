@@ -1,8 +1,5 @@
 ﻿using Terraria;
-using System;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace TerrorbornMod.Items.Equipable.Armor
@@ -12,16 +9,15 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 6);
-            recipe.AddIngredient(ItemID.SoulofNight, 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 6)
+                .AddIngredient(ItemID.SoulofNight, 6)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases item/weapon use speed by 6%" +
+            Tooltip.SetDefault("Increases item/weapon use speed by 4%" +
                 "\nIncreases critical strike chance by 5%" +
                 "\nIncreases shriek of horror's use speed");
         }
@@ -29,20 +25,18 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed += 0.06f;
-            player.magicCrit += 5;
-            player.rangedCrit += 5;
-            player.meleeCrit += 5;
+            player.GetAttackSpeed(DamageClass.Generic) += 0.04f;
+            player.GetCritChance(DamageClass.Generic) += 5;
             modPlayer.ShriekSpeed *= 0.7f;
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = 5;
-            item.defense = 11;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 11;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -52,7 +46,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "The healing orbs from necromantic curse return to you much faster" +
-                "\nThe projectile from necromantic curse homes into enemies and can hit multiple enemies";
+                "\nThe Projectile from necromantic curse homes into enemies and can hit multiple enemies";
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.SanguineSetBonus = true;
         }
@@ -63,7 +57,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases item/weapon use speed by 8%" +
+            Tooltip.SetDefault("Increases item/weapon use speed by 6%" +
                 "\nIncreases critical strike chance by 4%" +
                 "\nIncreases the amount of terror obtained from Shriek of horror by 30%" +
                 "\nIncrease armor penetration by 12");
@@ -72,36 +66,28 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed += 0.08f;
+            player.GetAttackSpeed(DamageClass.Generic) += 0.06f;
             modPlayer.ShriekTerrorMultiplier *= 1.3f;
-            player.magicCrit += 4;
-            player.rangedCrit += 4;
-            player.meleeCrit += 4;
-            player.armorPenetration += 12;
+            player.GetCritChance(DamageClass.Generic) += 4;
+            player.GetArmorPenetration(DamageClass.Generic) += 12;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 6);
-            recipe.AddIngredient(ItemID.SoulofNight, 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 6)
+                .AddIngredient(ItemID.SoulofNight, 6)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 25;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = 5;
-            item.defense = 19;
-        }
-
-        public override bool DrawBody()
-        {
-            return false;
+            Item.width = 26;
+            Item.height = 25;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 19;
         }
     }
     [AutoloadEquip(EquipType.Legs)]
@@ -109,17 +95,16 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 6);
-            recipe.AddIngredient(ItemID.SoulofNight, 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.SanguineFang>(), 6)
+                .AddIngredient(ItemID.SoulofNight, 6)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases item/weapon use speed by 5%" +
+            Tooltip.SetDefault("Increases item/weapon use speed by 4%" +
                 "\nIncreases critical strike chance by 4%" +
                 "\nIncreases life regen");
         }
@@ -127,20 +112,18 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void UpdateEquip(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            modPlayer.allUseSpeed += 0.05f;
+            player.GetAttackSpeed(DamageClass.Generic) += 0.04f;
             player.lifeRegen += 2;
-            player.magicCrit += 4;
-            player.rangedCrit += 4;
-            player.meleeCrit += 4;
+            player.GetCritChance(DamageClass.Generic) += 4;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 12;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.rare = 5;
-            item.defense = 8;
+            Item.width = 20;
+            Item.height = 12;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 8;
         }
     }
 }

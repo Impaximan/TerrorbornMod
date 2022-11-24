@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrorbornMod.Items.Incendius
 {
@@ -11,18 +12,11 @@ namespace TerrorbornMod.Items.Incendius
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 25);
-            recipe.AddIngredient(ItemID.CobaltBar, 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), 25);
-            recipe2.AddIngredient(ItemID.PalladiumBar, 15);
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Items.Materials.IncendiusAlloy>(), (int)(25 * TerrorbornMod.IncendiaryAlloyMultiplier))
+                .AddRecipeGroup("cobalt", 15)
+                .AddTile(ModContent.TileType<Tiles.Incendiary.IncendiaryAltar>())
+                .Register();
         }
         public override void SetStaticDefaults()
         {
@@ -31,27 +25,28 @@ namespace TerrorbornMod.Items.Incendius
         }
         public override void SetDefaults()
         {
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.width = 28;
-            item.height = 30;
-            item.magic = true;
-            item.damage = 16;
-            item.useTime = 16;
-            item.useAnimation = 16;
-            item.mana = 8;
-            item.rare = 4;
-            item.shoot = mod.ProjectileType("IncendiusShard");
-            item.shootSpeed = 1;
-            item.UseSound = SoundID.Item20;
-            item.useStyle = 5;
-            item.knockBack = 0.1f;
-            item.autoReuse = true;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.width = 48;
+            Item.height = 56;
+            Item.DamageType = DamageClass.Magic;;
+            Item.damage = 16;
+            Item.useTime = 16;
+            Item.useAnimation = 16;
+            Item.mana = 8;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<IncendiusShard>();
+            Item.shootSpeed = 1;
+            Item.UseSound = SoundID.Item20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 0.1f;
+            Item.autoReuse = true;
+            Item.noMelee = true;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < Main.rand.Next(4, 6); i++)
             {
-                Projectile.NewProjectile(new Vector2(player.Center.X + Main.rand.Next(-50, 51), player.Center.Y + Main.rand.Next(-50, 51)), new Vector2(speedX, speedY), type, damage, knockBack, Owner: item.owner);
+                Projectile.NewProjectile(source, new Vector2(player.Center.X + Main.rand.Next(-50, 51), player.Center.Y + Main.rand.Next(-50, 51)), new Vector2(velocity.X, velocity.Y), type, damage, knockback, Owner: player.whoAmI);
             }
             return false;
         }
@@ -60,53 +55,53 @@ namespace TerrorbornMod.Items.Incendius
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 SpriteEffects effects = SpriteEffects.None;
-                if (projectile.spriteDirection == -1)
+                if (Projectile.spriteDirection == -1)
                 {
                     effects = SpriteEffects.FlipHorizontally;
                 }
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
             return false;
         }
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 24;
-            projectile.magic = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
+            Projectile.width = 32;
+            Projectile.height = 24;
+            Projectile.DamageType = DamageClass.Magic;;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
         }
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-            float rotation = projectile.velocity.ToRotation() - MathHelper.ToRadians(180);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
+            float rotation = Projectile.velocity.ToRotation() - MathHelper.ToRadians(180);
             float Speed = 1f;
-            projectile.velocity += new Vector2((float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1));
+            Projectile.velocity += new Vector2((float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1));
             NPC targetNPC = Main.npc[0];
             float Distance = 375; //max distance away
             bool Targeted = false;
             for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                 {
                     targetNPC = Main.npc[i];
-                    Distance = Main.npc[i].Distance(projectile.Center);
+                    Distance = Main.npc[i].Distance(Projectile.Center);
                     Targeted = true;
                 }
             }
@@ -114,15 +109,15 @@ namespace TerrorbornMod.Items.Incendius
             {
                 //HOME IN
                 float speed = .5f;
-                Vector2 move = targetNPC.Center - projectile.Center;
+                Vector2 move = targetNPC.Center - Projectile.Center;
                 float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
                 move *= speed / magnitude;
-                projectile.velocity += move;
+                Projectile.velocity += move;
             }
         }
         public override void Kill(int timeLeft)
         {
-            DustExplosion(projectile.Center, 0, 45, 10, DustID.Fire, DustScale: 0.5f, NoGravity: true);
+            DustExplosion(Projectile.Center, 0, 45, 10, 6, DustScale: 0.5f, NoGravity: true);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

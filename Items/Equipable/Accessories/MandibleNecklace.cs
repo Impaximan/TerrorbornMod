@@ -8,12 +8,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SharkToothNecklace);
-            recipe.AddIngredient(ModContent.ItemType<AntsMandible>());
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ItemID.SharkToothNecklace)
+                .AddIngredient(ModContent.ItemType<AntsMandible>())
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
 
         public override void SetStaticDefaults()
@@ -24,16 +23,16 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = 3;
-            item.value = Item.sellPrice(0, 5, 0, 0);
-            item.useAnimation = 5;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.useAnimation = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.armorPenetration += 8;
+            player.GetArmorPenetration(DamageClass.Generic) += 8;
             player.runAcceleration += 0.065f;
         }
     }

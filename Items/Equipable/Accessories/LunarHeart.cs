@@ -13,18 +13,18 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             Tooltip.SetDefault("Summons a powerful Tide Spirit to fight for you" +
                 "\nThis Tide Spirit will consume terror in order to attack enemies" +
                 "\nIt won't be able to attack enemies if you don't have enough terror");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));
         }
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 34;
-            item.accessory = true;
-            item.noMelee = true;
-            item.expert = true;
-            item.value = Item.sellPrice(0, 3, 0, 0);
-            item.useAnimation = 5;
+            Item.width = 32;
+            Item.height = 34;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.expert = true;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.useAnimation = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -35,15 +35,15 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             bool TidalSpiritActive = true;
             for (int i = 0; i < 1000; i++)
             {
-                Projectile projectile = Main.projectile[i];
-                if (projectile.type == ModContent.ProjectileType<TideSpirit>() && projectile.active)
+                Projectile Projectile = Main.projectile[i];
+                if (Projectile.type == ModContent.ProjectileType<TideSpirit>() && Projectile.active)
                 {
                     TidalSpiritActive = false;
                 }
             }
             if (TidalSpiritActive)
             {
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TideSpirit>(), 24, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<TideSpirit>(), 24, 0, player.whoAmI);
             }
         }
     }
@@ -52,32 +52,32 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
         public override void SetDefaults()
         {
-            projectile.hostile = false;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.width = 36;
-            projectile.height = 168 / 4;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 120;
-            projectile.timeLeft = 60;
+            Projectile.hostile = false;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.width = 36;
+            Projectile.height = 168 / 4;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 120;
+            Projectile.timeLeft = 60;
         }
 
         void FindFrame(int FrameHeight)
         {
-            projectile.frameCounter--;
-            if (projectile.frameCounter <= 0)
+            Projectile.frameCounter--;
+            if (Projectile.frameCounter <= 0)
             {
-                projectile.frame++;
-                projectile.frameCounter = 4;
+                Projectile.frame++;
+                Projectile.frameCounter = 4;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
@@ -86,27 +86,27 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         int azuriteCounter = 0;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             TerrorbornPlayer superiorPlayer = TerrorbornPlayer.modPlayer(player);
             if (!superiorPlayer.TideSpirit)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
             else
             {
-                projectile.timeLeft = 60;
+                Projectile.timeLeft = 60;
             }
 
-            if (projectile.velocity.X > 0)
+            if (Projectile.velocity.X > 0)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
             else
             {
-                projectile.spriteDirection = 1;
+                Projectile.spriteDirection = 1;
             }
 
-            FindFrame(projectile.height);
+            FindFrame(Projectile.height);
 
             bool Targeted = false;
             NPC target = Main.npc[0];
@@ -114,15 +114,15 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             float Distance = 1000;
             for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
+                if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy())
                 {
                     target = Main.npc[i];
-                    Distance = Main.npc[i].Distance(projectile.Center);
+                    Distance = Main.npc[i].Distance(Projectile.Center);
                     Targeted = true;
                 }
             }
 
-            if (!projectile.CanHit(player) || !Targeted || !projectile.CanHit(target))
+            if (!Projectile.CanHitWithOwnBody(player) || !Targeted || !Projectile.CanHitWithOwnBody(target))
             {
                 mode = 0;
             }
@@ -133,25 +133,25 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
             if (mode == 0)
             {
-                if (projectile.Distance(player.Center) > 100)
+                if (Projectile.Distance(player.Center) > 100)
                 {
                     float speed = 1f;
-                    projectile.velocity += projectile.DirectionTo(player.Center) * speed;
-                    projectile.velocity *= 0.96f;
+                    Projectile.velocity += Projectile.DirectionTo(player.Center) * speed;
+                    Projectile.velocity *= 0.96f;
                 }
-                if (projectile.Distance(player.Center) > 5000)
+                if (Projectile.Distance(player.Center) > 5000)
                 {
-                    projectile.position = player.Center - new Vector2(projectile.width / 2, projectile.height / 2);
+                    Projectile.position = player.Center - new Vector2(Projectile.width / 2, Projectile.height / 2);
                 }
             }
 
             if (mode == 1)
             {
-                if (projectile.Distance(target.Center) > 100)
+                if (Projectile.Distance(target.Center) > 100)
                 {
                     float speed = 1f;
-                    projectile.velocity += projectile.DirectionTo(target.Center) * speed;
-                    projectile.velocity *= 0.96f;
+                    Projectile.velocity += Projectile.DirectionTo(target.Center) * speed;
+                    Projectile.velocity *= 0.96f;
                 }
 
                 if (azuriteCounter > 0)
@@ -160,14 +160,14 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 }
                 else if (superiorPlayer.TerrorPercent >= 3f)
                 {
-                    superiorPlayer.TerrorPercent -= 3f;
+                    superiorPlayer.LoseTerror(3f, false);
                     azuriteCounter = 40;
-                    Main.PlaySound(SoundID.Item110, projectile.Center);
+                    SoundExtensions.PlaySoundOld(SoundID.Item110, Projectile.Center);
                     for (int i = 0; i < Main.rand.Next(3, 5); i++)
                     {
                         float speed = Main.rand.Next(25, 40);
                         Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * speed;
-                        Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<Projectiles.AzuriteShard>(), projectile.damage, 1, projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Projectiles.AzuriteShard>(), Projectile.damage, 1, Projectile.owner);
                     }
                 }
             }

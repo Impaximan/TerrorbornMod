@@ -1,8 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System;
-using Microsoft.Xna.Framework;
 
 namespace TerrorbornMod.Items.Equipable.Accessories
 {
@@ -17,11 +15,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 34;
-            item.accessory = true;
-            item.rare = 2;
-            item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.width = 40;
+            Item.height = 34;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
         }
 
         public override void UpdateEquip(Player player)
@@ -34,12 +32,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HermesFeather>());
-            recipe.AddIngredient(ModContent.ItemType<DarkQuill>());
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<HermesFeather>())
+                .AddIngredient(ModContent.ItemType<DarkQuill>())
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
     }
 }

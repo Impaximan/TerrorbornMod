@@ -8,24 +8,23 @@ namespace TerrorbornMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Allows you to use items while using Shriek of Horror" +
-                "\nDamaging enemies grants you a small amount of terror over time");
+            Tooltip.SetDefault("Allows you to use items while using Shriek of Horror");
         }
         public override void SetDefaults()
         {
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.useStyle = 2;
-            item.value = Item.sellPrice(0, 0, 50, 0);
-            item.maxStack = 30;
-            item.consumable = true;
-            item.rare = 1;
-            item.autoReuse = false;
-            item.UseSound = SoundID.Item3;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.buffType = ModContent.BuffType<Buffs.Darkblood>();
-            item.buffTime = 3600 * 10;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.value = Item.sellPrice(0, 0, 50, 0);
+            Item.maxStack = 30;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.autoReuse = false;
+            Item.UseSound = SoundID.Item3;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.buffType = ModContent.BuffType<Buffs.Darkblood>();
+            Item.buffTime = 3600 * 10;
         }
     }
 }

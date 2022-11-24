@@ -1,20 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Reflection;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
-using Terraria.Utilities;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.UI;
 
 namespace TerrorbornMod.Items.Weapons.Summons.Other
 {
@@ -28,21 +15,21 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
         }
         public override void SetDefaults()
         {
-            item.damage = 36;
-            item.summon = true;
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.noUseGraphic = true;
-            item.useStyle = 1;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 0, 0, 65);
-            item.rare = 5;
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.shootSpeed = 22;
-            item.mana = 10;
-            item.shoot = ModContent.ProjectileType<ArmagrenadeProj>();
+            Item.damage = 36;
+            Item.DamageType = DamageClass.Summon;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 0, 0, 65);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shootSpeed = 22;
+            Item.mana = 10;
+            Item.shoot = ModContent.ProjectileType<ArmagrenadeProj>();
         }
     }
 
@@ -55,33 +42,33 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
         }
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 16;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 14;
+            Projectile.height = 16;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(projectile.velocity.X);
-            projectile.velocity.Y += 0.18f;
+            Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X);
+            Projectile.velocity.Y += 0.18f;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.player[projectile.owner].MinionAttackTargetNPC = target.whoAmI;
+            Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI;
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.NPCDeath46, projectile.Center);
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.NPCDeath46, Projectile.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item14, Projectile.Center);
             for (int i = 0; i < Main.rand.Next(3, 6); i++)
             {
                 float Speed = Main.rand.Next(7, 10);
                 Vector2 ProjectileSpeed = MathHelper.ToRadians(Main.rand.Next(361)).ToRotationVector2() * Speed;
-                Projectile.NewProjectile(projectile.Center, ProjectileSpeed, ModContent.ProjectileType<LittleMothron>(), (int)(projectile.damage * 0.75f), projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, ProjectileSpeed, ModContent.ProjectileType<LittleMothron>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
             }
         }
     }
@@ -89,33 +76,33 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.Homing[projectile.type] = true;
-            Main.projFrames[projectile.type] = 4;
+            
+            Main.projFrames[Projectile.type] = 4;
         }
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 16;
-            projectile.tileCollide = true;
-            projectile.friendly = false;
-            projectile.penetrate = 4;
-            projectile.hostile = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.timeLeft = 1000;
+            Projectile.width = 20;
+            Projectile.height = 16;
+            Projectile.tileCollide = true;
+            Projectile.friendly = false;
+            Projectile.penetrate = 4;
+            Projectile.hostile = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.timeLeft = 1000;
         }
 
         void FindFrame(int FrameHeight)
         {
-            projectile.frameCounter--;
-            if (projectile.frameCounter <= 0)
+            Projectile.frameCounter--;
+            if (Projectile.frameCounter <= 0)
             {
-                projectile.frame++;
-                projectile.frameCounter = 3;
+                Projectile.frame++;
+                Projectile.frameCounter = 3;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
@@ -123,15 +110,15 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
         int trueTimeLeft = 300;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }
@@ -150,42 +137,42 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
             }
             else
             {
-                projectile.alpha += 255 / 60;
-                if (projectile.alpha >= 255)
+                Projectile.alpha += 255 / 60;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.timeLeft = 0;
+                    Projectile.timeLeft = 0;
                 }
                 timeUntilDeadly = 30;
             }
 
-            FindFrame(projectile.height);
-            if (projectile.velocity.X > 0)
+            FindFrame(Projectile.height);
+            if (Projectile.velocity.X > 0)
             {
-                projectile.spriteDirection = 1;
+                Projectile.spriteDirection = 1;
             }
             else
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
 
             if (timeUntilDeadly > 0)
             {
-                projectile.velocity *= 0.98f;
-                projectile.friendly = false;
+                Projectile.velocity *= 0.98f;
+                Projectile.friendly = false;
                 timeUntilDeadly--;
             }
             else
             {
-                projectile.friendly = true;
+                Projectile.friendly = true;
                 NPC targetNPC = Main.npc[0];
                 float Distance = 1000; //max distance away
                 bool Targeted = false;
                 for (int i = 0; i < 200; i++)
                 {
-                    if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy() && projectile.CanHit(Main.npc[i]) && projectile.localNPCImmunity[i] == 0)
+                    if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy() && Projectile.CanHitWithOwnBody(Main.npc[i]) && Projectile.localNPCImmunity[i] == 0)
                     {
                         targetNPC = Main.npc[i];
-                        Distance = Main.npc[i].Distance(projectile.Center);
+                        Distance = Main.npc[i].Distance(Projectile.Center);
                         Targeted = true;
                     }
                 }
@@ -193,9 +180,9 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
                 {
                     //HOME IN
                     float speed = .6f;
-                    Vector2 direction = projectile.DirectionTo(targetNPC.Center);
-                    projectile.velocity += speed * direction;
-                    projectile.velocity *= 0.96f;
+                    Vector2 direction = Projectile.DirectionTo(targetNPC.Center);
+                    Projectile.velocity += speed * direction;
+                    Projectile.velocity *= 0.96f;
                 }
             }
         }

@@ -2,7 +2,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrorbornMod.Items
@@ -17,11 +16,11 @@ namespace TerrorbornMod.Items
 
         public override void SetDefaults()
         {
-            item.rare = 3;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useStyle = 4;
-            item.consumable = false;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
         public override bool CanUseItem(Player player)
         {
@@ -33,13 +32,13 @@ namespace TerrorbornMod.Items
                     return false;
                 }
             }
-            return player.ZoneBeach && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.TidalTitan>()) && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.TidalTitanIdle>());
+            return player.ZoneBeach && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.TidalTitan.TidalTitan>()) && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.TidalTitan.MysteriousCrab>());
         }
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             Vector2 position = player.Center + new Vector2(0, -350);
-            Main.PlaySound(SoundID.Item117, position);
-            Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LunarPortal>(), 0, 0);
+            SoundExtensions.PlaySoundOld(SoundID.Item117, position);
+            Projectile.NewProjectile(player.GetSource_ItemUse(Item), position, Vector2.Zero, ModContent.ProjectileType<LunarPortal>(), 0, 0);
             return true;
         }
     }
@@ -49,26 +48,26 @@ namespace TerrorbornMod.Items
         public override string Texture => "TerrorbornMod/Portal";
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.timeLeft = 10000;
-            projectile.damage = 1;
-            projectile.hostile = false;
-            projectile.friendly = false;
-            projectile.alpha = 255;
-            projectile.tileCollide = false;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.timeLeft = 10000;
+            Projectile.damage = 1;
+            Projectile.hostile = false;
+            Projectile.friendly = false;
+            Projectile.alpha = 255;
+            Projectile.tileCollide = false;
         }
 
         float backRotation;
         float frontRotation;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Color color = Color.DeepSkyBlue;
             float scaleMultiplier = 4f;
 
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), projectile.GetAlpha(color), backRotation, new Vector2(texture.Width / 2, texture.Height / 2), 1.2f * scaleMultiplier, SpriteEffects.FlipHorizontally, 0);
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), projectile.GetAlpha(color), frontRotation, new Vector2(texture.Width / 2, texture.Height / 2), 1f * scaleMultiplier, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Projectile.GetAlpha(color), backRotation, new Vector2(texture.Width / 2, texture.Height / 2), 1.2f * scaleMultiplier, SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Projectile.GetAlpha(color), frontRotation, new Vector2(texture.Width / 2, texture.Height / 2), 1f * scaleMultiplier, SpriteEffects.None, 0);
             return false;
         }
 
@@ -81,25 +80,25 @@ namespace TerrorbornMod.Items
         {
             if (trueTimeLeft > 0)
             {
-                if (projectile.alpha > 0)
+                if (Projectile.alpha > 0)
                 {
-                    projectile.alpha -= 255 / 30;
+                    Projectile.alpha -= 255 / 30;
                 }
                 else
                 {
-                    projectile.alpha = 0;
+                    Projectile.alpha = 0;
                 }
                 trueTimeLeft--;
             }
             else
             {
-                if (projectile.alpha < 255)
+                if (Projectile.alpha < 255)
                 {
-                    projectile.alpha += 255 / 30;
+                    Projectile.alpha += 255 / 30;
                 }
                 else
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
             float rotationSpeed = 5f;
@@ -113,7 +112,7 @@ namespace TerrorbornMod.Items
             else if (!spawned)
             {
                 spawned = true;
-                NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, ModContent.NPCType<NPCs.Bosses.TidalTitanIdle>());
+                NPC.NewNPC(Projectile.GetSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y, ModContent.NPCType<NPCs.Bosses.TidalTitan.MysteriousCrab>());
             }
         }
     }

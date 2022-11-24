@@ -1,0 +1,65 @@
+﻿[b] Warning: This mod does NOT support multiplayer. It is highly recommended that you play this mod on a large world. [/b]
+[hr][/hr]
+
+[h1] Welcome to Terrorborn! [/h1]
+The Terrorborn mod, developed by Penumbral with the help an extremely friendly dev team (credited below) is a souls-like inspired, ambitious content mod with the goal of adding a not only interesting but also engaging storyline and adding a refreshing slate-gray coat of paint to combat. Tinker with brand new abilities, new types of accessories, new mechanics, and even a new difficulty mode- this mod offers plenty of replayability and more to come with future updates!
+
+[h1] Specifics [/h1]
+As of currently, the mod adds the following new content:
+[list]
+    [*]6 new challenging-but-fair bosses
+    [*]Terror (new resource): Shriek to reap fear from your foes when you get the opportunity, and unleash devastating new spells.
+    [*]9 horrific new abilities that make use of the terror mechanic.
+    [*]4 new "town" NPCs with unique and useful functions. Each NPC has its own unique purpose and personality, as well as a backstory that you can learn from.
+    [*]400+ new items, including new types of accessories, weapons, etc.
+    [*]Almost every armor set has a unique set bonus
+    [*]The lore of the mod is viewable in-game and will expand as the mod updates.
+    [*]WIP Post-Moon Lord content
+    [*]Many new soundtracks!
+    [*]1 new menu style
+    [*]A WIP new difficulty mode designed for players who have already played the mod and want to challenge their terror knowledge on repeat playthroughs
+[/list]
+[hr][/hr]
+
+[h1] Credits [/h1]
+Dev team:
+[list]
+    [*]Penumbral (lead dev and main coder)
+    [*]Jellybru (spriter and concept artist)
+    [*]Sir Pogsalot (spriter, composer, and concept artist)
+    [*]RedShift (spriter and concept artist)
+    [*]LightningShox (spriter, composer, and concept artist)
+    [*]Seraph (helps with code sometimes and also provides feedback on certain concepts)
+[/list]
+
+Testers (apart from devs):
+[list]
+    [*]CataclysmicArmageddon
+    [*]DreadSoul/Lavnir
+    [*]Spyro
+    [*]Termi/TerminatorShock
+    [*]turingcomplete30 (Check out Polarities)
+    [*]Jimbo Animations
+[/list]
+
+Special Thanks:
+[list]
+    [*]georgeGMC
+    [*]nalyddd
+    [*]MrPlague
+    [*]Mollusk (former dev)
+    [*]ProVisio/ProVGM (former dev)
+    [*]IDGCaptainRussia
+    [*]moonburn
+    [*]Gameraiders101
+    [*]ThomasThePencil
+[/list]
+[hr][/hr]
+
+Links:
+[list]
+    [*][url=https://discord.gg/p3eMKGM] Discord [/url]
+    [*][url=https://twitter.com/TerrorbornMod] Twitter [/url]
+    [*][url=https://www.youtube.com/channel/UCBYsZtmVGpd0n9aYPT9v06g] Youtube [/url]
+    [*][url=https://forums.terraria.org/index.php?threads/terrorborn-mod.85634/] Forums [/url]
+[/list]

@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,18 +10,18 @@ namespace TerrorbornMod.Items.Ammo
     {
         public override void SetDefaults()
         {
-            item.damage = 17;
-            item.ranged = true;
-            item.width = 14;
-            item.height = 32;
-            item.maxStack = 9999;
-            item.consumable = true;
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 0, 0, 20);
-            item.shootSpeed = 3;
-            item.rare = 5;
-            item.shoot = mod.ProjectileType("PincushionArrowProjectile");
-            item.ammo = AmmoID.Arrow;
+            Item.damage = 17;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 14;
+            Item.height = 32;
+            Item.maxStack = 9999;
+            Item.consumable = true;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 0, 0, 20);
+            Item.shootSpeed = 3;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<PincushionArrowProjectile>();
+            Item.ammo = AmmoID.Arrow;
         }
         public override void SetStaticDefaults()
         {
@@ -36,19 +35,19 @@ namespace TerrorbornMod.Items.Ammo
         public override string Texture => "TerrorbornMod/Items/Ammo/PincushionArrow";
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.ranged = true;
-            projectile.timeLeft = 3600;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.arrow = true;
+            Projectile.width = 14;
+            Projectile.height = 32;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 3600;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.arrow = true;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = 14;
             height = 14;
@@ -62,20 +61,20 @@ namespace TerrorbornMod.Items.Ammo
         {
             if (!stuck)
             {
-                Main.PlaySound(0, projectile.position);
+                SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
                 stuck = true;
                 wasCrit = crit;
                 stuckNPC = target;
-                offset = target.position - projectile.position;
+                offset = target.position - Projectile.position;
             }
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(0, projectile.position);
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+            SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             if (stuck)
             {
-                stuckNPC.StrikeNPC(projectile.damage / 10 + stuckNPC.defense / 2, 0, 0, wasCrit);
+                stuckNPC.StrikeNPC(Projectile.damage / 10 + stuckNPC.defense / 2, 0, 0, wasCrit);
             }
         }
         public override bool? CanHitNPC(NPC target)
@@ -86,6 +85,15 @@ namespace TerrorbornMod.Items.Ammo
             }
             return base.CanHitNPC(target);
         }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            hitbox.Width = 14;
+            hitbox.Height = 14;
+            hitbox.Y += (int)(32f * (14f / 32f) / 2f);
+            base.ModifyDamageHitbox(ref hitbox);
+        }
+
         bool stuck = false;
         bool wasCrit;
         NPC stuckNPC;
@@ -99,11 +107,11 @@ namespace TerrorbornMod.Items.Ammo
             if (start)
             {
                 start = false;
-                originalVelocity = projectile.velocity.Length();
+                originalVelocity = Projectile.velocity.Length();
             }
             if (stuck)
             {
-                projectile.position = stuckNPC.position - offset;
+                Projectile.position = stuckNPC.position - offset;
                 stuckNPC.lifeRegen -= 5;
                 if (!stuckNPC.active)
                 {
@@ -111,36 +119,36 @@ namespace TerrorbornMod.Items.Ammo
                     float range = 600;
                     for (int i = 0; i < 200; i++)
                     {
-                        NPC npc = Main.npc[i];
-                        if (projectile.Distance(npc.Center) < range && projectile.CanHit(npc) && npc.active && !npc.friendly && !npc.dontTakeDamage && npc.chaseable)
+                        NPC NPC = Main.npc[i];
+                        if (Projectile.Distance(NPC.Center) < range && Projectile.CanHitWithOwnBody(NPC) && NPC.active && !NPC.friendly && !NPC.dontTakeDamage && NPC.chaseable)
                         {
-                            range = projectile.Distance(npc.Center);
-                            target = npc;
+                            range = Projectile.Distance(NPC.Center);
+                            target = NPC;
                             foundTarget = true;
                         }
                     }
                     if (foundTarget)
                     {
-                        Vector2 newVelocity = projectile.DirectionTo(target.Center) * originalVelocity;
-                        projectile.velocity = newVelocity;
+                        Vector2 newVelocity = Projectile.DirectionTo(target.Center) * originalVelocity;
+                        Projectile.velocity = newVelocity;
                         stuck = false;
                         stuckTimeLeft = 300;
                     }
                     else
                     {
-                        projectile.timeLeft = 1;
+                        Projectile.timeLeft = 1;
                     }
                 }
                 stuckTimeLeft--;
                 if (stuckTimeLeft <= 0)
                 {
-                    projectile.timeLeft = 1;
+                    Projectile.timeLeft = 1;
                 }
             }
             else
             {
-                projectile.velocity.Y += 0.05f;
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - MathHelper.ToRadians(90);
+                Projectile.velocity.Y += 0.05f;
+                Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) - MathHelper.ToRadians(90);
             }
         }
     }

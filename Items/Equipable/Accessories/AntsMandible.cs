@@ -14,16 +14,16 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = 2;
-            item.value = Item.sellPrice(0, 1, 50, 0);
-            item.useAnimation = 5;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(0, 1, 50, 0);
+            Item.useAnimation = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.armorPenetration += 3;
+            player.GetArmorPenetration(DamageClass.Generic) += 3;
             player.runAcceleration += 0.065f;
         }
     }

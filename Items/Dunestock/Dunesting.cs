@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,120 +11,120 @@ namespace TerrorbornMod.Items.Dunestock
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("When used with wooden arrows, it rapidly firse a barrage of piercing tumbler\nneedles." +
-                "\nWhen used with any other arrow, it fires two arrows at once.");
+            Tooltip.SetDefault("Fires a claw that splits into 3 arrows after travelling for a moment");
         }
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.ranged = true;
-            item.width = 26;
-            item.height = 56;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = 5;
-            item.noMelee = true; //so the item's animation doesn't do damage
-            item.knockBack = 2;
-            item.value = Item.sellPrice(0, 2, 0, 0);
-            item.rare = 3;
-            item.UseSound = SoundID.Item42;
-            item.autoReuse = true;
-            item.shoot = 20;
-            item.shootSpeed = 18f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 23;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 26;
+            Item.height = 56;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.DD2_BallistaTowerShot;
+            Item.shoot = ProjectileID.GreenLaser;
+            Item.autoReuse = true;
+            Item.shootSpeed = 18f;
+            Item.useAmmo = AmmoID.Arrow;
         }
-        public override bool CanUseItem(Player player)
-        {
-            return base.CanUseItem(player);
-        }
-        public override bool ConsumeAmmo(Player player)
+
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return Main.rand.Next(101) <= 25f;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            if (type == ProjectileID.WoodenArrowFriendly)
-            {
-                item.reuseDelay = 0;
-                Vector2 spread1 = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(15));
-                Vector2 spread2 = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(15));
-                int realdamage = (int)(damage * 0.6f);
-                Projectile.NewProjectile(position, spread1, ModContent.ProjectileType<TumblerNeedleFriendly>(), realdamage, knockBack, item.owner);
-                Projectile.NewProjectile(position, spread2, ModContent.ProjectileType<TumblerNeedleFriendly>(), realdamage, knockBack, item.owner);
-            }
-            else
-            {
-                item.reuseDelay = 15;
-                float speed = item.shootSpeed;
 
-                Vector2 velocity = (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition - position).ToRotation().ToRotationVector2() * speed * 1.5f;
-                Vector2 speed1 = velocity * 0.5f;
-                Vector2 speed2 = velocity * 0.75f;
-                Projectile.NewProjectile(position, speed1, type, (int)(damage * 0.9f), knockBack, item.owner);
-                Projectile.NewProjectile(position, speed2, type, (int)(damage * 0.9f), knockBack, item.owner);
-            }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<Claw>(), damage, knockback, player.whoAmI);
+            Main.projectile[proj].ai[0] = type;
             return false;
         }
     }
-    class TumblerNeedleFriendly : ModProjectile
+
+    class Claw : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/NPCs/Bosses/TumblerNeedle";
-        bool Stick = false;
-        int trueTimeleft = 235;
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.TrailCacheLength[this.projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[this.projectile.type] = 1;
-        }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            //Thanks to Seraph for afterimage code.
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
-            {
-                Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle?(), color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-            }
-            return false;
-        }
+        public override string Texture => "TerrorbornMod/NPCs/Bosses/DuneClaw";
+
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = false;
-            projectile.tileCollide = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 12000;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 45;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
-        public override bool OnTileCollide(Vector2 oldVelocity)
+
+        public override void SetStaticDefaults()
         {
-            Stick = true;
+            ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            //Thanks to Seraph for afterimage code.
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+            }
             return false;
         }
+
+        int CollideCounter = 0;
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (Projectile.velocity.X != oldVelocity.X)
+            {
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
+            }
+            if (Projectile.velocity.Y != oldVelocity.Y)
+            {
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
+            }
+            //SoundExtensions.PlaySoundOld(SoundID.Run, Projectile.Center);
+            CollideCounter += 1;
+            if (CollideCounter >= 5)
+            {
+                Projectile.timeLeft = 0;
+            }
+            return false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            SoundExtensions.PlaySoundOld(SoundID.Item42, Projectile.Center);
+            float speed = 15f;
+            Vector2 velocity = Projectile.DirectionTo(Main.MouseWorld) * speed;
+            int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
+            Main.projectile[proj].noDropItem = true;
+            proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity.RotatedBy(MathHelper.ToRadians(30)), (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
+            Main.projectile[proj].noDropItem = true;
+            proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity.RotatedBy(MathHelper.ToRadians(-30)), (int)Projectile.ai[0], Projectile.damage, Projectile.knockBack / 2, Projectile.owner);
+            Main.projectile[proj].noDropItem = true;
+            Projectile.active = false;
+        }
+
+        int Direction = 1;
+        int DirectionCounter = 5;
         public override void AI()
         {
-            if (projectile.ai[1] <= 0)
-            {
-                projectile.alpha += 5;
-                if (projectile.alpha >= 255)
-                {
-                    projectile.active = false;
-                }
-            }
-            if (Stick)
-            {
-                projectile.velocity *= 0;
-                projectile.ai[1]--;
-            }
-            else
-            {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            }
+            Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -9,30 +7,24 @@ namespace TerrorbornMod.Tiles
 {
     public class MemorialBrick : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             //Main.tileShine[Type] = 1;
             Main.tileLighted[Type] = true;
-            Main.tileSpelunker[Type] = true;
-            soundType = 21;
-            soundStyle = 1;
+            HitSound = SoundID.Tink;
+            
             //Main.soundDig[Type] =  21;
 
-            minPick = int.MaxValue;
-            mineResist = int.MaxValue;
+            MinPick = int.MaxValue;
+            MineResist = int.MaxValue;
             AddMapEntry(new Color(20, 30, 40));
         }
         public override bool CanExplode(int i, int j)
         {
             return false;
-        }
-
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = 1;
         }
 
         public override bool HasWalkDust()
@@ -43,10 +35,10 @@ namespace TerrorbornMod.Tiles
     }
     class MemorialWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = false;
-            AddMapEntry(new Color(20, 30, 40));
+            AddMapEntry(new Color(20 / 2, 30 / 2, 40 / 2));
         }
         public override bool CanExplode(int i, int j)
         {
@@ -59,30 +51,42 @@ namespace TerrorbornMod.Tiles
     }
     public class MemorialBrickItem : ModItem
     {
-        public override string Texture { get { return "Terraria/Item_" + ItemID.GreenBrick; } }
+        public override string Texture => "TerrorbornMod/placeholder";
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("DEVELOPER TOOL");
-            ItemID.Sets.ExtractinatorMode[item.type] = item.type;
+            ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
+        }
+
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
         }
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 18;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("MemorialBrick");
+            Item.width = 16;
+            Item.height = 18;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<MemorialBrick>();
         }
     }
     public class MemorialWallItem : ModItem
     {
-        public override string Texture { get { return "Terraria/Item_" + ItemID.GreenBrickWall; } }
+        public override string Texture => "TerrorbornMod/placeholder";
+
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("DEVELOPER TOOL");
@@ -90,16 +94,16 @@ namespace TerrorbornMod.Tiles
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 18;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createWall = mod.WallType("MemorialWall");
+            Item.width = 16;
+            Item.height = 18;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createWall = ModContent.WallType<MemorialWall>();
         }
     }
 }

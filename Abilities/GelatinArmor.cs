@@ -1,13 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using TerrorbornMod;
 using Terraria.ID;
 
 namespace TerrorbornMod.Abilities
@@ -21,7 +15,7 @@ namespace TerrorbornMod.Abilities
 
         public override Texture2D texture()
         {
-            return ModContent.GetTexture("TerrorbornMod/Abilities/GelatinArmor_Icon");
+            return (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Abilities/GelatinArmor_Icon");
         }
 
         public override float Cost()
@@ -57,13 +51,14 @@ namespace TerrorbornMod.Abilities
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             modPlayer.GelatinArmorTime = 60 * 25;
-            Main.PlaySound(SoundID.Item117);
+            SoundExtensions.PlaySoundOld(SoundID.Item117);
         }
     }
 
     class ObtainGelatinArmor : ModItem
     {
         public override string Texture => "TerrorbornMod/placeholder";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Get Gelatin Armor");
@@ -71,18 +66,26 @@ namespace TerrorbornMod.Abilities
                 "\nUnlocks 'Gelatin Armor'" +
                 "\nRight click to get a list of unlocked abilities");
         }
+
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
+
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override bool CanUseItem(Player player)
         {
             TerrorbornPlayer tPlayer = TerrorbornPlayer.modPlayer(player);
@@ -108,7 +111,7 @@ namespace TerrorbornMod.Abilities
                 {
                     for (int i = 0; i < tPlayer.unlockedAbilities.Count; i++)
                     {
-                        Main.NewText(TerrorbornUtils.intToAbility(tPlayer.unlockedAbilities[i]).Name());
+                        Main.NewText(Utils.General.IntToAbility(tPlayer.unlockedAbilities[i]).Name());
                     }
                 }
             }
@@ -148,9 +151,9 @@ namespace TerrorbornMod.Abilities
 
         public override void ObtainAbility()
         {
-            projectile.active = false;
+            Projectile.active = false;
 
-            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)]);
+            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(Projectile.position, Projectile.width, Projectile.height)]);
             target.unlockedAbilities.Add(6);
             target.TriggerAbilityAnimation("Gelatin Armor", "Forms a shield around you for 15 seconds that can block a single attack, consuming 60% terror", "If it blocks an attack, the next hit you take will deal extra damage", 0, visibilityTime: 800);
         }

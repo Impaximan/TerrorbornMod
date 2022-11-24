@@ -1,14 +1,16 @@
-﻿using System.Linq;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.ItemDropRules;
 using Microsoft.Xna.Framework.Graphics;
-
+using Terraria.GameContent;
+using ReLogic.Content;
+using System.Collections.Generic;
+using Terraria.GameContent.Personalities;
+using Terraria.GameContent.Bestiary;
 
 namespace TerrorbornMod.NPCs.TownNPCs
 {
@@ -23,47 +25,71 @@ namespace TerrorbornMod.NPCs.TownNPCs
             }
         }
 
-        public override bool Autoload(ref string name)
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            name = "SkeletonSheriff";
-            return mod.Properties.Autoload;
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+                new FlavorTextBestiaryInfoElement("Always looking for ways to help out, the skeleton sheriff is a reliable friend. He'll pay you in combat tokens for doing peacekeeping in specific biomes.")
+            });
         }
 
         public override void SetStaticDefaults()
         {
-			Main.npcFrameCount[npc.type] = 25;
-			NPCID.Sets.ExtraFramesCount[npc.type] = 10;
-			NPCID.Sets.AttackFrameCount[npc.type] = 4;
-			NPCID.Sets.DangerDetectRange[npc.type] = 700;
-			NPCID.Sets.AttackType[npc.type] = 0;
-			NPCID.Sets.AttackTime[npc.type] = 90;
-			NPCID.Sets.AttackAverageChance[npc.type] = 30;
-			NPCID.Sets.HatOffsetY[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 25;
+			NPCID.Sets.ExtraFramesCount[NPC.type] = 10;
+			NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+			NPCID.Sets.DangerDetectRange[NPC.type] = 700;
+			NPCID.Sets.AttackType[NPC.type] = 0;
+			NPCID.Sets.AttackTime[NPC.type] = 90;
+			NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+			NPCID.Sets.HatOffsetY[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Velocity = 1f,
+                Direction = 1
+            };
+
+            NPC.Happiness
+                 .SetBiomeAffection<DesertBiome>(AffectionLevel.Love)
+                 .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like)
+                 .SetBiomeAffection<JungleBiome>(AffectionLevel.Dislike)
+                 .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate)
+                 .SetNPCAffection(ModContent.NPCType<TerrorMaster>(), AffectionLevel.Love)
+                 .SetNPCAffection(NPCID.ArmsDealer, AffectionLevel.Like)
+                 .SetNPCAffection(ModContent.NPCType<Heretic>(), AffectionLevel.Dislike)
+                 .SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Hate);
         }
 
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.friendly = true;
-            npc.width = 18;
-            npc.height = 40;
-            npc.aiStyle = 7;
-            npc.damage = 10;
-            npc.defense = 23;
-            npc.lifeMax = 250;
-            npc.HitSound = SoundID.NPCHit2;
-            npc.DeathSound = SoundID.NPCDeath2;
-            npc.knockBackResist = 0f;
-            animationType = NPCID.Guide;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.CursedInferno] = true;
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.width = 18;
+            NPC.height = 40;
+            NPC.aiStyle = 7;
+            NPC.damage = 10;
+            NPC.defense = 23;
+            NPC.lifeMax = 250;
+            NPC.HitSound = SoundID.NPCHit2;
+            NPC.DeathSound = SoundID.NPCDeath2;
+            NPC.knockBackResist = 0f;
+            AnimationType = NPCID.Guide;
+            NPC.buffImmune[BuffID.Poisoned] = true;
+            NPC.buffImmune[BuffID.Venom] = true;
+            NPC.buffImmune[BuffID.CursedInferno] = true;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            Main.NewText("<" + npc.GivenName + " the Skeleton Sheriff> Don't worry, I'm an undead. I'll be back....", Color.Yellow);
-            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipable.Vanity.SheriffsHat>());
+            Main.NewText("<" + NPC.GivenName + " the Skeleton Sheriff> Don't worry, I'm an undead. I'll be back....", Color.Yellow);
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.SheriffsHat>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.SheriffsCoat>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Vanity.SheriffsJeans>()));
         }
 
         public override bool UsesPartyHat()
@@ -73,31 +99,31 @@ namespace TerrorbornMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(mod.ItemType("BountyHunterCap"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Armor.BountyHunterCap>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("BountyHunterLeatherwear"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Armor.BountyHunterLeatherwear>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("BountyHunterPants"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Armor.BountyHunterPants>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("BoneBuster"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.BoneBuster>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 20;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("CartilageRound"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.CartilageRound>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 1;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.BoneBreaker>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Swords.BoneBreaker>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Magic.PearlyEyedStaff>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Magic.Staffs.PearlyEyedStaff>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 30;
             nextSlot++;
@@ -108,24 +134,24 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = 1;
                 nextSlot++;
             }
-            shop.item[nextSlot].SetDefaults(mod.ItemType("ThornyMaraca"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Summons.Sentry.ThornyMaraca>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 45;
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Magic.Bombinomicon>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Magic.SpellBooks.Bombinomicon>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 45;
             nextSlot++;
             if (Main.hardMode)
             {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("TheDoubleBarrel"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.Guns.TheDoubleBarrel>());
                 shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
                 shop.item[nextSlot].shopCustomPrice = 125;
                 nextSlot++;
             }
             if (NPC.downedPlantBoss)
             {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("Bonezooka"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.Bonezooka>());
                 shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
                 shop.item[nextSlot].shopCustomPrice = 195;
                 nextSlot++;
@@ -168,13 +194,13 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = 1;
                 nextSlot++;
             }
-            shop.item[nextSlot].SetDefaults(mod.ItemType("DeputyBag_prehm"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeputyBag_prehm>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
             shop.item[nextSlot].shopCustomPrice = 25;
             nextSlot++;
             if (Main.hardMode)
             {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("DeputyBag_hm"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeputyBag_hm>());
                 shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
                 shop.item[nextSlot].shopCustomPrice = 65;
                 nextSlot++;
@@ -199,9 +225,16 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return true;
         }
 
-        public override string TownNPCName()
+        public override List<string> SetNPCNameList()
         {
-            return TerrorbornWorld.SkeletonSheriffName;
+            return new List<string>(){
+                TerrorbornSystem.SkeletonSheriffName
+            };
+        }
+
+        public override ITownNPCProfile TownNPCProfile()
+        {
+            return new SheriffProfile();
         }
 
         int currentOption1 = 0;
@@ -213,7 +246,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
         public override void PostAI()
         {
             base.PostAI();
-            if (Main.player[Player.FindClosest(npc.Center, 0, 0)].Distance(npc.Center) > 300)
+            if (Main.player[Player.FindClosest(NPC.Center, 0, 0)].Distance(NPC.Center) > 300)
             {
                 showingLore = false;
                 loreText = 0;
@@ -280,11 +313,11 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     }
                     if (loreText == 2) //Tell me about Anekronyx
                     {
-                        Main.npcChatText = "Ahhhh, the grand kingdom of Anekronyx. You see, the population was primarily composed of 'shadows', a race that is created through magic similar to necromancy by the Anekronian king, Tenebris. After a foolhearty decision on his behalf, he lost his kingdom and the ability to create these beings. From my knowledge, he never died, though.";
+                        Main.npcChatText = "Ahhhh, the grand kingdom of Anekronyx. You see, the population was primarily composed of 'shadows', a race that is created through magic similar to necromancy by the Anekronian king, Raphael. After a foolhearty decision on his behalf, he lost his kingdom and the ability to create these beings. From my knowledge, he never died, though.";
                     }
                     if (loreText == 3) //What were the Anekronian tournaments like?
                     {
-                        Main.npcChatText = "I'm glad you asked. You see, Tenebris would invite all warriors around the globe to fight in a grand colloseum. The rewards got better and better the higher up you got in the ranks of this tournament, but you'd also fight increasingly strong foes, naturally. There were 1v1 tournaments and 2v2 tournaments. I used to be the champion, until I was defeated by a terrarian like yourself.";
+                        Main.npcChatText = "I'm glad you asked. You see, Raphael would invite all warriors around the globe to fight in a grand colloseum. The rewards got better and better the higher up you got in the ranks of this tournament, but you'd also fight increasingly strong foes, naturally. There were 1v1 tournaments and 2v2 tournaments. I used to be the champion, until I was defeated by a terrarian like yourself.";
                     }
                     if (loreText == 4) //Who was rath?
                     {
@@ -298,7 +331,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 }
                 else if (currentOption1 == 1)
                 {
-                    Player player = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
+                    Player player = Main.player[Player.FindClosest(NPC.position, NPC.width, NPC.height)];
                     TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
                     string BiomeText = "Biome Text Broke :P, report this on the Terrorborn discord.";
                     string CombatTokenText;
@@ -308,31 +341,31 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     }
                     else
                     {
-                        player.QuickSpawnItem(mod.ItemType("CombatToken"), modPlayer.CombatPoints / 250);
+                        player.QuickSpawnItem(NPC.GetSource_Loot(), ModContent.ItemType<CombatToken>(), modPlayer.CombatPoints / 250);
                         CombatTokenText = "Seems you've been doing work. Here's " + modPlayer.CombatPoints / 250 + " Combat Tokens as credit! ";
                         modPlayer.CombatPoints = 0;
                     }
-                    if (TerrorbornWorld.CurrentBountyBiome == 0)
+                    if (TerrorbornSystem.CurrentBountyBiome == 0)
                     {
                         BiomeText = "If you want tokens, hang out in the sandy caves. It seems there is an unusual concentration of antlion breeding going on.";
                     }
-                    if (TerrorbornWorld.CurrentBountyBiome == 1)
+                    if (TerrorbornSystem.CurrentBountyBiome == 1)
                     {
                         BiomeText = "In the icy caves, the monsters seem to have been getting quite powerful. If you want credit, that's the place to go.";
                     }
-                    if (TerrorbornWorld.CurrentBountyBiome == 2)
+                    if (TerrorbornSystem.CurrentBountyBiome == 2)
                     {
                         BiomeText = "Do you want combat tokens? Got to hell! In all seriousness, the beasts of the underworld have been getting out of hand. Try to clean things up down there.";
                     }
-                    if (TerrorbornWorld.CurrentBountyBiome == 3)
+                    if (TerrorbornSystem.CurrentBountyBiome == 3)
                     {
                         BiomeText = "The tropical forests of the jungle have had some issues at the surface as of late. If you want some tokens, I'll give you the credit it you spend some time peacekeeping there.";
                     }
-                    if (TerrorbornWorld.CurrentBountyBiome == 4)
+                    if (TerrorbornSystem.CurrentBountyBiome == 4)
                     {
                         BiomeText = "Under the tropical rainforests, in those lush caves, I hear there's been some trouble. If you want credit, I'll give it to you- as long as you've killed enough enemies in the underground jungle.";
                     }
-                    if (TerrorbornWorld.CurrentBountyBiome == 5)
+                    if (TerrorbornSystem.CurrentBountyBiome == 5)
                     {
                         if (WorldGen.crimson)
                         {
@@ -343,19 +376,19 @@ namespace TerrorbornMod.NPCs.TownNPCs
                             BiomeText = "The infectious purple corruption has had some activity as of late. If you're in need of tokens, that's the place to go for it.";
                         }
                     }
-                    if (TerrorbornWorld.CurrentBountyBiome == 6)
+                    if (TerrorbornSystem.CurrentBountyBiome == 6)
                     {
                         BiomeText = "If you want some tokens, the surface of that large mass of snow is where you can kill things for credit. For whatever reason, it seems to be oddly active today.";
                     }
-                    if (TerrorbornWorld.CurrentBountyBiome == 7)
+                    if (TerrorbornSystem.CurrentBountyBiome == 7)
                     {
                         BiomeText = "Remember those fairy tales, with the nice unicorns? Well guess what, they aren't that nice, and they're stampeeding all over the place in the hallowed biome! If you kill some monsters over there, I'll give you tokens.";
                     }
-                    if (TerrorbornWorld.CurrentBountyBiome == 8)
+                    if (TerrorbornSystem.CurrentBountyBiome == 8)
                     {
                         BiomeText = "Looking for tokens? The chaotic depths of the hallowed biome are being extra chaotic today, so if you were to take charge of some of the creatures living there, it would be much appreciated.";
                     }
-                    if (TerrorbornWorld.CurrentBountyBiome == 9)
+                    if (TerrorbornSystem.CurrentBountyBiome == 9)
                     {
                         if (WorldGen.crimson)
                         {
@@ -393,10 +426,6 @@ namespace TerrorbornMod.NPCs.TownNPCs
             }
         }
         
-        //public override void SetupShop(Chest shop, ref int nextSlot)
-        //{
-
-        //}
         public override string GetChat()
         {
             WeightedRandom<string> chat = new WeightedRandom<string>();
@@ -418,7 +447,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 chat.Add("Have you seen that creepy old structure? Yeah, it's pretty creepy. There's this old guy guarding it... wonder what would happen if you tried to sneak past him.");
             }
             chat.Add("Way back when, I had a friend who went by the name of Rath. He lived in the grand kingdom of Anekronyx, and was a member of a race that's supposedly extinct. Legend has it though that the Anekronians still have one member alive, I wonder if it could be him.");
-            chat.Add("I remember the good old days, back when king Tenebris held his fun old gladiator's tournaments. They're gone now, but I remember participating in one clearly! Hah, I was the champion until a terrarian came around and beat me. You kinda remind me of them, actually...");
+            chat.Add("I remember the good old days, back when king Raphael held his fun old gladiator's tournaments. They're gone now, but I remember participating in one clearly! Hah, I was the champion until a terrarian came around and beat me. You kinda remind me of them, actually...");
             chat.Add("Remember, I'll only give you things if you help me do my job. It's certainly not an easy one, so be prepared for some... 'fun'.");
             chat.Add("I've always wondered... what's it like being an incarnate? I suppose it's something regular beings such as myself will never understand. After all, it's impossible to make yourself an incarnate. At least, I think....");
             chat.Add("You know how the others look at me suspiciously? Yeah, that's why I need you to do my job for me. Nobody trusts a corpse to do the law enforcement, as I learned the hard way.");
@@ -459,5 +488,18 @@ namespace TerrorbornMod.NPCs.TownNPCs
             multiplier = 7f;
             gravityCorrection = 0;
         }
+    }
+
+    public class SheriffProfile : ITownNPCProfile
+    {
+        public int RollVariation() => 0;
+        public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
+
+        public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
+        {
+            return ModContent.Request<Texture2D>("TerrorbornMod/NPCs/TownNPCs/SkeletonSheriff");
+        }
+
+        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("TerrorbornMod/NPCs/TownNPCs/SkeletonSheriff_Head");
     }
 }

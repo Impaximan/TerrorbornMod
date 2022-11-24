@@ -14,29 +14,27 @@ namespace TerrorbornMod.Items.PermanentUpgrades
         }
         public override void SetDefaults()
         {
-            item.rare = 5;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.consumable = true;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.UseSound = SoundID.Item2;
-            item.value = Item.sellPrice(0, 3, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.consumable = true;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.maxStack = 9999;
+            Item.UseSound = SoundID.Item2;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
         }
+
         public override bool CanUseItem(Player player)
-        {
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
-            return !modPlayer.AnekronianApple;
-        }
-        public override bool UseItem(Player player)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (!modPlayer.AnekronianApple)
             {
-                item.stack--;
                 CombatText.NewText(new Rectangle((int)(player.Center.X - 50), (int)(player.Center.Y - 50), 100, 10), Color.Red, "Shriek of Horror movement speed increased by 20%", true, false);
                 modPlayer.AnekronianApple = true;
+                Item.stack--;
+                return true;
             }
-            return base.UseItem(player);
+            return false;
         }
     }
 }

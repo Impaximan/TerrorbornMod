@@ -9,15 +9,23 @@ namespace TerrorbornMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Incendiary Alloy");
-            Tooltip.SetDefault("'A shattered fragment of the seal, brought back to life by some unholy curse'");
+            Tooltip.SetDefault("A hellish metal created by a hellish curse" +
+                "\nSeek the island in the center of the biome to craft with it");
         }
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 0, 69, 0);
-            item.rare = 3;
-            item.width = 18;
-            item.height = 18;
+            Item.width = 16;
+            Item.height = 16;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.rare = ItemRarityID.LightRed;
+            Item.value = Item.sellPrice(0, 0, 10, 0);
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.Incendiary.IncendiaryAlloyTile>();
         }
     }
 }

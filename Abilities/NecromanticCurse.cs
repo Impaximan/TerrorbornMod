@@ -1,13 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using TerrorbornMod;
 using Terraria.ID;
 
 namespace TerrorbornMod.Abilities
@@ -21,7 +15,7 @@ namespace TerrorbornMod.Abilities
 
         public override Texture2D texture()
         {
-            return ModContent.GetTexture("TerrorbornMod/Abilities/NecromanticCurse_Icon");
+            return (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Abilities/NecromanticCurse_Icon");
         }
 
         public override float Cost()
@@ -54,8 +48,8 @@ namespace TerrorbornMod.Abilities
         {
             float speed = 20;
             Vector2 velocity = player.DirectionTo(Main.MouseWorld) * speed;
-            int proj = Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<DungeonSpirit>(), 1, 5, player.whoAmI);
-            Main.PlaySound(SoundID.NPCDeath52, player.Center);
+            int proj = Projectile.NewProjectile(player.GetSource_Misc("TerrorbornAbility_NecromanticCurse"), player.Center, velocity, ModContent.ProjectileType<DungeonSpirit>(), 1, 5, player.whoAmI);
+            SoundExtensions.PlaySoundOld(SoundID.NPCDeath52, player.Center);
 
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.SanguineSetBonus)
@@ -67,29 +61,29 @@ namespace TerrorbornMod.Abilities
 
     class DungeonSpirit : ModProjectile
     {
-        public override string Texture { get { return "Terraria/Projectile_" + ProjectileID.EmeraldBolt; } }
+        public override string Texture => "TerrorbornMod/placeholder";
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.hostile = false;
-            projectile.hide = true;
-            projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.hostile = false;
+            Projectile.hide = true;
+            Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
         public override void AI()
         {
-            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.player[projectile.owner]);
+            TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.player[Projectile.owner]);
             int type = 132;
             if (modPlayer.SanguineSetBonus) type = 130;
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, type);
-            Main.dust[dust].velocity = projectile.velocity / 4;
-            if (modPlayer.SanguineSetBonus) Main.dust[dust].velocity = projectile.velocity / 10;
+            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, type);
+            Main.dust[dust].velocity = Projectile.velocity / 4;
+            if (modPlayer.SanguineSetBonus) Main.dust[dust].velocity = Projectile.velocity / 10;
             Main.dust[dust].scale = 1.5f;
             Main.dust[dust].noGravity = true;
             Main.dust[dust].color = Color.White;
@@ -101,17 +95,17 @@ namespace TerrorbornMod.Abilities
                 bool Targeted = false;
                 for (int i = 0; i < 200; i++)
                 {
-                    if (Main.npc[i].Distance(projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy() && projectile.localNPCImmunity[i] == 0)
+                    if (Main.npc[i].Distance(Projectile.Center) < Distance && !Main.npc[i].friendly && Main.npc[i].CanBeChasedBy() && Projectile.localNPCImmunity[i] == 0)
                     {
                         targetNPC = Main.npc[i];
-                        Distance = Main.npc[i].Distance(projectile.Center);
+                        Distance = Main.npc[i].Distance(Projectile.Center);
                         Targeted = true;
                     }
                 }
                 if (Targeted)
                 {
                     //HOME IN
-                    projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(5f * (projectile.velocity.Length() / 20))).ToRotationVector2() * projectile.velocity.Length();
+                    Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(5f * (Projectile.velocity.Length() / 20))).ToRotationVector2() * Projectile.velocity.Length();
                 }
             }
         }
@@ -120,13 +114,19 @@ namespace TerrorbornMod.Abilities
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(target);
             modNPC.soulSplitTime = 60 * 5;
             CombatText.NewText(new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height), Color.LightCyan, "Soul Split");
-            Main.PlaySound(SoundID.Item103, target.Center);
+            SoundExtensions.PlaySoundOld(SoundID.Item103, target.Center);
         }
     }
 
     class ObtainNecromanticCurse : ModItem
     {
         public override string Texture => "TerrorbornMod/placeholder";
+
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return TerrorbornMod.IsInTestingMode;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Get Necromantic Curse");
@@ -134,18 +134,21 @@ namespace TerrorbornMod.Abilities
                 "\nUnlocks 'Necromantic Curse'" +
                 "\nRight click to get a list of unlocked abilities");
         }
+
         public override void SetDefaults()
         {
-            item.rare = -12;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            Item.rare = -12;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override bool CanUseItem(Player player)
         {
             TerrorbornPlayer tPlayer = TerrorbornPlayer.modPlayer(player);
@@ -171,7 +174,7 @@ namespace TerrorbornMod.Abilities
                 {
                     for (int i = 0; i < tPlayer.unlockedAbilities.Count; i++)
                     {
-                        Main.NewText(TerrorbornUtils.intToAbility(tPlayer.unlockedAbilities[i]).Name());
+                        Main.NewText(Utils.General.IntToAbility(tPlayer.unlockedAbilities[i]).Name());
                     }
                 }
             }
@@ -210,9 +213,9 @@ namespace TerrorbornMod.Abilities
 
         public override void ObtainAbility()
         {
-            projectile.active = false;
+            Projectile.active = false;
 
-            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)]);
+            TerrorbornPlayer target = TerrorbornPlayer.modPlayer(Main.player[Player.FindClosest(Projectile.position, Projectile.width, Projectile.height)]);
             target.unlockedAbilities.Add(4);
             target.TriggerAbilityAnimation("Necromantic Curse", "Fires out a dungeon spirit that does 1 damage, but makes your attacks lifesteal from the hit enemy", "Costs 30% terror to use", 0, visibilityTime: 800);
         }

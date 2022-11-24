@@ -14,13 +14,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 34;
-            item.accessory = true;
-            item.noMelee = true;
-            item.rare = 2;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.useAnimation = 5;
+            Item.width = 32;
+            Item.height = 34;
+            Item.accessory = true;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(0, 1, 0, 0);
+            Item.useAnimation = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -15,9 +15,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = 3;
-            item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -27,8 +27,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
             float minionCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                Projectile projectile = Main.projectile[i];
-                if (projectile.active) minionCount += projectile.minionSlots;
+                Projectile Projectile = Main.projectile[i];
+                if (Projectile.active) minionCount += Projectile.minionSlots;
             }
             player.statDefense += (int)(minionCount / 2);
         }

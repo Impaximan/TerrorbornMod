@@ -1,9 +1,9 @@
-﻿using System.IO;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader.Utilities;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
 
 namespace TerrorbornMod.NPCs
 {
@@ -11,31 +11,31 @@ namespace TerrorbornMod.NPCs
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 5;
-            DisplayName.SetDefault("Sangoon");
+            Main.npcFrameCount[NPC.type] = 5;
         }
+
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.noTileCollide = false;
-            npc.width = 46;
-            npc.height = 30;
-            npc.damage = 50;
-            npc.defense = 7;
-            npc.lifeMax = 75;
-            npc.HitSound = SoundID.NPCHit18;
-            npc.DeathSound = SoundID.NPCDeath32;
-            npc.value = 250;
-            npc.knockBackResist = 0f;
-            npc.aiStyle = 14;
-            aiType = NPCID.CaveBat;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.width = 46;
+            NPC.height = 30;
+            NPC.damage = 25;
+            NPC.defense = 7;
+            NPC.lifeMax = 50;
+            NPC.HitSound = SoundID.NPCHit18;
+            NPC.DeathSound = SoundID.NPCDeath32;
+            NPC.value = 250;
+            NPC.knockBackResist = 0f;
+            NPC.aiStyle = -1;
             if (Main.hardMode)
             {
-                npc.lifeMax = 285;
-                npc.damage = 80;
-                npc.defense = 17;
+                NPC.lifeMax = 285;
+                NPC.damage = 80;
+                NPC.defense = 17;
             }
         }
+
         int Frame = 0;
         int FrameWait = 4;
         public override void FindFrame(int frameHeight)
@@ -50,42 +50,83 @@ namespace TerrorbornMod.NPCs
                     Frame = 0;
                 }
             }
-            npc.frame.Y = Frame * frameHeight;
-            if (Main.player[npc.target].Center.X > npc.Center.X)
-            {
-                npc.spriteDirection = 1;
-            }
-            if (Main.player[npc.target].Center.X < npc.Center.X)
-            {
-                npc.spriteDirection = -1;
-            }
-            npc.rotation = MathHelper.ToRadians(npc.velocity.X * 2);
+            NPC.frame.Y = Frame * frameHeight;
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (NPC.downedBoss1 && Main.bloodMoon)
             {
-                if (NPC.AnyNPCs(mod.NPCType("Sangrune")))
-                {
-                    return SpawnCondition.OverworldNightMonster.Chance * 0.5f;
-                }
                 return SpawnCondition.OverworldNightMonster.Chance * 0.25f;
             }
             else
             {
-                return SpawnCondition.OverworldNightMonster.Chance * 0;
+                return 0f;
             }
         }
-        public override void NPCLoot()
+
+        bool charging = false;
+        int attackCounter = 60;
+        public override void AI()
         {
-            if (Main.rand.Next(5) == 0)
+            NPC.TargetClosest(true);
+            if (Main.player[NPC.target].dead)
             {
-                Item.NewItem(npc.position, npc.width, npc.height, ItemID.Heart);
+                float speed = -0.2f;
+                Vector2 velocity = NPC.DirectionTo(Main.player[NPC.target].Center) * speed;
+                NPC.velocity += velocity;
+
+                NPC.velocity *= 0.99f;
+                if (NPC.Distance(Main.player[NPC.target].Center) > 4500)
+                {
+                    NPC.active = false;
+                }
             }
-            if (NPC.downedBoss2 && Main.rand.Next(30) == 0)
+            else
             {
-                Item.NewItem(npc.position, npc.width, npc.height, mod.ItemType("SanguineFang"));
+                if (attackCounter > 0)
+                {
+                    attackCounter--;
+                }
+                else
+                {
+                    if (charging)
+                    {
+                        charging = false;
+                        attackCounter = 180;
+                    }
+                    else
+                    {
+                        charging = true;
+                        attackCounter = 15;
+                        float speed = 10f;
+                        NPC.velocity = NPC.DirectionTo(Main.player[NPC.target].Center) * speed;
+                    }
+                }
+
+                if (!charging)
+                {
+                    if (Main.player[NPC.target].Center.X > NPC.Center.X)
+                    {
+                        NPC.spriteDirection = 1;
+                    }
+                    else
+                    {
+                        NPC.spriteDirection = -1;
+                    }
+
+                    float speed = 0.1f;
+                    Vector2 velocity = NPC.DirectionTo(Main.player[NPC.target].Center) * speed;
+                    NPC.velocity += velocity;
+
+                    NPC.velocity *= 0.98f;
+                }
             }
+            NPC.rotation = MathHelper.ToRadians(NPC.velocity.X * 2);
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.SanguineFang>(), 1, 1, 2));
         }
     }
 }

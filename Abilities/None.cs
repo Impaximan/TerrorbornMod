@@ -1,13 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-
-namespace TerrorbornMod.Abilities
+﻿namespace TerrorbornMod.Abilities
 {
     class None : AbilityInfo
     {
@@ -28,7 +19,7 @@ namespace TerrorbornMod.Abilities
 
         public override string Description()
         {
-            return " ";
+            return "This ability has not yet been implemented.";
         }
     }
     class NotYetUnlocked : AbilityInfo
@@ -50,7 +41,7 @@ namespace TerrorbornMod.Abilities
 
         public override string Description()
         {
-            return " ";
+            return "You haven't unlocked this ability yet.";
         }
     }
 }
