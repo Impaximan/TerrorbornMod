@@ -153,8 +153,8 @@ namespace TerrorbornMod.Structures
             sample.SetSamplingValues(
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, tileType),
                 new ValueTuple<byte, byte, byte, int>(0, 255, 255, TileID.IceBlock),
-                new ValueTuple<byte, byte, byte, int>(0, 255, 0, TileID.SnowBlock),
-                new ValueTuple<byte, byte, byte, int>(0, 0, 255, TileID.Chain)
+                new ValueTuple<byte, byte, byte, int>(0, 0, 255, TileID.SnowBlock),
+                new ValueTuple<byte, byte, byte, int>(0, 255, 0, TileID.Chain)
                 );
             Utils.General.InvokeOnMainThread(new Action(() => sample.Apply()));
 

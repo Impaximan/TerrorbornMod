@@ -1,11 +1,10 @@
 WARNING: This mod does not support multiplayer and likely never will. It is highly recommended that you play this mod on a large world.
 
 --Details--
-The Terrorborn mod by Penumbral and numerous other people is an ambitious content mod with the goal of adding an engaging storyline and greatly increasing the quality of combat, primarily through a new mechanic; terror.
-Unlock new abilities, face difficult but fair boss encounters, master a new style of combat, and most importantly, have fun, in a refreshing souls like inspired experience.
+The Terrorborn mod, developed by Penumbral with the help an extremely friendly dev team (credited below) is a souls-like inspired, ambitious content mod with the goal of adding a not only interesting but also engaging storyline and adding a refreshing slate-gray coat of paint to combat. Tinker with brand new abilities, new types of accessories, new mechanics, and even a new difficulty mode- this mod offers plenty of replayability and more to come with future updates!
 
 Content:
- • 7 new challenging-but-fair bosses
+ • 6 new challenging-but-fair bosses
  • Terror: Shriek to reap fear from your foes when you get the opportunity, and unleash devastating new spells.
  • 9 horrific abilities that make use of the terror mechanic.
  • 4 new NPCs with unique and useful functions. Each NPC has its own purpose and personality, as well as a backstory that you can learn from.
@@ -15,8 +14,9 @@ Content:
    • New types of accessories and gear, including new ways of handling movement.
    • MANY new weapons to choose from
  • The lore of the mod is findable in-game and will expand as the mod updates.
- • Post-Moon Lord content. Not a lot of it right now, but it's definitely enough to make the finale of your playthrough memorable.
- • 1 new menu style (and more to come!)
+ • Many new soundtracks!
+ • WIP Post-Moon Lord content.
+ • 1 new menu style
 
 Feel free to join our discord server if you have any feedback or ideas, or if you just want to discuss the mod. A link is on the homepage!
 

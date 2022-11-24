@@ -79,7 +79,7 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         bool spawningAnimation = false;
         int shakeCounter = 0;
         int shakesLeft = 3;
-        const int totalSpawningTime = 510;
+        const int totalSpawningTime = 1110;
         double timeAlive = 0;
         public override void AI()
         {
@@ -94,11 +94,12 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
             if (TerrorbornPlayer.modPlayer(Main.LocalPlayer).ShriekTime > 0 && arena.Contains(Main.LocalPlayer.getRect()) && !spawningAnimation)
             {
                 spawningAnimation = true;
-                TerrorbornMod.SetScreenToPosition(60, totalSpawningTime, arena.Center.ToVector2(), 0.9f);
+                TerrorbornMod.SetScreenToPosition(120, totalSpawningTime, arena.Center.ToVector2(), 0.9f);
             }
             
             if (spawningAnimation)
             {
+                NPC.boss = true;
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/InfectedIncarnate");
                 shakeCounter++;
                 if (shakeCounter >= totalSpawningTime / 3)
@@ -119,6 +120,10 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
                     }
                 }
             }
+        }
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+        {
+            return false;
         }
     }
 
@@ -335,7 +340,11 @@ namespace TerrorbornMod.NPCs.Bosses.InfectedIncarnate
         int frame = 1;
         public override void FindFrame(int frameHeight)
         {
-            TerrorbornMod.screenFollowTime = 2;
+            if (!NPC.IsABestiaryIconDummy)
+            {
+                TerrorbornMod.screenFollowTime = 2;
+                TerrorbornMod.screenTransitionTime = 30;
+            }
             NPC.frame.Y = frameHeight * frame;
         }
 

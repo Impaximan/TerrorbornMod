@@ -15,12 +15,13 @@ using TerrorbornMod.NPCs.Bosses;
 using TerrorbornMod.NPCs.Bosses.InfectedIncarnate;
 using TerrorbornMod.NPCs.Bosses.TidalTitan;
 using TerrorbornMod.NPCs.Bosses.HexedConstructor;
+using TerrorbornMod.NPCs.Bosses.PrototypeI;
 
 namespace TerrorbornMod
 {
     class TerrorbornMod : Mod
     {
-        public const bool IsInTestingMode = false;
+        public const bool IsInTestingMode = true;
 
         public const float IncendiaryAlloyMultiplier = 0.5f;
 
@@ -400,6 +401,48 @@ namespace TerrorbornMod
                                                                                               //PUT DRAWCODE FOR THE ENTRY HERE
                     (SpriteBatch sb, Rectangle rect, Color color) => {
                         Texture2D texture = ModContent.Request<Texture2D>("TerrorbornMod/BossChecklist/HexedConstructor").Value;
+                        Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
+                        sb.Draw(texture, centered, color);
+                    });
+
+                bossChecklist.Call("AddBoss", //Which method is being used
+                    this, //Mod instance
+                    "Shadowcrawler", //Boss name
+                    ModContent.NPCType<Shadowcrawler>(), //Boss ID
+                    11.5f, //Progression placement
+                    () => TerrorbornSystem.downedShadowcrawler, //Downed bool
+                    () => true, //Availability (ie make this false if you want to hide the checklist entry)
+                    new List<int>(), // Collectibles
+                    new List<int>()
+                    {
+                        { ModContent.ItemType<Items.RadioactiveSpiderFood>() }
+                    }, // Summoning items
+                    "Use a [i:" + ModContent.ItemType<Items.RadioactiveSpiderFood>() + "] during the night.", //Spawn description
+                    "The night time hunter flees the seen, until another day.", //Despawn message, DELETE THIS FOR EVENTS
+                                                                                   //PUT DRAWCODE FOR THE ENTRY HERE
+                    (SpriteBatch sb, Rectangle rect, Color color) => {
+                        Texture2D texture = ModContent.Request<Texture2D>("TerrorbornMod/BossChecklist/Shadowcrawler").Value;
+                        Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
+                        sb.Draw(texture, centered, color);
+                    });
+                
+                bossChecklist.Call("AddBoss", //Which method is being used
+                    this, //Mod instance
+                    "Prototype I", //Boss name
+                    ModContent.NPCType<PrototypeI>(), //Boss ID
+                    15.5f, //Progression placement
+                    () => TerrorbornSystem.downedPrototypeI, //Downed bool
+                    () => true, //Availability (ie make this false if you want to hide the checklist entry)
+                    new List<int>(), // Collectibles
+                    new List<int>()
+                    {
+                        { ModContent.ItemType<Items.PlasmaCore>() }
+                    }, // Summoning items
+                    "Use a [i:" + ModContent.ItemType<Items.PlasmaCore>() + "] during the night.", //Spawn description
+                    "The viscious horror of creation zooms off, aimless in an aimless world.", //Despawn message, DELETE THIS FOR EVENTS
+                                                                                //PUT DRAWCODE FOR THE ENTRY HERE
+                    (SpriteBatch sb, Rectangle rect, Color color) => {
+                        Texture2D texture = ModContent.Request<Texture2D>("TerrorbornMod/BossChecklist/PrototypeI").Value;
                         Vector2 centered = new Vector2(rect.X + (rect.Width / 2) - (texture.Width / 2), rect.Y + (rect.Height / 2) - (texture.Height / 2));
                         sb.Draw(texture, centered, color);
                     });

@@ -74,6 +74,7 @@ namespace TerrorbornMod
                     "Hello, and welcome to Terrorborn!" +
                   "\nBefore you get started, I'd like to warn that this mod does not work in multiplayer and is intended to be played on a large world." +
                   "\nIt is designed to be a challenging-but-fair experience. That said, there are multiple Quality of Life features that you can mess with in the mod's configs." +
+                  "\nAs you may be aware, the post-ML section of the mod went unfinished as we decided to move on to working on a new mod." +
                   "\nWith that aside, enjoy the mod!", Color.SlateGray);
             }
 

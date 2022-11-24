@@ -210,6 +210,15 @@ namespace TerrorbornMod.NPCs
             Player player = Main.LocalPlayer;
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(NPC);
 
+            if (!player.active || player.dead)
+            {
+                NPC.alpha += 255 / 60;
+                if (NPC.alpha >= 255)
+                {
+                    NPC.active = false; 
+                }
+            }
+
             if (Collision.CanHitLine(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height) && !hasSeenPlayer)
             {
                 ambientCounter = Main.rand.Next(360, 1600);

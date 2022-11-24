@@ -7,16 +7,17 @@ The Terrorborn mod, developed by Penumbral with the help an extremely friendly d
 [h1] Specifics [/h1]
 As of currently, the mod adds the following new content:
 [list]
-    [*]7 new challenging-but-fair bosses
+    [*]6 new challenging-but-fair bosses
     [*]Terror (new resource): Shriek to reap fear from your foes when you get the opportunity, and unleash devastating new spells.
     [*]9 horrific new abilities that make use of the terror mechanic.
     [*]4 new "town" NPCs with unique and useful functions. Each NPC has its own unique purpose and personality, as well as a backstory that you can learn from.
     [*]400+ new items, including new types of accessories, weapons, etc.
     [*]Almost every armor set has a unique set bonus
     [*]The lore of the mod is viewable in-game and will expand as the mod updates.
-    [*]Post-Moon Lord content. Not a lot of it right now, but it's definitely enough to make the finale of your playthrough memorable.
-    [*]1 new menu style (and more to come!)
-    [*]A new difficulty mode designed for players who have already played the mod and want to challenge their terror knowledge on repeat playthroughs
+    [*]WIP Post-Moon Lord content
+    [*]Many new soundtracks!
+    [*]1 new menu style
+    [*]A WIP new difficulty mode designed for players who have already played the mod and want to challenge their terror knowledge on repeat playthroughs
 [/list]
 [hr][/hr]
 

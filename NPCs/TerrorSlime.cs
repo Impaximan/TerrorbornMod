@@ -45,7 +45,8 @@ namespace TerrorbornMod.NPCs
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
-                new FlavorTextBestiaryInfoElement("A pot possessed by the living tar within the desert, which uses javelins made with other pot scraps.")
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                new FlavorTextBestiaryInfoElement("A slime imbued with terror. Glub glub!")
             });
         }
 

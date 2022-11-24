@@ -20,7 +20,8 @@ namespace TerrorbornMod.Items
                 "\nYou will also have increased life regen the more twilight you have" +
                 "\nEnemies drop twice as much money, and you are given greatly increased luck" +
                 "\nIn master mode, enemies have further buffed AI but your twilight overload is buffed as well" +
-                "\n[c/FF1919:Not recommended if this is your first time playing Terrorborn]");
+                "\n[c/FF1919:Not recommended if this is your first time playing Terrorborn]" +
+                "\n[c/FF1919:Note that this difficulty is an UNFINISHED experience, and only most of the pre-hardmode bosses have AI changes.]");
         }
 
         public override void SetDefaults()
