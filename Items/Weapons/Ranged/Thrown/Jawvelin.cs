@@ -40,15 +40,6 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
         {
             player.GetArmorPenetration(DamageClass.Ranged) += 10;
         }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(225)
-                .AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 3)
-                .AddIngredient(ModContent.ItemType<Materials.NoxiousScale>(), 2)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
-        }
     }
 
     class JawvelinProjectile : ModProjectile

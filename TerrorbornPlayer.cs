@@ -710,6 +710,11 @@ namespace TerrorbornMod
             TerrorPotionCooldown = 60 * 10;
             noAmmoConsumeChance = 0f;
 
+            if (!TerrorbornSystem.obtainedShriekOfHorror)
+            {
+                TerrorPercent = 0f;
+            }
+
             Player.statManaMax2 += 5 * MidnightFruit;
 
             Vector2 screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.UIScale;

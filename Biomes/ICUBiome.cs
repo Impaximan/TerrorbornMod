@@ -18,7 +18,7 @@ namespace TerrorbornMod.Biomes
         public override void SpecialVisuals(Player player, bool isActive)
         {
             player.ManageSpecialBiomeVisuals("TerrorbornMod:BlandnessShader", isActive && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>()));
-            player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", isActive);
+            player.ManageSpecialBiomeVisuals("TerrorbornMod:DarknessShader", isActive || player.GetModPlayer<TerrorbornPlayer>().ZoneDeimostone);
         }
 
         public override void OnEnter(Player player)

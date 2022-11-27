@@ -162,6 +162,12 @@ namespace TerrorbornMod.NPCs.Incendiary
     class AngelBeam : Deathray
     {
         int timeLeft = 60;
+
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 100000;
+        }
+
         public override string Texture => "TerrorbornMod/NPCs/Incendiary/AngelBeam";
         public override void SetDefaults()
         {

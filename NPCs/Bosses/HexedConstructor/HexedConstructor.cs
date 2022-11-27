@@ -1099,6 +1099,12 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
     class ClockworkDeathray : Deathray
     {
         public override string Texture => "TerrorbornMod/Projectiles/IncendiaryDeathray";
+
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 100000;
+        }
+
         public override void SetDefaults()
         {
             Projectile.width = 18;
