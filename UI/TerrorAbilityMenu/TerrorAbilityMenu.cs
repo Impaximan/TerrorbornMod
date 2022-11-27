@@ -201,7 +201,7 @@ namespace TerrorbornMod.UI.TerrorMeter
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!TerrorbornSystem.obtainedShriekOfHorror || !TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).ShowTerrorAbilityMenu)
+            if (!TerrorbornPlayer.modPlayer(Main.player[Main.myPlayer]).ShowTerrorAbilityMenu)
             {
                 showingAbilityDescription = false;
                 return;
@@ -401,8 +401,15 @@ namespace TerrorbornMod.UI.TerrorMeter
             string explanation = "Secondary terror abilities will cost 1.5x as much terror" +
                                "\nas they would if they were primary. Click the '?' icon " +
                                "\nnext to one the abilities to see that ability's function.";
+            Color explanationColor = Color.White;
             if (showingAbilityDescription) explanation = abilityDescription;
-            spriteBatch.DrawString(FontAssets.DeathText.Value, explanation, new Vector2(screenCenter.X - 61, screenCenter.Y - 285), Color.White, 0f, Vector2.Zero, 0.4f, SpriteEffects.None, 0f);
+            if (!TerrorbornSystem.obtainedShriekOfHorror)
+            {
+                explanationColor = Color.Pink;
+                explanation = "Unable to use terror abilities; unlock your potential!" +
+                    "\nThe compass you spawned with will help you...";
+            }
+            spriteBatch.DrawString(FontAssets.DeathText.Value, explanation, new Vector2(screenCenter.X - 61, screenCenter.Y - 285), explanationColor, 0f, Vector2.Zero, 0.4f, SpriteEffects.None, 0f);
         }
     }
 }

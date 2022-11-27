@@ -82,7 +82,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Thrown
                 }
                 Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                 Color color = Projectile.GetAlpha(Color.White) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
-                Main.spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/Weapons/Melee/Armorang_Glow"), drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+                Main.spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/Weapons/Melee/Thrown/Armorang_Glow"), drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
             }
         }
 

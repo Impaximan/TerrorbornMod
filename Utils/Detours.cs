@@ -102,7 +102,7 @@ namespace TerrorbornMod.Utils
 
             if (TerrorbornMod.ScreenDarknessAlpha > 0f)
             {
-                Main.spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/WhitePixel"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * TerrorbornMod.ScreenDarknessAlpha);
+                if (NPC.AnyNPCs(ModContent.NPCType<NPCs.Bosses.InfectedIncarnate.InfectedIncarnate>())) Main.spriteBatch.Draw((Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/WhitePixel"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * TerrorbornMod.ScreenDarknessAlpha);
             }
 
             Main.spriteBatch.End();
