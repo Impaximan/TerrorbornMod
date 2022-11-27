@@ -37,7 +37,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
                 .AddIngredient(ModContent.ItemType<BoostRelic>())
                 .AddIngredient(ModContent.ItemType<Materials.ThunderShard>(), 20)
                 .AddIngredient(ModContent.ItemType<Materials.NoxiousScale>(), 13)
-                .AddTile(TileID.TinkerersWorkbench);
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
