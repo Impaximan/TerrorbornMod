@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         int UntilBlast;
         public override void RestlessSetStaticDefaults()
         {
-            DisplayName.SetDefault("Vein Buster");
+            // DisplayName.SetDefault("Vein Buster");
         }
 
         public override string defaultTooltip()

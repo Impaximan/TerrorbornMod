@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            Tooltip.SetDefault("Casts strange eyes that eventually fire rays of light at your cursor");
+            // Tooltip.SetDefault("Casts strange eyes that eventually fire rays of light at your cursor");
         }
         public override void SetDefaults()
         {
@@ -136,7 +136,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         int timeLeft = 30;
         public override string Texture => "TerrorbornMod/Items/Weapons/Magic/LightBlast";
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Daybreak, 60);
         }

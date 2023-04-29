@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Royal Mandible");
-            Tooltip.SetDefault("Grants 3 armor penetration and increased movement speed");
+            // DisplayName.SetDefault("Royal Mandible");
+            // Tooltip.SetDefault("Grants 3 armor penetration and increased movement speed");
         }
 
         public override void SetDefaults()

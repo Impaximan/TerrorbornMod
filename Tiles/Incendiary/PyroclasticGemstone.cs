@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -25,8 +26,8 @@ namespace TerrorbornMod.Tiles.Incendiary
             DustType = 6;
 
             Main.tileLighted[Type] = true;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Pyroclastic Gemstone");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Pyroclastic Gemstone");
             AddMapEntry(new Color(255, 246, 216), name);
         }
 

@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged.DartWeapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Uses darts as ammo" +
-                "\nRight click to fire slower, but cause your darts to move quicker and deal slightly more damage");
+            /* Tooltip.SetDefault("Uses darts as ammo" +
+                "\nRight click to fire slower, but cause your darts to move quicker and deal slightly more damage"); */
         }
         public override void SetDefaults()
         {

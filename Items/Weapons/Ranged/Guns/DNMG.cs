@@ -13,9 +13,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Guns
         int baseReuseDelay = 13;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("D.N.M.G");
-            Tooltip.SetDefault("Fires faster the longer you use it" +
-                "\nUpon reaching max speed it will fire a mini nuke that does not destroy tiles and reset its speed");
+            // DisplayName.SetDefault("D.N.M.G");
+            /* Tooltip.SetDefault("Fires faster the longer you use it" +
+                "\nUpon reaching max speed it will fire a mini nuke that does not destroy tiles and reset its speed"); */
         }
 
         public override Color? GetAlpha(Color lightColor)

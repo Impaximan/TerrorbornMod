@@ -8,10 +8,10 @@ namespace TerrorbornMod.Items.MiscConsumables
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Grants you increased life regen" +
+            /* Tooltip.SetDefault("Grants you increased life regen" +
                 "\nThe more terror you have, the more your life regen will be increased" +
                 "\nYou will slowly lose terror over time" +
-                "\n'It's incendairy!'");
+                "\n'It's incendairy!'"); */
         }
         public override void SetDefaults()
         {
@@ -34,8 +34,8 @@ namespace TerrorbornMod.Items.MiscConsumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Horifically Nourished");
-            Description.SetDefault("Grants you life regen that scales with how much terror you have, but you will lose terror over time");
+            // DisplayName.SetDefault("Horifically Nourished");
+            // Description.SetDefault("Grants you life regen that scales with how much terror you have, but you will lose terror over time");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

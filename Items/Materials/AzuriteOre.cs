@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("'Water condensed by the constantly shifting world, merged into the other minerals'");
+            // Tooltip.SetDefault("'Water condensed by the constantly shifting world, merged into the other minerals'");
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 

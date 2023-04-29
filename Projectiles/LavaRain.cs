@@ -18,7 +18,7 @@ namespace TerrorbornMod.Projectiles
             Projectile.tileCollide = false;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.OnFire, 60 * 5);
         }

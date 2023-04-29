@@ -39,7 +39,7 @@ namespace TerrorbornMod.Items.Ammo
         public override string Texture => "TerrorbornMod/Items/Ammo/TungstenDart";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tungsten dart");
+            // DisplayName.SetDefault("Tungsten dart");
         }
         public override void SetDefaults()
         {

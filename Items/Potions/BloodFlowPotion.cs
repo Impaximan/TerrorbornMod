@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increased life regen while moving");
+            // Tooltip.SetDefault("Increased life regen while moving");
         }
         public override void SetDefaults()
         {

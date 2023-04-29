@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 	{
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Has very long range and homes into the cursor, but returns to you slowly");
+			// Tooltip.SetDefault("Has very long range and homes into the cursor, but returns to you slowly");
 		}
 
 		public override void SetDefaults()
@@ -71,7 +71,7 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 			dust.noGravity = true;
 		}
 
-		public override bool? SingleGrappleHook(Player player)
+		public override bool? SingleGrappleHook(Player player)/* tModPorter Note: Removed. In SetStaticDefaults, use ProjectileID.Sets.SingleGrappleHook[Type] = true if you previously had this method return true */
 		{
 			return true;
 		}

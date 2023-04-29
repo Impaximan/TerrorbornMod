@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Requires " + terrorRequired + "% terror per use" +
-                "\nCuts faster than the other lunar hamaxes");
+            /* Tooltip.SetDefault("Requires " + terrorRequired + "% terror per use" +
+                "\nCuts faster than the other lunar hamaxes"); */
         }
 
         public override void AddRecipes()

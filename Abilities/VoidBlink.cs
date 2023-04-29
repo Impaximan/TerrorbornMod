@@ -86,10 +86,10 @@ namespace TerrorbornMod.Abilities
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Get Voidslip");
-            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+            // DisplayName.SetDefault("Get Voidslip");
+            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nUnlocks 'Void Blink'" +
-                "\nRight click to get a list of unlocked abilities");
+                "\nRight click to get a list of unlocked abilities"); */
         }
 
         public override void SetDefaults()

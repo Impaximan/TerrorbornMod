@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         int UntilBlast;
         public override void RestlessSetStaticDefaults()
         {
-            DisplayName.SetDefault("Contaminated Marine Pistol");
+            // DisplayName.SetDefault("Contaminated Marine Pistol");
         }
 
         public override string defaultTooltip()

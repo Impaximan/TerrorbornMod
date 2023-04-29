@@ -10,10 +10,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Guns
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Blunderbuss");
-            Tooltip.SetDefault("Fires many bullets at once" +
+            // DisplayName.SetDefault("The Blunderbuss");
+            /* Tooltip.SetDefault("Fires many bullets at once" +
                 "\nCan be fired as quick as you want for 4 shots before needing to be reloaded" +
-                "\nReloads automatically when not firing");
+                "\nReloads automatically when not firing"); */
         }
         public override void SetDefaults()
         {

@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Placeable.Furniture
 	{
         public override void SetStaticDefaults()
         {
-			DisplayName.SetDefault("Melding Station");
-            Tooltip.SetDefault("Can be used to craft with deimosteel and create restless weapons");
+			// DisplayName.SetDefault("Melding Station");
+            // Tooltip.SetDefault("Can be used to craft with deimosteel and create restless weapons");
         }
         public override void SetDefaults()
 		{

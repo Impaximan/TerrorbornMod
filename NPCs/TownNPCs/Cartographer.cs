@@ -69,7 +69,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return false;
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void ModifyActiveShop(string shopName, Item[] items)
         {
             Player player = Main.player[Player.FindClosest(NPC.Center, 0, 0)];
 
@@ -307,7 +307,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return 0.005f;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             return false;
         }
@@ -317,7 +317,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return false;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life < 1)
             {
@@ -450,7 +450,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return true;
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool openShop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             Player player = Main.LocalPlayer;
             if (doingDialogue)
@@ -506,7 +506,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                         }
                         else
                         {
-                            if (player.CanBuyItem(Item.buyPrice(0, 2, 0, 0)))
+                            if (player.CanAfford(Item.buyPrice(0, 2, 0, 0)))
                             {
                                 player.BuyItem(Item.buyPrice(0, 2, 0, 0));
                                 Utils.General.RevealMapAroundPlayer(300, player);

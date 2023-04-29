@@ -13,10 +13,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Whips
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("\n12 summon tag summon damage" +
+            /* Tooltip.SetDefault("\n12 summon tag summon damage" +
                 "\nRight click to use the whip in the opposite direction" +
                 "\nAlternate between left and right click to deal critical hits" +
-                "\nCritical hits also have increased tag damage");
+                "\nCritical hits also have increased tag damage"); */
         }
 
         public override void SetDefaults()
@@ -66,7 +66,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Whips
             Projectile.DefaultToWhip();
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(target);
             modNPC.tagTime = 300;
@@ -152,11 +152,11 @@ namespace TerrorbornMod.Items.Weapons.Summons.Whips
 
         bool playedHurtSound = false;
         int freezeFrames = 0;
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             crit = true;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!playedHurtSound)
             {

@@ -12,8 +12,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a thorny companion to help you fight." +
-                "\nSummoning it despawns ALL other sentries but its damage scales with sentry slots.");
+            /* Tooltip.SetDefault("Summons a thorny companion to help you fight." +
+                "\nSummoning it despawns ALL other sentries but its damage scales with sentry slots."); */
         }
         public override void SetDefaults()
         {
@@ -100,7 +100,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             Projectile.DamageType = DamageClass.Summon;
             Projectile.localNPCHitCooldown = 15;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (target.HasBuff(BuffID.Oiled))
             {

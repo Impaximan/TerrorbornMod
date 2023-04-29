@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starpower");
-            Description.SetDefault("40 increased max mana");
+            // DisplayName.SetDefault("Starpower");
+            // Description.SetDefault("40 increased max mana");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

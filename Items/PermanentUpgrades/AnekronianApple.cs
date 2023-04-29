@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.PermanentUpgrades
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Permanently increases Shriek of Horror movement speed by 20%" +
-                "\nCan only be used once");
+            /* Tooltip.SetDefault("Permanently increases Shriek of Horror movement speed by 20%" +
+                "\nCan only be used once"); */
         }
         public override void SetDefaults()
         {

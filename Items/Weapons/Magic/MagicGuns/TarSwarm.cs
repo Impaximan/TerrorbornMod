@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Raplidly fires antlion larvae." +
-                "\nSlightly ignores enemy defense.");
+            /* Tooltip.SetDefault("Raplidly fires antlion larvae." +
+                "\nSlightly ignores enemy defense."); */
         }
         public override void SetDefaults()
         {
@@ -62,7 +62,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
     }
     class AntlionLarva : ModProjectile
     {
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             damage += target.defense / 5;
         }

@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -22,8 +23,8 @@ namespace TerrorbornMod.Tiles.Incendiary
 			//TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEElementalPurge>().Hook_AfterPlacement, -1, 0, false);
 			TileObjectData.addTile(Type);
 			//TileObjectData.newTile.CoordinateHeights = new[] { 18 };
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Incendiary Ritual");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Incendiary Ritual");
 			MineResist = 10;
 			AddMapEntry(new Color(92 / 2, 111 / 2, 126 / 2), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;

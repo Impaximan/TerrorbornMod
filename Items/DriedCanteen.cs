@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Not consumable" +
-                "\nSummons Dunestock");
+            /* Tooltip.SetDefault("Not consumable" +
+                "\nSummons Dunestock"); */
         }
 
         public override void SetDefaults()

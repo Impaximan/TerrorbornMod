@@ -19,8 +19,8 @@ namespace TerrorbornMod.Items.Shadowcrawler
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Midnight Barrage Staff");
-            Tooltip.SetDefault("Rains midnight fireballs from above");
+            // DisplayName.SetDefault("Midnight Barrage Staff");
+            // Tooltip.SetDefault("Rains midnight fireballs from above");
             Item.staff[Item.type] = true;
         }
 
@@ -60,7 +60,7 @@ namespace TerrorbornMod.Items.Shadowcrawler
     public class MidnightFireballMagic : ModProjectile
     {
         public override string Texture => "TerrorbornMod/Projectiles/MidnightFireball";
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.CursedInferno, 60 * 2);
             Projectile.timeLeft = 1;

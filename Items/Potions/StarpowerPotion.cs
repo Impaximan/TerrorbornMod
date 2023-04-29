@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("40 increased max mana");
+            // Tooltip.SetDefault("40 increased max mana");
         }
         public override void SetDefaults()
         {

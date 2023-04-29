@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Killing enemies causes them to explode into blood and turn into a soul that spins around your cursor");
+            // Tooltip.SetDefault("Killing enemies causes them to explode into blood and turn into a soul that spins around your cursor");
         }
         public override void SetDefaults()
         {

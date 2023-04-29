@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires a chaos ball that bounces between enemies" +
-                "\nInflicts shadowflame for 2 seconds on critical hits");
+            /* Tooltip.SetDefault("Fires a chaos ball that bounces between enemies" +
+                "\nInflicts shadowflame for 2 seconds on critical hits"); */
         }
 
         public override void SetDefaults()
@@ -72,7 +72,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
             SoundExtensions.PlaySoundOld(SoundID.NPCHit3, Projectile.Center);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             alreadyHit.Add(target);
 

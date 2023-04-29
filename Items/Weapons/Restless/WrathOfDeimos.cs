@@ -13,7 +13,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         int UntilBlast;
         public override void RestlessSetStaticDefaults()
         {
-            DisplayName.SetDefault("Wrath of Deimos");
+            // DisplayName.SetDefault("Wrath of Deimos");
             Item.staff[Item.type] = true;
         }
 
@@ -154,7 +154,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.LocalPlayer;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);

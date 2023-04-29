@@ -72,7 +72,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             AnimationType = NPCID.Guide;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life < 1)
             {
@@ -85,7 +85,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return true;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             return TerrorbornSystem.downedIncendiaryBoss;
         }
@@ -214,7 +214,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 button2 = Language.GetTextValue("Cycle Options");
             }
         }
-        public override void OnChatButtonClicked(bool firstButton, ref bool openShop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             Player player = Main.player[Main.myPlayer];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);

@@ -11,10 +11,10 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Double tap down while in the air to do a short flip" +
+            /* Tooltip.SetDefault("Double tap down while in the air to do a short flip" +
                 "\nLanding while in the middle of a flip will boost you forward" +
                 "\nDo this repeatedly to achieve ludicrous amounts of speed" +
-                "\n'Why do roller skates help you do a flip? IDK just go with it!'");
+                "\n'Why do roller skates help you do a flip? IDK just go with it!'"); */
         }
 
         public override void SetDefaults()

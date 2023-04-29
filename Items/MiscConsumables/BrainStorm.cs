@@ -9,9 +9,9 @@ namespace TerrorbornMod.Items.MiscConsumables
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Consumable" +
+            /* Tooltip.SetDefault("Consumable" +
                 "\nStarts the astraphobia event, or ends it if it's already going on" +
-                "\nCan only be used during rain");
+                "\nCan only be used during rain"); */
         }
 
         public override void SetDefaults()

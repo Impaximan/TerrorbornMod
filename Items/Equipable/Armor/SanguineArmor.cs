@@ -17,9 +17,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases item/weapon use speed by 4%" +
+            /* Tooltip.SetDefault("Increases item/weapon use speed by 4%" +
                 "\nIncreases critical strike chance by 5%" +
-                "\nIncreases shriek of horror's use speed");
+                "\nIncreases shriek of horror's use speed"); */
         }
 
         public override void UpdateEquip(Player player)
@@ -57,10 +57,10 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases item/weapon use speed by 6%" +
+            /* Tooltip.SetDefault("Increases item/weapon use speed by 6%" +
                 "\nIncreases critical strike chance by 4%" +
                 "\nIncreases the amount of terror obtained from Shriek of horror by 30%" +
-                "\nIncrease armor penetration by 12");
+                "\nIncrease armor penetration by 12"); */
         }
 
         public override void UpdateEquip(Player player)
@@ -104,9 +104,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases item/weapon use speed by 4%" +
+            /* Tooltip.SetDefault("Increases item/weapon use speed by 4%" +
                 "\nIncreases critical strike chance by 4%" +
-                "\nIncreases life regen");
+                "\nIncreases life regen"); */
         }
 
         public override void UpdateEquip(Player player)

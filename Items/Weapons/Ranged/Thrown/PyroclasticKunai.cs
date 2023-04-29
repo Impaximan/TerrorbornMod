@@ -80,7 +80,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             Projectile.timeLeft = 3000;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (crit)
             {
@@ -109,7 +109,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (FallWait <= 0)
             {

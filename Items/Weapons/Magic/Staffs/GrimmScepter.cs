@@ -28,7 +28,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            Tooltip.SetDefault("On crits enemies will release collectable Grimm Orbs that heal you for 2 health");
+            // Tooltip.SetDefault("On crits enemies will release collectable Grimm Orbs that heal you for 2 health");
         }
         public override void SetDefaults()
         {
@@ -133,7 +133,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
                 Direction *= -1;
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (crit)
             {

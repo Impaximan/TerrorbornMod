@@ -17,8 +17,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mandible Necklace");
-            Tooltip.SetDefault("Grants 8 armor penetration and increased movement speed");
+            // DisplayName.SetDefault("Mandible Necklace");
+            // Tooltip.SetDefault("Grants 8 armor penetration and increased movement speed");
         }
 
         public override void SetDefaults()

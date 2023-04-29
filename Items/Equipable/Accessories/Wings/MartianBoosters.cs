@@ -10,10 +10,10 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Allows flight and slow fall" +
+            /* Tooltip.SetDefault("Allows flight and slow fall" +
                 "\nCauses you to emit light" +
                 "\nGreatly increased movement speed while gliding" +
-                "\nHold down for 1.5 seconds to instantly get rid of your flight time, allowing you to glide");
+                "\nHold down for 1.5 seconds to instantly get rid of your flight time, allowing you to glide"); */
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new Terraria.DataStructures.WingStats((int)(60 * 3.2f), 1f, 1.35f, false);
         }
 

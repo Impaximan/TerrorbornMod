@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ObjectData;
@@ -26,8 +27,8 @@ namespace TerrorbornMod.Tiles
 			TileObjectData.addAlternate(1);
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Deimostone Chair");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Deimostone Chair");
 			AddMapEntry(new Color(80, 112, 109), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Chairs };

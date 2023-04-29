@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -24,8 +25,8 @@ namespace TerrorbornMod.Tiles.Incendiary
             MinPick = 100;
             MineResist = 10;
             ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryPipe>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Strange Piping");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Strange Piping");
             AddMapEntry(new Color(255, 176, 142), name);
         }
 

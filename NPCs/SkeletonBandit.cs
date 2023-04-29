@@ -146,7 +146,7 @@ namespace TerrorbornMod.NPCs
             return SpawnCondition.Cavern.Chance * 0.05f * chanceMultiplier;
         }
 
-        public override void OnHitByProjectile(Projectile Projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             if (!hasSeenPlayer)
             {
@@ -166,7 +166,7 @@ namespace TerrorbornMod.NPCs
             }
         }
 
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             ambientCounter = Main.rand.Next(360, 1600);
 

@@ -11,10 +11,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Guns
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("THE KILLDEATH");
-            Tooltip.SetDefault("Fires 120 bullets per second, only consuming 60 per second" +
+            // DisplayName.SetDefault("THE KILLDEATH");
+            /* Tooltip.SetDefault("Fires 120 bullets per second, only consuming 60 per second" +
                 "\nConverts all bullets to high velocity bullets" +
-                "\n[c/FF1919:Wings? What for?]");
+                "\n[c/FF1919:Wings? What for?]"); */
         }
 
         public override Vector2? HoldoutOffset()

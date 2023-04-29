@@ -23,10 +23,10 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Incendiary Round");
-            Tooltip.SetDefault("Fires at incredibly high speeds" +
+            // DisplayName.SetDefault("Incendiary Round");
+            /* Tooltip.SetDefault("Fires at incredibly high speeds" +
                 "\nLeaves a cloud of fiery gas behind on critical hits" +
-                "\nHeals you for 1 HP on crits if you are under 250 HP");
+                "\nHeals you for 1 HP on crits if you are under 250 HP"); */
         }
         //public override bool HoldItemFrame(Player player)
         //{
@@ -66,7 +66,7 @@ namespace TerrorbornMod.Items.Ammo
             return true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 60 * 10);
             if (crit)

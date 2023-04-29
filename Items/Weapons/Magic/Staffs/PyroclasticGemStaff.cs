@@ -24,7 +24,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            Tooltip.SetDefault("Fires a pyroclastic bolt that splits at the mouse cursor");
+            // Tooltip.SetDefault("Fires a pyroclastic bolt that splits at the mouse cursor");
         }
         public override void SetDefaults()
         {
@@ -80,7 +80,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
             Projectile.DamageType = DamageClass.Magic; ;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[0] != 0 || bursted)
             {

@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires deathrays in all directions");
+            // Tooltip.SetDefault("Fires deathrays in all directions");
         }
 
         public override void SetDefaults()
@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Melee/PurgatoryBaton";
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             hitDirection = Projectile.spriteDirection;
         }

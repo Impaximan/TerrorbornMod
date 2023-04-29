@@ -19,9 +19,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases max mana by 10" +
+            /* Tooltip.SetDefault("Increases max mana by 10" +
                 "\n4% increased magic damage" +
-                "\n5% increased magic crit");
+                "\n5% increased magic crit"); */
         }
 
         public override void UpdateEquip(Player player)
@@ -61,10 +61,10 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases max mana by 10" +
+            /* Tooltip.SetDefault("Increases max mana by 10" +
                 "\n5% increased magic damage" +
                 "\nMagic weapons cast faster" +
-                "\n2% increased magic crit");
+                "\n2% increased magic crit"); */
             ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
@@ -111,9 +111,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
         int TilInAir = 20;
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases max mana by 15" +
+            /* Tooltip.SetDefault("Increases max mana by 15" +
                 "\n3% increased magic damage" +
-                "\n2% increased magic crit");
+                "\n2% increased magic crit"); */
         }
 
         public override void UpdateEquip(Player player)
@@ -153,7 +153,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         }
 
         int enemiesHit = 0;
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             enemiesHit++;
             if (enemiesHit >= 2)
@@ -163,7 +163,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             damage += target.defense / 2;
         }

@@ -14,7 +14,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks will cause a holy burst of light that deals 1000 damage to nearby enemies");
+            // Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks will cause a holy burst of light that deals 1000 damage to nearby enemies");
         }
 
         public override void SetDefaults()

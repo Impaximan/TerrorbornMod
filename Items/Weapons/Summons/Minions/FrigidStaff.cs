@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a frigid soul to fight for you that has a chance to inflict frostburn");
+            // Tooltip.SetDefault("Summons a frigid soul to fight for you that has a chance to inflict frostburn");
         }
 
         public override void SetDefaults()
@@ -131,7 +131,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Main.rand.NextFloat() <= 0.2f)
             {
@@ -230,8 +230,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frigid Soul");
-            Description.SetDefault("A spirit of the cold follows to ensure your safety");
+            // DisplayName.SetDefault("Frigid Soul");
+            // Description.SetDefault("A spirit of the cold follows to ensure your safety");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;

@@ -12,11 +12,11 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Guns
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Battlecry");
-            Tooltip.SetDefault("33% chance to not consume ammo" +
+            // DisplayName.SetDefault("Battlecry");
+            /* Tooltip.SetDefault("33% chance to not consume ammo" +
                 "\nLeft click converts bullets into homing bullets that drain 0.5% terror per hit" +
                 "\nRight click to fire much faster, but with less accuracy, consuming 1.5% terror per shot" +
-                "\n'Spray n' pray!'");
+                "\n'Spray n' pray!'"); */
         }
 
         public override void SetDefaults()
@@ -184,7 +184,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Guns
                 Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(targetNPC.Center).ToRotation(), MathHelper.ToRadians(2.5f * (Projectile.velocity.Length() / 20))).ToRotationVector2() * Projectile.velocity.Length();
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);

@@ -25,8 +25,8 @@ namespace TerrorbornMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a spectral clock that accellerates to your cursor" +
-                "\nThe clock will deal 5x damage if it is moving at a high velocity");
+            /* Tooltip.SetDefault("Summons a spectral clock that accellerates to your cursor" +
+                "\nThe clock will deal 5x damage if it is moving at a high velocity"); */
         }
 
         public override void SetDefaults()
@@ -124,7 +124,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             DustExplosion(Projectile.Center, 10, 25f, 46f);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.velocity.Length() > requiredSpeed)
             {

@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wooden Dart");
+            // DisplayName.SetDefault("Wooden Dart");
         }
         public override void SetDefaults()
         {
@@ -42,7 +42,7 @@ namespace TerrorbornMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wooden dart");
+            // DisplayName.SetDefault("Wooden dart");
         }
         public override void SetDefaults()
         {

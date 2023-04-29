@@ -16,7 +16,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires an azure beam that explodes into smaller bouncing Projectiles");
+            // Tooltip.SetDefault("Fires an azure beam that explodes into smaller bouncing Projectiles");
         }
         public override void SetDefaults()
         {
@@ -104,7 +104,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Projectile.velocity.X *= 0.98f;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             damage += target.defense / 4;
         }

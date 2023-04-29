@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("You feel emotionally attached to it somehow..." +
-                "\n[c/FF1919:Points to something important]");
+            /* Tooltip.SetDefault("You feel emotionally attached to it somehow..." +
+                "\n[c/FF1919:Points to something important]"); */
         }
 
         public override void SetDefaults()

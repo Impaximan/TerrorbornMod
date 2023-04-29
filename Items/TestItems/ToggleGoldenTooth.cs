@@ -13,9 +13,9 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Toggle Golden Tooth");
-            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
-                "\nToggles [i/s1:" + ModContent.ItemType<PermanentUpgrades.GoldenTooth>() + "]");
+            // DisplayName.SetDefault("Toggle Golden Tooth");
+            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+                "\nToggles [i/s1:" + ModContent.ItemType<PermanentUpgrades.GoldenTooth>() + "]"); */
         }
         public override void SetDefaults()
         {

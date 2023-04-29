@@ -14,7 +14,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         int UntilBlast;
         public override void RestlessSetStaticDefaults()
         {
-            DisplayName.SetDefault("Sinful Saber");
+            // DisplayName.SetDefault("Sinful Saber");
         }
 
         public override string defaultTooltip()
@@ -125,7 +125,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             Projectile.timeLeft = 600;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (timeUntilReturn > 0)
             {
@@ -259,7 +259,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             height = 30;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 180);
         }

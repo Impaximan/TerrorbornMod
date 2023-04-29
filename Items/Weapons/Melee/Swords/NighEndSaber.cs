@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Hitting enemies on left click grants you terror" +
-                "\nRight click to consume 25% terror and throw the saber, swapping places with the enemy it hits");
+            /* Tooltip.SetDefault("Hitting enemies on left click grants you terror" +
+                "\nRight click to consume 25% terror and throw the saber, swapping places with the enemy it hits"); */
         }
 
         public override void SetDefaults()
@@ -34,7 +34,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
             Item.shoot = ModContent.ProjectileType<NighEndThrown>();
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             TerrorbornPlayer.modPlayer(player).GainTerror(3f, false, false, true);
         }
@@ -95,7 +95,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
             Projectile.timeLeft = 3000;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             Vector2 originalPosition = player.Center;

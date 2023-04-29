@@ -116,10 +116,10 @@ namespace TerrorbornMod.Abilities
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Get Blink Dash");
-            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+            // DisplayName.SetDefault("Get Blink Dash");
+            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nUnlocks 'Blink Dash'" +
-                "\nRight click to get a list of unlocked abilities");
+                "\nRight click to get a list of unlocked abilities"); */
         }
 
         public override void SetDefaults()

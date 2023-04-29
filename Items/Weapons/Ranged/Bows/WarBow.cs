@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Inflicts shadowflame for 3 seconds on hit");
+            // Tooltip.SetDefault("Inflicts shadowflame for 3 seconds on hit");
         }
 
         public override void SetDefaults()

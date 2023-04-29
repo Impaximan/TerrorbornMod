@@ -1703,7 +1703,7 @@ namespace TerrorbornMod
         }
         #endregion
 
-        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
+        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
             int genIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
             tasks.Insert(genIndex + 1, new PassLegacy("Deimostone Chests", delegate (GenerationProgress progress, GameConfiguration config)
@@ -1744,7 +1744,7 @@ namespace TerrorbornMod
             for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * 6E-05 / 15); k++)
             {
                 int x = WorldGen.genRand.Next(0 + 100, Main.maxTilesX - 100);
-                int y = WorldGen.genRand.Next((int)WorldGen.rockLayerHigh, (int)Main.maxTilesY - 300);
+                int y = WorldGen.genRand.Next((int)GenVars.rockLayerHigh, (int)Main.maxTilesY - 300);
                 GenerateLavenderChestShrine(x, y);
             }
         }
@@ -1762,7 +1762,7 @@ namespace TerrorbornMod
             }
             while (!WorldGen.TileEmpty((int)currentPosition.X, (int)currentPosition.Y) && Main.tileSolid[Main.tile[(int)currentPosition.X, (int)currentPosition.Y].TileType])
             {
-                if (currentPosition.Y < (int)WorldGen.rockLayerHigh)
+                if (currentPosition.Y < (int)GenVars.rockLayerHigh)
                 {
                     break;
                 }
@@ -2353,7 +2353,7 @@ namespace TerrorbornMod
             for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * 6E-05 / 3); k++)
             {
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
-                int y = WorldGen.genRand.Next((int)WorldGen.rockLayerHigh, (int)Main.maxTilesY - 300);
+                int y = WorldGen.genRand.Next((int)GenVars.rockLayerHigh, (int)Main.maxTilesY - 300);
                 WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(3, 5), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.DeimosteelOre>(), false, 0f, 0f, false, true);
             }
 
@@ -2373,7 +2373,7 @@ namespace TerrorbornMod
             for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * 6E-05 / 3); k++)
             {
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
-                int y = WorldGen.genRand.Next((int)WorldGen.rockLayerHigh, (int)Main.maxTilesY - 300);
+                int y = WorldGen.genRand.Next((int)GenVars.rockLayerHigh, (int)Main.maxTilesY - 300);
                 WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(6, 8), WorldGen.genRand.Next(1, 3), ModContent.TileType<Tiles.Novagold>(), false, 0f, 0f, false, true);
             }
         }
@@ -2441,10 +2441,10 @@ namespace TerrorbornMod
         public void GenerateDeimostoneCaves()
         {
             float amountMultiplier = 0.003f;
-            GenerateDeimostoneCave(new Point16(WorldGen.genRand.Next(Main.maxTilesX / 2 - 350, Main.maxTilesX / 2 + 350), (int)(WorldGen.rockLayerHigh + 25)), WorldGen.genRand.NextFloat(1.35f, 1.6f));
+            GenerateDeimostoneCave(new Point16(WorldGen.genRand.Next(Main.maxTilesX / 2 - 350, Main.maxTilesX / 2 + 350), (int)(GenVars.rockLayerHigh + 25)), WorldGen.genRand.NextFloat(1.35f, 1.6f));
             for (int i = 0; i < Main.maxTilesX * amountMultiplier; i++)
             {
-                GenerateDeimostoneCave(new Point16(WorldGen.genRand.Next(500, Main.maxTilesX - 500), WorldGen.genRand.Next((int)WorldGen.rockLayerHigh, (int)Main.maxTilesY - 300)), WorldGen.genRand.NextFloat(1.2f, 1.6f));
+                GenerateDeimostoneCave(new Point16(WorldGen.genRand.Next(500, Main.maxTilesX - 500), WorldGen.genRand.Next((int)GenVars.rockLayerHigh, (int)Main.maxTilesY - 300)), WorldGen.genRand.NextFloat(1.2f, 1.6f));
             }
         }
 
@@ -3028,7 +3028,7 @@ namespace TerrorbornMod
             for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * 6E-05); k++)
             {
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
-                int y = WorldGen.genRand.Next((int)WorldGen.worldSurfaceLow, Main.maxTilesY);
+                int y = WorldGen.genRand.Next((int)GenVars.worldSurfaceLow, Main.maxTilesY);
                 WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(4, 7), WorldGen.genRand.Next(3, 6), ModContent.TileType<Tiles.Azurite>(), false, 0f, 0f, false, true);
             }
         }

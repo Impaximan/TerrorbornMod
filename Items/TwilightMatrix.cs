@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("[c/FF1919:PERMANENTLY] enables [c/9438ff:Twilight Mode]" +
+            /* Tooltip.SetDefault("[c/FF1919:PERMANENTLY] enables [c/9438ff:Twilight Mode]" +
                 "\nIn Twilight Mode, all bosses are given more difficult AI and increased health to compensate for the buffs to the player" +
                 //"\nCannot be used if you have already beaten a boss or if Shriek of Horror has already been obtained" +
                 "\nAdditionally, enemy spawnrates are increased and numerous enemies are given new attacks" +
@@ -21,7 +21,7 @@ namespace TerrorbornMod.Items
                 "\nEnemies drop twice as much money, and you are given greatly increased luck" +
                 "\nIn master mode, enemies have further buffed AI but your twilight overload is buffed as well" +
                 "\n[c/FF1919:Not recommended if this is your first time playing Terrorborn]" +
-                "\n[c/FF1919:Note that this difficulty is an UNFINISHED experience, and only most of the pre-hardmode bosses have AI changes.]");
+                "\n[c/FF1919:Note that this difficulty is an UNFINISHED experience, and only most of the pre-hardmode bosses have AI changes.]"); */
         }
 
         public override void SetDefaults()

@@ -20,9 +20,9 @@ namespace TerrorbornMod.Items.Incendius
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Uses Gel as ammo, creating flames" +
+            /* Tooltip.SetDefault("Uses Gel as ammo, creating flames" +
                 "\nHas a chance to create a lingering flame cloud" +
-                "\n95% chance to not consume ammo");
+                "\n95% chance to not consume ammo"); */
         }
 
         public override void SetDefaults()
@@ -97,7 +97,7 @@ namespace TerrorbornMod.Items.Incendius
             Projectile.localNPCHitCooldown = 15;
             Projectile.tileCollide = false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 300);
         }

@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Dunestock
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Pulls nearby enemies closer");
+            // Tooltip.SetDefault("Pulls nearby enemies closer");
         }
 
         public override void SetDefaults()
@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Dunestock
     {
         public override string Texture => "TerrorbornMod/Items/Dunestock/HungryWhirlwind";
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             hitDirection = Projectile.spriteDirection;
         }

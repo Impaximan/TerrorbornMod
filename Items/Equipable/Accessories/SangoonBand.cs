@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sangoon Band");
-            Tooltip.SetDefault("Increases life regen" +
-                "\nDealing crits heals you for 1 hp");
+            // DisplayName.SetDefault("Sangoon Band");
+            /* Tooltip.SetDefault("Increases life regen" +
+                "\nDealing crits heals you for 1 hp"); */
         }
 
         public override void SetDefaults()

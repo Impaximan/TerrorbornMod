@@ -21,7 +21,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a skull to assault your foes");
+            // Tooltip.SetDefault("Summons a skull to assault your foes");
         }
         public override void SetDefaults()
         {
@@ -294,8 +294,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mysterious Skull");
-            Description.SetDefault("A strange skull shreds apart enemies at your will");
+            // DisplayName.SetDefault("Mysterious Skull");
+            // Description.SetDefault("A strange skull shreds apart enemies at your will");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;

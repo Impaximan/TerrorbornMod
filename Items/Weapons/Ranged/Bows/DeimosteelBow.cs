@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Converts wooden arrows into piercing dark bolts");
+            // Tooltip.SetDefault("Converts wooden arrows into piercing dark bolts");
         }
 
         public override void SetDefaults()
@@ -87,7 +87,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
         }
 
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Projectile.damage = (int)(Projectile.damage * 0.8);
         }

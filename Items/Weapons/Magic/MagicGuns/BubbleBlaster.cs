@@ -11,9 +11,9 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bubble Launcher");
-            Tooltip.SetDefault("Fires a bubble that can be destroyed by other weapons to create an explosion of mini-bubbles" +
-                "\nThe longer you take to destroy the main bubble the more damage the mini-bubbles will do");
+            // DisplayName.SetDefault("Bubble Launcher");
+            /* Tooltip.SetDefault("Fires a bubble that can be destroyed by other weapons to create an explosion of mini-bubbles" +
+                "\nThe longer you take to destroy the main bubble the more damage the mini-bubbles will do"); */
         }
 
         public override void SetDefaults()
@@ -58,7 +58,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            DisplayName.SetDefault("Bubble");
+            // DisplayName.SetDefault("Bubble");
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true
@@ -100,12 +100,12 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
             NPC.aiStyle = -1;
         }
 
-        public override bool? CanHitNPC(NPC target)
+        public override bool CanHitNPC(NPC target)/* tModPorter Suggestion: Return true instead of null */
         {
             return false;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = 10;
         }
@@ -171,7 +171,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bubble");
+            // DisplayName.SetDefault("Bubble");
         }
 
         public override void SetDefaults()

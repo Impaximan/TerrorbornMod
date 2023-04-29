@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Hold JUMP to fall slower");
+            // Tooltip.SetDefault("Hold JUMP to fall slower");
         }
 
         public override void SetDefaults()

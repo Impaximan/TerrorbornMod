@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.PermanentUpgrades
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Permanently increases your max mana by 5" +
-                "\nCan only be used up to 20 times");
+            /* Tooltip.SetDefault("Permanently increases your max mana by 5" +
+                "\nCan only be used up to 20 times"); */
         }
         public override void SetDefaults()
         {

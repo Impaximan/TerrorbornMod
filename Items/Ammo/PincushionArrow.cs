@@ -25,9 +25,9 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Sticks onto enemies and then breaks shortly after, dealing extra damage" +
+            /* Tooltip.SetDefault("Sticks onto enemies and then breaks shortly after, dealing extra damage" +
                 "\nAdditionally ignores half of an enemy's defense" +
-                "\nIf an enemy they're stuck into dies they'll launch into another enemy");
+                "\nIf an enemy they're stuck into dies they'll launch into another enemy"); */
         }
     }
     class PincushionArrowProjectile : ModProjectile
@@ -53,11 +53,11 @@ namespace TerrorbornMod.Items.Ammo
             height = 14;
             return true;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             damage += target.defense / 4;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!stuck)
             {

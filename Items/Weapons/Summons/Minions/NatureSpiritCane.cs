@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a nature spirit that spins around you and attacks foes, inflicting poison");
+            // Tooltip.SetDefault("Summons a nature spirit that spins around you and attacks foes, inflicting poison");
         }
         public override void SetDefaults()
         {
@@ -190,7 +190,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Poisoned, 60 * 10);
         }
@@ -270,8 +270,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nature Spirit");
-            Description.SetDefault("A nature spirit is fighting for you!");
+            // DisplayName.SetDefault("Nature Spirit");
+            // Description.SetDefault("A nature spirit is fighting for you!");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;

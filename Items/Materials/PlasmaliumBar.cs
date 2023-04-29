@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Contaminated Alloy");
-            Tooltip.SetDefault("Highly radioactive, drains terror from you over time while in your inventory");
+            // DisplayName.SetDefault("Contaminated Alloy");
+            // Tooltip.SetDefault("Highly radioactive, drains terror from you over time while in your inventory");
         }
 
         public override void SetDefaults()

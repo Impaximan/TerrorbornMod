@@ -8,10 +8,10 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bandit's Glove");
-            Tooltip.SetDefault("Hitting enemies causes them to be inflicted with stacking damage over time" +
+            // DisplayName.SetDefault("Bandit's Glove");
+            /* Tooltip.SetDefault("Hitting enemies causes them to be inflicted with stacking damage over time" +
                 "\nThe damage over time will be reset after 5 seconds" +
-                "\n12% increased critical strike damage");
+                "\n12% increased critical strike damage"); */
         }
 
         public override void SetDefaults()

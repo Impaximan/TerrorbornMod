@@ -1,4 +1,4 @@
-WARNING: This mod does not support multiplayer and likely never will. It is highly recommended that you play this mod on a large world.
+WARNING: This mod does not support multiplayer and likely never will. It is highly recommended that you play this mod on a large world. Additionally, there seem to be some graphical issues regarding Mac/Linux compatibility. While we're trying to fix these, it will take some time, so please be patient!
 
 --Details--
 The Terrorborn mod, developed by Penumbral with the help an extremely friendly dev team (credited below) is a souls-like inspired, ambitious content mod with the goal of adding a not only interesting but also engaging storyline and adding a refreshing slate-gray coat of paint to combat. Tinker with brand new abilities, new types of accessories, new mechanics, and even a new difficulty mode- this mod offers plenty of replayability and more to come with future updates!

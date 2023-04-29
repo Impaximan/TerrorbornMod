@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Decreases your max life by 50%" +
-                "\nIncreases your life regen by a massive amount");
+            /* Tooltip.SetDefault("Decreases your max life by 50%" +
+                "\nIncreases your life regen by a massive amount"); */
         }
 
         public override void SetDefaults()

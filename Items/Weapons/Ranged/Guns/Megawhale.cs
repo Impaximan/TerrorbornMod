@@ -12,9 +12,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Guns
         int baseReuseDelay = 25;
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires faster the longer you use it" +
+            /* Tooltip.SetDefault("Fires faster the longer you use it" +
                 "\nFires three bullets at once in a fluctuating spread" +
-                "\n'The Minishark's gacha addiction'");
+                "\n'The Minishark's gacha addiction'"); */
         }
 
         public override void SetDefaults()

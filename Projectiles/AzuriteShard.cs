@@ -32,7 +32,7 @@ namespace TerrorbornMod.Projectiles
             Projectile.velocity.X *= 0.98f;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             damage += target.defense / 4;
         }

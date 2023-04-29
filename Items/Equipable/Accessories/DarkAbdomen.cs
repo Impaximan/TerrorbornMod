@@ -8,13 +8,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Decreases defense by 15" +
+            /* Tooltip.SetDefault("Decreases defense by 15" +
                 "\nGreatly increases life regen" +
                 "\nDecreases your maximum life by 50" +
                 "\nBeing under 250 health grants you the following stats:" +
                 "\n10% increased item/weapon use speed" +
                 "\n15% increased critical strike chance" +
-                "\nBeing under 75 health doubles these bonuses");
+                "\nBeing under 75 health doubles these bonuses"); */
         }
 
         public override void SetDefaults()

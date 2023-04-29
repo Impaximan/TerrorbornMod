@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
@@ -25,8 +26,8 @@ namespace TerrorbornMod.Tiles
             DustType = 61;
 
             Main.tileLighted[Type] = true;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Midnight Fruit");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Midnight Fruit");
             AddMapEntry(Color.LimeGreen, name);
         }
 

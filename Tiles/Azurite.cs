@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -22,8 +23,8 @@ namespace TerrorbornMod.Tiles
             MinPick = 56;
             MineResist = 2;
             ItemDrop = ModContent.ItemType<Items.Materials.AzuriteOre>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Azurite");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Azurite");
             AddMapEntry(new Color(106, 142, 193), name);
         }
 

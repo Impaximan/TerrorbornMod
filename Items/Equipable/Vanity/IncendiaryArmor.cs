@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.Equipable.Vanity
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Underworldly Visor");
-            Tooltip.SetDefault("'It feels otherwordly... but also incendiary'");
+            // DisplayName.SetDefault("Underworldly Visor");
+            // Tooltip.SetDefault("'It feels otherwordly... but also incendiary'");
         }
 
         public override void SetDefaults()
@@ -30,8 +30,8 @@ namespace TerrorbornMod.Items.Equipable.Vanity
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Underwordly Breastplate");
-            Tooltip.SetDefault("'It feels otherwordly... but also incendiary'");
+            // DisplayName.SetDefault("Underwordly Breastplate");
+            // Tooltip.SetDefault("'It feels otherwordly... but also incendiary'");
         }
 
         public override void SetDefaults()
@@ -49,8 +49,8 @@ namespace TerrorbornMod.Items.Equipable.Vanity
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Underworldly Leggings");
-            Tooltip.SetDefault("'It feels otherwordly... but also incendiary'");
+            // DisplayName.SetDefault("Underworldly Leggings");
+            // Tooltip.SetDefault("'It feels otherwordly... but also incendiary'");
         }
 
         public override void SetDefaults()

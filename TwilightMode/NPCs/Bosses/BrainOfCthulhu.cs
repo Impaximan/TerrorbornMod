@@ -18,7 +18,7 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 			BrainOfCthulhuAI(npc);
 		}
 
-		public override void HitEffect(NPC NPC, int hitDirection, double damage)
+		public override void HitEffect(NPC npc, NPC.HitInfo hit)
 		{
 			if (NPC.type == NPCID.BrainofCthulhu && TerrorbornSystem.TwilightMode && !BoCSpawnedNewCreepers)
 			{

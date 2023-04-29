@@ -64,10 +64,10 @@ namespace TerrorbornMod.Abilities
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Get Horrific Adaptation");
-            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+            // DisplayName.SetDefault("Get Horrific Adaptation");
+            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nUnlocks 'Horrific Adaptation'" +
-                "\nRight click to get a list of unlocked abilities");
+                "\nRight click to get a list of unlocked abilities"); */
         }
 
         public override void SetDefaults()

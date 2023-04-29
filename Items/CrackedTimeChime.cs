@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Changes the time from day to night, or vice versa" +
-                "\nRight click to instead move time forward");
+            /* Tooltip.SetDefault("Changes the time from day to night, or vice versa" +
+                "\nRight click to instead move time forward"); */
         }
 
         public override void SetDefaults()

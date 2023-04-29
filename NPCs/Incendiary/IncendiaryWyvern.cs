@@ -259,7 +259,7 @@ namespace TerrorbornMod.NPCs.Incendiary
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Infernal Lindwyrm");
+			// DisplayName.SetDefault("Infernal Lindwyrm");
 		}
 
 		public override void SetDefaults()

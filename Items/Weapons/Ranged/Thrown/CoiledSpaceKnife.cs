@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Throws a space knife that fires lasers after hitting enemies");
+            // Tooltip.SetDefault("Throws a space knife that fires lasers after hitting enemies");
         }
         public override void SetDefaults()
         {
@@ -68,7 +68,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (FallWait <= 0)
             {

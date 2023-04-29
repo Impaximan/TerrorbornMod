@@ -25,8 +25,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Teleports you to a nearby enemy when used" +
-                "\nGives you some of your flight time back on hit");
+            /* Tooltip.SetDefault("Teleports you to a nearby enemy when used" +
+                "\nGives you some of your flight time back on hit"); */
         }
 
         public override void SetDefaults()
@@ -80,7 +80,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
             return false;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             player.wingTime += (player.wingTimeMax - player.wingTime) / 5;
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -24,7 +25,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             MinPick = 150;
             MineResist = 8;
             ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryBrick>();
-            ModTranslation name = CreateMapEntryName();
+            LocalizedText name = CreateMapEntryName();
             AddMapEntry(new Color(206, 115, 84));
         }
 

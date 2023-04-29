@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("A high speed bullet that has a 20% chance to rain azurite shards on hit foes\nThe bullet's speed is unaffected by water");
+            // Tooltip.SetDefault("A high speed bullet that has a 20% chance to rain azurite shards on hit foes\nThe bullet's speed is unaffected by water");
         }
 
         public override void AddRecipes()
@@ -41,7 +41,7 @@ namespace TerrorbornMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Azurite Bullet");
+            // DisplayName.SetDefault("Azurite Bullet");
         }
 
         public override void SetDefaults()
@@ -63,7 +63,7 @@ namespace TerrorbornMod.Items.Ammo
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Main.rand.Next(101) <= 20)
             {

@@ -162,7 +162,7 @@ namespace TerrorbornMod.NPCs
             }
         }
 
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             if (charging)
             {
@@ -173,7 +173,7 @@ namespace TerrorbornMod.NPCs
             }
         }
 
-        public override void OnHitByProjectile(Projectile Projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             if (charging && Projectile.DamageType == DamageClass.Melee && NPC.Distance(Main.player[NPC.target].Center) <= 75)
             {

@@ -9,9 +9,9 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("A grenade that releases little mothrons upon exploding" +
+            /* Tooltip.SetDefault("A grenade that releases little mothrons upon exploding" +
                 "\nThese mothrons take up no summon slots but disappear after a short amount of time" +
-                "\nYour minions will target enemies hit by the main grenade");
+                "\nYour minions will target enemies hit by the main grenade"); */
         }
         public override void SetDefaults()
         {
@@ -36,7 +36,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
     class ArmagrenadeProj : ModProjectile
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Summons/Other/Armagrenade";
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             damage = (int)(damage * 0.75f);
         }
@@ -56,7 +56,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
             Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X);
             Projectile.velocity.Y += 0.18f;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI;
         }
@@ -123,7 +123,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             timeUntilDeadly = 45;
             base.OnHitNPC(target, damage, knockback, crit);

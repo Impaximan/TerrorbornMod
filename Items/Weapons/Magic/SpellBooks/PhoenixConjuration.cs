@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Conjures a swarm of phoenices that attack at your cursor");
+            // Tooltip.SetDefault("Conjures a swarm of phoenices that attack at your cursor");
         }
 
         public override void SetDefaults()
@@ -122,7 +122,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
             DustExplosion(Projectile.Center, 0, 15, 10, 6, DustScale: 1f, NoGravity: true);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Daybreak, 180);
         }

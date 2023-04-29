@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Sticks onto hit enemies" +
-                "\nIf 5 in total are stuck in enemies, all of them will explode");
+            /* Tooltip.SetDefault("Sticks onto hit enemies" +
+                "\nIf 5 in total are stuck in enemies, all of them will explode"); */
         }
 
         public override void SetDefaults()
@@ -64,7 +64,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             return true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!stuck)
             {

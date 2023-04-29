@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Polearms
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires phoenix feathers if there are none currently nearby, which stick into enemies" +
-                "\nHitting an enemy with the spear itself causes all feathers to return to you, damaging enemies again");
+            /* Tooltip.SetDefault("Fires phoenix feathers if there are none currently nearby, which stick into enemies" +
+                "\nHitting an enemy with the spear itself causes all feathers to return to you, damaging enemies again"); */
         }
 
         public override void SetDefaults()
@@ -84,7 +84,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Polearms
             Projectile.idStaticNPCHitCooldown = 10;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             foreach (Projectile Projectile in Main.projectile)
             {
@@ -185,7 +185,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Polearms
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!stuck)
             {

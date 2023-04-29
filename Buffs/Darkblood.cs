@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Darkblood");
-            Description.SetDefault("Allows you to attack while using Shriek of Horror");
+            // DisplayName.SetDefault("Darkblood");
+            // Description.SetDefault("Allows you to attack while using Shriek of Horror");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

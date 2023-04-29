@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases summon damage by 4%");
+            // Tooltip.SetDefault("Increases summon damage by 4%");
         }
 
         public override void UpdateEquip(Player player)
@@ -52,8 +52,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases summon damage by 5%" +
-                "\nIncreases your maximum number of minions by 1");
+            /* Tooltip.SetDefault("Increases summon damage by 5%" +
+                "\nIncreases your maximum number of minions by 1"); */
             ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
@@ -98,7 +98,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases summon damage by 3%");
+            // Tooltip.SetDefault("Increases summon damage by 3%");
         }
 
         public override void UpdateEquip(Player player)

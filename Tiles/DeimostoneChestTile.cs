@@ -32,13 +32,13 @@ namespace TerrorbornMod.Tiles
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Deimostone Chest");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Deimostone Chest");
 			AddMapEntry(new Color(80, 112, 109), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
-			ContainerName.SetDefault("Deimostone Chest");
-			ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.DeimostoneChest>();
+			ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Deimostone Chest");
+			ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.DeimostoneChest>();
 
 		}
 
@@ -64,7 +64,7 @@ namespace TerrorbornMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
 			Chest.DestroyChest(i, j);
 		}
 

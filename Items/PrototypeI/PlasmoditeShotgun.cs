@@ -20,8 +20,8 @@ namespace TerrorbornMod.Items.PrototypeI
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Rapidly fires bursts of plasma crystals" +
-                "\nPartially ignores defense");
+            /* Tooltip.SetDefault("Rapidly fires bursts of plasma crystals" +
+                "\nPartially ignores defense"); */
         }
         public override void SetDefaults()
         {
@@ -93,7 +93,7 @@ namespace TerrorbornMod.Items.PrototypeI
             //spriteBatch.Draw(glowTexture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, new Vector2(glowTexture.Width / 2, glowTexture.Height / 2), 1f, Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             return false;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             damage += target.defense / 4;
         }

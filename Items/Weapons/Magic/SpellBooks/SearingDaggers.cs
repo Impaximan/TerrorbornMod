@@ -19,8 +19,8 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires many flaming daggers in an even spread" +
-                "\nThese daggers will create weaker versions of themselves on critical hits");
+            /* Tooltip.SetDefault("Fires many flaming daggers in an even spread" +
+                "\nThese daggers will create weaker versions of themselves on critical hits"); */
         }
 
         public override void SetDefaults()
@@ -95,7 +95,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 60 * 10);
 

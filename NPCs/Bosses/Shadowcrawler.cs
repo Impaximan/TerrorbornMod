@@ -73,7 +73,7 @@ namespace TerrorbornMod.NPCs.Bosses
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 15;
-            DisplayName.SetDefault("Shadowcrawler");
+            // DisplayName.SetDefault("Shadowcrawler");
             NPCID.Sets.TrailCacheLength[NPC.type] = 3;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -277,7 +277,7 @@ namespace TerrorbornMod.NPCs.Bosses
             }
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.85);
             NPC.defense = 25;
@@ -1076,7 +1076,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
     class GhostHatchling : ModProjectile
     {
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 2);
             Projectile.timeLeft = 1;
@@ -1131,7 +1131,7 @@ namespace TerrorbornMod.NPCs.Bosses
     
     class NightmareFlame : ModProjectile
     {
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 3);
             Projectile.timeLeft = 1;
@@ -1169,7 +1169,7 @@ namespace TerrorbornMod.NPCs.Bosses
     }
     class LargeNightmareFlame : ModProjectile
     {
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 3);
             Projectile.timeLeft = 1;

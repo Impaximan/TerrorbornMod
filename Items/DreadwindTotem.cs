@@ -30,10 +30,10 @@ namespace TerrorbornMod.Items
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Angelic Idol");
-            Tooltip.SetDefault("A demonic artifact of human pride disguised in the shape of an angel" +
+            // DisplayName.SetDefault("Angelic Idol");
+            /* Tooltip.SetDefault("A demonic artifact of human pride disguised in the shape of an angel" +
                 "\nSummons the Dreadwind when used in the underworld" +
-                "\nNot consumable");
+                "\nNot consumable"); */
         }
 
         public override void SetDefaults()

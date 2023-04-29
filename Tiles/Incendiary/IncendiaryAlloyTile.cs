@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -20,8 +21,8 @@ namespace TerrorbornMod.Tiles.Incendiary
             MinPick = 150;
             MineResist = 6f;
             ItemDrop = ModContent.ItemType<Items.Materials.IncendiusAlloy>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Incendiary Alloy");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Incendiary Alloy");
             AddMapEntry(new Color(208, 102, 102), name);
         }
 

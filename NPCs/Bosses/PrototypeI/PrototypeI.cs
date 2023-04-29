@@ -20,7 +20,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
         const int totalDeathAnimationTime = 60 * 4;
         int deathAnimationTime = 0;
         int deathSpotlightCounter = 0;
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (!completedDeathAnimation && NPC.life < 1)
             {
@@ -120,7 +120,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
             return NPC.Distance(target.Center) <= 120;
         }
 
-        public override void ModifyHitByProjectile(Projectile Projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.type == ProjectileID.HallowStar)
             {
@@ -132,7 +132,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
         Vector2 portalPos = Vector2.Zero;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Prototype I");
+            // DisplayName.SetDefault("Prototype I");
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
@@ -164,13 +164,13 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
             modNPC.BossTitleColor = new Color(29, 189, 49);
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             currentSpeed = -10f;
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 4);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             damage = (int)(damage * damageMult);
         }
@@ -1062,7 +1062,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
 
     class PrototypeIMirage : ModProjectile
     {
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 10);
         }
@@ -1102,7 +1102,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
 
     class PlasmaticVision : ModProjectile
     {
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 3);
         }
@@ -1161,7 +1161,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
 
     class PlasmaDeathray : Deathray
     {
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 5);
         }

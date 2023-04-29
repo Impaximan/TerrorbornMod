@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -20,8 +21,8 @@ namespace TerrorbornMod.Tiles
             MinPick = 40;
             MineResist = 3f;
             ItemDrop = ModContent.ItemType<Items.Materials.NovagoldOre>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Novagold");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Novagold");
             AddMapEntry(new Color(255, 238, 187), name);
 
             DustType = 15;

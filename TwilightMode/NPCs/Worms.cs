@@ -432,7 +432,7 @@ namespace TerrorbornMod.TwilightMode.NPCs
 							npc.life = 0;
 							npc.HitEffect();
 							npc.active = false;
-							NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f);
+							NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f);
 						}
 						break;
 				}
@@ -473,7 +473,7 @@ namespace TerrorbornMod.TwilightMode.NPCs
 							npc.life = 0;
 							npc.HitEffect();
 							npc.active = false;
-							NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f);
+							NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f);
 						}
 						break;
 				}
@@ -485,7 +485,7 @@ namespace TerrorbornMod.TwilightMode.NPCs
 						npc.HitEffect();
 						npc.checkDead();
 						npc.active = false;
-						NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f);
+						NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f);
 					}
 					if (npc.type == NPCID.EaterofWorldsHead && !Main.npc[(int)npc.ai[0]].active)
 					{
@@ -493,7 +493,7 @@ namespace TerrorbornMod.TwilightMode.NPCs
 						npc.HitEffect();
 						npc.checkDead();
 						npc.active = false;
-						NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f);
+						NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f);
 					}
 					if (npc.type == NPCID.EaterofWorldsTail && !Main.npc[(int)npc.ai[1]].active)
 					{
@@ -501,7 +501,7 @@ namespace TerrorbornMod.TwilightMode.NPCs
 						npc.HitEffect();
 						npc.checkDead();
 						npc.active = false;
-						NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f);
+						NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f);
 					}
 					if (npc.type == NPCID.EaterofWorldsBody && (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != npc.aiStyle))
 					{
@@ -534,7 +534,7 @@ namespace TerrorbornMod.TwilightMode.NPCs
 				}
 				if (!npc.active && Main.netMode == NetmodeID.Server)
 				{
-					NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f);
+					NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f);
 				}
 			}
 			int num30 = (int)(npc.position.X / 16f) - 1;

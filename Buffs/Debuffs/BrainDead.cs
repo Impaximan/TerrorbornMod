@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs.Debuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Braindead");
-            Description.SetDefault("15% decreased damage");
+            // DisplayName.SetDefault("Braindead");
+            // Description.SetDefault("15% decreased damage");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

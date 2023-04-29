@@ -15,8 +15,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Critical hits do 20% more damage than normal" +
-                "\n10% increased critical strike chance");
+            /* Tooltip.SetDefault("Critical hits do 20% more damage than normal" +
+                "\n10% increased critical strike chance"); */
         }
 
         public override void SetDefaults()

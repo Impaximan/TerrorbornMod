@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blood Flow");
-            Description.SetDefault("Increased life regen while moving");
+            // DisplayName.SetDefault("Blood Flow");
+            // Description.SetDefault("Increased life regen while moving");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

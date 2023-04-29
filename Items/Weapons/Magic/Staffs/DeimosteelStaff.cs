@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            Tooltip.SetDefault("Fires a soul that homes into your mouse cursor");
+            // Tooltip.SetDefault("Fires a soul that homes into your mouse cursor");
         }
 
         public override void SetDefaults()

@@ -20,8 +20,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Uses gel for ammo" +
-                "\n");
+            /* Tooltip.SetDefault("Uses gel for ammo" +
+                "\n"); */
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -82,7 +82,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 2;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 300);
         }

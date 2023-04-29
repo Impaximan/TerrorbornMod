@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Incendiary Revival");
-            Description.SetDefault("You have been revived by an unholy force");
+            // DisplayName.SetDefault("Incendiary Revival");
+            // Description.SetDefault("You have been revived by an unholy force");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

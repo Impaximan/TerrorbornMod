@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.MiscConsumables
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()

@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Placeable.Blocks
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Stone infused with terror after many years of intense exposure");
+            // Tooltip.SetDefault("Stone infused with terror after many years of intense exposure");
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 
@@ -40,7 +40,7 @@ namespace TerrorbornMod.Items.Placeable.Blocks
                 .Register();
         }
 
-        public override void ExtractinatorUse(ref int resultType, ref int resultStack)
+        public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)
         {
             if (Main.rand.NextBool(5))
             {

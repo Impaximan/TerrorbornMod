@@ -12,8 +12,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Storm's Wrath");
-            Tooltip.SetDefault("Fires a storm bolt along side it's arrows. \nStorm bolts will summon smaller bolt upon hitting foes.");
+            // DisplayName.SetDefault("Storm's Wrath");
+            // Tooltip.SetDefault("Fires a storm bolt along side it's arrows. \nStorm bolts will summon smaller bolt upon hitting foes.");
         }
 
         public override void SetDefaults()
@@ -64,7 +64,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires a storm bolt along side it's arrows, which are converted to Bolt Arrows.\nStorm bolts will summon a smaller bolt upon hitting foes.\n20% chance to not consume ammo");
+            // Tooltip.SetDefault("Fires a storm bolt along side it's arrows, which are converted to Bolt Arrows.\nStorm bolts will summon a smaller bolt upon hitting foes.\n20% chance to not consume ammo");
         }
 
         public override bool CanConsumeAmmo(Item ammo, Player player)
@@ -138,7 +138,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Storm's Beam");
+            // DisplayName.SetDefault("Storm's Beam");
         }
 
         public override void SetDefaults()
@@ -160,12 +160,12 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
             return true;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             Projectile.damage = (int)(Projectile.damage * 0.8);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), new Vector2(target.position.X + Main.rand.Next(0, target.width), target.Center.Y - target.height * 1.5f), new Vector2(0, 10), ModContent.ProjectileType<StormsBolt>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
         }
@@ -186,7 +186,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Storm's Bolt");
+            // DisplayName.SetDefault("Storm's Bolt");
         }
 
         public override void SetDefaults()

@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Soul of Plight");
-            Tooltip.SetDefault("'The essence of an ancient menace'");
+            // DisplayName.SetDefault("Soul of Plight");
+            // Tooltip.SetDefault("'The essence of an ancient menace'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
             ItemID.Sets.ItemNoGravity[Item.type] = true;
             ItemID.Sets.ItemIconPulse[Item.type] = true;

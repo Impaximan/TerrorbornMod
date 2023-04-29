@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases item use speed by 5%" +
+            /* Tooltip.SetDefault("Increases item use speed by 5%" +
                 "\nIncreases manueverability while airborne" +
-                "\nIncreases jump speed");
+                "\nIncreases jump speed"); */
         }
 
         public override void SetDefaults()

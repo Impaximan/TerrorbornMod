@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("A fragment of one of the souls released by killing the Wall of Flesh" +
-                "\nWhen torn apart, the soul seems to have gained an electric charge");
+            /* Tooltip.SetDefault("A fragment of one of the souls released by killing the Wall of Flesh" +
+                "\nWhen torn apart, the soul seems to have gained an electric charge"); */
         }
         public override void SetDefaults()
         {

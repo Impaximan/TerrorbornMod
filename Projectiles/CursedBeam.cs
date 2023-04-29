@@ -6,7 +6,7 @@ namespace TerrorbornMod.Projectiles
 {
     public class CursedBeam : ModProjectile
     {
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 3);
         }

@@ -16,8 +16,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Gives hitting enemies a chance to create a bouncing azurite shard that does" +
-                "\na fraction of the damage the original attack dealt");
+            /* Tooltip.SetDefault("Gives hitting enemies a chance to create a bouncing azurite shard that does" +
+                "\na fraction of the damage the original attack dealt"); */
         }
 
         public override void SetDefaults()

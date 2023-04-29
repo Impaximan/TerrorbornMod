@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Thrown
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Hitting an enemy causes you to throw an extra dagger" +
-                "\nThis can only occur up to 3 times per throw");
+            /* Tooltip.SetDefault("Hitting an enemy causes you to throw an extra dagger" +
+                "\nThis can only occur up to 3 times per throw"); */
         }
 
         public override void SetDefaults()
@@ -77,7 +77,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Thrown
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             if (Projectile.ai[0] < 3 && timeUntilReturn > 0)
@@ -120,7 +120,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Thrown
             Vector2 distToProj = originPoint - Projectile.Center;
             float projRotation = distToProj.ToRotation() - 1.57f;
             float distance = distToProj.Length();
-            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/Weapons/Melee/SkullPiercerChain");
+            Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("TerrorbornMod/Items/Weapons/Melee/Thrown/SkullPiercerChain");
 
             while (distance > texture.Height && !float.IsNaN(distance))
             {

@@ -322,7 +322,7 @@ namespace TerrorbornMod
             }
         }
 
-        public override void SetupShop(int type, Chest shop, ref int nextSlot)
+        public override void ModifyActiveShop(NPC npc, string shopName, Item[] items)
         {
             if (type == NPCID.TravellingMerchant)
             {
@@ -339,7 +339,7 @@ namespace TerrorbornMod
             }
         }
 
-        public override void ModifyHitByItem(NPC NPC, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (modPlayer.LiesOfNourishment && NPC.life >= NPC.lifeMax)
@@ -367,7 +367,7 @@ namespace TerrorbornMod
             }
         }
 
-        public override void ModifyHitByProjectile(NPC NPC, Projectile Projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
@@ -710,7 +710,7 @@ namespace TerrorbornMod
             }
         }
 
-        public override void HitEffect(NPC NPC, int hitDirection, double damage)
+        public override void HitEffect(NPC npc, NPC.HitInfo hit)
         {
             Player player = Main.LocalPlayer;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
@@ -759,7 +759,7 @@ namespace TerrorbornMod
             }
         }
 
-        public override void OnHitByItem(NPC NPC, Player player, Item item, int damage, float knockback, bool crit)
+        public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             if (soulSplitTime > 0)
             {
@@ -864,7 +864,7 @@ namespace TerrorbornMod
             }
         }
 
-        public override void OnHitByProjectile(NPC NPC, Projectile Projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(Main.player[Projectile.owner]);
             Player player = Main.player[Projectile.owner];

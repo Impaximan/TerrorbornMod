@@ -97,7 +97,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return false;
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void ModifyActiveShop(string shopName, Item[] items)
         {
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Armor.BountyHunterCap>());
             shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
@@ -207,7 +207,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             }
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             if (NPC.downedBoss2)
             {
@@ -296,7 +296,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             button2 = Language.GetTextValue("Cycle Options");
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool openShop) 
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName) 
         {
             if (firstButton)
             {

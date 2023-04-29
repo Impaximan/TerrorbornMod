@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items.Shadowcrawler
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Hitting enemies causes Nightmare flames to erupt from them towards your cursor");
+            // Tooltip.SetDefault("Hitting enemies causes Nightmare flames to erupt from them towards your cursor");
         }
 
         public override void SetDefaults()
@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Shadowcrawler
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
         }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             Vector2 mousePosition = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
             for (int i = 0; i < 2; i++)

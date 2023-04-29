@@ -34,13 +34,13 @@ namespace TerrorbornMod.Tiles
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Lavender Chest");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Lavender Chest");
 			AddMapEntry(Color.MediumPurple, name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
-			ContainerName.SetDefault("Lavender Chest");
-			ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.LavenderChestItem>();
+			ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Lavender Chest");
+			ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.LavenderChestItem>();
 		}
 
 		public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int DustType, ref bool manual)
@@ -83,7 +83,7 @@ namespace TerrorbornMod.Tiles
 			}
 			else
 			{
-				string defaultName = TileLoader.ContainerName(tile.TileType); // This gets the ContainerName text for the currently selected language
+				string defaultName = TileLoader.DefaultContainerName(tile.TileType)/* tModPorter Note: new method takes in FrameX and FrameY */; // This gets the ContainerName text for the currently selected language
 				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : defaultName;
 				if (player.cursorItemIconText == defaultName)
 				{
@@ -107,7 +107,7 @@ namespace TerrorbornMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
 			Chest.DestroyChest(i, j);
 		}
 
@@ -170,7 +170,7 @@ namespace TerrorbornMod.Tiles
 					{
 						if (Main.netMode == NetmodeID.MultiplayerClient)
 						{
-							NetMessage.SendData(MessageID.Unlock, -1, -1, null, player.whoAmI, 1f, left, top);
+							NetMessage.SendData(MessageID.LockAndUnlock, -1, -1, null, player.whoAmI, 1f, left, top);
 						}
 					}
 				}

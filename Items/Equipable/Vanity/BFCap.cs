@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("BF Cap");
+            // DisplayName.SetDefault("BF Cap");
             //ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
 

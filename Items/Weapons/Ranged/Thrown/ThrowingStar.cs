@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Implodes on impact with tiles, pulling enemies closer to itself");
+            // Tooltip.SetDefault("Implodes on impact with tiles, pulling enemies closer to itself");
         }
 
         public override void SetDefaults()

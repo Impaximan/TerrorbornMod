@@ -7,7 +7,7 @@ namespace TerrorbornMod.Prefixes.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Refined");
+            // DisplayName.SetDefault("Refined");
             base.SetStaticDefaults();
         }
 

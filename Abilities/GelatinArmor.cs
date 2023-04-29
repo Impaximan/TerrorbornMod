@@ -61,10 +61,10 @@ namespace TerrorbornMod.Abilities
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Get Gelatin Armor");
-            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+            // DisplayName.SetDefault("Get Gelatin Armor");
+            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nUnlocks 'Gelatin Armor'" +
-                "\nRight click to get a list of unlocked abilities");
+                "\nRight click to get a list of unlocked abilities"); */
         }
 
         public override bool IsLoadingEnabled(Mod mod)

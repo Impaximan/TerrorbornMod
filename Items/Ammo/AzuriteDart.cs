@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Creates a weaker but piercing clone of itself upon hitting an enemy");
+            // Tooltip.SetDefault("Creates a weaker but piercing clone of itself upon hitting an enemy");
         }
 
         public override void SetDefaults()
@@ -95,7 +95,7 @@ namespace TerrorbornMod.Items.Ammo
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[0] > 0)
             {

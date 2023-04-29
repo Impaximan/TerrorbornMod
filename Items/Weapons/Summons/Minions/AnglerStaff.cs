@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a flying angler to electrocute foes");
+            // Tooltip.SetDefault("Summons a flying angler to electrocute foes");
         }
 
         public override void SetDefaults()
@@ -246,8 +246,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flying Angler");
-            Description.SetDefault("An airborne swimmer fights for you!");
+            // DisplayName.SetDefault("Flying Angler");
+            // Description.SetDefault("An airborne swimmer fights for you!");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;

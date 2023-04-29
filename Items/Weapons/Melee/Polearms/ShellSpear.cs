@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Polearms
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Rapidly hits enemies");
+            // Tooltip.SetDefault("Rapidly hits enemies");
         }
 
         public override void AddRecipes()

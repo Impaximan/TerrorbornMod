@@ -9,9 +9,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString((int)(60 * 1.5f)) +
+            /* Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString((int)(60 * 1.5f)) +
                 "\nGrants you controllable slow fall for 3 seconds upon activation" +
-                "\nCannot be charged up again while the slow fall effect is active");
+                "\nCannot be charged up again while the slow fall effect is active"); */
         }
 
         public override void AddRecipes()

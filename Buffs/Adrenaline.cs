@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Adrenaline");
-            Description.SetDefault("Increased attack speed at low health");
+            // DisplayName.SetDefault("Adrenaline");
+            // Description.SetDefault("Increased attack speed at low health");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

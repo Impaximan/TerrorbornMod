@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -60,12 +61,12 @@ namespace TerrorbornMod.Tiles
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			TileID.Sets.HousingWalls[Type] = true;
 			TileID.Sets.HasOutlines[Type] = true;
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("DeimostoneDoor Door");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("DeimostoneDoor Door");
 			AddMapEntry(new Color(80, 112, 109), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.OpenDoor };
-			CloseDoorID = ModContent.TileType<DeimostoneDoorClosed>();
+			CloseDoorID/* tModPorter Note: Removed. Use TileID.Sets.CloseDoorID instead */ = ModContent.TileType<DeimostoneDoorClosed>();
 		}
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)
@@ -117,12 +118,12 @@ namespace TerrorbornMod.Tiles
 			TileObjectData.addAlternate(0);
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Deimostone Door");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Deimostone Door");
 			AddMapEntry(new Color(80, 112, 109), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.ClosedDoor };
-			OpenDoorID = ModContent.TileType<DeimostoneDoorOpen>();
+			OpenDoorID/* tModPorter Note: Removed. Use TileID.Sets.OpenDoorID instead */ = ModContent.TileType<DeimostoneDoorOpen>();
 		}
 
 		public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)

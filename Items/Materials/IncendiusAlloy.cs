@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Incendiary Alloy");
-            Tooltip.SetDefault("A hellish metal created by a hellish curse" +
-                "\nSeek the island in the center of the biome to craft with it");
+            // DisplayName.SetDefault("Incendiary Alloy");
+            /* Tooltip.SetDefault("A hellish metal created by a hellish curse" +
+                "\nSeek the island in the center of the biome to craft with it"); */
         }
         public override void SetDefaults()
         {

@@ -10,7 +10,7 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
     class LunaticCultist : TwilightNPCChange
     {
 
-        public override void OnHitByItem(NPC NPC, Player player, Item item, int damage, float knockback, bool crit)
+        public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             if (TerrorbornSystem.TwilightMode && NPC.type == NPCID.CultistBossClone)
             {
@@ -26,7 +26,7 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
         }
 
 
-        public override void OnHitByProjectile(NPC NPC, Projectile Projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             if (TerrorbornSystem.TwilightMode && NPC.type == NPCID.CultistBossClone)
             {
@@ -206,7 +206,7 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 				NPC.active = false;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, NPC.whoAmI, -1f);
+					NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f);
 				}
 				new List<int>().Add(NPC.whoAmI);
 				for (int j = 0; j < 200; j++)
@@ -218,7 +218,7 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 						Main.npc[j].active = false;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, NPC.whoAmI, -1f);
+							NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f);
 						}
 					}
 				}

@@ -28,7 +28,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dunestock");
+            // DisplayName.SetDefault("Dunestock");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailCacheLength[NPC.type] = 8;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
@@ -72,7 +72,7 @@ namespace TerrorbornMod.NPCs.Bosses
             modNPC.BossTitleColor = Color.SandyBrown;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.defense = 19;
         }
@@ -994,7 +994,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dunestock");
+            // DisplayName.SetDefault("Dunestock");
             Main.npcFrameCount[NPC.type] = 7;
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
@@ -1028,12 +1028,12 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             return false;
         }
-        public override void ModifyHitByProjectile(Projectile Projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             damage = 0;
             crit = false;
         }
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
         {
             damage = 0;
             crit = false;
@@ -1455,7 +1455,7 @@ namespace TerrorbornMod.NPCs.Bosses
  
     class ClotBomb : ModProjectile
     {
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             damage = (int)(damage * 0.75f);
         }

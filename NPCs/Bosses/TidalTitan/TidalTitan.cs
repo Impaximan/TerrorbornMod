@@ -41,7 +41,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             NPC.buffImmune[BuffID.CursedInferno] = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = 300;
             
@@ -73,7 +73,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             NPC.velocity.Y *= 0.95f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life < 1)
             {
@@ -113,7 +113,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 12;
-            DisplayName.SetDefault("Azuredire");
+            // DisplayName.SetDefault("Azuredire");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
 
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
@@ -824,7 +824,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            DisplayName.SetDefault("Bubble");
+            // DisplayName.SetDefault("Bubble");
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true
@@ -907,7 +907,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         public override string Texture => "TerrorbornMod/Items/Bubble";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bubble");
+            // DisplayName.SetDefault("Bubble");
         }
         public override void SetDefaults()
         {
@@ -930,7 +930,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            DisplayName.SetDefault("Bubble");
+            // DisplayName.SetDefault("Bubble");
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true
@@ -980,7 +980,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
             NPC.frame.Y = frame * 36;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)/* tModPorter Note: bossLifeScale -> balance (bossAdjustment is different, see the docs for details) */
         {
             NPC.lifeMax = 45;
         }

@@ -19,10 +19,10 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fusion Mask");
-            Tooltip.SetDefault("12% increased damage" +
+            // DisplayName.SetDefault("Fusion Mask");
+            /* Tooltip.SetDefault("12% increased damage" +
                 "\n5% increased critical strike chance" +
-                "\nGreatly increased terror gained from shriek of horror");
+                "\nGreatly increased terror gained from shriek of horror"); */
         }
 
         public override void SetDefaults()
@@ -76,10 +76,10 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("8% increased damage and critical strike chance" +
+            /* Tooltip.SetDefault("8% increased damage and critical strike chance" +
                 "\n15% increased restless damage" +
                 "\nIncreased non-charged restless use speed" +
-                "\nIncreased item use speed");
+                "\nIncreased item use speed"); */
             ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
@@ -120,9 +120,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("10% increased damage and critical strike chance" +
+            /* Tooltip.SetDefault("10% increased damage and critical strike chance" +
                 "\nIncreased shriek of horror speed" +
-                "\nIncreased item use speed");
+                "\nIncreased item use speed"); */
         }
 
         public override void SetDefaults()

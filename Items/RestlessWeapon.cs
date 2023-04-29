@@ -22,7 +22,7 @@ namespace TerrorbornMod.Items
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(" ");
+            // Tooltip.SetDefault(" ");
             RestlessSetStaticDefaults();
         }
 

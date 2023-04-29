@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires instant beams of light at your cursor");
+            // Tooltip.SetDefault("Fires instant beams of light at your cursor");
         }
 
         public override void SetDefaults()

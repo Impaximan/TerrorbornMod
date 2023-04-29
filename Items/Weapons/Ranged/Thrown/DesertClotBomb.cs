@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Explodes into homing antlion blood");
+            // Tooltip.SetDefault("Explodes into homing antlion blood");
         }
         public override void SetDefaults()
         {
@@ -45,7 +45,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     class DesertClotBombProj : ModProjectile
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Ranged/Thrown/DesertClotBomb";
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
             damage = (int)(damage * 0.75f);
         }

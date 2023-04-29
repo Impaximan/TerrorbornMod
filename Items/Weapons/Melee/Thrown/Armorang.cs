@@ -20,8 +20,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Thrown
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Throws a boomerang that bounces between enemies" +
-                "\nMaximum stack of three");
+            /* Tooltip.SetDefault("Throws a boomerang that bounces between enemies" +
+                "\nMaximum stack of three"); */
         }
 
         public override void SetDefaults()
@@ -157,7 +157,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Thrown
         }
 
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (TimeUntilReturn <= 0)
             {

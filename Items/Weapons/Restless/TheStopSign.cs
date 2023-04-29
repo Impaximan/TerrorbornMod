@@ -73,7 +73,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
             return false;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(Item);
             if (modItem.RestlessChargedUp())

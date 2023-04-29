@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Placeable.Furniture
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Strange Altar");
-            Tooltip.SetDefault("Used to craft with numorous hellish materials");
+            // DisplayName.SetDefault("Strange Altar");
+            // Tooltip.SetDefault("Used to craft with numorous hellish materials");
         }
         public override void SetDefaults()
         {

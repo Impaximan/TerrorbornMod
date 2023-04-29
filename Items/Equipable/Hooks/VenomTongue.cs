@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Equipable.Hooks
     {
         public override void SetStaticDefaults()
         {
-			Tooltip.SetDefault("Lunges you at extremely high speeds instead of staying grappled" +
-				"\nHit a tile that you're touching to launch yourself away from it");
+			/* Tooltip.SetDefault("Lunges you at extremely high speeds instead of staying grappled" +
+				"\nHit a tile that you're touching to launch yourself away from it"); */
         }
 
         public override void SetDefaults()
@@ -76,7 +76,7 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 			}
 		}
 
-        public override bool? SingleGrappleHook(Player player)
+        public override bool? SingleGrappleHook(Player player)/* tModPorter Note: Removed. In SetStaticDefaults, use ProjectileID.Sets.SingleGrappleHook[Type] = true if you previously had this method return true */
         {
             return true;
 		}

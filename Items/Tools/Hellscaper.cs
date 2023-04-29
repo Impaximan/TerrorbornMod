@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Right click to use as a hammer");
+            // Tooltip.SetDefault("Right click to use as a hammer");
         }
 
         public override void SetDefaults()

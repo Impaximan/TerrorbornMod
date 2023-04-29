@@ -10,9 +10,9 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crystal Tear Blade");
-            Tooltip.SetDefault("Crystals rain from the sky on swing\n" +
-                               "True melee hits will guarantee crititcal strikes and do 4x damage");
+            // DisplayName.SetDefault("Crystal Tear Blade");
+            /* Tooltip.SetDefault("Crystals rain from the sky on swing\n" +
+                               "True melee hits will guarantee crititcal strikes and do 4x damage"); */
         }
 
         public override void SetDefaults()
@@ -33,7 +33,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
             Item.shootSpeed = 25f;
         }
 
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             damage = (int)(damage * 4f);
             crit = true;

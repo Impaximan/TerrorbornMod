@@ -46,7 +46,7 @@ namespace TerrorbornMod.Projectiles
             return false;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Slow, 60 * 3);
         }

@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons a friendly incendiary guardian to fire deathrays at enemies");
+            // Tooltip.SetDefault("Summons a friendly incendiary guardian to fire deathrays at enemies");
         }
 
         public override void SetDefaults()

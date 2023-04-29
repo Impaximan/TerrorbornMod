@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Not consumable" +
-                "\nSummons a Mysterious Crab");
+            /* Tooltip.SetDefault("Not consumable" +
+                "\nSummons a Mysterious Crab"); */
         }
 
         public override void SetDefaults()

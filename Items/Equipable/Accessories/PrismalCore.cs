@@ -16,8 +16,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Magic weapons have a 15% chance to strike twice" +
-                "\n+40 max mana");
+            /* Tooltip.SetDefault("Magic weapons have a 15% chance to strike twice" +
+                "\n+40 max mana"); */
         }
 
         public override void SetDefaults()

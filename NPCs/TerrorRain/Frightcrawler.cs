@@ -128,12 +128,12 @@ namespace TerrorbornMod.NPCs.TerrorRain
 			NPC.defense = 9999;
 		}
 
-        public override void ModifyHitByProjectile(Projectile Projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
 			damage = 1;
         }
 
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
         {
 			damage = 1;
         }
@@ -159,12 +159,12 @@ namespace TerrorbornMod.NPCs.TerrorRain
 			tail = true;
 		}
 
-		public override void ModifyHitByProjectile(Projectile Projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
 		{
 			damage = 1;
 		}
 
-		public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+		public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
 		{
 			damage = 1;
 		}
@@ -174,7 +174,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Frightcrawler");
+			// DisplayName.SetDefault("Frightcrawler");
 			NPCID.Sets.TrailCacheLength[NPC.type] = 1;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
 		}
@@ -229,7 +229,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
 			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Materials.NoxiousScale>(), 1, 15, 20));
-			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Accessories.SoulEater>(), 3, 15, 20));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Equipable.Accessories.SoulEater>(), 3));
 		}
     }
 }

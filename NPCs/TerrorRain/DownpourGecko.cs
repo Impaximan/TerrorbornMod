@@ -119,7 +119,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
             Projectile.timeLeft = 1000;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.Glooped>(), 60 * 10);
         }

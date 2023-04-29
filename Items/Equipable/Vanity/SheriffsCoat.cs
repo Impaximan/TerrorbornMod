@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Equipable.Vanity
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Sheriff's Coat");
-            Tooltip.SetDefault("Don't worry, he has another");
+            // DisplayName.SetDefault("Sheriff's Coat");
+            // Tooltip.SetDefault("Don't worry, he has another");
             ArmorIDs.Body.Sets.HidesHands[Item.bodySlot] = false;
             ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = false;
         }

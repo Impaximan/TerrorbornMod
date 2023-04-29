@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Incense
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Makes your terror meter green");
+            // Tooltip.SetDefault("Makes your terror meter green");
         }
 
         public override void SetDefaults()

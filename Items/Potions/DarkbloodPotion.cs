@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Allows you to use items while using Shriek of Horror");
+            // Tooltip.SetDefault("Allows you to use items while using Shriek of Horror");
         }
         public override void SetDefaults()
         {

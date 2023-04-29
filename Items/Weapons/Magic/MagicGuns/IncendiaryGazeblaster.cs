@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gazeblaster");
-            Tooltip.SetDefault("Fires mini deathrays at your cursor that can hit enemies multiple times");
+            // DisplayName.SetDefault("Gazeblaster");
+            // Tooltip.SetDefault("Fires mini deathrays at your cursor that can hit enemies multiple times");
         }
 
         public override void SetDefaults()

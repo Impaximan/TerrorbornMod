@@ -13,9 +13,9 @@ namespace TerrorbornMod.Utils
     {
         public static void Initialize()
         {
-            On.Terraria.Main.DrawInterface += DrawOvertopGraphics;
-            On.Terraria.Main.DrawNPCs += DrawNPCs;
-            IL.Terraria.Player.Update += HookUpdate;
+            Terraria.On_Main.DrawInterface += DrawOvertopGraphics;
+            Terraria.On_Main.DrawNPCs += DrawNPCs;
+            Terraria.IL_Player.Update += HookUpdate;
         }
 
         private static void HookUpdate(ILContext il)
@@ -32,9 +32,9 @@ namespace TerrorbornMod.Utils
 
         public static void Unload()
         {
-            On.Terraria.Main.DrawInterface -= DrawOvertopGraphics;
-            On.Terraria.Main.DrawNPCs -= DrawNPCs;
-            IL.Terraria.Player.Update -= HookUpdate;
+            Terraria.On_Main.DrawInterface -= DrawOvertopGraphics;
+            Terraria.On_Main.DrawNPCs -= DrawNPCs;
+            Terraria.IL_Player.Update -= HookUpdate;
         }
 
         static Vector2 perlinPosition = Vector2.Zero;
@@ -44,7 +44,7 @@ namespace TerrorbornMod.Utils
         const float fogMovementMultiplier = 1.25f;
         static float windPosition = 0f;
 
-        private static void DrawOvertopGraphics(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
+        private static void DrawOvertopGraphics(Terraria.On_Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
             if (lastScreenPosition == Vector2.Zero)
             {
@@ -150,7 +150,7 @@ namespace TerrorbornMod.Utils
             spriteBatch.Draw(endTexture, endPosition - Main.screenPosition, null, drawColor, (endPosition - positions[positions.Count - 1]).RotatedBy(MathHelper.ToRadians(90)).ToRotation(), new Vector2(texture.Width / 2, 0), 1f, SpriteEffects.None, 0);
         }
 
-        private static void DrawNPCs(On.Terraria.Main.orig_DrawNPCs orig, Main self, bool behindTiles)
+        private static void DrawNPCs(Terraria.On_Main.orig_DrawNPCs orig, Main self, bool behindTiles)
         {
             Player player = Main.LocalPlayer;
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);

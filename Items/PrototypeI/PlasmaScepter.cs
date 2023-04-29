@@ -22,8 +22,8 @@ namespace TerrorbornMod.Items.PrototypeI
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            DisplayName.SetDefault("Scepter of Contamination");
-            Tooltip.SetDefault("Fires a stream of dark plasma that homes into your cursor");
+            // DisplayName.SetDefault("Scepter of Contamination");
+            // Tooltip.SetDefault("Fires a stream of dark plasma that homes into your cursor");
         }
         public override void SetDefaults()
         {
@@ -94,7 +94,7 @@ namespace TerrorbornMod.Items.PrototypeI
             Projectile.velocity = Projectile.velocity.ToRotation().AngleTowards(Projectile.DirectionTo(Main.MouseWorld).ToRotation(), MathHelper.ToRadians(3.5f * (Projectile.velocity.Length() / 20))).ToRotationVector2() * Projectile.velocity.Length();
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             damage += target.defense / 4;
         }

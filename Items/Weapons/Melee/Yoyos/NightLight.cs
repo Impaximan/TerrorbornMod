@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Yoyos
             ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
-            Tooltip.SetDefault("Hitting an enemy causes the yoyo to emit light for the rest of its duration");
+            // Tooltip.SetDefault("Hitting an enemy causes the yoyo to emit light for the rest of its duration");
         }
 
         public override void SetDefaults()
@@ -65,7 +65,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Yoyos
             Projectile.DamageType = DamageClass.Melee;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.light = 1f;
         }

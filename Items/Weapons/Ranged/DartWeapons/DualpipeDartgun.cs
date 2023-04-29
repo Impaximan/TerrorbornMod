@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.DartWeapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires two darts at once in an even spread");
+            // Tooltip.SetDefault("Fires two darts at once in an even spread");
         }
         public override void SetDefaults()
         {

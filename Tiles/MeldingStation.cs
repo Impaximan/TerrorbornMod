@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ObjectData;
@@ -18,8 +19,8 @@ namespace TerrorbornMod.Tiles
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 			//TileObjectData.newTile.CoordinateHeights = new[] { 18 };
 			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Melding Station");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Melding Station");
 			AddMapEntry(new Color(80, 112, 109), name); 
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { Type };

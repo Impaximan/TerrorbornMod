@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Creates a horizontal deathray upon hitting an enemy");
+            // Tooltip.SetDefault("Creates a horizontal deathray upon hitting an enemy");
         }
         public override void SetDefaults()
         {
@@ -72,13 +72,13 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             base.ModifyDamageHitbox(ref hitbox);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, new Vector2(1, 0), ModContent.ProjectileType<JavelinDeathray>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, new Vector2(-1, 0), ModContent.ProjectileType<JavelinDeathray>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (FallWait <= 0)
             {

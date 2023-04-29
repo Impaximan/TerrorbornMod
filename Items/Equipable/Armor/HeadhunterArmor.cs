@@ -19,9 +19,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("25% chance to not consume ammo" +
+            /* Tooltip.SetDefault("25% chance to not consume ammo" +
                 "\n15% increased ranged critical strike chance" +
-                "\n10% increased ranged damage");
+                "\n10% increased ranged damage"); */
         }
 
         public override void UpdateEquip(Player player)
@@ -74,9 +74,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Melee speed increased by 15%" +
+            /* Tooltip.SetDefault("Melee speed increased by 15%" +
                 "\n15% increased melee critical strike chance" +
-                "\n10% increased melee damage");
+                "\n10% increased melee damage"); */
         }
 
         public override void UpdateEquip(Player player)
@@ -129,9 +129,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Max mana increased by 100" +
+            /* Tooltip.SetDefault("Max mana increased by 100" +
                 "\n15% increased magic critical strike chance" +
-                "\n10% increased magic damage");
+                "\n10% increased magic damage"); */
         }
 
         public override void UpdateEquip(Player player)
@@ -174,9 +174,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases item/weapon use speed by 9%" +
+            /* Tooltip.SetDefault("Increases item/weapon use speed by 9%" +
                 "\nIncreases flight time by 50%" +
-                "\n50% increased Shriek of Horror range");
+                "\n50% increased Shriek of Horror range"); */
             ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
@@ -224,8 +224,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increased maximum movement speed" +
-                "\n8% increased damage");
+            /* Tooltip.SetDefault("Increased maximum movement speed" +
+                "\n8% increased damage"); */
         }
 
         public override void UpdateEquip(Player player)
@@ -250,8 +250,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Headhunter's Frenzy");
-            Description.SetDefault("You have been sent into a state of chaos!");
+            // DisplayName.SetDefault("Headhunter's Frenzy");
+            // Description.SetDefault("You have been sent into a state of chaos!");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

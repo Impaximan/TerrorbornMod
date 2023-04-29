@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -19,8 +20,8 @@ namespace TerrorbornMod.Tiles
             MinPick = 0;
             MineResist = 1f;
             ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.DeimosteelOreItem>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Deimosteel");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Deimosteel");
             AddMapEntry(new Color(138, 155, 152), name);
         }
 

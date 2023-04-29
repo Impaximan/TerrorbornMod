@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs.Debuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Unholy Cooldown");
-            Description.SetDefault("You cannot be revived again");
+            // DisplayName.SetDefault("Unholy Cooldown");
+            // Description.SetDefault("You cannot be revived again");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

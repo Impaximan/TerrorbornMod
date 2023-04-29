@@ -25,10 +25,10 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Waits for a moment before firing" +
+            /* Tooltip.SetDefault("Waits for a moment before firing" +
                 "\nUpon firing it has incredibly high velocity" +
                 "\nIgnores half of enemy defense" +
-                "\nInflicts hit enemies with a random type of fire");
+                "\nInflicts hit enemies with a random type of fire"); */
         }
 
         public override void AddRecipes()
@@ -72,12 +72,12 @@ namespace TerrorbornMod.Items.Ammo
             return Countdown <= 0;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             damage += target.defense / 4;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             int choice = Main.rand.Next(4);
             if (choice == 0)

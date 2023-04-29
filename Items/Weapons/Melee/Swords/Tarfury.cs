@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Causes multiple tar Droplets to rain from the sky.\nTrue melee hits will inflict the enemies with 'Oiled' and 'On Fire!'\nOiled enemies will take 30% increased damage from tar Droplets." +
-                "\n'Hunger will always rain'");
+            /* Tooltip.SetDefault("Causes multiple tar Droplets to rain from the sky.\nTrue melee hits will inflict the enemies with 'Oiled' and 'On Fire!'\nOiled enemies will take 30% increased damage from tar Droplets." +
+                "\n'Hunger will always rain'"); */
         }
 
         public override void SetDefaults()
@@ -33,7 +33,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
             Item.shootSpeed = 25f;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 60 * 4);
             target.AddBuff(BuffID.Oiled, 60 * 8);
@@ -110,7 +110,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
             Projectile.extraUpdates = 4;
             Projectile.timeLeft = 600;
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (target.HasBuff(BuffID.Oiled))
             {

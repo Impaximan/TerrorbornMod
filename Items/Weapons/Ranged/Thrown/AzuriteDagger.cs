@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Throws a dagger that isn't slowed by water" +
-                "\nThis dagger will ricochet off of enemies and momentarily linger instead of falling");
+            /* Tooltip.SetDefault("Throws a dagger that isn't slowed by water" +
+                "\nThis dagger will ricochet off of enemies and momentarily linger instead of falling"); */
         }
         public override void SetDefaults()
         {
@@ -51,7 +51,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Azurite Dagger");
+            // DisplayName.SetDefault("Azurite Dagger");
         }
 
         public override void SetDefaults()
@@ -77,7 +77,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (FallWait <= 0)
             {
@@ -89,7 +89,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             FallWait = 0;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (FallWait <= 0)
             {

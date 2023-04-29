@@ -9,9 +9,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Hitting an enemy causes a spearhead to form above them" +
+            /* Tooltip.SetDefault("Hitting an enemy causes a spearhead to form above them" +
                 "\nThis spearhead will loom above them for 3 seconds before falling and dealing 50 damage" +
-                "\nOnly one spearhead can form at once per enemy");
+                "\nOnly one spearhead can form at once per enemy"); */
         }
         public override void SetDefaults()
         {
@@ -59,7 +59,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             FallWait = 0;
             TerrorbornNPC modTarget = TerrorbornNPC.modNPC(target);
@@ -71,7 +71,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (FallWait <= 0)
             {

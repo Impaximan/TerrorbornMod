@@ -21,9 +21,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+10 max life" +
+            /* Tooltip.SetDefault("+10 max life" +
                 "\n10% increased restless weapon damage" +
-                "\n5% increase to all damage");
+                "\n5% increase to all damage"); */
         }
 
         public override void SetDefaults()
@@ -37,12 +37,12 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<SoulReaperBreastplate>() && legs.type == ModContent.ItemType<FusionLeggings>();
+            return body.type == ModContent.ItemType<SoulReaperBreastplate>() && legs.type == ModContent.ItemType<SoulReaperGreaves>();
         }
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Killing enemies or taking away 7.5% of a boss's health causes them to Drop a thunder soul" +
+            player.setBonus = "Killing enemies or taking away 7.5% of a boss's health causes them to drop a thunder soul" +
                 "\nPicking up a thunder soul grants you the Soul Maniac buff for 5 seconds, increasing restless weapon stats" +
                 "\n10% increased critical strike chance" +
                 "\n+10 max life";
@@ -77,9 +77,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+20 max life" +
+            /* Tooltip.SetDefault("+20 max life" +
                 "\n30% increased restless weapon use speed while not fully charged" +
-                "\n5% increase to all damage");
+                "\n5% increase to all damage"); */
         }
 
         public override void SetDefaults()
@@ -115,9 +115,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+10 max life" +
+            /* Tooltip.SetDefault("+10 max life" +
                 "\n10% increased restless weapon use speed while fully charged" +
-                "\n5% increase to all damage");
+                "\n5% increase to all damage"); */
         }
 
         public override void SetDefaults()

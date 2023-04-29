@@ -18,9 +18,9 @@ namespace TerrorbornMod.Items.Incendius
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Purgatory Chakram");
-            Tooltip.SetDefault("Throws a chakram that returns to you" +
-                "\nIf a chakram hits the same enemy twice, it will home into that enemy for a few seconds, hitting it repeatedly");
+            // DisplayName.SetDefault("Purgatory Chakram");
+            /* Tooltip.SetDefault("Throws a chakram that returns to you" +
+                "\nIf a chakram hits the same enemy twice, it will home into that enemy for a few seconds, hitting it repeatedly"); */
         }
         public override void SetDefaults()
         {
@@ -98,7 +98,7 @@ namespace TerrorbornMod.Items.Incendius
         NPC firstEnemy;
         bool foundFirst = false;
         bool homing = false;
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (foundFirst)
             {

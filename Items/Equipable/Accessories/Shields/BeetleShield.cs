@@ -14,7 +14,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks summons beetles that will spin around you and damage enemies");
+            // Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback) + "\nParrying attacks summons beetles that will spin around you and damage enemies");
         }
 
         public override void SetDefaults()

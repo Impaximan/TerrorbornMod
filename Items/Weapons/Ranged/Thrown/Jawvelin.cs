@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Latches onto hit enemies, continuing to knaw on them over time" +
-                "\nExplodes into azure shards if an enemy it's latched onto dies");
+            /* Tooltip.SetDefault("Latches onto hit enemies, continuing to knaw on them over time" +
+                "\nExplodes into azure shards if an enemy it's latched onto dies"); */
         }
 
         public override void SetDefaults()
@@ -72,7 +72,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             return true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!stuck)
             {

@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Consumes all currently stored terror, requiring at least 15% to be used" +
-                "\nThe more terror it consumes the more powerful it will be");
+            /* Tooltip.SetDefault("Consumes all currently stored terror, requiring at least 15% to be used" +
+                "\nThe more terror it consumes the more powerful it will be"); */
         }
         public override void SetDefaults()
         {

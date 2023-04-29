@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires an adamantite laser that ricochets to nearby enemies on critical hits and bounces off of walls");
+            // Tooltip.SetDefault("Fires an adamantite laser that ricochets to nearby enemies on critical hits and bounces off of walls");
         }
 
         public override void SetDefaults()
@@ -105,7 +105,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
         }
 
         List<NPC> alreadyHit = new List<NPC>();
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (!crit)
             {

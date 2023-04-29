@@ -15,7 +15,7 @@ namespace TerrorbornMod.WeaponPossession
 
         }
 
-        public override void OnHitNPC(Projectile Projectile, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (originalItem != null)
             {

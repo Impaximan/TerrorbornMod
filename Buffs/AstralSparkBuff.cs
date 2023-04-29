@@ -8,9 +8,9 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astral Spark");
-            Description.SetDefault("You are transformed into a highly manueverable spark!" +
-                "\nHold JUMP to move at insanely fast speeds");
+            // DisplayName.SetDefault("Astral Spark");
+            /* Description.SetDefault("You are transformed into a highly manueverable spark!" +
+                "\nHold JUMP to move at insanely fast speeds"); */
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;

@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.Equipable.Vanity
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sheriff's Jeans");
-            Tooltip.SetDefault("Don't worry, he has more");
+            // DisplayName.SetDefault("Sheriff's Jeans");
+            // Tooltip.SetDefault("Don't worry, he has more");
         }
 
         public override void SetDefaults()

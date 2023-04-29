@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Incense
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heart Incense");
-            Tooltip.SetDefault("25% increased maximum HP" +
-                "\nBeing above your normal max HP causes you to take light damage over time");
+            // DisplayName.SetDefault("Heart Incense");
+            /* Tooltip.SetDefault("25% increased maximum HP" +
+                "\nBeing above your normal max HP causes you to take light damage over time"); */
         }
 
         public override void SetDefaults()

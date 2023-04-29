@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("'You'd think it would melt back into water'");
+            // Tooltip.SetDefault("'You'd think it would melt back into water'");
         }
         public override void SetDefaults()
         {

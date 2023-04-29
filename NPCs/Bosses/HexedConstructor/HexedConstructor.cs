@@ -181,7 +181,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             SoundExtensions.PlaySoundOld(SoundID.NPCHit54, NPC.Center);
         }
@@ -1038,7 +1038,7 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
             NPC.dontTakeDamage = true;
         }
 
-        public override void ModifyHitByProjectile(Projectile Projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             damage /= 2;
 

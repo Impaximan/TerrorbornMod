@@ -11,7 +11,7 @@ namespace TerrorbornMod.Biomes
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sisyphean Islands");
+            // DisplayName.SetDefault("Sisyphean Islands");
         }
 
         public override string BestiaryIcon => base.BestiaryIcon;

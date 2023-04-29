@@ -1,4 +1,4 @@
-﻿[b] Warning: This mod does NOT support multiplayer. It is highly recommended that you play this mod on a large world. [/b]
+﻿[b] Warning: This mod does NOT support multiplayer. It is highly recommended that you play this mod on a large world. Additionally, there seem to be some graphical issues regarding Mac/Linux compatibility. While we're trying to fix these, it will take some time, so please be patient![/b]
 [hr][/hr]
 
 [h1] Welcome to Terrorborn! [/h1]

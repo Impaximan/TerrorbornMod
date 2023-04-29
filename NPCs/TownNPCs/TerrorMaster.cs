@@ -75,7 +75,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             AnimationType = NPCID.Guide;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life < 1)
             {
@@ -88,7 +88,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return true;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             return TerrorbornSystem.obtainedShriekOfHorror;
         }
@@ -166,7 +166,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 button2 = Language.GetTextValue("Cycle Options");
             }
         }
-        public override void OnChatButtonClicked(bool firstButton, ref bool openShop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             Player player = Main.player[Main.myPlayer];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
@@ -428,7 +428,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
             gravityCorrection = 0;
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void ModifyActiveShop(string shopName, Item[] items)
         {
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.DarkbloodPotion>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 50, 0);

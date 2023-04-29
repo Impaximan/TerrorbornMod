@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs.Debuffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spark Cooldown");
-            Description.SetDefault("You cannot transform into an astral spark again");
+            // DisplayName.SetDefault("Spark Cooldown");
+            // Description.SetDefault("You cannot transform into an astral spark again");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Granite Spark");
-            Description.SetDefault("You are transformed into a highly manueverable spark!");
+            // DisplayName.SetDefault("Granite Spark");
+            // Description.SetDefault("You are transformed into a highly manueverable spark!");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;

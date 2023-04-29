@@ -109,7 +109,7 @@ namespace TerrorbornMod.Abilities
                 }
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(target);
             modNPC.soulSplitTime = 60 * 5;
@@ -129,10 +129,10 @@ namespace TerrorbornMod.Abilities
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Get Necromantic Curse");
-            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+            // DisplayName.SetDefault("Get Necromantic Curse");
+            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nUnlocks 'Necromantic Curse'" +
-                "\nRight click to get a list of unlocked abilities");
+                "\nRight click to get a list of unlocked abilities"); */
         }
 
         public override void SetDefaults()

@@ -8,13 +8,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starwalker Sabatons");
-            Tooltip.SetDefault("Hold DOWN to fall faster" +
+            // DisplayName.SetDefault("Starwalker Sabatons");
+            /* Tooltip.SetDefault("Hold DOWN to fall faster" +
                 "\n50% increased wing flight time" +
                 "\nIncreased jump and movement speed" +
                 "\n5% increased item use speed" +
                 "\nAllows you to walk on water an lava" +
-                "\nThe wearer can run INSANELY fast");
+                "\nThe wearer can run INSANELY fast"); */
         }
 
         public override void SetDefaults()

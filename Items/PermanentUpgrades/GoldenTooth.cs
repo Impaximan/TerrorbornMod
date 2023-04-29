@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.PermanentUpgrades
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Permanently doubles Shriek of Horror's range" +
-                "\nCan only be used once");
+            /* Tooltip.SetDefault("Permanently doubles Shriek of Horror's range" +
+                "\nCan only be used once"); */
         }
 
         public override void SetDefaults()

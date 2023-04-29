@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.PrototypeI
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Slowly returns to you upon hitting an enemy, dealing numerous hits per attack");
+            // Tooltip.SetDefault("Slowly returns to you upon hitting an enemy, dealing numerous hits per attack");
         }
         public override void SetDefaults()
         {
@@ -99,7 +99,7 @@ namespace TerrorbornMod.Items.PrototypeI
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (TimeUntilReturn > 0)
             {

@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Requires " + terrorRequired + "% terror per use" +
-                "\nMines faster than the other lunar pickaxes");
+            /* Tooltip.SetDefault("Requires " + terrorRequired + "% terror per use" +
+                "\nMines faster than the other lunar pickaxes"); */
         }
 
         public override void AddRecipes()

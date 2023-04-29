@@ -20,8 +20,8 @@ namespace TerrorbornMod.Items.Incendius
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires a slightly homing swarm of incendius shards" +
-                "\nIgnites hit enemies");
+            /* Tooltip.SetDefault("Fires a slightly homing swarm of incendius shards" +
+                "\nIgnites hit enemies"); */
         }
         public override void SetDefaults()
         {
@@ -119,7 +119,7 @@ namespace TerrorbornMod.Items.Incendius
         {
             DustExplosion(Projectile.Center, 0, 45, 10, 6, DustScale: 0.5f, NoGravity: true);
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 180);
         }

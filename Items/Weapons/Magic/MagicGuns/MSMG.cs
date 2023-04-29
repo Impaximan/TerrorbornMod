@@ -19,9 +19,9 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("M.S.M");
-            Tooltip.SetDefault("Rapidly fires space lasers at your cursor" +
-                "\nStands for 'Meteor Shower Minigun'");
+            // DisplayName.SetDefault("M.S.M");
+            /* Tooltip.SetDefault("Rapidly fires space lasers at your cursor" +
+                "\nStands for 'Meteor Shower Minigun'"); */
         }
 
         public override void SetDefaults()

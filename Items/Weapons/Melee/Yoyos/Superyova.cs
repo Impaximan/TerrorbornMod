@@ -22,7 +22,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Yoyos
             ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
-            Tooltip.SetDefault("Implodes after hitting an enemy 3 times, pulling other enemies closer to itself");
+            // Tooltip.SetDefault("Implodes after hitting an enemy 3 times, pulling other enemies closer to itself");
         }
 
         public override void SetDefaults()
@@ -77,7 +77,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Yoyos
 
         int timesUntilImplode = 3;
         int glowSize = 26;
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             glowSize += 3;
             timesUntilImplode--;

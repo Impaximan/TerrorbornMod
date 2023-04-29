@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Nunchucks
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Can deflect Projectiles with a 1.5 second cooldown");
+            // Tooltip.SetDefault("Can deflect Projectiles with a 1.5 second cooldown");
         }
         public override void SetDefaults()
         {
@@ -46,7 +46,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Nunchucks
 
     public class TitaniumNunchucksProjectile : ModProjectile
     {
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             hitDirection = Projectile.spriteDirection * -1;
         }

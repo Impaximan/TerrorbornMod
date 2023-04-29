@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Knocks enemies' bones out on hit" +
-                "\nTheir bones will shatter into smaller pieces upon hitting the ground");
+            /* Tooltip.SetDefault("Knocks enemies' bones out on hit" +
+                "\nTheir bones will shatter into smaller pieces upon hitting the ground"); */
         }
         public override void SetDefaults()
         {
@@ -35,7 +35,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
         {
             return false;
         }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundExtensions.PlaySoundOld(SoundID.DD2_SkeletonHurt, target.Center);
             if (crit)

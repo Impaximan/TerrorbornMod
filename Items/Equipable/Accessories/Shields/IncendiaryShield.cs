@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Shields
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback) + "\nSuccessful parries rest the cooldown instantly");
+            // Tooltip.SetDefault(Utils.Accessories.GetParryShieldString(cooldown, knockback) + "\nSuccessful parries rest the cooldown instantly");
         }
 
         public override void SetDefaults()

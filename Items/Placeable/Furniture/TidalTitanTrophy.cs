@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -38,8 +39,8 @@ namespace TerrorbornMod.Items.Placeable.Furniture
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.StyleWrapLimit = 36;
 			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Trophy");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Trophy");
 			AddMapEntry(Color.Azure, name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { Type };

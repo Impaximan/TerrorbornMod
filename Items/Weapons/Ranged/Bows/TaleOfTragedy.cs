@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires a deathray that launches many arrows at nearby enemeis");
+            // Tooltip.SetDefault("Fires a deathray that launches many arrows at nearby enemeis");
         }
 
         public override void SetDefaults()

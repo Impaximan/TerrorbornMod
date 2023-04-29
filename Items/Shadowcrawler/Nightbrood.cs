@@ -19,8 +19,8 @@ namespace TerrorbornMod.Items.Shadowcrawler
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fires eight arrows at once" +
-                "\nThe accuracy of the arrows increases as you fire but resets when you stop firing");
+            /* Tooltip.SetDefault("Fires eight arrows at once" +
+                "\nThe accuracy of the arrows increases as you fire but resets when you stop firing"); */
         }
 
         public override void SetDefaults()

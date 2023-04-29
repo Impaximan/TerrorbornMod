@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hermes' Quill");
-            Tooltip.SetDefault("Allows you to use Shriek of Horror quicker" +
-                "\nAllows you to move at 50% speed while using Shriek of Horror, but doing so will hurt you 25% more than usual");
+            // DisplayName.SetDefault("Hermes' Quill");
+            /* Tooltip.SetDefault("Allows you to use Shriek of Horror quicker" +
+                "\nAllows you to move at 50% speed while using Shriek of Horror, but doing so will hurt you 25% more than usual"); */
         }
 
         public override void SetDefaults()

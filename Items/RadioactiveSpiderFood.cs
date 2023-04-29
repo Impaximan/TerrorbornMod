@@ -20,7 +20,7 @@ namespace TerrorbornMod.Items
         int Shadowcrawler = ModContent.NPCType<NPCs.Bosses.Shadowcrawler>();
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons an ancient foe of Anekronyx");
+            // Tooltip.SetDefault("Summons an ancient foe of Anekronyx");
         }
         public override void SetDefaults()
         {

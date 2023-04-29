@@ -33,15 +33,15 @@ namespace TerrorbornMod.Tiles.Incendiary
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Incendiary Chest");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Incendiary Chest");
 			AddMapEntry(new Color(80, 112, 109), name);
 			//name = CreateMapEntryName(Name + "_Locked");
 			//name.SetDefault("Locked Deimostone Chest");
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
-			ContainerName.SetDefault("Incendiary Chest");
-			ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.IncendiaryChest>();
+			ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Incendiary Chest");
+			ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.IncendiaryChest>();
 		}
 
 		public override void MouseOverFar(int i, int j)
@@ -66,7 +66,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
 			Chest.DestroyChest(i, j);
 		}
 

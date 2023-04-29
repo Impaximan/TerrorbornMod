@@ -12,9 +12,9 @@ namespace TerrorbornMod.Items.Weapons.Summons.Whips
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("\n1 summon tag damage" +
+            /* Tooltip.SetDefault("\n1 summon tag damage" +
                 "\nRepeated hits increase tag damage further" +
-                "\nCapped at 10 tag damage");
+                "\nCapped at 10 tag damage"); */
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Whips
             Projectile.DefaultToWhip();
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             TerrorbornNPC modNPC = TerrorbornNPC.modNPC(target);
             modNPC.tagTime = 300;

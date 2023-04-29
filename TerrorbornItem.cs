@@ -605,7 +605,7 @@ namespace TerrorbornMod
             return "meh";
         }
 
-        public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
             if (crit && modPlayer.SangoonBand && target.type != NPCID.TargetDummy)

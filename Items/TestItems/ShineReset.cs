@@ -13,9 +13,9 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Reset 'SH!NE'");
-            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
-                "\nAllows 'SH!NE' to play again.");
+            // DisplayName.SetDefault("Reset 'SH!NE'");
+            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+                "\nAllows 'SH!NE' to play again."); */
         }
         public override void SetDefaults()
         {

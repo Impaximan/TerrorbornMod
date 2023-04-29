@@ -97,7 +97,7 @@ namespace TerrorbornMod
             return Projectile.GetGlobalProjectile<TerrorbornProjectile>();
         }
 
-        public override void ModifyHitNPC(Projectile Projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
             Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
@@ -109,7 +109,7 @@ namespace TerrorbornMod
             }
         }
 
-        public override void OnHitNPC(Projectile Projectile, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player player = Main.player[Projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);

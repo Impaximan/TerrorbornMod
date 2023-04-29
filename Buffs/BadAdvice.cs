@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bad Advice");
-            Description.SetDefault("15% increased damage, -15% max life");
+            // DisplayName.SetDefault("Bad Advice");
+            // Description.SetDefault("15% increased damage, -15% max life");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

@@ -8,7 +8,7 @@ namespace TerrorbornMod.Projectiles
 {
     public class MidnightFireball : ModProjectile
     {
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Buffs.Debuffs.MidnightFlamesDebuff>(), 60 * 3);
             Projectile.timeLeft = 1;

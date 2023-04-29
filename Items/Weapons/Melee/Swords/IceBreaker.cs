@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Guarenteed crit on undamaged enemies");
+            // Tooltip.SetDefault("Guarenteed crit on undamaged enemies");
         }
 
         public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
             Item.autoReuse = true;
         }
 
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             if (target.life == target.lifeMax)
             {

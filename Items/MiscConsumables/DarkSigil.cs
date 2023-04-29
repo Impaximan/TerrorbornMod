@@ -9,9 +9,9 @@ namespace TerrorbornMod.Items.MiscConsumables
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Consumable" +
+            /* Tooltip.SetDefault("Consumable" +
                 "\nStarts a blood moon" +
-                "\nCan only be used during the night");
+                "\nCan only be used during the night"); */
         }
 
         public override void SetDefaults()

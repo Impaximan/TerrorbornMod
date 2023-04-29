@@ -15,8 +15,8 @@ namespace TerrorbornMod.Items.TestItems
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Generates an incendiary sky island" +
-                "\nRight click to change the type");
+            /* Tooltip.SetDefault("Generates an incendiary sky island" +
+                "\nRight click to change the type"); */
         }
 
         public override void SetDefaults()
@@ -123,7 +123,7 @@ namespace TerrorbornMod.Items.TestItems
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Generates the incendiary biome on a random side of the world");
+            // Tooltip.SetDefault("Generates the incendiary biome on a random side of the world");
         }
 
         public override void SetDefaults()

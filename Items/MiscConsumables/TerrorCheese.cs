@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.MiscConsumables
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Consumes terror over time, making your attacks faster the more terror you have left" +
-                "\nThis is not a culinary crutch");
+            /* Tooltip.SetDefault("Consumes terror over time, making your attacks faster the more terror you have left" +
+                "\nThis is not a culinary crutch"); */
         }
         public override void SetDefaults()
         {
@@ -32,8 +32,8 @@ namespace TerrorbornMod.Items.MiscConsumables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Horrifically Cheesed");
-            Description.SetDefault("Lose terror over time, granting you item use speed that scales with the amount of terror you have left");
+            // DisplayName.SetDefault("Horrifically Cheesed");
+            // Description.SetDefault("Lose terror over time, granting you item use speed that scales with the amount of terror you have left");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

@@ -13,9 +13,9 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Toggle CoF");
-            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
-                "\nToggles [i/s1:" + ModContent.ItemType<PermanentUpgrades.CoreOfFear>() + "]");
+            // DisplayName.SetDefault("Toggle CoF");
+            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+                "\nToggles [i/s1:" + ModContent.ItemType<PermanentUpgrades.CoreOfFear>() + "]"); */
         }
         public override void SetDefaults()
         {

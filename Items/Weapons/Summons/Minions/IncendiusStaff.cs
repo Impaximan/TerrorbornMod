@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Summons an incendiary demon that surrounds you and fires predictive fireballs at nearby enemies");
+            // Tooltip.SetDefault("Summons an incendiary demon that surrounds you and fires predictive fireballs at nearby enemies");
         }
         public override void SetDefaults()
         {
@@ -265,8 +265,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Incendiary Demon");
-            Description.SetDefault("An incendiary demon is fighting for you!");
+            // DisplayName.SetDefault("Incendiary Demon");
+            // Description.SetDefault("An incendiary demon is fighting for you!");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = true;

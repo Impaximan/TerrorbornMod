@@ -13,10 +13,10 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clear Unlocked Abilities");
-            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+            // DisplayName.SetDefault("Clear Unlocked Abilities");
+            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nCleras all of the your unlocked abilities" +
-                "\nRight click to get a list of unlocked abilities");
+                "\nRight click to get a list of unlocked abilities"); */
         }
         public override void SetDefaults()
         {
