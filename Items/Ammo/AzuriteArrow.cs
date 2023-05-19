@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.Ammo
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Creates an azure orb that returns to you after a moment");
+            Tooltip.SetDefault("Creates an azure orb that returns to you after a moment");
         }
 
         public override void AddRecipes()

@@ -73,7 +73,7 @@ namespace TerrorbornMod.NPCs.Bosses
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 15;
-            // DisplayName.SetDefault("Shadowcrawler");
+            DisplayName.SetDefault("Shadowcrawler");
             NPCID.Sets.TrailCacheLength[NPC.type] = 3;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);

@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Fires a random explosive" +
+            Tooltip.SetDefault("Fires a random explosive" +
                 "\n[c/ff0000:These explosives CAN and WILL destroy tiles]" +
-                "\n'The last person to use this lost his eye, which haunts him every October'"); */
+                "\n'The last person to use this lost his eye, which haunts him every October'");
         }
         public override void SetDefaults()
         {

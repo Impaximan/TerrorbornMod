@@ -13,10 +13,10 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         int UntilBlast;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Carpal Buster");
-            /* Tooltip.SetDefault("Uses Cartilage Rounds as ammo" +
+            DisplayName.SetDefault("Carpal Buster");
+            Tooltip.SetDefault("Uses Cartilage Rounds as ammo" +
                 "\n95% chance to not consume ammo" +
-                "\n'Shoots as fast as your fingers can click'"); */
+                "\n'Shoots as fast as your fingers can click'");
         }
 
         public override bool CanConsumeAmmo(Item ammo, Player player)
@@ -76,8 +76,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Used by the bone buster" +
-                "\nBounces off of tiles and pierces multiple enemies"); */
+            Tooltip.SetDefault("Used by the bone buster" +
+                "\nBounces off of tiles and pierces multiple enemies");
         }
     }
 
@@ -87,7 +87,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cartilage Round");
+            DisplayName.SetDefault("Cartilage Round");
             ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }

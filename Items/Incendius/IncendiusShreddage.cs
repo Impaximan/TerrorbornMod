@@ -20,8 +20,8 @@ namespace TerrorbornMod.Items.Incendius
         }
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Fires a slightly homing swarm of incendius shards" +
-                "\nIgnites hit enemies"); */
+            Tooltip.SetDefault("Fires a slightly homing swarm of incendius shards" +
+                "\nIgnites hit enemies");
         }
         public override void SetDefaults()
         {

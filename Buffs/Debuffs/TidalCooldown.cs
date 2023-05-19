@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs.Debuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Tidal Cooldown");
-            // Description.SetDefault("'You have to regain the power of the tides'");
+            DisplayName.SetDefault("Tidal Cooldown");
+            Description.SetDefault("'You have to regain the power of the tides'");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

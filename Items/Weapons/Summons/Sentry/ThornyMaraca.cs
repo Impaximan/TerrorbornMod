@@ -12,8 +12,8 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Summons a thorny companion to help you fight." +
-                "\nSummoning it despawns ALL other sentries but its damage scales with sentry slots."); */
+            Tooltip.SetDefault("Summons a thorny companion to help you fight." +
+                "\nSummoning it despawns ALL other sentries but its damage scales with sentry slots.");
         }
         public override void SetDefaults()
         {

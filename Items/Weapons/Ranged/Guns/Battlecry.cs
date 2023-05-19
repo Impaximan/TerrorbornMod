@@ -12,11 +12,11 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Guns
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Battlecry");
-            /* Tooltip.SetDefault("33% chance to not consume ammo" +
+            DisplayName.SetDefault("Battlecry");
+            Tooltip.SetDefault("33% chance to not consume ammo" +
                 "\nLeft click converts bullets into homing bullets that drain 0.5% terror per hit" +
                 "\nRight click to fire much faster, but with less accuracy, consuming 1.5% terror per shot" +
-                "\n'Spray n' pray!'"); */
+                "\n'Spray n' pray!'");
         }
 
         public override void SetDefaults()

@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Stick");
-            // Tooltip.SetDefault("It's just a stick...");
+            DisplayName.SetDefault("Stick");
+            Tooltip.SetDefault("It's just a stick...");
         }
 
         public override void SetDefaults()

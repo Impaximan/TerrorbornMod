@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dark Quill");
-            /* Tooltip.SetDefault("The quill of a scholar who studied the properties of terror" +
-                "\nAllows you to move at 50% speed while using Shriek of Horror, but doing so will hurt you 50% more"); */
+            DisplayName.SetDefault("Dark Quill");
+            Tooltip.SetDefault("The quill of a scholar who studied the properties of terror" +
+                "\nAllows you to move at 50% speed while using Shriek of Horror, but doing so will hurt you 50% more");
         }
 
         public override void SetDefaults()

@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity.BossMasks
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Mysterious Crab Mask");
+            DisplayName.SetDefault("Mysterious Crab Mask");
         }
 
         public override void SetDefaults()

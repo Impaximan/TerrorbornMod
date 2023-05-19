@@ -7,7 +7,7 @@ namespace TerrorbornMod.Prefixes.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Shinobi");
+            DisplayName.SetDefault("Shinobi");
             base.SetStaticDefaults();
         }
 

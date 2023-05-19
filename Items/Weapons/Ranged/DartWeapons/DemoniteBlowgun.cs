@@ -10,9 +10,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged.DartWeapons
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Vile Blowgun");
-            /* Tooltip.SetDefault("Uses darts as ammo" +
-                "\nEvery third shot consumes 1% terror to fire 2 darts at once"); */
+            DisplayName.SetDefault("Vile Blowgun");
+            Tooltip.SetDefault("Uses darts as ammo" +
+                "\nEvery third shot consumes 1% terror to fire 2 darts at once");
         }
         public override void SetDefaults()
         {

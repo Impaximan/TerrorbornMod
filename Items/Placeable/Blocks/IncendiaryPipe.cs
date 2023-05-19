@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Placeable.Blocks
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("A pipe designed to contain things that would otherwise be uncontainable" +
-                "\nJust being near it creeps you out"); */
+            Tooltip.SetDefault("A pipe designed to contain things that would otherwise be uncontainable" +
+                "\nJust being near it creeps you out");
         }
 
         public override void SetDefaults()

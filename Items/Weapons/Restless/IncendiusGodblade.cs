@@ -14,7 +14,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         int UntilBlast;
         public override void RestlessSetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sinful Saber");
+            DisplayName.SetDefault("Sinful Saber");
         }
 
         public override string defaultTooltip()

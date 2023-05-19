@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("The scale of a powerful monster, likely one that consumed a large amount of souls at once");
+            Tooltip.SetDefault("The scale of a powerful monster, likely one that consumed a large amount of souls at once");
         }
         public override void SetDefaults()
         {

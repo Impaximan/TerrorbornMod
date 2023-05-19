@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("'The essence of a hexed machine'");
+            Tooltip.SetDefault("'The essence of a hexed machine'");
             ItemID.Sets.ItemNoGravity[Item.type] = true;
             ItemID.Sets.ItemIconPulse[Item.type] = true;
         }

@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Conjures a swarm of phoenices that attack at your cursor");
+            Tooltip.SetDefault("Conjures a swarm of phoenices that attack at your cursor");
         }
 
         public override void SetDefaults()

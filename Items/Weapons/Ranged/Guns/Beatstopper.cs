@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Guns
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Hitting enemies causes you to release homing fireballs");
+            Tooltip.SetDefault("Hitting enemies causes you to release homing fireballs");
         }
 
         public override void SetDefaults()

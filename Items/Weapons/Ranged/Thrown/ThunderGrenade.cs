@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("A grenade that explodes into lightning if enemies are nearby" +
-                "\nThe lightning will home into enemies and try to hit more than one enemy"); */
+            Tooltip.SetDefault("A grenade that explodes into lightning if enemies are nearby" +
+                "\nThe lightning will home into enemies and try to hit more than one enemy");
         }
         public override void SetDefaults()
         {

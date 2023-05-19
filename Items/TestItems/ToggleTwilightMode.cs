@@ -13,9 +13,9 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Activate/Deactivate Twilight Mode");
-            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
-                "\nDoes exactly what the name says"); */
+            DisplayName.SetDefault("Activate/Deactivate Twilight Mode");
+            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+                "\nDoes exactly what the name says");
         }
         public override void SetDefaults()
         {

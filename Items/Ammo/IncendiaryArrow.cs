@@ -25,10 +25,10 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Waits for a moment before firing" +
+            Tooltip.SetDefault("Waits for a moment before firing" +
                 "\nUpon firing it has incredibly high velocity" +
                 "\nIgnores half of enemy defense" +
-                "\nInflicts hit enemies with a random type of fire"); */
+                "\nInflicts hit enemies with a random type of fire");
         }
 
         public override void AddRecipes()

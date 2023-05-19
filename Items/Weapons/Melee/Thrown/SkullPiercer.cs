@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Thrown
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Hitting an enemy causes you to throw an extra dagger" +
-                "\nThis can only occur up to 3 times per throw"); */
+            Tooltip.SetDefault("Hitting an enemy causes you to throw an extra dagger" +
+                "\nThis can only occur up to 3 times per throw");
         }
 
         public override void SetDefaults()

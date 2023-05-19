@@ -13,9 +13,9 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Toggle EotM");
-            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
-                "\nToggles [i/s1:" + ModContent.ItemType<PermanentUpgrades.EyeOfTheMenace>() +"]"); */
+            DisplayName.SetDefault("Toggle EotM");
+            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+                "\nToggles [i/s1:" + ModContent.ItemType<PermanentUpgrades.EyeOfTheMenace>() +"]");
         }
         public override void SetDefaults()
         {

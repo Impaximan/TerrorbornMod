@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Antlion Claw");
-            // Tooltip.SetDefault("Increased tool and tile placement speed by 65%");
+            DisplayName.SetDefault("Antlion Claw");
+            Tooltip.SetDefault("Increased tool and tile placement speed by 65%");
         }
 
         public override void SetDefaults()

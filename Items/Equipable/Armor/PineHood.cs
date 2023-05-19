@@ -9,9 +9,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("6% increased magic critical strike chance" +
+            Tooltip.SetDefault("6% increased magic critical strike chance" +
                 "\nIncreased magic casting speed" +
-                "\nHas a set bonus when paired with a robe"); */
+                "\nHas a set bonus when paired with a robe");
         }
 
         public override void SetDefaults()

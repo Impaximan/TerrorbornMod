@@ -12,9 +12,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Crossbows
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Right click to load in ammo, up to max of 8" +
+            Tooltip.SetDefault("Right click to load in ammo, up to max of 8" +
                 "\nLeft click to rapidly fire loaded ammo" +
-                "\nFiring with 8 ammo loaded will release a blast of lightning bolts as well, but consume 3 shots"); */
+                "\nFiring with 8 ammo loaded will release a blast of lightning bolts as well, but consume 3 shots");
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         }
 

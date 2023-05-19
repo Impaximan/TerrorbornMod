@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.MiscConsumables
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Consumable" +
-                "\nGain access to a rare lavender chest that contains powerful loot"); */
+            Tooltip.SetDefault("Consumable" +
+                "\nGain access to a rare lavender chest that contains powerful loot");
         }
 
         public override void SetDefaults()

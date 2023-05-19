@@ -17,8 +17,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Killing an enemy gives a 15 second boost to life regen" +
-                "\nAbsurdly increased life regen while not in combat"); */
+            Tooltip.SetDefault("Killing an enemy gives a 15 second boost to life regen" +
+                "\nAbsurdly increased life regen while not in combat");
         }
 
         public override void SetDefaults()

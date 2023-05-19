@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("-10 defense" +
+            Tooltip.SetDefault("-10 defense" +
                 "\nIncreases max minions by 1" +
-                "\n10% increased minion damage"); */
+                "\n10% increased minion damage");
         }
 
         public override void SetDefaults()

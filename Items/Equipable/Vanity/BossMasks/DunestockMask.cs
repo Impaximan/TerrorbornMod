@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity.BossMasks
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dunestock Mask");
+            DisplayName.SetDefault("Dunestock Mask");
         }
 
         public override void SetDefaults()

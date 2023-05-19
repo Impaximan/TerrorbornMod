@@ -12,9 +12,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         int UntilBlast;
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Uses Rockets as ammo" +
+            Tooltip.SetDefault("Uses Rockets as ammo" +
                 "\nFires homing skulls that explode on contact with enemies, dealing 70 extra damage to the hit enemy and" +
-                "\nnearby enemies"); */
+                "\nnearby enemies");
         }
 
         public override void SetDefaults()

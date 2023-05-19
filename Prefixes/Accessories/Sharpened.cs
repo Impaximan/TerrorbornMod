@@ -7,7 +7,7 @@ namespace TerrorbornMod.Prefixes.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sharpened");
+            DisplayName.SetDefault("Sharpened");
             base.SetStaticDefaults();
         }
 

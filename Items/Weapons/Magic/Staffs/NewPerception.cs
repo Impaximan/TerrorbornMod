@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            // Tooltip.SetDefault("Casts strange eyes that eventually fire rays of light at your cursor");
+            Tooltip.SetDefault("Casts strange eyes that eventually fire rays of light at your cursor");
         }
         public override void SetDefaults()
         {

@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs.Debuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Midnight Flames");
-            // Description.SetDefault("Spiritual flames tear at your skin, decreasing your defense and damaging you over time");
+            DisplayName.SetDefault("Midnight Flames");
+            Description.SetDefault("Spiritual flames tear at your skin, decreasing your defense and damaging you over time");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

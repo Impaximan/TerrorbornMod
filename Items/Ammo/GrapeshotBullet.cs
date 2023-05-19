@@ -27,7 +27,7 @@ namespace TerrorbornMod.Items.Ammo
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Fires multiple bullets at once");
+            Tooltip.SetDefault("Fires multiple bullets at once");
         }
 
 

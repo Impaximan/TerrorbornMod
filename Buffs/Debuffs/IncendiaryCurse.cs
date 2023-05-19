@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs.Debuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Incendiary Warfare");
-            // Description.SetDefault("Greatly increased spawnrates");
+            DisplayName.SetDefault("Incendiary Warfare");
+            Description.SetDefault("Greatly increased spawnrates");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

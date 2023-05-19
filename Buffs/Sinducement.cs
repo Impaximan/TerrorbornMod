@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sinducement");
-            // Description.SetDefault("Your enemies will be punished.");
+            DisplayName.SetDefault("Sinducement");
+            Description.SetDefault("Your enemies will be punished.");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

@@ -113,7 +113,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 12;
-            // DisplayName.SetDefault("Azuredire");
+            DisplayName.SetDefault("Azuredire");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
 
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
@@ -824,7 +824,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            // DisplayName.SetDefault("Bubble");
+            DisplayName.SetDefault("Bubble");
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true
@@ -907,7 +907,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         public override string Texture => "TerrorbornMod/Items/Bubble";
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bubble");
+            DisplayName.SetDefault("Bubble");
         }
         public override void SetDefaults()
         {
@@ -930,7 +930,7 @@ namespace TerrorbornMod.NPCs.Bosses.TidalTitan
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            // DisplayName.SetDefault("Bubble");
+            DisplayName.SetDefault("Bubble");
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true

@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Placeable.Walls
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Stone infused with terror after many years of intense exposure");
+            Tooltip.SetDefault("Stone infused with terror after many years of intense exposure");
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 

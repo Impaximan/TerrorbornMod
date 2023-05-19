@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 	{
 		public override void SetStaticDefaults()
 		{
-			// Tooltip.SetDefault("Has very long range and homes into the cursor, but returns to you slowly");
+			Tooltip.SetDefault("Has very long range and homes into the cursor, but returns to you slowly");
 		}
 
 		public override void SetDefaults()

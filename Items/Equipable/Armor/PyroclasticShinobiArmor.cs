@@ -18,8 +18,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("6% increasd damage with thrown weapons" +
-                "\n12% increased critical strike chance with thrown weapons"); */
+            Tooltip.SetDefault("6% increasd damage with thrown weapons" +
+                "\n12% increased critical strike chance with thrown weapons");
         }
 
         public override void SetDefaults()
@@ -72,8 +72,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            /* Tooltip.SetDefault("10% increased damage with thrown weapons" +
-                "\n25% increased wing flight time"); */
+            Tooltip.SetDefault("10% increased damage with thrown weapons" +
+                "\n25% increased wing flight time");
         }
 
         public override void SetDefaults()
@@ -107,8 +107,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("6% increased damage with thrown weapons" +
-                "\n10% increased item use speed while moving"); */
+            Tooltip.SetDefault("6% increased damage with thrown weapons" +
+                "\n10% increased item use speed while moving");
         }
 
         public override void SetDefaults()

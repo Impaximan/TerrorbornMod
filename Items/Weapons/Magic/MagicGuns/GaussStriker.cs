@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Fires eratic, but infinitely piercing, bolts of lightning");
+            Tooltip.SetDefault("Fires eratic, but infinitely piercing, bolts of lightning");
         }
         public override void AddRecipes()
         {

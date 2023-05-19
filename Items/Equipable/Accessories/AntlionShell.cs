@@ -9,10 +9,10 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Generates a shield that rotates around you" +
+            Tooltip.SetDefault("Generates a shield that rotates around you" +
                 "\nThis shield can block a Projectile once every 5 seconds" +
                 "\nAdditionally, the shield will hit enemies it passes through dealing 50 damage" +
-                "\nBlocking a Projectile or hitting an enemy with the shield grants you the 'panic' buff for 5 seconds"); */
+                "\nBlocking a Projectile or hitting an enemy with the shield grants you the 'panic' buff for 5 seconds");
         }
 
         public override void SetDefaults()

@@ -13,8 +13,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Summons two hexed claws to fight with you, attacking when you do" +
-                "\nTheir behavior depends on the class you are attacking with"); */
+            Tooltip.SetDefault("Summons two hexed claws to fight with you, attacking when you do" +
+                "\nTheir behavior depends on the class you are attacking with");
         }
 
         public override void SetDefaults()

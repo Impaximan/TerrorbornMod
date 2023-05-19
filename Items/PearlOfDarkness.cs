@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Use to point to where the next terror ability is for 10 seconds");
+            Tooltip.SetDefault("Use to point to where the next terror ability is for 10 seconds");
         }
 
         public override void SetDefaults()

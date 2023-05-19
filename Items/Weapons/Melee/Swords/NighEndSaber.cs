@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Hitting enemies on left click grants you terror" +
-                "\nRight click to consume 25% terror and throw the saber, swapping places with the enemy it hits"); */
+            Tooltip.SetDefault("Hitting enemies on left click grants you terror" +
+                "\nRight click to consume 25% terror and throw the saber, swapping places with the enemy it hits");
         }
 
         public override void SetDefaults()

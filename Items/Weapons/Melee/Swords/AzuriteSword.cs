@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Fires azurite waves as it is swung");
+            Tooltip.SetDefault("Fires azurite waves as it is swung");
         }
         public override void SetDefaults()
         {

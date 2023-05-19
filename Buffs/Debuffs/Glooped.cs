@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs.Debuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Glooped");
-            // Description.SetDefault("Significantly decreased wing flight time");
+            DisplayName.SetDefault("Glooped");
+            Description.SetDefault("Significantly decreased wing flight time");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

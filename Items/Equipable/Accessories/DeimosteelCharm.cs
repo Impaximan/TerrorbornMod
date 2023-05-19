@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Increases the amount of bleaks that spawn in deimostone caves" +
-                "\nDoubles the chance that certain enemies will Drop terror samples"); */
+            Tooltip.SetDefault("Increases the amount of bleaks that spawn in deimostone caves" +
+                "\nDoubles the chance that certain enemies will Drop terror samples");
         }
 
         public override void SetDefaults()

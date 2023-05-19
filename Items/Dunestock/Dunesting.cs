@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Dunestock
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Fires a claw that splits into 3 arrows after travelling for a moment");
+            Tooltip.SetDefault("Fires a claw that splits into 3 arrows after travelling for a moment");
         }
         public override void SetDefaults()
         {

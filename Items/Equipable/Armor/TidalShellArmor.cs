@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            // DisplayName.SetDefault("Tidal shell chestplate");
-            // Tooltip.SetDefault("Melee damage increased by 4%");
+            DisplayName.SetDefault("Tidal shell chestplate");
+            Tooltip.SetDefault("Melee damage increased by 4%");
         }
 
         public override void SetDefaults()
@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
         int TilInAir = 20;
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Melee damage increased by 4%");
+            Tooltip.SetDefault("Melee damage increased by 4%");
         }
 
         public override void SetDefaults()
@@ -61,8 +61,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Melee damage increased by 4%" +
-                "\nMelee crit chance increased by 5%"); */
+            Tooltip.SetDefault("Melee damage increased by 4%" +
+                "\nMelee crit chance increased by 5%");
         }
 
         public override void SetDefaults()

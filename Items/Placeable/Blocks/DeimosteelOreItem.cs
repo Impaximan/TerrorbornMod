@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Placeable.Blocks
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Deimosteel Ore");
-            // Tooltip.SetDefault("Usually found near Deimostone, but can occasionally be found throughout the caverns");
+            DisplayName.SetDefault("Deimosteel Ore");
+            Tooltip.SetDefault("Usually found near Deimostone, but can occasionally be found throughout the caverns");
         }
 
         public override void SetDefaults()

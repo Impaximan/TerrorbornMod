@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Nunchucks
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Can deflect Projectiles with a 1.5 second cooldown");
+            Tooltip.SetDefault("Can deflect Projectiles with a 1.5 second cooldown");
         }
 
         public override void SetDefaults()

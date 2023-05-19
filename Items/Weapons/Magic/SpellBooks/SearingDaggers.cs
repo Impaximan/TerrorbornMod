@@ -19,8 +19,8 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Fires many flaming daggers in an even spread" +
-                "\nThese daggers will create weaker versions of themselves on critical hits"); */
+            Tooltip.SetDefault("Fires many flaming daggers in an even spread" +
+                "\nThese daggers will create weaker versions of themselves on critical hits");
         }
 
         public override void SetDefaults()

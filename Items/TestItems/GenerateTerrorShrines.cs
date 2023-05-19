@@ -14,7 +14,7 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Generates the terror shrines in a pre-made world");
+            Tooltip.SetDefault("Generates the terror shrines in a pre-made world");
         }
         public override void SetDefaults()
         {

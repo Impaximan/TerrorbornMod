@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Thrown
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Creates two discs that rapidly spin around you, shredding through foes" +
-                "\nThe distance at which they spin around you is controlled by the mouse cursor"); */
+            Tooltip.SetDefault("Creates two discs that rapidly spin around you, shredding through foes" +
+                "\nThe distance at which they spin around you is controlled by the mouse cursor");
         }
 
         public override void SetDefaults()

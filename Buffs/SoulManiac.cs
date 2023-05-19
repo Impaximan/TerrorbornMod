@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Soul Maniac");
-            // Description.SetDefault("Increased restless use speed while not fully charged and increased restless damage");
+            DisplayName.SetDefault("Soul Maniac");
+            Description.SetDefault("Increased restless use speed while not fully charged and increased restless damage");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Peacekeeper's bag");
-            /* Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}" +
-                "\nContains useful hardmode loot to help you along your journey"); */
+            DisplayName.SetDefault("Peacekeeper's bag");
+            Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}" +
+                "\nContains useful hardmode loot to help you along your journey");
         }
 
         public override void SetDefaults()

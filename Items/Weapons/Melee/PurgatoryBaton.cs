@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Fires deathrays in all directions");
+            Tooltip.SetDefault("Fires deathrays in all directions");
         }
 
         public override void SetDefaults()

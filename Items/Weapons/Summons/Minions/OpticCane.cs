@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Summons an optic demon that swarms enemies and spews blood");
+            Tooltip.SetDefault("Summons an optic demon that swarms enemies and spews blood");
         }
         public override void SetDefaults()
         {
@@ -258,7 +258,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Optic Demon");
+            DisplayName.SetDefault("Optic Demon");
             // Description.SetDefault("An optic demon is fighting for you!");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;

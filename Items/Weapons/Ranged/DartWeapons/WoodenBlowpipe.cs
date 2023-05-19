@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.DartWeapons
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Uses darts as ammo");
+            Tooltip.SetDefault("Uses darts as ammo");
         }
         public override void SetDefaults()
         {

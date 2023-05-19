@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Spawns a horrific eye above you that cries damaging tears when enemies are nearby");
+            Tooltip.SetDefault("Spawns a horrific eye above you that cries damaging tears when enemies are nearby");
         }
 
         public override void SetDefaults()

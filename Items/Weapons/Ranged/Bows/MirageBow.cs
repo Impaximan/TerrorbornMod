@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Creates numerous spectral versions of itself to fire at your cursor");
+            Tooltip.SetDefault("Creates numerous spectral versions of itself to fire at your cursor");
         }
         public override void SetDefaults()
         {

@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Dunestock
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Pulls nearby enemies closer");
+            Tooltip.SetDefault("Pulls nearby enemies closer");
         }
 
         public override void SetDefaults()

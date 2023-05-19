@@ -19,9 +19,9 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            // DisplayName.SetDefault("Toothache staff");
-            /* Tooltip.SetDefault("Fires multiple eater's tooth Projectiles" +
-                "\nIgnites hit enemies with cursed flames on critical hits"); */
+            DisplayName.SetDefault("Toothache staff");
+            Tooltip.SetDefault("Fires multiple eater's tooth Projectiles" +
+                "\nIgnites hit enemies with cursed flames on critical hits");
         }
         public override void SetDefaults()
         {

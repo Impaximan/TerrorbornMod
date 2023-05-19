@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Generates terror over time" +
-                "\nBeing under 30% terror inflicts you with the 'Midnight Flames' debuff"); */
+            Tooltip.SetDefault("Generates terror over time" +
+                "\nBeing under 30% terror inflicts you with the 'Midnight Flames' debuff");
         }
 
         public override void SetDefaults()

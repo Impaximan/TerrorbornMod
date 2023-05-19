@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Polearms
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("The Prideripper");
-            // Tooltip.SetDefault("Rips through reality, creating many fragments of light to attack your foes");
+            DisplayName.SetDefault("The Prideripper");
+            Tooltip.SetDefault("Rips through reality, creating many fragments of light to attack your foes");
         }
 
         public override void AddRecipes()

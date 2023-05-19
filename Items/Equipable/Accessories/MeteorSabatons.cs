@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Meteorite Sabatons");
-            // Tooltip.SetDefault("Hold DOWN to fall faster");
+            DisplayName.SetDefault("Meteorite Sabatons");
+            Tooltip.SetDefault("Hold DOWN to fall faster");
         }
 
         public override void SetDefaults()

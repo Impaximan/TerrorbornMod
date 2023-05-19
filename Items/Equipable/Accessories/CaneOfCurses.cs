@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cane of Cursing");
-            // Tooltip.SetDefault("Hitting enemies has a chance to inflict them with a random debuff");
+            DisplayName.SetDefault("Cane of Cursing");
+            Tooltip.SetDefault("Hitting enemies has a chance to inflict them with a random debuff");
         }
 
         public override void SetDefaults()

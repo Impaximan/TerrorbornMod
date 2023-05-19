@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Placeable.Furniture
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Incendiary Ritual");
-            // Tooltip.SetDefault("Greatly increases spawnrates while nearby");
+            DisplayName.SetDefault("Incendiary Ritual");
+            Tooltip.SetDefault("Greatly increases spawnrates while nearby");
         }
         public override void SetDefaults()
         {

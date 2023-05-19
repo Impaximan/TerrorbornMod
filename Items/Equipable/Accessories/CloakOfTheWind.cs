@@ -10,9 +10,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Double tap left or right to dash" +
+            Tooltip.SetDefault("Double tap left or right to dash" +
                 "\nDashing right as a Projectile or enemy is near you increases your weapon" +
-                "\nuse speed by 10% for 3 seconds"); */
+                "\nuse speed by 10% for 3 seconds");
         }
 
         public override void SetDefaults()
@@ -175,7 +175,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Windspeed");
+            DisplayName.SetDefault("Windspeed");
             // Description.SetDefault("10% increased weapon use speed");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;

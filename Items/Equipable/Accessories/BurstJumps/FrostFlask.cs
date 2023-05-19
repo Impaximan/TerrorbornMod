@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString((int)(60 * 1.5f)));
+            Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString((int)(60 * 1.5f)));
         }
 
         public override void SetDefaults()

@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("JellyBru's Featherwear");
-            // Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
+            DisplayName.SetDefault("JellyBru's Featherwear");
+            Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
         public override void SetDefaults()
@@ -27,8 +27,8 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("JellyBru's Talons");
-            // Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
+            DisplayName.SetDefault("JellyBru's Talons");
+            Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
         public override void SetDefaults()
@@ -45,8 +45,8 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("JellyBru's Beak");
-            // Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
+            DisplayName.SetDefault("JellyBru's Beak");
+            Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
         public override void SetDefaults()

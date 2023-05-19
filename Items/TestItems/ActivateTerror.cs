@@ -13,10 +13,10 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Activate/Deactivate terror");
-            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+            DisplayName.SetDefault("Activate/Deactivate terror");
+            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nUnlocks Shriek of Horror in pre-made worlds" +
-                "\nUse again to take it away"); */
+                "\nUse again to take it away");
         }
         public override void SetDefaults()
         {

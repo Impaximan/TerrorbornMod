@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Not consumable" +
-                "\nSummons a Hexed Constructor"); */
+            Tooltip.SetDefault("Not consumable" +
+                "\nSummons a Hexed Constructor");
         }
 
         public override void SetDefaults()

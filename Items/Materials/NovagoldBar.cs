@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Novagold Alloy");
-            // Tooltip.SetDefault("Enchanted with the power of a star");
+            DisplayName.SetDefault("Novagold Alloy");
+            Tooltip.SetDefault("Enchanted with the power of a star");
         }
 
         public override void SetDefaults()

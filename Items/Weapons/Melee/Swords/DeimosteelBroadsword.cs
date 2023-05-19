@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Creates a short ranged piercing wave when swung");
+            Tooltip.SetDefault("Creates a short ranged piercing wave when swung");
         }
 
         public override void SetDefaults()

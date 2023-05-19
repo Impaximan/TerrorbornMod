@@ -13,7 +13,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            // Tooltip.SetDefault("Creates a flower at your cursor that explodes into numerous seeds");
+            Tooltip.SetDefault("Creates a flower at your cursor that explodes into numerous seeds");
         }
 
         public override void SetDefaults()

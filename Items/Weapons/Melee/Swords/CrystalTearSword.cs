@@ -10,9 +10,9 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Crystal Tear Blade");
-            /* Tooltip.SetDefault("Crystals rain from the sky on swing\n" +
-                               "True melee hits will guarantee crititcal strikes and do 4x damage"); */
+            DisplayName.SetDefault("Crystal Tear Blade");
+            Tooltip.SetDefault("Crystals rain from the sky on swing\n" +
+                               "True melee hits will guarantee crititcal strikes and do 4x damage");
         }
 
         public override void SetDefaults()

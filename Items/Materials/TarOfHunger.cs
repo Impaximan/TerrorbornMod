@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Undying Tar");
-            // Tooltip.SetDefault("'You think you can feel it moving....'");
+            DisplayName.SetDefault("Undying Tar");
+            Tooltip.SetDefault("'You think you can feel it moving....'");
         }
         public override void SetDefaults()
         {

@@ -9,9 +9,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Hitting an enemy causes a spearhead to form above them" +
+            Tooltip.SetDefault("Hitting an enemy causes a spearhead to form above them" +
                 "\nThis spearhead will loom above them for 3 seconds before falling and dealing 50 damage" +
-                "\nOnly one spearhead can form at once per enemy"); */
+                "\nOnly one spearhead can form at once per enemy");
         }
         public override void SetDefaults()
         {

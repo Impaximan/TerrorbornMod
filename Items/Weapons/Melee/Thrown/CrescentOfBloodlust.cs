@@ -26,9 +26,9 @@ namespace TerrorbornMod.Items.Weapons.Melee.Thrown
         }
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Throws a boomerang that returns to you and leaves a trail of homing blood" +
+            Tooltip.SetDefault("Throws a boomerang that returns to you and leaves a trail of homing blood" +
                 "\nThe higher the stack, the more boomerangs you can throw at once" +
-                "\nMaximum stack of three"); */
+                "\nMaximum stack of three");
         }
         public override void SetDefaults()
         {

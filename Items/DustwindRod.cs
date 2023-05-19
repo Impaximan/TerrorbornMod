@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Use to start a sandstorm" +
-                "\nIf a sandstorm is already happening, it will end the sandstorm"); */
+            Tooltip.SetDefault("Use to start a sandstorm" +
+                "\nIf a sandstorm is already happening, it will end the sandstorm");
         }
         public override void SetDefaults()
         {

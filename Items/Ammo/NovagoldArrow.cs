@@ -26,7 +26,7 @@ namespace TerrorbornMod.Items.Ammo
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Travels at the speed of light");
+            Tooltip.SetDefault("Travels at the speed of light");
         }
 
         public override void AddRecipes()

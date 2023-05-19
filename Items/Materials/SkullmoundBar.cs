@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("'You mind shrieks as you touch it'");
+            Tooltip.SetDefault("'You mind shrieks as you touch it'");
         }
         public override void SetDefaults()
         {

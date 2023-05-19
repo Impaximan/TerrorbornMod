@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Penumbral's Chestwear");
-            // Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
+            DisplayName.SetDefault("Penumbral's Chestwear");
+            Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
         public override void SetDefaults()
@@ -27,8 +27,8 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Penumbral's Legwear");
-            // Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
+            DisplayName.SetDefault("Penumbral's Legwear");
+            Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
         public override void SetDefaults()
@@ -45,8 +45,8 @@ namespace TerrorbornMod.Items.Equipable.DeveloperSets
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Penumbral's Visor");
-            // Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
+            DisplayName.SetDefault("Penumbral's Visor");
+            Tooltip.SetDefault("[c/8A9B98:Great for impersonating Terrorborn devs!]");
         }
 
         public override void SetDefaults()

@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Requires " + terrorRequired + "% terror per use" +
-                "\nHammers insanely fast"); */
+            Tooltip.SetDefault("Requires " + terrorRequired + "% terror per use" +
+                "\nHammers insanely fast");
         }
 
         public override void AddRecipes()

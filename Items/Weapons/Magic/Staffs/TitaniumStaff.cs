@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            // Tooltip.SetDefault("Fires a titanium sawblade that slows down on hit to damage enemies multiple times");
+            Tooltip.SetDefault("Fires a titanium sawblade that slows down on hit to damage enemies multiple times");
         }
         public override void SetDefaults()
         {

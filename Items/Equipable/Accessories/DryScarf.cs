@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("+1 minion slot" +
+            Tooltip.SetDefault("+1 minion slot" +
                 "\n25% increased minion slot count" +
-                "\n+1 defense for every two minions active"); */
+                "\n+1 defense for every two minions active");
         }
 
         public override void SetDefaults()

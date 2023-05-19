@@ -17,7 +17,7 @@ namespace TerrorbornMod.Items.Incendius
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Incendius Waraxe");
+            DisplayName.SetDefault("Incendius Waraxe");
         }
 
         public override void SetDefaults()

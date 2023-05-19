@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Polearms
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Fires phoenix feathers if there are none currently nearby, which stick into enemies" +
-                "\nHitting an enemy with the spear itself causes all feathers to return to you, damaging enemies again"); */
+            Tooltip.SetDefault("Fires phoenix feathers if there are none currently nearby, which stick into enemies" +
+                "\nHitting an enemy with the spear itself causes all feathers to return to you, damaging enemies again");
         }
 
         public override void SetDefaults()

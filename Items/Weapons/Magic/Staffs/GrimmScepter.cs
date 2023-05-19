@@ -29,7 +29,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            // Tooltip.SetDefault("On crits enemies will release collectable Grimm Orbs that heal you for 2 health");
+            Tooltip.SetDefault("On crits enemies will release collectable Grimm Orbs that heal you for 2 health");
         }
 
         public override void SetDefaults()

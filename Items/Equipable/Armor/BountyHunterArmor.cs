@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("4% increased ranged damage" +
-                "\n4% increased ranged critical strike chance"); */
+            Tooltip.SetDefault("4% increased ranged damage" +
+                "\n4% increased ranged critical strike chance");
             //ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = false;
             //ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
@@ -79,8 +79,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("4% increased ranged damage" +
-                "\n3% increased ranged critical strike chance"); */
+            Tooltip.SetDefault("4% increased ranged damage" +
+                "\n3% increased ranged critical strike chance");
             ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
@@ -107,8 +107,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("4% increased ranged damage" +
-                "\n2% increased ranged critical strike chance"); */
+            Tooltip.SetDefault("4% increased ranged damage" +
+                "\n2% increased ranged critical strike chance");
         }
 
         public override void SetDefaults()

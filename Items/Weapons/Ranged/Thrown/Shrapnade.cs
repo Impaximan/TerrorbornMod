@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Explodes into multiple bits of shrapnel");
+            Tooltip.SetDefault("Explodes into multiple bits of shrapnel");
         }
 
         public override void SetDefaults()

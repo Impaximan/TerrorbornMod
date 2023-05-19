@@ -11,9 +11,9 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Shrieker's Lung");
-            /* Tooltip.SetDefault("Fires bouncing sound waves that home into confused enemies" +
-                "\nHas a chance to confuse enemies for 5 seconds"); */
+            DisplayName.SetDefault("Shrieker's Lung");
+            Tooltip.SetDefault("Fires bouncing sound waves that home into confused enemies" +
+                "\nHas a chance to confuse enemies for 5 seconds");
         }
 
         public override void SetDefaults()

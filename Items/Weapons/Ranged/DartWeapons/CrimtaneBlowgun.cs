@@ -10,9 +10,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged.DartWeapons
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Bloodied Shotpipe");
-            /* Tooltip.SetDefault("Costs 0.5% terror to use" +
-                "\nUses darts as ammo and fires 3-4 darts at once"); */
+            DisplayName.SetDefault("Bloodied Shotpipe");
+            Tooltip.SetDefault("Costs 0.5% terror to use" +
+                "\nUses darts as ammo and fires 3-4 darts at once");
         }
 
         public override void SetDefaults()

@@ -12,8 +12,8 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            /* Tooltip.SetDefault("Casts a light orb that follows the cursor" +
-                "\nThe orb will explode into powerful beams of light after 2 seconds"); */
+            Tooltip.SetDefault("Casts a light orb that follows the cursor" +
+                "\nThe orb will explode into powerful beams of light after 2 seconds");
         }
         public override void SetDefaults()
         {

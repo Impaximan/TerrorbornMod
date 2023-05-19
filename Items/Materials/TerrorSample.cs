@@ -11,7 +11,7 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("'It seems to run from you...'");
+            Tooltip.SetDefault("'It seems to run from you...'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
             ItemID.Sets.ItemNoGravity[Item.type] = true;
         }

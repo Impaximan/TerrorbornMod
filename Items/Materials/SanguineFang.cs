@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Sanguine fang");
-            // Tooltip.SetDefault("The fang of a vampiric foe");
+            DisplayName.SetDefault("Sanguine fang");
+            Tooltip.SetDefault("The fang of a vampiric foe");
         }
         public override void SetDefaults()
         {

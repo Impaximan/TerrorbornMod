@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Placeable.Blocks
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("If you listen closely, you can hear... wispers?");
+            Tooltip.SetDefault("If you listen closely, you can hear... wispers?");
         }
 
         public override void SetDefaults()

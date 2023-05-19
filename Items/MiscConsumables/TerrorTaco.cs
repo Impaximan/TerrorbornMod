@@ -9,9 +9,9 @@ namespace TerrorbornMod.Items.MiscConsumables
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Causes you to generate terror over time" +
+            Tooltip.SetDefault("Causes you to generate terror over time" +
                 "\nWhile this is active, being at 100% terror will cause you to die" +
-                "\nYour movement speed will be greatly decreased while over 50% terror"); */
+                "\nYour movement speed will be greatly decreased while over 50% terror");
         }
         public override void SetDefaults()
         {
@@ -34,7 +34,7 @@ namespace TerrorbornMod.Items.MiscConsumables
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Horrifically Stuffed");
+            DisplayName.SetDefault("Horrifically Stuffed");
             // Description.SetDefault("You generate terror over time... but be sure not to get too full");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;

@@ -17,11 +17,11 @@ namespace TerrorbornMod.Items
         }
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Granite Virus");
-            /* Tooltip.SetDefault("Turns you into a precise granite spark for 5 seconds\n" +
+            DisplayName.SetDefault("Granite Virus");
+            Tooltip.SetDefault("Turns you into a precise granite spark for 5 seconds\n" +
                 "While transformed, you can't use items and you'll take 50% more damage\n" +
                 "You can also press the 'Quick Spark' hotkey to transform as long as the item is in your inventory\n" +
-                "30 second cooldown"); */
+                "30 second cooldown");
         }
         public override void SetDefaults()
         {

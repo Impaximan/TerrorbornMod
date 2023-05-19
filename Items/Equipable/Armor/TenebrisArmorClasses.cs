@@ -19,10 +19,10 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Tenebris Helmet");
-            /* Tooltip.SetDefault("6% increased melee damage" +
+            DisplayName.SetDefault("Tenebris Helmet");
+            Tooltip.SetDefault("6% increased melee damage" +
                 "\n16% increased melee critical strike chance" +
-                "\n+15 max life"); */
+                "\n+15 max life");
         }
 
         public override void SetDefaults()
@@ -89,9 +89,9 @@ namespace TerrorbornMod.Items.Equipable.Armor
         }
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("6% increased melee damage" +
+            Tooltip.SetDefault("6% increased melee damage" +
                 "\n35% terror from Shriek of Horror" +
-                "\n+20 max life"); */
+                "\n+20 max life");
         }
 
         public override void SetDefaults()
@@ -125,10 +125,10 @@ namespace TerrorbornMod.Items.Equipable.Armor
         }
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Tenebris Greaves");
-            /* Tooltip.SetDefault("6% increased melee damage" +
+            DisplayName.SetDefault("Tenebris Greaves");
+            Tooltip.SetDefault("6% increased melee damage" +
                 "\nIncreased movement speed" +
-                "\n+15 max life"); */
+                "\n+15 max life");
         }
 
         public override void SetDefaults()

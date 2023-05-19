@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Creates a horizontal deathray upon hitting an enemy");
+            Tooltip.SetDefault("Creates a horizontal deathray upon hitting an enemy");
         }
         public override void SetDefaults()
         {

@@ -10,8 +10,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Knocks enemies' bones out on hit" +
-                "\nTheir bones will shatter into smaller pieces upon hitting the ground"); */
+            Tooltip.SetDefault("Knocks enemies' bones out on hit" +
+                "\nTheir bones will shatter into smaller pieces upon hitting the ground");
         }
         public override void SetDefaults()
         {

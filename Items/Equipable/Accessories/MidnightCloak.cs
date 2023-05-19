@@ -22,11 +22,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Double tap left or right to dash" +
+            Tooltip.SetDefault("Double tap left or right to dash" +
                 "\nDashing right as a Projectile or enemy is near you increases your weapon" +
                 "\nuse speed by 10% for 3 seconds" +
                 "\nEvery 15 seconds, this can also grant you immunity frames" +
-                "\nGrants a chance to dodge attacks that would have hit you"); */
+                "\nGrants a chance to dodge attacks that would have hit you");
         }
 
         public override void SetDefaults()
@@ -196,7 +196,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Midnight Dodge Cooldown");
+            DisplayName.SetDefault("Midnight Dodge Cooldown");
             // Description.SetDefault("You cannot get iframes from close dashes");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;

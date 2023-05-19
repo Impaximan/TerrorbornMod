@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Sticks onto hit enemies, zapping them or other nearby foes" +
-                "\nWhile holding this item you gain 10 armor penetration"); */
+            Tooltip.SetDefault("Sticks onto hit enemies, zapping them or other nearby foes" +
+                "\nWhile holding this item you gain 10 armor penetration");
         }
 
         public override void SetDefaults()

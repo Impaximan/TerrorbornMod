@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Polearms
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Azurite Glaive");
-            // Tooltip.SetDefault("Fires a piercing azure beam");
+            DisplayName.SetDefault("Azurite Glaive");
+            Tooltip.SetDefault("Fires a piercing azure beam");
         }
         public override void AddRecipes()
         {

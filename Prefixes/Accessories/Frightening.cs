@@ -7,7 +7,7 @@ namespace TerrorbornMod.Prefixes.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Frightening");
+            DisplayName.SetDefault("Frightening");
             base.SetStaticDefaults();
         }
 

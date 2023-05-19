@@ -106,10 +106,10 @@ namespace TerrorbornMod.Abilities
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Get Starving Storm");
-            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+            DisplayName.SetDefault("Get Starving Storm");
+            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nUnlocks 'Starving Storm'" +
-                "\nRight click to get a list of unlocked abilities"); */
+                "\nRight click to get a list of unlocked abilities");
         }
 
         public override void SetDefaults()

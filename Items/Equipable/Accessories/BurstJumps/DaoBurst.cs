@@ -9,9 +9,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString(60) + 
+            Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString(60) + 
                 "\nThe burst from this will launch you downward rather than upward" +
-                "\nThe burst additionally gives you some of your wing flight time back"); */
+                "\nThe burst additionally gives you some of your wing flight time back");
         }
 
         public override void AddRecipes()

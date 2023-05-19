@@ -13,9 +13,9 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Toggle AA");
-            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
-                "\nToggles [i/s1:" + ModContent.ItemType<PermanentUpgrades.AnekronianApple>() + "]"); */
+            DisplayName.SetDefault("Toggle AA");
+            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+                "\nToggles [i/s1:" + ModContent.ItemType<PermanentUpgrades.AnekronianApple>() + "]");
         }
         public override void SetDefaults()
         {

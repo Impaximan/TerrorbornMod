@@ -18,8 +18,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("15% increased damage" +
-                "\nIncreased movement speed"); */
+            Tooltip.SetDefault("15% increased damage" +
+                "\nIncreased movement speed");
         }
 
         public override void UpdateEquip(Player player)
@@ -71,8 +71,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("+50 max life" +
-                "\n5% increased damage"); */
+            Tooltip.SetDefault("+50 max life" +
+                "\n5% increased damage");
         }
 
         public override void UpdateEquip(Player player)
@@ -117,10 +117,10 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("7% increased item use speed" +
+            Tooltip.SetDefault("7% increased item use speed" +
                 "\n8% increased damage" +
                 "\nIncreases flight time by 50%" +
-                "\n+35 max life"); */
+                "\n+35 max life");
         }
 
         public override void UpdateEquip(Player player)
@@ -168,8 +168,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("10% increased critical strike chance" +
-                "\n8% increased item use speed"); */
+            Tooltip.SetDefault("10% increased critical strike chance" +
+                "\n8% increased item use speed");
         }
 
         public override void UpdateEquip(Player player)

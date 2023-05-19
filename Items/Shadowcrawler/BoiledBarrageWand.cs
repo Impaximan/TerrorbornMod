@@ -19,8 +19,8 @@ namespace TerrorbornMod.Items.Shadowcrawler
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Midnight Barrage Staff");
-            // Tooltip.SetDefault("Rains midnight fireballs from above");
+            DisplayName.SetDefault("Midnight Barrage Staff");
+            Tooltip.SetDefault("Rains midnight fireballs from above");
             Item.staff[Item.type] = true;
         }
 

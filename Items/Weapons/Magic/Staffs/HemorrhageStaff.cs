@@ -19,8 +19,8 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            /* Tooltip.SetDefault("Fires a crimson heart that bounces around" +
-                "\nThis heart will explode into blood after 4 seconds or after hitting an enemy"); */
+            Tooltip.SetDefault("Fires a crimson heart that bounces around" +
+                "\nThis heart will explode into blood after 4 seconds or after hitting an enemy");
         }
 
         public override void SetDefaults()

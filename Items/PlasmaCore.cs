@@ -23,9 +23,9 @@ namespace TerrorbornMod.Items
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Midnight Energy Core");
-            /* Tooltip.SetDefault("Calls forth the first prototype, a failure to create control" +
-                "\nNot consumable"); */
+            DisplayName.SetDefault("Midnight Energy Core");
+            Tooltip.SetDefault("Calls forth the first prototype, a failure to create control" +
+                "\nNot consumable");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 14));
         }
 

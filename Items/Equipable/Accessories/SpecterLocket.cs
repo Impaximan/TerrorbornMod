@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Saves you from death, bringing you to 25 life and granting 4 seconds of damage immunity instead" +
+            Tooltip.SetDefault("Saves you from death, bringing you to 25 life and granting 4 seconds of damage immunity instead" +
                 "\nYour life regen is also increased while you have said damage immunity" +
-                "\n3 minute cooldown"); */
+                "\n3 minute cooldown");
         }
 
         public override void SetDefaults()

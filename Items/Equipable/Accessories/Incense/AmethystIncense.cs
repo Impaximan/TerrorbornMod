@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.Incense
         }
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Makes your terror meter purple");
+            Tooltip.SetDefault("Makes your terror meter purple");
         }
 
         public override void SetDefaults()

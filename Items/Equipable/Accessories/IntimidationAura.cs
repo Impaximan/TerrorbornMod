@@ -10,9 +10,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Intimidation Aura");
-            /* Tooltip.SetDefault("Closely dodging hostile enemies and Projectiles will grant you terror" +
-                "\nGetting hit will cause you to lose a fourth of the terror you have"); */
+            DisplayName.SetDefault("Intimidation Aura");
+            Tooltip.SetDefault("Closely dodging hostile enemies and Projectiles will grant you terror" +
+                "\nGetting hit will cause you to lose a fourth of the terror you have");
         }
 
         public override void SetDefaults()

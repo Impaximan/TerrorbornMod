@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.Dunestock
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Needle Staff");
-            // Tooltip.SetDefault("Rapidly fires inaccurate needles");
+            DisplayName.SetDefault("Needle Staff");
+            Tooltip.SetDefault("Rapidly fires inaccurate needles");
             Item.staff[Item.type] = true;
         }
 

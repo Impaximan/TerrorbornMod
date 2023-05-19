@@ -11,11 +11,11 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Grave Rollers");
-            /* Tooltip.SetDefault("Double tap down while in the air to do a short flip" +
+            DisplayName.SetDefault("Grave Rollers");
+            Tooltip.SetDefault("Double tap down while in the air to do a short flip" +
                 "\nLanding while in the middle of a flip will launch you forward and heal you slightly" +
                 "\nDo this repeatedly to achieve sonic speed" +
-                "\n'Rolled in my grave at the speed of sound... got places to go, gotta follow my rainbow!'"); */
+                "\n'Rolled in my grave at the speed of sound... got places to go, gotta follow my rainbow!'");
         }
 
         public override void AddRecipes()

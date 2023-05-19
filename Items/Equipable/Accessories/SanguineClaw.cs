@@ -8,9 +8,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Increases critical damage by 15%" +
+            Tooltip.SetDefault("Increases critical damage by 15%" +
                 "\n20% increased thrown and ranged critical strike chance while close to an enemy" +
-                "\n12% increased thrown and ranged damage"); */
+                "\n12% increased thrown and ranged damage");
         }
 
         public override void SetDefaults()

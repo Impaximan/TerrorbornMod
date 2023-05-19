@@ -17,7 +17,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Thrown
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Leaves a trail of bees when thrown");
+            Tooltip.SetDefault("Leaves a trail of bees when thrown");
         }
 
         public override void SetDefaults()

@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Greatly increased attack speed while below 25% of your max life");
+            Tooltip.SetDefault("Greatly increased attack speed while below 25% of your max life");
         }
         public override void SetDefaults()
         {

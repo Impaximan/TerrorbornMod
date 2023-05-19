@@ -124,7 +124,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
         Vector2 portalPos = Vector2.Zero;
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Prototype I");
+            DisplayName.SetDefault("Prototype I");
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }

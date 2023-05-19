@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Hitting enemies with ranged weapons has a chance to cause a rocket to fall from above" +
-                "\n10% increased ranged damage"); */
+            Tooltip.SetDefault("Hitting enemies with ranged weapons has a chance to cause a rocket to fall from above" +
+                "\n10% increased ranged damage");
         }
 
         public override void SetDefaults()

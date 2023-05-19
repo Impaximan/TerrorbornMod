@@ -14,9 +14,9 @@ namespace TerrorbornMod.Items
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("While this item is favorited in your inventory, dark energy will be stored in the tonic, up to a maximum of 5" +
+            Tooltip.SetDefault("While this item is favorited in your inventory, dark energy will be stored in the tonic, up to a maximum of 5" +
                 "\nUse the item to consume all stored dark energy, granting you 15% terror per energy instead of 10%" +
-                "\nUsing this will also decrease your damage by 15% for 15 seconds"); */
+                "\nUsing this will also decrease your damage by 15% for 15 seconds");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(10, 6));
         }
 

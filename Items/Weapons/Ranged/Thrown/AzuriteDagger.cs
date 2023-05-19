@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Throws a dagger that isn't slowed by water" +
-                "\nThis dagger will ricochet off of enemies and momentarily linger instead of falling"); */
+            Tooltip.SetDefault("Throws a dagger that isn't slowed by water" +
+                "\nThis dagger will ricochet off of enemies and momentarily linger instead of falling");
         }
         public override void SetDefaults()
         {
@@ -51,7 +51,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Azurite Dagger");
+            DisplayName.SetDefault("Azurite Dagger");
         }
 
         public override void SetDefaults()

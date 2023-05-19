@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Placeable.Furniture
 	{
 		public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Deimostone Workbench");
+			DisplayName.SetDefault("Deimostone Workbench");
 		}
 
 		public override void SetDefaults()

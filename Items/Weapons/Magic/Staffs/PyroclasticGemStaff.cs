@@ -24,7 +24,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            // Tooltip.SetDefault("Fires a pyroclastic bolt that splits at the mouse cursor");
+            Tooltip.SetDefault("Fires a pyroclastic bolt that splits at the mouse cursor");
         }
         public override void SetDefaults()
         {

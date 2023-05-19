@@ -13,10 +13,10 @@ namespace TerrorbornMod.Items.Weapons.Summons.Whips
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("\n12 summon tag summon damage" +
+            Tooltip.SetDefault("\n12 summon tag summon damage" +
                 "\nRight click to use the whip in the opposite direction" +
                 "\nAlternate between left and right click to deal critical hits" +
-                "\nCritical hits also have increased tag damage"); */
+                "\nCritical hits also have increased tag damage");
         }
 
         public override void SetDefaults()

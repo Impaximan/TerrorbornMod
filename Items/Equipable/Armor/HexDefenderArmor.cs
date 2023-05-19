@@ -27,8 +27,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("5% increased melee damage" +
-                "\n4% increased melee critical strike chance"); */
+            Tooltip.SetDefault("5% increased melee damage" +
+                "\n4% increased melee critical strike chance");
         }
 
         public override void SetDefaults()
@@ -96,8 +96,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("7% increased melee damage" +
-                "\n5% increased melee speed"); */
+            Tooltip.SetDefault("7% increased melee damage" +
+                "\n5% increased melee speed");
             ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
             ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
@@ -139,8 +139,8 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("6% increased melee damage" +
-                "\n2% increased melee critical strike chance"); */
+            Tooltip.SetDefault("6% increased melee damage" +
+                "\n2% increased melee critical strike chance");
         }
 
         public override void SetDefaults()
@@ -163,7 +163,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Hexed Melee Speed");
+            DisplayName.SetDefault("Hexed Melee Speed");
             // Description.SetDefault("Increased melee speed");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;

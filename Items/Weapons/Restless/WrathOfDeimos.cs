@@ -13,7 +13,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         int UntilBlast;
         public override void RestlessSetStaticDefaults()
         {
-            // DisplayName.SetDefault("Wrath of Deimos");
+            DisplayName.SetDefault("Wrath of Deimos");
             Item.staff[Item.type] = true;
         }
 

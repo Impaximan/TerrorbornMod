@@ -19,7 +19,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Summons a storm cell sentry that rapidly zaps nearby enemies");
+            Tooltip.SetDefault("Summons a storm cell sentry that rapidly zaps nearby enemies");
         }
 
         public override void SetDefaults()

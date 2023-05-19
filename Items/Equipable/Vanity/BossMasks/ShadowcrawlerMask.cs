@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Equipable.Vanity.BossMasks
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Shadowcrawler Mask");
+            DisplayName.SetDefault("Shadowcrawler Mask");
         }
 
         public override void SetDefaults()

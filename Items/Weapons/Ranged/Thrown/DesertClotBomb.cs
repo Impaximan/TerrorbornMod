@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Explodes into homing antlion blood");
+            Tooltip.SetDefault("Explodes into homing antlion blood");
         }
 
         public override void SetDefaults()

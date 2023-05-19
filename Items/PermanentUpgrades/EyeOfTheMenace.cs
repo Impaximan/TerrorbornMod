@@ -9,8 +9,8 @@ namespace TerrorbornMod.Items.PermanentUpgrades
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Permanently increases the Terror gained from using Shriek of Horror by 50%" +
-                "\nCan only be used once"); */
+            Tooltip.SetDefault("Permanently increases the Terror gained from using Shriek of Horror by 50%" +
+                "\nCan only be used once");
         }
 
         public override void SetDefaults()

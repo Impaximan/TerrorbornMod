@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Fires an adamantite laser that ricochets to nearby enemies on critical hits and bounces off of walls");
+            Tooltip.SetDefault("Fires an adamantite laser that ricochets to nearby enemies on critical hits and bounces off of walls");
         }
 
         public override void SetDefaults()

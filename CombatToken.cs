@@ -19,7 +19,7 @@ namespace TerrorbornMod
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("'The reward for peacekeeping'");
+            Tooltip.SetDefault("'The reward for peacekeeping'");
         }
         public override void SetDefaults()
         {

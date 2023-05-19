@@ -13,9 +13,9 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
                 "\nChanges the side of the Sisyphean Islands biome" +
-                "\nSide it changes to depends on mouse button"); */
+                "\nSide it changes to depends on mouse button");
         }
         public override void SetDefaults()
         {

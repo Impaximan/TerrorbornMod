@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs.Debuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Twilight Warning");
-            // Description.SetDefault("Significantly worsened stats and disabled life regen... get terror!");
+            DisplayName.SetDefault("Twilight Warning");
+            Description.SetDefault("Significantly worsened stats and disabled life regen... get terror!");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

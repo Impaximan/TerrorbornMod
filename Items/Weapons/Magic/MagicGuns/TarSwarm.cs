@@ -11,8 +11,8 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Raplidly fires antlion larvae." +
-                "\nSlightly ignores enemy defense."); */
+            Tooltip.SetDefault("Raplidly fires antlion larvae." +
+                "\nSlightly ignores enemy defense.");
         }
         public override void SetDefaults()
         {

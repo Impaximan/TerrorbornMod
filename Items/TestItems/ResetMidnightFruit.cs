@@ -13,7 +13,7 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Resets your Midnight Fruit count");
+            Tooltip.SetDefault("Resets your Midnight Fruit count");
         }
         public override void SetDefaults()
         {

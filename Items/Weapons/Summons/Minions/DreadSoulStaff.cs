@@ -23,9 +23,9 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("DreadSoul Staff");
-            /* Tooltip.SetDefault("Summons a dread soul that increases your max HP by 100" +
-                "\nRequires 2 minion slots"); */
+            DisplayName.SetDefault("DreadSoul Staff");
+            Tooltip.SetDefault("Summons a dread soul that increases your max HP by 100" +
+                "\nRequires 2 minion slots");
         }
 
         public override void SetDefaults()
@@ -195,7 +195,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Minions
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dread Soul");
+            DisplayName.SetDefault("Dread Soul");
             // Description.SetDefault("A dreadful soul increases your max life");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;

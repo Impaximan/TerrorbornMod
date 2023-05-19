@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Hermes' Feather");
-            // Tooltip.SetDefault("Allows you to use Shriek of Horror quicker");
+            DisplayName.SetDefault("Hermes' Feather");
+            Tooltip.SetDefault("Allows you to use Shriek of Horror quicker");
         }
 
         public override void SetDefaults()

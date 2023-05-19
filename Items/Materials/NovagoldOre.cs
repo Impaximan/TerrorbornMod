@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Gold created by a powerful supernova, that somehow managed to make its way here");
+            Tooltip.SetDefault("Gold created by a powerful supernova, that somehow managed to make its way here");
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 

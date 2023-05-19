@@ -25,8 +25,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Teleports you to a nearby enemy when used" +
-                "\nGives you some of your flight time back on hit"); */
+            Tooltip.SetDefault("Teleports you to a nearby enemy when used" +
+                "\nGives you some of your flight time back on hit");
         }
 
         public override void SetDefaults()

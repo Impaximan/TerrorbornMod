@@ -164,7 +164,7 @@ namespace TerrorbornMod.NPCs.TerrorRain
 	{
 		public override void SetStaticDefaults()
 		{
-			// DisplayName.SetDefault("Frightcrawler");
+			DisplayName.SetDefault("Frightcrawler");
 			NPCID.Sets.TrailCacheLength[NPC.type] = 1;
 			NPCID.Sets.TrailingMode[NPC.type] = 1;
 		}

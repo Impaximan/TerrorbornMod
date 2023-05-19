@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Splits into multiple gem fragments on hit");
+            Tooltip.SetDefault("Splits into multiple gem fragments on hit");
         }
 
         public override void SetDefaults()

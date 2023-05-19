@@ -21,9 +21,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Hitting enemies has a chance to cause you to fire an extra Projectile towards them" +
+            Tooltip.SetDefault("Hitting enemies has a chance to cause you to fire an extra Projectile towards them" +
                 "\nThe behavior of this Projectile depends on the damage type" +
-                "\n6% increased item use speed"); */
+                "\n6% increased item use speed");
         }
 
         public override void SetDefaults()

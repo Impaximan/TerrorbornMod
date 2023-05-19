@@ -13,7 +13,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
         int UntilBlast;
         public override void RestlessSetStaticDefaults()
         {
-            // DisplayName.SetDefault("Soul Cyclone");
+            DisplayName.SetDefault("Soul Cyclone");
             Item.staff[Item.type] = true;
         }
 

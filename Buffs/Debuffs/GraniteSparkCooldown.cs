@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs.Debuffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Virus Cooldown");
-            // Description.SetDefault("You cannot transform into a virus spark again");
+            DisplayName.SetDefault("Virus Cooldown");
+            Description.SetDefault("You cannot transform into a virus spark again");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

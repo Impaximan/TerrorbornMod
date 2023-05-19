@@ -16,7 +16,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         }
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Fires an azure beam that explodes into smaller bouncing Projectiles");
+            Tooltip.SetDefault("Fires an azure beam that explodes into smaller bouncing Projectiles");
         }
         public override void SetDefaults()
         {

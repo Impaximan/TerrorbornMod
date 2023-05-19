@@ -8,13 +8,13 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Aero Sabatons");
-            /* Tooltip.SetDefault("Hold JUMP to fall slower" +
+            DisplayName.SetDefault("Aero Sabatons");
+            Tooltip.SetDefault("Hold JUMP to fall slower" +
                 "\nHold DOWN to fall faster" +
                 "\n50% increased wing flight time" +
                 "\nIncreased jump speed" +
                 "\n5% increased item use speed" +
-                "\nIncreased manueverability while airborne"); */
+                "\nIncreased manueverability while airborne");
         }
 
         public override void SetDefaults()

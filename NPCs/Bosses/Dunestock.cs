@@ -28,7 +28,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dunestock");
+            DisplayName.SetDefault("Dunestock");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailCacheLength[NPC.type] = 8;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
@@ -994,7 +994,7 @@ namespace TerrorbornMod.NPCs.Bosses
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Dunestock");
+            DisplayName.SetDefault("Dunestock");
             Main.npcFrameCount[NPC.type] = 7;
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)

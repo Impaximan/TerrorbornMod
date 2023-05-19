@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Grants immunity to heavy wind, and increases movement speed" +
-                "\nIncreases wing flight time by 100%"); */
+            Tooltip.SetDefault("Grants immunity to heavy wind, and increases movement speed" +
+                "\nIncreases wing flight time by 100%");
         }
         public override void SetDefaults()
         {

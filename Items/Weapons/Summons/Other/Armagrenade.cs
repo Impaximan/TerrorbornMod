@@ -9,9 +9,9 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("A grenade that releases little mothrons upon exploding" +
+            Tooltip.SetDefault("A grenade that releases little mothrons upon exploding" +
                 "\nThese mothrons take up no summon slots but disappear after a short amount of time" +
-                "\nYour minions will target enemies hit by the main grenade"); */
+                "\nYour minions will target enemies hit by the main grenade");
         }
         public override void SetDefaults()
         {

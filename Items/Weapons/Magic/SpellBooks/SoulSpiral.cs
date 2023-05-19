@@ -21,7 +21,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Creates a spiral of souls around you");
+            Tooltip.SetDefault("Creates a spiral of souls around you");
         }
 
         public override void SetDefaults()

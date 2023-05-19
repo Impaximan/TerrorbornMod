@@ -23,10 +23,10 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Incendiary Round");
-            /* Tooltip.SetDefault("Fires at incredibly high speeds" +
+            DisplayName.SetDefault("Incendiary Round");
+            Tooltip.SetDefault("Fires at incredibly high speeds" +
                 "\nLeaves a cloud of fiery gas behind on critical hits" +
-                "\nHeals you for 1 HP on crits if you are under 250 HP"); */
+                "\nHeals you for 1 HP on crits if you are under 250 HP");
         }
         //public override bool HoldItemFrame(Player player)
         //{

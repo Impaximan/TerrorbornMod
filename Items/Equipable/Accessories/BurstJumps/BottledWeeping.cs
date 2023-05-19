@@ -18,7 +18,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString((int)(60 * 1f)) + "\nGrants you immunity frames upon use, with a cooldown of 10 seconds");
+            Tooltip.SetDefault(Utils.Accessories.GetBurstJumpString((int)(60 * 1f)) + "\nGrants you immunity frames upon use, with a cooldown of 10 seconds");
         }
 
         public override void SetDefaults()
@@ -59,7 +59,7 @@ namespace TerrorbornMod.Items.Equipable.Accessories.BurstJumps
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Released Weeping");
+            DisplayName.SetDefault("Released Weeping");
             // Description.SetDefault("Bottled weeping immunity on cooldown");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;

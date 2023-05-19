@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Increased chance to get hearts and dark energy from enemies that are close to you");
+            Tooltip.SetDefault("Increased chance to get hearts and dark energy from enemies that are close to you");
         }
         public override void SetDefaults()
         {

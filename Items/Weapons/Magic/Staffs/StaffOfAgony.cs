@@ -10,7 +10,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Rains deathrays from the sky");
+            Tooltip.SetDefault("Rains deathrays from the sky");
             Item.staff[Item.type] = true;
         }
 

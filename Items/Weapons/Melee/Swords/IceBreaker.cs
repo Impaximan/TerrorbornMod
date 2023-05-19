@@ -8,7 +8,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Guarenteed crit on undamaged enemies");
+            Tooltip.SetDefault("Guarenteed crit on undamaged enemies");
         }
 
         public override void SetDefaults()

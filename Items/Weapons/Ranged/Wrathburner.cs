@@ -20,8 +20,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Uses gel for ammo" +
-                "\n"); */
+            Tooltip.SetDefault("Uses gel for ammo" +
+                "\n");
         }
 
         public override Color? GetAlpha(Color lightColor)

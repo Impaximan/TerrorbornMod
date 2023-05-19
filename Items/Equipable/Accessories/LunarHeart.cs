@@ -10,9 +10,9 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Summons a powerful Tide Spirit to fight for you" +
+            Tooltip.SetDefault("Summons a powerful Tide Spirit to fight for you" +
                 "\nThis Tide Spirit will consume terror in order to attack enemies" +
-                "\nIt won't be able to attack enemies if you don't have enough terror"); */
+                "\nIt won't be able to attack enemies if you don't have enough terror");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));
         }
 

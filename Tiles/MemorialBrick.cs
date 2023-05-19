@@ -55,7 +55,7 @@ namespace TerrorbornMod.Tiles
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("DEVELOPER TOOL");
+            Tooltip.SetDefault("DEVELOPER TOOL");
             ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 
@@ -89,7 +89,7 @@ namespace TerrorbornMod.Tiles
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("DEVELOPER TOOL");
+            Tooltip.SetDefault("DEVELOPER TOOL");
         }
 
         public override void SetDefaults()

@@ -12,8 +12,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Storm's Wrath");
-            // Tooltip.SetDefault("Fires a storm bolt along side it's arrows. \nStorm bolts will summon smaller bolt upon hitting foes.");
+            DisplayName.SetDefault("Storm's Wrath");
+            Tooltip.SetDefault("Fires a storm bolt along side it's arrows. \nStorm bolts will summon smaller bolt upon hitting foes.");
         }
 
         public override void SetDefaults()
@@ -64,7 +64,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Fires a storm bolt along side it's arrows, which are converted to Bolt Arrows.\nStorm bolts will summon a smaller bolt upon hitting foes.\n20% chance to not consume ammo");
+            Tooltip.SetDefault("Fires a storm bolt along side it's arrows, which are converted to Bolt Arrows.\nStorm bolts will summon a smaller bolt upon hitting foes.\n20% chance to not consume ammo");
         }
 
         public override bool CanConsumeAmmo(Item ammo, Player player)
@@ -138,7 +138,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Storm's Beam");
+            DisplayName.SetDefault("Storm's Beam");
         }
 
         public override void SetDefaults()
@@ -186,7 +186,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Storm's Bolt");
+            DisplayName.SetDefault("Storm's Bolt");
         }
 
         public override void SetDefaults()

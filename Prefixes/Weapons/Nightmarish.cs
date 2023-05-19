@@ -7,7 +7,7 @@ namespace TerrorbornMod.Prefixes.Weapons
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Nightmarish");
+            DisplayName.SetDefault("Nightmarish");
             base.SetStaticDefaults();
         }
 

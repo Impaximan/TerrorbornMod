@@ -22,8 +22,8 @@ namespace TerrorbornMod.Items.PrototypeI
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
-            // DisplayName.SetDefault("Scepter of Contamination");
-            // Tooltip.SetDefault("Fires a stream of dark plasma that homes into your cursor");
+            DisplayName.SetDefault("Scepter of Contamination");
+            Tooltip.SetDefault("Fires a stream of dark plasma that homes into your cursor");
         }
         public override void SetDefaults()
         {

@@ -8,8 +8,8 @@ namespace TerrorbornMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Vampirism");
-            // Description.SetDefault("Increased chance to get hearts and dark energy from enemies that are close to you");
+            DisplayName.SetDefault("Vampirism");
+            Description.SetDefault("Increased chance to get hearts and dark energy from enemies that are close to you");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = false;
             Main.buffNoSave[Type] = false;

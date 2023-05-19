@@ -15,7 +15,7 @@ namespace TerrorbornMod.Items.TestItems
 
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Sets the terror master's dialogue sequence counter to 0");
+            Tooltip.SetDefault("Sets the terror master's dialogue sequence counter to 0");
         }
 
         public override void SetDefaults()

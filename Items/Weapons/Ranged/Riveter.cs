@@ -13,9 +13,9 @@ namespace TerrorbornMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Holds up to 4 shots at a time, stop using to reload" +
+            Tooltip.SetDefault("Holds up to 4 shots at a time, stop using to reload" +
                 "\nUses rivets as ammo, which explode on contact with tiles" +
-                "\nKnocks you backward slightly on use"); */
+                "\nKnocks you backward slightly on use");
         }
         public override void SetDefaults()
         {
@@ -105,8 +105,8 @@ namespace TerrorbornMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Used by the riveter" +
-                "\nSold by the merchant while the riveter is in your inventory"); */
+            Tooltip.SetDefault("Used by the riveter" +
+                "\nSold by the merchant while the riveter is in your inventory");
         }
     }
 
@@ -115,7 +115,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
         public override string Texture => "TerrorbornMod/Items/Weapons/Ranged/Rivet";
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Cartilage Round");
+            DisplayName.SetDefault("Cartilage Round");
             ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }

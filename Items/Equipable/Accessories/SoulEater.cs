@@ -8,8 +8,8 @@ namespace TerrorbornMod.Items.Equipable.Accessories
     {
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Causes killing enemies to grant you terror" +
-                "\nYou will also gain terror for every 7.5% of a boss's health"); */
+            Tooltip.SetDefault("Causes killing enemies to grant you terror" +
+                "\nYou will also gain terror for every 7.5% of a boss's health");
         }
 
         public override void SetDefaults()

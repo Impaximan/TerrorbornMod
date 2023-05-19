@@ -13,9 +13,9 @@ namespace TerrorbornMod.Items.TestItems
         }
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Toggle Demonic Lense");
-            /* Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
-                "\nToggles [i/s1:" + ModContent.ItemType<PermanentUpgrades.DemonicLense>() + "]"); */
+            DisplayName.SetDefault("Toggle Demonic Lense");
+            Tooltip.SetDefault("--UNOBTAINABLE TESTING ITEM--" +
+                "\nToggles [i/s1:" + ModContent.ItemType<PermanentUpgrades.DemonicLense>() + "]");
         }
         public override void SetDefaults()
         {

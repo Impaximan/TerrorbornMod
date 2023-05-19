@@ -9,7 +9,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Bows
     {
         public override void SetStaticDefaults()
         {
-            // Tooltip.SetDefault("Converts wooden arrows into piercing dark bolts");
+            Tooltip.SetDefault("Converts wooden arrows into piercing dark bolts");
         }
 
         public override void SetDefaults()

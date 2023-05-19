@@ -10,9 +10,9 @@ namespace TerrorbornMod.Items.Potions
 
         public override void SetStaticDefaults()
         {
-            /* Tooltip.SetDefault("Tap the Shriek of Horror hotkey while in your inventory to consume" +
+            Tooltip.SetDefault("Tap the Shriek of Horror hotkey while in your inventory to consume" +
                 "\nCauses you to gain " + terrorAmount.ToString() + "% terror per nearby enemy when consumed" +
-                "\nHas a default cooldown of 10 seconds"); */
+                "\nHas a default cooldown of 10 seconds");
         }
 
         public override void SetDefaults()
