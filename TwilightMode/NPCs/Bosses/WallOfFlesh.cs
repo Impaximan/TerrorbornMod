@@ -388,7 +388,7 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 							NPC hungry = Main.npc[i];
 							if (hungry != null && hungry.active && hungry.type == NPCID.TheHungry)
 							{
-								hungry.StrikeNPC(5000, 15f, -NPC.direction, true);
+								hungry.StrikeInstantKill();
 								int proj = Projectile.NewProjectile(NPC.GetSource_OnHit(hungry), hungry.Center, Vector2.Zero, ModContent.ProjectileType<WallHealingOrb>(), 0, 0f);
 								Main.projectile[proj].ai[0] = NPC.whoAmI;
 								Main.projectile[proj].ai[1] = 0.1f;

@@ -128,14 +128,9 @@ namespace TerrorbornMod.NPCs.TerrorRain
 			NPC.defense = 9999;
 		}
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
-			damage = 1;
-        }
-
-        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
-        {
-			damage = 1;
+			modifiers.FinalDamage *= 0f;
         }
     }
 
@@ -159,14 +154,9 @@ namespace TerrorbornMod.NPCs.TerrorRain
 			tail = true;
 		}
 
-		public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
+		public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
 		{
-			damage = 1;
-		}
-
-		public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
-		{
-			damage = 1;
+			modifiers.FinalDamage *= 0f;
 		}
 	}
 

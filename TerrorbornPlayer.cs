@@ -848,7 +848,7 @@ namespace TerrorbornMod
             }
         }
 
-        public void OnHitByAnything(Entity entity, int damage, bool crit)
+        public void OnHitByAnything(Entity entity, Player.HurtInfo hurtInfo)
         {
             if (combatTime < 600)
             {
@@ -873,26 +873,32 @@ namespace TerrorbornMod
             {
                 PlasmaPower = 0f;
             }
+
+            if (GelatinArmorTime > 0)
+            {
+                GelatinPunishmentDamage = hurtInfo.Damage / 3;
+                SoundExtensions.PlaySoundOld(SoundID.NPCHit1, Player.Center);
+            }
         }
 
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
-            OnHitByAnything(NPC, damage, crit);
+            OnHitByAnything(npc,  hurtInfo);
         }
 
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
-            OnHitByAnything(proj, damage, crit);
+            OnHitByAnything(proj, hurtInfo);
         }
 
         public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)/* tModPorter If you don't need the Item, consider using ModifyHitNPC instead */
         {
             if (InTwilightOverload)
             {
-                damage = (int)(damage * 1.75f);
+                modifiers.FinalDamage *= 1.75f;
                 if (Main.masterMode)
                 {
-                    damage = (int)(damage * 1.5f);
+                    modifiers.FinalDamage *= 1.5f;
                 }
             }
         }
@@ -901,10 +907,10 @@ namespace TerrorbornMod
         {
             if (InTwilightOverload)
             {
-                damage = (int)(damage * 1.75f);
+                modifiers.FinalDamage *= 1.75f;
                 if (Main.masterMode)
                 {
-                    damage = (int)(damage * 1.5f);
+                    modifiers.FinalDamage *= 1.5f;
                 }
             }
         }
@@ -1674,13 +1680,13 @@ namespace TerrorbornMod
         {
             if (TerrorbornSystem.TwilightMode)
             {
-                damage = (int)(damage * 1.5f);
+                modifiers.FinalDamage *= 1.5f;
             }
 
             if (ParryTime > 0)
             {
                 ParryTime = 0;
-                damage /= 4;
+                modifiers.FinalDamage *= .25f;
                 JustParried = true;
                 SoundExtensions.PlaySoundOld(SoundID.Item37, Player.Center);
                 ActivateParryEffect();
@@ -1688,7 +1694,7 @@ namespace TerrorbornMod
 
             if (GelatinPunishmentDamage > 0)
             {
-                damage += GelatinPunishmentDamage;
+                modifiers.FinalDamage += GelatinPunishmentDamage;
                 GelatinPunishmentDamage = 0;
                 SoundExtensions.PlaySoundOld(SoundID.NPCDeath1, Player.Center);
                 for (int i = 0; i < 15; i++)
@@ -1703,14 +1709,12 @@ namespace TerrorbornMod
             if (GelatinArmorTime > 0)
             {
                 GelatinArmorTime = 0;
-                GelatinPunishmentDamage = damage / 3;
-                SoundExtensions.PlaySoundOld(SoundID.NPCHit1, Player.Center);
-                damage = 0;
+                modifiers.FinalDamage *= 0;
             }
 
             if (MidShriek)
             {
-                damage = (int)(damage * ShriekOfHorrorExtraDamageMultiplier);
+                modifiers.FinalDamage *= ShriekOfHorrorExtraDamageMultiplier;
             }
         }
 
@@ -1718,13 +1722,13 @@ namespace TerrorbornMod
         {
             if (TerrorbornSystem.TwilightMode)
             {
-                damage = (int)(damage * 1.35f);
+                modifiers.FinalDamage *= 1.5f;
             }
 
             if (ParryTime > 0)
             {
                 ParryTime = 0;
-                damage /= 4;
+                modifiers.FinalDamage *= .25f;
                 JustParried = true;
                 SoundExtensions.PlaySoundOld(SoundID.Item37, Player.Center);
                 ActivateParryEffect();
@@ -1732,7 +1736,7 @@ namespace TerrorbornMod
 
             if (GelatinPunishmentDamage > 0)
             {
-                damage += GelatinPunishmentDamage;
+                modifiers.FinalDamage += GelatinPunishmentDamage;
                 GelatinPunishmentDamage = 0;
                 SoundExtensions.PlaySoundOld(SoundID.NPCDeath1, Player.Center);
                 for (int i = 0; i < 15; i++)
@@ -1747,24 +1751,22 @@ namespace TerrorbornMod
             if (GelatinArmorTime > 0)
             {
                 GelatinArmorTime = 0;
-                GelatinPunishmentDamage = damage / 3;
-                SoundExtensions.PlaySoundOld(SoundID.NPCHit1, Player.Center);
-                damage = 0;
+                modifiers.FinalDamage *= 0;
             }
 
             if (MidShriek)
             {
-                damage = (int)(damage * ShriekOfHorrorExtraDamageMultiplier);
+                modifiers.FinalDamage *= ShriekOfHorrorExtraDamageMultiplier;
             }
         }
 
-        public override void ModifyHurt(ref Player.HurtModifiers modifiers)
+        public override bool ImmuneTo(PlayerDeathReason damageSource, int cooldownCounter, bool dodgeable)
         {
             if (iFrames > 0 || VoidBlinkTime > 0 || BlinkDashTime > 0)
             {
-                return false;
+                return true;
             }
-            return base.ModifyHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource, ref cooldownCounter);
+            return base.ImmuneTo(damageSource, cooldownCounter, dodgeable);
         }
 
         public void DustExplosion(Vector2 position, int RectWidth, int Streams, float DustSpeed, int DustType, float DustScale = 1f, bool NoGravity = false) //Thank you once again Seraph

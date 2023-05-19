@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundExtensions.PlaySoundOld(SoundID.DD2_SkeletonHurt, target.Center);
-            if (crit)
+            if (hit.Crit)
             {
                 SoundExtensions.PlaySoundOld(SoundID.DD2_SkeletonDeath);
             }

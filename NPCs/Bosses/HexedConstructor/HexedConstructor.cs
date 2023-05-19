@@ -1040,11 +1040,11 @@ namespace TerrorbornMod.NPCs.Bosses.HexedConstructor
 
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
-            damage /= 2;
+            modifiers.FinalDamage *= 0.5f;
 
-            if (Projectile.type == ModContent.ProjectileType<Items.Weapons.Magic.SpellBooks.SpiralSoul>())
+            if (projectile.type == ModContent.ProjectileType<Items.Weapons.Magic.SpellBooks.SpiralSoul>())
             {
-                damage /= 4;
+                modifiers.FinalDamage *= 0.25f;
             }
         }
 

@@ -66,7 +66,7 @@ namespace TerrorbornMod.Tiles
 			AddMapEntry(new Color(80, 112, 109), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.OpenDoor };
-			CloseDoorID/* tModPorter Note: Removed. Use TileID.Sets.CloseDoorID instead */ = ModContent.TileType<DeimostoneDoorClosed>();
+			//CloseDoorID/* tModPorter Note: Removed. Use TileID.Sets.CloseDoorID instead */ = ModContent.TileType<DeimostoneDoorClosed>();
 		}
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)
@@ -123,7 +123,7 @@ namespace TerrorbornMod.Tiles
 			AddMapEntry(new Color(80, 112, 109), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.ClosedDoor };
-			OpenDoorID/* tModPorter Note: Removed. Use TileID.Sets.OpenDoorID instead */ = ModContent.TileType<DeimostoneDoorOpen>();
+			//OpenDoorID/* tModPorter Note: Removed. Use TileID.Sets.OpenDoorID instead */ = ModContent.TileType<DeimostoneDoorOpen>();
 		}
 
 		public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)

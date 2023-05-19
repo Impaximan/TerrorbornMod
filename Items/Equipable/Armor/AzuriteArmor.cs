@@ -165,7 +165,7 @@ namespace TerrorbornMod.Items.Equipable.Armor
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage += target.defense / 2;
+            modifiers.ArmorPenetration += target.defense;
         }
 
         int trueTimeLeft = 30;

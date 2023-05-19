@@ -105,7 +105,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
                 FallWait = 0;
             }
 
-            if (crit && Projectile.ai[0] != 1)
+            if (hit.Crit && Projectile.ai[0] != 1)
             {
                 Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.GetSource_FromThis(), originalPosition, originalVelocity, Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner)];
                 proj.ai[0] = 1;

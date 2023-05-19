@@ -12,9 +12,9 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-            if (TerrorbornSystem.TwilightMode && NPC.type == NPCID.CultistBossClone)
+            if (TerrorbornSystem.TwilightMode && npc.type == NPCID.CultistBossClone)
             {
-                NPC NPC2 = Main.npc[(int)NPC.ai[3]];
+                NPC NPC2 = Main.npc[(int)npc.ai[3]];
                 int healAmount = NPC2.lifeMax / 15 + ((NPC2.lifeMax - NPC2.life) / 10);
                 NPC2.HealEffect(healAmount);
                 NPC2.life += healAmount;
@@ -28,9 +28,9 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-            if (TerrorbornSystem.TwilightMode && NPC.type == NPCID.CultistBossClone)
+            if (TerrorbornSystem.TwilightMode && npc.type == NPCID.CultistBossClone)
             {
-                NPC NPC2 = Main.npc[(int)NPC.ai[3]];
+                NPC NPC2 = Main.npc[(int)npc.ai[3]];
                 int healAmount = NPC2.lifeMax / 15 + ((NPC2.lifeMax - NPC2.life) / 10);
                 NPC2.HealEffect(healAmount);
                 NPC2.life += healAmount;

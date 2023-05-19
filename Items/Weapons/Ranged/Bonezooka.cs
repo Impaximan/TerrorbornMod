@@ -25,7 +25,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Item.width = 58;
             Item.height = 26;
             Item.useTime = 25;
-            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shoot = ModContent.ProjectileType<BonezookaSkull>();
             Item.useAnimation = 25;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 5;
@@ -37,15 +37,15 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             Item.useAmmo = AmmoID.Rocket;
         }
 
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            type = ModContent.ProjectileType<BonezookaSkull>();
+            base.ModifyShootStats(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+        }
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
-        }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            type = ModContent.ProjectileType<BonezookaSkull>();
-            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
     }
 
@@ -72,7 +72,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
                 NPC NPC = Main.npc[i];
                 if (!NPC.friendly && Projectile.Distance(NPC.Center) <= 100 + ((NPC.width + NPC.height) / 2) && !NPC.dontTakeDamage)
                 {
-                    NPC.StrikeNPC(70, 0, 0, Main.rand.Next(101) <= Main.player[Projectile.owner].GetCritChance(DamageClass.Ranged));
+                    NPC.StrikeNPC(NPC.CalculateHitInfo(70, 0, Main.rand.Next(101) <= Main.player[Projectile.owner].GetCritChance(DamageClass.Ranged), 0f));
                 }
             }
         }

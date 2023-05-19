@@ -93,14 +93,14 @@ namespace TerrorbornMod.WeaponPossession
 
         public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (possessType == PossessType.Light && crit)
+            if (possessType == PossessType.Light && hit.Crit)
             {
-                Projectile.NewProjectile(target.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, player.whoAmI);
+                Projectile.NewProjectile(target.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), hit.Damage / 2, 0, player.whoAmI);
                 TerrorbornSystem.ScreenShake(5f);
                 SoundExtensions.PlaySoundOld(SoundID.Item68, target.Center);
             }
 
-            if (possessType == PossessType.Night && crit)
+            if (possessType == PossessType.Night && hit.Crit)
             {
                 player.HealEffect(1);
                 player.statLife++;

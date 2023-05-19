@@ -19,7 +19,7 @@ namespace TerrorbornMod.Tiles
 
             MinPick = 0;
             MineResist = 1f;
-            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.DeimosteelOreItem>();
+            //ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.DeimosteelOreItem>();
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Deimosteel");
             AddMapEntry(new Color(138, 155, 152), name);

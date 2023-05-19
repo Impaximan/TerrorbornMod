@@ -53,7 +53,7 @@ namespace TerrorbornMod.NPCs
         {
             if (invulnerable)
             {
-                damage = 1;
+                modifiers.FinalDamage *= 0f;
             }
         }
 
@@ -61,7 +61,7 @@ namespace TerrorbornMod.NPCs
         {
             if (invulnerable)
             {
-                damage = 1;
+                modifiers.FinalDamage *= 0f;
             }
         }
 

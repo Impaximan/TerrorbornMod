@@ -37,7 +37,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
 
     class ChaosBall : ModProjectile
     {
-        public override string Texture => "TerrorbornMod/placeholder";
+        public override string Texture => "Terraria/Images/NPC_" + NPCID.ChaosBall;
 
         public override void SetDefaults()
         {
@@ -97,7 +97,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.SpellBooks
                 Projectile.velocity = speed * direction;
             }
 
-            if (crit)
+            if (hit.Crit)
             {
                 target.AddBuff(BuffID.ShadowFlame, 60 * 2);
             }

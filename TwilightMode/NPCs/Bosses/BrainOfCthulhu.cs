@@ -20,11 +20,11 @@ namespace TerrorbornMod.TwilightMode.NPCs.Bosses
 
 		public override void HitEffect(NPC npc, NPC.HitInfo hit)
 		{
-			if (NPC.type == NPCID.BrainofCthulhu && TerrorbornSystem.TwilightMode && !BoCSpawnedNewCreepers)
+			if (npc.type == NPCID.BrainofCthulhu && TerrorbornSystem.TwilightMode && !BoCSpawnedNewCreepers)
 			{
-				if (NPC.life <= 0)
+				if (npc.life <= 0)
 				{
-					NPC.life = 1;
+					npc.life = 1;
 				}
 			}
 		}

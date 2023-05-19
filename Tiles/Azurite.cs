@@ -22,7 +22,7 @@ namespace TerrorbornMod.Tiles
 
             MinPick = 56;
             MineResist = 2;
-            ItemDrop = ModContent.ItemType<Items.Materials.AzuriteOre>();
+            //ItemDrop = ModContent.ItemType<Items.Materials.AzuriteOre>();
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Azurite");
             AddMapEntry(new Color(106, 142, 193), name);

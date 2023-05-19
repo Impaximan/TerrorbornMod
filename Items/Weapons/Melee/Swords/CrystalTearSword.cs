@@ -35,8 +35,8 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
 
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage = (int)(damage * 4f);
-            crit = true;
+            modifiers.SourceDamage *= 4f;
+            modifiers.SetCrit();
         }
 
         public override void AddRecipes()

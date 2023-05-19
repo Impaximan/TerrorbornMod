@@ -37,7 +37,12 @@ namespace TerrorbornMod.Items.Equipable.Hooks
     {
         public override string Texture => "TerrorbornMod/NPCs/TerrorRain/VenomTongueTip";
 
-        public override void SetDefaults()
+		public override void SetStaticDefaults()
+		{
+			ProjectileID.Sets.SingleGrappleHook[Type] = true;
+		}
+
+		public override void SetDefaults()
         {
 			Projectile.netImportant = true;
 			Projectile.width = 8;
@@ -76,10 +81,6 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 			}
 		}
 
-        public override bool? SingleGrappleHook(Player player)/* tModPorter Note: Removed. In SetStaticDefaults, use ProjectileID.Sets.SingleGrappleHook[Type] = true if you previously had this method return true */
-        {
-            return true;
-		}
 		public override float GrappleRange()
 		{
 			return 500f;

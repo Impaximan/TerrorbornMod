@@ -12,6 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
         {
             // Tooltip.SetDefault("Explodes into homing antlion blood");
         }
+
         public override void SetDefaults()
         {
             Item.damage = 20;
@@ -31,6 +32,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             Item.shootSpeed = 22;
             Item.shoot = ModContent.ProjectileType<DesertClotBombProj>();
         }
+
         public override void AddRecipes()
         {
             CreateRecipe(111)
@@ -45,10 +47,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     class DesertClotBombProj : ModProjectile
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Ranged/Thrown/DesertClotBomb";
-        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
-        {
-            damage = (int)(damage * 0.75f);
-        }
+
         public override void SetDefaults()
         {
             Projectile.width = 26;
@@ -61,11 +60,13 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
         }
+
         public override void AI()
         {
             Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X);
             Projectile.velocity.Y += 0.18f;
         }
+
         public override void Kill(int timeLeft)
         {
             SoundExtensions.PlaySoundOld(SoundID.NPCDeath1, Projectile.Center);

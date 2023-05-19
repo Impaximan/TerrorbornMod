@@ -215,7 +215,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     }
                     if (currentOption1 == 0) //Shop
                     {
-                        openShop = true;
+                        shopName = "Shop";
                     }
                     else if (currentOption1 == 1) //Where is the next shrine
                     {
@@ -428,47 +428,20 @@ namespace TerrorbornMod.NPCs.TownNPCs
             gravityCorrection = 0;
         }
 
-        public override void ModifyActiveShop(string shopName, Item[] items)
+        public override void AddShops()
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.DarkbloodPotion>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 50, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.DarkQuill>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.IntimidationAura>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.PearlOfDarkness>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 35, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MiscConsumables.TerrorTaco>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MiscConsumables.TerrorCheese>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.LesserTerrorPotion>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 3, 0);
-            nextSlot++;
-            if (TerrorbornSystem.downedInfectedIncarnate)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.TerrorPotion>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 10, 0);
-                nextSlot++;
-            }
-            if (TerrorbornSystem.downedDunestock)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.GreaterTerrorPotion>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
-                nextSlot++;
-            }
-            if (TerrorbornSystem.downedShadowcrawler)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Potions.SuperTerrorPotion>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 50, 0);
-                nextSlot++;
-            }
+            new NPCShop(Type)
+                .Add<Items.Potions.DarkbloodPotion>()
+                .Add<Items.Equipable.Accessories.DarkQuill>()
+                .Add<Items.Equipable.Accessories.IntimidationAura>()
+                .Add<Items.PearlOfDarkness>()
+                .Add<Items.MiscConsumables.TerrorTaco>()
+                .Add<Items.MiscConsumables.TerrorCheese>()
+                .Add<Items.Potions.LesserTerrorPotion>()
+                .Add<Items.Potions.TerrorPotion>(new Condition(LocalizedText.Empty, () => TerrorbornSystem.downedInfectedIncarnate))
+                .Add<Items.Potions.GreaterTerrorPotion>(new Condition(LocalizedText.Empty, () => TerrorbornSystem.downedDunestock))
+                .Add<Items.Potions.SuperTerrorPotion>(new Condition(LocalizedText.Empty, () => TerrorbornSystem.downedShadowcrawler))
+                .Register();
         }
     }
 

@@ -69,7 +69,7 @@ namespace TerrorbornMod.Items.Ammo
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire, 60 * 10);
-            if (crit)
+            if (hit.Crit)
             {
                 Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center, target.velocity, ModContent.ProjectileType<Incendius.FlameCloud>(), Projectile.damage / 5, 0, Projectile.owner);
 

@@ -16,6 +16,8 @@ using TerrorbornMod.NPCs.Bosses.InfectedIncarnate;
 using TerrorbornMod.NPCs.Bosses.TidalTitan;
 using TerrorbornMod.NPCs.Bosses.HexedConstructor;
 using TerrorbornMod.NPCs.Bosses.PrototypeI;
+using System.Reflection;
+using Terraria.Localization;
 
 namespace TerrorbornMod
 {
@@ -30,6 +32,8 @@ namespace TerrorbornMod
 
         public static float TwilightMeterX = 0.5f;
         public static float TwilightMeterY = 0.13f;
+
+        public static TerrorbornMod Instance;
 
         public static ModKeybind ArmorAbility;
         public static ModKeybind quickVirus;
@@ -103,6 +107,7 @@ namespace TerrorbornMod
         public TerrorbornMod()
         {
             //Utils.DrawBorderString()
+            Instance = this;
         }
 
         public virtual void SetColors(ref Color[] colors, int width, int height)
@@ -488,5 +493,29 @@ namespace TerrorbornMod
         //        bossChecklist.Call("AddBossWithInfo", "Ephraim", 16.01f, (Func<bool>)(() => TerrorbornSystem.downedEphraim), "Spawns at the end of the Dreadwind event.");
         //    }
         //}
+    }
+
+    internal class LocalizationRewriter : ModSystem
+    {
+        public override void PostSetupContent()
+        {
+#if DEBUG
+            MethodInfo refreshInfo = typeof(LocalizationLoader).GetMethod("UpdateLocalizationFilesForMod", BindingFlags.NonPublic | BindingFlags.Static, new Type[] { typeof(Mod), typeof(string), typeof(GameCulture) });
+            refreshInfo.Invoke(null, new object[] { TerrorbornMod.Instance, null, Language.ActiveCulture });
+#endif
+        }
+    }
+
+    internal static class LocalizationRoundabout
+    {
+        public static void SetDefault(this LocalizedText text, string value)
+        {
+#if DEBUG
+            PropertyInfo valueProp = typeof(LocalizedText).GetProperty("Value", BindingFlags.Public | BindingFlags.Instance);
+
+            LanguageManager.Instance.GetOrRegister(text.Key, () => value);
+            valueProp.SetValue(text, value);
+#endif
+        }
     }
 }

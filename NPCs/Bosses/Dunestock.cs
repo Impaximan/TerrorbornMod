@@ -1020,24 +1020,29 @@ namespace TerrorbornMod.NPCs.Bosses
             NPC.hide = false;
             NPC.chaseable = false;
         }
+
         public override bool? CanBeHitByItem(Player player, Item item)
         {
             return false;
         }
+
         public override bool? CanBeHitByProjectile(Projectile Projectile)
         {
             return false;
         }
+
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
-            damage = 0;
-            crit = false;
+            modifiers.FinalDamage *= 0;
+            modifiers.DisableCrit();
         }
+
         public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
         {
-            damage = 0;
-            crit = false;
+            modifiers.FinalDamage *= 0;
+            modifiers.DisableCrit();
         }
+
         int frame = 0;
         int FrameWait = 0;
         private void WalkingAnimation(int FrameSpeed)
@@ -1053,10 +1058,12 @@ namespace TerrorbornMod.NPCs.Bosses
                 frame = 1;
             }
         }
+
         public override void FindFrame(int frameHeight)
         {
             NPC.frame.Y = frame * frameHeight;
         }
+
         bool Start = true;
         int AIPhase = 0;
         int PhaseCounter = 60;
@@ -1165,6 +1172,7 @@ namespace TerrorbornMod.NPCs.Bosses
     class SandBolt : ModProjectile
     {
         public override string Texture => "TerrorbornMod/NPCs/Bosses/TumblerNeedle";
+
         public override void SetDefaults()
         {
             Projectile.width = 5;
@@ -1179,6 +1187,7 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.extraUpdates = 100;
             Projectile.timeLeft = 1500;
         }
+
         int DustWait = 5;
         public override void AI()
         {
@@ -1215,6 +1224,7 @@ namespace TerrorbornMod.NPCs.Bosses
             ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.ai[0] != 1 && !Stick && Projectile.ai[1] > 0)
@@ -1233,6 +1243,7 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             return false;
         }
+
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -1244,6 +1255,7 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.penetrate = 1;
             Projectile.timeLeft = 12000;
         }
+
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             if (NPC.AnyNPCs(ModContent.NPCType<Dunestock>()))
@@ -1252,11 +1264,13 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Stick = true;
             return false;
         }
+
         public override void AI()
         {
             if (telegraphAlpha < 1)
@@ -1297,6 +1311,7 @@ namespace TerrorbornMod.NPCs.Bosses
             ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
@@ -1309,6 +1324,7 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             return false;
         }
+
         int trueTimeleft = 180;
         public override void SetDefaults()
         {
@@ -1321,11 +1337,13 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.penetrate = 1;
             Projectile.timeLeft = 12000;
         }
+
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = Main.player[Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Dunestock>())].target].position.Y - 30 > Projectile.position.Y;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (Projectile.velocity.X != oldVelocity.X)
@@ -1341,6 +1359,7 @@ namespace TerrorbornMod.NPCs.Bosses
             SoundExtensions.PlaySoundOld(SoundID.Run, Projectile.Center);
             return false;
         }
+
         public override void AI()
         {
             Projectile.velocity.Y += 0.25f;
@@ -1363,6 +1382,7 @@ namespace TerrorbornMod.NPCs.Bosses
             ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
@@ -1375,6 +1395,7 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             return false;
         }
+
         int CollideCounter = 0;
         public override void SetDefaults()
         {
@@ -1387,6 +1408,7 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.penetrate = 1;
             Projectile.timeLeft = 150;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (Projectile.velocity.X != oldVelocity.X)
@@ -1407,14 +1429,17 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             return false;
         }
+
         public override bool CanHitPlayer(Player target)
         {
             return false;
         }
+
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
         }
+
         public override void Kill(int timeLeft)
         {
             if (timeLeft <= 0)
@@ -1457,8 +1482,9 @@ namespace TerrorbornMod.NPCs.Bosses
     {
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            damage = (int)(damage * 0.75f);
+            modifiers.FinalDamage *= 0.75f;
         }
+
         public override void SetDefaults()
         {
             Projectile.width = 28;
@@ -1470,6 +1496,7 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
         }
+
         int RotationDirection = 0;
         public override void AI()
         {
@@ -1487,11 +1514,13 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.rotation += MathHelper.ToRadians(5 * RotationDirection);
             Projectile.velocity.Y += 0.5f;
         }
+
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = Main.player[Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Dunestock>())].target].position.Y - 30 > Projectile.position.Y;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < Main.rand.Next(3, 6); i++)
@@ -1508,6 +1537,7 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             
         }
+
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -1520,7 +1550,9 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.hide = true;
             Projectile.timeLeft = 30;
         }
+
         public override string Texture => "TerrorbornMod/placeholder";
+
         public override void AI()
         {
             int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 115, 0f, 0f, 100, Color.Red, 1.5f);
@@ -1541,6 +1573,7 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             
         }
+
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -1553,10 +1586,12 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.hide = true;
             Projectile.timeLeft = 420;
         }
+
         public override bool CanHitPlayer(Player target)
         {
             return false;
         }
+
         public override string Texture => "TerrorbornMod/placeholder";
         int Counter = 0;
         int NumPlaced = 0;
@@ -1595,6 +1630,7 @@ namespace TerrorbornMod.NPCs.Bosses
         {
             Main.projFrames[Projectile.type] = 10;
         }
+
         void FindFrame(int FrameHeight)
         {
             Projectile.frameCounter--;
@@ -1608,6 +1644,7 @@ namespace TerrorbornMod.NPCs.Bosses
                 Projectile.frame = 0;
             }
         }
+
         public override void SetDefaults()
         {
             Projectile.width = 148;
@@ -1621,6 +1658,7 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.timeLeft = 10000;
             Projectile.alpha = 255;
         }
+
         int TrueTimeLeft = 300;
         float TornadoXVelocity = 10;
         int TornadoDirection = 1;
@@ -1661,6 +1699,7 @@ namespace TerrorbornMod.NPCs.Bosses
             ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
@@ -1673,6 +1712,7 @@ namespace TerrorbornMod.NPCs.Bosses
             }
             return false;
         }
+
         public override void SetDefaults()
         {
             Projectile.width = 46;
@@ -1684,6 +1724,7 @@ namespace TerrorbornMod.NPCs.Bosses
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
         }
+
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);

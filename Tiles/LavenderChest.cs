@@ -39,8 +39,8 @@ namespace TerrorbornMod.Tiles
 			AddMapEntry(Color.MediumPurple, name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
-			ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Lavender Chest");
-			ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.LavenderChestItem>();
+			//ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Lavender Chest");
+			//ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.LavenderChestItem>();
 		}
 
 		public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int DustType, ref bool manual)
@@ -83,7 +83,7 @@ namespace TerrorbornMod.Tiles
 			}
 			else
 			{
-				string defaultName = TileLoader.DefaultContainerName(tile.TileType)/* tModPorter Note: new method takes in FrameX and FrameY */; // This gets the ContainerName text for the currently selected language
+				string defaultName = TileLoader.DefaultContainerName((int)tile.TileType, 0, 0)/* tModPorter Note: new method takes in FrameX and FrameY */; // This gets the ContainerName text for the currently selected language
 				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : defaultName;
 				if (player.cursorItemIconText == defaultName)
 				{
@@ -107,8 +107,6 @@ namespace TerrorbornMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
-			Chest.DestroyChest(i, j);
 		}
 
 		public override bool RightClick(int i, int j)

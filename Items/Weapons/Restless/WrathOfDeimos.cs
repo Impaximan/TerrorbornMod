@@ -170,7 +170,7 @@ namespace TerrorbornMod.Items.Weapons.Restless
                 {
                     foreach (NPC NPC in modPlayer.deimosChained)
                     {
-                        NPC.StrikeNPC(Projectile.damage, 0f, 0, crit);
+                        NPC.StrikeNPC(hit);
                     }
                 }
             }

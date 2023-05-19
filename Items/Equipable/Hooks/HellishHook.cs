@@ -34,7 +34,12 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 
 	class HellishHookProjectile : ModProjectile
 	{
-		public override void SetDefaults()
+        public override void SetStaticDefaults()
+        {
+			ProjectileID.Sets.SingleGrappleHook[Type] = true;
+        }
+
+        public override void SetDefaults()
 		{
 			Projectile.netImportant = true;
 			Projectile.width = 36;
@@ -71,10 +76,6 @@ namespace TerrorbornMod.Items.Equipable.Hooks
 			dust.noGravity = true;
 		}
 
-		public override bool? SingleGrappleHook(Player player)/* tModPorter Note: Removed. In SetStaticDefaults, use ProjectileID.Sets.SingleGrappleHook[Type] = true if you previously had this method return true */
-		{
-			return true;
-		}
 		public override float GrappleRange()
 		{
 			return 1000f;

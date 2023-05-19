@@ -114,7 +114,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
         {
             if (target.HasBuff(BuffID.Oiled))
             {
-                damage = (int)(damage * 1.3f);
+                modifiers.FinalDamage *= 1.3f;
             }
         }
         public override void AI()

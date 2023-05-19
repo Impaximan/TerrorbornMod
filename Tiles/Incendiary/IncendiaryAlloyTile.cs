@@ -20,7 +20,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             DustType = 6;
             MinPick = 150;
             MineResist = 6f;
-            ItemDrop = ModContent.ItemType<Items.Materials.IncendiusAlloy>();
+            //ItemDrop = ModContent.ItemType<Items.Materials.IncendiusAlloy>();
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Incendiary Alloy");
             AddMapEntry(new Color(208, 102, 102), name);

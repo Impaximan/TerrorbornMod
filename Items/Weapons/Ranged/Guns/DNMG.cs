@@ -125,7 +125,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Guns
                 NPC NPC = Main.npc[i];
                 if (!NPC.friendly && Projectile.Distance(NPC.Center) <= 200 + (NPC.width + NPC.height) / 2 && !NPC.dontTakeDamage)
                 {
-                    NPC.StrikeNPC(Projectile.damage, 0, 0, Main.rand.Next(101) <= Main.player[Projectile.owner].GetCritChance(DamageClass.Ranged));
+                    NPC.StrikeNPC(NPC.CalculateHitInfo(Projectile.damage, 0, Main.rand.Next(101) <= Main.player[Projectile.owner].GetCritChance(DamageClass.Ranged)));
                     NPC.AddBuff(BuffID.Daybreak, 60 * 10);
                 }
             }

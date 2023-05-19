@@ -34,7 +34,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Swords
         {
             if (target.life == target.lifeMax)
             {
-                crit = true;
+                modifiers.SetCrit();
             }
         }
     }

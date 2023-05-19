@@ -40,7 +40,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     {
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            damage = (int)(damage * 0.75f);
+            modifiers.FinalDamage *= 0.75f;
         }
 
         public override void SetDefaults()

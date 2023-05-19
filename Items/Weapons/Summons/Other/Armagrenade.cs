@@ -38,7 +38,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
         public override string Texture => "TerrorbornMod/Items/Weapons/Summons/Other/Armagrenade";
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            damage = (int)(damage * 0.75f);
+            modifiers.SourceDamage *= 0.75f;
         }
         public override void SetDefaults()
         {
@@ -126,7 +126,6 @@ namespace TerrorbornMod.Items.Weapons.Summons.Other
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             timeUntilDeadly = 45;
-            base.OnHitNPC(target, damage, knockback, crit);
         }
 
         public override void AI()

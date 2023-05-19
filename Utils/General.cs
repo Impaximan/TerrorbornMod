@@ -8,6 +8,7 @@ using TerrorbornMod.Abilities;
 using System;
 using ReLogic.Content;
 using System.Threading;
+using Terraria.ModLoader;
 
 namespace TerrorbornMod.Utils
 {
@@ -152,6 +153,21 @@ namespace TerrorbornMod.Utils
             }
 
             return returned;
+        }
+
+        public static NPCShop AddItemWithCustomCurrency(this NPCShop shop, int itemID, int currencyID, int price, params Condition[] conditions)
+        {
+            Item item = new Item(itemID);
+            item.shopCustomPrice = price;
+            item.shopSpecialCurrency = currencyID;
+            return shop.Add(item, conditions);
+        }
+
+        public static NPCShop AddItemWithCustomPrice(this NPCShop shop, int itemID, int price, params Condition[] conditions)
+        {
+            Item item = new Item(itemID);
+            item.shopCustomPrice = price;
+            return shop.Add(item, conditions);
         }
 
         public static Vector2 FindGroundUnder(this Vector2 position, int type)

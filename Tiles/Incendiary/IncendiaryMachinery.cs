@@ -24,7 +24,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
             MinPick = 150;
             MineResist = 8;
-            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryMachineryBlock>();
+            //ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryMachineryBlock>();
             LocalizedText name = CreateMapEntryName();
             AddMapEntry(new Color(39, 39, 45));
         }

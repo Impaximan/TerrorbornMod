@@ -19,7 +19,7 @@ namespace TerrorbornMod.Tiles
 
             MinPick = 0;
             MineResist = 0.5f;
-            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.SmoothDeimostoneBlock>();
+            //ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.SmoothDeimostoneBlock>();
             AddMapEntry(new Color(40, 55, 70));
         }
     }

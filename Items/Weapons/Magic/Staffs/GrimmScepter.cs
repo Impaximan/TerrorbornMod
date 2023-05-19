@@ -25,11 +25,13 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
                 .AddTile(TileID.Anvils)
                 .Register();
         }
+
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
             // Tooltip.SetDefault("On crits enemies will release collectable Grimm Orbs that heal you for 2 health");
         }
+
         public override void SetDefaults()
         {
             TerrorbornItem modItem = TerrorbornItem.modItem(Item);
@@ -52,6 +54,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
             Item.mana = 4;
             Item.DamageType = DamageClass.Magic; ;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position = player.Center + player.DirectionTo(Main.MouseWorld) * 40;
@@ -67,6 +70,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         //private bool HasGravity = true;
         //private bool Spawn = true;
         //private bool GravDown = true;
+
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -133,9 +137,10 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
                 Direction *= -1;
             }
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (crit)
+            if (hit.Crit)
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<GrimmOrb>(), 0, 0, Projectile.owner);
             }
@@ -206,7 +211,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
             Projectile.velocity = Projectile.DirectionTo(player.Center) * speed;
             if (Projectile.Distance(player.Center) <= speed)
             {
-                int healAmount = 2;
+                int healAmount = 3;
                 player.HealEffect(healAmount);
                 player.statLife += healAmount;
                 Projectile.active = false;

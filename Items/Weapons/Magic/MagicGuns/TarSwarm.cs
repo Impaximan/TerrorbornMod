@@ -41,6 +41,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
         {
             return new Vector2(-5, 0);
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < 2; i++)
@@ -50,6 +51,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
             }
             return false;
         }
+
         public override void AddRecipes()
         {
             CreateRecipe()
@@ -60,18 +62,21 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
                 .Register();
         }
     }
+
     class AntlionLarva : ModProjectile
     {
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage += target.defense / 5;
+            modifiers.ArmorPenetration += target.defense / 3;
         }
+
         public override void SetStaticDefaults()
         {
             //ProjectileID.Sets.TrailCacheLength[this.Projectile.type] = 4;
             //ProjectileID.Sets.TrailingMode[this.Projectile.type] = 1;
             Main.projFrames[Projectile.type] = 3;
         }
+
         void FindFrame(int FrameHeight)
         {
             Projectile.frameCounter--;
@@ -85,18 +90,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
                 Projectile.frame = 0;
             }
         }
-        //public override bool PreDraw(ref Color lightColor)
-        //{
-        //    //Thanks to Seraph for afterimage code.
-        //    Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width * 0.5f, Projectile.height * 0.5f);
-        //    for (int i = 0; i < Projectile.oldPos.Length; i++)
-        //    {
-        //        Vector2 drawPos = Projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-        //        Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
-        //        spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPos, new Rectangle?(), color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
-        //    }
-        //    return false;
-        //}
+
         public override void SetDefaults()
         {
             Projectile.width = 24;
@@ -109,6 +103,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (Projectile.velocity.X != oldVelocity.X)
@@ -123,6 +118,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
             }
             return false;
         }
+
         public override void AI()
         {
             FindFrame(Projectile.height);

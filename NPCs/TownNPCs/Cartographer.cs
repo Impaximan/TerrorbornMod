@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
 using ReLogic.Content;
+using TerrorbornMod.Utils;
 
 namespace TerrorbornMod.NPCs.TownNPCs
 {
@@ -69,229 +70,63 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return false;
         }
 
-        public override void ModifyActiveShop(string shopName, Item[] items)
+        public override void AddShops()
         {
-            Player player = Main.player[Player.FindClosest(NPC.Center, 0, 0)];
-
             int biomeKeyCost = Item.buyPrice(3, 50, 0, 0);
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Accessories.Incense.HeartCrystalIncense>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 4, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ItemID.Torch);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 25);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ItemID.ThrowingKnife);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 15);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ItemID.WoodenArrow);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 3);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ItemID.Rope);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 5);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ItemID.Glowstick);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 5);
-            nextSlot++;
-
-            if (NPC.downedPlantBoss)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.SuperHealingPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 9, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.SuperManaPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 3, 0);
-                nextSlot++;
-            }
-            else if (NPC.downedBoss3 || Main.hardMode)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.GreaterHealingPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 6, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.GreaterManaPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 2, 0);
-                nextSlot++;
-            }
-            else if (NPC.downedBoss1)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.HealingPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 3, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.ManaPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 1, 0);
-                nextSlot++;
-            }
-            else
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.HealingPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 2, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.ManaPotion);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 50);
-                nextSlot++;
-            }
-
-            shop.item[nextSlot].SetDefaults(ItemID.SpelunkerPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ItemID.MiningPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 50, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ItemID.HunterPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-            nextSlot++;
-
-            shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 50, 0);
-            nextSlot++;
-
-            if (player.ZoneRockLayerHeight)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.LifeCrystal);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
-                nextSlot++;
-            }
-
-            if (player.ZoneCorrupt)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.RottenChunk);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 25);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.WormTooth);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 50);
-                nextSlot++;
-                if (NPC.downedBoss1)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.DemoniteOre);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 5, 0);
-                    nextSlot++;
-                }
-                if (Main.hardMode)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.CursedFlame);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.SoulofNight);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.CorruptionKey);
-                    shop.item[nextSlot].shopCustomPrice = biomeKeyCost;
-                    nextSlot++;
-                }
-            }
-
-            if (player.ZoneDungeon)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.Bone);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 3, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.GoldenKey);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
-                nextSlot++;
-            }
-
-            if (player.ZoneCrimson)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.Vertebrae);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 25);
-                nextSlot++;
-                if (NPC.downedBoss1)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.CrimtaneOre);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 5, 0);
-                    nextSlot++;
-                }
-                if (Main.hardMode)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.Ichor);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.SoulofNight);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.CrimsonKey);
-                    shop.item[nextSlot].shopCustomPrice = biomeKeyCost;
-                    nextSlot++;
-                }
-            }
-
-            if (player.ZoneSnow)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.FrostDaggerfish);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 25);
-                nextSlot++;
-                if (Main.hardMode)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.FrostCore);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 4, 0, 0);
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.FrozenKey);
-                    shop.item[nextSlot].shopCustomPrice = biomeKeyCost;
-                    nextSlot++;
-                }
-            }
-
-            if (player.ZoneHallow)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.PixieDust);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 10, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.SoulofLight);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 50, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.RodofDiscord);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.HallowedKey);
-                shop.item[nextSlot].shopCustomPrice = biomeKeyCost;
-                nextSlot++;
-            }
-
-            if (player.ZoneDesert)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.AntlionMandible);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 0, 25);
-                nextSlot++;
-            }
-
-            if (player.ZoneJungle)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.Stinger);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 2, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.JungleSpores);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 2, 0);
-                nextSlot++;
-                if (Main.hardMode)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.TurtleShell);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.JungleKey);
-                    shop.item[nextSlot].shopCustomPrice = biomeKeyCost;
-                    nextSlot++;
-                }
-                if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.LifeFruit);
-                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
-                    nextSlot++;
-                }
-            }
-
-            if (NPC.downedBoss1)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.Binoculars);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
-                nextSlot++;
-            }
+            new NPCShop(Type)
+                .AddItemWithCustomPrice(ModContent.ItemType<Items.Equipable.Accessories.Incense.HeartCrystalIncense>(), Item.buyPrice(0, 4, 0, 0))
+                .AddItemWithCustomPrice(ItemID.Torch, Item.buyPrice(0, 0, 0, 25))
+                .AddItemWithCustomPrice(ItemID.ThrowingKnife, Item.buyPrice(0, 0, 0, 15))
+                .AddItemWithCustomPrice(ItemID.WoodenArrow, Item.buyPrice(0, 0, 0, 3))
+                .AddItemWithCustomPrice(ItemID.Rope, Item.buyPrice(0, 0, 0, 5))
+                .AddItemWithCustomPrice(ItemID.Glowstick, Item.buyPrice(0, 0, 0, 5))
+                .AddItemWithCustomPrice(ItemID.SpelunkerPotion, Item.buyPrice(0, 3, 0, 0))
+                .AddItemWithCustomPrice(ItemID.MiningPotion, Item.buyPrice(0, 1, 50, 0))
+                .AddItemWithCustomPrice(ItemID.HunterPotion, Item.buyPrice(0, 2, 0, 0))
+                .AddItemWithCustomPrice(ItemID.TrapsightPotion, Item.buyPrice(0, 1, 50, 0))
+                .AddItemWithCustomPrice(ItemID.LifeCrystal, Item.buyPrice(0, 3, 0, 0), Condition.InRockLayerHeight)
+                //Corruption items
+                .AddItemWithCustomPrice(ItemID.RottenChunk, Item.buyPrice(0, 0, 0, 25), Condition.InCorrupt)
+                .AddItemWithCustomPrice(ItemID.DemoniteOre, Item.buyPrice(0, 0, 5, 0), Condition.InCorrupt, Condition.DownedEarlygameBoss)
+                .AddItemWithCustomPrice(ItemID.CursedFlame, Item.buyPrice(0, 0, 50, 0), Condition.InCorrupt, Condition.Hardmode)
+                .AddItemWithCustomPrice(ItemID.SoulofNight, Item.buyPrice(0, 0, 50, 0), Condition.InCorrupt, Condition.Hardmode)
+                .AddItemWithCustomPrice(ItemID.DarkShard, Item.buyPrice(0, 0, 50, 0), Condition.InCorrupt, Condition.Hardmode)
+                .AddItemWithCustomPrice(ItemID.CorruptionKey, biomeKeyCost, Condition.InCorrupt, Condition.Hardmode)
+                //Crimson items
+                .AddItemWithCustomPrice(ItemID.Vertebrae, Item.buyPrice(0, 0, 0, 25), Condition.InCrimson)
+                .AddItemWithCustomPrice(ItemID.CrimtaneOre, Item.buyPrice(0, 0, 5, 0), Condition.InCrimson, Condition.DownedEarlygameBoss)
+                .AddItemWithCustomPrice(ItemID.Ichor, Item.buyPrice(0, 0, 50, 0), Condition.InCrimson, Condition.Hardmode)
+                .AddItemWithCustomPrice(ItemID.SoulofNight, Item.buyPrice(0, 0, 50, 0), Condition.InCrimson, Condition.Hardmode)
+                .AddItemWithCustomPrice(ItemID.DarkShard, Item.buyPrice(0, 0, 50, 0), Condition.InCrimson, Condition.Hardmode)
+                .AddItemWithCustomPrice(ItemID.CrimsonKey, biomeKeyCost, Condition.InCrimson, Condition.Hardmode)
+                //Hallow items
+                .AddItemWithCustomPrice(ItemID.PixieDust, Item.buyPrice(0, 0, 10, 0), Condition.InHallow)
+                .AddItemWithCustomPrice(ItemID.SoulofLight, Item.buyPrice(0, 0, 50, 0), Condition.InHallow)
+                .AddItemWithCustomPrice(ItemID.LightShard, Item.buyPrice(0, 0, 50, 0), Condition.InHallow)
+                .AddItemWithCustomPrice(ItemID.RodofDiscord, Item.buyPrice(0, 50, 0, 0), Condition.InHallow)
+                .AddItemWithCustomPrice(ItemID.HallowedKey, biomeKeyCost, Condition.InHallow)
+                //Desert items
+                .AddItemWithCustomPrice(ItemID.AntlionMandible, Item.buyPrice(0, 0, 0, 25), Condition.InDesert)
+                .AddItemWithCustomPrice(ItemID.DungeonDesertKey, biomeKeyCost, Condition.InDesert)
+                //Dungeon items
+                .AddItemWithCustomPrice(ItemID.Bone, Item.buyPrice(0, 0, 3, 0), Condition.InDungeon)
+                .AddItemWithCustomPrice(ItemID.GoldenKey, Item.buyPrice(0, 8, 0, 0), Condition.InDungeon)
+                .AddItemWithCustomPrice(ItemID.Ectoplasm, Item.buyPrice(0, 2, 50, 0), Condition.InDungeon, Condition.DownedPlantera)
+                //Snow items
+                .AddItemWithCustomPrice(ItemID.FrostDaggerfish, Item.buyPrice(0, 0, 0, 25), Condition.InSnow)
+                .AddItemWithCustomPrice(ItemID.FrostCore, Item.buyPrice(0, 4, 0, 0), Condition.InSnow, Condition.Hardmode)
+                .AddItemWithCustomPrice(ItemID.FrozenKey, biomeKeyCost, Condition.InSnow, Condition.Hardmode)
+                //Jungle items
+                .AddItemWithCustomPrice(ItemID.Stinger, Item.buyPrice(0, 0, 2, 0), Condition.InJungle)
+                .AddItemWithCustomPrice(ItemID.JungleSpores, Item.buyPrice(0, 0, 2, 0), Condition.InJungle)
+                .AddItemWithCustomPrice(ItemID.TurtleShell, Item.buyPrice(0, 10, 0, 0), Condition.InJungle, Condition.Hardmode)
+                .AddItemWithCustomPrice(ItemID.JungleKey, biomeKeyCost, Condition.InJungle, Condition.Hardmode)
+                .AddItemWithCustomPrice(ItemID.LifeFruit, Item.buyPrice(0, 8, 0, 0), Condition.InJungle, Condition.DownedMechBossAll)
+                //Misc
+                .AddItemWithCustomPrice(ItemID.Binoculars, Item.buyPrice(0, 6, 0, 0))
+                //Register
+                .Register();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -532,7 +367,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                     }
                     else if (currentOption1 == 1)
                     {
-                        openShop = true;
+                        shopName = "Shop";
                     }
                     else if (currentOption1 == 2)
                     {

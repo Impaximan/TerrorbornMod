@@ -22,7 +22,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
             MinPick = 0;
             MineResist = 3;
-            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.KindlingSoilBlock>();
+            //ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.KindlingSoilBlock>();
             AddMapEntry(new Color(71, 72, 92));
         }
 
@@ -82,7 +82,6 @@ namespace TerrorbornMod.Tiles.Incendiary
 
             MinPick = 0;
             MineResist = 4.5f;
-            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.KindlingSoilBlock>();
             AddMapEntry(new Color(204, 114, 98));
         }
 

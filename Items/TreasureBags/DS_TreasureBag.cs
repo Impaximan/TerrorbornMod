@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.ID;
 
 namespace TerrorbornMod.Items.TreasureBags
 {
@@ -10,6 +11,8 @@ namespace TerrorbornMod.Items.TreasureBags
         {
             // DisplayName.SetDefault("Treasure Bag");
             // Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            ItemID.Sets.BossBag[Type] = true;
+            ItemID.Sets.PreHardmodeLikeBossBag[Type] = true;
         }
 
         public override void SetDefaults()
@@ -25,7 +28,8 @@ namespace TerrorbornMod.Items.TreasureBags
         {
             return true;
         }
-        public override void OpenBossBag(Player player)
+
+        public override void RightClick(Player player)
         {
             if (Main.rand.NextBool(7))
             {
@@ -62,8 +66,6 @@ namespace TerrorbornMod.Items.TreasureBags
             player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<Equipable.Accessories.CloakOfTheWind>());
             player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ModContent.ItemType<DustwindRod>());
         }
-
-        public override int BossBagNPC => ModContent.NPCType<NPCs.Bosses.Dunestock>();
     }
 }
 

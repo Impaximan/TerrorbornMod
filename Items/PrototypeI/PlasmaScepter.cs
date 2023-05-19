@@ -96,7 +96,7 @@ namespace TerrorbornMod.Items.PrototypeI
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage += target.defense / 4;
+            modifiers.ArmorPenetration += target.defense / 2;
         }
 
         public override bool PreDraw(ref Color lightColor)

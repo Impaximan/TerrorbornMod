@@ -9,7 +9,7 @@ namespace TerrorbornMod.Tiles.Incendiary
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = false;
-            ItemDrop = ModContent.ItemType<Items.Placeable.Walls.IncendiaryBrickWall>();
+            //ItemDrop = ModContent.ItemType<Items.Placeable.Walls.IncendiaryBrickWall>();
             AddMapEntry(new Color(103, 57, 42));
         }
 

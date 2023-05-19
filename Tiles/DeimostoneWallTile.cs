@@ -9,7 +9,7 @@ namespace TerrorbornMod.Tiles
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = false;
-            ItemDrop = ModContent.ItemType<Items.Placeable.Walls.DeimostoneWall>();
+            //ItemDrop = ModContent.ItemType<Items.Placeable.Walls.DeimostoneWall>();
             AddMapEntry(new Color(9, 19, 29));
         }
         public override bool CanExplode(int i, int j)

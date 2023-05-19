@@ -40,8 +40,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 			//name.SetDefault("Locked Deimostone Chest");
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
-			ContainerName/* tModPorter Note: Removed. Override DefaultContainerName instead */.SetDefault("Incendiary Chest");
-			ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.IncendiaryChest>();
+			//ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.IncendiaryChest>();
 		}
 
 		public override void MouseOverFar(int i, int j)
@@ -66,7 +65,6 @@ namespace TerrorbornMod.Tiles.Incendiary
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ItemDrop);
 			Chest.DestroyChest(i, j);
 		}
 

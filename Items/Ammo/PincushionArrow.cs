@@ -55,7 +55,7 @@ namespace TerrorbornMod.Items.Ammo
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage += target.defense / 4;
+            modifiers.ArmorPenetration += target.defense / 2;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -63,7 +63,7 @@ namespace TerrorbornMod.Items.Ammo
             {
                 SoundExtensions.PlaySoundOld(SoundID.Dig, Projectile.position);
                 stuck = true;
-                wasCrit = crit;
+                wasCrit = hit.Crit;
                 stuckNPC = target;
                 offset = target.position - Projectile.position;
             }
@@ -74,7 +74,7 @@ namespace TerrorbornMod.Items.Ammo
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             if (stuck)
             {
-                stuckNPC.StrikeNPC(Projectile.damage / 10 + stuckNPC.defense / 2, 0, 0, wasCrit);
+                stuckNPC.StrikeNPC(stuckNPC.CalculateHitInfo(Projectile.damage / 10, 0, false, 0f, DamageClass.Ranged, true));
             }
         }
         public override bool? CanHitNPC(NPC target)

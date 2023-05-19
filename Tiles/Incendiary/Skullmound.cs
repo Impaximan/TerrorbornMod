@@ -20,7 +20,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
             MinPick = 210;
             MineResist = 10f;
-            ItemDrop = ModContent.ItemType<Items.Materials.SkullmoundOre>();
+            //ItemDrop = ModContent.ItemType<Items.Materials.SkullmoundOre>();
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Skullmound");
             AddMapEntry(new Color(157, 71, 64), name);

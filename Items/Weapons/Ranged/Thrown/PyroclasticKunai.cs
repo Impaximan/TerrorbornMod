@@ -82,7 +82,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (crit)
+            if (hit.Crit)
             {
                 bool spawnPortal = true;
                 foreach (Projectile Projectile in Main.projectile)
@@ -113,7 +113,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
         {
             if (FallWait <= 0)
             {
-                damage = (int)(damage * 0.75f);
+                modifiers.SourceDamage *= 0.75f;
             }
         }
 

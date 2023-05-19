@@ -29,7 +29,7 @@ namespace TerrorbornMod.Tiles
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			AddMapEntry(new Color(80, 112, 109));
-			ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.DeimostonePlatform>();
+			//ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.DeimostonePlatform>();
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Platforms };
 		}

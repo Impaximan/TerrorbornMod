@@ -154,7 +154,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
                 if (hurtCounter >= 4 * (Projectile.extraUpdates + 1) / Main.player[Projectile.owner].GetAttackSpeed(DamageClass.Ranged))
                 {
                     hurtCounter = 0;
-                    stuckNPC.StrikeNPC(1, 0f, 0);
+                    stuckNPC.StrikeNPC(stuckNPC.CalculateHitInfo(1, 0, false, 0));
                 }
             }
             else

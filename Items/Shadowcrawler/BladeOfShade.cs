@@ -43,7 +43,7 @@ namespace TerrorbornMod.Items.Shadowcrawler
             Vector2 mousePosition = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
             for (int i = 0; i < 2; i++)
             {
-                Projectile.NewProjectile(player.GetSource_OnHit(target), target.Center, target.DirectionTo(mousePosition).RotatedByRandom(MathHelper.ToRadians(5)), ModContent.ProjectileType<NightmareBoilMelee>(), Item.damage / 2, knockBack, Owner: player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_OnHit(target), target.Center, target.DirectionTo(mousePosition).RotatedByRandom(MathHelper.ToRadians(5)), ModContent.ProjectileType<NightmareBoilMelee>(), Item.damage / 2, hit.Knockback, Owner: player.whoAmI);
             }
         }
     }

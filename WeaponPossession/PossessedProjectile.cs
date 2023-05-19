@@ -24,21 +24,21 @@ namespace TerrorbornMod.WeaponPossession
                     PossessedItem pItem = PossessedItem.modItem(originalItem);
                     if (pItem.possessType == PossessType.Fright)
                     {
-                        TerrorbornPlayer.modPlayer(Main.player[Projectile.owner]).terrorDrainCounter = 30;
+                        TerrorbornPlayer.modPlayer(Main.player[projectile.owner]).terrorDrainCounter = 30;
                     }
 
-                    if (pItem.possessType == PossessType.Light && crit)
+                    if (pItem.possessType == PossessType.Light && hit.Crit)
                     {
-                        int proj = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), damage / 2, 0, Projectile.owner);
+                        int proj = Projectile.NewProjectile(projectile.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<Lightsplosion>(), hit.Damage / 2, 0, projectile.owner);
                         Main.projectile[proj].ai[0] = target.whoAmI;
                         TerrorbornSystem.ScreenShake(5f);
                         SoundExtensions.PlaySoundOld(SoundID.Item68, target.Center);
                     }
 
-                    if (pItem.possessType == PossessType.Night && crit)
+                    if (pItem.possessType == PossessType.Night && hit.Crit)
                     {
-                        Main.player[Projectile.owner].HealEffect(1);
-                        Main.player[Projectile.owner].statLife++;
+                        Main.player[projectile.owner].HealEffect(1);
+                        Main.player[projectile.owner].statLife++;
                     }
                 }
             }

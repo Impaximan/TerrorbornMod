@@ -62,10 +62,6 @@ namespace TerrorbornMod.Structures
             sample.SetFlag(SamplingKey.Placement);
             sample.SetPosition(point);
             int tileType = ModContent.TileType<Tiles.MemorialBrick>();
-            for (int i = 0; i < Main.maxTileSets; i++)
-            {
-
-            }
             sample.SetSamplingValues(
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, tileType),
                 new ValueTuple<byte, byte, byte, int>(0, 255, 0, TileID.Platforms),
@@ -102,10 +98,6 @@ namespace TerrorbornMod.Structures
             sample.SetFlag(SamplingKey.Placement);
             sample.SetPosition(point);
             int tileType = ModContent.TileType<Tiles.MemorialBrick>();
-            for (int i = 0; i < Main.maxTileSets; i++)
-            {
-
-            }
             sample.SetSamplingValues(
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, tileType)
                 );
@@ -146,10 +138,6 @@ namespace TerrorbornMod.Structures
             sample.SetFlag(SamplingKey.Placement);
             sample.SetPosition(point);
             int tileType = ModContent.TileType<Tiles.MemorialBrick>();
-            for (int i = 0; i < Main.maxTileSets; i++)
-            {
-
-            }
             sample.SetSamplingValues(
                 new ValueTuple<byte, byte, byte, int>(255, 0, 0, tileType),
                 new ValueTuple<byte, byte, byte, int>(0, 255, 255, TileID.IceBlock),

@@ -175,7 +175,7 @@ namespace TerrorbornMod.NPCs
 
         public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-            if (charging && Projectile.DamageType == DamageClass.Melee && NPC.Distance(Main.player[NPC.target].Center) <= 75)
+            if (charging && projectile.DamageType == DamageClass.Melee && NPC.Distance(Main.player[NPC.target].Center) <= 75)
             {
                 NPC.velocity = Vector2.Zero;
                 charging = false;

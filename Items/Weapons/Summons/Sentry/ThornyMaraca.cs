@@ -73,6 +73,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             ProjectileID.Sets.TrailingMode[this.Projectile.type] = 2;
             
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             //Thanks to Seraph for afterimage code.
@@ -85,6 +86,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             }
             return false;
         }
+
         public override void SetDefaults()
         {
             Projectile.extraUpdates = 1;
@@ -100,28 +102,25 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             Projectile.DamageType = DamageClass.Summon;
             Projectile.localNPCHitCooldown = 15;
         }
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            if (target.HasBuff(BuffID.Oiled))
-            {
-                damage = (int)(damage * 1.3f);
-            }
-        }
+
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
         }
     }
+
     class MaractusSentry : ModProjectile
     {
         public override bool? CanHitNPC(NPC target)
         {
             return false;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             return false;
         }
+
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 12;
@@ -129,6 +128,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true; //This is necessary for right-click targeting
         }
+
         public override void SetDefaults()
         {
             Projectile.netImportant = true;
@@ -142,6 +142,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
             Projectile.DamageType = DamageClass.Summon;
             Projectile.ignoreWater = true;
         }
+
         void FindFrame(int FrameHeight)
         {
             Projectile.frameCounter--;
@@ -155,6 +156,7 @@ namespace TerrorbornMod.Items.Weapons.Summons.Sentry
                 Projectile.frame = 0;
             }
         }
+
         int PinWait = 60;
         int PinRoundsLeft = 2;
         public override void AI()

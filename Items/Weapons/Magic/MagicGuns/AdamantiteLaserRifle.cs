@@ -107,7 +107,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.MagicGuns
         List<NPC> alreadyHit = new List<NPC>();
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!crit)
+            if (!hit.Crit)
             {
                 return;
             }

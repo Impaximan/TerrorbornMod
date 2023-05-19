@@ -99,19 +99,19 @@ namespace TerrorbornMod
 
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
-            Player player = Main.player[Projectile.owner];
+            Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             if (player.HeldItem.ModItem != null && player.HeldItem.ModItem.Mod == Mod)
             {
-                if (Projectile.type == ProjectileID.IchorDart) damage = (int)(damage * 0.52f);
-                if (Projectile.type == ProjectileID.CrystalDart) damage = (int)(damage * 0.75f);
+                if (projectile.type == ProjectileID.IchorDart) modifiers.FinalDamage *= 0.52f;
+                if (projectile.type == ProjectileID.CrystalDart) modifiers.FinalDamage *= 0.75f;
             }
         }
 
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Player player = Main.player[Projectile.owner];
+            Player player = Main.player[projectile.owner];
             TerrorbornPlayer modPlayer = TerrorbornPlayer.modPlayer(player);
 
             if (modPlayer.combatTime < 300)
@@ -119,7 +119,7 @@ namespace TerrorbornMod
                 modPlayer.combatTime = 300;
             }
 
-            if (crit && modPlayer.SangoonBand && target.type != NPCID.TargetDummy)
+            if (hit.Crit && modPlayer.SangoonBand && target.type != NPCID.TargetDummy)
             {
                 if (modPlayer.SangoonBandCooldown <= 0)
                 {
@@ -131,7 +131,7 @@ namespace TerrorbornMod
 
             if (player.HeldItem != null && player != null)
             {
-                if (modPlayer.PyroclasticShinobiBonus && crit && TerrorbornItem.modItem(player.HeldItem).countAsThrown && Projectile.friendly)
+                if (modPlayer.PyroclasticShinobiBonus && hit.Crit && TerrorbornItem.modItem(player.HeldItem).countAsThrown && projectile.friendly)
                 {
                     modPlayer.SuperthrowNext = true;
                 }
@@ -144,21 +144,21 @@ namespace TerrorbornMod
 
             if (superthrow && !bannedTypes.Contains(target.type))
             {
-                DustExplosion(Projectile.Center, 0, 45, 30, 6, DustScale: 1f, NoGravity: true);
-                SoundExtensions.PlaySoundOld(SoundID.Item14, Projectile.Center);
+                DustExplosion(projectile.Center, 0, 45, 30, 6, DustScale: 1f, NoGravity: true);
+                SoundExtensions.PlaySoundOld(SoundID.Item14, projectile.Center);
                 TerrorbornSystem.ScreenShake(1.5f);
                 for (int i = 0; i < 200; i++)
                 {
                     NPC NPC = Main.npc[i];
-                    if (!NPC.friendly && Projectile.Distance(NPC.Center) <= 200 + (NPC.width + NPC.height) / 2 && !NPC.dontTakeDamage)
+                    if (!NPC.friendly && projectile.Distance(NPC.Center) <= 200 + (NPC.width + NPC.height) / 2 && !NPC.dontTakeDamage)
                     {
                         if (NPC.type == NPCID.TheDestroyerBody)
                         {
-                            NPC.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.GetCritChance(DamageClass.Melee));
+                            NPC.StrikeNPC(NPC.CalculateHitInfo(hit.Damage / 10, 0, Main.rand.Next(101) <= player.GetCritChance(DamageClass.Melee), 0f, DamageClass.Melee, true, player.luck));
                         }
                         else
                         {
-                            NPC.StrikeNPC(damage / 10, 0, 0, Main.rand.Next(101) <= player.GetCritChance(DamageClass.Melee));
+                            NPC.StrikeNPC(NPC.CalculateHitInfo(hit.Damage / 10, 0, Main.rand.Next(101) <= player.GetCritChance(DamageClass.Melee), 0f, DamageClass.Melee, true, player.luck));
                         }
 
                         int choice = Main.rand.Next(4);
@@ -190,7 +190,7 @@ namespace TerrorbornMod
                 {
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                     float speed = Main.rand.Next(25, 35);
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), damage, 0f, player.whoAmI);
+                    int proj = Projectile.NewProjectile(projectile.GetSource_OnHit(target), target.Center, direction * speed, ModContent.ProjectileType<Projectiles.VeinBurst>(), hit.Damage, 0f, player.whoAmI);
                     Main.projectile[proj].DamageType = DamageClass.Ranged;
                 }
             }
@@ -202,7 +202,7 @@ namespace TerrorbornMod
                 {
                     Vector2 direction = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2();
                     float speed = Main.rand.Next(25, 35);
-                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, direction * speed, ModContent.ProjectileType<Items.Weapons.Restless.NightmareBoilRanged>(), damage, 0f, player.whoAmI);
+                    Projectile.NewProjectile(projectile.GetSource_OnHit(target), target.Center, direction * speed, ModContent.ProjectileType<Items.Weapons.Restless.NightmareBoilRanged>(), hit.Damage, 0f, player.whoAmI);
                 }
             }
 
@@ -211,35 +211,35 @@ namespace TerrorbornMod
                 target.AddBuff(BuffID.ShadowFlame, 60 * 3);
             }
 
-            if (modPlayer.TacticalCommlink && Projectile.DamageType == DamageClass.Ranged && Main.rand.NextFloat() <= .1f)
+            if (modPlayer.TacticalCommlink && projectile.DamageType == DamageClass.Ranged && Main.rand.NextFloat() <= .1f)
             {
                 Vector2 position = new Vector2(target.Center.X, target.position.Y - 750);
                 position.X += Main.rand.Next(-150, 150);
                 Vector2 direction = target.DirectionFrom(position);
                 float speed = 30f;
-                Projectile newProj = Main.projectile[Projectile.NewProjectile(Projectile.GetSource_OnHit(target), position, direction * speed, ProjectileID.RocketI, damage, 2f, Projectile.owner)];
+                Projectile newProj = Main.projectile[Projectile.NewProjectile(projectile.GetSource_OnHit(target), position, direction * speed, ProjectileID.RocketI, hit.Damage, 2f, projectile.owner)];
                 newProj.localNPCHitCooldown = -1;
                 newProj.usesLocalNPCImmunity = true;
                 newProj.tileCollide = false;
                 newProj.timeLeft = 60 * 3;
             }
 
-            if (modPlayer.ShadowAmulet && Main.rand.NextFloat() <= .35f && Projectile.type != ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>())
+            if (modPlayer.ShadowAmulet && Main.rand.NextFloat() <= .35f && projectile.type != ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>())
             {
                 Vector2 direction = player.DirectionTo(target.Center);
                 float speed = 15f;
-                Projectile newProj = Main.projectile[Projectile.NewProjectile(Projectile.GetSource_OnHit(target), player.Center, direction * speed, ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>(), (int)(Projectile.damage * 0.65f), 2f, Projectile.owner)];
-                newProj.DamageType = Projectile.DamageType;
+                Projectile newProj = Main.projectile[Projectile.NewProjectile(projectile.GetSource_OnHit(target), player.Center, direction * speed, ModContent.ProjectileType<Items.Equipable.Accessories.ShadowSoul>(), (int)(projectile.damage * 0.65f), 2f, projectile.owner)];
+                newProj.DamageType = projectile.DamageType;
             }
 
-            if (BeatStopper && Projectile.type != ModContent.ProjectileType<Items.Weapons.Ranged.Guns.BeatstopperFireball>())
+            if (BeatStopper && projectile.type != ModContent.ProjectileType<Items.Weapons.Ranged.Guns.BeatstopperFireball>())
             {
                 SoundExtensions.PlaySoundOld(SoundID.DD2_BallistaTowerShot, player.Center);
                 for (int i = 0; i < 2; i++)
                 {
                     float speed = Main.rand.NextFloat(12f, 20f);
                     Vector2 velocity = MathHelper.ToRadians(Main.rand.Next(360)).ToRotationVector2() * speed;
-                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), player.Center, velocity, ModContent.ProjectileType<Items.Weapons.Ranged.Guns.BeatstopperFireball>(), damage / 5, 1, player.whoAmI);
+                    Projectile.NewProjectile(projectile.GetSource_OnHit(target), player.Center, velocity, ModContent.ProjectileType<Items.Weapons.Ranged.Guns.BeatstopperFireball>(), hit.Damage / 5, 1, player.whoAmI);
                 }
             }
         }

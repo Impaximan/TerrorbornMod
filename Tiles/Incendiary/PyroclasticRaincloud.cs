@@ -23,7 +23,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             DustType = 6;
 
             MinPick = 0;
-            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.PyroclasticRaincloudBlock>(); ;
+            //ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.PyroclasticRaincloudBlock>(); ;
             MineResist = 3;
             AddMapEntry(new Color(59, 62, 73));
         }

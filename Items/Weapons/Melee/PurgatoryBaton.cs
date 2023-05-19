@@ -39,7 +39,7 @@ namespace TerrorbornMod.Items.Weapons.Melee
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            hitDirection = Projectile.spriteDirection;
+            modifiers.HitDirectionOverride = Projectile.spriteDirection;
         }
 
         public override void SetDefaults()

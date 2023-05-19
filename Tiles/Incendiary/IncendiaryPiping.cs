@@ -24,7 +24,7 @@ namespace TerrorbornMod.Tiles.Incendiary
 
             MinPick = 100;
             MineResist = 10;
-            ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryPipe>();
+            //ItemDrop = ModContent.ItemType<Items.Placeable.Blocks.IncendiaryPipe>();
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Strange Piping");
             AddMapEntry(new Color(255, 176, 142), name);

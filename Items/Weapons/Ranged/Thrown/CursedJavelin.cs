@@ -14,7 +14,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
         }
         public override void SetDefaults()
         {
-            Item.damage = 35;
+            Item.damage = 30;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 56;
             Item.height = 56;
@@ -38,7 +38,6 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
     class CursedJavelinProjectile : ModProjectile
     {
         public override string Texture => "TerrorbornMod/Items/Weapons/Ranged/Thrown/CursedJavelin";
-        int FallWait = 40;
         public override void SetDefaults()
         {
             Projectile.width = 56;
@@ -76,14 +75,6 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, new Vector2(1, 0), ModContent.ProjectileType<JavelinDeathray>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, new Vector2(-1, 0), ModContent.ProjectileType<JavelinDeathray>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
-        }
-
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            if (FallWait <= 0)
-            {
-                damage = (int)(damage * 0.75f);
-            }
         }
 
         public override void AI()

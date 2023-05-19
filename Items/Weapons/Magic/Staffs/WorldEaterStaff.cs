@@ -96,7 +96,7 @@ namespace TerrorbornMod.Items.Weapons.Magic.Staffs
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (crit)
+            if (hit.Crit)
             {
                 target.AddBuff(BuffID.CursedInferno, 60 * 3);
             }

@@ -40,6 +40,7 @@ namespace TerrorbornMod.Items.Ammo
                 .Register();
         }
     }
+
     class IncendiaryArrowProjectile : ModProjectile
     {
 
@@ -74,7 +75,7 @@ namespace TerrorbornMod.Items.Ammo
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            damage += target.defense / 4;
+            modifiers.ArmorPenetration += target.defense / 2;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

@@ -11,6 +11,7 @@ using ReLogic.Content;
 using System.Collections.Generic;
 using Terraria.GameContent.Personalities;
 using Terraria.GameContent.Bestiary;
+using TerrorbornMod.Utils;
 
 namespace TerrorbornMod.NPCs.TownNPCs
 {
@@ -97,114 +98,32 @@ namespace TerrorbornMod.NPCs.TownNPCs
             return false;
         }
 
-        public override void ModifyActiveShop(string shopName, Item[] items)
+        public override void AddShops()
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Armor.BountyHunterCap>());
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 30;
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Armor.BountyHunterLeatherwear>());
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 30;
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Equipable.Armor.BountyHunterPants>());
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 30;
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.BoneBuster>());
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 20;
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.CartilageRound>());
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 1;
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Melee.Swords.BoneBreaker>());
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 30;
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Magic.Staffs.PearlyEyedStaff>());
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 30;
-            nextSlot++;
-            if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.PincushionArrow>());
-                shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-                shop.item[nextSlot].shopCustomPrice = 1;
-                nextSlot++;
-            }
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Summons.Sentry.ThornyMaraca>());
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 45;
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Magic.SpellBooks.Bombinomicon>());
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 45;
-            nextSlot++;
-            if (Main.hardMode)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.Guns.TheDoubleBarrel>());
-                shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-                shop.item[nextSlot].shopCustomPrice = 125;
-                nextSlot++;
-            }
-            if (NPC.downedPlantBoss)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Ranged.Bonezooka>());
-                shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-                shop.item[nextSlot].shopCustomPrice = 195;
-                nextSlot++;
-            }
-            shop.item[nextSlot].SetDefaults(ItemID.Worm);
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 3;
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.LifeCrystal);
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 8;
-            nextSlot++;
-            if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.LifeFruit);
-                shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-                shop.item[nextSlot].shopCustomPrice = 20;
-                nextSlot++;
-            }
-            shop.item[nextSlot].SetDefaults(ItemID.BattlePotion);
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 15;
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.CalmingPotion);
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 15;
-            nextSlot++;
-            if (NPC.downedBoss3)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.BlueBrick);
-                shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-                shop.item[nextSlot].shopCustomPrice = 1;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.GreenBrick);
-                shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-                shop.item[nextSlot].shopCustomPrice = 1;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.PinkBrick);
-                shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-                shop.item[nextSlot].shopCustomPrice = 1;
-                nextSlot++;
-            }
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeputyBag_prehm>());
-            shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-            shop.item[nextSlot].shopCustomPrice = 25;
-            nextSlot++;
-            if (Main.hardMode)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeputyBag_hm>());
-                shop.item[nextSlot].shopSpecialCurrency = TerrorbornMod.CombatTokenCustomCurrencyId;
-                shop.item[nextSlot].shopCustomPrice = 65;
-                nextSlot++;
-            }
+            new NPCShop(Type)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Equipable.Armor.BountyHunterCap>(), TerrorbornMod.CombatTokenCustomCurrencyId, 20)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Equipable.Armor.BountyHunterLeatherwear>(), TerrorbornMod.CombatTokenCustomCurrencyId, 20)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Equipable.Armor.BountyHunterPants>(), TerrorbornMod.CombatTokenCustomCurrencyId, 20)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Weapons.Ranged.BoneBuster>(), TerrorbornMod.CombatTokenCustomCurrencyId, 20)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Weapons.Ranged.CartilageRound>(), TerrorbornMod.CombatTokenCustomCurrencyId, 1)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Weapons.Melee.Swords.BoneBreaker>(), TerrorbornMod.CombatTokenCustomCurrencyId, 30)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Weapons.Magic.Staffs.PearlyEyedStaff>(), TerrorbornMod.CombatTokenCustomCurrencyId, 30)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Ammo.PincushionArrow>(), TerrorbornMod.CombatTokenCustomCurrencyId, 1, Condition.DownedMechBossAny)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Weapons.Summons.Sentry.ThornyMaraca>(), TerrorbornMod.CombatTokenCustomCurrencyId, 45)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Weapons.Magic.SpellBooks.Bombinomicon>(), TerrorbornMod.CombatTokenCustomCurrencyId, 45)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Weapons.Ranged.Guns.TheDoubleBarrel>(), TerrorbornMod.CombatTokenCustomCurrencyId, 125)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.Weapons.Ranged.Bonezooka>(), TerrorbornMod.CombatTokenCustomCurrencyId, 200, Condition.DownedPlantera)
+                .AddItemWithCustomCurrency(ItemID.Worm, TerrorbornMod.CombatTokenCustomCurrencyId, 3)
+                .AddItemWithCustomCurrency(ItemID.LifeCrystal, TerrorbornMod.CombatTokenCustomCurrencyId, 8)
+                .AddItemWithCustomCurrency(ItemID.LifeFruit, TerrorbornMod.CombatTokenCustomCurrencyId, 20, Condition.DownedMechBossAny)
+                .AddItemWithCustomCurrency(ItemID.BattlePotion, TerrorbornMod.CombatTokenCustomCurrencyId, 15)
+                .AddItemWithCustomCurrency(ItemID.CalmingPotion, TerrorbornMod.CombatTokenCustomCurrencyId, 15)
+                .AddItemWithCustomCurrency(ItemID.BlueBrick, TerrorbornMod.CombatTokenCustomCurrencyId, 1)
+                .AddItemWithCustomCurrency(ItemID.GreenBrick, TerrorbornMod.CombatTokenCustomCurrencyId, 1)
+                .AddItemWithCustomCurrency(ItemID.PinkBrick, TerrorbornMod.CombatTokenCustomCurrencyId, 1)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.DeputyBag_prehm>(), TerrorbornMod.CombatTokenCustomCurrencyId, 25)
+                .AddItemWithCustomCurrency(ModContent.ItemType<Items.DeputyBag_hm>(), TerrorbornMod.CombatTokenCustomCurrencyId, 65, Condition.Hardmode)
+                .Register();
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
@@ -327,7 +246,7 @@ namespace TerrorbornMod.NPCs.TownNPCs
                 }
                 if (currentOption1 == 0)
                 {
-                    openShop = true;
+                    shopName = "Shop";
                 }
                 else if (currentOption1 == 1)
                 {

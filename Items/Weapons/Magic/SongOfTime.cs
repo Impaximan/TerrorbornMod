@@ -50,9 +50,13 @@ namespace TerrorbornMod.Items.Weapons.Magic
             Item.channel = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position = Main.MouseWorld;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
             foreach (Projectile Projectile in Main.projectile)
             {
                 if (Projectile.active && Projectile.type == type)
@@ -128,7 +132,7 @@ namespace TerrorbornMod.Items.Weapons.Magic
         {
             if (Projectile.velocity.Length() > requiredSpeed)
             {
-                damage *= 5;
+                modifiers.SourceDamage *= 5;
             }
         }
 

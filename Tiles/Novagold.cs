@@ -20,7 +20,7 @@ namespace TerrorbornMod.Tiles
 
             MinPick = 40;
             MineResist = 3f;
-            ItemDrop = ModContent.ItemType<Items.Materials.NovagoldOre>();
+            //ItemDrop = ModContent.ItemType<Items.Materials.NovagoldOre>();
             LocalizedText name = CreateMapEntryName();
             // name.SetDefault("Novagold");
             AddMapEntry(new Color(255, 238, 187), name);

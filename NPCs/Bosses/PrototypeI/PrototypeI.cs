@@ -75,7 +75,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                 ModContent.Request<SoundEffect>("TerrorbornMod/Sounds/Effects/PrototypeIExplosion").Value.Play(Main.soundVolume, 0f, 0f);
                 TerrorbornSystem.ScreenShake(50f);
                 completedDeathAnimation = true;
-                NPC.StrikeNPC(500000, 0f, 0, true);
+                NPC.StrikeInstantKill();
             }
         }
 
@@ -118,14 +118,6 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
                 return false;
             }
             return NPC.Distance(target.Center) <= 120;
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
-        {
-            if (Projectile.type == ProjectileID.HallowStar)
-            {
-                damage /= 4;
-            }
         }
 
         bool showPortal = false;
@@ -172,7 +164,7 @@ namespace TerrorbornMod.NPCs.Bosses.PrototypeI
 
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            damage = (int)(damage * damageMult);
+            modifiers.FinalDamage *= damageMult;
         }
 
         int coreFrame = 0;

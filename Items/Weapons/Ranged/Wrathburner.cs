@@ -12,7 +12,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged
             CreateRecipe()
                 .AddIngredient(ModContent.ItemType<Items.Materials.TorturedEssence>(), 3)
                 .AddIngredient(ItemID.LunarBar, 10)
-                .AddIngredient(ItemID.EldMelter)
+                .AddIngredient(ItemID.ElfMelter)
                 .AddIngredient(ItemID.FragmentVortex, 12)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();

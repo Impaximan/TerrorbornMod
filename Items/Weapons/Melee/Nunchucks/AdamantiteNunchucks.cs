@@ -48,7 +48,7 @@ namespace TerrorbornMod.Items.Weapons.Melee.Nunchucks
     {
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            hitDirection = Projectile.spriteDirection * -1;
+            modifiers.HitDirectionOverride = Projectile.spriteDirection * -1;
         }
 
         public override void SetStaticDefaults()

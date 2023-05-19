@@ -93,7 +93,7 @@ namespace TerrorbornMod.Items.Weapons.Ranged.Thrown
         {
             if (FallWait <= 0)
             {
-                damage = (int)(damage * 0.75f);
+                modifiers.SourceDamage *= 0.75f;
             }
         }
 

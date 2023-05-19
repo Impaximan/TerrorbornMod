@@ -18,7 +18,7 @@ namespace TerrorbornMod.Tiles.Incendiary
             TileObjectData.addTile(Type);
 
             HitSound = SoundID.DD2_WitherBeastHurt;
-            ItemDrop = ModContent.ItemType<Items.Materials.PyroclasticGemstone>();
+            //ItemDrop = ModContent.ItemType<Items.Materials.PyroclasticGemstone>();
 
             MineResist = 5f;
             MinPick = 100;
